@@ -10,3 +10,4 @@ playwright-report
 .next
 .next-*
 next-env.d.ts.bak
+.claude/settings.local.json

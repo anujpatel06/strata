@@ -50,6 +50,7 @@ Node 22 and pnpm 10 (`corepack enable`).
 
 ```sh
 pnpm i
+pnpm docs           # docs site → http://localhost:3000 (components, blocks, themes)
 pnpm dev            # Brand Generator → http://localhost:5173
 pnpm test           # unit tests
 pnpm test:themes    # fuzz random brand colours × light/dark, write a pass-rate report

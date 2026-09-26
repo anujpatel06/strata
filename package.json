@@ -7,6 +7,7 @@
     "node": ">=22"
   },
   "scripts": {
+    "docs": "pnpm --filter @strata/docs dev",
     "dev": "pnpm --filter @strata/generator dev",
     "build": "pnpm -r build",
     "test": "pnpm -r test",
