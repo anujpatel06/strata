@@ -1,0 +1,23 @@
+{
+  "name": "@strata/theme-engine",
+  "version": "0.1.0",
+  "description": "Brand inputs → complete, WCAG 2.2 AA theme (OKLCH ramps, semantic roles, contrast solver, exporters). Zero runtime dependencies.",
+  "type": "module",
+  "license": "MIT",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "test": "vitest run",
+    "fuzz": "tsx scripts/fuzz.ts",
+    "typecheck": "tsc -p tsconfig.json"
+  },
+  "devDependencies": {
+    "culori": "^4.0.0",
+    "@types/culori": "^4.0.0",
+    "tsx": "^4.20.0",
+    "vitest": "^5.0.0",
+    "typescript": "~5.9.0",
+    "@types/node": "^22.0.0"
+  }
+}
