@@ -1,0 +1,18 @@
+.scope {
+  color-scheme: light;
+  background: var(--strata-color-surface-canvas);
+  color: var(--strata-color-text-default);
+  font-family: var(--strata-font-body);
+  font-size: var(--strata-font-size-md);
+  line-height: var(--strata-line-height-normal);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.scope[data-strata-scheme='dark'] {
+  color-scheme: dark;
+}
+.scope *,
+.scope *::before,
+.scope *::after {
+  box-sizing: border-box;
+}

@@ -1,0 +1,24 @@
+{
+  "name": "theme-scope",
+  "title": "Theme Scope",
+  "description": "Applies a Strata theme, colour scheme and density to everything inside it.",
+  "category": "layout",
+  "maturity": "beta",
+  "exports": ["ThemeScope"],
+  "files": ["theme-scope.tsx", "theme-scope.module.css"],
+  "dependencies": [],
+  "registryDependencies": [],
+  "usage": "import { ThemeScope } from '@strata/react';\n\nexport function App() {\n  return (\n    <ThemeScope theme=\"vela\" scheme=\"dark\">\n      {/* your app */}\n    </ThemeScope>\n  );\n}",
+  "examples": [{ "name": "theme-scope-demo", "title": "Same card, three tenants" }],
+  "props": [
+    { "component": "ThemeScope", "name": "theme", "type": "string", "description": "Tenant id whose tokens are loaded under [data-strata-theme]. Omit to inherit the page theme." },
+    { "component": "ThemeScope", "name": "scheme", "type": "'light' | 'dark'", "default": "'light'", "description": "Colour scheme for the subtree." },
+    { "component": "ThemeScope", "name": "density", "type": "'comfortable' | 'compact'", "description": "Overrides the tenant's default density." }
+  ],
+  "accessibility": { "keyboard": [], "notes": ["Sets no ARIA; add dir and lang yourself for right-to-left or other-language content."] },
+  "guidelines": {
+    "do": ["Put the theme, scheme and density attributes on one element — token CSS needs them together."],
+    "dont": ["Don't nest scopes with different schemes inside inline text; scope whole regions."]
+  },
+  "tokens": ["color.surface.canvas", "color.text.default", "font.body", "font.size.md"]
+}
