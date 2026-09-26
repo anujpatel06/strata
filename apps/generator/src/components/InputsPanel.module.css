@@ -1,0 +1,20 @@
+.panel {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding: 24px;
+}
+
+.accentField {
+  margin-top: 8px;
+}
+
+.accentHint {
+  margin-top: 4px;
+}
+
+@media (max-width: 1023.98px) {
+  .panel {
+    padding: 24px 16px;
+  }
+}

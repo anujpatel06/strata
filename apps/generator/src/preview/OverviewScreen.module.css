@@ -1,0 +1,1132 @@
+/*
+ * Overview screen.
+ *
+ * Rules this file follows (they are the design-system argument, so they are strict):
+ *  - Every colour, size, weight, radius, space, font and duration is a var(--strata-*) token.
+ *    The only literals are 0, 1px/2px hairlines and focus offsets, %, fr, auto, unitless 1,
+ *    transparent/currentColor, and layout widths (container breakpoints, max page width).
+ *  - Logical properties only. Directional glyphs mirror under [dir='rtl'].
+ *  - Layout responds to the screen's own container, never the viewport.
+ */
+
+/* ------------------------------------------------------------------ *
+ * Root + scoped reset (no browser defaults leak into the preview)
+ * ------------------------------------------------------------------ */
+
+.root {
+  container: strata-overview / inline-size;
+  min-block-size: 100%;
+  background-color: var(--strata-color-surface-canvas);
+  color: var(--strata-color-text-default);
+  font-family: var(--strata-font-body);
+  font-size: var(--strata-font-size-md);
+  font-weight: var(--strata-font-weight-regular);
+  line-height: var(--strata-line-height-normal);
+  text-align: start;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.root :where(*, *::before, *::after) {
+  box-sizing: border-box;
+}
+
+.root :where(h1, h2, h3, p, dl, dd, ul, ol, figure) {
+  margin: 0;
+}
+
+.root :where(ul, ol) {
+  padding: 0;
+  list-style: none;
+}
+
+.root :where(button, input, select, textarea) {
+  margin: 0;
+  font: inherit;
+  color: inherit;
+  letter-spacing: inherit;
+}
+
+.root :where(button) {
+  cursor: pointer;
+}
+
+.root :where(a) {
+  color: inherit;
+  text-decoration: none;
+}
+
+.root :where(table) {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+/* One focus treatment for every interactive element, in every tenant. */
+.root a:focus-visible,
+.root button:focus-visible,
+.root input:focus-visible,
+.root select:focus-visible,
+.root textarea:focus-visible,
+.root [tabindex]:focus-visible {
+  outline: 2px solid var(--strata-color-focus-ring);
+  outline-offset: 2px;
+}
+
+/* Arrows and chevrons point "forward", whichever way forward is. */
+.root[dir='rtl'] [data-directional] {
+  transform: scaleX(-1);
+}
+
+.visuallyHidden {
+  position: absolute;
+  inline-size: 1px;
+  block-size: 1px;
+  padding: 0;
+  margin: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+.num {
+  font-variant-numeric: tabular-nums;
+}
+
+/* ------------------------------------------------------------------ *
+ * Tones — shared by alert, status badge and delta pill.
+ * Tone is always paired with a glyph and a text label; colour is never the only signal.
+ * ------------------------------------------------------------------ */
+
+.toneSuccess {
+  background-color: var(--strata-color-feedback-success-bg);
+  border-color: var(--strata-color-feedback-success-border);
+  color: var(--strata-color-feedback-success-fg);
+}
+
+.toneWarning {
+  background-color: var(--strata-color-feedback-warning-bg);
+  border-color: var(--strata-color-feedback-warning-border);
+  color: var(--strata-color-feedback-warning-fg);
+}
+
+.toneDanger {
+  background-color: var(--strata-color-feedback-danger-bg);
+  border-color: var(--strata-color-feedback-danger-border);
+  color: var(--strata-color-feedback-danger-fg);
+}
+
+.toneInfo {
+  background-color: var(--strata-color-feedback-info-bg);
+  border-color: var(--strata-color-feedback-info-border);
+  color: var(--strata-color-feedback-info-fg);
+}
+
+/* ------------------------------------------------------------------ *
+ * App header
+ * ------------------------------------------------------------------ */
+
+.appHeader {
+  background-color: var(--strata-color-surface-default);
+  border-block-end: 1px solid var(--strata-color-border-subtle);
+}
+
+.headerInner {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-areas:
+    'brand end'
+    'nav nav';
+  align-items: center;
+  column-gap: var(--strata-space-6);
+  inline-size: min(100%, 1280px);
+  margin-inline: auto;
+  padding-inline: var(--strata-space-4);
+}
+
+.brand {
+  grid-area: brand;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--strata-space-3);
+  justify-self: start;
+  min-block-size: calc(var(--strata-control-height) + var(--strata-space-4));
+  min-inline-size: 0;
+  color: var(--strata-color-text-default);
+}
+
+.logoMark {
+  display: inline-grid;
+  place-items: center;
+  flex: none;
+  inline-size: calc(var(--strata-control-height) - var(--strata-space-2));
+  block-size: calc(var(--strata-control-height) - var(--strata-space-2));
+  /* Follows the brand's button shape, capped so a pill-shaped brand still gets a squircle, not a coin. */
+  border-radius: min(var(--strata-radius-button), 30%);
+  background-color: var(--strata-color-action-primary-bg);
+  color: var(--strata-color-action-primary-fg);
+  font-family: var(--strata-font-heading);
+  font-size: var(--strata-font-size-lg);
+  font-weight: var(--strata-font-weight-bold);
+  line-height: 1;
+}
+
+.productName {
+  overflow: hidden;
+  font-family: var(--strata-font-heading);
+  font-size: var(--strata-font-size-lg);
+  font-weight: var(--strata-font-weight-semibold);
+  letter-spacing: var(--strata-font-heading-tracking);
+  line-height: var(--strata-line-height-tight);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.nav {
+  grid-area: nav;
+  min-inline-size: 0;
+  /* Pull the strip out by the list's focus-ring padding so the first item lines up with the logo. */
+  margin-inline: calc(var(--strata-space-1) * -1);
+  /* Narrow: the nav becomes its own scrollable strip so the page never scrolls sideways. */
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.navList {
+  display: flex;
+  gap: var(--strata-space-1);
+  /* Room for the focus ring inside the scroll container. */
+  padding-block: var(--strata-space-1) var(--strata-space-2);
+  padding-inline: var(--strata-space-1);
+}
+
+.navLink {
+  display: inline-flex;
+  align-items: center;
+  min-block-size: calc(var(--strata-control-height) - var(--strata-space-2));
+  padding-inline: var(--strata-space-3);
+  border-radius: var(--strata-radius-button);
+  color: var(--strata-color-text-subtle);
+  font-size: var(--strata-font-size-md);
+  font-weight: var(--strata-font-weight-medium);
+  white-space: nowrap;
+  transition:
+    background-color var(--strata-motion-duration-fast) var(--strata-motion-easing),
+    color var(--strata-motion-duration-fast) var(--strata-motion-easing);
+}
+
+.navLink[aria-current='page'] {
+  background-color: var(--strata-color-surface-selected);
+  color: var(--strata-color-text-default);
+}
+
+@media (hover: hover) {
+  .navLink:hover {
+    background-color: color-mix(in oklab, var(--strata-color-surface-selected) 60%, transparent);
+    color: var(--strata-color-text-default);
+  }
+
+  .navLink[aria-current='page']:hover {
+    background-color: var(--strata-color-surface-selected);
+  }
+}
+
+.headerEnd {
+  grid-area: end;
+  display: flex;
+  align-items: center;
+  gap: var(--strata-space-1);
+  min-block-size: calc(var(--strata-control-height) + var(--strata-space-4));
+}
+
+.iconButton {
+  position: relative;
+  display: inline-grid;
+  place-items: center;
+  inline-size: var(--strata-control-height);
+  block-size: var(--strata-control-height);
+  padding: 0;
+  border: 0;
+  border-radius: var(--strata-radius-button);
+  background-color: transparent;
+  color: var(--strata-color-text-subtle);
+  transition:
+    background-color var(--strata-motion-duration-fast) var(--strata-motion-easing),
+    color var(--strata-motion-duration-fast) var(--strata-motion-easing);
+}
+
+@media (hover: hover) {
+  .iconButton:hover {
+    background-color: color-mix(in oklab, var(--strata-color-surface-selected) 60%, transparent);
+    color: var(--strata-color-text-default);
+  }
+}
+
+.iconButton:active {
+  background-color: var(--strata-color-surface-selected);
+}
+
+.unreadDot {
+  position: absolute;
+  inset-block-start: var(--strata-space-2);
+  inset-inline-end: var(--strata-space-2);
+  inline-size: var(--strata-space-2);
+  block-size: var(--strata-space-2);
+  border-radius: var(--strata-radius-pill);
+  background-color: var(--strata-color-feedback-danger-solid);
+  /* Hairline cut-out so the dot reads against the bell. */
+  box-shadow: 0 0 0 2px var(--strata-color-surface-default);
+}
+
+.avatar {
+  display: inline-grid;
+  place-items: center;
+  flex: none;
+  inline-size: var(--strata-control-height);
+  block-size: var(--strata-control-height);
+  margin-inline-start: var(--strata-space-2);
+  padding: 0;
+  border: 0;
+  border-radius: var(--strata-radius-pill);
+  background-color: var(--strata-color-accent-subtle);
+  color: var(--strata-color-accent-text);
+  font-size: var(--strata-font-size-sm);
+  font-weight: var(--strata-font-weight-semibold);
+  line-height: 1;
+}
+
+/* ------------------------------------------------------------------ *
+ * Page
+ * ------------------------------------------------------------------ */
+
+.page {
+  display: grid;
+  gap: var(--strata-section-gap);
+  inline-size: min(100%, 1280px);
+  margin-inline: auto;
+  padding-block: var(--strata-space-6) var(--strata-space-10);
+  padding-inline: var(--strata-space-4);
+}
+
+.pageHeader {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--strata-space-4);
+}
+
+.titleBlock {
+  display: grid;
+  gap: var(--strata-space-1);
+  min-inline-size: 0;
+}
+
+.h1 {
+  font-family: var(--strata-font-heading);
+  font-size: var(--strata-font-size-2xl);
+  font-weight: var(--strata-font-weight-semibold);
+  letter-spacing: var(--strata-font-heading-tracking);
+  line-height: var(--strata-line-height-tight);
+  text-wrap: balance;
+}
+
+.subtitle {
+  color: var(--strata-color-text-subtle);
+  font-size: var(--strata-font-size-md);
+  text-wrap: pretty;
+}
+
+.pageActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--strata-space-2);
+  inline-size: 100%;
+}
+
+.pageActions > .button {
+  flex: 1 1 auto;
+}
+
+/* ------------------------------------------------------------------ *
+ * Buttons
+ * ------------------------------------------------------------------ */
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--strata-space-2);
+  min-block-size: var(--strata-control-height);
+  padding-block: 0;
+  padding-inline: var(--strata-control-padding-inline);
+  border: 1px solid transparent;
+  border-radius: var(--strata-radius-button);
+  font-size: var(--strata-font-size-md);
+  font-weight: var(--strata-font-weight-semibold);
+  line-height: var(--strata-line-height-tight);
+  text-align: center;
+  white-space: nowrap;
+  transition:
+    background-color var(--strata-motion-duration-fast) var(--strata-motion-easing),
+    border-color var(--strata-motion-duration-fast) var(--strata-motion-easing),
+    color var(--strata-motion-duration-fast) var(--strata-motion-easing);
+}
+
+.primary {
+  background-color: var(--strata-color-action-primary-bg);
+  border-color: var(--strata-color-action-primary-border);
+  color: var(--strata-color-action-primary-fg);
+}
+
+.secondary {
+  background-color: var(--strata-color-action-secondary-bg);
+  /* Secondary fills are brand-tinted and sit close to the canvas; a same-hue hairline gives the shape an edge. */
+  border-color: color-mix(in oklab, var(--strata-color-action-secondary-fg) 18%, transparent);
+  color: var(--strata-color-action-secondary-fg);
+}
+
+@media (hover: hover) {
+  .primary:hover {
+    background-color: var(--strata-color-action-primary-hover);
+  }
+
+  .secondary:hover {
+    background-color: var(--strata-color-action-secondary-hover);
+  }
+}
+
+.primary:active {
+  background-color: var(--strata-color-action-primary-pressed);
+}
+
+.secondary:active {
+  background-color: var(--strata-color-action-secondary-pressed);
+}
+
+.block {
+  inline-size: 100%;
+}
+
+/* ------------------------------------------------------------------ *
+ * Alert banner
+ * ------------------------------------------------------------------ */
+
+.alert {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  grid-template-areas:
+    'icon content'
+    '. action';
+  align-items: start;
+  column-gap: var(--strata-space-3);
+  row-gap: var(--strata-space-2);
+  padding-block: var(--strata-space-3);
+  padding-inline: var(--strata-space-4);
+  border-width: 1px;
+  border-style: solid;
+  border-radius: var(--strata-radius-container);
+}
+
+.alertIcon {
+  grid-area: icon;
+  flex: none;
+}
+
+.alertContent {
+  grid-area: content;
+  display: grid;
+  gap: var(--strata-space-1);
+  min-inline-size: 0;
+}
+
+.alertTitle {
+  font-size: var(--strata-font-size-md);
+  font-weight: var(--strata-font-weight-semibold);
+  line-height: var(--strata-line-height-snug);
+}
+
+.alertBody {
+  font-size: var(--strata-font-size-sm);
+  line-height: var(--strata-line-height-normal);
+  text-wrap: pretty;
+}
+
+.alertAction {
+  grid-area: action;
+  justify-self: start;
+  color: inherit;
+  font-size: var(--strata-font-size-sm);
+  font-weight: var(--strata-font-weight-semibold);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 2px;
+  white-space: nowrap;
+}
+
+@media (hover: hover) {
+  .alertAction:hover {
+    text-decoration-thickness: 2px;
+  }
+}
+
+/* ------------------------------------------------------------------ *
+ * Cards (shared)
+ * ------------------------------------------------------------------ */
+
+.card {
+  display: grid;
+  align-content: start;
+  gap: var(--strata-field-gap);
+  min-inline-size: 0;
+  padding: var(--strata-card-inset);
+  background-color: var(--strata-color-surface-raised);
+  border: 1px solid var(--strata-color-border-default);
+  border-radius: var(--strata-radius-container);
+  box-shadow: var(--strata-shadow-raised);
+}
+
+.cardIntro {
+  display: grid;
+  gap: var(--strata-space-1);
+}
+
+.h2 {
+  font-family: var(--strata-font-heading);
+  font-size: var(--strata-font-size-lg);
+  font-weight: var(--strata-font-weight-semibold);
+  letter-spacing: var(--strata-font-heading-tracking);
+  line-height: var(--strata-line-height-snug);
+}
+
+.cardDescription {
+  color: var(--strata-color-text-subtle);
+  font-size: var(--strata-font-size-sm);
+  text-wrap: pretty;
+}
+
+.textLink {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--strata-space-1);
+  flex: none;
+  color: var(--strata-color-text-brand);
+  font-size: var(--strata-font-size-sm);
+  font-weight: var(--strata-font-weight-medium);
+  white-space: nowrap;
+}
+
+@media (hover: hover) {
+  .textLink:hover {
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 2px;
+  }
+}
+
+/* ------------------------------------------------------------------ *
+ * Stats
+ * ------------------------------------------------------------------ */
+
+.stats {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--strata-section-gap);
+}
+
+/* Stat cards are .card with a tighter internal rhythm. */
+.statCard {
+  gap: var(--strata-space-2);
+}
+
+.statLabel {
+  color: var(--strata-color-text-subtle);
+  font-size: var(--strata-font-size-sm);
+  font-weight: var(--strata-font-weight-medium);
+  line-height: var(--strata-line-height-snug);
+}
+
+.statValue {
+  font-family: var(--strata-font-heading);
+  font-size: var(--strata-font-size-2xl);
+  font-weight: var(--strata-font-weight-semibold);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: var(--strata-font-heading-tracking);
+  line-height: var(--strata-line-height-tight);
+  white-space: nowrap;
+}
+
+.statMeta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--strata-space-2);
+  font-size: var(--strata-font-size-sm);
+}
+
+.delta {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--strata-space-1);
+  min-block-size: var(--strata-space-5);
+  padding-inline: var(--strata-space-2);
+  border-radius: var(--strata-radius-badge);
+  font-size: var(--strata-font-size-xs);
+  font-weight: var(--strata-font-weight-semibold);
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.deltaNeutral {
+  background-color: var(--strata-color-surface-sunken);
+  color: var(--strata-color-text-subtle);
+}
+
+.deltaLabel {
+  color: var(--strata-color-text-subtle);
+}
+
+/* ------------------------------------------------------------------ *
+ * Body layout
+ * ------------------------------------------------------------------ */
+
+.body {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  align-items: start;
+  gap: var(--strata-section-gap);
+}
+
+.side {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  align-items: start;
+  gap: var(--strata-section-gap);
+  min-inline-size: 0;
+}
+
+/* ------------------------------------------------------------------ *
+ * Activity table
+ * ------------------------------------------------------------------ */
+
+.activityCard {
+  container: strata-activity / inline-size;
+  gap: 0;
+  padding: 0;
+  /* Row hover fills stay inside the rounded corners. */
+  overflow: clip;
+}
+
+.cardHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--strata-space-4);
+  padding-block: var(--strata-card-inset) var(--strata-space-4);
+  padding-inline: var(--strata-card-inset);
+}
+
+.table {
+  inline-size: 100%;
+  font-size: var(--strata-font-size-sm);
+}
+
+.table th {
+  padding-block: var(--strata-space-2);
+  padding-inline: var(--strata-space-3);
+  background-color: color-mix(in oklab, var(--strata-color-surface-sunken) 60%, transparent);
+  border-block: 1px solid var(--strata-color-border-subtle);
+  color: var(--strata-color-text-subtle);
+  font-size: var(--strata-font-size-xs);
+  font-weight: var(--strata-font-weight-semibold);
+  line-height: var(--strata-line-height-snug);
+  text-align: start;
+  white-space: nowrap;
+}
+
+.table td {
+  /* Two-line cells outgrow the row-height token, so vertical padding carries the density difference:
+     comfortable (48 − 40) = 8px, compact (36 − 32) = 4px. */
+  padding-block: calc(var(--strata-table-row-height) - var(--strata-control-height));
+  padding-inline: var(--strata-space-3);
+  border-block-end: 1px solid var(--strata-color-border-subtle);
+  vertical-align: middle;
+}
+
+.table th:first-child,
+.table td:first-child {
+  padding-inline-start: var(--strata-card-inset);
+}
+
+.table th:last-child,
+.table td:last-child {
+  padding-inline-end: var(--strata-card-inset);
+}
+
+.row {
+  block-size: var(--strata-table-row-height);
+  transition: background-color var(--strata-motion-duration-fast) var(--strata-motion-easing);
+}
+
+.row:last-child > td {
+  border-block-end: 0;
+}
+
+@media (hover: hover) {
+  .row:hover {
+    background-color: color-mix(in oklab, var(--strata-color-surface-selected) 55%, transparent);
+  }
+}
+
+.table .alignEnd {
+  text-align: end;
+}
+
+.cellDate {
+  color: var(--strata-color-text-subtle);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.desc {
+  display: flex;
+  align-items: center;
+  gap: var(--strata-space-3);
+  min-inline-size: 0;
+}
+
+.ledgerGlyph {
+  display: inline-grid;
+  place-items: center;
+  flex: none;
+  inline-size: calc(var(--strata-control-height) - var(--strata-space-2));
+  block-size: calc(var(--strata-control-height) - var(--strata-space-2));
+  border-radius: min(var(--strata-radius-button), 30%);
+  /* Translucent neutral: a light tint on light surfaces, a lift on dark ones. */
+  background-color: color-mix(in oklab, var(--strata-color-text-subtle) 12%, transparent);
+  color: var(--strata-color-text-subtle);
+}
+
+.ledgerGlyphIn {
+  background-color: var(--strata-color-feedback-success-bg);
+  color: var(--strata-color-feedback-success-fg);
+}
+
+.descText {
+  display: grid;
+  min-inline-size: 0;
+}
+
+.descTitle {
+  color: var(--strata-color-text-default);
+  font-size: var(--strata-font-size-md);
+  font-weight: var(--strata-font-weight-medium);
+  line-height: var(--strata-line-height-snug);
+}
+
+.descMeta {
+  color: var(--strata-color-text-subtle);
+  font-size: var(--strata-font-size-sm);
+  line-height: var(--strata-line-height-snug);
+}
+
+.cellCategory {
+  color: var(--strata-color-text-subtle);
+}
+
+.metaCategory {
+  display: none;
+}
+
+/* Column priority: under 720px the category column is dropped and its value joins the meta line,
+   so the description keeps room to breathe and no data is lost. */
+@container strata-activity (inline-size < 720px) {
+  .table .colCategory,
+  .table .cellCategory {
+    display: none;
+  }
+
+  .metaCategory {
+    display: inline;
+  }
+}
+
+.cellStatus {
+  white-space: nowrap;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--strata-space-1);
+  min-block-size: var(--strata-space-6);
+  padding-inline: var(--strata-space-2);
+  border-radius: var(--strata-radius-badge);
+  font-size: var(--strata-font-size-xs);
+  font-weight: var(--strata-font-weight-semibold);
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.cellAmount {
+  color: var(--strata-color-text-default);
+  font-size: var(--strata-font-size-md);
+  font-variant-numeric: tabular-nums;
+  font-weight: var(--strata-font-weight-medium);
+  text-align: end;
+  white-space: nowrap;
+}
+
+.amountIn {
+  color: var(--strata-color-feedback-success-fg);
+}
+
+/* Narrow card: each row becomes a two-line list item. Header cells stay in the accessibility tree. */
+@container strata-activity (inline-size < 560px) {
+  .table,
+  .table tbody {
+    display: block;
+  }
+
+  .metaCategory {
+    display: none;
+  }
+
+  .table thead .colCategory {
+    display: table-cell;
+  }
+
+  .table thead {
+    position: absolute;
+    inline-size: 1px;
+    block-size: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  .row {
+    display: grid;
+    /* Column 1 = ledger glyph + its gap, so line two aligns with the title text. */
+    grid-template-columns:
+      calc(var(--strata-control-height) - var(--strata-space-2) + var(--strata-space-3))
+      auto minmax(0, 1fr) auto;
+    grid-template-areas:
+      'desc desc desc amount'
+      '. date category status';
+    align-items: center;
+    row-gap: var(--strata-space-1);
+    block-size: auto;
+    padding-block: var(--strata-space-3);
+    padding-inline: var(--strata-card-inset);
+    border-block-end: 1px solid var(--strata-color-border-subtle);
+  }
+
+  .row:last-child {
+    border-block-end: 0;
+  }
+
+  .table .row > td {
+    display: block;
+    padding: 0;
+    border: 0;
+  }
+
+  .cellDesc {
+    grid-area: desc;
+    min-inline-size: 0;
+  }
+
+  .table .row > .cellAmount {
+    grid-area: amount;
+    align-self: start;
+    padding-inline-start: var(--strata-space-3);
+  }
+
+  .cellDate {
+    grid-area: date;
+    font-size: var(--strata-font-size-sm);
+  }
+
+  .table .row > .cellCategory {
+    display: block;
+    grid-area: category;
+    min-inline-size: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .cellCategory::before {
+    content: '·';
+    content: '·' / '';
+    margin-inline: var(--strata-space-2);
+  }
+
+  .table .row > .cellStatus {
+    grid-area: status;
+    justify-self: end;
+    padding-inline-start: var(--strata-space-3);
+  }
+}
+
+/* ------------------------------------------------------------------ *
+ * Form
+ * ------------------------------------------------------------------ */
+
+.form {
+  display: grid;
+  gap: var(--strata-field-gap);
+}
+
+.field {
+  display: grid;
+  gap: var(--strata-space-2);
+  min-inline-size: 0;
+}
+
+.label {
+  color: var(--strata-color-text-default);
+  font-size: var(--strata-font-size-sm);
+  font-weight: var(--strata-font-weight-medium);
+  line-height: var(--strata-line-height-snug);
+}
+
+.control {
+  display: block;
+  inline-size: 100%;
+  min-inline-size: 0;
+  block-size: var(--strata-control-height);
+  padding-block: 0;
+  padding-inline: var(--strata-control-padding-inline);
+  background-color: var(--strata-color-surface-default);
+  border: 1px solid var(--strata-color-border-strong);
+  border-radius: var(--strata-radius-field);
+  color: var(--strata-color-text-default);
+  font-size: var(--strata-font-size-md);
+  line-height: var(--strata-line-height-normal);
+  transition: border-color var(--strata-motion-duration-fast) var(--strata-motion-easing);
+}
+
+.control::placeholder,
+.inputBare::placeholder {
+  color: var(--strata-color-text-subtle);
+  opacity: 1;
+}
+
+@media (hover: hover) {
+  .control:hover {
+    border-color: color-mix(in oklab, var(--strata-color-border-strong) 60%, var(--strata-color-text-default));
+  }
+}
+
+.select {
+  appearance: none;
+  padding-inline-end: calc(var(--strata-control-padding-inline) + var(--strata-space-6));
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.selectWrap {
+  position: relative;
+  min-inline-size: 0;
+}
+
+.selectIcon {
+  position: absolute;
+  inset-block-start: 50%;
+  inset-inline-end: var(--strata-control-padding-inline);
+  color: var(--strata-color-text-subtle);
+  pointer-events: none;
+  transform: translateY(-50%);
+}
+
+/* Input with a currency affix: the wrapper draws the control; the input inside is bare. */
+.inputGroup {
+  display: flex;
+  align-items: center;
+  gap: var(--strata-space-2);
+  cursor: text;
+}
+
+.inputGroup:focus-within {
+  outline: 2px solid var(--strata-color-focus-ring);
+  outline-offset: 2px;
+}
+
+.affix {
+  flex: none;
+  color: var(--strata-color-text-subtle);
+  font-weight: var(--strata-font-weight-medium);
+}
+
+.inputBare {
+  flex: 1 1 auto;
+  inline-size: 100%;
+  min-inline-size: 0;
+  block-size: 100%;
+  padding: 0;
+  background-color: transparent;
+  border: 0;
+  color: var(--strata-color-text-default);
+  font-variant-numeric: tabular-nums;
+}
+
+/* The group shows the ring, so the bare input does not draw a second one. */
+.inputGroup .inputBare:focus-visible {
+  outline: 0;
+}
+
+.hint {
+  color: var(--strata-color-text-subtle);
+  font-size: var(--strata-font-size-xs);
+  line-height: var(--strata-line-height-normal);
+  text-wrap: pretty;
+}
+
+/* ------------------------------------------------------------------ *
+ * Progress
+ * ------------------------------------------------------------------ */
+
+.progressCard {
+  gap: var(--strata-space-3);
+}
+
+.progressFigures {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  column-gap: var(--strata-space-3);
+  row-gap: var(--strata-space-1);
+}
+
+.progressValue {
+  font-family: var(--strata-font-heading);
+  font-size: var(--strata-font-size-2xl);
+  font-weight: var(--strata-font-weight-semibold);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: var(--strata-font-heading-tracking);
+  line-height: var(--strata-line-height-tight);
+}
+
+.progressLabel {
+  color: var(--strata-color-text-subtle);
+  font-size: var(--strata-font-size-sm);
+  font-variant-numeric: tabular-nums;
+}
+
+.track {
+  block-size: var(--strata-space-2);
+  overflow: hidden;
+  background-color: var(--strata-color-surface-sunken);
+  border-radius: var(--strata-radius-pill);
+}
+
+.fill {
+  block-size: 100%;
+  max-inline-size: 100%;
+  background-color: var(--strata-color-accent-bg);
+  border-radius: var(--strata-radius-pill);
+  transition: inline-size var(--strata-motion-duration-normal) var(--strata-motion-easing);
+}
+
+.progressCaption {
+  color: var(--strata-color-text-subtle);
+  font-size: var(--strata-font-size-sm);
+  text-wrap: pretty;
+}
+
+/* ------------------------------------------------------------------ *
+ * Container breakpoints (the screen's own width, not the viewport)
+ * ------------------------------------------------------------------ */
+
+@container strata-overview (inline-size >= 640px) {
+  .headerInner,
+  .page {
+    padding-inline: var(--strata-space-6);
+  }
+
+  .page {
+    padding-block: var(--strata-space-8) var(--strata-space-12);
+  }
+
+  .pageActions {
+    inline-size: auto;
+  }
+
+  .pageActions > .button {
+    flex: none;
+  }
+
+  .stats {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .alert {
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    grid-template-areas: 'icon content action';
+    column-gap: var(--strata-space-3);
+  }
+
+  .alertAction {
+    align-self: center;
+    margin-inline-start: var(--strata-space-4);
+  }
+}
+
+@container strata-overview (720px <= inline-size < 1000px) {
+  /* Tablet: form and progress sit side by side under the table. */
+  .side {
+    grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+  }
+}
+
+@container strata-overview (inline-size >= 900px) {
+  .headerInner {
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    grid-template-areas: 'brand nav end';
+  }
+
+  .nav {
+    margin-inline: 0;
+    overflow: visible;
+  }
+
+  .navList {
+    padding: 0;
+  }
+}
+
+@container strata-overview (inline-size >= 1000px) {
+  .headerInner,
+  .page {
+    padding-inline: var(--strata-space-8);
+  }
+
+  .h1 {
+    font-size: var(--strata-font-size-3xl);
+  }
+
+  .statValue {
+    font-size: var(--strata-font-size-3xl);
+  }
+
+  .body {
+    grid-template-columns: minmax(0, 2fr) minmax(300px, 1fr);
+  }
+}
+
+/* ------------------------------------------------------------------ *
+ * Motion
+ * ------------------------------------------------------------------ */
+
+@media (prefers-reduced-motion: reduce) {
+  .root,
+  .root * {
+    transition: none !important;
+    animation: none !important;
+  }
+}

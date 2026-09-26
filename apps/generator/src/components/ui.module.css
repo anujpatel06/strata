@@ -1,0 +1,352 @@
+/* Shared chrome primitives. Monochrome only — the brand under test is the only colour on screen. */
+
+.srOnly {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ------------------------------------------------------------------ labels */
+
+.label {
+  display: block;
+  float: none;
+  margin: 0 0 8px;
+  padding: 0;
+  color: var(--ui-text-2);
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 16px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.fieldset {
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.hint {
+  margin: 0;
+  color: var(--ui-text-3);
+  font-size: 12px;
+  line-height: 16px;
+}
+
+.mono {
+  font-family: var(--ui-mono);
+  font-variant-ligatures: none;
+}
+
+/* ------------------------------------------------------------------ segmented radio */
+
+.segmented {
+  position: relative;
+  display: grid;
+  grid-auto-columns: minmax(0, 1fr);
+  grid-auto-flow: column;
+  gap: 2px;
+  padding: 2px;
+  border: 1px solid var(--ui-border-strong);
+  border-radius: var(--ui-radius);
+  background: var(--ui-panel-2);
+}
+
+.segmentInput {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: 0;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.segment {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-width: 0;
+  height: 30px;
+  padding: 0 8px;
+  border-radius: 6px;
+  color: var(--ui-text-2);
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 16px;
+  white-space: nowrap;
+  cursor: pointer;
+  user-select: none;
+  transition:
+    background-color var(--ui-duration) var(--ui-ease),
+    color var(--ui-duration) var(--ui-ease),
+    box-shadow var(--ui-duration) var(--ui-ease);
+}
+
+.segment:hover {
+  background: var(--ui-hover);
+  color: var(--ui-text);
+}
+
+.segmentInput:checked + .segment {
+  background: var(--ui-panel);
+  color: var(--ui-text);
+  box-shadow: inset 0 0 0 1.5px var(--ui-ink);
+}
+
+.segmentInput:focus-visible + .segment {
+  outline: 2px solid var(--ui-text);
+  outline-offset: 2px;
+}
+
+.segment svg {
+  flex: none;
+}
+
+.segmentSmall .segment {
+  height: 26px;
+  padding: 0 10px;
+  font-size: 12px;
+}
+
+/* ------------------------------------------------------------------ text inputs & select */
+
+.input {
+  width: 100%;
+  height: 36px;
+  margin: 0;
+  padding: 0 10px;
+  border: 1px solid var(--ui-control);
+  border-radius: var(--ui-radius);
+  background: var(--ui-panel);
+  color: var(--ui-text);
+  font: inherit;
+  font-size: 13px;
+  line-height: 20px;
+  transition: border-color var(--ui-duration) var(--ui-ease);
+}
+
+.input:hover {
+  border-color: var(--ui-text-2);
+}
+
+.input:focus {
+  outline: 2px solid var(--ui-text);
+  outline-offset: 2px;
+  border-color: var(--ui-text);
+}
+
+.input[aria-invalid='true'] {
+  border-color: var(--ui-fail);
+}
+.input[aria-invalid='true']:focus {
+  outline-color: var(--ui-fail);
+}
+
+.selectWrap {
+  position: relative;
+  display: block;
+}
+
+.selectWrap .input {
+  padding-inline-end: 32px;
+  appearance: none;
+  cursor: pointer;
+  text-overflow: ellipsis;
+}
+
+.selectChevron {
+  position: absolute;
+  top: 50%;
+  inset-inline-end: 10px;
+  color: var(--ui-text-2);
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+.error {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin: 6px 0 0;
+  color: var(--ui-fail);
+  font-size: 12px;
+  line-height: 16px;
+}
+
+.error svg {
+  flex: none;
+}
+
+/* ------------------------------------------------------------------ buttons */
+
+.btn {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  height: 32px;
+  margin: 0;
+  padding: 0 12px;
+  border: 1px solid transparent;
+  border-radius: var(--ui-radius);
+  background: transparent;
+  color: var(--ui-text);
+  font: inherit;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 16px;
+  white-space: nowrap;
+  cursor: pointer;
+  transition:
+    background-color var(--ui-duration) var(--ui-ease),
+    border-color var(--ui-duration) var(--ui-ease),
+    color var(--ui-duration) var(--ui-ease);
+}
+
+.btn svg {
+  flex: none;
+}
+
+.btnInk {
+  border-color: var(--ui-ink);
+  background: var(--ui-ink);
+  color: var(--ui-ink-fg);
+}
+.btnInk:hover {
+  opacity: 0.88;
+}
+
+.btnOutline {
+  border-color: var(--ui-border-strong);
+  background: var(--ui-panel);
+}
+.btnOutline:hover {
+  border-color: var(--ui-text-3);
+  background: var(--ui-panel-2);
+}
+
+.btnGhost {
+  color: var(--ui-text-2);
+}
+.btnGhost:hover {
+  background: var(--ui-hover);
+  color: var(--ui-text);
+}
+
+.btnText {
+  height: 24px;
+  padding: 0 6px;
+  margin-inline-end: -6px;
+  color: var(--ui-text-2);
+  font-size: 12px;
+  text-decoration: underline;
+  text-decoration-color: var(--ui-border-strong);
+  text-underline-offset: 3px;
+}
+.btnText:hover {
+  color: var(--ui-text);
+  text-decoration-color: currentColor;
+}
+
+/* ------------------------------------------------------------------ chips, badges, swatches */
+
+.chip {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  gap: 4px;
+  height: 18px;
+  padding: 0 6px;
+  border: 1px solid var(--ui-border-strong);
+  border-radius: 4px;
+  color: var(--ui-text-2);
+  font-size: 11px;
+  font-weight: 500;
+  line-height: 16px;
+  white-space: nowrap;
+}
+
+.swatch {
+  display: inline-block;
+  flex: none;
+  border-radius: 4px;
+  box-shadow: inset 0 0 0 1px var(--ui-swatch-edge);
+  vertical-align: middle;
+}
+
+.status {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-weight: 500;
+  white-space: nowrap;
+}
+.statusPass {
+  color: var(--ui-pass);
+}
+.statusFail {
+  color: var(--ui-fail);
+}
+.status svg {
+  flex: none;
+}
+
+/* ------------------------------------------------------------------ panels in the main column */
+
+.card {
+  border: 1px solid var(--ui-border);
+  border-radius: var(--ui-radius);
+  background: var(--ui-panel);
+}
+
+.sectionHead {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 4px 16px;
+  margin: 0 0 12px;
+}
+
+.h2 {
+  margin: 0;
+  color: var(--ui-text);
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 20px;
+}
+
+.h2:focus {
+  outline: none;
+}
+.h2:focus-visible {
+  outline: 2px solid var(--ui-text);
+  outline-offset: 4px;
+  border-radius: 2px;
+}
+
+.sub {
+  margin: 0;
+  color: var(--ui-text-3);
+  font-size: 12px;
+  line-height: 16px;
+}
+
+/* position: relative makes this the containing block for .srOnly descendants, so they are clipped too
+   (absolutely positioned children otherwise escape a non-positioned scroller and widen the page). */
+.scrollX {
+  position: relative;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+}

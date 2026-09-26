@@ -1,0 +1,84 @@
+.tablist {
+  display: flex;
+  align-items: stretch;
+  gap: 4px;
+  min-width: 0;
+}
+
+.tab {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 40px;
+  margin: 0;
+  padding: 0 10px;
+  border: 0;
+  border-radius: 6px 6px 0 0;
+  background: none;
+  color: var(--ui-text-2);
+  font: inherit;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 16px;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: color var(--ui-duration) var(--ui-ease);
+}
+
+.tab::after {
+  position: absolute;
+  inset-inline: 10px;
+  bottom: -1px;
+  height: 2px;
+  border-radius: 1px;
+  background: transparent;
+  content: '';
+  transition: background-color var(--ui-duration) var(--ui-ease);
+}
+
+.tab:hover {
+  color: var(--ui-text);
+}
+
+.tab:hover::after {
+  background: var(--ui-border-strong);
+}
+
+.tab[aria-selected='true'] {
+  color: var(--ui-text);
+}
+
+.tab[aria-selected='true']::after {
+  background: var(--ui-ink);
+}
+
+.tab:focus-visible {
+  outline: 2px solid var(--ui-text);
+  outline-offset: -2px;
+  border-radius: 6px;
+}
+
+/* Count badge on a tab. */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  min-width: 20px;
+  height: 18px;
+  padding: 0 5px;
+  border: 1px solid var(--ui-border-strong);
+  border-radius: 9px;
+  color: var(--ui-text-2);
+  font-family: var(--ui-mono);
+  font-size: 11px;
+  font-weight: 500;
+  line-height: 16px;
+  font-variant-numeric: tabular-nums;
+}
+
+.badgeFail {
+  border-color: currentColor;
+  color: var(--ui-fail);
+}

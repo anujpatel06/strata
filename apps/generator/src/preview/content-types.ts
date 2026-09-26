@@ -40,6 +40,10 @@ export interface FormFieldContent {
   options?: string[];
   /** Prefilled value (text) or selected option (select). */
   value?: string;
+  /** Optional. Virtual-keyboard hint for text fields, e.g. "decimal" for an amount. */
+  inputMode?: 'text' | 'numeric' | 'decimal';
+  /** Optional. Shows the tenant currency symbol (derived from `currency` + `locale` via Intl) inside the control. */
+  currencyAffix?: boolean;
 }
 
 export interface TenantContent {
@@ -67,6 +71,7 @@ export interface TenantContent {
     };
     statusLabels: Record<string, { label: string; tone: Tone }>;
     form: { title: string; description: string; fields: FormFieldContent[]; submit: string };
+    /** `value` is a fraction 0–1 (0.62 = 62%), like StatContent.delta. Values above 1 are read as a percentage. */
     progress: { title: string; value: number; label: string; caption: string };
   };
 }

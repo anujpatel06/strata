@@ -1,0 +1,114 @@
+/*
+ * Generator chrome — monochrome ink on warm grey, so the only colour on screen is the brand being generated.
+ * Chrome tokens are --ui-*. The previewed brand lives entirely in --strata-* variables scoped to the preview frame.
+ * Every text token is ≥4.5:1 on --ui-bg, --ui-panel and --ui-panel-2; --ui-control is ≥3:1 (non-text, WCAG 1.4.11).
+ */
+
+:root {
+  color-scheme: light;
+
+  --ui-bg: #f5f5f3;
+  --ui-panel: #ffffff;
+  --ui-panel-2: #fafaf9;
+  --ui-border: #e5e5e2;
+  --ui-border-strong: #cfcfca;
+  --ui-control: #8a8a91;
+  --ui-text: #18181b;
+  --ui-text-2: #52525b;
+  --ui-text-3: #6b6b73;
+  --ui-ink: #18181b;
+  --ui-ink-fg: #ffffff;
+  --ui-hover: rgb(24 24 27 / 0.05);
+  --ui-pass: #15803d;
+  --ui-fail: #b91c1c;
+  --ui-warn: #a16207;
+  --ui-swatch-edge: rgb(0 0 0 / 0.12);
+  --ui-shadow-frame: 0 1px 2px rgb(24 24 27 / 0.04), 0 8px 24px -8px rgb(24 24 27 / 0.12);
+
+  --ui-font: 'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --ui-mono: 'JetBrains Mono', ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
+
+  --ui-radius: 8px;
+  --ui-radius-frame: 12px;
+  --ui-duration: 120ms;
+  --ui-ease: cubic-bezier(0.2, 0, 0, 1);
+  --ui-header-h: 56px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    color-scheme: dark;
+
+    --ui-bg: #111113;
+    --ui-panel: #18181b;
+    --ui-panel-2: #1f1f23;
+    --ui-border: #2c2c31;
+    --ui-border-strong: #3f3f46;
+    --ui-control: #6e6e76;
+    --ui-text: #f4f4f5;
+    --ui-text-2: #b4b4bb;
+    --ui-text-3: #9a9aa2;
+    --ui-ink: #f4f4f5;
+    --ui-ink-fg: #18181b;
+    --ui-hover: rgb(244 244 245 / 0.06);
+    --ui-pass: #4ade80;
+    --ui-fail: #f87171;
+    --ui-warn: #facc15;
+    --ui-swatch-edge: rgb(255 255 255 / 0.14);
+    --ui-shadow-frame: 0 1px 2px rgb(0 0 0 / 0.3), 0 12px 32px -12px rgb(0 0 0 / 0.6);
+  }
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  background: var(--ui-bg);
+  color: var(--ui-text);
+  font-family: var(--ui-font);
+  font-size: 14px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+/* Zero-specificity focus style: the chrome gets an ink ring; the preview (any [data-strata-scheme] subtree)
+   gets its own brand focus ring unless its components define something more specific. */
+:where(:focus-visible) {
+  outline: 2px solid var(--ui-text);
+  outline-offset: 2px;
+}
+:where([data-strata-scheme]) :where(:focus-visible) {
+  outline-color: var(--strata-color-focus-ring, currentColor);
+}
+
+::selection {
+  background: var(--ui-text);
+  color: var(--ui-bg);
+}
+:where([data-strata-scheme]) ::selection {
+  background: var(--strata-color-surface-selected, Highlight);
+  color: var(--strata-color-text-default, HighlightText);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+  }
+}

@@ -1,0 +1,160 @@
+{
+  "command": "pnpm test:themes",
+  "environment": {
+    "node": "v22.22.2",
+    "platform": "linux-x64",
+    "cpu": "Intel(R) Xeon(R) Processor @ 2.10GHz"
+  },
+  "seed": 2026,
+  "themes": 1000,
+  "checksPerTheme": 78,
+  "totalChecks": 78000,
+  "passed": 78000,
+  "failed": 0,
+  "passRatePercent": 100,
+  "failures": [],
+  "invariantViolations": [],
+  "generationMs": {
+    "median": 0.4222895000000335,
+    "p95": 0.7254350000000045,
+    "max": 8.090898000000038
+  },
+  "minMargin": {
+    "3": {
+      "required": 3,
+      "minRatio": 3.003486019396103,
+      "margin": 0.003486019396103046,
+      "theme": 258,
+      "primary": "#50b512",
+      "scheme": "light",
+      "fg": "focus.ring",
+      "bg": "surface.canvas",
+      "fgHex": "#45a400",
+      "bgHex": "#f7f8f6"
+    },
+    "4.5": {
+      "required": 4.5,
+      "minRatio": 4.50006151087116,
+      "margin": 0.00006151087116013088,
+      "theme": 736,
+      "primary": "#6e802b",
+      "accent": "#2d2630",
+      "scheme": "light",
+      "fg": "action.primary.fg",
+      "bg": "action.primary.bg",
+      "fgHex": "#ffffff",
+      "bgHex": "#6d7e29"
+    }
+  },
+  "adjustmentsPerTheme": {
+    "min": 0,
+    "median": 4,
+    "max": 6
+  },
+  "interventions": [
+    {
+      "scheme": "dark",
+      "role": "action.primary.fg",
+      "kind": "choice",
+      "brands": 649,
+      "percent": 64.9,
+      "offRamp": 0
+    },
+    {
+      "scheme": "dark",
+      "role": "accent.fg",
+      "kind": "choice",
+      "brands": 641,
+      "percent": 64.1,
+      "offRamp": 0
+    },
+    {
+      "scheme": "light",
+      "role": "action.primary.fg",
+      "kind": "choice",
+      "brands": 554,
+      "percent": 55.4,
+      "offRamp": 0
+    },
+    {
+      "scheme": "light",
+      "role": "accent.fg",
+      "kind": "choice",
+      "brands": 539,
+      "percent": 53.9,
+      "offRamp": 0
+    },
+    {
+      "scheme": "light",
+      "role": "focus.ring",
+      "kind": "contrast",
+      "brands": 485,
+      "percent": 48.5,
+      "offRamp": 0
+    },
+    {
+      "scheme": "dark",
+      "role": "focus.ring",
+      "kind": "contrast",
+      "brands": 233,
+      "percent": 23.3,
+      "offRamp": 0
+    },
+    {
+      "scheme": "light",
+      "role": "action.primary.border",
+      "kind": "visibility",
+      "brands": 128,
+      "percent": 12.8,
+      "offRamp": 0
+    },
+    {
+      "scheme": "light",
+      "role": "accent.bg",
+      "kind": "contrast",
+      "brands": 115,
+      "percent": 11.5,
+      "offRamp": 115
+    },
+    {
+      "scheme": "dark",
+      "role": "accent.bg",
+      "kind": "visibility",
+      "brands": 110,
+      "percent": 11,
+      "offRamp": 0
+    },
+    {
+      "scheme": "light",
+      "role": "action.primary.bg",
+      "kind": "contrast",
+      "brands": 109,
+      "percent": 10.9,
+      "offRamp": 109
+    },
+    {
+      "scheme": "dark",
+      "role": "action.primary.bg",
+      "kind": "visibility",
+      "brands": 92,
+      "percent": 9.2,
+      "offRamp": 0
+    },
+    {
+      "scheme": "dark",
+      "role": "action.primary.bg",
+      "kind": "contrast",
+      "brands": 14,
+      "percent": 1.4,
+      "offRamp": 14
+    },
+    {
+      "scheme": "dark",
+      "role": "accent.bg",
+      "kind": "contrast",
+      "brands": 13,
+      "percent": 1.3,
+      "offRamp": 13
+    }
+  ]
+}

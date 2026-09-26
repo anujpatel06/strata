@@ -1,0 +1,27 @@
+{
+  "$comment": "Every foreground/background pair the theme engine guarantees, per scheme. One ContrastCheck is emitted per (scheme, fg, bg). Ratios are WCAG 2.x, computed on final 8-bit hex values. 'text' = 1.4.3 Contrast (Minimum), 'non-text' = 1.4.11 Non-text Contrast.",
+  "requirements": {
+    "text": 4.5,
+    "non-text": 3
+  },
+  "pairs": [
+    { "fg": "text.default", "kind": "text", "against": ["surface.canvas", "surface.default", "surface.raised", "surface.sunken", "surface.selected"] },
+    { "fg": "text.subtle", "kind": "text", "against": ["surface.canvas", "surface.default", "surface.raised", "surface.sunken"] },
+    { "fg": "text.brand", "kind": "text", "against": ["surface.canvas", "surface.default", "surface.raised"] },
+    { "fg": "text.inverse", "kind": "text", "against": ["surface.inverse"] },
+    { "fg": "action.primary.fg", "kind": "text", "against": ["action.primary.bg", "action.primary.hover", "action.primary.pressed"] },
+    { "fg": "action.secondary.fg", "kind": "text", "against": ["action.secondary.bg", "action.secondary.hover", "action.secondary.pressed"] },
+    { "fg": "accent.fg", "kind": "text", "against": ["accent.bg"] },
+    { "fg": "accent.text", "kind": "text", "against": ["surface.default", "accent.subtle"] },
+    { "fg": "feedback.success.fg", "kind": "text", "against": ["feedback.success.bg", "surface.default"] },
+    { "fg": "feedback.warning.fg", "kind": "text", "against": ["feedback.warning.bg", "surface.default"] },
+    { "fg": "feedback.danger.fg", "kind": "text", "against": ["feedback.danger.bg", "surface.default"] },
+    { "fg": "feedback.info.fg", "kind": "text", "against": ["feedback.info.bg", "surface.default"] },
+    { "fg": "feedback.success.onSolid", "kind": "text", "against": ["feedback.success.solid"] },
+    { "fg": "feedback.warning.onSolid", "kind": "text", "against": ["feedback.warning.solid"] },
+    { "fg": "feedback.danger.onSolid", "kind": "text", "against": ["feedback.danger.solid"] },
+    { "fg": "feedback.info.onSolid", "kind": "text", "against": ["feedback.info.solid"] },
+    { "fg": "focus.ring", "kind": "non-text", "against": ["surface.canvas", "surface.default", "surface.raised"] },
+    { "fg": "border.strong", "kind": "non-text", "against": ["surface.canvas", "surface.default"] }
+  ]
+}

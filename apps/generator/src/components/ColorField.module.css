@@ -1,0 +1,69 @@
+.field {
+  min-width: 0;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* The native picker is kept (it is the most accessible colour picker there is) but drawn as a crisp swatch. */
+.swatch {
+  position: relative;
+  flex: none;
+  width: 40px;
+  height: 40px;
+  border-radius: var(--ui-radius);
+  box-shadow: inset 0 0 0 1px var(--ui-swatch-edge);
+  transition: box-shadow var(--ui-duration) var(--ui-ease);
+}
+
+.swatch:hover {
+  box-shadow:
+    inset 0 0 0 1px var(--ui-swatch-edge),
+    0 0 0 3px var(--ui-hover);
+}
+
+.swatch:has(.picker:focus-visible) {
+  outline: 2px solid var(--ui-text);
+  outline-offset: 2px;
+}
+
+.picker {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.hex {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+}
+
+.hexLabel {
+  position: absolute;
+  top: 50%;
+  inset-inline-start: 11px;
+  color: var(--ui-text-3);
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 16px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+.hexInput {
+  height: 40px;
+  padding-inline-start: 44px;
+  letter-spacing: 0.02em;
+}

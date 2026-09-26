@@ -1,0 +1,194 @@
+{
+  "locale": "en-IN",
+  "dir": "ltr",
+  "currency": "INR",
+  "product": {
+    "name": "Vela",
+    "industry": "Neobank"
+  },
+  "nav": [
+    "Overview",
+    "Payments",
+    "Cards",
+    "Savings",
+    "Insights"
+  ],
+  "user": {
+    "name": "Priya Raman",
+    "initials": "PR"
+  },
+  "a11y": {
+    "search": "Search transactions",
+    "notifications": "Notifications, 2 unread",
+    "account": "Account menu for Priya Raman",
+    "mainNav": "Main"
+  },
+  "overview": {
+    "greeting": "Good morning, Priya",
+    "subtitle": "Here’s how your money is moving this September.",
+    "primaryAction": "Send money",
+    "secondaryAction": "Download statement",
+    "alert": {
+      "tone": "warning",
+      "title": "Your debit card ending 4821 expires on 30 Sept",
+      "body": "Your replacement card is on its way to your registered address. Activate it when it arrives so autopay and subscriptions keep working.",
+      "action": "Track card"
+    },
+    "stats": [
+      {
+        "label": "Available balance",
+        "value": 184250,
+        "format": "currency",
+        "delta": 0.064,
+        "deltaLabel": "vs last month",
+        "positiveIsGood": true
+      },
+      {
+        "label": "Spent this month",
+        "value": 46380,
+        "format": "currency",
+        "delta": 0.112,
+        "deltaLabel": "vs August",
+        "positiveIsGood": false
+      },
+      {
+        "label": "Savings pots",
+        "value": 186500,
+        "format": "currency",
+        "delta": 0.085,
+        "deltaLabel": "vs last month",
+        "positiveIsGood": true
+      }
+    ],
+    "table": {
+      "title": "Recent activity",
+      "action": "View all",
+      "columns": {
+        "date": "Date",
+        "description": "Description",
+        "category": "Category",
+        "status": "Status",
+        "amount": "Amount"
+      },
+      "rows": [
+        {
+          "date": "2026-09-28",
+          "title": "Skyline Fibernet",
+          "meta": "Autopay · October plan",
+          "category": "Bills",
+          "status": "scheduled",
+          "amount": -1179
+        },
+        {
+          "date": "2026-09-25",
+          "title": "Filter & Froth Café",
+          "meta": "Card •• 4821 · Indiranagar",
+          "category": "Food & drink",
+          "status": "completed",
+          "amount": -420
+        },
+        {
+          "date": "2026-09-24",
+          "title": "UPI to Arjun Mehta",
+          "meta": "Dinner split · arjunm@vela",
+          "category": "Transfers",
+          "status": "completed",
+          "amount": -1850
+        },
+        {
+          "date": "2026-09-23",
+          "title": "Refund from Loomcraft Home",
+          "meta": "Order LC-88213",
+          "category": "Shopping",
+          "status": "processing",
+          "amount": 2499
+        },
+        {
+          "date": "2026-09-22",
+          "title": "Sabzi Basket",
+          "meta": "UPI · HSR Layout",
+          "category": "Groceries",
+          "status": "completed",
+          "amount": -3286.5
+        },
+        {
+          "date": "2026-09-17",
+          "title": "Skyfare Travels",
+          "meta": "Online card limit reached",
+          "category": "Travel",
+          "status": "declined",
+          "amount": -18640
+        },
+        {
+          "date": "2026-09-05",
+          "title": "Rent to Lakshmi Residency",
+          "meta": "UPI · Flat 3B",
+          "category": "Housing",
+          "status": "completed",
+          "amount": -32000
+        },
+        {
+          "date": "2026-09-01",
+          "title": "Salary credit",
+          "meta": "Brightloom Technologies · NEFT",
+          "category": "Income",
+          "status": "completed",
+          "amount": 142000
+        }
+      ]
+    },
+    "statusLabels": {
+      "completed": {
+        "label": "Completed",
+        "tone": "success"
+      },
+      "scheduled": {
+        "label": "Scheduled",
+        "tone": "warning"
+      },
+      "processing": {
+        "label": "Processing",
+        "tone": "info"
+      },
+      "declined": {
+        "label": "Declined",
+        "tone": "danger"
+      }
+    },
+    "form": {
+      "title": "Quick transfer",
+      "description": "Send money to a saved contact instantly over UPI.",
+      "fields": [
+        {
+          "type": "select",
+          "id": "recipient",
+          "label": "Recipient",
+          "placeholder": "Choose a contact",
+          "options": [
+            "Kavya Nair · kavya.n@vela",
+            "Arjun Mehta · arjunm@vela",
+            "Lakshmi Residency · rent@vela"
+          ],
+          "value": "Kavya Nair · kavya.n@vela"
+        },
+        {
+          "type": "text",
+          "id": "amount",
+          "label": "Amount",
+          "placeholder": "0.00",
+          "value": "2,500",
+          "inputMode": "decimal",
+          "currencyAffix": true,
+          "hint": "You can send up to ₹1,00,000 a day over UPI."
+        }
+      ],
+      "submit": "Review transfer"
+    },
+    "progress": {
+      "title": "Goa trip fund",
+      "value": 0.62,
+      "label": "₹1,24,000 of ₹2,00,000",
+      "caption": "Put aside ₹19,000 a month to reach your goal by January 2027."
+    }
+  }
+}

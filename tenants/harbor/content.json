@@ -1,0 +1,159 @@
+{
+  "locale": "en-GB",
+  "dir": "ltr",
+  "currency": "GBP",
+  "product": { "name": "Harbor", "industry": "Insurance" },
+  "nav": ["Overview", "Policies", "Claims", "Payments", "Documents"],
+  "user": { "name": "Daniel Okafor", "initials": "DO" },
+  "a11y": {
+    "search": "Search policies and claims",
+    "notifications": "Notifications, 1 unread",
+    "account": "Account menu for Daniel Okafor",
+    "mainNav": "Main"
+  },
+  "overview": {
+    "greeting": "Good afternoon, Daniel",
+    "subtitle": "Your cover, claims and payments in one place.",
+    "primaryAction": "Get a quote",
+    "secondaryAction": "Policy documents",
+    "alert": {
+      "tone": "info",
+      "title": "Your home policy renews on 14 October 2026",
+      "body": "Check your rebuild value and contents limit before then — they were last updated in March 2024. Your renewal price will follow by email.",
+      "action": "Review cover"
+    },
+    "stats": [
+      {
+        "label": "Active policies",
+        "value": 3,
+        "format": "number",
+        "deltaLabel": "Home, motor and travel"
+      },
+      {
+        "label": "Claims in progress",
+        "value": 2,
+        "format": "number",
+        "deltaLabel": "1 is waiting for your photos"
+      },
+      {
+        "label": "Excess remaining",
+        "value": 150,
+        "format": "currency",
+        "deltaLabel": "£100 of £250 used this policy year"
+      }
+    ],
+    "table": {
+      "title": "Claims and payments",
+      "action": "View all",
+      "columns": {
+        "date": "Date",
+        "description": "Description",
+        "category": "Policy",
+        "status": "Status",
+        "amount": "Amount"
+      },
+      "rows": [
+        {
+          "date": "2026-09-24",
+          "title": "Escape of water, kitchen",
+          "meta": "HB-CLM-20418",
+          "category": "Home",
+          "status": "in_review",
+          "amount": 1840
+        },
+        {
+          "date": "2026-09-22",
+          "title": "Monthly premium",
+          "meta": "Direct Debit",
+          "category": "Motor",
+          "status": "paid",
+          "amount": -48.35
+        },
+        {
+          "date": "2026-09-19",
+          "title": "Windscreen claim",
+          "meta": "HB-CLM-20377",
+          "category": "Motor",
+          "status": "action_needed",
+          "amount": 320
+        },
+        {
+          "date": "2026-09-16",
+          "title": "Premium retry",
+          "meta": "Card •• 7730",
+          "category": "Travel",
+          "status": "paid",
+          "amount": -12.4
+        },
+        {
+          "date": "2026-09-15",
+          "title": "Monthly premium",
+          "meta": "Direct Debit",
+          "category": "Home",
+          "status": "paid",
+          "amount": -27.9
+        },
+        {
+          "date": "2026-09-12",
+          "title": "Lost luggage, Lisbon",
+          "meta": "HB-CLM-20291",
+          "category": "Travel",
+          "status": "settled",
+          "amount": 410
+        },
+        {
+          "date": "2026-09-08",
+          "title": "Monthly premium",
+          "meta": "Direct Debit returned",
+          "category": "Travel",
+          "status": "failed",
+          "amount": -12.4
+        },
+        {
+          "date": "2026-09-03",
+          "title": "Excess payment",
+          "meta": "HB-CLM-20291",
+          "category": "Travel",
+          "status": "paid",
+          "amount": -100
+        }
+      ]
+    },
+    "statusLabels": {
+      "paid": { "label": "Paid", "tone": "success" },
+      "settled": { "label": "Settled", "tone": "success" },
+      "action_needed": { "label": "Action needed", "tone": "warning" },
+      "in_review": { "label": "In review", "tone": "info" },
+      "failed": { "label": "Payment failed", "tone": "danger" }
+    },
+    "form": {
+      "title": "Start a claim",
+      "description": "Tell us what happened. It takes about 10 minutes, and you can save and come back at any point.",
+      "fields": [
+        {
+          "type": "select",
+          "id": "policy",
+          "label": "Which policy is this for?",
+          "placeholder": "Choose a policy",
+          "options": ["Home · HB-HOM-31877", "Motor · HB-MTR-55102", "Travel · HB-TRV-60914"],
+          "value": "Home · HB-HOM-31877"
+        },
+        {
+          "type": "text",
+          "id": "incident-date",
+          "label": "Date of incident",
+          "placeholder": "DD/MM/YYYY",
+          "inputMode": "numeric",
+          "hint": "For example, 21/09/2026. Tell us within 30 days so we can help faster."
+        }
+      ],
+      "submit": "Continue"
+    },
+    "progress": {
+      "title": "No-claims discount",
+      "value": 0.5556,
+      "label": "5 of 9 years",
+      "caption": "Windscreen claims don’t affect your discount. You’ll reach 6 years on 12 March 2027."
+    }
+  }
+}

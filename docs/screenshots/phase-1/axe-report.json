@@ -1,0 +1,93 @@
+{
+  "generatedAt": "2026-09-26T12:30:06.665Z",
+  "command": "pnpm screenshots",
+  "axeVersion": "4.13.0",
+  "tags": [
+    "wcag2a",
+    "wcag2aa",
+    "wcag21a",
+    "wcag21aa",
+    "wcag22aa"
+  ],
+  "summary": {
+    "pagesScanned": 6,
+    "totalViolations": 0,
+    "totalNodes": 0,
+    "byRule": {}
+  },
+  "pages": [
+    {
+      "page": "vela-light",
+      "url": "/?tenant=vela&scheme=light&tab=preview",
+      "violations": [],
+      "passes": 37,
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "nodes": 3
+        }
+      ]
+    },
+    {
+      "page": "vela-dark",
+      "url": "/?tenant=vela&scheme=dark&tab=preview",
+      "violations": [],
+      "passes": 37,
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "nodes": 3
+        }
+      ]
+    },
+    {
+      "page": "harbor-light",
+      "url": "/?tenant=harbor&scheme=light&tab=preview",
+      "violations": [],
+      "passes": 37,
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "nodes": 2
+        }
+      ]
+    },
+    {
+      "page": "harbor-dark",
+      "url": "/?tenant=harbor&scheme=dark&tab=preview",
+      "violations": [],
+      "passes": 37,
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "nodes": 2
+        }
+      ]
+    },
+    {
+      "page": "qamar-light",
+      "url": "/?tenant=qamar&scheme=light&tab=preview",
+      "violations": [],
+      "passes": 37,
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "nodes": 2
+        }
+      ]
+    },
+    {
+      "page": "qamar-dark",
+      "url": "/?tenant=qamar&scheme=dark&tab=preview",
+      "violations": [],
+      "passes": 37,
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "nodes": 2
+        }
+      ]
+    }
+  ],
+  "pageErrors": []
+}

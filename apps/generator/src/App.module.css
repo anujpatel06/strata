@@ -1,0 +1,155 @@
+.app {
+  --content-max: 1360px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  min-height: 100dvh;
+}
+
+/* ------------------------------------------------------------------ skip link */
+
+.skip {
+  position: absolute;
+  top: 8px;
+  inset-inline-start: 8px;
+  z-index: 10;
+  padding: 8px 12px;
+  border-radius: var(--ui-radius);
+  background: var(--ui-ink);
+  color: var(--ui-ink-fg);
+  font-size: 13px;
+  font-weight: 500;
+  text-decoration: none;
+  transform: translateY(-200%);
+}
+
+.skip:focus {
+  transform: none;
+}
+
+/* ------------------------------------------------------------------ two-column body */
+
+/* Desktop: a fixed-height shell; the aside and the main column scroll independently. */
+.body {
+  display: grid;
+  flex: none;
+  grid-template-columns: 340px minmax(0, 1fr);
+  height: calc(100vh - var(--ui-header-h));
+  height: calc(100dvh - var(--ui-header-h));
+  min-height: 0;
+}
+
+/* Both columns are containing blocks, so visually-hidden (absolutely positioned) text deep inside them
+   is clipped by their own scroll area instead of stretching the document. */
+.aside {
+  position: relative;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  border-inline-end: 1px solid var(--ui-border);
+  background: var(--ui-panel);
+  scrollbar-width: thin;
+  scrollbar-color: var(--ui-border-strong) transparent;
+}
+
+.main {
+  position: relative;
+  min-width: 0;
+  min-height: 0;
+  overflow-y: auto;
+  scrollbar-gutter: stable;
+  scrollbar-width: thin;
+  scrollbar-color: var(--ui-border-strong) transparent;
+}
+
+/* ------------------------------------------------------------------ toolbar */
+
+.toolbar {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  border-bottom: 1px solid var(--ui-border);
+  background: var(--ui-bg);
+}
+
+.toolbarInner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0 16px;
+  max-width: var(--content-max);
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.toolbarEnd {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 0;
+}
+
+.schemeToggle {
+  width: 168px;
+}
+
+.exportBtn {
+  height: 32px;
+}
+
+/* ------------------------------------------------------------------ panels */
+
+.panels {
+  max-width: var(--content-max);
+  margin: 0 auto;
+  padding: 24px 24px 48px;
+}
+
+.panel:focus {
+  outline: none;
+}
+
+.panel:focus-visible {
+  outline: 2px solid var(--ui-text);
+  outline-offset: 4px;
+  border-radius: var(--ui-radius);
+}
+
+/* ------------------------------------------------------------------ narrow: one column, page scroll */
+
+@media (max-width: 1023.98px) {
+  .body {
+    display: block;
+    height: auto;
+  }
+  .aside {
+    overflow: visible;
+    border-inline-end: 0;
+    border-bottom: 1px solid var(--ui-border);
+  }
+  .main {
+    overflow: visible;
+  }
+  .toolbar {
+    position: static;
+  }
+  .toolbarInner,
+  .panels {
+    padding-inline: 16px;
+  }
+}
+
+@media (max-width: 559.98px) {
+  /* Controls above the tabs, so the tab underline still sits on the toolbar's bottom edge. */
+  .toolbarEnd {
+    order: -1;
+    width: 100%;
+    padding: 12px 0 4px;
+  }
+  .schemeToggle {
+    flex: 1;
+    width: auto;
+  }
+}
