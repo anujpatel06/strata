@@ -49,8 +49,16 @@ export interface PaginationProps extends Omit<HTMLAttributes<HTMLElement>, 'chil
   boundaryCount?: number;
   /** `default` shows page buttons; `compact` shows "Page 3 of 12" between previous and next. */
   variant?: 'default' | 'compact';
-  /** Accessible name of the navigation landmark. */
+  /**
+   * Accessible name. Landmarks must be unique on a page, so when a page has more than one pagination
+   * (or other navigation), name each for what it pages: "Search results pages", "Orders pages".
+   */
   label?: string;
+  /**
+   * Render as a navigation landmark (`<nav>`). Set false for paging that belongs to a component rather than the
+   * page (DataTablePagination does), which renders a labelled group instead and never collides with other landmarks.
+   */
+  landmark?: boolean;
   /** Text of the previous button; also its accessible name when the text is visually hidden. */
   previousLabel?: string;
   /** Text of the next button; also its accessible name when the text is visually hidden. */
@@ -80,11 +88,13 @@ export function Pagination({
   pageLabel = 'Page',
   ofLabel = 'of',
   isDisabled = false,
+  landmark = true,
   className,
   ...rest
 }: PaginationProps): JSX.Element {
   const { locale } = useLocale();
   const nf = useMemo(() => new Intl.NumberFormat(locale), [locale]);
+  const Root = landmark ? 'nav' : 'div';
   const count = Math.max(0, Math.floor(pageCount));
   const current = Math.min(Math.max(1, Math.floor(page)), Math.max(1, count));
   const items = variant === 'compact' ? [] : getPageItems(current, count, Math.max(0, siblingCount), Math.max(1, boundaryCount));
@@ -104,7 +114,7 @@ export function Pagination({
   );
 
   return (
-    <nav {...rest} aria-label={label} data-variant={variant} className={cx(styles.root, className)}>
+    <Root {...rest} role={landmark ? undefined : 'group'} aria-label={label} data-variant={variant} className={cx(styles.root, className)}>
       <ul className={styles.list}>
         <li className={styles.stepItem}>
           <RACButton
@@ -154,6 +164,6 @@ export function Pagination({
           </RACButton>
         </li>
       </ul>
-    </nav>
+    </Root>
   );
 }

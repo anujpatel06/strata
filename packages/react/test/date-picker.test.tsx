@@ -15,6 +15,11 @@ describe('DatePicker', () => {
     expect(segments[0]).toHaveAccessibleDescription(/The day it happened\./);
   });
 
+  it('pads months and days to two digits by default', () => {
+    render(<DatePicker label="Date" defaultValue={day(5)} />);
+    expect(screen.getAllByRole('spinbutton').map((s) => s.textContent)).toEqual(['09', '05', '2026']);
+  });
+
   it('accepts typed digits segment by segment', async () => {
     const user = userEvent.setup();
     const onChange = vi.fn();

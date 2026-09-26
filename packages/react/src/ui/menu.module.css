@@ -121,6 +121,10 @@
   margin-inline-start: auto;
   color: var(--strata-color-text-subtle);
 }
+/* The popover root always carries dir. Kept apart from :dir() (which some CSS pipelines rewrite to :lang()). */
+.popover[dir='rtl'] .chevron {
+  scale: -1 1;
+}
 .chevron:dir(rtl) {
   scale: -1 1;
 }

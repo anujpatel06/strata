@@ -69,12 +69,17 @@ export function DatePicker<T extends DateValue>({
   label,
   description,
   errorMessage,
+  shouldForceLeadingZeros = true,
   className,
   ...props
 }: DatePickerProps<T>): JSX.Element {
   const groupRef = useRef<HTMLDivElement>(null);
   return (
-    <RACDatePicker<T> {...props} className={composeRenderProps(className, (c) => cx(styles.field, c))}>
+    <RACDatePicker<T>
+      {...props}
+      shouldForceLeadingZeros={shouldForceLeadingZeros}
+      className={composeRenderProps(className, (c) => cx(styles.field, c))}
+    >
       {label != null && <Label isRequired={props.isRequired}>{label}</Label>}
       <FieldGroup ref={groupRef} className={styles.control}>
         {renderDateInput()}
@@ -104,12 +109,17 @@ export function DateRangePicker<T extends DateValue>({
   description,
   errorMessage,
   visibleMonths = 1,
+  shouldForceLeadingZeros = true,
   className,
   ...props
 }: DateRangePickerProps<T>): JSX.Element {
   const groupRef = useRef<HTMLDivElement>(null);
   return (
-    <RACDateRangePicker<T> {...props} className={composeRenderProps(className, (c) => cx(styles.field, c))}>
+    <RACDateRangePicker<T>
+      {...props}
+      shouldForceLeadingZeros={shouldForceLeadingZeros}
+      className={composeRenderProps(className, (c) => cx(styles.field, c))}
+    >
       {label != null && <Label isRequired={props.isRequired}>{label}</Label>}
       <FieldGroup ref={groupRef} className={styles.control}>
         {renderDateInput('start')}

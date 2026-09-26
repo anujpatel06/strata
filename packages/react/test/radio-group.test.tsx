@@ -53,6 +53,25 @@ describe('RadioGroup', () => {
     expect(cards[1]).toHaveAttribute('data-selected');
   });
 
+  it('marks the description of a disabled option as disabled (so contrast checkers exempt it)', () => {
+    render(<Delivery variant="card" />);
+    const pickup = screen.getByRole('radio', { name: 'Pick up' });
+    expect(pickup).toBeDisabled();
+    const express = screen.getByRole('radio', { name: 'Express' });
+    const describedBy = (el: HTMLElement) => document.getElementById(el.getAttribute('aria-describedby') ?? '');
+    expect(describedBy(express)).not.toHaveAttribute('aria-disabled');
+    render(
+      <RadioGroup label="Payout">
+        <Radio value="cheque" description="Posted to your address." isDisabled>
+          Cheque
+        </Radio>
+      </RadioGroup>,
+    );
+    const cheque = screen.getByRole('radio', { name: 'Cheque' });
+    expect(cheque).toHaveAccessibleDescription('Posted to your address.');
+    expect(describedBy(cheque)).toHaveAttribute('aria-disabled', 'true');
+  });
+
   it('reflects invalid and disabled state', () => {
     const { rerender } = render(<Delivery isInvalid />);
     expect(screen.getByRole('radiogroup')).toHaveAttribute('aria-invalid', 'true');

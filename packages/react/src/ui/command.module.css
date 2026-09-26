@@ -8,10 +8,10 @@
   align-items: center;
   box-sizing: border-box;
   padding: min(12dvh, calc(var(--strata-space-16) * 2)) var(--strata-space-4) var(--strata-space-4);
-  background: light-dark(
-    color-mix(in oklab, var(--strata-color-surface-inverse) 45%, transparent),
-    color-mix(in oklab, var(--strata-color-surface-canvas) 72%, transparent)
-  );
+  /* Dim what's behind by a fixed amount. A colour tint can't do this in both schemes: every surface token is
+     already near the page colour in dark schemes, and light-dark() gets mangled by Lightning CSS pipelines. */
+  -webkit-backdrop-filter: brightness(0.55);
+  backdrop-filter: brightness(0.55);
   font-family: var(--strata-font-body);
   font-size: var(--strata-font-size-md);
   line-height: var(--strata-line-height-normal);

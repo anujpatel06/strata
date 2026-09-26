@@ -142,8 +142,9 @@ export default async function ComponentPage({ params }: { params: Promise<{ name
         <TabPanel id="cli" className={styles.installPanel}>
           <PackageCommand dlx={`shadcn@latest add @strata/${meta.name}`} />
           <P className={styles.note}>
-            Needs the <code>@strata</code> namespace in <code>components.json</code> (see{' '}
-            <A href="/docs/installation#add-the-strata-namespace">Installation</A>). Or use the item’s URL:
+            Needs the <code>@strata</code> namespace in <code>components.json</code> and the base item (
+            <code>@strata/strata</code>) once per project — see{' '}
+            <A href="/docs/installation#add-the-strata-namespace">Installation</A>. Or use the item’s URL:
           </P>
           <PackageCommand dlx={`shadcn@latest add {{SITE_URL}}/r/${meta.name}.json`} />
         </TabPanel>

@@ -4,7 +4,7 @@ import { Breadcrumb, Breadcrumbs } from '@strata/react';
 
 export default function Example() {
   return (
-    <Breadcrumbs maxItems={3}>
+    <Breadcrumbs aria-label="Settings breadcrumbs" maxItems={3}>
       <Breadcrumb href="#">Home</Breadcrumb>
       <Breadcrumb href="#">Settings</Breadcrumb>
       <Breadcrumb href="#">Team</Breadcrumb>

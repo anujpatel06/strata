@@ -1,0 +1,35 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "search-field",
+  "type": "registry:ui",
+  "title": "Search Field",
+  "description": "A search input with a leading icon and a clear button; Escape clears and Enter submits.",
+  "dependencies": [
+    "react-aria-components@^1.21.0",
+    "@tabler/icons-react@^3.30.0"
+  ],
+  "registryDependencies": [
+    "http://localhost:3000/r/text-field.json"
+  ],
+  "files": [
+    {
+      "path": "registry/strata/ui/search-field.tsx",
+      "type": "registry:ui",
+      "content": "'use client';\n\nimport type { JSX, ReactNode, Ref } from 'react';\nimport {\n  Button as RACButton,\n  SearchField as RACSearchField,\n  composeRenderProps,\n  type SearchFieldProps as RACSearchFieldProps,\n  type ValidationResult,\n} from 'react-aria-components';\nimport { IconSearch, IconX } from '@tabler/icons-react';\nimport { Description, FieldError, FieldGroup, Input, Label } from './text-field';\nimport styles from './search-field.module.css';\n\nconst cx = (...c: Array<string | false | null | undefined>) => c.filter(Boolean).join(' ');\n\ninterface SearchFieldBaseProps extends Omit<RACSearchFieldProps, 'children' | 'aria-label' | 'aria-labelledby'> {\n  description?: ReactNode;\n  /** Shown when the field is invalid. A function receives React Aria's validation result. */\n  errorMessage?: string | ((validation: ValidationResult) => string);\n  placeholder?: string;\n  /** Accessible name of the clear button. Defaults to React Aria's localized \"Clear search\". */\n  clearLabel?: string;\n  /** Ref to the underlying `<input>`. */\n  inputRef?: Ref<HTMLInputElement>;\n  ref?: Ref<HTMLDivElement>;\n}\n\n/** A search field needs a name: a visible `label`, or `aria-label` / `aria-labelledby` when the context makes it obvious. */\nexport type SearchFieldProps = SearchFieldBaseProps &\n  (\n    | { label: ReactNode; 'aria-label'?: string; 'aria-labelledby'?: string }\n    | { label?: undefined; 'aria-label': string; 'aria-labelledby'?: string }\n    | { label?: undefined; 'aria-label'?: string; 'aria-labelledby': string }\n  );\n\n/**\n * A search input with a leading icon and a clear button that appears once there is text.\n * Escape clears the field; Enter calls `onSubmit`.\n */\nexport function SearchField({\n  label,\n  description,\n  errorMessage,\n  placeholder,\n  clearLabel,\n  inputRef,\n  className,\n  ...rest\n}: SearchFieldProps): JSX.Element {\n  return (\n    <RACSearchField {...rest} className={composeRenderProps(className, (c) => cx(styles.field, c))}>\n      {label != null && <Label isRequired={rest.isRequired}>{label}</Label>}\n      <FieldGroup className={styles.group}>\n        <IconSearch className={styles.icon} aria-hidden=\"true\" focusable=\"false\" />\n        <Input placeholder={placeholder} ref={inputRef} className={styles.input} />\n        <RACButton className={styles.clear} aria-label={clearLabel}>\n          <IconX aria-hidden=\"true\" focusable=\"false\" />\n        </RACButton>\n      </FieldGroup>\n      {description != null && <Description>{description}</Description>}\n      <FieldError>{errorMessage}</FieldError>\n    </RACSearchField>\n  );\n}\n"
+    },
+    {
+      "path": "registry/strata/ui/search-field.module.css",
+      "type": "registry:ui",
+      "content": "/* Search field — the box comes from FieldGroup (text-field), so it matches every other input. Tokens only. */\n\n.field {\n  box-sizing: border-box;\n  display: flex;\n  flex-direction: column;\n  gap: var(--strata-space-2);\n  min-inline-size: 0;\n}\n\n/* The clear button sits in the end padding, centred on the same inset as the block padding. */\n.field .group {\n  padding-inline-end: calc((var(--strata-control-height) - var(--strata-space-6)) / 2 - 1px);\n}\n\n.icon {\n  flex: none;\n  inline-size: var(--strata-space-4);\n  block-size: var(--strata-space-4);\n  color: var(--strata-color-text-subtle);\n}\n\n[data-disabled] .icon {\n  color: var(--strata-color-text-disabled);\n}\n\n.input::-webkit-search-cancel-button,\n.input::-webkit-search-decoration {\n  appearance: none;\n  display: none;\n}\n\n.clear {\n  box-sizing: border-box;\n  display: inline-flex;\n  flex: none;\n  align-items: center;\n  justify-content: center;\n  inline-size: var(--strata-space-6);\n  block-size: var(--strata-space-6);\n  margin: 0;\n  padding: 0;\n  border: 0;\n  border-radius: min(var(--strata-radius-field), var(--strata-space-1));\n  background-color: transparent;\n  color: var(--strata-color-text-subtle);\n  cursor: pointer;\n  outline: none;\n  -webkit-tap-highlight-color: transparent;\n}\n\n.clear > svg {\n  inline-size: calc(var(--strata-space-4) - 2px);\n  block-size: calc(var(--strata-space-4) - 2px);\n}\n\n.clear[data-hovered] {\n  background-color: color-mix(in oklab, var(--strata-color-text-default) 6%, transparent);\n  color: var(--strata-color-text-default);\n}\n\n.clear[data-pressed] {\n  background-color: color-mix(in oklab, var(--strata-color-text-default) 10%, transparent);\n}\n\n.clear[data-focus-visible] {\n  outline: 2px solid var(--strata-color-focus-ring);\n  outline-offset: 2px;\n}\n\n/* Keep the space so the text never jumps when the first character is typed. */\n.field[data-empty] .clear,\n.field[data-disabled] .clear,\n.field[data-readonly] .clear {\n  visibility: hidden;\n}\n\n@media (prefers-reduced-motion: no-preference) {\n  .clear {\n    transition:\n      background-color var(--strata-motion-duration-fast) var(--strata-motion-easing),\n      color var(--strata-motion-duration-fast) var(--strata-motion-easing);\n  }\n}\n"
+    }
+  ],
+  "categories": [
+    "inputs"
+  ],
+  "meta": {
+    "maturity": "beta",
+    "exports": [
+      "SearchField"
+    ]
+  }
+}

@@ -83,6 +83,8 @@ interface DataTableBaseProps<T>
   isLoading?: boolean;
   /** Number of skeleton rows while loading. Match your page size to avoid a jump. */
   loadingRowCount?: number;
+  /** Read by screen readers as each skeleton row's header while loading. */
+  loadingLabel?: string;
   /** Shown in place of rows when `rows` is empty. Pass an `<EmptyState size="sm" … />` for a richer message. */
   emptyState?: ReactNode;
   /** Overrides the theme's density for this table only. */
@@ -137,6 +139,7 @@ export function DataTable<T>({
   onRowAction,
   isLoading = false,
   loadingRowCount = 5,
+  loadingLabel = 'Loading',
   emptyState,
   density,
   stickyHeader = true,
@@ -153,6 +156,13 @@ export function DataTable<T>({
     [loadingRowCount],
   );
   const loadingKeys = useMemo(() => loadingRows.map((r) => `strata-loading-${r.__strataLoading}`), [loadingRows]);
+
+  // Every row needs a row header. Without an explicit one React Aria would pick the first column — which is the
+  // checkbox column when selection is on — so default to the first data column instead.
+  const rowHeaderIds = useMemo(() => {
+    const ids = columns.filter((c) => c.isRowHeader).map((c) => c.id);
+    return new Set(ids.length > 0 ? ids : columns.slice(0, 1).map((c) => c.id));
+  }, [columns]);
 
   // React Aria's Table doesn't forward aria-busy, so set it on the grid element directly.
   useLayoutEffect(() => {
@@ -188,7 +198,7 @@ export function DataTable<T>({
             {(col) => (
               <Column
                 id={col.id}
-                isRowHeader={col.isRowHeader}
+                isRowHeader={rowHeaderIds.has(col.id)}
                 allowsSorting={col.allowsSorting}
                 textValue={col.textValue ?? (typeof col.header === 'string' ? col.header : undefined)}
                 className={cx(styles.column, alignClass(col.align))}
@@ -206,13 +216,15 @@ export function DataTable<T>({
         </TableHeader>
 
         {isLoading ? (
-          <TableBody className={styles.body} items={loadingRows} dependencies={[columns, hasSelection]}>
+          <TableBody className={styles.body} items={loadingRows} dependencies={[columns, hasSelection, loadingLabel]}>
             {(item) => (
               <Row id={`strata-loading-${item.__strataLoading}`} className={styles.row} data-skeleton="">
                 {hasSelection && <Cell className={cx(styles.cell, styles.selectionCell)} />}
                 <Collection items={columns}>
                   {(col) => (
                     <Cell className={cx(styles.cell, alignClass(col.align))}>
+                      {/* Row headers must have text: skeleton rows announce "Loading" instead of an empty header. */}
+                      {rowHeaderIds.has(col.id) && <VisuallyHidden>{loadingLabel}</VisuallyHidden>}
                       <Skeleton
                         className={styles.skeleton}
                         radius="badge"
@@ -300,7 +312,12 @@ export function DataTableToolbar({ className, ...props }: DataTableToolbarProps)
   return <div {...props} className={cx(styles.toolbar, className)} />;
 }
 
-export interface DataTablePaginationProps extends Omit<PaginationProps, 'pageCount' | 'variant'> {
+export interface DataTablePaginationProps extends Omit<PaginationProps, 'pageCount' | 'variant' | 'landmark'> {
+  /**
+   * Render the pager as a navigation landmark. Off by default: table paging belongs to the table, so it is a
+   * labelled group and any number of tables can share a page. Turn it on with a unique `label`.
+   */
+  landmark?: boolean;
   pageSize: number;
   totalCount: number;
   /** Builds the range text. Default: "Showing 1–10 of 48". */
@@ -313,6 +330,7 @@ export function DataTablePagination({
   pageSize,
   totalCount,
   formatSummary,
+  landmark = false,
   className,
   ...paginationProps
 }: DataTablePaginationProps): JSX.Element {
@@ -344,7 +362,7 @@ export function DataTablePagination({
       <p className={styles.footerSummary} aria-live="polite">
         {summary}
       </p>
-      <Pagination {...paginationProps} page={current} pageCount={pageCount} className={styles.footerPagination} />
+      <Pagination {...paginationProps} landmark={landmark} page={current} pageCount={pageCount} className={styles.footerPagination} />
     </div>
   );
 }

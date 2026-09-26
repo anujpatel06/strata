@@ -24,7 +24,10 @@ export interface BreadcrumbsProps<T extends object> extends Omit<RACBreadcrumbsP
    * Applies to static `<Breadcrumb>` children.
    */
   maxItems?: number;
-  /** Accessible name for the landmark. */
+  /**
+   * Accessible name of the landmark (and the list). Landmarks must be unique on a page: if a page shows more
+   * than one trail, name each ("Claim breadcrumbs", "Folder breadcrumbs").
+   */
   'aria-label'?: string;
   /** Accessible name of the ellipsis button. */
   expandLabel?: string;
@@ -71,7 +74,8 @@ export function Breadcrumbs<T extends object>({
 
   return (
     <nav aria-label={ariaLabel} className={styles.nav}>
-      <RACBreadcrumbs {...props} className={cx(styles.list, className)}>
+      {/* React Aria labels the list too; give it the same name so the two never disagree. */}
+      <RACBreadcrumbs {...props} aria-label={ariaLabel} className={cx(styles.list, className)}>
         {content as RACBreadcrumbsProps<T>['children']}
       </RACBreadcrumbs>
     </nav>

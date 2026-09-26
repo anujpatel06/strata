@@ -245,7 +245,8 @@ export function FileUpload({
         <span className={styles.zoneIcon} aria-hidden>
           <IconUpload />
         </span>
-        <span className={styles.prompt}>
+        {/* aria-disabled lets checkers treat the dimmed prompt as disabled text (WCAG 1.4.3 exempts it). */}
+        <span className={styles.prompt} aria-disabled={isDisabled || undefined}>
           {dropLabel}{' '}
           <FileTrigger
             acceptedFileTypes={acceptedFileTypes}
@@ -258,7 +259,7 @@ export function FileUpload({
           </FileTrigger>
         </span>
         {hintContent ? (
-          <span id={hintId} className={styles.hint}>
+          <span id={hintId} className={styles.hint} aria-disabled={isDisabled || undefined}>
             {hintContent}
           </span>
         ) : null}

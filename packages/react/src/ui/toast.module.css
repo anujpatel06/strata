@@ -175,6 +175,7 @@
   color: var(--strata-color-text-default);
   font-size: var(--strata-font-size-md);
   font-weight: var(--strata-font-weight-semibold);
+  letter-spacing: 0;
   line-height: var(--strata-line-height-snug);
   overflow-wrap: anywhere;
 }

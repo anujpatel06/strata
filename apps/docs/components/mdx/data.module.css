@@ -196,3 +196,8 @@
     display: inline;
   }
 }
+
+.below.below {
+  color: var(--strata-color-feedback-danger-fg);
+  font-weight: var(--strata-font-weight-medium);
+}

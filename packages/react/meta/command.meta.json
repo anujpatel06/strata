@@ -171,7 +171,8 @@
     "notes": [
       "The input controls a role=\"menu\" list via aria-activedescendant (virtual focus), so screen readers announce the active result without focus leaving the input.",
       "The dialog and input are named by aria-label.",
-      "Overlays render in a portal on <body>, outside any ThemeScope. When it opens, the overlay copies data-strata-theme, data-strata-scheme and data-strata-density from the nearest [data-strata-theme] ancestor of its trigger (or of where the component is rendered, when controlled), plus dir and lang, onto its own root — so it uses the same tenant tokens and direction as the page region it came from, and nested overlays inherit from their parent overlay."
+      "Overlays render in a portal on <body>, outside any ThemeScope. When it opens, the overlay looks up data-strata-theme, data-strata-scheme, data-strata-density, dir and lang — each on the nearest ancestor that has it — starting from its trigger (or from where the component is rendered, when controlled), and copies them onto its own root — so it uses the same tenant tokens and direction as the page region it came from, and nested overlays inherit from their parent overlay.",
+      "The backdrop dims the page with backdrop-filter: brightness(0.55), so it reads in light and dark schemes alike."
     ]
   },
   "guidelines": {
@@ -197,8 +198,6 @@
     "motion.duration.fast",
     "motion.duration.normal",
     "motion.easing",
-    "color.surface.inverse (light backdrop)",
-    "color.surface.canvas (dark backdrop)",
     "color.border.subtle",
     "color.surface.sunken",
     "control-height",

@@ -116,7 +116,7 @@
       "role=\"alertdialog\" named by the title and described by the message.",
       "Clicking the backdrop does nothing — the user must choose.",
       "Initial focus goes to Cancel for danger tone (least destructive choice) and to the action otherwise.",
-      "Overlays render in a portal on <body>, outside any ThemeScope. When it opens, the overlay copies data-strata-theme, data-strata-scheme and data-strata-density from the nearest [data-strata-theme] ancestor of its trigger (or of where the component is rendered, when controlled), plus dir and lang, onto its own root — so it uses the same tenant tokens and direction as the page region it came from, and nested overlays inherit from their parent overlay."
+      "Overlays render in a portal on <body>, outside any ThemeScope. When it opens, the overlay looks up data-strata-theme, data-strata-scheme, data-strata-density, dir and lang — each on the nearest ancestor that has it — starting from its trigger (or from where the component is rendered, when controlled), and copies them onto its own root — so it uses the same tenant tokens and direction as the page region it came from, and nested overlays inherit from their parent overlay."
     ]
   },
   "guidelines": {
@@ -134,8 +134,6 @@
     "color.border.default",
     "shadow.overlay",
     "radius.container",
-    "color.surface.inverse",
-    "color.surface.canvas",
     "font.heading",
     "font.size.lg",
     "font.size.sm",

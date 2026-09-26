@@ -1,6 +1,6 @@
 # ADR-004: Docs framework
 
-- **Status:** Proposed — Claude recommended, pending Anuj. Decide before Phase 6.
+- **Status:** Accepted — decided by Anuj (2026-09-26): Next.js App Router + MDX, to match the shadcn/ui bar. Claude had recommended Astro Starlight; see “Decision” below for what changed.
 - **Date:** 2026-09-26
 - **Principles:** 6
 

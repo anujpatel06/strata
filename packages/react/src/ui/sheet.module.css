@@ -4,11 +4,10 @@
   inset: 0;
   z-index: 50;
   box-sizing: border-box;
-  /* Light schemes dim with the inverse surface; dark schemes deepen towards the canvas. color-scheme comes from the tenant tokens. */
-  background: light-dark(
-    color-mix(in oklab, var(--strata-color-surface-inverse) 45%, transparent),
-    color-mix(in oklab, var(--strata-color-surface-canvas) 72%, transparent)
-  );
+  /* Dim what's behind by a fixed amount. A colour tint can't do this in both schemes: every surface token is
+     already near the page colour in dark schemes, and light-dark() gets mangled by Lightning CSS pipelines. */
+  -webkit-backdrop-filter: brightness(0.55);
+  backdrop-filter: brightness(0.55);
   font-family: var(--strata-font-body);
   font-size: var(--strata-font-size-md);
   line-height: var(--strata-line-height-normal);
@@ -44,6 +43,14 @@
   --sheet-from: -100% 0;
   inset-inline-start: 0;
   border-inline-end: 1px solid var(--strata-color-border-default);
+}
+/* The overlay root always carries the copied dir. Kept apart from the :dir() rules (which some CSS pipelines
+   rewrite to :lang()) so an unsupported selector can't drop them. */
+.overlay[dir='rtl'] .panel[data-side='end'] {
+  --sheet-from: -100% 0;
+}
+.overlay[dir='rtl'] .panel[data-side='start'] {
+  --sheet-from: 100% 0;
 }
 .panel[data-side='end']:dir(rtl) {
   --sheet-from: -100% 0;

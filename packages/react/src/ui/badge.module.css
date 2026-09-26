@@ -40,33 +40,44 @@
 
 /* ---- soft (default) --------------------------------------------------- */
 
+/*
+ * Soft fills can match the surface they sit on (e.g. a warning badge in a selected table row, where
+ * surface.selected ≈ the warning bg). A faint same-hue edge in the reserved 1px border keeps the
+ * shape readable there and stays quiet on ordinary surfaces.
+ */
 .badge[data-variant='soft'][data-tone='neutral'] {
   --_bg: var(--strata-color-surface-sunken);
   --_fg: var(--strata-color-text-default);
+  --_border: color-mix(in oklab, var(--strata-color-border-default) 55%, transparent);
 }
 .badge[data-variant='soft'][data-tone='brand'] {
   --_bg: var(--strata-color-action-secondary-bg);
   --_fg: var(--strata-color-action-secondary-fg);
+  --_border: color-mix(in oklab, var(--strata-color-action-secondary-fg) 28%, transparent);
   --_dot: var(--strata-color-action-primary-bg);
 }
 .badge[data-variant='soft'][data-tone='info'] {
   --_bg: var(--strata-color-feedback-info-bg);
   --_fg: var(--strata-color-feedback-info-fg);
+  --_border: color-mix(in oklab, var(--strata-color-feedback-info-border) 55%, transparent);
   --_dot: var(--strata-color-feedback-info-solid);
 }
 .badge[data-variant='soft'][data-tone='success'] {
   --_bg: var(--strata-color-feedback-success-bg);
   --_fg: var(--strata-color-feedback-success-fg);
+  --_border: color-mix(in oklab, var(--strata-color-feedback-success-border) 55%, transparent);
   --_dot: var(--strata-color-feedback-success-solid);
 }
 .badge[data-variant='soft'][data-tone='warning'] {
   --_bg: var(--strata-color-feedback-warning-bg);
   --_fg: var(--strata-color-feedback-warning-fg);
+  --_border: color-mix(in oklab, var(--strata-color-feedback-warning-border) 55%, transparent);
   --_dot: var(--strata-color-feedback-warning-solid);
 }
 .badge[data-variant='soft'][data-tone='danger'] {
   --_bg: var(--strata-color-feedback-danger-bg);
   --_fg: var(--strata-color-feedback-danger-fg);
+  --_border: color-mix(in oklab, var(--strata-color-feedback-danger-border) 55%, transparent);
   --_dot: var(--strata-color-feedback-danger-solid);
 }
 

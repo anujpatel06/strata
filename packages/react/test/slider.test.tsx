@@ -68,8 +68,10 @@ describe('Slider', () => {
   });
 
   it('reflects disabled state and passes className through', () => {
-    render(<Slider label="Locked" defaultValue={10} isDisabled className="extra" />);
+    const { container } = render(<Slider label="Locked" defaultValue={10} isDisabled className="extra" />);
     expect(screen.getByRole('slider', { name: 'Locked' })).toBeDisabled();
+    // Label and output sit under an aria-disabled wrapper so contrast checkers treat them as disabled text.
+    expect(container.querySelector('output')?.closest('[aria-disabled="true"]')).not.toBeNull();
     expect(screen.getByRole('group', { name: 'Locked' })).toHaveClass('slider', 'extra');
   });
 });

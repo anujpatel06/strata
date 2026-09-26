@@ -19,7 +19,7 @@
   ],
   "props": [
     { "component": "DataTable", "name": "aria-label", "type": "string", "required": true, "description": "Names the table. Or pass aria-labelledby pointing at a visible heading." },
-    { "component": "DataTable", "name": "columns", "type": "DataTableColumn<T>[]", "required": true, "description": "{ id, header, cell: (row) => ReactNode, isRowHeader?, allowsSorting?, align?: 'start' | 'end' | 'center', width?, minWidth?, textValue? }. Mark the column that names each row isRowHeader." },
+    { "component": "DataTable", "name": "columns", "type": "DataTableColumn<T>[]", "required": true, "description": "{ id, header, cell: (row) => ReactNode, isRowHeader?, allowsSorting?, align?: 'start' | 'end' | 'center', width?, minWidth?, textValue? }. Mark the column that names each row isRowHeader. Without an isRowHeader column, the first column becomes the row header." },
     { "component": "DataTable", "name": "rows", "type": "readonly T[]", "required": true, "description": "The rows to show, already sorted and paged." },
     { "component": "DataTable", "name": "getRowId", "type": "(row: T) => string", "required": true, "description": "A stable, unique id per row. Used for selection keys and onRowAction." },
     { "component": "DataTable", "name": "selectionMode", "type": "'none' | 'single' | 'multiple'", "default": "'none'", "description": "Adds a checkbox column; multiple also adds select-all in the header." },
@@ -32,6 +32,7 @@
     { "component": "DataTable", "name": "onRowAction", "type": "(id: string) => void", "description": "Called when a row is activated (click or Enter), e.g. to open its detail page." },
     { "component": "DataTable", "name": "isLoading", "type": "boolean", "default": "false", "description": "Shows skeleton rows and sets aria-busy on the grid." },
     { "component": "DataTable", "name": "loadingRowCount", "type": "number", "default": "5", "description": "Skeleton rows while loading; match your page size to avoid a jump." },
+    { "component": "DataTable", "name": "loadingLabel", "type": "string", "default": "'Loading'", "description": "Visually hidden row-header text of each skeleton row, so rows are never announced with empty headers." },
     { "component": "DataTable", "name": "emptyState", "type": "ReactNode", "default": "'No results.'", "description": "Shown when rows is empty. Pass <EmptyState size=\"sm\" …/> for a richer message." },
     { "component": "DataTable", "name": "density", "type": "'comfortable' | 'compact'", "description": "Overrides the theme density for this table (row 48/36px)." },
     { "component": "DataTable", "name": "stickyHeader", "type": "boolean", "default": "true", "description": "Keeps the header visible while the body scrolls inside maxBlockSize." },
@@ -43,7 +44,9 @@
     { "component": "DataTablePagination", "name": "pageSize", "type": "number", "required": true, "description": "Rows per page." },
     { "component": "DataTablePagination", "name": "totalCount", "type": "number", "required": true, "description": "Total rows across all pages." },
     { "component": "DataTablePagination", "name": "onPageChange", "type": "(page: number) => void", "description": "Called with the new page." },
-    { "component": "DataTablePagination", "name": "formatSummary", "type": "(range: { start: number; end: number; total: number }) => ReactNode", "default": "\"Showing 1–10 of 48\"", "description": "Builds the range text (a polite live region)." }
+    { "component": "DataTablePagination", "name": "formatSummary", "type": "(range: { start: number; end: number; total: number }) => ReactNode", "default": "\"Showing 1–10 of 48\"", "description": "Builds the range text (a polite live region)." },
+    { "component": "DataTablePagination", "name": "landmark", "type": "boolean", "default": "false", "description": "Render the pager as a <nav> landmark. Off by default: table paging belongs to the table, so it is a labelled group and several tables can share a page. Turn on with a unique label." },
+    { "component": "DataTablePagination", "name": "label", "type": "string", "default": "'Pagination'", "description": "Accessible name of the pager, e.g. \"Payments pages\"." }
   ],
   "accessibility": {
     "keyboard": [
@@ -61,8 +64,9 @@
       "Mark the identifying column isRowHeader so screen readers announce it when moving between rows.",
       "Row and select-all checkboxes are named by React Aria (\"Select\", \"Select All\"); the select-all box shows the indeterminate state.",
       "Sort direction is shown with an arrow icon and aria-sort, not colour; unsorted sortable columns show a neutral up/down icon.",
-      "While loading, the grid is aria-busy=\"true\"; skeleton rows are disabled and their placeholders are hidden from assistive technology.",
-      "The table scrolls sideways inside its own frame on narrow screens; the page never scrolls horizontally."
+      "While loading, the grid is aria-busy=\"true\"; skeleton rows are disabled, their placeholders are hidden, and each row header reads loadingLabel (\"Loading\") so no header is empty. Column headers stay visible.",
+      "The table scrolls sideways inside its own frame on narrow screens; the page never scrolls horizontally.",
+      "DataTablePagination is a labelled group, not a landmark, by default, so several tables on one page never produce duplicate navigation landmarks."
     ]
   },
   "guidelines": {

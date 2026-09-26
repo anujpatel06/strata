@@ -1,0 +1,28 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "alert-dialog",
+  "type": "registry:ui",
+  "title": "Alert Dialog",
+  "description": "A modal confirmation that interrupts the user before a destructive or irreversible action.",
+  "dependencies": [],
+  "registryDependencies": [
+    "http://localhost:3000/r/button.json",
+    "http://localhost:3000/r/dialog.json"
+  ],
+  "files": [
+    {
+      "path": "registry/strata/ui/alert-dialog.tsx",
+      "type": "registry:ui",
+      "content": "'use client';\n\nimport { useState, type JSX, type ReactNode } from 'react';\nimport { Button } from './button';\nimport { Dialog, type DialogProps } from './dialog';\n\nexport interface AlertDialogProps\n  extends Omit<DialogProps, 'children' | 'description' | 'footer' | 'role' | 'isDismissable'> {\n  /** The question or statement, e.g. \"Delete this card?\". */\n  title: ReactNode;\n  /** The consequence, e.g. \"This can't be undone.\" */\n  children: ReactNode;\n  /** Label of the confirming button, e.g. \"Delete\". */\n  actionLabel: ReactNode;\n  /** Label of the dismissing button. */\n  cancelLabel?: ReactNode;\n  /** `danger` styles the action as destructive and moves initial focus to Cancel. */\n  tone?: 'default' | 'danger';\n  /**\n   * Called when the action is pressed. The dialog closes afterwards; if this returns a promise the action shows\n   * a pending state and the dialog closes when it resolves (it stays open if it rejects).\n   */\n  onAction?: () => void | Promise<unknown>;\n  /** Shows the action as pending and blocks Cancel/Escape — for when you track the request yourself. */\n  isPending?: boolean;\n}\n\n/**\n * A modal confirmation that interrupts the user — use it for destructive or irreversible steps. It can't be\n * dismissed by clicking outside; Escape and Cancel close it without acting.\n */\nexport function AlertDialog({\n  title,\n  children,\n  actionLabel,\n  cancelLabel = 'Cancel',\n  tone = 'default',\n  onAction,\n  isPending,\n  size = 'md',\n  isKeyboardDismissDisabled,\n  ...props\n}: AlertDialogProps): JSX.Element {\n  const [isRunning, setRunning] = useState(false);\n  const pending = isPending || isRunning;\n  const isDanger = tone === 'danger';\n\n  return (\n    <Dialog\n      {...props}\n      role=\"alertdialog\"\n      size={size}\n      title={title}\n      description={children}\n      isDismissable={false}\n      isKeyboardDismissDisabled={pending || isKeyboardDismissDisabled}\n      footer={({ close }) => (\n        <>\n          <Button variant=\"outline\" onPress={close} isDisabled={pending} autoFocus={isDanger}>\n            {cancelLabel}\n          </Button>\n          <Button\n            variant={isDanger ? 'danger' : 'primary'}\n            isPending={pending}\n            autoFocus={!isDanger}\n            onPress={() => {\n              const result = onAction?.();\n              if (result && typeof result.then === 'function') {\n                setRunning(true);\n                result.then(close, () => {}).finally(() => setRunning(false));\n              } else {\n                close();\n              }\n            }}\n          >\n            {actionLabel}\n          </Button>\n        </>\n      )}\n    />\n  );\n}\n"
+    }
+  ],
+  "categories": [
+    "overlays"
+  ],
+  "meta": {
+    "maturity": "beta",
+    "exports": [
+      "AlertDialog"
+    ]
+  }
+}

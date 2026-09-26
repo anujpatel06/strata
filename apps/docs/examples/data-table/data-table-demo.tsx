@@ -36,7 +36,7 @@ export default function Example() {
   return (
     <div style={{ display: 'grid', gap: 12, inlineSize: '100%' }}>
       <DataTable aria-label="Payments" columns={columns} rows={sorted.slice((page - 1) * 10, page * 10)} getRowId={(r) => r.id} sortDescriptor={sort} onSortChange={setSort} />
-      <DataTablePagination page={page} pageSize={10} totalCount={rows.length} onPageChange={setPage} />
+      <DataTablePagination label="Payments pages" page={page} pageSize={10} totalCount={rows.length} onPageChange={setPage} />
     </div>
   );
 }

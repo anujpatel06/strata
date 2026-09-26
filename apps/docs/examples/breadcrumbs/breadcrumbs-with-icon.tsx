@@ -5,7 +5,7 @@ import { Breadcrumb, Breadcrumbs } from '@strata/react';
 
 export default function Example() {
   return (
-    <Breadcrumbs>
+    <Breadcrumbs aria-label="Document breadcrumbs">
       <Breadcrumb href="#">
         <IconHome aria-hidden="true" stroke={1.75} />
         Home

@@ -6,6 +6,7 @@ import {
   FOUNDATIONS,
   ROLES,
   TYPE_PAIRS,
+  contrastRatio,
   generateTheme,
   roleToCssVar,
   type Role,
@@ -14,6 +15,7 @@ import { Badge, Button, ThemeScope } from '@strata/react';
 import { listRepoDir, readRepoFile } from '@/lib/repo';
 import { githubBlob } from '@/lib/site';
 import { getHouseBrand, getTenants } from '@/lib/tenants';
+import type React from 'react';
 import { CodeBlock } from './code-block';
 import { Table } from './prose';
 import styles from './data.module.css';
@@ -376,7 +378,7 @@ export function TenantGrid() {
       {tenants.map((t) => {
         const theme = generateTheme(t.brand);
         return (
-          <ThemeScope key={t.id} theme={t.id} scheme="light" className={styles.tenant} dir={t.dir} lang={t.locale}>
+          <ThemeScope key={t.id} theme={t.id} scheme="light" locale={t.locale} className={styles.tenant}>
             <div className={styles.tenantHead}>
               <span className={styles.tenantMark} aria-hidden="true" />
               <div>
@@ -512,5 +514,76 @@ export async function ShadcnMap() {
         ))}
       </tbody>
     </Table>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+
+/** Link to an ADR by number, resolved against docs/adr at build time (so renamed files don't break links). */
+export function AdrLink({ n, children }: { n: string; children?: React.ReactNode }) {
+  const file = listRepoDir('docs', 'adr').find((f) => f.startsWith(`${n}-`));
+  const href = file ? githubBlob(`docs/adr/${file}`) : githubBlob('docs/adr');
+  return (
+    <a href={href} className={styles.link}>
+      {children ?? `ADR-${n}`}
+    </a>
+  );
+}
+
+/**
+ * Pairs the shadcn bridge does NOT guarantee: brand fills used as text or as chart marks on the page
+ * background. Ratios computed from each theme's final hex values at build time, floored (never rounded up).
+ */
+export function ShadcnGaps() {
+  const brands = [...getTenants().map((t) => ({ name: t.name, brand: t.brand })), { name: 'House', brand: getHouseBrand() }];
+  const cols = [
+    { label: '--destructive', role: 'feedback.danger.solid' as Role, need: 4.5 },
+    { label: '--primary', role: 'action.primary.bg' as Role, need: 4.5 },
+    { label: '--chart-5', role: 'feedback.warning.solid' as Role, need: 3 },
+  ];
+  return (
+    <figure className={styles.figure}>
+      <Table aria-label="Unguaranteed shadcn pairs">
+        <thead>
+          <tr>
+            <th scope="col">Theme</th>
+            {cols.map((c) => (
+              <th key={c.label} scope="col" data-num="">
+                <Code>{c.label}</Code>
+              </th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {brands.flatMap(({ name, brand }) => {
+            const theme = generateTheme(brand);
+            return (['light', 'dark'] as const).map((scheme) => {
+              const roles = theme.schemes[scheme].roles;
+              return (
+                <tr key={`${name}-${scheme}`}>
+                  <td className={styles.nowrap}>
+                    {name} · {scheme}
+                  </td>
+                  {cols.map((c) => {
+                    const r = contrastRatio(roles[c.role].hex, roles['surface.canvas'].hex);
+                    return (
+                      <td key={c.label} data-num="" className={r < c.need ? styles.below : undefined}>
+                        {floor2(r)}:1
+                        {r < c.need && <span className="visually-hidden"> (below {c.need}:1)</span>}
+                      </td>
+                    );
+                  })}
+                </tr>
+              );
+            });
+          })}
+        </tbody>
+      </Table>
+      <figcaption className={styles.caption}>
+        Each colour against <Code>--background</Code>. WCAG 2.x ratios from each theme’s final hex values, computed
+        when this page was built and floored, never rounded up. Text needs 4.5:1; chart marks need 3:1 (non-text
+        contrast). Values below the minimum are in bold red.
+      </figcaption>
+    </figure>
   );
 }

@@ -40,10 +40,12 @@ export function Slider<T extends number | number[]>({
   const { direction } = useLocale();
   return (
     <RACSlider {...rest} className={composeRenderProps(className, (c) => cx(styles.slider, c))}>
-      {({ state }) => (
+      {({ state, isDisabled }) => (
         <>
           {(label != null || showOutput) && (
-            <div className={styles.header}>
+            // aria-disabled lets contrast checkers (axe) exempt the dimmed label/output of a disabled slider
+            // (WCAG 1.4.3); React Aria doesn't forward aria-disabled to the slider group itself.
+            <div className={styles.header} aria-disabled={isDisabled || undefined}>
               {label != null && <Label>{label}</Label>}
               {showOutput && (
                 <RACSliderOutput className={styles.output}>

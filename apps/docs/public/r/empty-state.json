@@ -1,0 +1,31 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "empty-state",
+  "type": "registry:ui",
+  "title": "Empty State",
+  "description": "What to show when there is nothing to show: no data yet, no results, or nothing left to do.",
+  "dependencies": [],
+  "registryDependencies": [],
+  "files": [
+    {
+      "path": "registry/strata/ui/empty-state.tsx",
+      "type": "registry:ui",
+      "content": "'use client';\n\nimport type { HTMLAttributes, JSX, ReactNode, Ref } from 'react';\nimport styles from './empty-state.module.css';\n\nconst cx = (...c: Array<string | false | null | undefined>) => c.filter(Boolean).join(' ');\n\nexport interface EmptyStateProps extends Omit<HTMLAttributes<HTMLDivElement>, 'title'> {\n  /** Decorative icon, shown in a tinted tile above the title. */\n  icon?: ReactNode;\n  title: ReactNode;\n  /** One or two sentences: why it's empty and what to do next. */\n  description?: ReactNode;\n  /** Primary next step, usually a Button (or a Button and a Link). */\n  action?: ReactNode;\n  /** `sm` for tables, popovers and cards; `md` for whole pages or sections. */\n  size?: 'sm' | 'md';\n  /** Heading level of the title. */\n  level?: 2 | 3 | 4 | 5 | 6;\n  ref?: Ref<HTMLDivElement>;\n}\n\n/** What to show when there is nothing to show — no data yet, no results, or nothing left to do. */\nexport function EmptyState({\n  icon,\n  title,\n  description,\n  action,\n  size = 'md',\n  level = 3,\n  className,\n  children,\n  ...rest\n}: EmptyStateProps): JSX.Element {\n  const Heading = `h${level}` as const;\n  return (\n    <div {...rest} data-size={size} className={cx(styles.empty, className)}>\n      {icon != null && icon !== false && (\n        <div className={styles.icon} aria-hidden=\"true\">\n          {icon}\n        </div>\n      )}\n      <div className={styles.text}>\n        <Heading className={styles.title}>{title}</Heading>\n        {description != null && description !== false && <p className={styles.description}>{description}</p>}\n      </div>\n      {children}\n      {action != null && action !== false && <div className={styles.action}>{action}</div>}\n    </div>\n  );\n}\n"
+    },
+    {
+      "path": "registry/strata/ui/empty-state.module.css",
+      "type": "registry:ui",
+      "content": ".empty {\n  --_tile: var(--strata-space-12);\n  --_glyph: var(--strata-space-6);\n\n  box-sizing: border-box;\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  gap: var(--strata-space-4);\n  inline-size: 100%;\n  padding-block: var(--strata-space-12);\n  padding-inline: var(--strata-space-6);\n  color: var(--strata-color-text-default);\n  font-family: var(--strata-font-body);\n  text-align: center;\n}\n\n.empty[data-size='sm'] {\n  --_tile: var(--strata-space-10);\n  --_glyph: var(--strata-space-5);\n\n  gap: var(--strata-space-3);\n  padding-block: var(--strata-space-8);\n  padding-inline: var(--strata-space-4);\n}\n\n.icon {\n  display: grid;\n  flex: none;\n  place-items: center;\n  inline-size: var(--_tile);\n  block-size: var(--_tile);\n  /* Follows the brand's container shape, capped so round brands get a squircle, not a coin. */\n  border-radius: min(var(--strata-radius-container), 30%);\n  background-color: var(--strata-color-surface-sunken);\n  box-shadow: inset 0 0 0 1px var(--strata-color-border-subtle);\n  color: var(--strata-color-text-subtle);\n}\n\n.icon > svg {\n  inline-size: var(--_glyph);\n  block-size: var(--_glyph);\n}\n\n.text {\n  display: grid;\n  justify-items: center;\n  gap: var(--strata-space-1);\n  max-inline-size: 100%;\n}\n\n.title {\n  margin: 0;\n  font-family: var(--strata-font-heading);\n  font-size: var(--strata-font-size-lg);\n  font-weight: var(--strata-font-weight-semibold);\n  /* Heading tracking is tuned for display sizes; at lg (16px) and below it closes up word spaces. */\n  letter-spacing: 0;\n  line-height: var(--strata-line-height-snug);\n  text-wrap: balance;\n}\n\n.empty[data-size='sm'] .title {\n  font-size: var(--strata-font-size-md);\n}\n\n.description {\n  max-inline-size: 48ch;\n  margin: 0;\n  color: var(--strata-color-text-subtle);\n  font-size: var(--strata-font-size-sm);\n  line-height: var(--strata-line-height-normal);\n  text-wrap: pretty;\n}\n\n.action {\n  display: flex;\n  flex-wrap: wrap;\n  align-items: center;\n  justify-content: center;\n  gap: var(--strata-space-2);\n  margin-block-start: var(--strata-space-2);\n}\n\n.empty[data-size='sm'] .action {\n  margin-block-start: var(--strata-space-1);\n}\n"
+    }
+  ],
+  "categories": [
+    "feedback"
+  ],
+  "docs": "Strata components read --strata-* tokens. Install them once: npx shadcn@latest add http://localhost:3000/r/strata.json",
+  "meta": {
+    "maturity": "beta",
+    "exports": [
+      "EmptyState"
+    ]
+  }
+}

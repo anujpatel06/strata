@@ -54,7 +54,8 @@
   font-family: var(--strata-font-heading);
   font-size: var(--strata-font-size-lg);
   font-weight: var(--strata-font-weight-semibold);
-  letter-spacing: var(--strata-font-heading-tracking);
+  /* Heading tracking is tuned for display sizes; at lg (16px) and below it closes up word spaces. */
+  letter-spacing: 0;
   line-height: var(--strata-line-height-snug);
   text-wrap: balance;
 }

@@ -1,10 +1,10 @@
-The Strata registry is a folder of JSON files the [shadcn CLI](https://ui.shadcn.com/docs/registry) knows how to install. It is built from the same files as the npm package — the component source in `packages/react/src/ui` and one `meta.json` per component — so the two can’t drift apart.
+The Strata registry is a folder of JSON files the [shadcn CLI](https://ui.shadcn.com/docs/registry) knows how to install. It is built from the same files as the npm package — the component source in `packages/react/src/ui` and one `meta.json` per component — so the two can’t drift apart (<AdrLink n="011" />).
 
 ## How it’s built
 
 <PackageCommand run="registry" />
 
-The script (`packages/react/scripts/build-registry.mjs`) reads every `packages/react/meta/*.meta.json`, the component files each one lists, and every `tenants/*/brand.json`, then writes `apps/docs/public/r`, which this site serves at `/r`.
+The script (`packages/react/scripts/build-registry.mjs`) reads every `packages/react/meta/*.meta.json`, the component files each one lists, and every `tenants/*/brand.json` — the house brand included — then writes `apps/docs/public/r`, which this site serves at `/r`.
 
 Before it writes anything, it checks that each component can actually be installed on its own:
 
@@ -12,29 +12,31 @@ Before it writes anything, it checks that each component can actually be install
 - a component only imports its own files, siblings listed in `registryDependencies`, and npm packages listed in `dependencies` — never the barrel or another Strata package;
 - every item matches the shadcn registry-item schema.
 
-A component that fails is left out and reported, and the script exits with an error. Set `STRATA_REGISTRY_URL` to the deployed origin so item URLs point at it.
+A component that fails is left out and reported, and the script exits with an error.
+
+Item URLs are absolute, so the registry must be built for the origin that serves it: `STRATA_REGISTRY_URL` has to equal the site’s URL. The docs build does this for you — its `prebuild` step regenerates the registry with `STRATA_REGISTRY_URL` set to `NEXT_PUBLIC_SITE_URL` (default `http://localhost:3000`).
 
 ## Item types
 
 <RegistryItems />
 
-Components land in your `components/ui` folder side by side, because they import each other as `./button`. npm dependencies are pinned to the ranges Strata builds and tests against.
+Components land in your `components/ui` folder side by side, because they import each other as `./button`. npm dependencies are pinned to the ranges Strata builds and tests against. Strata components don’t use Tailwind — they are CSS Modules that read `--strata-*` variables — so they work whether or not your project has Tailwind set up.
 
-## Theme items: the shadcn bridge
+## Token files
 
-A `theme-<tenant>` item re-expresses a Strata theme as shadcn/ui’s own variables, in the `oklch()` format shadcn uses since Tailwind v4. Add one to an existing shadcn project and its components pick up the tenant’s palette — light and dark — without installing any Strata component.
+A `strata-tokens-<id>` item writes `styles/strata-<id>.css`. Its blocks use this selector:
 
-<PackageCommand dlx="shadcn@latest add {{SITE_URL}}/r/theme-harbor.json" />
+```css
+:root, [data-strata-theme="<id>"], [data-strata-scheme]:not([data-strata-theme]) { … }
+```
 
-Every shadcn variable maps to a Strata role, so the pairs shadcn draws together — `--foreground` on `--background`, `--primary-foreground` on `--primary` — inherit the contrast checks the solver already passed.
-
-<ShadcnMap />
-
-The mapping lives in `packages/theme-engine/src/export/shadcn.ts` (`toShadcnCssVars`). It is a bridge, not the whole system: shadcn has no roles for feedback surfaces or density, so those stay Strata-only.
+- `:root` makes the file’s tenant the default for the whole app.
+- `[data-strata-theme="<id>"]` keeps the tenant addressable when several token files are loaded, so one page can show more than one tenant. The last file loaded wins `:root`.
+- `[data-strata-scheme]:not([data-strata-theme])` lets a `ThemeScope` with only `scheme` or `density` switch dark mode or density for a region without naming a tenant.
 
 ## Install by name
 
-Add the namespace to `components.json` once:
+Add the namespace to `components.json` once, install the base, then add components:
 
 <CodeBlock title="components.json">
 
@@ -48,6 +50,34 @@ Add the namespace to `components.json` once:
 
 </CodeBlock>
 
-Then any item installs by name — components, token files and themes alike:
+<PackageCommand dlx="shadcn@latest add @strata/strata" />
 
-<PackageCommand dlx="shadcn@latest add @strata/strata @strata/button @strata/theme-vela" />
+<PackageCommand dlx="shadcn@latest add @strata/button @strata/dialog" />
+
+`@strata/strata` installs the house tokens and `ThemeScope`. For a tenant’s tokens, add `@strata/strata-tokens-vela` (or `-harbor`, `-qamar`) instead.
+
+## The shadcn bridge
+
+A `theme-<id>` item re-expresses a Strata theme as shadcn/ui’s own variables, in the `oklch()` format shadcn uses since Tailwind v4. Add one to an existing shadcn project and its components pick up the tenant’s palette — light and dark — without installing any Strata component.
+
+<PackageCommand dlx="shadcn@latest add @strata/theme-harbor" />
+
+Every shadcn variable maps to a Strata role:
+
+<ShadcnMap />
+
+### What it guarantees
+
+The pairs shadcn components draw together inherit the contrast checks the solver already passed: every `--*-foreground` on its own surface, `--muted-foreground` on `--background` and `--card`, and `--ring` and `--input` against `--background`.
+
+### What it doesn’t
+
+shadcn also uses some fills in ways Strata’s roles never promised. These are the ones to watch, for every tenant:
+
+- `--destructive` used as **text** — shadcn’s form messages and destructive menu items use `text-destructive`. Strata only guarantees `--destructive-foreground` on a `--destructive` fill.
+- `--primary` used as **text**, e.g. shadcn’s `link` button variant. Strata guarantees `--primary-foreground` on `--primary`, not `--primary` on the page.
+- **Chart colours** against the background. `--chart-5` is the warning fill and is light by design.
+
+<ShadcnGaps />
+
+The mapping lives in `packages/theme-engine/src/export/shadcn.ts` (`toShadcnCssVars`). Strata-only roles — feedback surfaces, density — have no shadcn equivalent and stay out of the bridge.

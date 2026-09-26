@@ -26,7 +26,8 @@
 }
 
 .group[data-size='sm'] {
-  --_h: calc(var(--strata-control-height) - var(--strata-space-2));
+  /* One 8px step below md, but never so small that a segment drops under a 24px target (WCAG 2.5.8). */
+  --_h: max(calc(var(--strata-control-height) - var(--strata-space-2)), calc(var(--strata-space-6) + 2 * var(--_pad)));
 }
 
 .group[data-orientation='vertical'] {
@@ -53,7 +54,9 @@
   align-items: center;
   justify-content: center;
   gap: var(--strata-space-2);
-  min-inline-size: 0;
+  /* ≥ 24×24px target at every size and density (WCAG 2.5.8). */
+  min-inline-size: var(--strata-space-6);
+  min-block-size: var(--strata-space-6);
   margin: 0;
   padding-block: 0;
   border: 1px solid transparent;

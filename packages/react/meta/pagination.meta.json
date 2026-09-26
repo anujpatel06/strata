@@ -21,7 +21,8 @@
     { "component": "Pagination", "name": "siblingCount", "type": "number", "default": "1", "description": "Pages shown each side of the current page." },
     { "component": "Pagination", "name": "boundaryCount", "type": "number", "default": "1", "description": "Pages always shown at the start and end." },
     { "component": "Pagination", "name": "variant", "type": "'default' | 'compact'", "default": "'default'", "description": "compact shows \"Page 3 of 12\" instead of page buttons." },
-    { "component": "Pagination", "name": "label", "type": "string", "default": "'Pagination'", "description": "Name of the navigation landmark. Make it specific when a page has more than one." },
+    { "component": "Pagination", "name": "label", "type": "string", "default": "'Pagination'", "description": "Accessible name. Landmarks must be unique on a page: with more than one pagination, name each for what it pages (\"Search results pages\")." },
+    { "component": "Pagination", "name": "landmark", "type": "boolean", "default": "true", "description": "Render as a <nav> landmark. false renders a labelled group, for paging that belongs to a component (DataTablePagination defaults to false)." },
     { "component": "Pagination", "name": "previousLabel", "type": "string", "default": "'Previous'", "description": "Previous button text; stays its accessible name when the text is hidden." },
     { "component": "Pagination", "name": "nextLabel", "type": "string", "default": "'Next'", "description": "Next button text; stays its accessible name when the text is hidden." },
     { "component": "Pagination", "name": "pageLabel", "type": "string", "default": "'Page'", "description": "Word used in page button names (\"Page 3\") and the compact summary." },
@@ -34,7 +35,7 @@
       { "keys": "Enter / Space", "action": "Goes to the focused page." }
     ],
     "notes": [
-      "Renders <nav aria-label=\"Pagination\"> around a list of buttons.",
+      "Renders <nav aria-label=\"Pagination\"> around a list of buttons (a labelled group with landmark={false}). Give each instance a unique label when a page has more than one.",
       "The current page has aria-current=\"page\" and an outline, not only a colour change.",
       "Page buttons are named \"Page 3\"; ellipses are hidden from assistive technology.",
       "At the first or last page, previous/next keep focus and are marked aria-disabled instead of being removed from the tab order.",
@@ -46,7 +47,8 @@
     "do": [
       "Pair with a result count (\"Showing 1–10 of 48\") — DataTablePagination does this for tables.",
       "Keep the page size stable while people page.",
-      "Reset to page 1 when filters change."
+      "Reset to page 1 when filters change.",
+      "Give each pagination on a page its own label, e.g. \"Search results pages\"."
     ],
     "dont": [
       "Don't paginate lists short enough to show in full.",

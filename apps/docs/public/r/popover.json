@@ -1,0 +1,33 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "popover",
+  "type": "registry:ui",
+  "title": "Popover",
+  "description": "A floating panel anchored to a trigger, for rich or interactive content such as a small form, filters or details.",
+  "dependencies": [
+    "react-aria-components@^1.21.0"
+  ],
+  "registryDependencies": [],
+  "files": [
+    {
+      "path": "registry/strata/ui/popover.tsx",
+      "type": "registry:ui",
+      "content": "'use client';\n\nimport { useCallback, type JSX, type Ref } from 'react';\nimport {\n  OverlayArrow,\n  Popover as RACPopover,\n  PopoverContext,\n  composeRenderProps,\n  useSlottedContext,\n  type PopoverProps as RACPopoverProps,\n} from 'react-aria-components';\nimport styles from './popover.module.css';\n\nconst cx = (...c: Array<string | false | null | undefined>) => c.filter(Boolean).join(' ');\n\n/**\n * Overlays portal to <body>, outside any ThemeScope. At open time copy the trigger's scope attributes\n * (data-strata-theme/scheme/density) and dir/lang onto the overlay root so it resolves the same tokens.\n */\nconst SCOPE_ATTRS = ['data-strata-theme', 'data-strata-scheme', 'data-strata-density'] as const;\nfunction mirrorScope(overlay: HTMLElement, source: Element | null | undefined): void {\n  if (!source || overlay.contains(source)) return;\n  for (const name of SCOPE_ATTRS) {\n    // Look each attribute up on its own: a single-tenant app themes :root and scopes only the scheme.\n    const value = source.closest(`[${name}]`)?.getAttribute(name);\n    if (value) overlay.setAttribute(name, value);\n  }\n  for (const name of ['dir', 'lang']) {\n    const value = source.closest(`[${name}]`)?.getAttribute(name);\n    if (value) overlay.setAttribute(name, value);\n  }\n}\n\nexport interface PopoverProps extends RACPopoverProps {\n  /** Draws a small arrow pointing at the trigger. */\n  showArrow?: boolean;\n  ref?: Ref<HTMLElement>;\n}\n\n/**\n * A floating panel anchored to a trigger — for rich, interactive content (filters, details, small forms). Put it\n * inside a DialogTrigger next to its trigger button; it gets `role=\"dialog\"`, traps focus and closes on Escape\n * or outside click. For short, non-interactive hints use a Tooltip.\n */\nexport function Popover({ showArrow, children, className, offset, ref, ...props }: PopoverProps): JSX.Element {\n  const context = useSlottedContext(PopoverContext);\n  const source = props.triggerRef ?? context?.triggerRef;\n  const setRef = useCallback(\n    (node: HTMLElement | null) => {\n      if (node) mirrorScope(node, source?.current);\n      if (typeof ref === 'function') return ref(node);\n      if (ref) ref.current = node;\n    },\n    [source, ref],\n  );\n\n  return (\n    <RACPopover\n      {...props}\n      ref={setRef}\n      offset={offset ?? context?.offset ?? (showArrow ? 10 : 6)}\n      className={composeRenderProps(className, (c) => cx(styles.popover, c))}\n    >\n      {composeRenderProps(children, (content) => (\n        <>\n          {showArrow && (\n            <OverlayArrow className={styles.arrow}>\n              <svg viewBox=\"0 0 12 12\" aria-hidden>\n                <path d=\"M0 0 L6 6 L12 0\" />\n              </svg>\n            </OverlayArrow>\n          )}\n          {content}\n        </>\n      ))}\n    </RACPopover>\n  );\n}\n"
+    },
+    {
+      "path": "registry/strata/ui/popover.module.css",
+      "type": "registry:ui",
+      "content": "/* Portalled to <body>, so it re-applies the ThemeScope base (font, colour, box model). */\n.popover {\n  --popover-shift: 0 0;\n  z-index: 50;\n  box-sizing: border-box;\n  min-inline-size: 0;\n  max-inline-size: calc(100vw - var(--strata-space-4) * 2);\n  padding: var(--popover-padding, var(--strata-card-inset));\n  background: var(--strata-color-surface-raised);\n  border: 1px solid var(--strata-color-border-default);\n  border-radius: var(--strata-radius-container);\n  box-shadow: var(--strata-shadow-overlay);\n  outline: none;\n  font-family: var(--strata-font-body);\n  font-size: var(--strata-font-size-md);\n  line-height: var(--strata-line-height-normal);\n  color: var(--strata-color-text-default);\n  -webkit-font-smoothing: antialiased;\n  -moz-osx-font-smoothing: grayscale;\n}\n.popover *,\n.popover *::before,\n.popover *::after {\n  box-sizing: border-box;\n}\n.popover[data-placement='top'] {\n  --popover-shift: 0 var(--strata-space-1);\n}\n.popover[data-placement='bottom'] {\n  --popover-shift: 0 calc(var(--strata-space-1) * -1);\n}\n.popover[data-placement='left'] {\n  --popover-shift: var(--strata-space-1) 0;\n}\n.popover[data-placement='right'] {\n  --popover-shift: calc(var(--strata-space-1) * -1) 0;\n}\n\n/* Arrow: the open path's fill covers the panel border where they meet, the stroke continues it. */\n.arrow svg {\n  display: block;\n  inline-size: var(--strata-space-3);\n  block-size: var(--strata-space-3);\n}\n.arrow path {\n  fill: var(--strata-color-surface-raised);\n  stroke: var(--strata-color-border-default);\n  stroke-width: 1px;\n  vector-effect: non-scaling-stroke;\n}\n.arrow[data-placement='bottom'] svg {\n  rotate: 180deg;\n}\n.arrow[data-placement='left'] svg {\n  rotate: -90deg;\n}\n.arrow[data-placement='right'] svg {\n  rotate: 90deg;\n}\n\n@media (prefers-reduced-motion: no-preference) {\n  .popover[data-entering] {\n    animation: pop var(--strata-motion-duration-fast) var(--strata-motion-easing);\n  }\n  .popover[data-exiting] {\n    animation: fade var(--strata-motion-duration-fast) var(--strata-motion-easing) reverse;\n  }\n}\n\n@keyframes pop {\n  from {\n    opacity: 0;\n    translate: var(--popover-shift);\n  }\n}\n@keyframes fade {\n  from {\n    opacity: 0;\n  }\n}\n"
+    }
+  ],
+  "categories": [
+    "overlays"
+  ],
+  "docs": "Strata components read --strata-* tokens. Install them once: npx shadcn@latest add http://localhost:3000/r/strata.json",
+  "meta": {
+    "maturity": "beta",
+    "exports": [
+      "Popover"
+    ]
+  }
+}

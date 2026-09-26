@@ -63,6 +63,8 @@ describe('Breadcrumbs', () => {
         <Breadcrumb>Claims</Breadcrumb>
       </Breadcrumbs>,
     );
-    expect(screen.getByRole('navigation', { name: 'You are here' }).querySelector('ol')).toHaveClass('list', 'custom');
+    const list = screen.getByRole('navigation', { name: 'You are here' }).querySelector('ol');
+    expect(list).toHaveClass('list', 'custom');
+    expect(list).toHaveAttribute('aria-label', 'You are here');
   });
 });

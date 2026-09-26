@@ -4,13 +4,15 @@
   "type": "registry:ui",
   "title": "Theme Scope",
   "description": "Applies a Strata theme, colour scheme and density to everything inside it.",
-  "dependencies": [],
+  "dependencies": [
+    "react-aria-components@^1.21.0"
+  ],
   "registryDependencies": [],
   "files": [
     {
       "path": "registry/strata/ui/theme-scope.tsx",
       "type": "registry:ui",
-      "content": "'use client';\n\nimport type { HTMLAttributes, JSX } from 'react';\nimport styles from './theme-scope.module.css';\n\nexport interface ThemeScopeProps extends HTMLAttributes<HTMLDivElement> {\n  /** Tenant id whose token CSS is loaded under [data-strata-theme=\"<id>\"]. Omit to inherit (e.g. :root theme). */\n  theme?: string;\n  scheme?: 'light' | 'dark';\n  /** Omit to use the tenant's default density. */\n  density?: 'comfortable' | 'compact';\n}\n\n/**\n * Applies a Strata theme to a subtree. Token CSS (from @strata/tokens or the theme engine's toCSS) keys off\n * these data attributes, which must sit on the SAME element — that's all this component does, plus the\n * base surface, text colour and body font so the subtree renders like a page.\n */\nexport function ThemeScope({ theme, scheme = 'light', density, className, ...rest }: ThemeScopeProps): JSX.Element {\n  return (\n    <div\n      data-strata-theme={theme}\n      data-strata-scheme={scheme}\n      data-strata-density={density}\n      className={[styles.scope, className].filter(Boolean).join(' ')}\n      {...rest}\n    />\n  );\n}\n"
+      "content": "'use client';\n\nimport type { HTMLAttributes, JSX } from 'react';\nimport { I18nProvider } from 'react-aria-components';\nimport styles from './theme-scope.module.css';\n\nexport interface ThemeScopeProps extends HTMLAttributes<HTMLDivElement> {\n  /** Tenant id whose token CSS is loaded under [data-strata-theme=\"<id>\"]. Omit to inherit (e.g. a :root theme). */\n  theme?: string;\n  scheme?: 'light' | 'dark';\n  /** Omit to use the tenant's default density. */\n  density?: 'comfortable' | 'compact';\n  /**\n   * BCP 47 locale for the subtree, e.g. \"ar-AE\". Sets React Aria's locale (keyboard direction, date formats,\n   * popover placement) and, unless you pass them, `lang` and `dir`. React Aria reads direction from the locale,\n   * not from the DOM, so right-to-left regions need this.\n   */\n  locale?: string;\n}\n\nconst RTL_LANGUAGES = new Set(['ar', 'he', 'fa', 'ur', 'ps', 'yi', 'dv', 'ku', 'sd', 'ug']);\n\n/**\n * Applies a Strata theme to a subtree. Token CSS (from @strata/tokens or the theme engine's toCSS) keys off\n * these data attributes, which must sit on the SAME element. Overlays (dialogs, menus, toasts) portal to <body>\n * and copy these attributes from the nearest scope when they open, so they match the region they came from.\n */\nexport function ThemeScope({\n  theme,\n  scheme = 'light',\n  density,\n  locale,\n  lang,\n  dir,\n  className,\n  ...rest\n}: ThemeScopeProps): JSX.Element {\n  const language = locale?.split('-')[0]?.toLowerCase();\n  const scope = (\n    <div\n      data-strata-theme={theme}\n      data-strata-scheme={scheme}\n      data-strata-density={density}\n      lang={lang ?? language}\n      dir={dir ?? (language ? (RTL_LANGUAGES.has(language) ? 'rtl' : 'ltr') : undefined)}\n      className={[styles.scope, className].filter(Boolean).join(' ')}\n      {...rest}\n    />\n  );\n  return locale ? <I18nProvider locale={locale}>{scope}</I18nProvider> : scope;\n}\n"
     },
     {
       "path": "registry/strata/ui/theme-scope.module.css",

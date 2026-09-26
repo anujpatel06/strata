@@ -1,0 +1,34 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "switch",
+  "type": "registry:ui",
+  "title": "Switch",
+  "description": "Turns a setting on or off immediately, with its label on the inline-end side and optional help text.",
+  "dependencies": [
+    "react-aria-components@^1.21.0"
+  ],
+  "registryDependencies": [
+    "http://localhost:3000/r/text-field.json"
+  ],
+  "files": [
+    {
+      "path": "registry/strata/ui/switch.tsx",
+      "type": "registry:ui",
+      "content": "'use client';\n\nimport type { JSX, ReactNode, Ref } from 'react';\nimport {\n  SwitchButton as RACSwitchButton,\n  SwitchField as RACSwitchField,\n  composeRenderProps,\n  type SwitchFieldProps as RACSwitchFieldProps,\n} from 'react-aria-components';\nimport { Description } from './text-field';\nimport styles from './switch.module.css';\n\nconst cx = (...c: Array<string | false | null | undefined>) => c.filter(Boolean).join(' ');\n\nexport interface SwitchProps extends Omit<RACSwitchFieldProps, 'children'> {\n  /** The label, shown on the inline-end side of the track. Without one, pass `aria-label`. */\n  children?: ReactNode;\n  /** Help text under the label, linked with `aria-describedby`. */\n  description?: ReactNode;\n  ref?: Ref<HTMLDivElement>;\n}\n\n/**\n * An on/off control for settings that apply immediately. Space toggles.\n * Use a Checkbox instead when the choice is submitted with a form.\n */\nexport function Switch({ children, description, className, ...rest }: SwitchProps): JSX.Element {\n  return (\n    <RACSwitchField {...rest} className={composeRenderProps(className, (c) => cx(styles.switch, c))}>\n      <RACSwitchButton className={styles.button}>\n        <span className={styles.track} aria-hidden=\"true\">\n          <span className={styles.thumb} />\n        </span>\n        {children != null && <span className={styles.label}>{children}</span>}\n      </RACSwitchButton>\n      {description != null && <Description className={styles.help}>{description}</Description>}\n    </RACSwitchField>\n  );\n}\n"
+    },
+    {
+      "path": "registry/strata/ui/switch.module.css",
+      "type": "registry:ui",
+      "content": "/*\n * Switch — tokens only. The track is sized from the md font size (36×20 at 14px), i.e. 2.57em × 1.43em of the label.\n * The thumb uses action.primary.fg in both states: it contrasts with the on-track (primary) by construction\n * and with the off-track (border.strong) in every tenant, and it never changes colour mid-toggle.\n */\n\n.switch {\n  /* Resolved against the md font token (not em) so the description below lines up regardless of its own size. */\n  --_w: calc(var(--strata-font-size-md) * 2.5714);\n  --_h: calc(var(--strata-font-size-md) * 1.4286);\n  --_pad: 2px;\n  --_gap: var(--strata-space-2);\n\n  box-sizing: border-box;\n  display: flex;\n  flex-direction: column;\n  gap: 2px;\n  min-inline-size: 0;\n  font-size: var(--strata-font-size-md);\n}\n\n.button {\n  box-sizing: border-box;\n  display: inline-flex;\n  align-items: flex-start;\n  gap: var(--_gap);\n  inline-size: fit-content;\n  max-inline-size: 100%;\n  min-block-size: var(--strata-space-6);\n  padding-block: calc((var(--strata-space-6) - 1lh) / 2);\n  color: var(--strata-color-text-default);\n  line-height: var(--strata-line-height-normal);\n  cursor: pointer;\n  -webkit-tap-highlight-color: transparent;\n}\n\n.track {\n  --_dir: 1;\n\n  box-sizing: border-box;\n  display: inline-flex;\n  flex: none;\n  align-items: center;\n  inline-size: var(--_w);\n  block-size: var(--_h);\n  margin-block-start: calc((1lh - var(--_h)) / 2);\n  padding: var(--_pad);\n  border-radius: var(--strata-radius-pill);\n  background-color: var(--strata-color-border-strong);\n}\n\n.track:dir(rtl) {\n  --_dir: -1;\n}\n\n.thumb {\n  box-sizing: border-box;\n  display: block;\n  inline-size: calc(var(--_h) - 2 * var(--_pad));\n  block-size: calc(var(--_h) - 2 * var(--_pad));\n  border-radius: var(--strata-radius-pill);\n  background-color: var(--strata-color-action-primary-fg);\n  box-shadow: var(--strata-shadow-raised);\n}\n\n.label {\n  min-inline-size: 0;\n  text-wrap: pretty;\n}\n\n.help {\n  padding-inline-start: calc(var(--_w) + var(--_gap));\n}\n\n/* --- states --- */\n\n.button[data-hovered] .track {\n  background-color: var(--strata-color-text-subtle);\n}\n\n.button[data-selected] .track {\n  background-color: var(--strata-color-action-primary-bg);\n}\n\n.button[data-selected][data-hovered] .track {\n  background-color: var(--strata-color-action-primary-hover);\n}\n\n.button[data-selected] .thumb {\n  translate: calc(var(--_dir) * (var(--_w) - var(--_h))) 0;\n}\n\n.button[data-focus-visible] .track {\n  outline: 2px solid var(--strata-color-focus-ring);\n  outline-offset: 2px;\n}\n\n.button[data-disabled] {\n  cursor: default;\n}\n\n.button[data-disabled] .track {\n  background-color: color-mix(in oklab, var(--strata-color-border-strong) 40%, transparent);\n}\n\n.button[data-disabled][data-selected] .track {\n  background-color: color-mix(in oklab, var(--strata-color-action-primary-bg) 40%, transparent);\n}\n\n/* Muted, but the same thumb in both schemes (a solid surface thumb reads as a hole on dark canvases). */\n.button[data-disabled] .thumb {\n  background-color: color-mix(in oklab, var(--strata-color-action-primary-fg) 70%, transparent);\n  box-shadow: none;\n}\n\n.button[data-disabled] .label {\n  color: var(--strata-color-text-disabled);\n}\n\n@media (prefers-reduced-motion: no-preference) {\n  .track {\n    transition: background-color var(--strata-motion-duration-fast) var(--strata-motion-easing);\n  }\n\n  .thumb {\n    transition: translate var(--strata-motion-duration-normal) var(--strata-motion-easing);\n  }\n}\n"
+    }
+  ],
+  "categories": [
+    "inputs"
+  ],
+  "meta": {
+    "maturity": "beta",
+    "exports": [
+      "Switch"
+    ]
+  }
+}

@@ -73,11 +73,21 @@ export function Radio({ children, description, className, ...rest }: RadioProps)
       data-variant={variant}
       className={composeRenderProps(className, (c) => cx(styles.radio, variant === 'card' && styles.card, c))}
     >
-      <RACRadioButton className={styles.button}>
-        <span className={styles.circle} aria-hidden="true" />
-        {children != null && <span className={styles.label}>{children}</span>}
-      </RACRadioButton>
-      {description != null && <Description className={styles.help}>{description}</Description>}
+      {({ isDisabled }) => (
+        <>
+          <RACRadioButton className={styles.button}>
+            <span className={styles.circle} aria-hidden="true" />
+            {children != null && <span className={styles.label}>{children}</span>}
+          </RACRadioButton>
+          {description != null && (
+            // The description sits outside the <label>, so mark it disabled too; otherwise contrast checkers
+            // (axe) can't tell its dimmed text belongs to a disabled control (exempt under WCAG 1.4.3).
+            <Description className={styles.help} aria-disabled={isDisabled || undefined}>
+              {description}
+            </Description>
+          )}
+        </>
+      )}
     </RACRadioField>
   );
 }

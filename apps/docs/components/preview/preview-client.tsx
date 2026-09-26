@@ -20,7 +20,7 @@ import {
   TooltipTrigger,
 } from '@strata/react';
 import { Component, useEffect, useState, type ReactNode } from 'react';
-import { I18nProvider, type Key } from 'react-aria-components';
+import type { Key } from 'react-aria-components';
 import { examples } from '@/lib/examples.generated';
 import styles from './preview.module.css';
 
@@ -108,7 +108,6 @@ export function PreviewClient({ name, label, align, tenants, code }: PreviewClie
   const tenant = tenants.find((t) => t.id === tenantId) ?? tenants[0];
   const effectiveScheme = scheme ?? siteScheme;
   const effectiveDensity = density ?? tenant?.density ?? 'comfortable';
-  const locale = dir === 'rtl' ? 'ar-AE-u-nu-latn' : 'en-US';
 
   return (
     <Tabs className={styles.root} defaultSelectedKey="preview">
@@ -189,31 +188,28 @@ export function PreviewClient({ name, label, align, tenants, code }: PreviewClie
               </ToggleButtonGroup>
             </div>
           </div>
-          <I18nProvider locale={locale}>
-            <ThemeScope
-              theme={tenant?.id}
-              data-strata-scheme={scheme ?? 'site'}
-              density={density}
-              dir={dir}
-              lang={dir === 'rtl' ? 'ar' : 'en'}
-              className={styles.stage}
-              data-align={align}
-              role="region"
-              aria-label={`${label} preview`}
-            >
-              {Example ? (
-                <ExampleBoundary name={name}>
-                  <div className={styles.example}>
-                    <Example />
-                  </div>
-                </ExampleBoundary>
-              ) : (
-                <p className={styles.message}>
-                  The <code>{name}</code> example hasn’t been written yet.
-                </p>
-              )}
-            </ThemeScope>
-          </I18nProvider>
+          <ThemeScope
+            theme={tenant?.id}
+            data-strata-scheme={scheme ?? 'site'}
+            density={density}
+            locale={dir === 'rtl' ? 'ar-AE' : 'en-US'}
+            className={styles.stage}
+            data-align={align}
+            role="region"
+            aria-label={`${label} preview`}
+          >
+            {Example ? (
+              <ExampleBoundary name={name}>
+                <div className={styles.example}>
+                  <Example />
+                </div>
+              </ExampleBoundary>
+            ) : (
+              <p className={styles.message}>
+                The <code>{name}</code> example hasn’t been written yet.
+              </p>
+            )}
+          </ThemeScope>
         </div>
       </TabPanel>
       <TabPanel id="code" className={styles.panel}>

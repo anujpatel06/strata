@@ -139,9 +139,20 @@ describe('DataTable', () => {
     expect(screen.queryByText('City Pharmacy')).not.toBeInTheDocument();
     expect(screen.getAllByRole('checkbox')[0]).toBeDisabled();
 
+    // Column headers stay; each skeleton row has a non-empty row header.
+    expect(within(grid).getAllByRole('columnheader').map((c) => c.textContent)).toEqual(['', 'Reference', 'Payee', 'Amount']);
+    for (const row of bodyRows()) expect(within(row).getByRole('rowheader')).toHaveTextContent('Loading');
+
     rerender(<Table selectionMode="multiple" />);
     expect(grid).not.toHaveAttribute('aria-busy');
     expect(screen.getByText('City Pharmacy')).toBeInTheDocument();
+  });
+
+  it('uses the first data column as row header when none is marked, even with selection', () => {
+    render(<Table selectionMode="multiple" columns={columns.map((c) => ({ ...c, isRowHeader: false }))} />);
+    const header = within(bodyRows()[0]!).getByRole('rowheader');
+    expect(header).toHaveTextContent('PAY-3');
+    expect(within(header).queryByRole('checkbox')).toBeNull();
   });
 
   it('applies density, sticky header and className to the scroll container', () => {
@@ -196,6 +207,14 @@ describe('DataTablePagination', () => {
     expect(screen.getByText(/Showing/)).toHaveTextContent('Showing 41–48 of 48');
     rerender(<DataTablePagination page={1} pageSize={10} totalCount={0} onPageChange={onPageChange} />);
     expect(screen.getByText('No results')).toBeInTheDocument();
+  });
+
+  it('is a labelled group, not a landmark, unless asked', () => {
+    const { rerender } = render(<DataTablePagination label="Payments pages" page={1} pageSize={10} totalCount={48} />);
+    expect(screen.queryByRole('navigation')).not.toBeInTheDocument();
+    expect(screen.getByRole('group', { name: 'Payments pages' })).toBeInTheDocument();
+    rerender(<DataTablePagination landmark label="Payments pages" page={1} pageSize={10} totalCount={48} />);
+    expect(screen.getByRole('navigation', { name: 'Payments pages' })).toBeInTheDocument();
   });
 });
 

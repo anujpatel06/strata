@@ -101,6 +101,41 @@ describe('Dialog', () => {
     expect(overlay).toHaveAttribute('lang', 'ar');
   });
 
+  it('looks each scope attribute up separately (theme on :root, scheme on a nested scope)', async () => {
+    const user = userEvent.setup();
+    render(
+      <div data-strata-theme="house">
+        <div data-strata-scheme="dark">
+          <Example />
+        </div>
+      </div>,
+    );
+    await user.click(screen.getByRole('button', { name: 'Edit profile' }));
+    const overlay = screen.getByRole('dialog').closest('[data-strata-scheme]')!;
+    expect(overlay.parentElement).toBe(document.body);
+    expect(overlay).toHaveAttribute('data-strata-scheme', 'dark');
+    expect(overlay).toHaveAttribute('data-strata-theme', 'house');
+    expect(overlay).not.toHaveAttribute('data-strata-density');
+  });
+
+  it('copies a scheme-only ancestor when the theme lives on the document root', async () => {
+    document.documentElement.setAttribute('data-strata-theme', 'house');
+    try {
+      const user = userEvent.setup();
+      render(
+        <div data-strata-scheme="dark">
+          <Example />
+        </div>,
+      );
+      await user.click(screen.getByRole('button', { name: 'Edit profile' }));
+      const overlay = screen.getByRole('dialog').closest('[data-strata-scheme]')!;
+      expect(overlay.parentElement).toBe(document.body);
+      expect(overlay).toHaveAttribute('data-strata-scheme', 'dark');
+    } finally {
+      document.documentElement.removeAttribute('data-strata-theme');
+    }
+  });
+
   it('copies the ThemeScope attributes when controlled, without a trigger', () => {
     render(
       <div data-strata-theme="qamar" data-strata-scheme="light">

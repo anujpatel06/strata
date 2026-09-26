@@ -113,7 +113,7 @@
       "role=\"tooltip\"; the trigger is described by it via aria-describedby while it is open.",
       "Hover opening starts after the user has used a pointer on the page (React Aria's interaction modality); keyboard focus always opens it.",
       "Tooltips are not reachable on touch devices: never put essential information or interactive content in them.",
-      "Overlays render in a portal on <body>, outside any ThemeScope. When it opens, the overlay copies data-strata-theme, data-strata-scheme and data-strata-density from the nearest [data-strata-theme] ancestor of its trigger (or of where the component is rendered, when controlled), plus dir and lang, onto its own root — so it uses the same tenant tokens and direction as the page region it came from, and nested overlays inherit from their parent overlay."
+      "Overlays render in a portal on <body>, outside any ThemeScope. When it opens, the overlay looks up data-strata-theme, data-strata-scheme, data-strata-density, dir and lang — each on the nearest ancestor that has it — starting from its trigger (or from where the component is rendered, when controlled), and copies them onto its own root — so it uses the same tenant tokens and direction as the page region it came from, and nested overlays inherit from their parent overlay."
     ]
   },
   "guidelines": {

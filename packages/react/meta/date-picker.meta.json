@@ -27,6 +27,7 @@
     { "component": "DatePicker", "name": "isDateUnavailable", "type": "(date: DateValue) => boolean", "description": "Dates that can't be chosen; picking one makes the field invalid." },
     { "component": "DatePicker", "name": "placeholderValue", "type": "DateValue", "description": "Date the segments start from when stepping with arrow keys, and the calendar's initial month." },
     { "component": "DatePicker", "name": "hourCycle", "type": "12 | 24", "description": "Overrides the locale's hour cycle." },
+    { "component": "DatePicker", "name": "shouldForceLeadingZeros", "type": "boolean", "default": "true", "description": "Pads single-digit months, days and hours (09/05/2026) so segments keep a steady width. Set false for the locale's plain numbers." },
     { "component": "DatePicker", "name": "hideTimeZone", "type": "boolean", "default": "false", "description": "Hides the time zone segment for ZonedDateTime values." },
     { "component": "DatePicker", "name": "shouldCloseOnSelect", "type": "boolean", "default": "true", "description": "Close the popover when a date is picked." },
     { "component": "DatePicker", "name": "validationBehavior", "type": "'native' | 'aria'", "default": "'native'", "description": "'aria' shows validation errors as the value changes; 'native' waits for form submit." },
@@ -51,7 +52,8 @@
       "The field is a labelled group; each segment is a spinbutton named by its unit (month, day, year…).",
       "Segment order, separators, digits and hour cycle follow the locale.",
       "The calendar popover is a dialog labelled by the field label; focus moves into it and back.",
-      "Empty segments show the placeholder text (mm/dd/yyyy) in text.subtle; the focused segment is highlighted with surface.selected."
+      "Empty segments show the placeholder text (mm/dd/yyyy) in text.subtle; the focused segment is highlighted with surface.selected.",
+      "Every editable segment is at least 24×24px (WCAG 2.5.8) at both densities, without changing the field height."
     ]
   },
   "guidelines": {

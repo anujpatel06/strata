@@ -7,6 +7,7 @@ import { Pre } from '@/components/mdx/pre';
 import { A, Blockquote, H2, H3, H4, Hr, InlineCode, Li, Ol, P, Steps, Strong, Table, Ul } from '@/components/mdx/prose';
 import { ComponentPreview } from '@/components/preview/component-preview';
 import {
+  AdrLink,
   AdrList,
   ContrastPairs,
   DensityTable,
@@ -15,6 +16,7 @@ import {
   HouseAdjustments,
   RegistryItems,
   RolesTable,
+  ShadcnGaps,
   ShadcnMap,
   TenantGrid,
   TenantBrandJson,
@@ -41,6 +43,7 @@ const components: MDXComponents = {
   pre: Pre,
   table: Table,
   // Components
+  AdrLink,
   AdrList,
   Badge,
   Callout,
@@ -55,6 +58,7 @@ const components: MDXComponents = {
   PackageCommand,
   RegistryItems,
   RolesTable,
+  ShadcnGaps,
   ShadcnMap,
   Steps,
   Table,

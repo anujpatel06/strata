@@ -1,4 +1,4 @@
-Strata ships two ways from one source: as a registry the shadcn CLI installs from, and as npm packages. Both give you the same component files and the same tokens. Every component page has the exact commands.
+Strata ships two ways from one source: as a registry the shadcn CLI installs from, and as npm packages (<AdrLink n="011" />). Both give you the same component files and the same tokens. Every component page has the exact commands.
 
 <Callout tone="info" title="Not on npm yet">
   `@strata/react` and `@strata/tokens` are published in Phase 6. Until then, install from the registry or copy the files by hand. The npm steps below show how the packages will work.
@@ -8,17 +8,33 @@ You need React 19 and a bundler that handles CSS Modules — Next.js and Vite bo
 
 ## With the shadcn CLI
 
-The CLI copies each component’s `.tsx` and `.module.css` into your `components/ui` folder, installs the npm packages it needs, and pulls in any Strata components it uses. You own the code from then on.
+The CLI copies each component’s `.tsx` and `.module.css` into your `components/ui` folder, installs the npm packages it needs, and pulls in any Strata components it uses. You own the code from then on. Strata components don’t use Tailwind classes — they are CSS Modules that read `--strata-*` variables — so they work with or without Tailwind in your project.
 
 <Steps>
 
-### Add the Strata base
+### Add the @strata namespace
 
-The base item installs the house tokens as `styles/strata-house.css` and the `ThemeScope` component.
+Register the registry once in `components.json`, so items install by name.
 
-<PackageCommand dlx="shadcn@latest add {{SITE_URL}}/r/strata.json" />
+<CodeBlock title="components.json">
 
-To start from a tenant’s tokens instead, add `strata-tokens-vela`, `strata-tokens-harbor` or `strata-tokens-qamar` the same way.
+```json
+{
+  "registries": {
+    "@strata": "{{SITE_URL}}/r/{name}.json"
+  }
+}
+```
+
+</CodeBlock>
+
+### Install the base
+
+`@strata/strata` installs the house tokens as `styles/strata-house.css` and the `ThemeScope` component.
+
+<PackageCommand dlx="shadcn@latest add @strata/strata" />
+
+To start from a tenant’s tokens instead, add `@strata/strata-tokens-vela`, `@strata/strata-tokens-harbor` or `@strata/strata-tokens-qamar`.
 
 ### Import the tokens once
 
@@ -36,31 +52,13 @@ The font stacks fall back to system fonts. For the brand’s own type pair, add 
 
 ### Add components
 
-<PackageCommand dlx="shadcn@latest add {{SITE_URL}}/r/button.json" />
+<PackageCommand dlx="shadcn@latest add @strata/button @strata/dialog" />
 
 Components that use other components bring them along: adding `dialog` also adds `button`.
 
 </Steps>
 
-## Add the @strata namespace
-
-Register the namespace once in `components.json` and you can install by name instead of URL.
-
-<CodeBlock title="components.json">
-
-```json
-{
-  "registries": {
-    "@strata": "{{SITE_URL}}/r/{name}.json"
-  }
-}
-```
-
-</CodeBlock>
-
-<PackageCommand dlx="shadcn@latest add @strata/button @strata/dialog" />
-
-The namespace also lets AI coding agents find Strata components through [MCP](/docs/mcp).
+Without the namespace, every item also installs by URL, e.g. `{{SITE_URL}}/r/strata.json` and `{{SITE_URL}}/r/button.json`. The namespace also lets AI coding agents find Strata components through [MCP](/docs/mcp). Already on shadcn/ui and only want the colours? See [the shadcn bridge](/docs/registry#the-shadcn-bridge).
 
 ## With npm
 
@@ -102,4 +100,6 @@ Token CSS keys off three attributes on one element — `<html>` for the whole ap
 <html data-strata-theme="vela" data-strata-scheme="auto" data-strata-density="compact">
 ```
 
-See [Theming](/docs/theming), [Dark mode](/docs/dark-mode) and [Density](/docs/density) for what each one does.
+A token file from the registry makes its tenant the default, so on a single-brand app you only need the scheme and density attributes. Its selector is `:root, [data-strata-theme="<id>"], [data-strata-scheme]:not([data-strata-theme])` — see [Registry](/docs/registry#token-files) for what each part does.
+
+See [Theming](/docs/theming), [Dark mode](/docs/dark-mode) and [Density](/docs/density) for the rest.

@@ -1,0 +1,33 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "spinner",
+  "type": "registry:ui",
+  "title": "Spinner",
+  "description": "A small loading indicator in the current text colour.",
+  "dependencies": [
+    "react-aria-components@^1.21.0"
+  ],
+  "registryDependencies": [],
+  "files": [
+    {
+      "path": "registry/strata/ui/spinner.tsx",
+      "type": "registry:ui",
+      "content": "'use client';\n\nimport type { HTMLAttributes, JSX, Ref } from 'react';\nimport { VisuallyHidden } from 'react-aria-components';\nimport styles from './spinner.module.css';\n\nconst cx = (...c: Array<string | false | null | undefined>) => c.filter(Boolean).join(' ');\n\nexport interface SpinnerProps extends Omit<HTMLAttributes<HTMLSpanElement>, 'role'> {\n  size?: 'sm' | 'md' | 'lg';\n  /** Announced to screen readers (role=\"status\"). Not shown. */\n  label?: string;\n  ref?: Ref<HTMLSpanElement>;\n}\n\n/** An indeterminate loading indicator in the current text colour. */\nexport function Spinner({ size = 'md', label = 'Loading', className, ...rest }: SpinnerProps): JSX.Element {\n  return (\n    <span {...rest} role=\"status\" data-size={size} className={cx(styles.spinner, className)}>\n      <svg className={styles.svg} viewBox=\"0 0 24 24\" fill=\"none\" aria-hidden=\"true\" focusable=\"false\">\n        <circle className={styles.track} cx=\"12\" cy=\"12\" r=\"9.5\" />\n        <circle className={styles.arc} cx=\"12\" cy=\"12\" r=\"9.5\" pathLength=\"100\" />\n      </svg>\n      <VisuallyHidden elementType=\"span\">{label}</VisuallyHidden>\n    </span>\n  );\n}\n"
+    },
+    {
+      "path": "registry/strata/ui/spinner.module.css",
+      "type": "registry:ui",
+      "content": ".spinner {\n  --_size: var(--strata-space-6);\n\n  box-sizing: border-box;\n  display: inline-flex;\n  flex: none;\n  inline-size: var(--_size);\n  block-size: var(--_size);\n  color: inherit;\n  vertical-align: middle;\n}\n\n.spinner[data-size='sm'] {\n  --_size: var(--strata-space-4);\n}\n\n.spinner[data-size='lg'] {\n  --_size: var(--strata-space-8);\n}\n\n.svg {\n  inline-size: 100%;\n  block-size: 100%;\n  overflow: visible;\n}\n\n.track,\n.arc {\n  stroke: currentColor;\n  /* viewBox units: 2.5px at md. */\n  stroke-width: 2.5;\n}\n\n.track {\n  opacity: 0.2;\n}\n\n/* A quarter arc (pathLength=100), starting at 12 o'clock. */\n.arc {\n  stroke-dasharray: 28 100;\n  stroke-linecap: round;\n  transform: rotate(-90deg);\n  transform-origin: center;\n}\n\n.spinner[data-size='sm'] .track,\n.spinner[data-size='sm'] .arc {\n  stroke-width: 3; /* 2px at 16px */\n}\n\n.spinner[data-size='lg'] .track,\n.spinner[data-size='lg'] .arc {\n  stroke-width: 2.25; /* 3px at 32px */\n}\n\n@media (prefers-reduced-motion: no-preference) {\n  .svg {\n    animation: strata-spinner-rotate calc(var(--strata-motion-duration-normal) * 4) linear infinite;\n  }\n}\n\n/* Reduced motion: no rotation; a slow fade keeps it from looking frozen. */\n@media (prefers-reduced-motion: reduce) {\n  .arc {\n    animation: strata-spinner-fade calc(var(--strata-motion-duration-normal) * 8) ease-in-out infinite alternate;\n  }\n}\n\n@keyframes strata-spinner-rotate {\n  to {\n    rotate: 1turn;\n  }\n}\n\n@keyframes strata-spinner-fade {\n  from {\n    opacity: 1;\n  }\n  to {\n    opacity: 0.55;\n  }\n}\n"
+    }
+  ],
+  "categories": [
+    "feedback"
+  ],
+  "docs": "Strata components read --strata-* tokens. Install them once: npx shadcn@latest add http://localhost:3000/r/strata.json",
+  "meta": {
+    "maturity": "beta",
+    "exports": [
+      "Spinner"
+    ]
+  }
+}

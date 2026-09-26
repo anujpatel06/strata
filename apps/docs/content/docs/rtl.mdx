@@ -2,20 +2,17 @@ Qamar runs in Arabic, right to left, on the same components as Vela and Harbor. 
 
 ## Set the direction
 
-Put `dir` and `lang` on the root of the right-to-left region, and give React Aria the locale. React Aria uses the locale — not the `dir` attribute — to mirror keyboard behaviour (arrow keys in tabs, menus and tables), place popovers, and format dates and numbers.
+Give the right-to-left region a locale. `ThemeScope`’s `locale` prop sets React Aria’s locale and, unless you pass them yourself, `lang` and `dir`. React Aria reads direction from the locale — not from the `dir` attribute — to mirror keyboard behaviour (arrow keys in tabs, menus and tables), place popovers, and format dates and numbers.
 
 ```tsx
-import { I18nProvider } from 'react-aria-components';
 import { ThemeScope } from '@strata/react';
 
-<I18nProvider locale="ar-AE-u-nu-latn">
-  <ThemeScope theme="qamar" dir="rtl" lang="ar">
-    <OrderSummary />
-  </ThemeScope>
-</I18nProvider>
+<ThemeScope theme="qamar" locale="ar-AE-u-nu-latn">
+  <OrderSummary />
+</ThemeScope>
 ```
 
-The `-u-nu-latn` extension keeps Latin digits in Arabic text, which is what Qamar’s copy uses; drop it for Arabic-Indic digits.
+The `-u-nu-latn` extension keeps Latin digits in Arabic text, which is what Qamar’s copy uses; `locale="ar-AE"` alone lets the locale choose. Outside a `ThemeScope`, wrap the region in React Aria’s `I18nProvider` and set `dir` and `lang` yourself.
 
 ## Logical properties only
 

@@ -87,6 +87,12 @@ describe('Pagination', () => {
     for (const b of screen.getAllByRole('button')) expect(b).toBeDisabled();
   });
 
+  it('renders a labelled group instead of a landmark with landmark={false}', () => {
+    render(<Pagination page={1} pageCount={3} label="Orders pages" landmark={false} />);
+    expect(screen.queryByRole('navigation')).not.toBeInTheDocument();
+    expect(screen.getByRole('group', { name: 'Orders pages' })).toBeInTheDocument();
+  });
+
   it('accepts a custom label and className', () => {
     render(<Pagination page={1} pageCount={3} label="Results pages" className="custom" />);
     expect(screen.getByRole('navigation', { name: 'Results pages' })).toHaveClass('root', 'custom');

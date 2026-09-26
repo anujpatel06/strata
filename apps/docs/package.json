@@ -7,7 +7,7 @@
     "gen:examples": "node scripts/gen-examples.mjs",
     "predev": "node scripts/gen-examples.mjs",
     "dev": "next dev --port 3000",
-    "prebuild": "node scripts/gen-examples.mjs",
+    "prebuild": "node scripts/prebuild.mjs",
     "build": "next build",
     "start": "next start --port 3000",
     "typecheck": "node scripts/gen-examples.mjs && tsc -p tsconfig.json --noEmit"
@@ -32,5 +32,11 @@
     "@types/react": "^19.2.0",
     "@types/react-dom": "^19.2.0",
     "typescript": "~5.9.0"
-  }
+  },
+  "browserslist": [
+    "chrome >= 123",
+    "edge >= 123",
+    "safari >= 17.5",
+    "firefox >= 120"
+  ]
 }

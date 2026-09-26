@@ -17,8 +17,9 @@
   display: flex;
   align-items: center;
   min-inline-size: 0;
-  /* Cancel the first segment's padding so digits line up with other fields' text. */
-  margin-inline-start: calc(var(--strata-space-1) / -2);
+  /* Segments are 24px targets with centred digits; pull the first one back so its digits line up with
+     the text of other fields. */
+  margin-inline-start: calc(var(--strata-space-1) * -1);
   overflow: hidden;
   white-space: nowrap;
   font-variant-numeric: tabular-nums;
@@ -29,17 +30,24 @@
   flex: 1;
 }
 
+/* Each editable segment is its own 24×24 target (WCAG 2.5.8 — adjacent segments get no spacing exception).
+   24px fits inside the compact 32px box, so the field height never changes. */
 .segment {
   box-sizing: border-box;
+  display: inline-block;
+  min-inline-size: var(--strata-space-6);
+  min-block-size: var(--strata-space-6);
   padding-inline: calc(var(--strata-space-1) / 2);
   border-radius: min(var(--strata-radius-field), var(--strata-space-1));
   color: var(--strata-color-text-default);
+  line-height: var(--strata-space-6);
+  text-align: center;
   caret-color: transparent;
-  text-align: end;
   outline: none;
   forced-color-adjust: none;
 }
 .segment[data-type='literal'] {
+  min-inline-size: 0;
   padding-inline: 0;
   color: var(--strata-color-text-subtle);
 }

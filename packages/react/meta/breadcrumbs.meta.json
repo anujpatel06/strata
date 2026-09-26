@@ -18,7 +18,7 @@
   "props": [
     { "component": "Breadcrumbs", "name": "children", "type": "ReactNode", "required": true, "description": "Breadcrumb elements, root first. The last one is the current page." },
     { "component": "Breadcrumbs", "name": "maxItems", "type": "number", "description": "Collapse when there are more items: keeps the first and the last maxItems − 1, with an ellipsis button between." },
-    { "component": "Breadcrumbs", "name": "aria-label", "type": "string", "default": "'Breadcrumbs'", "description": "Name of the navigation landmark." },
+    { "component": "Breadcrumbs", "name": "aria-label", "type": "string", "default": "'Breadcrumbs'", "description": "Name of the navigation landmark and the list. Must be unique on a page — name each trail if a page has more than one." },
     { "component": "Breadcrumbs", "name": "expandLabel", "type": "string", "default": "'Show all breadcrumbs'", "description": "Accessible name of the ellipsis button." },
     { "component": "Breadcrumbs", "name": "isDisabled", "type": "boolean", "default": "false", "description": "Disables every link." },
     { "component": "Breadcrumbs", "name": "onAction", "type": "(key: Key) => void", "description": "Called when an item is pressed (for client-side routing without hrefs)." },
@@ -33,7 +33,7 @@
       { "keys": "Enter", "action": "Follows the focused link, or expands a collapsed trail from the ellipsis button (focus moves to the first revealed link)." }
     ],
     "notes": [
-      "Renders <nav aria-label=\"Breadcrumbs\"> around an <ol>.",
+      "Renders <nav aria-label=\"Breadcrumbs\"> around an <ol> with the same name. Landmark names must be unique: pass aria-label when a page shows more than one trail.",
       "The last item has aria-current=\"page\" and is not a link; it is set in medium weight so it doesn't rely on colour.",
       "Chevron separators are decorative (aria-hidden) and mirror in right-to-left layouts."
     ]
