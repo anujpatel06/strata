@@ -171,7 +171,11 @@ export function toSearch(state: AppState, existing = ''): string {
 
 function readInitialState(): AppState {
   try {
-    return readState(window.location.search);
+    // Hosted demos may only pass a bare #token (no query string), so `#qamar` also picks the tenant.
+    const q = new URLSearchParams(window.location.search);
+    const hashTenant = window.location.hash.replace(/^#/, '');
+    if (!q.has('tenant') && isTenantId(hashTenant)) q.set('tenant', hashTenant);
+    return readState(q.toString());
   } catch {
     return readState('');
   }

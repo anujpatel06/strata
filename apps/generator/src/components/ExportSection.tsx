@@ -120,6 +120,9 @@ export function ExportSection({ theme, tenant, format, onFormatChange, focusExpo
     }
   };
 
+  /** Hosted single-file demos run in a sandbox that blocks page-started downloads, so offer Copy only. */
+  const canDownload = import.meta.env.MODE !== 'single';
+
   const onDownload = () => {
     if (!file) return;
     try {
@@ -159,7 +162,12 @@ export function ExportSection({ theme, tenant, format, onFormatChange, focusExpo
             className={styles.formats}
           />
           <div className={styles.actions}>
-            <button type="button" className={`${ui.btn} ${ui.btnOutline}`} onClick={onCopy} disabled={!file}>
+            <button
+              type="button"
+              className={`${ui.btn} ${canDownload ? ui.btnOutline : ui.btnInk}`}
+              onClick={onCopy}
+              disabled={!file}
+            >
               {copied ? (
                 <IconCheck size={16} stroke={2} aria-hidden="true" />
               ) : (
@@ -167,10 +175,12 @@ export function ExportSection({ theme, tenant, format, onFormatChange, focusExpo
               )}
               {copied ? 'Copied' : 'Copy'}
             </button>
-            <button type="button" className={`${ui.btn} ${ui.btnInk}`} onClick={onDownload} disabled={!file}>
-              <IconDownload size={16} stroke={1.75} aria-hidden="true" />
-              Download
-            </button>
+            {canDownload && (
+              <button type="button" className={`${ui.btn} ${ui.btnInk}`} onClick={onDownload} disabled={!file}>
+                <IconDownload size={16} stroke={1.75} aria-hidden="true" />
+                Download
+              </button>
+            )}
           </div>
         </div>
 

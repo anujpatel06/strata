@@ -33,6 +33,8 @@ Numbers only with the command that produced them. Design trade-offs get an ADR i
 - Tests: 132 passing across engine + exporters — `pnpm test`.
 - axe (wcag2a/aa, 2.1 a/aa, 2.2 aa): 0 violations on 6 preview pages — `pnpm screenshots` (run here with `STRATA_LOCAL_FONTS`, since the build sandbox can't reach Google Fonts).
 
+- Hosted demo: single-file build (`pnpm --filter @strata/generator build:single`) published as a private claude.ai page; Download is hidden there (the host sandbox blocks page-started downloads), Copy stays; `#vela` / `#harbor` / `#qamar` deep-link a tenant — **Claude**.
+
 **Open questions for Anuj**
 - Pure-red brands get white labels in light mode but ink labels in dark (ink already passes there). Match the schemes by deepening the dark fill, or keep the brand exact? (ADR-006)
 
