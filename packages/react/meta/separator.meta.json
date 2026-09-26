@@ -1,0 +1,75 @@
+{
+  "name": "separator",
+  "title": "Separator",
+  "description": "A hairline between groups of content, optionally with a short label such as \"or\".",
+  "category": "layout",
+  "maturity": "beta",
+  "exports": [
+    "Separator"
+  ],
+  "files": [
+    "separator.tsx",
+    "separator.module.css"
+  ],
+  "dependencies": [
+    "react-aria-components"
+  ],
+  "registryDependencies": [],
+  "reactAria": "https://react-spectrum.adobe.com/react-aria/Separator.html",
+  "usage": "import { Separator } from '@strata/react';\n\nexport function Sections() {\n  return (\n    <>\n      <p>Personal details</p>\n      <Separator />\n      <p>Bank details</p>\n    </>\n  );\n}",
+  "examples": [
+    {
+      "name": "separator-demo",
+      "title": "Separator",
+      "description": "Horizontal between blocks, vertical between inline items."
+    },
+    {
+      "name": "separator-with-label",
+      "title": "With a label",
+      "description": "An \"or\" divider between two ways to sign in."
+    }
+  ],
+  "props": [
+    {
+      "component": "Separator",
+      "name": "orientation",
+      "type": "'horizontal' | 'vertical'",
+      "default": "'horizontal'",
+      "description": "Vertical separators stretch to the height of their flex row."
+    },
+    {
+      "component": "Separator",
+      "name": "label",
+      "type": "ReactNode",
+      "description": "Text in the middle of a horizontal rule. The result is read as its text, not as a separator."
+    },
+    {
+      "component": "Separator",
+      "name": "elementType",
+      "type": "string",
+      "description": "Element to render (React Aria). Horizontal defaults to <hr>."
+    }
+  ],
+  "accessibility": {
+    "keyboard": [],
+    "notes": [
+      "role=\"separator\" (an <hr> when horizontal); vertical separators get aria-orientation=\"vertical\".",
+      "A labelled separator is a plain group with visible text and aria-hidden hairlines."
+    ]
+  },
+  "guidelines": {
+    "do": [
+      "Use spacing first; add a separator only when groups would otherwise run together."
+    ],
+    "dont": [
+      "Don't use separators for decoration inside dense lists; use row borders."
+    ]
+  },
+  "tokens": [
+    "color.border.subtle",
+    "color.text.subtle",
+    "font.size.xs",
+    "font.weight.medium",
+    "space.3"
+  ]
+}

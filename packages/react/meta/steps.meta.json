@@ -1,0 +1,71 @@
+{
+  "name": "steps",
+  "title": "Steps",
+  "description": "Shows progress through a multi-step flow: which steps are done, which is current and what comes next.",
+  "category": "navigation",
+  "maturity": "beta",
+  "exports": ["Steps"],
+  "files": ["steps.tsx", "steps.module.css"],
+  "dependencies": ["react-aria-components", "@tabler/icons-react"],
+  "registryDependencies": [],
+  "usage": "import { Steps } from '@strata/react';\n\nconst steps = [\n  { id: 'details', label: 'Details' },\n  { id: 'upload', label: 'Upload' },\n  { id: 'review', label: 'Review' },\n];\n\nexport function ClaimProgress() {\n  return <Steps current=\"upload\" steps={steps} />;\n}",
+  "examples": [
+    { "name": "steps-demo", "title": "Steps", "description": "Three steps; the second is current." },
+    { "name": "steps-navigable", "title": "Go back to a step", "description": "onStepPress turns completed steps into buttons." },
+    { "name": "steps-vertical", "title": "Vertical with descriptions", "description": "A second line per step, stacked for side panels and narrow layouts." }
+  ],
+  "props": [
+    { "component": "Steps", "name": "steps", "type": "{ id: string; label: ReactNode; description?: ReactNode }[]", "required": true, "description": "The steps in order." },
+    { "component": "Steps", "name": "current", "type": "string", "required": true, "description": "Id of the current step. Earlier steps are complete, later ones upcoming." },
+    { "component": "Steps", "name": "orientation", "type": "'horizontal' | 'vertical'", "default": "'horizontal'", "description": "Horizontal collapses to \"Step 2 of 3 · Upload\" and a segmented bar when its container is narrow." },
+    { "component": "Steps", "name": "onStepPress", "type": "(id: string) => void", "description": "Makes completed steps buttons that go back to that step." },
+    { "component": "Steps", "name": "aria-label", "type": "string", "default": "'Progress'", "description": "Name of the list." },
+    { "component": "Steps", "name": "completedLabel", "type": "string", "default": "'completed'", "description": "Read after a completed step's label by screen readers (\"Details, completed\")." },
+    { "component": "Steps", "name": "stepLabel", "type": "string", "default": "'Step'", "description": "Word used in the narrow summary." },
+    { "component": "Steps", "name": "ofLabel", "type": "string", "default": "'of'", "description": "Word used in the narrow summary." }
+  ],
+  "accessibility": {
+    "keyboard": [
+      { "keys": "Tab", "action": "With onStepPress, moves between completed steps." },
+      { "keys": "Enter / Space", "action": "Goes back to the focused completed step." }
+    ],
+    "notes": [
+      "An ordered list; the current step has aria-current=\"step\".",
+      "Completed steps show a check mark and carry visually hidden text (\", completed\"); status never relies on colour.",
+      "Step numbers in the markers are decorative — the list order conveys them.",
+      "Horizontal steps respond to their own width: under 480px (3 steps) or 640px (4+), they collapse to a text summary and a segmented bar."
+    ]
+  },
+  "guidelines": {
+    "do": [
+      "Keep to 3–5 steps with one- or two-word labels.",
+      "Let people go back to completed steps when their answers are kept.",
+      "Put the same step names in the page headings."
+    ],
+    "dont": [
+      "Don't make upcoming steps clickable when earlier answers are required.",
+      "Don't use Steps for tabs or navigation between unrelated pages.",
+      "Don't show more than about 6 steps — group them."
+    ]
+  },
+  "tokens": [
+    "color.action.primary.bg",
+    "color.action.primary.fg",
+    "color.text.default",
+    "color.text.subtle",
+    "color.border.strong",
+    "color.border.default",
+    "color.focus.ring",
+    "radius.pill",
+    "radius.badge",
+    "control-height",
+    "font.size.sm",
+    "font.size.xs",
+    "font.weight.medium",
+    "font.weight.semibold",
+    "space.1",
+    "space.2",
+    "space.3",
+    "space.6"
+  ]
+}

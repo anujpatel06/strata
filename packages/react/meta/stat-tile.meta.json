@@ -1,0 +1,168 @@
+{
+  "name": "stat-tile",
+  "title": "Stat Tile",
+  "description": "One headline number with its label, change and optional trend line.",
+  "category": "data",
+  "maturity": "beta",
+  "exports": [
+    "StatTile",
+    "StatTileGroup",
+    "formatDelta"
+  ],
+  "files": [
+    "stat-tile.tsx",
+    "stat-tile.module.css"
+  ],
+  "dependencies": [
+    "react-aria-components",
+    "@tabler/icons-react"
+  ],
+  "registryDependencies": [
+    "badge"
+  ],
+  "usage": "import { StatTile } from '@strata/react';\n\nexport function Balance() {\n  return <StatTile label=\"Available balance\" value=\"₹1,84,250\" delta={0.064} deltaLabel=\"vs last month\" />;\n}",
+  "examples": [
+    {
+      "name": "stat-tile-demo",
+      "title": "Stat tile",
+      "description": "Value with a signed change against last month."
+    },
+    {
+      "name": "stat-tile-grid",
+      "title": "Grid with sparklines",
+      "description": "A StatTileGroup where lower is better for two of the figures."
+    },
+    {
+      "name": "stat-tile-caption",
+      "title": "Captions, icons and variants",
+      "description": "A caption instead of a delta, a no-change delta, and the small outline tile."
+    }
+  ],
+  "props": [
+    {
+      "component": "StatTile",
+      "name": "label",
+      "type": "ReactNode",
+      "required": true,
+      "description": "What the number measures."
+    },
+    {
+      "component": "StatTile",
+      "name": "value",
+      "type": "ReactNode",
+      "required": true,
+      "description": "The figure, already formatted (currency, units, compact notation)."
+    },
+    {
+      "component": "StatTile",
+      "name": "delta",
+      "type": "number",
+      "description": "Change as a fraction: 0.064 → +6.4%. Shown as a pill with a trend icon."
+    },
+    {
+      "component": "StatTile",
+      "name": "deltaLabel",
+      "type": "ReactNode",
+      "description": "What the change is measured against, e.g. \"vs last month\"."
+    },
+    {
+      "component": "StatTile",
+      "name": "positiveIsGood",
+      "type": "boolean",
+      "default": "true",
+      "description": "Whether an increase is good news. false for costs, churn, wait times."
+    },
+    {
+      "component": "StatTile",
+      "name": "deltaFormatOptions",
+      "type": "Intl.NumberFormatOptions",
+      "default": "{ style: 'percent', maximumFractionDigits: 1, signDisplay: 'exceptZero' }",
+      "description": "Overrides the delta format."
+    },
+    {
+      "component": "StatTile",
+      "name": "caption",
+      "type": "ReactNode",
+      "description": "A quiet line under the value, used instead of a delta."
+    },
+    {
+      "component": "StatTile",
+      "name": "icon",
+      "type": "ReactNode",
+      "description": "Decorative icon at the top inline-end."
+    },
+    {
+      "component": "StatTile",
+      "name": "sparkline",
+      "type": "number[]",
+      "description": "Recent values, oldest first (≥2 finite points). Decorative line with a 12% area fill and an end dot."
+    },
+    {
+      "component": "StatTile",
+      "name": "size",
+      "type": "'sm' | 'md' | 'lg'",
+      "default": "'md'",
+      "description": "Value size: xl, 2xl or 3xl."
+    },
+    {
+      "component": "StatTile",
+      "name": "variant",
+      "type": "'default' | 'outline' | 'ghost'",
+      "default": "'default'",
+      "description": "Same chrome options as Card; ghost for tiles inside a card."
+    },
+    {
+      "component": "StatTileGroup",
+      "name": "children",
+      "type": "ReactNode",
+      "description": "StatTiles. Rendered as one <dl> in a responsive grid (~224px minimum per column)."
+    }
+  ],
+  "accessibility": {
+    "keyboard": [],
+    "notes": [
+      "Standalone, a tile is a <dl> (label = <dt>, value and change = <dd>); inside StatTileGroup the group is the <dl> and each tile a <div>.",
+      "Good or bad change is shown by colour, a trend icon and the sign — never colour alone.",
+      "The delta uses a true minus (−) and is isolated in the locale's direction, so \"+6.4%\" never renders as \"6.4%+\" on right-to-left pages.",
+      "The sparkline is aria-hidden; put anything that matters in the value, delta or caption. It mirrors on right-to-left pages, with the trend icon."
+    ]
+  },
+  "guidelines": {
+    "do": [
+      "Name the comparison period in deltaLabel.",
+      "Set positiveIsGood={false} for metrics where down is good.",
+      "Format the value with Intl for the user's locale before passing it."
+    ],
+    "dont": [
+      "Don't put more than one number in value.",
+      "Don't use the sparkline as the only evidence of a trend."
+    ]
+  },
+  "tokens": [
+    "color.surface.raised",
+    "color.border.default",
+    "shadow.raised",
+    "radius.container",
+    "card-inset",
+    "section-gap",
+    "color.text.default",
+    "color.text.subtle",
+    "color.text.brand",
+    "color.feedback.success.bg",
+    "color.feedback.success.fg",
+    "color.feedback.danger.bg",
+    "color.feedback.danger.fg",
+    "color.surface.sunken",
+    "font.heading",
+    "font.heading-tracking",
+    "font.size.xl",
+    "font.size.2xl",
+    "font.size.3xl",
+    "font.size.sm",
+    "font.weight.semibold",
+    "space.2",
+    "space.4",
+    "space.8",
+    "space.16"
+  ]
+}

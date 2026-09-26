@@ -1,0 +1,137 @@
+{
+  "name": "alert",
+  "title": "Alert",
+  "description": "An inline message about the page or a section of it, in one of five tones.",
+  "category": "feedback",
+  "maturity": "beta",
+  "exports": [
+    "Alert"
+  ],
+  "files": [
+    "alert.tsx",
+    "alert.module.css"
+  ],
+  "dependencies": [
+    "react-aria-components",
+    "@tabler/icons-react"
+  ],
+  "registryDependencies": [],
+  "usage": "import { Alert } from '@strata/react';\n\nexport function CardNotice() {\n  return (\n    <Alert tone=\"warning\" title=\"Card expiring\">\n      Your card ending 4821 expires next month. Order a replacement.\n    </Alert>\n  );\n}",
+  "examples": [
+    {
+      "name": "alert-demo",
+      "title": "Alert",
+      "description": "An info alert and a neutral one."
+    },
+    {
+      "name": "alert-tones",
+      "title": "Tones",
+      "description": "Neutral, info, success, warning and danger. Each tone has its own icon, so colour is never the only signal."
+    },
+    {
+      "name": "alert-with-action",
+      "title": "Actions, dismiss and live",
+      "description": "A button or link in the action slot, a dismissible alert, and a live alert without an icon."
+    }
+  ],
+  "props": [
+    {
+      "component": "Alert",
+      "name": "tone",
+      "type": "'neutral' | 'info' | 'success' | 'warning' | 'danger'",
+      "default": "'neutral'",
+      "description": "Feedback colour and default icon."
+    },
+    {
+      "component": "Alert",
+      "name": "title",
+      "type": "ReactNode",
+      "description": "Short summary shown in semibold above the body."
+    },
+    {
+      "component": "Alert",
+      "name": "children",
+      "type": "ReactNode",
+      "description": "The message body. Links inside are underlined in the tone colour."
+    },
+    {
+      "component": "Alert",
+      "name": "icon",
+      "type": "ReactNode | false",
+      "description": "Replaces the tone icon. `false` shows no icon."
+    },
+    {
+      "component": "Alert",
+      "name": "action",
+      "type": "ReactNode",
+      "description": "A small Button or a link. Sits at the inline end, and wraps under the text when the alert is narrow."
+    },
+    {
+      "component": "Alert",
+      "name": "onDismiss",
+      "type": "() => void",
+      "description": "Shows a close button that calls this. You remove the alert."
+    },
+    {
+      "component": "Alert",
+      "name": "dismissLabel",
+      "type": "string",
+      "default": "'Dismiss'",
+      "description": "Accessible name of the close button."
+    },
+    {
+      "component": "Alert",
+      "name": "live",
+      "type": "boolean | 'assertive' | 'polite'",
+      "description": "Announce the alert when it appears: `true`/'assertive' → role=\"alert\", 'polite' → role=\"status\". Leave unset for alerts present on page load."
+    }
+  ],
+  "accessibility": {
+    "keyboard": [
+      {
+        "keys": "Tab",
+        "action": "Moves to the action and the close button, in reading order."
+      },
+      {
+        "keys": "Enter / Space",
+        "action": "Activates the focused close button or action."
+      }
+    ],
+    "notes": [
+      "No live role by default, so alerts rendered with the page are not re-announced. Set `live` for alerts that appear after a user action (e.g. a failed submit).",
+      "With `live`, the alert is named by its title (aria-labelledby).",
+      "Every tone has a distinct icon plus a text title; colour is never the only signal.",
+      "The close button is a 24×24px target (WCAG 2.5.8) and has an accessible name."
+    ]
+  },
+  "guidelines": {
+    "do": [
+      "Lead with what happened, then what to do next.",
+      "Use danger for problems that block the task; warning for things that will become problems.",
+      "Keep the action to one short verb phrase."
+    ],
+    "dont": [
+      "Don't use an alert for transient confirmations — use a toast.",
+      "Don't set `live` on alerts that are present when the page loads.",
+      "Don't stack several alerts of the same tone; combine them."
+    ]
+  },
+  "tokens": [
+    "color.feedback.*.bg",
+    "color.feedback.*.border",
+    "color.feedback.*.fg",
+    "color.surface.sunken",
+    "color.border.default",
+    "color.text.default",
+    "color.text.subtle",
+    "color.focus.ring",
+    "radius.container",
+    "radius.button",
+    "space.1–4",
+    "font.size.sm",
+    "font.size.md",
+    "font.weight.semibold",
+    "line-height.snug",
+    "motion.duration.fast"
+  ]
+}

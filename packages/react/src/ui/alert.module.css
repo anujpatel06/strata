@@ -1,0 +1,184 @@
+/*
+ * Alert — tone sets private properties; everything else is shared.
+ * Layout: icon | main | dismiss, where main is a wrapping row of [text, action]. The action sits at
+ * the inline end when there is room and drops under the text (aligned with it) when there isn't —
+ * intrinsic, so no container query and no collapse inside shrink-to-fit parents.
+ */
+
+.alert {
+  --_bg: var(--strata-color-surface-sunken);
+  --_border: var(--strata-color-border-default);
+  --_fg: var(--strata-color-text-default);
+  --_body: var(--strata-color-text-subtle);
+  /* One title line: the icon and dismiss button centre on it. */
+  --_line: calc(var(--strata-font-size-md) * var(--strata-line-height-snug));
+
+  box-sizing: border-box;
+  padding-block: var(--strata-space-3);
+  padding-inline: var(--strata-space-4);
+  border: 1px solid var(--_border);
+  border-radius: var(--strata-radius-container);
+  background-color: var(--_bg);
+  color: var(--_fg);
+  font-family: var(--strata-font-body);
+  font-size: var(--strata-font-size-md);
+  line-height: var(--strata-line-height-normal);
+  text-align: start;
+}
+
+.alert[data-tone='info'] {
+  --_bg: var(--strata-color-feedback-info-bg);
+  --_border: var(--strata-color-feedback-info-border);
+  --_fg: var(--strata-color-feedback-info-fg);
+  --_body: var(--strata-color-feedback-info-fg);
+}
+.alert[data-tone='success'] {
+  --_bg: var(--strata-color-feedback-success-bg);
+  --_border: var(--strata-color-feedback-success-border);
+  --_fg: var(--strata-color-feedback-success-fg);
+  --_body: var(--strata-color-feedback-success-fg);
+}
+.alert[data-tone='warning'] {
+  --_bg: var(--strata-color-feedback-warning-bg);
+  --_border: var(--strata-color-feedback-warning-border);
+  --_fg: var(--strata-color-feedback-warning-fg);
+  --_body: var(--strata-color-feedback-warning-fg);
+}
+.alert[data-tone='danger'] {
+  --_bg: var(--strata-color-feedback-danger-bg);
+  --_border: var(--strata-color-feedback-danger-border);
+  --_fg: var(--strata-color-feedback-danger-fg);
+  --_body: var(--strata-color-feedback-danger-fg);
+}
+
+.layout {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--strata-space-3);
+}
+
+.icon {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  block-size: var(--_line);
+}
+
+.icon > svg {
+  inline-size: calc(var(--strata-font-size-md) * 1.15);
+  block-size: calc(var(--strata-font-size-md) * 1.15);
+}
+
+.main {
+  display: flex;
+  flex: 1 1 0;
+  flex-wrap: wrap;
+  align-items: center;
+  column-gap: var(--strata-space-4);
+  row-gap: var(--strata-space-3);
+  min-inline-size: 0;
+}
+
+.content {
+  display: grid;
+  /* The text wants ~16rem before the action is pushed to its own line. */
+  flex: 1 1 calc(var(--strata-space-16) * 4);
+  gap: var(--strata-space-1);
+  min-inline-size: 0;
+}
+
+.title {
+  font-size: var(--strata-font-size-md);
+  font-weight: var(--strata-font-weight-semibold);
+  line-height: var(--strata-line-height-snug);
+  text-wrap: pretty;
+}
+
+.body {
+  color: var(--_body);
+  font-size: var(--strata-font-size-sm);
+  line-height: var(--strata-line-height-normal);
+  text-wrap: pretty;
+}
+
+.body :where(p) {
+  margin: 0;
+}
+
+.body :where(a) {
+  color: inherit;
+  font-weight: var(--strata-font-weight-medium);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 2px;
+}
+
+.action {
+  display: flex;
+  flex: none;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--strata-space-2);
+  font-size: var(--strata-font-size-sm);
+}
+
+/* A bare link in the action slot reads as the alert's call to action. Buttons bring their own style. */
+.action :where(a) {
+  color: inherit;
+  font-weight: var(--strata-font-weight-semibold);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 2px;
+  white-space: nowrap;
+}
+
+.body :where(a):focus-visible,
+.action :where(a):focus-visible {
+  outline: 2px solid var(--strata-color-focus-ring);
+  outline-offset: 2px;
+  border-radius: var(--strata-radius-badge);
+}
+
+/* ---- dismiss ----------------------------------------------------------- */
+
+/* 24px hit target (WCAG 2.5.8), centred on the first line and pulled into the padding. */
+.dismiss {
+  display: inline-grid;
+  flex: none;
+  place-items: center;
+  inline-size: var(--strata-space-6);
+  block-size: var(--strata-space-6);
+  margin-block: calc((var(--_line) - var(--strata-space-6)) / 2);
+  margin-inline-end: calc(var(--strata-space-1) * -1);
+  padding: 0;
+  border: 0;
+  border-radius: min(var(--strata-radius-button), var(--strata-space-2));
+  background-color: transparent;
+  color: inherit;
+  cursor: default;
+  outline: none;
+}
+
+.dismiss > svg {
+  inline-size: var(--strata-space-4);
+  block-size: var(--strata-space-4);
+}
+
+.dismiss[data-hovered] {
+  background-color: color-mix(in oklab, var(--_fg) 10%, transparent);
+}
+
+.dismiss[data-pressed] {
+  background-color: color-mix(in oklab, var(--_fg) 16%, transparent);
+}
+
+.dismiss[data-focus-visible] {
+  outline: 2px solid var(--strata-color-focus-ring);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .dismiss {
+    transition: background-color var(--strata-motion-duration-fast) var(--strata-motion-easing);
+  }
+}

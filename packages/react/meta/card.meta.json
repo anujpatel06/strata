@@ -1,0 +1,112 @@
+{
+  "name": "card",
+  "title": "Card",
+  "description": "A surface that groups related content and actions.",
+  "category": "layout",
+  "maturity": "beta",
+  "exports": [
+    "Card",
+    "CardHeader",
+    "CardTitle",
+    "CardDescription",
+    "CardAction",
+    "CardContent",
+    "CardFooter"
+  ],
+  "files": [
+    "card.tsx",
+    "card.module.css"
+  ],
+  "dependencies": [],
+  "registryDependencies": [],
+  "usage": "import { Button, Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@strata/react';\n\nexport function PlanCard() {\n  return (\n    <Card>\n      <CardHeader>\n        <CardTitle>Family plan</CardTitle>\n        <CardDescription>Renews on 1 April</CardDescription>\n      </CardHeader>\n      <CardContent>4 members covered</CardContent>\n      <CardFooter>\n        <Button size=\"sm\">Manage plan</Button>\n      </CardFooter>\n    </Card>\n  );\n}",
+  "examples": [
+    {
+      "name": "card-demo",
+      "title": "Card",
+      "description": "Header with a status in CardAction, key figures, and a footer with actions."
+    },
+    {
+      "name": "card-with-form",
+      "title": "With a form",
+      "description": "Fields in CardContent and submit/cancel in CardFooter."
+    },
+    {
+      "name": "card-variants",
+      "title": "Variants",
+      "description": "default (raised), outline and ghost."
+    }
+  ],
+  "props": [
+    {
+      "component": "Card",
+      "name": "variant",
+      "type": "'default' | 'outline' | 'ghost'",
+      "default": "'default'",
+      "description": "default = raised surface, border and shadow; outline = border only; ghost = no chrome, same spacing."
+    },
+    {
+      "component": "CardHeader",
+      "name": "divider",
+      "type": "boolean",
+      "default": "false",
+      "description": "Draws a hairline under the header."
+    },
+    {
+      "component": "CardTitle",
+      "name": "level",
+      "type": "1 | 2 | 3 | 4 | 5 | 6",
+      "default": "3",
+      "description": "Heading level. Pick the one that fits the page outline."
+    },
+    {
+      "component": "CardAction",
+      "name": "children",
+      "type": "ReactNode",
+      "description": "Placed at the top inline-end of the header, beside the title and description (e.g. a Badge, Link or menu button)."
+    },
+    {
+      "component": "CardFooter",
+      "name": "divider",
+      "type": "boolean",
+      "default": "false",
+      "description": "Draws a hairline above the footer."
+    }
+  ],
+  "accessibility": {
+    "keyboard": [],
+    "notes": [
+      "A card is a plain div; CardTitle is a real heading (h3 by default).",
+      "If the whole card is a link, put the link on the title and extend its hit area with CSS rather than wrapping the card in <a>.",
+      "Give a card role=\"region\" and aria-labelledby only when it is a major page landmark."
+    ]
+  },
+  "guidelines": {
+    "do": [
+      "Keep one primary action per card, in the footer or CardAction.",
+      "Let parts that must bleed (tables, images) drop their inline padding."
+    ],
+    "dont": [
+      "Don't nest cards; use a Separator or an outline card inside.",
+      "Don't put more than one heading level inside a CardHeader."
+    ]
+  },
+  "tokens": [
+    "color.surface.raised",
+    "color.border.default",
+    "color.border.subtle",
+    "color.text.default",
+    "color.text.subtle",
+    "shadow.raised",
+    "radius.container",
+    "card-inset",
+    "font.heading",
+    "font.heading-tracking",
+    "font.size.lg",
+    "font.size.sm",
+    "font.weight.semibold",
+    "space.1",
+    "space.2",
+    "space.4"
+  ]
+}

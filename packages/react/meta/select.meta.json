@@ -1,0 +1,101 @@
+{
+  "name": "select",
+  "title": "Select",
+  "description": "Lets people choose one option from a short list that opens from a button.",
+  "category": "inputs",
+  "maturity": "beta",
+  "exports": ["Select", "SelectItem", "SelectSection"],
+  "files": ["select.tsx", "select.module.css"],
+  "dependencies": ["react-aria-components", "@tabler/icons-react"],
+  "registryDependencies": ["text-field"],
+  "reactAria": "https://react-spectrum.adobe.com/react-aria/Select.html",
+  "usage": "import { Select, SelectItem } from '@strata/react';\n\nexport function PlanPicker() {\n  return (\n    <Select label=\"Plan\" placeholder=\"Choose a plan\" onSelectionChange={(key) => console.log(key)}>\n      <SelectItem id=\"starter\">Starter</SelectItem>\n      <SelectItem id=\"team\">Team</SelectItem>\n      <SelectItem id=\"business\">Business</SelectItem>\n    </Select>\n  );\n}",
+  "examples": [
+    { "name": "select-demo", "title": "Select", "description": "A labelled select with a placeholder and help text." },
+    { "name": "select-with-sections", "title": "Sections", "description": "Group long lists under headings with SelectSection." },
+    { "name": "select-with-icons", "title": "Icons and descriptions", "description": "Items can show a leading icon and a second line; the trigger shows the icon and label only." },
+    { "name": "select-controlled", "title": "Controlled, from data", "description": "Render items from an array and control the selected key." },
+    { "name": "select-invalid", "title": "Invalid and disabled", "description": "Required with an error message, and a disabled select." }
+  ],
+  "props": [
+    { "component": "Select", "name": "label", "type": "ReactNode", "description": "Visible label. Use aria-label only when a visible label is impossible." },
+    { "component": "Select", "name": "description", "type": "ReactNode", "description": "Help text under the trigger, linked with aria-describedby." },
+    { "component": "Select", "name": "errorMessage", "type": "string | ((validation: ValidationResult) => string)", "description": "Shown under the trigger when the field is invalid." },
+    { "component": "Select", "name": "placeholder", "type": "string", "default": "'Select an item' (localised)", "description": "Text in the trigger while nothing is selected." },
+    { "component": "Select", "name": "items", "type": "Iterable<T>", "description": "Items for a dynamic list. Pair with a render function as children." },
+    { "component": "Select", "name": "children", "type": "ReactNode | ((item: T) => ReactElement)", "required": true, "description": "SelectItem and SelectSection elements, or a function that renders one per item." },
+    { "component": "Select", "name": "selectedKey", "type": "Key | null", "description": "The selected item's id (controlled)." },
+    { "component": "Select", "name": "defaultSelectedKey", "type": "Key", "description": "The initially selected item's id (uncontrolled)." },
+    { "component": "Select", "name": "onSelectionChange", "type": "(key: Key | null) => void", "description": "Called when the selection changes." },
+    { "component": "Select", "name": "disabledKeys", "type": "Iterable<Key>", "description": "Ids of items that can't be selected." },
+    { "component": "Select", "name": "isOpen", "type": "boolean", "description": "Whether the list is open (controlled). Pair with onOpenChange." },
+    { "component": "Select", "name": "isRequired", "type": "boolean", "default": "false", "description": "Marks the field required and shows the label's required marker." },
+    { "component": "Select", "name": "isInvalid", "type": "boolean", "default": "false", "description": "Shows the invalid state and errorMessage." },
+    { "component": "Select", "name": "isDisabled", "type": "boolean", "default": "false", "description": "Disables the trigger." },
+    { "component": "Select", "name": "name", "type": "string", "description": "Form field name; the selected key is submitted with forms." },
+    { "component": "SelectItem", "name": "id", "type": "Key", "required": true, "description": "Unique key used by selectedKey and onSelectionChange." },
+    { "component": "SelectItem", "name": "children", "type": "ReactNode", "required": true, "description": "The option label. A string also becomes its textValue for type-ahead." },
+    { "component": "SelectItem", "name": "textValue", "type": "string", "description": "Plain-text label for type-ahead and the trigger when children is not a string." },
+    { "component": "SelectItem", "name": "description", "type": "ReactNode", "description": "A second, quieter line under the label. Not shown in the trigger." },
+    { "component": "SelectItem", "name": "icon", "type": "ReactNode", "description": "Decorative leading icon, shown in the list and the trigger." },
+    { "component": "SelectItem", "name": "isDisabled", "type": "boolean", "default": "false", "description": "Makes this option unselectable." },
+    { "component": "SelectSection", "name": "title", "type": "ReactNode", "description": "Heading for the group; also its accessible name." },
+    { "component": "SelectSection", "name": "items", "type": "Iterable<T>", "description": "Items for a dynamic section. Pair with a render function as children." }
+  ],
+  "accessibility": {
+    "keyboard": [
+      { "keys": "Enter / Space / ↓ / ↑", "action": "Opens the list with the selected (or first/last) option focused." },
+      { "keys": "↓ / ↑", "action": "Moves focus between options (skips disabled ones)." },
+      { "keys": "Home / End", "action": "Moves focus to the first or last option." },
+      { "keys": "Enter / Space", "action": "Selects the focused option and closes the list." },
+      { "keys": "Type characters", "action": "Jumps to the next option that starts with the typed text, open or closed." },
+      { "keys": "Escape", "action": "Closes the list without changing the selection." },
+      { "keys": "Tab", "action": "Closes the list and moves focus on." }
+    ],
+    "notes": [
+      "The trigger is a button with aria-haspopup=\"listbox\"; the label, description and error are linked to it.",
+      "Options are role=\"option\" with aria-selected; an item's description is linked with aria-describedby.",
+      "Selected state is shown with a check mark and weight, not colour alone.",
+      "A hidden native <select> keeps browser autofill and form submission working."
+    ]
+  },
+  "guidelines": {
+    "do": [
+      "Use for 5–15 options that fit on screen; order them logically (alphabetical, frequency, or size).",
+      "Keep option labels short; put detail in description.",
+      "Use a placeholder that says what to pick (\"Choose a plan\"), not \"Select…\"."
+    ],
+    "dont": [
+      "Don't use for 2–4 options people should compare at a glance — use a RadioGroup.",
+      "Don't use for long lists people search by name — use a Combobox.",
+      "Don't put actions in a Select — use a Menu."
+    ]
+  },
+  "tokens": [
+    "color.surface.default",
+    "color.surface.raised",
+    "color.surface.sunken",
+    "color.border.strong",
+    "color.border.default",
+    "color.border.subtle",
+    "color.text.default",
+    "color.text.subtle",
+    "color.text.disabled",
+    "color.focus.ring",
+    "color.feedback.danger.solid",
+    "control-height",
+    "control-padding-inline",
+    "radius.field",
+    "radius.container",
+    "radius.button",
+    "shadow.overlay",
+    "space.1",
+    "space.2",
+    "font.size.md",
+    "font.size.sm",
+    "font.size.xs",
+    "motion.duration.fast",
+    "motion.duration.normal",
+    "motion.easing"
+  ]
+}

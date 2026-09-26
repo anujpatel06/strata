@@ -1,0 +1,86 @@
+.empty {
+  --_tile: var(--strata-space-12);
+  --_glyph: var(--strata-space-6);
+
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--strata-space-4);
+  inline-size: 100%;
+  padding-block: var(--strata-space-12);
+  padding-inline: var(--strata-space-6);
+  color: var(--strata-color-text-default);
+  font-family: var(--strata-font-body);
+  text-align: center;
+}
+
+.empty[data-size='sm'] {
+  --_tile: var(--strata-space-10);
+  --_glyph: var(--strata-space-5);
+
+  gap: var(--strata-space-3);
+  padding-block: var(--strata-space-8);
+  padding-inline: var(--strata-space-4);
+}
+
+.icon {
+  display: grid;
+  flex: none;
+  place-items: center;
+  inline-size: var(--_tile);
+  block-size: var(--_tile);
+  /* Follows the brand's container shape, capped so round brands get a squircle, not a coin. */
+  border-radius: min(var(--strata-radius-container), 30%);
+  background-color: var(--strata-color-surface-sunken);
+  box-shadow: inset 0 0 0 1px var(--strata-color-border-subtle);
+  color: var(--strata-color-text-subtle);
+}
+
+.icon > svg {
+  inline-size: var(--_glyph);
+  block-size: var(--_glyph);
+}
+
+.text {
+  display: grid;
+  justify-items: center;
+  gap: var(--strata-space-1);
+  max-inline-size: 100%;
+}
+
+.title {
+  margin: 0;
+  font-family: var(--strata-font-heading);
+  font-size: var(--strata-font-size-lg);
+  font-weight: var(--strata-font-weight-semibold);
+  letter-spacing: var(--strata-font-heading-tracking);
+  line-height: var(--strata-line-height-snug);
+  text-wrap: balance;
+}
+
+.empty[data-size='sm'] .title {
+  font-size: var(--strata-font-size-md);
+}
+
+.description {
+  max-inline-size: 48ch;
+  margin: 0;
+  color: var(--strata-color-text-subtle);
+  font-size: var(--strata-font-size-sm);
+  line-height: var(--strata-line-height-normal);
+  text-wrap: pretty;
+}
+
+.action {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: var(--strata-space-2);
+  margin-block-start: var(--strata-space-2);
+}
+
+.empty[data-size='sm'] .action {
+  margin-block-start: var(--strata-space-1);
+}

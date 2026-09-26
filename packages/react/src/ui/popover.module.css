@@ -1,0 +1,80 @@
+/* Portalled to <body>, so it re-applies the ThemeScope base (font, colour, box model). */
+.popover {
+  --popover-shift: 0 0;
+  z-index: 50;
+  box-sizing: border-box;
+  min-inline-size: 0;
+  max-inline-size: calc(100vw - var(--strata-space-4) * 2);
+  padding: var(--popover-padding, var(--strata-card-inset));
+  background: var(--strata-color-surface-raised);
+  border: 1px solid var(--strata-color-border-default);
+  border-radius: var(--strata-radius-container);
+  box-shadow: var(--strata-shadow-overlay);
+  outline: none;
+  font-family: var(--strata-font-body);
+  font-size: var(--strata-font-size-md);
+  line-height: var(--strata-line-height-normal);
+  color: var(--strata-color-text-default);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.popover *,
+.popover *::before,
+.popover *::after {
+  box-sizing: border-box;
+}
+.popover[data-placement='top'] {
+  --popover-shift: 0 var(--strata-space-1);
+}
+.popover[data-placement='bottom'] {
+  --popover-shift: 0 calc(var(--strata-space-1) * -1);
+}
+.popover[data-placement='left'] {
+  --popover-shift: var(--strata-space-1) 0;
+}
+.popover[data-placement='right'] {
+  --popover-shift: calc(var(--strata-space-1) * -1) 0;
+}
+
+/* Arrow: the open path's fill covers the panel border where they meet, the stroke continues it. */
+.arrow svg {
+  display: block;
+  inline-size: var(--strata-space-3);
+  block-size: var(--strata-space-3);
+}
+.arrow path {
+  fill: var(--strata-color-surface-raised);
+  stroke: var(--strata-color-border-default);
+  stroke-width: 1px;
+  vector-effect: non-scaling-stroke;
+}
+.arrow[data-placement='bottom'] svg {
+  rotate: 180deg;
+}
+.arrow[data-placement='left'] svg {
+  rotate: -90deg;
+}
+.arrow[data-placement='right'] svg {
+  rotate: 90deg;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .popover[data-entering] {
+    animation: pop var(--strata-motion-duration-fast) var(--strata-motion-easing);
+  }
+  .popover[data-exiting] {
+    animation: fade var(--strata-motion-duration-fast) var(--strata-motion-easing) reverse;
+  }
+}
+
+@keyframes pop {
+  from {
+    opacity: 0;
+    translate: var(--popover-shift);
+  }
+}
+@keyframes fade {
+  from {
+    opacity: 0;
+  }
+}

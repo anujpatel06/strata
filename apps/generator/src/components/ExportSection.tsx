@@ -1,8 +1,8 @@
 import { useEffect, useId, useMemo, useRef, useState } from 'react';
 import { IconCheck, IconCopy, IconDownload, IconFileCode } from '@tabler/icons-react';
-import { toCSS, toDTCG, toFigmaFiles, type Theme } from '@strata/theme-engine';
+import { toCSS, toDTCG, toFigmaFiles, toShadcnCSS, type Theme } from '@strata/theme-engine';
 import type { TenantId } from '../tenants';
-import type { ExportFormat } from '../url-state';
+import { EXPORT_FORMATS, type ExportFormat } from '../url-state';
 import { Segmented, type SegmentedOption } from './Segmented';
 import styles from './ExportSection.module.css';
 import ui from './ui.module.css';
@@ -15,13 +15,22 @@ interface ExportFile {
   mime: string;
 }
 
-const FORMAT_OPTIONS: ReadonlyArray<SegmentedOption<ExportFormat>> = [
+/** 'shadcn' is only URL-persisted once url-state's EXPORT_FORMATS lists it; until then it's local state here. */
+type Format = ExportFormat | 'shadcn';
+const URL_FORMATS: readonly string[] = EXPORT_FORMATS;
+const isUrlFormat = (f: Format): f is ExportFormat => URL_FORMATS.includes(f);
+
+const FORMAT_OPTIONS: ReadonlyArray<SegmentedOption<Format>> = [
   { value: 'css', label: 'CSS' },
   { value: 'dtcg', label: 'DTCG 2025.10' },
   { value: 'figma', label: 'Figma' },
+  { value: 'shadcn', label: 'shadcn' },
 ];
 
-function buildFiles(theme: Theme, format: ExportFormat, tenant: TenantId): ExportFile[] {
+const NOTE = 'DTCG 2025.10 uses colour objects; the Figma files use hex strings for plugin compatibility.';
+const SHADCN_NOTE = 'Paste into your shadcn globals.css — it replaces the :root and .dark blocks. Same contrast-checked roles, as oklch().';
+
+function buildFiles(theme: Theme, format: Format, tenant: TenantId): ExportFile[] {
   switch (format) {
     case 'css':
       return [{ name: `${tenant}.css`, content: toCSS(theme), mime: 'text/css' }];
@@ -33,6 +42,8 @@ function buildFiles(theme: Theme, format: ExportFormat, tenant: TenantId): Expor
         content: JSON.stringify(doc, null, 2),
         mime: 'application/json',
       }));
+    case 'shadcn':
+      return [{ name: `${tenant}-shadcn.css`, content: toShadcnCSS(theme), mime: 'text/css' }];
     default:
       return [];
   }
@@ -59,7 +70,7 @@ interface ExportSectionProps {
   onExportFocused: () => void;
 }
 
-export function ExportSection({ theme, tenant, format, onFormatChange, focusExport, onExportFocused }: ExportSectionProps) {
+export function ExportSection({ theme, tenant, format: urlFormat, onFormatChange, focusExport, onExportFocused }: ExportSectionProps) {
   const headingId = useId();
   const fileListId = useId();
   const sectionRef = useRef<HTMLElement>(null);
@@ -68,6 +79,14 @@ export function ExportSection({ theme, tenant, format, onFormatChange, focusExpo
   const [selectedName, setSelectedName] = useState<string | null>(null);
   const [status, setStatus] = useState('');
   const [copied, setCopied] = useState(false);
+  const [localFormat, setLocalFormat] = useState<Format | null>(null);
+  const format: Format = localFormat ?? urlFormat;
+  const onSelectFormat = (next: Format) => {
+    if (isUrlFormat(next)) {
+      setLocalFormat(null);
+      onFormatChange(next);
+    } else setLocalFormat(next);
+  };
 
   const files = useMemo(() => buildFiles(theme, format, tenant), [theme, format, tenant]);
   const file = files.find((f) => f.name === selectedName) ?? files[0];
@@ -158,7 +177,7 @@ export function ExportSection({ theme, tenant, format, onFormatChange, focusExpo
             size="sm"
             options={FORMAT_OPTIONS}
             value={format}
-            onChange={onFormatChange}
+            onChange={onSelectFormat}
             className={styles.formats}
           />
           <div className={styles.actions}>
@@ -227,7 +246,7 @@ export function ExportSection({ theme, tenant, format, onFormatChange, focusExpo
         </div>
       </div>
 
-      <p className={styles.note}>DTCG 2025.10 uses colour objects; the Figma files use hex strings for plugin compatibility.</p>
+      <p className={styles.note}>{format === 'shadcn' ? SHADCN_NOTE : NOTE}</p>
 
       <p className={ui.srOnly} aria-live="polite" role="status">
         {status}

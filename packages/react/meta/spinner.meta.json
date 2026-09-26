@@ -1,0 +1,71 @@
+{
+  "name": "spinner",
+  "title": "Spinner",
+  "description": "A small loading indicator in the current text colour.",
+  "category": "feedback",
+  "maturity": "beta",
+  "exports": [
+    "Spinner"
+  ],
+  "files": [
+    "spinner.tsx",
+    "spinner.module.css"
+  ],
+  "dependencies": [
+    "react-aria-components"
+  ],
+  "registryDependencies": [],
+  "usage": "import { Spinner } from '@strata/react';\n\nexport function Loading() {\n  return <Spinner size=\"sm\" label=\"Loading claims\" />;\n}",
+  "examples": [
+    {
+      "name": "spinner-demo",
+      "title": "Sizes",
+      "description": "sm (16px), md (24px) and lg (32px), coloured by the parent."
+    },
+    {
+      "name": "spinner-inline",
+      "title": "With text",
+      "description": "Beside a short status line."
+    }
+  ],
+  "props": [
+    {
+      "component": "Spinner",
+      "name": "size",
+      "type": "'sm' | 'md' | 'lg'",
+      "default": "'md'",
+      "description": "16, 24 or 32px."
+    },
+    {
+      "component": "Spinner",
+      "name": "label",
+      "type": "string",
+      "default": "'Loading'",
+      "description": "Announced to screen readers through role=\"status\"; not shown."
+    }
+  ],
+  "accessibility": {
+    "keyboard": [],
+    "notes": [
+      "Renders role=\"status\" with visually hidden label text, so the loading state is announced politely.",
+      "The SVG is aria-hidden. It uses currentColor — make sure the parent colour has 3:1 contrast with the background.",
+      "Rotation runs only under prefers-reduced-motion: no-preference; with reduced motion the arc fades slowly instead."
+    ]
+  },
+  "guidelines": {
+    "do": [
+      "Give the label the task: \"Loading claims\", not just \"Loading\".",
+      "Use it inside small areas (a button, a table cell); use Skeleton for whole layouts."
+    ],
+    "dont": [
+      "Don't show several spinners for one task.",
+      "Don't put a Spinner in a Button — use Button's isPending."
+    ]
+  },
+  "tokens": [
+    "space.4",
+    "space.6",
+    "space.8",
+    "motion.duration.normal"
+  ]
+}

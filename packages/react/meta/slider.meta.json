@@ -1,0 +1,171 @@
+{
+  "name": "slider",
+  "title": "Slider",
+  "description": "Picks a number or a range by dragging or with the keyboard, with a formatted value next to the label.",
+  "category": "inputs",
+  "maturity": "beta",
+  "exports": [
+    "Slider"
+  ],
+  "files": [
+    "slider.tsx",
+    "slider.module.css"
+  ],
+  "dependencies": [
+    "react-aria-components"
+  ],
+  "registryDependencies": [
+    "text-field"
+  ],
+  "reactAria": "https://react-spectrum.adobe.com/react-aria/Slider.html",
+  "usage": "import { Slider } from '@strata/react';\n\nexport function Budget() {\n  return <Slider label=\"Monthly budget\" defaultValue={60} />;\n}",
+  "examples": [
+    {
+      "name": "slider-demo",
+      "title": "Slider"
+    },
+    {
+      "name": "slider-range",
+      "title": "Range",
+      "description": "Two thumbs with their own accessible names; the output uses a formatted range."
+    },
+    {
+      "name": "slider-formatted",
+      "title": "Formatted values",
+      "description": "Percent and unit formatting via formatOptions."
+    },
+    {
+      "name": "slider-disabled",
+      "title": "Disabled"
+    }
+  ],
+  "props": [
+    {
+      "component": "Slider",
+      "name": "label",
+      "type": "ReactNode",
+      "description": "Visible label. Without one, pass aria-label."
+    },
+    {
+      "component": "Slider",
+      "name": "value / defaultValue",
+      "type": "number | number[]",
+      "description": "One number for a single thumb, [min, max] for a range."
+    },
+    {
+      "component": "Slider",
+      "name": "onChange",
+      "type": "(value: number | number[]) => void",
+      "description": "Called while dragging or stepping."
+    },
+    {
+      "component": "Slider",
+      "name": "onChangeEnd",
+      "type": "(value: number | number[]) => void",
+      "description": "Called when the interaction ends."
+    },
+    {
+      "component": "Slider",
+      "name": "minValue",
+      "type": "number",
+      "default": "0",
+      "description": "Lowest value."
+    },
+    {
+      "component": "Slider",
+      "name": "maxValue",
+      "type": "number",
+      "default": "100",
+      "description": "Highest value."
+    },
+    {
+      "component": "Slider",
+      "name": "step",
+      "type": "number",
+      "default": "1",
+      "description": "Increment."
+    },
+    {
+      "component": "Slider",
+      "name": "formatOptions",
+      "type": "Intl.NumberFormatOptions",
+      "description": "Formats the output and the announced value (currency, percent, units)."
+    },
+    {
+      "component": "Slider",
+      "name": "showOutput",
+      "type": "boolean",
+      "default": "true",
+      "description": "Show the formatted value next to the label."
+    },
+    {
+      "component": "Slider",
+      "name": "thumbLabels",
+      "type": "string[]",
+      "description": "Accessible names for each thumb of a range, e.g. ['Minimum', 'Maximum']; combined with the label."
+    },
+    {
+      "component": "Slider",
+      "name": "isDisabled",
+      "type": "boolean",
+      "default": "false",
+      "description": "Disables the slider."
+    }
+  ],
+  "accessibility": {
+    "keyboard": [
+      {
+        "keys": "Arrow Right / Up",
+        "action": "Increases by one step (Arrow Left increases in right-to-left locales)."
+      },
+      {
+        "keys": "Arrow Left / Down",
+        "action": "Decreases by one step."
+      },
+      {
+        "keys": "Page Up / Page Down",
+        "action": "Changes by a larger step."
+      },
+      {
+        "keys": "Home / End",
+        "action": "Jumps to the minimum / maximum."
+      },
+      {
+        "keys": "Tab",
+        "action": "Moves between thumbs."
+      }
+    ],
+    "notes": [
+      "Each thumb is a native range input, announced with the formatted value.",
+      "Give range thumbs distinct names with thumbLabels.",
+      "Direction follows the React Aria locale (I18nProvider); set a right-to-left locale for Arabic or Hebrew interfaces, not only dir=\"rtl\".",
+      "The track is a 24px-tall target even though the rail is thin."
+    ]
+  },
+  "guidelines": {
+    "do": [
+      "Use when an approximate value is fine and the range is small.",
+      "Show the value with formatOptions so people don't have to guess."
+    ],
+    "dont": [
+      "Don't use a slider for precise entry like amounts to the rupee; use a TextField.",
+      "Don't use a range slider without naming both thumbs."
+    ]
+  },
+  "tokens": [
+    "color.surface.sunken",
+    "color.surface.default",
+    "color.border.default",
+    "color.border.strong",
+    "color.action.primary.bg",
+    "color.text.subtle",
+    "color.text.disabled",
+    "color.focus.ring",
+    "shadow.raised",
+    "radius.pill",
+    "control-height",
+    "space.1",
+    "space.6",
+    "font.size.sm"
+  ]
+}

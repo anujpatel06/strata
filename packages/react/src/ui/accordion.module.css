@@ -1,0 +1,124 @@
+.root {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  inline-size: 100%;
+  min-inline-size: 0;
+}
+
+.item {
+  border-block-end: 1px solid var(--strata-color-border-subtle);
+}
+
+.item:last-child {
+  border-block-end: 0;
+}
+
+.heading {
+  margin: 0;
+  font: inherit;
+}
+
+.trigger {
+  box-sizing: border-box;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--strata-space-4);
+  inline-size: 100%;
+  min-block-size: var(--strata-control-height);
+  margin: 0;
+  /* 16px comfortable, 12px compact. */
+  padding-block: calc(var(--strata-control-height) / 2 - var(--strata-space-1));
+  padding-inline: 0;
+  border: 0;
+  border-radius: var(--strata-radius-badge);
+  background-color: transparent;
+  color: var(--strata-color-text-default);
+  font-family: inherit;
+  font-size: var(--strata-font-size-md);
+  font-weight: var(--strata-font-weight-medium);
+  line-height: var(--strata-line-height-snug);
+  letter-spacing: inherit;
+  text-align: start;
+  cursor: pointer;
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.title {
+  min-inline-size: 0;
+  text-decoration-line: none;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.2em;
+}
+
+.trigger[data-hovered] .title {
+  text-decoration-line: underline;
+}
+
+.trigger[data-focus-visible] {
+  outline: 2px solid var(--strata-color-focus-ring);
+  outline-offset: 2px;
+}
+
+.trigger[data-disabled] {
+  color: var(--strata-color-text-disabled);
+  cursor: default;
+}
+
+.trigger[data-disabled] .title {
+  text-decoration-line: none;
+}
+
+.chevron {
+  flex: none;
+  /* Centred on the first line of a title that wraps. */
+  margin-block: calc((1lh - 1.15em) / 2);
+  color: var(--strata-color-text-subtle);
+}
+
+.item[data-expanded] .chevron {
+  rotate: 180deg;
+}
+
+.trigger[data-disabled] .chevron {
+  color: var(--strata-color-text-disabled);
+}
+
+/*
+ * RAC measures the panel and exposes --disclosure-panel-height (0px → content px → auto) so it can
+ * animate height and apply hidden="until-found" (find-in-page opens a closed item) after the transition ends.
+ */
+.panel {
+  block-size: var(--disclosure-panel-height);
+  overflow: clip;
+  /* Room for focus rings on links inside the panel. */
+  overflow-clip-margin: var(--strata-space-1);
+}
+
+.content {
+  padding-block-end: calc(var(--strata-control-height) / 2 - var(--strata-space-1));
+  color: var(--strata-color-text-subtle);
+  font-size: var(--strata-font-size-md);
+  line-height: var(--strata-line-height-normal);
+  text-wrap: pretty;
+}
+
+.content > :where(p, ul, ol) {
+  margin-block: 0;
+}
+
+.content > :where(* + *) {
+  margin-block-start: var(--strata-space-3);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .panel {
+    transition: block-size var(--strata-motion-duration-normal) var(--strata-motion-easing);
+  }
+
+  .chevron {
+    transition: rotate var(--strata-motion-duration-normal) var(--strata-motion-easing);
+  }
+}

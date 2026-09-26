@@ -1,0 +1,90 @@
+{
+  "name": "calendar",
+  "title": "Calendar",
+  "description": "A month grid for picking a date or a date range, always visible on the page.",
+  "category": "inputs",
+  "maturity": "beta",
+  "exports": ["Calendar", "RangeCalendar"],
+  "files": ["calendar.tsx", "calendar.module.css"],
+  "dependencies": ["react-aria-components", "@internationalized/date", "@tabler/icons-react"],
+  "registryDependencies": [],
+  "reactAria": "https://react-spectrum.adobe.com/react-aria/Calendar.html",
+  "usage": "import { getLocalTimeZone, today } from '@internationalized/date';\nimport { Calendar } from '@strata/react';\n\nexport function AppointmentDate() {\n  return <Calendar aria-label=\"Appointment date\" minValue={today(getLocalTimeZone())} onChange={(date) => console.log(date.toString())} />;\n}",
+  "examples": [
+    { "name": "calendar-demo", "title": "Calendar", "description": "Pick a single date. Today is marked with a dot." },
+    { "name": "calendar-range", "title": "Range", "description": "RangeCalendar picks a start and end date." },
+    { "name": "calendar-unavailable", "title": "Limits and unavailable dates", "description": "minValue/maxValue disable dates; isDateUnavailable strikes out dates that can't be booked." },
+    { "name": "calendar-two-months", "title": "Two months", "description": "visibleDuration shows months side by side; paging moves by the whole duration." }
+  ],
+  "props": [
+    { "component": "Calendar", "name": "aria-label", "type": "string", "description": "Accessible name; the visible month is appended. Required unless labelled by aria-labelledby." },
+    { "component": "Calendar", "name": "value / defaultValue", "type": "DateValue | null", "description": "The selected date, controlled or initial (from @internationalized/date)." },
+    { "component": "Calendar", "name": "onChange", "type": "(value: DateValue) => void", "description": "Called when a date is selected." },
+    { "component": "Calendar", "name": "minValue / maxValue", "type": "DateValue", "description": "Earliest and latest selectable dates; dates outside are disabled." },
+    { "component": "Calendar", "name": "isDateUnavailable", "type": "(date: DateValue) => boolean", "description": "Marks dates that can be focused but not selected (e.g. fully booked)." },
+    { "component": "Calendar", "name": "focusedValue / defaultFocusedValue", "type": "DateValue", "description": "The date that has keyboard focus, which also sets the visible month." },
+    { "component": "Calendar", "name": "visibleDuration", "type": "{ months: number }", "default": "{ months: 1 }", "description": "How many months to show side by side." },
+    { "component": "Calendar", "name": "firstDayOfWeek", "type": "'sun' | 'mon' | 'tue' | 'wed' | 'thu' | 'fri' | 'sat'", "description": "Overrides the locale's first day of the week." },
+    { "component": "Calendar", "name": "isDisabled / isReadOnly", "type": "boolean", "default": "false", "description": "Disables the whole calendar, or keeps it focusable but unchangeable." },
+    { "component": "Calendar", "name": "isInvalid", "type": "boolean", "default": "false", "description": "Shows the selection in the danger colour and errorMessage." },
+    { "component": "Calendar", "name": "errorMessage", "type": "string", "description": "Shown under the grid when isInvalid is true." },
+    { "component": "RangeCalendar", "name": "value / defaultValue", "type": "{ start: DateValue; end: DateValue } | null", "description": "The selected range, controlled or initial." },
+    { "component": "RangeCalendar", "name": "onChange", "type": "(value: { start: DateValue; end: DateValue }) => void", "description": "Called when both ends of a range are picked." },
+    { "component": "RangeCalendar", "name": "allowsNonContiguousRanges", "type": "boolean", "default": "false", "description": "Allow ranges that span unavailable dates." }
+  ],
+  "accessibility": {
+    "keyboard": [
+      { "keys": "← / →", "action": "Previous / next day (mirrored in right-to-left locales)." },
+      { "keys": "↑ / ↓", "action": "Same day in the previous / next week." },
+      { "keys": "Page Up / Page Down", "action": "Previous / next month." },
+      { "keys": "Shift + Page Up / Page Down", "action": "Previous / next year." },
+      { "keys": "Home / End", "action": "First / last day of the week." },
+      { "keys": "Enter / Space", "action": "Selects the focused date; in a range calendar the first press sets the start, the second the end." },
+      { "keys": "Escape", "action": "Range calendar: cancels a half-picked range." },
+      { "keys": "Tab", "action": "Moves between the previous/next buttons and the grid." }
+    ],
+    "notes": [
+      "The grid is role=\"grid\"; each date has a full label (e.g. \"Monday, September 14, 2026\") so the weekday header is hidden from assistive tech.",
+      "The visible month is announced when it changes.",
+      "Today is marked with a dot and bold weight; unavailable dates are struck through and stay readable (text.subtle); disabled dates are muted and not focusable.",
+      "Previous/next buttons have localised names and flip direction in right-to-left layouts."
+    ]
+  },
+  "guidelines": {
+    "do": [
+      "Use an inline Calendar when the date is the main task on the screen (booking, scheduling).",
+      "Set minValue/maxValue rather than validating after the fact.",
+      "Use isDateUnavailable for dates that exist but can't be chosen, so people see why."
+    ],
+    "dont": [
+      "Don't use an inline calendar in a dense form — use DatePicker.",
+      "Don't use a calendar for dates far from today, like a date of birth — type it in a DatePicker."
+    ]
+  },
+  "tokens": [
+    "color.action.primary.bg",
+    "color.action.primary.fg",
+    "color.action.primary.hover",
+    "color.surface.selected",
+    "color.text.default",
+    "color.text.subtle",
+    "color.text.disabled",
+    "color.border.default",
+    "color.focus.ring",
+    "color.feedback.danger.*",
+    "control-height",
+    "radius.button",
+    "radius.pill",
+    "font.heading",
+    "font.heading-tracking",
+    "font.size.md",
+    "font.size.sm",
+    "space.1",
+    "space.2",
+    "space.3",
+    "space.6",
+    "space.8",
+    "motion.duration.fast",
+    "motion.easing"
+  ]
+}

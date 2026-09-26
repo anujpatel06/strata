@@ -1,0 +1,234 @@
+{
+  "name": "menu",
+  "title": "Menu",
+  "description": "A list of actions or options that opens from a button, with icons, shortcuts, sections, submenus and selection.",
+  "category": "overlays",
+  "maturity": "beta",
+  "exports": [
+    "Menu",
+    "MenuItem",
+    "MenuSection",
+    "MenuSeparator",
+    "MenuTrigger",
+    "SubmenuTrigger"
+  ],
+  "files": [
+    "menu.tsx",
+    "menu.module.css"
+  ],
+  "dependencies": [
+    "react-aria-components",
+    "@tabler/icons-react"
+  ],
+  "registryDependencies": [
+    "popover"
+  ],
+  "reactAria": "https://react-spectrum.adobe.com/react-aria/Menu.html",
+  "usage": "import { Button, Menu, MenuItem, MenuSeparator, MenuTrigger } from '@strata/react';\n\nexport function Actions() {\n  return (\n    <MenuTrigger>\n      <Button variant=\"outline\">Actions</Button>\n      <Menu onAction={(key) => console.log(key)}>\n        <MenuItem id=\"edit\" shortcut=\"⌘E\">Edit</MenuItem>\n        <MenuItem id=\"duplicate\">Duplicate</MenuItem>\n        <MenuSeparator />\n        <MenuItem id=\"delete\" tone=\"danger\">Delete</MenuItem>\n      </Menu>\n    </MenuTrigger>\n  );\n}",
+  "examples": [
+    {
+      "name": "menu-demo",
+      "title": "Actions menu",
+      "description": "Icons, a separator and a destructive item."
+    },
+    {
+      "name": "menu-with-shortcuts",
+      "title": "Sections and shortcuts",
+      "description": "Section titles, shortcut hints, descriptions and a disabled item."
+    },
+    {
+      "name": "menu-submenu",
+      "title": "Submenus",
+      "description": "SubmenuTrigger wraps an item and the Menu it opens."
+    },
+    {
+      "name": "menu-selection",
+      "title": "Selection",
+      "description": "Single and multiple selection per section, shown with checkmarks."
+    }
+  ],
+  "props": [
+    {
+      "component": "Menu",
+      "name": "children / items",
+      "type": "ReactNode | (item) => ReactElement / Iterable<T>",
+      "required": true,
+      "description": "MenuItem, MenuSection, MenuSeparator and SubmenuTrigger elements, or a render function over items."
+    },
+    {
+      "component": "Menu",
+      "name": "onAction",
+      "type": "(key: Key) => void",
+      "description": "Called with the id of the activated item. The menu then closes."
+    },
+    {
+      "component": "Menu",
+      "name": "selectionMode / selectedKeys / onSelectionChange",
+      "type": "'none' | 'single' | 'multiple' / Iterable<Key> / (keys: Selection) => void",
+      "description": "Makes items checkable; selected items show a checkmark. Can also be set per MenuSection."
+    },
+    {
+      "component": "Menu",
+      "name": "placement",
+      "type": "Placement",
+      "default": "'bottom start'",
+      "description": "Where the menu opens relative to its trigger. Submenus open at the end edge."
+    },
+    {
+      "component": "Menu",
+      "name": "disabledKeys",
+      "type": "Iterable<Key>",
+      "description": "Items that can't be focused or activated."
+    },
+    {
+      "component": "Menu",
+      "name": "renderEmptyState",
+      "type": "() => ReactNode",
+      "description": "Content when there are no items."
+    },
+    {
+      "component": "MenuItem",
+      "name": "children",
+      "type": "ReactNode",
+      "required": true,
+      "description": "The label. Pass textValue when it isn't a plain string (used for typeahead)."
+    },
+    {
+      "component": "MenuItem",
+      "name": "id",
+      "type": "Key",
+      "description": "Passed to onAction and used for selection."
+    },
+    {
+      "component": "MenuItem",
+      "name": "icon",
+      "type": "ReactNode",
+      "description": "Leading icon. Decorative."
+    },
+    {
+      "component": "MenuItem",
+      "name": "description",
+      "type": "ReactNode",
+      "description": "Second line under the label, announced as its description."
+    },
+    {
+      "component": "MenuItem",
+      "name": "shortcut",
+      "type": "string",
+      "description": "Shortcut hint at the inline end, e.g. \"⌘E\". Display only — bind the keys yourself."
+    },
+    {
+      "component": "MenuItem",
+      "name": "tone",
+      "type": "'neutral' | 'danger'",
+      "default": "'neutral'",
+      "description": "danger colours the item for destructive actions."
+    },
+    {
+      "component": "MenuItem",
+      "name": "isDisabled / href / onAction",
+      "type": "boolean / string / () => void",
+      "description": "Standard React Aria MenuItem props."
+    },
+    {
+      "component": "MenuSection",
+      "name": "title",
+      "type": "ReactNode",
+      "description": "Visible group heading; also the group's accessible name."
+    },
+    {
+      "component": "MenuTrigger",
+      "name": "children",
+      "type": "ReactNode",
+      "required": true,
+      "description": "A pressable trigger followed by a Menu."
+    },
+    {
+      "component": "MenuTrigger",
+      "name": "trigger",
+      "type": "'press' | 'longPress'",
+      "default": "'press'",
+      "description": "How the menu opens."
+    },
+    {
+      "component": "SubmenuTrigger",
+      "name": "children",
+      "type": "[MenuItem, Menu]",
+      "required": true,
+      "description": "The item that opens the submenu, then the submenu."
+    }
+  ],
+  "accessibility": {
+    "keyboard": [
+      {
+        "keys": "Enter / Space / ↓",
+        "action": "On the trigger: opens the menu and focuses the first item (↑ focuses the last)."
+      },
+      {
+        "keys": "↑ / ↓",
+        "action": "Moves between items, skipping disabled ones."
+      },
+      {
+        "keys": "Home / End",
+        "action": "Jumps to the first / last item."
+      },
+      {
+        "keys": "Typing",
+        "action": "Moves to the next item starting with the typed characters."
+      },
+      {
+        "keys": "→ (← in RTL)",
+        "action": "Opens a submenu; ← (→ in RTL) closes it."
+      },
+      {
+        "keys": "Enter / Space",
+        "action": "Activates the item (or toggles it in selection mode)."
+      },
+      {
+        "keys": "Escape",
+        "action": "Closes the menu and returns focus to the trigger."
+      }
+    ],
+    "notes": [
+      "role=\"menu\" with menuitem, menuitemradio or menuitemcheckbox items depending on selectionMode.",
+      "Shortcut hints are rendered in <kbd> and announced as part of the item’s description (aria-describedby).",
+      "Danger items are marked by colour and should also say what they do (\"Delete claim\").",
+      "Overlays render in a portal on <body>, outside any ThemeScope. When it opens, the overlay copies data-strata-theme, data-strata-scheme and data-strata-density from the nearest [data-strata-theme] ancestor of its trigger (or of where the component is rendered, when controlled), plus dir and lang, onto its own root — so it uses the same tenant tokens and direction as the page region it came from, and nested overlays inherit from their parent overlay.",
+      "Right-to-left: set dir on the scope for layout, and wrap the app in React Aria's I18nProvider with an RTL locale so keyboard arrows and start/end placement flip too."
+    ]
+  },
+  "guidelines": {
+    "do": [
+      "Start labels with a verb and keep them short.",
+      "Put destructive items last, after a separator.",
+      "Group related items in titled sections."
+    ],
+    "dont": [
+      "Don't nest submenus more than one level.",
+      "Don't use a Menu for navigation between pages — use links or tabs.",
+      "Don't use a Menu to pick a form value — use Select."
+    ]
+  },
+  "tokens": [
+    "color.surface.raised",
+    "color.border.default",
+    "color.border.subtle",
+    "shadow.overlay",
+    "radius.container",
+    "radius.button",
+    "control-height",
+    "color.text.default",
+    "color.text.subtle",
+    "color.text.disabled",
+    "color.feedback.danger.fg",
+    "color.feedback.danger.solid",
+    "color.focus.ring",
+    "font.size.md",
+    "font.size.xs",
+    "font.weight.medium",
+    "space.1",
+    "space.2",
+    "space.4",
+    "space.16"
+  ]
+}

@@ -1,0 +1,73 @@
+{
+  "name": "kbd",
+  "title": "Kbd",
+  "description": "A keyboard key or shortcut, shown as a small keycap.",
+  "category": "display",
+  "maturity": "beta",
+  "exports": [
+    "Kbd",
+    "KbdGroup"
+  ],
+  "files": [
+    "kbd.tsx",
+    "kbd.module.css"
+  ],
+  "dependencies": [],
+  "registryDependencies": [],
+  "usage": "import { Kbd, KbdGroup } from '@strata/react';\n\nexport function SearchHint() {\n  return (\n    <p>\n      Press{' '}\n      <KbdGroup>\n        <Kbd>⌘</Kbd>\n        <Kbd>K</Kbd>\n      </KbdGroup>{' '}\n      to search.\n    </p>\n  );\n}",
+  "examples": [
+    {
+      "name": "kbd-demo",
+      "title": "Kbd",
+      "description": "Single keys and key combinations."
+    },
+    {
+      "name": "kbd-in-text",
+      "title": "In text",
+      "description": "Shortcut hints inside a sentence."
+    }
+  ],
+  "props": [
+    {
+      "component": "Kbd",
+      "name": "children",
+      "type": "ReactNode",
+      "required": true,
+      "description": "The key name or symbol, e.g. \"Esc\", \"⌘\", \"↵\"."
+    },
+    {
+      "component": "KbdGroup",
+      "name": "children",
+      "type": "ReactNode",
+      "required": true,
+      "description": "Kbd elements, optionally with separators such as \"+\" or \"then\"."
+    }
+  ],
+  "accessibility": {
+    "keyboard": [],
+    "notes": [
+      "Renders <kbd>; KbdGroup is a <kbd> containing <kbd>s, the HTML idiom for a key combination.",
+      "Symbols such as ⌘ and ↵ are read inconsistently by screen readers; spell the shortcut out nearby or in an aria-label on the control it belongs to (aria-keyshortcuts).",
+      "Key combinations stay in pressing order (left to right) on right-to-left pages."
+    ]
+  },
+  "guidelines": {
+    "do": [
+      "Use the platform's key names (⌘ on macOS, Ctrl elsewhere)."
+    ],
+    "dont": [
+      "Don't use Kbd for code or values — use <code>."
+    ]
+  },
+  "tokens": [
+    "color.surface.sunken",
+    "color.border.default",
+    "color.text.subtle",
+    "radius.badge",
+    "font.mono",
+    "font.size.xs",
+    "font.weight.medium",
+    "space.1",
+    "space.5"
+  ]
+}

@@ -1,0 +1,198 @@
+.code {
+  padding-block: 1px;
+  padding-inline: var(--strata-space-1);
+  border-radius: var(--strata-radius-badge);
+  background: color-mix(in oklab, var(--strata-color-text-default) 7%, transparent);
+  font-family: var(--strata-font-mono);
+  font-size: var(--strata-font-size-sm);
+  white-space: nowrap;
+}
+
+.swatch {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--strata-space-2);
+  font-family: var(--strata-font-mono);
+  font-size: var(--strata-font-size-xs);
+  color: var(--strata-color-text-subtle);
+  white-space: nowrap;
+}
+.chip {
+  inline-size: var(--strata-space-4);
+  block-size: var(--strata-space-4);
+  border-radius: var(--strata-radius-badge);
+  box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--strata-color-text-default) 14%, transparent);
+}
+.hex {
+  font-variant-numeric: tabular-nums;
+}
+
+.groupRow.groupRow {
+  padding-block: var(--strata-space-2);
+  border-block-start: var(--docs-hairline);
+  color: var(--strata-color-text-default);
+  font-weight: var(--strata-font-weight-semibold);
+}
+
+.roleCell {
+  display: grid;
+  gap: var(--strata-space-1);
+  justify-items: start;
+}
+.cssVar {
+  font-family: var(--strata-font-mono);
+  font-size: var(--strata-font-size-xs);
+  color: var(--strata-color-text-subtle);
+  white-space: nowrap;
+}
+
+.figure {
+  display: grid;
+  gap: var(--strata-space-2);
+  margin: 0;
+}
+.caption,
+.note {
+  color: var(--strata-color-text-subtle);
+  font-size: var(--strata-font-size-sm);
+  line-height: var(--strata-line-height-normal);
+}
+
+.link {
+  color: var(--strata-color-text-default);
+  font-weight: var(--strata-font-weight-medium);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-decoration-color: var(--strata-color-border-strong);
+  text-underline-offset: 0.25em;
+}
+.link:hover {
+  text-decoration-color: currentColor;
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--strata-space-1);
+}
+
+.nowrap {
+  white-space: nowrap;
+}
+
+.status {
+  display: grid;
+  gap: var(--strata-space-1);
+  justify-items: start;
+}
+.decidedBy {
+  color: var(--strata-color-text-subtle);
+  font-size: var(--strata-font-size-sm);
+}
+
+.adjustments {
+  display: grid;
+  gap: var(--strata-space-3);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: var(--strata-font-size-md);
+}
+.adjustments li {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: start;
+  gap: var(--strata-space-3);
+}
+
+/* ---- Tenant grid ---- */
+.tenants {
+  display: grid;
+  gap: var(--strata-space-4);
+}
+@media (min-width: 640px) {
+  .tenants {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.tenant {
+  display: grid;
+  align-content: start;
+  gap: var(--strata-space-4);
+  padding: var(--strata-card-inset);
+  border: 1px solid var(--strata-color-border-subtle);
+  border-radius: var(--strata-radius-container);
+  background: var(--strata-color-surface-default);
+}
+
+.tenantHead {
+  display: flex;
+  align-items: center;
+  gap: var(--strata-space-3);
+}
+.tenantMark {
+  inline-size: var(--strata-space-8);
+  block-size: var(--strata-space-8);
+  border-radius: var(--strata-radius-button);
+  background: var(--strata-color-action-primary-bg);
+}
+.tenantName {
+  font-family: var(--strata-font-heading);
+  font-size: var(--strata-font-size-lg);
+  font-weight: var(--strata-font-weight-semibold);
+  line-height: var(--strata-line-height-tight);
+}
+.tenantIndustry {
+  color: var(--strata-color-text-subtle);
+  font-size: var(--strata-font-size-sm);
+}
+
+.tenantActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--strata-space-2);
+}
+
+.tenantFacts {
+  display: grid;
+  gap: var(--strata-space-2);
+  margin: 0;
+  padding-block-start: var(--strata-space-3);
+  border-block-start: 1px solid var(--strata-color-border-subtle);
+  font-size: var(--strata-font-size-sm);
+}
+.tenantFacts > div {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--strata-space-2);
+}
+.tenantFacts dt {
+  color: var(--strata-color-text-subtle);
+}
+.tenantFacts dd {
+  margin: 0;
+  text-align: end;
+}
+
+/* Roles table: show the swatch for the scheme the page is in. */
+.swatchCell {
+  vertical-align: middle;
+}
+.onDark {
+  display: none;
+}
+:global(:root[data-strata-scheme='dark']) .onLight {
+  display: none;
+}
+:global(:root[data-strata-scheme='dark']) .onDark {
+  display: inline;
+}
+@media (prefers-color-scheme: dark) {
+  :global(:root[data-strata-scheme='auto']) .onLight {
+    display: none;
+  }
+  :global(:root[data-strata-scheme='auto']) .onDark {
+    display: inline;
+  }
+}

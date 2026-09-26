@@ -1,0 +1,50 @@
+<Callout tone="info" title="Phase 4 — in progress">
+  The decision records below are live. The contribution flow, versioning and deprecation policy are the plan from the project brief; `GOVERNANCE.md` and the first real deprecation land in Phase 4.
+</Callout>
+
+## Decision records
+
+Every choice with a design trade-off gets an architecture decision record: context, decision, alternatives, consequences — one page each. Each one names who made the call: Anuj, or Claude’s recommendation that Anuj accepted or hasn’t reviewed yet.
+
+<AdrList />
+
+## How a change gets in
+
+1. **Issue** — describe the need, with the screen it’s for.
+2. **RFC** — for anything beyond a fix: the proposal, alternatives, and what it costs other tenants.
+3. **Design review** — a designer signs off on the API, states and tokens.
+4. **Build** — component, `meta.json`, examples and tests together.
+5. **Docs** — the component page is generated from `meta.json`, so docs ship with the code.
+6. **Release** — a changeset describes the change for consumers; Changesets versions and writes the changelog.
+
+## Extend, vary, add or override
+
+A request ends in one of four outcomes, cheapest first:
+
+- **Extend** an existing component — a new prop that fits its purpose.
+- **Add a variant** — same component, a new visual style every tenant can use.
+- **Add a component** — a new job no existing component does. Needs an RFC.
+- **Local override** — a one-off in the product, not the system.
+
+## Versioning and deprecation
+
+Packages follow semver through Changesets. Something is deprecated in a minor release and removed in the next major, and every breaking change ships with a codemod that rewrites consumer code. The first real one — renaming Button’s `variant="danger"` to `tone="critical"`, with its codemod run on the reference app — is planned for Phase 4.
+
+## Agent trust levels
+
+AI agents change code too, so how much they may do alone depends on how far a change reaches and how easily it’s undone ([ADR-008](https://github.com/anujpatel06/strata/blob/main/docs/adr/008-agent-trust-levels.md)):
+
+<Table aria-label="Agent trust levels">
+  <thead>
+    <tr>
+      <th scope="col">Level</th>
+      <th scope="col">Agents may</th>
+      <th scope="col">People</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>Ambient</td><td>Fix token drift in consumer code, e.g. a raw hex → the matching token.</td><td>See it in the diff.</td></tr>
+    <tr><td>Soft gate</td><td>Open pull requests for docs, `meta.json` and stories.</td><td>Approve.</td></tr>
+    <tr><td>Hard gate</td><td>Propose new components, token-tier changes and breaking changes.</td><td>RFC, design review and merge. Agents can’t merge.</td></tr>
+  </tbody>
+</Table>

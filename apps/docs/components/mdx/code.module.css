@@ -1,0 +1,113 @@
+/* Code blocks: Shiki HTML inside a token-styled frame. Token colours use light-dark(), which follows the
+   computed color-scheme set by the Strata theme CSS. */
+
+.frame {
+  position: relative;
+  margin: 0;
+  min-inline-size: 0;
+  overflow: hidden;
+  border: 1px solid var(--strata-color-border-subtle);
+  border-radius: var(--strata-radius-container);
+  background: var(--strata-color-surface-default);
+}
+.frame[data-flush] {
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+}
+
+.titleBar {
+  display: flex;
+  align-items: center;
+  gap: var(--strata-space-2);
+  block-size: calc(var(--strata-space-10) + var(--strata-space-1));
+  padding-inline: var(--strata-space-4) var(--strata-space-1);
+  border-block-end: 1px solid var(--strata-color-border-subtle);
+  color: var(--strata-color-text-subtle);
+  font-family: var(--strata-font-mono);
+  font-size: var(--strata-font-size-xs);
+}
+.title {
+  flex: 1;
+  min-inline-size: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.copy.copy {
+  inline-size: calc(var(--strata-space-8) + var(--strata-space-1));
+  block-size: calc(var(--strata-space-8) + var(--strata-space-1));
+  min-inline-size: 0;
+  padding: 0;
+  color: var(--strata-color-text-subtle);
+}
+.copy.copy[data-hovered] {
+  color: var(--strata-color-text-default);
+}
+.copyFloating.copyFloating {
+  position: absolute;
+  inset-block-start: var(--strata-space-1);
+  inset-inline-end: var(--strata-space-1);
+  z-index: 1;
+  background: var(--strata-color-surface-default);
+}
+.frame[data-flush] .copyFloating.copyFloating {
+  background: transparent;
+}
+
+.body {
+  position: relative;
+}
+.body[data-collapsed] {
+  max-block-size: calc(var(--strata-space-16) * 5);
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(to bottom, black 55%, transparent);
+  mask-image: linear-gradient(to bottom, black 55%, transparent);
+}
+
+.body :global(pre) {
+  margin: 0;
+  padding-block: var(--strata-space-4);
+  padding-inline: var(--strata-space-4);
+  overflow-x: auto;
+  background: transparent;
+  font-family: var(--strata-font-mono);
+  font-size: var(--strata-font-size-sm);
+  line-height: 1.7;
+  tab-size: 2;
+  scrollbar-width: thin;
+  /* Code reads left to right even on RTL pages. */
+  direction: ltr;
+  text-align: start;
+}
+.frame:not([data-titled]) .body :global(pre) {
+  padding-inline-end: var(--strata-space-12);
+}
+.body[data-collapsed] :global(pre) {
+  overflow: hidden;
+}
+.body :global(pre:focus-visible) {
+  outline: 2px solid var(--strata-color-focus-ring);
+  outline-offset: -2px;
+}
+.body :global(code) {
+  font-family: inherit;
+  font-size: inherit;
+}
+.body :global(.line) {
+  display: inline-block;
+  min-inline-size: 100%;
+}
+
+.expandBar {
+  display: flex;
+  justify-content: center;
+  padding-block: var(--strata-space-2) var(--strata-space-3);
+}
+.expandBar[data-collapsed] {
+  position: absolute;
+  inset-inline: 0;
+  inset-block-end: 0;
+  padding-block: var(--strata-space-4);
+}

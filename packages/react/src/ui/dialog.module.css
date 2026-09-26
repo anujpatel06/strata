@@ -1,0 +1,171 @@
+/* Backdrop. Portalled to <body>, so it re-applies the ThemeScope base (font, colour, box model). */
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  container-type: inline-size;
+  /* Light schemes dim with the inverse surface; dark schemes deepen towards the canvas. color-scheme comes from the tenant tokens. */
+  background: light-dark(
+    color-mix(in oklab, var(--strata-color-surface-inverse) 45%, transparent),
+    color-mix(in oklab, var(--strata-color-surface-canvas) 72%, transparent)
+  );
+  font-family: var(--strata-font-body);
+  font-size: var(--strata-font-size-md);
+  line-height: var(--strata-line-height-normal);
+  color: var(--strata-color-text-default);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.overlay *,
+.overlay *::before,
+.overlay *::after {
+  box-sizing: border-box;
+}
+
+.panel {
+  --dialog-inline-size: calc(var(--strata-space-16) * 8);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  inline-size: calc(100% - var(--strata-space-4) * 2);
+  max-inline-size: var(--dialog-inline-size);
+  max-block-size: min(85dvh, calc(100% - var(--strata-space-4) * 2));
+  margin: auto;
+  background: var(--strata-color-surface-raised);
+  border: 1px solid var(--strata-color-border-default);
+  border-radius: var(--strata-radius-container);
+  box-shadow: var(--strata-shadow-overlay);
+  outline: none;
+}
+.panel[data-size='sm'] {
+  --dialog-inline-size: calc(var(--strata-space-16) * 6);
+}
+.panel[data-size='lg'] {
+  --dialog-inline-size: calc(var(--strata-space-16) * 10);
+}
+
+.dialog {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  gap: var(--strata-space-4);
+  min-block-size: 0;
+  padding-block: var(--strata-card-inset);
+  outline: none;
+}
+
+.header {
+  display: grid;
+  gap: var(--strata-space-1);
+  padding-inline: var(--strata-card-inset);
+  /* Leave room for the close button. */
+  padding-inline-end: calc(var(--strata-card-inset) + var(--strata-control-height));
+}
+.dialog[role='alertdialog'] .header {
+  padding-inline-end: var(--strata-card-inset);
+}
+.title {
+  margin: 0;
+  font-family: var(--strata-font-heading);
+  font-size: var(--strata-font-size-lg);
+  font-weight: var(--strata-font-weight-semibold);
+  line-height: var(--strata-line-height-snug);
+  letter-spacing: var(--strata-font-heading-tracking);
+  color: var(--strata-color-text-default);
+}
+.description {
+  margin: 0;
+  font-size: var(--strata-font-size-sm);
+  line-height: var(--strata-line-height-normal);
+  color: var(--strata-color-text-subtle);
+}
+
+/* The body scrolls; header and footer stay put. Block padding keeps focus rings of edge fields visible. */
+.body {
+  display: grid;
+  align-content: start;
+  gap: var(--strata-field-gap);
+  flex: 1 1 auto;
+  min-block-size: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: var(--strata-space-1) var(--strata-card-inset);
+  margin-block: calc(var(--strata-space-1) * -1);
+}
+
+.footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--strata-space-2);
+  padding-inline: var(--strata-card-inset);
+}
+
+.close {
+  position: absolute;
+  inset-block-start: calc(var(--strata-card-inset) - var(--strata-space-2));
+  inset-inline-end: calc(var(--strata-card-inset) - var(--strata-space-2));
+  color: var(--strata-color-text-subtle);
+}
+
+/* Narrow viewports: a full-width panel anchored to the bottom edge, actions stacked. */
+@container (inline-size < 480px) {
+  .panel {
+    inline-size: 100%;
+    max-inline-size: none;
+    margin: auto 0 0;
+    border-inline: 0;
+    border-block-end: 0;
+    border-end-start-radius: 0;
+    border-end-end-radius: 0;
+    padding-block-end: env(safe-area-inset-bottom, 0);
+  }
+  .footer {
+    flex-direction: column-reverse;
+    align-items: stretch;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .overlay[data-entering] {
+    animation: fade var(--strata-motion-duration-normal) var(--strata-motion-easing);
+  }
+  .overlay[data-exiting] {
+    animation: fade var(--strata-motion-duration-fast) var(--strata-motion-easing) reverse;
+  }
+  .panel[data-entering] {
+    animation: zoom var(--strata-motion-duration-normal) var(--strata-motion-easing);
+  }
+  .panel[data-exiting] {
+    animation: zoom var(--strata-motion-duration-fast) var(--strata-motion-easing) reverse;
+  }
+  @container (inline-size < 480px) {
+    .panel[data-entering] {
+      animation-name: rise;
+    }
+    .panel[data-exiting] {
+      animation-name: rise;
+    }
+  }
+}
+
+@keyframes fade {
+  from {
+    opacity: 0;
+  }
+}
+@keyframes zoom {
+  from {
+    opacity: 0;
+    scale: 0.97;
+  }
+}
+@keyframes rise {
+  from {
+    translate: 0 100%;
+  }
+}

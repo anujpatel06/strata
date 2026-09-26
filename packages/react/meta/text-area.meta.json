@@ -1,0 +1,184 @@
+{
+  "name": "text-area",
+  "title": "Text Area",
+  "description": "A multi-line text input with label, help text, validation, optional auto-resize and a character counter.",
+  "category": "inputs",
+  "maturity": "beta",
+  "exports": [
+    "TextArea"
+  ],
+  "files": [
+    "text-area.tsx",
+    "text-area.module.css"
+  ],
+  "dependencies": [
+    "react-aria-components"
+  ],
+  "registryDependencies": [
+    "text-field"
+  ],
+  "reactAria": "https://react-spectrum.adobe.com/react-aria/TextField.html",
+  "usage": "import { TextArea } from '@strata/react';\n\nexport function Notes() {\n  return <TextArea label=\"What happened?\" description=\"Include dates and amounts.\" maxLength={500} />;\n}",
+  "examples": [
+    {
+      "name": "text-area-demo",
+      "title": "Text area"
+    },
+    {
+      "name": "text-area-counter",
+      "title": "Character counter",
+      "description": "Shown when maxLength is set; announced only near and at the limit."
+    },
+    {
+      "name": "text-area-auto-resize",
+      "title": "Auto-resize",
+      "description": "Grows with the text up to maxRows, then scrolls."
+    },
+    {
+      "name": "text-area-states",
+      "title": "Invalid and disabled"
+    }
+  ],
+  "props": [
+    {
+      "component": "TextArea",
+      "name": "label",
+      "type": "ReactNode",
+      "description": "Visible label, linked to the control. Without one, pass aria-label."
+    },
+    {
+      "component": "TextArea",
+      "name": "description",
+      "type": "ReactNode",
+      "description": "Help text, linked with aria-describedby."
+    },
+    {
+      "component": "TextArea",
+      "name": "errorMessage",
+      "type": "string | ((validation: ValidationResult) => string)",
+      "description": "Shown with an icon when invalid. Defaults to the browser or validate() message."
+    },
+    {
+      "component": "TextArea",
+      "name": "placeholder",
+      "type": "string",
+      "description": "Example text. Not a substitute for a label."
+    },
+    {
+      "component": "TextArea",
+      "name": "rows",
+      "type": "number",
+      "default": "3",
+      "description": "Visible rows; also the minimum height when autoResize is on."
+    },
+    {
+      "component": "TextArea",
+      "name": "autoResize",
+      "type": "boolean",
+      "default": "false",
+      "description": "Grow with the content instead of showing a resize handle."
+    },
+    {
+      "component": "TextArea",
+      "name": "maxRows",
+      "type": "number",
+      "description": "With autoResize, stop growing after this many rows."
+    },
+    {
+      "component": "TextArea",
+      "name": "maxLength",
+      "type": "number",
+      "description": "Hard limit (native maxlength) and turns on the counter."
+    },
+    {
+      "component": "TextArea",
+      "name": "value / defaultValue",
+      "type": "string",
+      "description": "Controlled / uncontrolled value."
+    },
+    {
+      "component": "TextArea",
+      "name": "onChange",
+      "type": "(value: string) => void",
+      "description": "Called on every edit."
+    },
+    {
+      "component": "TextArea",
+      "name": "isRequired",
+      "type": "boolean",
+      "default": "false",
+      "description": "Marks the field required (native required + a decorative asterisk on the label)."
+    },
+    {
+      "component": "TextArea",
+      "name": "isInvalid",
+      "type": "boolean",
+      "default": "false",
+      "description": "Forces the invalid state (aria-invalid, danger border, error message)."
+    },
+    {
+      "component": "TextArea",
+      "name": "isDisabled",
+      "type": "boolean",
+      "default": "false",
+      "description": "Disables the field."
+    },
+    {
+      "component": "TextArea",
+      "name": "validate",
+      "type": "(value) => string | string[] | true | null | undefined",
+      "description": "Custom validation; return an error message to show."
+    },
+    {
+      "component": "TextArea",
+      "name": "inputRef",
+      "type": "Ref<HTMLTextAreaElement>",
+      "description": "Ref to the underlying textarea."
+    }
+  ],
+  "accessibility": {
+    "keyboard": [
+      {
+        "keys": "Tab",
+        "action": "Moves focus to the text area."
+      },
+      {
+        "keys": "Enter",
+        "action": "Inserts a new line."
+      }
+    ],
+    "notes": [
+      "The visible counter is aria-hidden; a polite live region announces only when 10% of the limit remains and when the limit is reached.",
+      "The counter turns warning then danger colour, and the number itself changes, so it is not colour-only.",
+      "Live-region messages are English; wrap or fork to localise."
+    ]
+  },
+  "guidelines": {
+    "do": [
+      "Size rows to the expected answer length.",
+      "Use maxLength with a counter when there is a real limit (e.g. a statement note)."
+    ],
+    "dont": [
+      "Don't use a text area for single-line data like names or amounts.",
+      "Don't set maxRows so low that people can't review what they wrote."
+    ]
+  },
+  "tokens": [
+    "color.surface.default",
+    "color.surface.sunken",
+    "color.border.strong",
+    "color.border.default",
+    "color.text.default",
+    "color.text.subtle",
+    "color.text.disabled",
+    "color.feedback.danger.solid",
+    "color.feedback.danger.fg",
+    "color.feedback.warning.fg",
+    "color.focus.ring",
+    "radius.field",
+    "control-height",
+    "control-padding-inline",
+    "font.size.md",
+    "font.size.xs"
+  ]
+}

@@ -1,0 +1,140 @@
+{
+  "name": "progress",
+  "title": "Progress Bar",
+  "description": "Shows how far a task has got, or that it is working when the duration is unknown.",
+  "category": "feedback",
+  "maturity": "beta",
+  "exports": [
+    "ProgressBar"
+  ],
+  "files": [
+    "progress.tsx",
+    "progress.module.css"
+  ],
+  "dependencies": [
+    "react-aria-components"
+  ],
+  "registryDependencies": [],
+  "reactAria": "https://react-spectrum.adobe.com/react-aria/ProgressBar.html",
+  "usage": "import { ProgressBar } from '@strata/react';\n\nexport function Upload({ percent }: { percent: number }) {\n  return <ProgressBar label=\"Uploading receipts\" value={percent} showValue />;\n}",
+  "examples": [
+    {
+      "name": "progress-demo",
+      "title": "Progress bar",
+      "description": "A labelled bar with its value."
+    },
+    {
+      "name": "progress-indeterminate",
+      "title": "Indeterminate",
+      "description": "A sliding segment when the duration is unknown; a quiet static bar with reduced motion."
+    },
+    {
+      "name": "progress-tones",
+      "title": "Tones, ranges and sizes",
+      "description": "Success, warning and danger fills, a custom range with a value label, and the small size."
+    }
+  ],
+  "props": [
+    {
+      "component": "ProgressBar",
+      "name": "label",
+      "type": "ReactNode",
+      "description": "Visible label. Without one, pass aria-label or aria-labelledby (the types require one of the three)."
+    },
+    {
+      "component": "ProgressBar",
+      "name": "value",
+      "type": "number",
+      "default": "0",
+      "description": "Current value, between minValue and maxValue."
+    },
+    {
+      "component": "ProgressBar",
+      "name": "minValue",
+      "type": "number",
+      "default": "0",
+      "description": "Lowest value."
+    },
+    {
+      "component": "ProgressBar",
+      "name": "maxValue",
+      "type": "number",
+      "default": "100",
+      "description": "Highest value."
+    },
+    {
+      "component": "ProgressBar",
+      "name": "isIndeterminate",
+      "type": "boolean",
+      "default": "false",
+      "description": "Unknown duration: no value is announced and a segment slides along the track."
+    },
+    {
+      "component": "ProgressBar",
+      "name": "showValue",
+      "type": "boolean",
+      "default": "false",
+      "description": "Shows the formatted value at the inline end of the label row."
+    },
+    {
+      "component": "ProgressBar",
+      "name": "formatOptions",
+      "type": "Intl.NumberFormatOptions",
+      "default": "{ style: 'percent' }",
+      "description": "How the value is formatted."
+    },
+    {
+      "component": "ProgressBar",
+      "name": "valueLabel",
+      "type": "ReactNode",
+      "description": "Replaces the formatted value, e.g. '4.1 of 5 GB'."
+    },
+    {
+      "component": "ProgressBar",
+      "name": "tone",
+      "type": "'default' | 'success' | 'warning' | 'danger'",
+      "default": "'default'",
+      "description": "Fill colour. default uses the brand accent."
+    },
+    {
+      "component": "ProgressBar",
+      "name": "size",
+      "type": "'sm' | 'md'",
+      "default": "'md'",
+      "description": "Track thickness: 4px or 8px."
+    }
+  ],
+  "accessibility": {
+    "keyboard": [],
+    "notes": [
+      "role=\"progressbar\" with aria-valuenow/min/max and aria-valuetext from React Aria; indeterminate bars omit aria-valuenow.",
+      "The label is wired with aria-labelledby.",
+      "Tone changes the fill colour only; say what it means in the label or nearby text.",
+      "The indeterminate slide runs only under prefers-reduced-motion: no-preference and follows the reading direction."
+    ]
+  },
+  "guidelines": {
+    "do": [
+      "Use determinate progress whenever you can compute it.",
+      "Use warning/danger for limits (storage, spend), not for task progress."
+    ],
+    "dont": [
+      "Don't use a progress bar for a value that isn't progress toward something — use a meter or text.",
+      "Don't show an indeterminate bar for less than a second; show nothing, or a Spinner."
+    ]
+  },
+  "tokens": [
+    "color.accent.bg",
+    "color.feedback.*.solid",
+    "color.surface.sunken",
+    "color.text.default",
+    "color.text.subtle",
+    "radius.pill",
+    "space.1",
+    "space.2",
+    "font.size.sm",
+    "font.weight.medium",
+    "motion.duration.normal",
+    "motion.easing"
+  ]
+}

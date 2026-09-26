@@ -1,0 +1,107 @@
+/* Text area — same box as Input (text-field.module.css), so fields line up in any form. Tokens only. */
+
+.field {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-2);
+  min-inline-size: 0;
+}
+
+.textarea {
+  box-sizing: border-box;
+  display: block;
+  inline-size: 100%;
+  min-inline-size: 0;
+  min-block-size: var(--strata-control-height);
+  margin: 0;
+  /* First line sits where a single-line Input's text sits. */
+  padding-block: calc((var(--strata-control-height) - 1lh - 2px) / 2);
+  padding-inline: var(--strata-control-padding-inline);
+  border: 1px solid var(--strata-color-border-strong);
+  border-radius: var(--strata-radius-field);
+  background-color: var(--strata-color-surface-default);
+  color: var(--strata-color-text-default);
+  font-family: inherit;
+  font-size: var(--strata-font-size-md);
+  line-height: var(--strata-line-height-normal);
+  letter-spacing: inherit;
+  resize: vertical;
+  outline: none;
+  appearance: none;
+}
+
+.textarea[data-auto-resize] {
+  resize: none;
+  overflow-y: hidden;
+}
+
+.textarea::placeholder {
+  color: var(--strata-color-text-subtle);
+  opacity: 1;
+}
+
+.textarea[data-hovered] {
+  border-color: var(--strata-color-text-subtle);
+}
+
+.textarea[data-focused] {
+  outline: 2px solid var(--strata-color-focus-ring);
+  outline-offset: 2px;
+}
+
+.textarea[data-invalid] {
+  border-color: var(--strata-color-feedback-danger-solid);
+}
+
+.textarea[data-disabled] {
+  border-color: var(--strata-color-border-default);
+  background-color: var(--strata-color-surface-sunken);
+  color: var(--strata-color-text-disabled);
+  resize: none;
+  cursor: default;
+}
+
+.textarea[data-disabled]::placeholder {
+  color: var(--strata-color-text-disabled);
+}
+
+.textarea[readonly]:not([data-disabled]) {
+  border-color: var(--strata-color-border-default);
+  background-color: var(--strata-color-surface-sunken);
+}
+
+.footer {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--strata-space-3);
+}
+
+.footer > :first-child:not(.count) {
+  flex: 1 1 auto;
+  min-inline-size: 0;
+}
+
+.count {
+  flex: none;
+  margin-inline-start: auto;
+  color: var(--strata-color-text-subtle);
+  font-size: var(--strata-font-size-xs);
+  line-height: var(--strata-line-height-normal);
+  font-variant-numeric: tabular-nums;
+}
+
+.count[data-zone='near'] {
+  color: var(--strata-color-feedback-warning-fg);
+}
+
+.count[data-zone='limit'] {
+  color: var(--strata-color-feedback-danger-fg);
+  font-weight: var(--strata-font-weight-medium);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .textarea {
+    transition: border-color var(--strata-motion-duration-fast) var(--strata-motion-easing);
+  }
+}

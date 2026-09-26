@@ -1,0 +1,38 @@
+Strata targets WCAG 2.2 AA. Two parts of that are built in rather than checked afterwards: colour contrast, which the theme engine guarantees for every brand, and keyboard and screen-reader behaviour, which comes from React Aria.
+
+## Contrast by construction
+
+A theme that fails WCAG 2.2 AA can’t be generated. For every brand, in light and dark, the engine checks each pair below. When one fails, it moves the colour along its ramp — or nudges it off the ramp — until it passes, and records why.
+
+<ContrastPairs />
+
+Ratios are the WCAG 2.x formula computed on the final 8-bit hex values, and they are never rounded up: 4.49:1 fails. Text needs 4.5:1; focus rings and input borders need 3:1 against the surfaces they sit on (1.4.11, non-text contrast).
+
+## Fuzz testing
+
+Three hand-picked tenants prove little, so the solver is fuzzed with random brands — random primary, sometimes a random accent, random neutral, shape, type pair and density.
+
+<FuzzResults />
+
+The closest calls the solver shipped in that run:
+
+<FuzzMargins />
+
+The report also lists how often the solver stepped in and why. One rule in it isn’t WCAG: in dark mode, primary fills must reach 2.2:1 against the canvas so a near-black brand button doesn’t vanish. It is reported as a `visibility` adjustment, never as a WCAG pass.
+
+## Keyboard and screen readers
+
+Components are built on [React Aria Components](https://react-spectrum.adobe.com/react-aria/components.html) ([ADR-002](https://github.com/anujpatel06/strata/blob/main/docs/adr/002-headless-primitives-react-aria.md)). Focus management, roving focus in lists and grids, typeahead, focus trapping in dialogs and the ARIA patterns come from there; Strata doesn’t re-implement them. Each component page lists its keyboard interactions, taken from its `meta.json`.
+
+## Built into every component
+
+- **Visible focus.** A 2px ring in `--strata-color-focus-ring`, checked at 3:1 against the canvas, default and raised surfaces in every tenant.
+- **Target size.** Controls are at least 24 × 24 px (2.5.8), compact density included.
+- **Not by colour alone.** Status pairs colour with an icon and a word.
+- **Reduced motion.** Animations run only under `prefers-reduced-motion: no-preference`.
+- **Names.** Icon-only buttons require an `aria-label` in their types; decorative icons are hidden from assistive technology.
+- **Direction.** Right-to-left layouts and keyboard behaviour mirror from the locale — see [RTL](/docs/rtl).
+
+## What isn’t proven yet
+
+Contrast is guaranteed by the engine and fuzzed. Component-level checks — axe on every component state, per tenant and scheme — are part of Phase 2 and not reported here until they run.

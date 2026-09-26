@@ -1,0 +1,182 @@
+{
+  "name": "dialog",
+  "title": "Dialog",
+  "description": "A modal window for a focused task — a short form, a decision or details — that blocks the page until it is closed.",
+  "category": "overlays",
+  "maturity": "beta",
+  "exports": [
+    "Dialog",
+    "DialogTrigger"
+  ],
+  "files": [
+    "dialog.tsx",
+    "dialog.module.css"
+  ],
+  "dependencies": [
+    "react-aria-components",
+    "@tabler/icons-react"
+  ],
+  "registryDependencies": [
+    "button"
+  ],
+  "reactAria": "https://react-spectrum.adobe.com/react-aria/Modal.html",
+  "usage": "import { Button, Dialog, DialogTrigger, TextField } from '@strata/react';\n\nexport function EditProfile() {\n  return (\n    <DialogTrigger>\n      <Button variant=\"outline\">Edit profile</Button>\n      <Dialog\n        title=\"Edit profile\"\n        description=\"Visible to everyone in your workspace.\"\n        footer={({ close }) => <Button onPress={close}>Save</Button>}\n      >\n        <TextField label=\"Full name\" />\n      </Dialog>\n    </DialogTrigger>\n  );\n}",
+  "examples": [
+    {
+      "name": "dialog-demo",
+      "title": "Form in a dialog",
+      "description": "Title, description, fields in the body and actions in the footer."
+    },
+    {
+      "name": "dialog-sizes",
+      "title": "Sizes",
+      "description": "sm, md (default) and lg set the maximum width."
+    },
+    {
+      "name": "dialog-scrollable",
+      "title": "Long content",
+      "description": "The body scrolls while the header and footer stay visible."
+    }
+  ],
+  "props": [
+    {
+      "component": "Dialog",
+      "name": "title",
+      "type": "ReactNode",
+      "required": true,
+      "description": "Heading at the top; also the dialog's accessible name."
+    },
+    {
+      "component": "Dialog",
+      "name": "description",
+      "type": "ReactNode",
+      "description": "Supporting text under the title, linked with aria-describedby."
+    },
+    {
+      "component": "Dialog",
+      "name": "children",
+      "type": "ReactNode | (({ close }) => ReactNode)",
+      "description": "Body content. Laid out as a grid with field-gap spacing; scrolls when taller than the viewport allows."
+    },
+    {
+      "component": "Dialog",
+      "name": "footer",
+      "type": "ReactNode | (({ close }) => ReactNode)",
+      "description": "Actions aligned to the inline end. Stacked full-width on narrow screens."
+    },
+    {
+      "component": "Dialog",
+      "name": "size",
+      "type": "'sm' | 'md' | 'lg'",
+      "default": "'md'",
+      "description": "Maximum width of the panel."
+    },
+    {
+      "component": "Dialog",
+      "name": "isDismissable",
+      "type": "boolean",
+      "default": "true",
+      "description": "Whether clicking the backdrop closes the dialog."
+    },
+    {
+      "component": "Dialog",
+      "name": "isKeyboardDismissDisabled",
+      "type": "boolean",
+      "default": "false",
+      "description": "Whether Escape is ignored."
+    },
+    {
+      "component": "Dialog",
+      "name": "isOpen / defaultOpen / onOpenChange",
+      "type": "boolean / boolean / (isOpen: boolean) => void",
+      "description": "Controlled or uncontrolled open state, for dialogs not placed inside a DialogTrigger."
+    },
+    {
+      "component": "Dialog",
+      "name": "role",
+      "type": "'dialog' | 'alertdialog'",
+      "default": "'dialog'",
+      "description": "alertdialog also hides the close button and ignores backdrop clicks. Prefer AlertDialog."
+    },
+    {
+      "component": "Dialog",
+      "name": "className / style",
+      "type": "string / CSSProperties",
+      "description": "Applied to the panel."
+    },
+    {
+      "component": "DialogTrigger",
+      "name": "children",
+      "type": "ReactNode",
+      "required": true,
+      "description": "A pressable trigger (usually a Button) followed by the Dialog, Sheet, AlertDialog or Popover it opens."
+    },
+    {
+      "component": "DialogTrigger",
+      "name": "isOpen / defaultOpen / onOpenChange",
+      "type": "boolean / boolean / (isOpen: boolean) => void",
+      "description": "Control the open state from outside."
+    }
+  ],
+  "accessibility": {
+    "keyboard": [
+      {
+        "keys": "Enter / Space",
+        "action": "On the trigger: opens the dialog and moves focus into it."
+      },
+      {
+        "keys": "Tab / Shift+Tab",
+        "action": "Moves between focusable elements; focus is trapped inside the dialog."
+      },
+      {
+        "keys": "Escape",
+        "action": "Closes the dialog and returns focus to the trigger."
+      }
+    ],
+    "notes": [
+      "role=\"dialog\" named by the title (h2) and described by the description.",
+      "Everything outside the dialog is hidden from assistive technology and page scrolling is locked while it is open.",
+      "The close button is labelled \"Close\" and comes last in the tab order, after the footer actions.",
+      "Overlays render in a portal on <body>, outside any ThemeScope. When it opens, the overlay copies data-strata-theme, data-strata-scheme and data-strata-density from the nearest [data-strata-theme] ancestor of its trigger (or of where the component is rendered, when controlled), plus dir and lang, onto its own root — so it uses the same tenant tokens and direction as the page region it came from, and nested overlays inherit from their parent overlay.",
+      "Right-to-left: set dir on the scope for layout, and wrap the app in React Aria's I18nProvider with an RTL locale so keyboard arrows and start/end placement flip too."
+    ]
+  },
+  "guidelines": {
+    "do": [
+      "Keep dialogs to one task with one primary action in the footer.",
+      "Use the render function's close() for Cancel buttons.",
+      "Use a Sheet for long forms or filters that benefit from the full viewport height."
+    ],
+    "dont": [
+      "Don't open a dialog from another dialog; replace the content or use a step flow.",
+      "Don't use a Dialog to confirm destructive actions — use AlertDialog.",
+      "Don't put essential information only in the description; it is supporting text."
+    ]
+  },
+  "tokens": [
+    "color.surface.raised",
+    "color.border.default",
+    "shadow.overlay",
+    "radius.container",
+    "font.body",
+    "font.size.md",
+    "color.text.default",
+    "color.text.subtle",
+    "motion.duration.fast",
+    "motion.duration.normal",
+    "motion.easing",
+    "color.surface.inverse (light backdrop)",
+    "color.surface.canvas (dark backdrop)",
+    "font.heading",
+    "font.heading-tracking",
+    "font.size.lg",
+    "font.size.sm",
+    "font.weight.semibold",
+    "card-inset",
+    "field-gap",
+    "control-height",
+    "space.1",
+    "space.4",
+    "space.16"
+  ]
+}

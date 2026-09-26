@@ -1,0 +1,189 @@
+/*
+ * Toggle group — a segmented control on a sunken track, plus a standalone toggle button.
+ * Tokens only. The track keeps the same outer height as a Button of the same size.
+ */
+
+/* ------------------------------------------------------------------ *
+ * Track
+ * ------------------------------------------------------------------ */
+
+.group {
+  --_h: var(--strata-control-height);
+  --_pad: 2px;
+
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: stretch;
+  gap: 2px;
+  max-inline-size: 100%;
+  block-size: var(--_h);
+  padding: var(--_pad);
+  background-color: var(--strata-color-surface-sunken);
+  /* Hairline edge so the track still reads on dark canvases, where sunken sits close to the surface. */
+  box-shadow: inset 0 0 0 1px var(--strata-color-border-subtle);
+  border-radius: var(--strata-radius-button);
+  vertical-align: middle;
+}
+
+.group[data-size='sm'] {
+  --_h: calc(var(--strata-control-height) - var(--strata-space-2));
+}
+
+.group[data-orientation='vertical'] {
+  flex-direction: column;
+  block-size: auto;
+}
+
+.group[data-orientation='vertical'] > .segment {
+  block-size: calc(var(--_h) - 2 * var(--_pad));
+  justify-content: flex-start;
+}
+
+/* ------------------------------------------------------------------ *
+ * Shared item
+ * ------------------------------------------------------------------ */
+
+.item {
+  --_icon: var(--strata-space-4);
+
+  position: relative;
+  box-sizing: border-box;
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  gap: var(--strata-space-2);
+  min-inline-size: 0;
+  margin: 0;
+  padding-block: 0;
+  border: 1px solid transparent;
+  background-color: transparent;
+  color: var(--strata-color-text-default);
+  font-family: inherit;
+  font-size: var(--strata-font-size-md);
+  font-weight: var(--strata-font-weight-medium);
+  line-height: var(--strata-line-height-tight);
+  letter-spacing: inherit;
+  white-space: nowrap;
+  cursor: pointer;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  outline: none;
+}
+
+.item[data-size='sm'] {
+  --_icon: calc(var(--strata-space-4) - 2px);
+  gap: calc(var(--strata-space-2) - 2px);
+  font-size: var(--strata-font-size-sm);
+}
+
+.item > svg {
+  flex: none;
+  inline-size: var(--_icon);
+  block-size: var(--_icon);
+}
+
+.item > :is([data-directional], :global([class*='tabler-icon-arrow']), :global([class*='tabler-icon-chevron'])):dir(rtl) {
+  scale: -1 1;
+}
+
+.item[data-focus-visible] {
+  z-index: 1;
+  outline: 2px solid var(--strata-color-focus-ring);
+  outline-offset: 2px;
+}
+
+.item[data-disabled] {
+  color: var(--strata-color-text-disabled);
+  cursor: default;
+}
+
+/* ------------------------------------------------------------------ *
+ * Segment (inside a group)
+ * ------------------------------------------------------------------ */
+
+.segment {
+  /* Share any extra width when the group is stretched (e.g. full-width on mobile). */
+  flex: 1 0 auto;
+  padding-inline: calc(var(--strata-control-padding-inline) - var(--strata-space-1));
+  border-radius: max(0px, calc(var(--strata-radius-button) - var(--_pad)));
+  color: var(--strata-color-text-subtle);
+}
+
+.segment[data-size='sm'] {
+  padding-inline: calc(var(--strata-control-padding-inline) - var(--strata-space-2));
+}
+
+.segment[data-hovered] {
+  color: var(--strata-color-text-default);
+}
+
+.segment[data-selected] {
+  background-color: var(--strata-color-surface-raised);
+  box-shadow: var(--strata-shadow-raised);
+  color: var(--strata-color-text-default);
+}
+
+.segment[data-disabled] {
+  color: var(--strata-color-text-disabled);
+}
+
+.segment[data-selected][data-disabled] {
+  box-shadow: none;
+}
+
+/* Icon-only segments (named with aria-label) are square. */
+.segment[aria-label] {
+  flex: 1 0 auto;
+  min-inline-size: calc(var(--_h) - 2 * var(--_pad));
+  padding-inline: 0;
+}
+
+/* ------------------------------------------------------------------ *
+ * Standalone toggle
+ * ------------------------------------------------------------------ */
+
+.standalone {
+  --_h: var(--strata-control-height);
+  block-size: var(--_h);
+  padding-inline: var(--strata-control-padding-inline);
+  border-color: var(--strata-color-border-default);
+  border-radius: var(--strata-radius-button);
+  vertical-align: middle;
+}
+
+.standalone[data-size='sm'] {
+  --_h: calc(var(--strata-control-height) - var(--strata-space-2));
+  padding-inline: calc(var(--strata-control-padding-inline) - var(--strata-space-1));
+}
+
+.standalone[aria-label] {
+  inline-size: var(--_h);
+  padding-inline: 0;
+}
+
+.standalone[data-hovered] {
+  background-color: color-mix(in oklab, var(--strata-color-text-default) 6%, transparent);
+}
+
+.standalone[data-selected] {
+  background-color: var(--strata-color-surface-selected);
+  border-color: color-mix(in oklab, var(--strata-color-text-brand) 40%, transparent);
+}
+
+.standalone[data-disabled] {
+  background-color: transparent;
+  border-color: var(--strata-color-border-subtle);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .item {
+    transition-property: background-color, border-color, box-shadow, color, scale;
+    transition-duration: var(--strata-motion-duration-fast);
+    transition-timing-function: var(--strata-motion-easing);
+  }
+
+  .standalone[data-pressed] {
+    scale: 0.98;
+  }
+}

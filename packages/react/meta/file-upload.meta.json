@@ -1,0 +1,93 @@
+{
+  "name": "file-upload",
+  "title": "File Upload",
+  "description": "A drop zone with a browse button and the list of chosen files, with size and type checks.",
+  "category": "inputs",
+  "maturity": "beta",
+  "exports": ["FileUpload"],
+  "files": ["file-upload.tsx", "file-upload.module.css"],
+  "dependencies": ["react-aria-components", "@tabler/icons-react"],
+  "registryDependencies": ["button", "text-field"],
+  "reactAria": "https://react-spectrum.adobe.com/react-aria/DropZone.html",
+  "usage": "import { FileUpload } from '@strata/react';\n\nexport function Receipts() {\n  return (\n    <FileUpload\n      label=\"Receipts\"\n      acceptedFileTypes={['image/png', 'image/jpeg', 'application/pdf']}\n      maxSize={10 * 1024 * 1024}\n      allowsMultiple\n      onChange={(files) => console.log(files)}\n    />\n  );\n}",
+  "examples": [
+    { "name": "file-upload-demo", "title": "File upload", "description": "Several files, limited by type and size; the hint is generated from both." },
+    { "name": "file-upload-with-progress", "title": "Progress and errors", "description": "Pass FileUploadEntry objects to show upload progress, a finished state, or a per-file error." },
+    { "name": "file-upload-single", "title": "Single file", "description": "Without allowsMultiple a new file replaces the current one. Prompt copy is customisable." },
+    { "name": "file-upload-invalid", "title": "Invalid and disabled", "description": "A field-level error, and a disabled upload." }
+  ],
+  "props": [
+    { "component": "FileUpload", "name": "label", "type": "ReactNode", "description": "Visible label; also names the drop zone and the file list." },
+    { "component": "FileUpload", "name": "description", "type": "ReactNode", "description": "Help text under the drop zone, linked to the browse button." },
+    { "component": "FileUpload", "name": "errorMessage", "type": "ReactNode", "description": "Field-level error, shown under the drop zone when isInvalid is true." },
+    { "component": "FileUpload", "name": "acceptedFileTypes", "type": "string[]", "description": "MIME types or extensions, e.g. ['image/*', '.pdf']. Filters the file dialog; dropped files that don't match are rejected with a message." },
+    { "component": "FileUpload", "name": "allowsMultiple", "type": "boolean", "default": "false", "description": "Allow more than one file. Without it a new file replaces the current one." },
+    { "component": "FileUpload", "name": "maxSize", "type": "number", "description": "Maximum bytes per file. Larger files are rejected with a message. Sizes display 1024-based (1 MB = 1,048,576 bytes)." },
+    { "component": "FileUpload", "name": "files", "type": "ReadonlyArray<File | FileUploadEntry>", "description": "Controlled list. FileUploadEntry = { file, progress?: 0–100, error?: string } adds a progress bar, an \"Uploaded\" state at 100, or an error." },
+    { "component": "FileUpload", "name": "defaultFiles", "type": "File[]", "description": "Initial files when uncontrolled." },
+    { "component": "FileUpload", "name": "onChange", "type": "(files: File[]) => void", "description": "Called with the full list of accepted files after every add or remove." },
+    { "component": "FileUpload", "name": "onReject", "type": "(rejections: FileRejection[]) => void", "description": "Called with files that were refused: { file, reason: 'type' | 'size' | 'count', message }." },
+    { "component": "FileUpload", "name": "hint", "type": "ReactNode", "description": "Text under the prompt. Defaults to the accepted types and max size, e.g. \"PNG, PDF, up to 10 MB\"." },
+    { "component": "FileUpload", "name": "dropLabel", "type": "ReactNode", "default": "'Drag files here or'", "description": "Prompt text before the browse link." },
+    { "component": "FileUpload", "name": "browseLabel", "type": "ReactNode", "default": "'browse'", "description": "Text of the browse link that opens the file dialog." },
+    { "component": "FileUpload", "name": "isInvalid / isDisabled", "type": "boolean", "default": "false", "description": "Field states." }
+  ],
+  "accessibility": {
+    "keyboard": [
+      { "keys": "Tab", "action": "Focuses the drop zone, then the browse button, then each file's remove button." },
+      { "keys": "Enter / Space (browse)", "action": "Opens the system file dialog." },
+      { "keys": "Ctrl/⌘ + V (drop zone)", "action": "Pastes files from the clipboard." },
+      { "keys": "Enter (drop zone)", "action": "Drops the item being dragged with keyboard drag and drop." },
+      { "keys": "Enter / Space (remove)", "action": "Removes that file (or dismisses a rejected one)." }
+    ],
+    "notes": [
+      "The drop zone is labelled by the field label; the browse button is described by the hint, description and error.",
+      "Rejected files are listed with their reason in a role=\"alert\" so the refusal is announced.",
+      "Upload progress is a labelled progressbar (\"Uploading invoice.pdf\"); finished and failed files show an icon and text, not colour alone.",
+      "Remove buttons are named per file (\"Remove invoice.pdf\")."
+    ]
+  },
+  "guidelines": {
+    "do": [
+      "State accepted types and the size limit up front (the default hint does this).",
+      "Show progress and a clear per-file error with a way to remove and retry.",
+      "Validate again on the server — the client checks are for fast feedback, not security."
+    ],
+    "dont": [
+      "Don't make the drop zone the only way in — keep the browse button.",
+      "Don't silently drop files that fail a check — say why."
+    ]
+  },
+  "tokens": [
+    "color.border.strong",
+    "color.border.default",
+    "color.surface.default",
+    "color.surface.raised",
+    "color.surface.sunken",
+    "color.surface.selected",
+    "color.action.primary.bg",
+    "color.text.default",
+    "color.text.subtle",
+    "color.text.brand",
+    "color.text.disabled",
+    "color.feedback.danger.*",
+    "color.feedback.success.fg",
+    "color.focus.ring",
+    "control-height",
+    "radius.container",
+    "radius.field",
+    "radius.pill",
+    "shadow.raised",
+    "space.1",
+    "space.2",
+    "space.3",
+    "space.4",
+    "space.6",
+    "font.size.md",
+    "font.size.sm",
+    "font.size.xs",
+    "motion.duration.fast",
+    "motion.duration.normal",
+    "motion.easing"
+  ]
+}

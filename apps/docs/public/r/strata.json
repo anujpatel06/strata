@@ -1,0 +1,14 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "strata",
+  "type": "registry:style",
+  "title": "Strata",
+  "description": "Strata base: the house tokens (styles/strata-house.css) and ThemeScope. Install once before any component.",
+  "registryDependencies": [
+    "http://localhost:3000/r/strata-tokens-house.json",
+    "http://localhost:3000/r/theme-scope.json"
+  ],
+  "categories": [
+    "style"
+  ]
+}

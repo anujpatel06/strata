@@ -1,0 +1,175 @@
+/*
+ * Text field + the generic field primitives (Label, Description, FieldError, Input, FieldGroup).
+ * Tokens only. Input and FieldGroup share one box so every field in the system has the same height and edge.
+ */
+
+.field {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-2);
+  min-inline-size: 0;
+}
+
+/* ------------------------------------------------------------------ *
+ * Label / description / error
+ * ------------------------------------------------------------------ */
+
+.label {
+  box-sizing: border-box;
+  inline-size: fit-content;
+  max-inline-size: 100%;
+  color: var(--strata-color-text-default);
+  font-size: var(--strata-font-size-sm);
+  font-weight: var(--strata-font-weight-medium);
+  line-height: var(--strata-line-height-snug);
+  cursor: default;
+}
+
+.required {
+  margin-inline-start: 2px;
+  color: var(--strata-color-feedback-danger-fg);
+}
+
+/* Any React Aria field root marks itself disabled; its label follows. */
+:where([data-disabled]) .label {
+  color: var(--strata-color-text-disabled);
+}
+
+.description {
+  color: var(--strata-color-text-subtle);
+  font-size: var(--strata-font-size-xs);
+  line-height: var(--strata-line-height-normal);
+  text-wrap: pretty;
+}
+
+.error {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--strata-space-1);
+  color: var(--strata-color-feedback-danger-fg);
+  font-size: var(--strata-font-size-xs);
+  line-height: var(--strata-line-height-normal);
+  text-wrap: pretty;
+}
+
+.errorIcon {
+  flex: none;
+  inline-size: calc(var(--strata-space-4) - 2px);
+  block-size: calc(var(--strata-space-4) - 2px);
+  /* Centre on the first line of text. */
+  margin-block-start: calc((1lh - (var(--strata-space-4) - 2px)) / 2);
+}
+
+/* ------------------------------------------------------------------ *
+ * The box: standalone Input, or FieldGroup around an Input + adornments
+ * ------------------------------------------------------------------ */
+
+.input,
+.group {
+  box-sizing: border-box;
+  inline-size: 100%;
+  min-inline-size: 0;
+  block-size: var(--strata-control-height);
+  margin: 0;
+  padding-block: 0;
+  padding-inline: var(--strata-control-padding-inline);
+  border: 1px solid var(--strata-color-border-strong);
+  border-radius: var(--strata-radius-field);
+  background-color: var(--strata-color-surface-default);
+  color: var(--strata-color-text-default);
+  font-family: inherit;
+  font-size: var(--strata-font-size-md);
+  line-height: var(--strata-line-height-normal);
+  letter-spacing: inherit;
+  outline: none;
+}
+
+.input {
+  display: block;
+  appearance: none;
+  text-overflow: ellipsis;
+}
+
+.input::placeholder {
+  color: var(--strata-color-text-subtle);
+  opacity: 1;
+}
+
+.input[data-hovered],
+.group[data-hovered] {
+  border-color: var(--strata-color-text-subtle);
+}
+
+/* Text inputs show the ring whenever focused (as browsers do for :focus-visible on inputs). */
+.input[data-focused],
+.group[data-focus-within] {
+  outline: 2px solid var(--strata-color-focus-ring);
+  outline-offset: 2px;
+}
+
+.input[data-invalid],
+.group[data-invalid] {
+  border-color: var(--strata-color-feedback-danger-solid);
+}
+
+.input[data-disabled],
+.group[data-disabled] {
+  border-color: var(--strata-color-border-default);
+  background-color: var(--strata-color-surface-sunken);
+  color: var(--strata-color-text-disabled);
+  cursor: default;
+}
+
+.input[data-disabled]::placeholder {
+  color: var(--strata-color-text-disabled);
+}
+
+.input[readonly]:not([data-disabled]) {
+  border-color: var(--strata-color-border-default);
+  background-color: var(--strata-color-surface-sunken);
+}
+
+.group {
+  display: flex;
+  align-items: center;
+  gap: var(--strata-space-2);
+  cursor: text;
+}
+
+/* Inside a group the group is the box; the input is bare. */
+.group > .input,
+.group > .input[readonly] {
+  flex: 1 1 auto;
+  block-size: 100%;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background-color: transparent;
+  outline: none;
+}
+
+.affix {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  gap: var(--strata-space-1);
+  color: var(--strata-color-text-subtle);
+  white-space: nowrap;
+}
+
+.affix > svg {
+  inline-size: var(--strata-space-4);
+  block-size: var(--strata-space-4);
+}
+
+.group[data-disabled] .affix {
+  color: var(--strata-color-text-disabled);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .input,
+  .group {
+    transition: border-color var(--strata-motion-duration-fast) var(--strata-motion-easing);
+  }
+}

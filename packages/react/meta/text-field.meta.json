@@ -1,0 +1,218 @@
+{
+  "name": "text-field",
+  "title": "Text Field",
+  "description": "A single-line text input with label, help text, validation and optional prefix/suffix, plus the field primitives other inputs compose.",
+  "category": "inputs",
+  "maturity": "beta",
+  "exports": [
+    "TextField",
+    "Label",
+    "Description",
+    "FieldError",
+    "Input",
+    "FieldGroup"
+  ],
+  "files": [
+    "text-field.tsx",
+    "text-field.module.css"
+  ],
+  "dependencies": [
+    "react-aria-components",
+    "@tabler/icons-react"
+  ],
+  "registryDependencies": [],
+  "reactAria": "https://react-spectrum.adobe.com/react-aria/TextField.html",
+  "usage": "import { TextField } from '@strata/react';\n\nexport function EmailField() {\n  return <TextField label=\"Email\" type=\"email\" description=\"We'll send receipts here.\" isRequired />;\n}",
+  "examples": [
+    {
+      "name": "text-field-demo",
+      "title": "Text field"
+    },
+    {
+      "name": "text-field-states",
+      "title": "States",
+      "description": "Default, required with description, invalid and disabled."
+    },
+    {
+      "name": "text-field-prefix",
+      "title": "Prefix and suffix",
+      "description": "Currency, units or icons inside the input box."
+    },
+    {
+      "name": "text-field-validation",
+      "title": "Validation",
+      "description": "Native required checks plus a validate() function, shown after submit."
+    }
+  ],
+  "props": [
+    {
+      "component": "TextField",
+      "name": "label",
+      "type": "ReactNode",
+      "description": "Visible label, linked to the control. Without one, pass aria-label."
+    },
+    {
+      "component": "TextField",
+      "name": "description",
+      "type": "ReactNode",
+      "description": "Help text, linked with aria-describedby."
+    },
+    {
+      "component": "TextField",
+      "name": "errorMessage",
+      "type": "string | ((validation: ValidationResult) => string)",
+      "description": "Shown with an icon when invalid. Defaults to the browser or validate() message."
+    },
+    {
+      "component": "TextField",
+      "name": "placeholder",
+      "type": "string",
+      "description": "Example value. Not a substitute for a label."
+    },
+    {
+      "component": "TextField",
+      "name": "type",
+      "type": "'text' | 'email' | 'tel' | 'url' | 'password' | 'search'",
+      "default": "'text'",
+      "description": "Native input type."
+    },
+    {
+      "component": "TextField",
+      "name": "prefix",
+      "type": "ReactNode",
+      "description": "Content before the input, inside the box (text in text.subtle, or an icon)."
+    },
+    {
+      "component": "TextField",
+      "name": "suffix",
+      "type": "ReactNode",
+      "description": "Content after the input, inside the box (a unit, icon or small button)."
+    },
+    {
+      "component": "TextField",
+      "name": "value / defaultValue",
+      "type": "string",
+      "description": "Controlled / uncontrolled value."
+    },
+    {
+      "component": "TextField",
+      "name": "onChange",
+      "type": "(value: string) => void",
+      "description": "Called on every edit."
+    },
+    {
+      "component": "TextField",
+      "name": "isRequired",
+      "type": "boolean",
+      "default": "false",
+      "description": "Marks the field required (native required + a decorative asterisk on the label)."
+    },
+    {
+      "component": "TextField",
+      "name": "isInvalid",
+      "type": "boolean",
+      "default": "false",
+      "description": "Forces the invalid state (aria-invalid, danger border, error message)."
+    },
+    {
+      "component": "TextField",
+      "name": "isDisabled",
+      "type": "boolean",
+      "default": "false",
+      "description": "Disables the field."
+    },
+    {
+      "component": "TextField",
+      "name": "validate",
+      "type": "(value) => string | string[] | true | null | undefined",
+      "description": "Custom validation; return an error message to show."
+    },
+    {
+      "component": "TextField",
+      "name": "inputRef",
+      "type": "Ref<HTMLInputElement>",
+      "description": "Ref to the underlying input."
+    },
+    {
+      "component": "Label",
+      "name": "isRequired",
+      "type": "boolean",
+      "default": "false",
+      "description": "Adds a decorative (aria-hidden) asterisk; the control carries the required state."
+    },
+    {
+      "component": "Description",
+      "name": "children",
+      "type": "ReactNode",
+      "description": "Help text. Renders React Aria's Text with slot=\"description\"."
+    },
+    {
+      "component": "FieldError",
+      "name": "children",
+      "type": "ReactNode | ((validation: ValidationResult) => ReactNode)",
+      "description": "Error text with an alert icon; renders nothing while the field is valid."
+    },
+    {
+      "component": "Input",
+      "name": "className",
+      "type": "string | ((renderProps) => string)",
+      "description": "The bordered input. Inside a FieldGroup it becomes bare and the group draws the box."
+    },
+    {
+      "component": "FieldGroup",
+      "name": "children",
+      "type": "ReactNode | ((renderProps) => ReactNode)",
+      "description": "Input plus adornments. Draws the box, hover/invalid/disabled states and the focus ring; a click on it focuses the input."
+    }
+  ],
+  "accessibility": {
+    "keyboard": [
+      {
+        "keys": "Tab",
+        "action": "Moves focus to the input."
+      },
+      {
+        "keys": "Enter",
+        "action": "Submits the surrounding form."
+      }
+    ],
+    "notes": [
+      "Label, description and error message are linked to the input with aria-labelledby and aria-describedby.",
+      "Errors show an icon and text, never colour alone.",
+      "The required asterisk is aria-hidden: the input is announced as required through the native required attribute.",
+      "Text inputs show the focus ring whenever focused, as browsers do for text inputs."
+    ]
+  },
+  "guidelines": {
+    "do": [
+      "Always give a visible label; put format hints in description.",
+      "Use the right type and inputMode so mobile keyboards match the data.",
+      "Validate on submit and explain how to fix the error."
+    ],
+    "dont": [
+      "Don't use the placeholder as the label.",
+      "Don't show an error before the person has had a chance to type."
+    ]
+  },
+  "tokens": [
+    "color.surface.default",
+    "color.surface.sunken",
+    "color.border.strong",
+    "color.border.default",
+    "color.text.default",
+    "color.text.subtle",
+    "color.text.disabled",
+    "color.feedback.danger.solid",
+    "color.feedback.danger.fg",
+    "color.focus.ring",
+    "radius.field",
+    "control-height",
+    "control-padding-inline",
+    "font.size.md",
+    "font.size.sm",
+    "font.size.xs",
+    "font.weight.medium",
+    "space.1",
+    "space.2"
+  ]
+}

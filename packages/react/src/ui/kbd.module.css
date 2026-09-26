@@ -1,0 +1,45 @@
+.kbd {
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--strata-space-1);
+  min-inline-size: var(--strata-space-5);
+  block-size: var(--strata-space-5);
+  padding-block: 0;
+  padding-inline: var(--strata-space-1);
+  border: 1px solid var(--strata-color-border-default);
+  /* Keys stay key-shaped even in round brands. */
+  border-radius: min(var(--strata-radius-badge), var(--strata-space-1));
+  background-color: var(--strata-color-surface-sunken);
+  box-shadow: inset 0 -1px 0 var(--strata-color-border-default);
+  color: var(--strata-color-text-subtle);
+  font-family: var(--strata-font-mono);
+  font-size: var(--strata-font-size-xs);
+  font-variant-numeric: tabular-nums;
+  font-weight: var(--strata-font-weight-medium);
+  letter-spacing: 0;
+  line-height: 1;
+  vertical-align: middle;
+  white-space: nowrap;
+  user-select: none;
+}
+
+.kbd > svg {
+  inline-size: 1em;
+  block-size: 1em;
+}
+
+/* Keys read in the order they are pressed, like their printed legends — also on RTL pages. */
+.group {
+  direction: ltr;
+  unicode-bidi: isolate;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--strata-space-1);
+  color: var(--strata-color-text-subtle);
+  font-family: inherit;
+  font-size: var(--strata-font-size-xs);
+  vertical-align: middle;
+  white-space: nowrap;
+}

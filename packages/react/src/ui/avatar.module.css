@@ -1,0 +1,116 @@
+.avatar {
+  --_size: var(--strata-space-8);
+  --_bg: var(--strata-color-accent-subtle);
+  --_fg: var(--strata-color-accent-text);
+
+  position: relative;
+  box-sizing: border-box;
+  display: inline-grid;
+  flex: none;
+  place-items: center;
+  inline-size: var(--_size);
+  block-size: var(--_size);
+  overflow: hidden;
+  border-radius: var(--strata-radius-pill);
+  background-color: var(--_bg);
+  color: var(--_fg);
+  font-family: var(--strata-font-body);
+  /* Initials at ~40% of the avatar: 24 → 9.6px, 32 → 12.8px, 40 → 16px. */
+  font-size: calc(var(--_size) * 0.4);
+  font-weight: var(--strata-font-weight-semibold);
+  letter-spacing: 0;
+  line-height: 1;
+  vertical-align: middle;
+  user-select: none;
+}
+
+.avatar[data-size='sm'] {
+  --_size: var(--strata-space-6);
+}
+.avatar[data-size='lg'] {
+  --_size: var(--strata-space-10);
+}
+
+/* Square follows the brand's button shape, capped so round brands still read as square-ish. */
+.avatar[data-shape='square'] {
+  border-radius: min(var(--strata-radius-button), 30%);
+}
+
+/* Deterministic tints — every pair is a guaranteed-contrast token pair. */
+.avatar[data-tint='1'] {
+  --_bg: var(--strata-color-surface-selected);
+  --_fg: var(--strata-color-text-default);
+}
+.avatar[data-tint='2'] {
+  --_bg: var(--strata-color-feedback-info-bg);
+  --_fg: var(--strata-color-feedback-info-fg);
+}
+.avatar[data-tint='3'] {
+  --_bg: var(--strata-color-feedback-success-bg);
+  --_fg: var(--strata-color-feedback-success-fg);
+}
+
+.fallback {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+}
+
+.fallback > svg {
+  inline-size: 55%;
+  block-size: 55%;
+}
+
+.image {
+  position: absolute;
+  inset: 0;
+  inline-size: 100%;
+  block-size: 100%;
+  object-fit: cover;
+  opacity: 0;
+}
+
+.image[data-loaded] {
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .image {
+    transition: opacity var(--strata-motion-duration-normal) var(--strata-motion-easing);
+  }
+}
+
+/* ---- group ------------------------------------------------------------- */
+
+.group {
+  --_size: var(--strata-space-8);
+
+  display: inline-flex;
+  align-items: center;
+  isolation: isolate;
+}
+
+.group[data-size='sm'] {
+  --_size: var(--strata-space-6);
+}
+.group[data-size='lg'] {
+  --_size: var(--strata-space-10);
+}
+
+.group > * + * {
+  margin-inline-start: calc(var(--_size) * -0.25);
+}
+
+/* A ring in the page colour separates overlapping avatars. */
+.group > .avatar {
+  box-shadow: 0 0 0 2px var(--strata-color-surface-default);
+}
+
+.more {
+  --_bg: var(--strata-color-surface-sunken);
+  --_fg: var(--strata-color-text-subtle);
+
+  font-size: calc(var(--_size) * 0.34);
+  font-variant-numeric: tabular-nums;
+}

@@ -1,0 +1,145 @@
+{
+  "name": "avatar",
+  "title": "Avatar",
+  "description": "A person or entity shown as a photo, or as coloured initials when there is no photo.",
+  "category": "display",
+  "maturity": "beta",
+  "exports": [
+    "Avatar",
+    "AvatarGroup",
+    "getInitials"
+  ],
+  "files": [
+    "avatar.tsx",
+    "avatar.module.css"
+  ],
+  "dependencies": [
+    "react-aria-components"
+  ],
+  "registryDependencies": [],
+  "usage": "import { Avatar, AvatarGroup } from '@strata/react';\n\nexport function Members() {\n  return (\n    <AvatarGroup aria-label=\"Members on this plan\" max={3}>\n      <Avatar name=\"Priya Raman\" src=\"/avatars/priya.jpg\" />\n      <Avatar name=\"Daniel Okafor\" />\n      <Avatar name=\"Mei Lin\" />\n      <Avatar name=\"Omar Haddad\" />\n    </AvatarGroup>\n  );\n}",
+  "examples": [
+    {
+      "name": "avatar-demo",
+      "title": "Avatar",
+      "description": "A photo, initials in deterministic tints, a square avatar, and a broken image falling back to initials."
+    },
+    {
+      "name": "avatar-group",
+      "title": "Group",
+      "description": "Overlapping avatars with a +N overflow tile."
+    },
+    {
+      "name": "avatar-sizes",
+      "title": "Sizes and decorative use",
+      "description": "sm, md, lg and square; alt=\"\" next to a visible name."
+    }
+  ],
+  "props": [
+    {
+      "component": "Avatar",
+      "name": "name",
+      "type": "string",
+      "description": "Used for initials, the tint and the accessible name."
+    },
+    {
+      "component": "Avatar",
+      "name": "src",
+      "type": "string",
+      "description": "Image URL. Initials show while it loads and if it fails."
+    },
+    {
+      "component": "Avatar",
+      "name": "alt",
+      "type": "string",
+      "description": "Accessible name; defaults to name. Pass \"\" when the name is already visible next to the avatar."
+    },
+    {
+      "component": "Avatar",
+      "name": "size",
+      "type": "'sm' | 'md' | 'lg'",
+      "default": "'md'",
+      "description": "24, 32 or 40px. Inherits from AvatarGroup."
+    },
+    {
+      "component": "Avatar",
+      "name": "shape",
+      "type": "'circle' | 'square'",
+      "default": "'circle'",
+      "description": "square follows the brand's button radius (capped at 30%)."
+    },
+    {
+      "component": "Avatar",
+      "name": "children",
+      "type": "ReactNode",
+      "description": "Replaces the initials, e.g. an icon for a team or bot."
+    },
+    {
+      "component": "AvatarGroup",
+      "name": "max",
+      "type": "number",
+      "description": "Show at most this many avatars, then a \"+N\" tile."
+    },
+    {
+      "component": "AvatarGroup",
+      "name": "size",
+      "type": "'sm' | 'md' | 'lg'",
+      "default": "'md'",
+      "description": "Size of every avatar in the group."
+    },
+    {
+      "component": "AvatarGroup",
+      "name": "shape",
+      "type": "'circle' | 'square'",
+      "default": "'circle'",
+      "description": "Shape of every avatar in the group."
+    },
+    {
+      "component": "AvatarGroup",
+      "name": "moreLabel",
+      "type": "(count: number) => string",
+      "default": "(n) => `${n} more`",
+      "description": "Accessible name of the +N tile."
+    }
+  ],
+  "accessibility": {
+    "keyboard": [],
+    "notes": [
+      "Avatar is role=\"img\" named by `alt ?? name`; the inner <img> has alt=\"\" so the name is read once.",
+      "alt=\"\" makes it decorative (aria-hidden) — use it when the name is printed beside it.",
+      "AvatarGroup is role=\"group\"; give it an aria-label that says who the people are.",
+      "Initials are grapheme-safe (accents, emoji) and use a zero-width non-joiner for joining scripts such as Arabic, so two letters never fuse.",
+      "The \"+N\" count is formatted and direction-isolated in the current locale."
+    ]
+  },
+  "guidelines": {
+    "do": [
+      "Pass the full name even when you have a photo; it is the fallback and the accessible name.",
+      "Use square avatars for organisations and teams, circles for people."
+    ],
+    "dont": [
+      "Don't make an avatar a button by itself; wrap it in a Button or Link with a label.",
+      "Don't show more than about five avatars in a group."
+    ]
+  },
+  "tokens": [
+    "color.accent.subtle",
+    "color.accent.text",
+    "color.surface.selected",
+    "color.feedback.info.bg",
+    "color.feedback.info.fg",
+    "color.feedback.success.bg",
+    "color.feedback.success.fg",
+    "color.surface.sunken",
+    "color.surface.default",
+    "color.text.default",
+    "color.text.subtle",
+    "radius.pill",
+    "radius.button",
+    "space.6",
+    "space.8",
+    "space.10",
+    "font.weight.semibold",
+    "motion.duration.normal"
+  ]
+}

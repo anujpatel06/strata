@@ -1,0 +1,154 @@
+.header {
+  position: sticky;
+  inset-block-start: 0;
+  z-index: 40;
+  inline-size: 100%;
+  background: color-mix(in oklab, var(--strata-color-surface-canvas) 80%, transparent);
+  border-block-end: var(--docs-hairline);
+  -webkit-backdrop-filter: saturate(1.8) blur(var(--strata-space-3));
+  backdrop-filter: saturate(1.8) blur(var(--strata-space-3));
+}
+
+.inner {
+  display: flex;
+  align-items: center;
+  gap: var(--strata-space-2);
+  block-size: var(--docs-header-height);
+  max-inline-size: var(--docs-container);
+  margin-inline: auto;
+  padding-inline: var(--docs-gutter);
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--strata-space-2);
+  margin-inline-end: var(--strata-space-4);
+  color: var(--strata-color-text-default);
+  font-family: var(--strata-font-heading);
+  font-size: var(--strata-font-size-lg);
+  font-weight: var(--strata-font-weight-semibold);
+  letter-spacing: var(--strata-font-heading-tracking);
+}
+
+/* ---- Main nav ---- */
+.mainNav {
+  display: none;
+}
+@media (min-width: 768px) {
+  .mainNav {
+    display: block;
+  }
+}
+.mainNavList {
+  display: flex;
+  align-items: center;
+  gap: var(--strata-space-1);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.mainNavLink {
+  display: inline-flex;
+  align-items: center;
+  block-size: calc(var(--strata-space-8) + var(--strata-space-1));
+  padding-inline: var(--strata-space-2);
+  border-radius: var(--strata-radius-button);
+  color: var(--strata-color-text-subtle);
+  font-size: var(--strata-font-size-md);
+  font-weight: var(--strata-font-weight-medium);
+  transition: color var(--strata-motion-duration-fast) var(--strata-motion-easing);
+}
+.mainNavLink:hover,
+.mainNavLink[aria-current='page'] {
+  color: var(--strata-color-text-default);
+}
+
+/* ---- Actions ---- */
+.actions {
+  display: flex;
+  align-items: center;
+  gap: var(--strata-space-1);
+  margin-inline-start: auto;
+}
+
+/* Search trigger: a Strata outline Button dressed as a field. Doubled class beats the button's own rules. */
+.search.search {
+  justify-content: center;
+  gap: var(--strata-space-2);
+  inline-size: calc(var(--strata-space-8) + var(--strata-space-1));
+  block-size: calc(var(--strata-space-8) + var(--strata-space-1));
+  padding-inline: 0;
+  border-color: var(--strata-color-border-subtle);
+  background-color: var(--strata-color-surface-default);
+  color: var(--strata-color-text-subtle);
+  font-weight: var(--strata-font-weight-regular);
+  box-shadow: none;
+}
+.search.search[data-hovered] {
+  color: var(--strata-color-text-default);
+  border-color: var(--strata-color-border-default);
+}
+.searchIcon {
+  flex: none;
+}
+.searchLabel,
+.searchKbd.searchKbd {
+  display: none;
+}
+@media (min-width: 768px) {
+  .search.search {
+    justify-content: flex-start;
+    inline-size: calc(var(--strata-space-16) * 3);
+    padding-inline: var(--strata-space-3) var(--strata-space-1);
+    margin-inline-end: var(--strata-space-2);
+  }
+  .searchLabel {
+    display: inline;
+    flex: 1;
+    min-inline-size: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: start;
+  }
+  .searchKbd.searchKbd {
+    display: inline-flex;
+  }
+}
+@media (min-width: 1024px) {
+  .search.search {
+    inline-size: calc(var(--strata-space-16) * 4.5);
+  }
+}
+
+.iconLink,
+.iconButton.iconButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: calc(var(--strata-space-8) + var(--strata-space-1));
+  block-size: calc(var(--strata-space-8) + var(--strata-space-1));
+  padding: 0;
+  border-radius: var(--strata-radius-button);
+  color: var(--strata-color-text-default);
+  transition: background-color var(--strata-motion-duration-fast) var(--strata-motion-easing);
+}
+.iconLink:hover {
+  background: var(--docs-hover);
+}
+.iconLink svg {
+  inline-size: var(--strata-space-4);
+  block-size: var(--strata-space-4);
+}
+
+/* Scheme icon follows <html data-strata-scheme> — correct before hydration. */
+.schemeLight,
+.schemeDark,
+.schemeAuto {
+  display: none;
+}
+:global(:root[data-strata-scheme='light']) .schemeLight,
+:global(:root[data-strata-scheme='dark']) .schemeDark,
+:global(:root[data-strata-scheme='auto']) .schemeAuto {
+  display: block;
+}

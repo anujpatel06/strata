@@ -1,0 +1,90 @@
+{
+  "name": "date-picker",
+  "title": "Date Picker",
+  "description": "A date field typed segment by segment, with a calendar popover for picking by sight.",
+  "category": "inputs",
+  "maturity": "beta",
+  "exports": ["DatePicker", "DateRangePicker"],
+  "files": ["date-picker.tsx", "date-picker.module.css"],
+  "dependencies": ["react-aria-components", "@internationalized/date", "@tabler/icons-react"],
+  "registryDependencies": ["calendar", "text-field"],
+  "reactAria": "https://react-spectrum.adobe.com/react-aria/DatePicker.html",
+  "usage": "import { DatePicker } from '@strata/react';\n\nexport function IncidentDate() {\n  return <DatePicker label=\"Date of incident\" onChange={(date) => console.log(date?.toString())} />;\n}",
+  "examples": [
+    { "name": "date-picker-demo", "title": "Date picker", "description": "Type the date or pick it from the calendar." },
+    { "name": "date-picker-range", "title": "Range", "description": "DateRangePicker with two months in the popover." },
+    { "name": "date-picker-with-time", "title": "Date and time", "description": "granularity=\"minute\" adds hour and minute segments." },
+    { "name": "date-picker-invalid", "title": "Invalid and disabled", "description": "minValue validation with an error message, and a disabled picker." }
+  ],
+  "props": [
+    { "component": "DatePicker", "name": "label", "type": "ReactNode", "description": "Visible label. Use aria-label only when a visible label is impossible." },
+    { "component": "DatePicker", "name": "description", "type": "ReactNode", "description": "Help text under the field, e.g. the allowed range." },
+    { "component": "DatePicker", "name": "errorMessage", "type": "string | ((validation: ValidationResult) => string)", "description": "Shown when the value is invalid (out of range, unavailable, missing, or isInvalid)." },
+    { "component": "DatePicker", "name": "value / defaultValue", "type": "DateValue | null", "description": "The date, controlled or initial (CalendarDate, CalendarDateTime or ZonedDateTime)." },
+    { "component": "DatePicker", "name": "onChange", "type": "(value: DateValue | null) => void", "description": "Called when a complete date is entered or picked." },
+    { "component": "DatePicker", "name": "granularity", "type": "'day' | 'hour' | 'minute' | 'second'", "default": "'day'", "description": "The smallest unit shown. Anything below 'day' adds time segments." },
+    { "component": "DatePicker", "name": "minValue / maxValue", "type": "DateValue", "description": "Allowed range; outside values are invalid and disabled in the calendar." },
+    { "component": "DatePicker", "name": "isDateUnavailable", "type": "(date: DateValue) => boolean", "description": "Dates that can't be chosen; picking one makes the field invalid." },
+    { "component": "DatePicker", "name": "placeholderValue", "type": "DateValue", "description": "Date the segments start from when stepping with arrow keys, and the calendar's initial month." },
+    { "component": "DatePicker", "name": "hourCycle", "type": "12 | 24", "description": "Overrides the locale's hour cycle." },
+    { "component": "DatePicker", "name": "hideTimeZone", "type": "boolean", "default": "false", "description": "Hides the time zone segment for ZonedDateTime values." },
+    { "component": "DatePicker", "name": "shouldCloseOnSelect", "type": "boolean", "default": "true", "description": "Close the popover when a date is picked." },
+    { "component": "DatePicker", "name": "validationBehavior", "type": "'native' | 'aria'", "default": "'native'", "description": "'aria' shows validation errors as the value changes; 'native' waits for form submit." },
+    { "component": "DatePicker", "name": "isRequired / isInvalid / isDisabled / isReadOnly", "type": "boolean", "default": "false", "description": "Field states; isRequired also shows the label's required marker." },
+    { "component": "DatePicker", "name": "name", "type": "string", "description": "Form field name; submits the ISO date string." },
+    { "component": "DateRangePicker", "name": "value / defaultValue", "type": "{ start: DateValue; end: DateValue } | null", "description": "The range, controlled or initial." },
+    { "component": "DateRangePicker", "name": "visibleMonths", "type": "number", "default": "1", "description": "How many months the calendar popover shows side by side." },
+    { "component": "DateRangePicker", "name": "startName / endName", "type": "string", "description": "Form field names for the two dates." }
+  ],
+  "accessibility": {
+    "keyboard": [
+      { "keys": "Tab / Shift + Tab", "action": "Moves between segments, then to the calendar button." },
+      { "keys": "← / →", "action": "Moves to the previous / next segment." },
+      { "keys": "↑ / ↓", "action": "Increments / decrements the focused segment (wraps)." },
+      { "keys": "0–9", "action": "Types into the segment and advances when it's complete." },
+      { "keys": "Backspace", "action": "Clears the segment, then moves back." },
+      { "keys": "Alt + ↓", "action": "Opens the calendar." },
+      { "keys": "Escape", "action": "Closes the calendar and returns focus to the field." },
+      { "keys": "Calendar keys", "action": "Inside the popover, the Calendar keyboard applies (arrows, Page Up/Down, Enter)." }
+    ],
+    "notes": [
+      "The field is a labelled group; each segment is a spinbutton named by its unit (month, day, year…).",
+      "Segment order, separators, digits and hour cycle follow the locale.",
+      "The calendar popover is a dialog labelled by the field label; focus moves into it and back.",
+      "Empty segments show the placeholder text (mm/dd/yyyy) in text.subtle; the focused segment is highlighted with surface.selected."
+    ]
+  },
+  "guidelines": {
+    "do": [
+      "Use for dates near today where seeing the week helps (appointments, deadlines, travel).",
+      "Say the allowed range in description when you set minValue/maxValue.",
+      "Use DateRangePicker for start/end pairs so the range stays consistent."
+    ],
+    "dont": [
+      "Don't use the calendar for dates of birth — the field alone is faster to type.",
+      "Don't format dates yourself — pass DateValue objects and let the locale decide."
+    ]
+  },
+  "tokens": [
+    "color.surface.default",
+    "color.surface.raised",
+    "color.surface.selected",
+    "color.border.strong",
+    "color.border.default",
+    "color.text.default",
+    "color.text.subtle",
+    "color.text.disabled",
+    "color.focus.ring",
+    "control-height",
+    "control-padding-inline",
+    "radius.field",
+    "radius.container",
+    "radius.button",
+    "shadow.overlay",
+    "space.1",
+    "space.2",
+    "font.size.md",
+    "motion.duration.fast",
+    "motion.easing"
+  ]
+}

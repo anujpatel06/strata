@@ -1,0 +1,113 @@
+.root.root {
+  gap: var(--strata-space-3);
+}
+
+.panel.panel {
+  border-radius: var(--strata-radius-container);
+}
+
+.frame {
+  overflow: hidden;
+  border: 1px solid var(--strata-color-border-subtle);
+  border-radius: var(--strata-radius-container);
+  background: var(--strata-color-surface-default);
+}
+
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--strata-space-2);
+  padding: var(--strata-space-2);
+  border-block-end: 1px solid var(--strata-color-border-subtle);
+}
+
+.toolbarEnd {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--strata-space-2);
+}
+
+.group.group {
+  flex: none;
+}
+
+.tenantToggle.tenantToggle {
+  gap: var(--strata-space-2);
+}
+
+/* The ring is drawn in the site's tokens; the dot inside reads the tenant's primary (it carries data-strata-theme). */
+.dotRing {
+  display: inline-flex;
+  padding: 1px;
+  border-radius: var(--strata-radius-pill);
+  background: color-mix(in oklab, var(--strata-color-text-default) 22%, transparent);
+}
+.dot {
+  display: block;
+  inline-size: var(--strata-space-2);
+  block-size: var(--strata-space-2);
+  border-radius: var(--strata-radius-pill);
+  background: var(--strata-color-action-primary-bg);
+}
+
+.iconToggle.iconToggle {
+  padding-inline: var(--strata-space-2);
+}
+
+/* The stage is a ThemeScope: everything inside uses the chosen tenant's tokens. */
+.stage {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-block-size: calc(var(--strata-space-16) * 4 + var(--strata-space-6)); /* 280px */
+  padding-block: var(--strata-space-12);
+  padding-inline: var(--strata-space-6);
+  background-color: var(--strata-color-surface-canvas);
+  background-image: radial-gradient(
+    color-mix(in oklab, var(--strata-color-border-default) 55%, transparent) 1px,
+    transparent 1px
+  );
+  background-size: var(--strata-space-4) var(--strata-space-4);
+  background-position: center;
+}
+.stage[data-align='start'] {
+  align-items: flex-start;
+}
+@media (min-width: 768px) {
+  .stage {
+    padding-inline: var(--strata-space-10);
+  }
+}
+
+.example {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: var(--strata-space-3);
+  inline-size: 100%;
+  min-inline-size: 0;
+}
+.stage[data-align='start'] .example {
+  justify-content: flex-start;
+}
+
+.message {
+  max-inline-size: 48ch;
+  color: var(--strata-color-text-subtle);
+  font-size: var(--strata-font-size-md);
+  text-align: center;
+}
+.message code {
+  font-family: var(--strata-font-mono);
+  font-size: var(--strata-font-size-sm);
+}
+
+.codeFrame {
+  overflow: hidden;
+  border: 1px solid var(--strata-color-border-subtle);
+  border-radius: var(--strata-radius-container);
+  background: var(--strata-color-surface-default);
+}

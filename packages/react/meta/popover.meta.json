@@ -1,0 +1,128 @@
+{
+  "name": "popover",
+  "title": "Popover",
+  "description": "A floating panel anchored to a trigger, for rich or interactive content such as a small form, filters or details.",
+  "category": "overlays",
+  "maturity": "beta",
+  "exports": [
+    "Popover"
+  ],
+  "files": [
+    "popover.tsx",
+    "popover.module.css"
+  ],
+  "dependencies": [
+    "react-aria-components"
+  ],
+  "registryDependencies": [],
+  "reactAria": "https://react-spectrum.adobe.com/react-aria/Popover.html",
+  "usage": "import { Button, DialogTrigger, Popover } from '@strata/react';\n\nexport function Details() {\n  return (\n    <DialogTrigger>\n      <Button variant=\"outline\">Details</Button>\n      <Popover showArrow placement=\"bottom\">\n        Submitted on 12 March by Priya Raman.\n      </Popover>\n    </DialogTrigger>\n  );\n}",
+  "examples": [
+    {
+      "name": "popover-demo",
+      "title": "Popover with a form",
+      "description": "Interactive content: focus moves into the popover and is contained there."
+    },
+    {
+      "name": "popover-with-arrow",
+      "title": "With arrow",
+      "description": "showArrow points at the trigger; placement picks the side."
+    }
+  ],
+  "props": [
+    {
+      "component": "Popover",
+      "name": "children",
+      "type": "ReactNode",
+      "description": "The content. Padded with card-inset."
+    },
+    {
+      "component": "Popover",
+      "name": "showArrow",
+      "type": "boolean",
+      "default": "false",
+      "description": "Draws an arrow pointing at the trigger."
+    },
+    {
+      "component": "Popover",
+      "name": "placement",
+      "type": "Placement",
+      "default": "'bottom'",
+      "description": "Preferred side and alignment, e.g. 'bottom start', 'top', 'end'. Flips when there is no room."
+    },
+    {
+      "component": "Popover",
+      "name": "offset",
+      "type": "number",
+      "default": "6 (10 with arrow)",
+      "description": "Distance from the trigger in px."
+    },
+    {
+      "component": "Popover",
+      "name": "isNonModal",
+      "type": "boolean",
+      "default": "false",
+      "description": "Lets users interact with the page while it is open (no focus trap, no outside-click dismissal)."
+    },
+    {
+      "component": "Popover",
+      "name": "triggerRef / isOpen / onOpenChange",
+      "type": "RefObject<Element> / boolean / (isOpen: boolean) => void",
+      "description": "For a popover anchored to an element without a DialogTrigger."
+    },
+    {
+      "component": "Popover",
+      "name": "className",
+      "type": "string | (state) => string",
+      "description": "Merged onto the popover root. Set --popover-padding to change the padding."
+    }
+  ],
+  "accessibility": {
+    "keyboard": [
+      {
+        "keys": "Enter / Space",
+        "action": "On the trigger: opens the popover and moves focus into it."
+      },
+      {
+        "keys": "Tab / Shift+Tab",
+        "action": "Moves between focusable elements inside the popover."
+      },
+      {
+        "keys": "Escape",
+        "action": "Closes the popover and returns focus to the trigger."
+      }
+    ],
+    "notes": [
+      "Inside a DialogTrigger the popover is a dialog labelled by its trigger; pass aria-labelledby to point at a heading inside instead.",
+      "Clicking outside closes it.",
+      "Overlays render in a portal on <body>, outside any ThemeScope. When it opens, the overlay copies data-strata-theme, data-strata-scheme and data-strata-density from the nearest [data-strata-theme] ancestor of its trigger (or of where the component is rendered, when controlled), plus dir and lang, onto its own root — so it uses the same tenant tokens and direction as the page region it came from, and nested overlays inherit from their parent overlay."
+    ]
+  },
+  "guidelines": {
+    "do": [
+      "Use for supplementary, interactive content tied to one control.",
+      "Keep it small; use a Dialog or Sheet when the content needs more room."
+    ],
+    "dont": [
+      "Don't use a Popover for a plain text hint — use a Tooltip.",
+      "Don't use it for a list of actions — use a Menu."
+    ]
+  },
+  "tokens": [
+    "color.surface.raised",
+    "color.border.default",
+    "shadow.overlay",
+    "radius.container",
+    "font.body",
+    "font.size.md",
+    "color.text.default",
+    "color.text.subtle",
+    "motion.duration.fast",
+    "motion.duration.normal",
+    "motion.easing",
+    "card-inset",
+    "space.1",
+    "space.3",
+    "space.4"
+  ]
+}

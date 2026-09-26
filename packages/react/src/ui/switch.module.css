@@ -1,0 +1,128 @@
+/*
+ * Switch — tokens only. The track is sized from the md font size (36×20 at 14px), i.e. 2.57em × 1.43em of the label.
+ * The thumb uses action.primary.fg in both states: it contrasts with the on-track (primary) by construction
+ * and with the off-track (border.strong) in every tenant, and it never changes colour mid-toggle.
+ */
+
+.switch {
+  /* Resolved against the md font token (not em) so the description below lines up regardless of its own size. */
+  --_w: calc(var(--strata-font-size-md) * 2.5714);
+  --_h: calc(var(--strata-font-size-md) * 1.4286);
+  --_pad: 2px;
+  --_gap: var(--strata-space-2);
+
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-inline-size: 0;
+  font-size: var(--strata-font-size-md);
+}
+
+.button {
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: flex-start;
+  gap: var(--_gap);
+  inline-size: fit-content;
+  max-inline-size: 100%;
+  min-block-size: var(--strata-space-6);
+  padding-block: calc((var(--strata-space-6) - 1lh) / 2);
+  color: var(--strata-color-text-default);
+  line-height: var(--strata-line-height-normal);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.track {
+  --_dir: 1;
+
+  box-sizing: border-box;
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  inline-size: var(--_w);
+  block-size: var(--_h);
+  margin-block-start: calc((1lh - var(--_h)) / 2);
+  padding: var(--_pad);
+  border-radius: var(--strata-radius-pill);
+  background-color: var(--strata-color-border-strong);
+}
+
+.track:dir(rtl) {
+  --_dir: -1;
+}
+
+.thumb {
+  box-sizing: border-box;
+  display: block;
+  inline-size: calc(var(--_h) - 2 * var(--_pad));
+  block-size: calc(var(--_h) - 2 * var(--_pad));
+  border-radius: var(--strata-radius-pill);
+  background-color: var(--strata-color-action-primary-fg);
+  box-shadow: var(--strata-shadow-raised);
+}
+
+.label {
+  min-inline-size: 0;
+  text-wrap: pretty;
+}
+
+.help {
+  padding-inline-start: calc(var(--_w) + var(--_gap));
+}
+
+/* --- states --- */
+
+.button[data-hovered] .track {
+  background-color: var(--strata-color-text-subtle);
+}
+
+.button[data-selected] .track {
+  background-color: var(--strata-color-action-primary-bg);
+}
+
+.button[data-selected][data-hovered] .track {
+  background-color: var(--strata-color-action-primary-hover);
+}
+
+.button[data-selected] .thumb {
+  translate: calc(var(--_dir) * (var(--_w) - var(--_h))) 0;
+}
+
+.button[data-focus-visible] .track {
+  outline: 2px solid var(--strata-color-focus-ring);
+  outline-offset: 2px;
+}
+
+.button[data-disabled] {
+  cursor: default;
+}
+
+.button[data-disabled] .track {
+  background-color: color-mix(in oklab, var(--strata-color-border-strong) 40%, transparent);
+}
+
+.button[data-disabled][data-selected] .track {
+  background-color: color-mix(in oklab, var(--strata-color-action-primary-bg) 40%, transparent);
+}
+
+/* Muted, but the same thumb in both schemes (a solid surface thumb reads as a hole on dark canvases). */
+.button[data-disabled] .thumb {
+  background-color: color-mix(in oklab, var(--strata-color-action-primary-fg) 70%, transparent);
+  box-shadow: none;
+}
+
+.button[data-disabled] .label {
+  color: var(--strata-color-text-disabled);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .track {
+    transition: background-color var(--strata-motion-duration-fast) var(--strata-motion-easing);
+  }
+
+  .thumb {
+    transition: translate var(--strata-motion-duration-normal) var(--strata-motion-easing);
+  }
+}

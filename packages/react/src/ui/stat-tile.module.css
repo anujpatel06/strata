@@ -1,0 +1,188 @@
+/*
+ * StatTile — the value always gets the full width (figures never wrap mid-number); an optional
+ * sparkline shares the bottom row with the delta:
+ *   label label
+ *   value value
+ *   meta  spark
+ */
+
+.tile {
+  box-sizing: border-box;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-areas:
+    'label'
+    'value'
+    'meta';
+  align-content: start;
+  column-gap: var(--strata-space-4);
+  row-gap: var(--strata-space-2);
+  min-inline-size: 0;
+  margin: 0;
+  padding: var(--strata-card-inset);
+  border: 1px solid var(--strata-color-border-default);
+  border-radius: var(--strata-radius-container);
+  background-color: var(--strata-color-surface-raised);
+  box-shadow: var(--strata-shadow-raised);
+  color: var(--strata-color-text-default);
+  font-family: var(--strata-font-body);
+  font-size: var(--strata-font-size-md);
+  line-height: var(--strata-line-height-normal);
+  text-align: start;
+}
+
+.tile[data-sparkline] {
+  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-areas:
+    'label label'
+    'value value'
+    'meta  spark';
+}
+
+.tile[data-variant='outline'] {
+  box-shadow: none;
+}
+
+.tile[data-variant='ghost'] {
+  border-color: transparent;
+  background-color: transparent;
+  box-shadow: none;
+}
+
+.label {
+  display: flex;
+  grid-area: label;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--strata-space-2);
+  min-inline-size: 0;
+  margin: 0;
+  color: var(--strata-color-text-subtle);
+  font-size: var(--strata-font-size-sm);
+  font-weight: var(--strata-font-weight-medium);
+  line-height: var(--strata-line-height-snug);
+}
+
+.labelText {
+  min-inline-size: 0;
+  text-wrap: pretty;
+}
+
+.icon {
+  display: inline-flex;
+  flex: none;
+  color: var(--strata-color-text-subtle);
+}
+
+.icon > svg {
+  inline-size: var(--strata-space-4);
+  block-size: var(--strata-space-4);
+}
+
+.value {
+  grid-area: value;
+  min-inline-size: 0;
+  margin: 0;
+  color: var(--strata-color-text-default);
+  font-family: var(--strata-font-heading);
+  font-size: var(--strata-font-size-2xl);
+  font-variant-numeric: tabular-nums;
+  font-weight: var(--strata-font-weight-semibold);
+  letter-spacing: var(--strata-font-heading-tracking);
+  line-height: var(--strata-line-height-tight);
+}
+
+.tile[data-size='sm'] .value {
+  font-size: var(--strata-font-size-xl);
+}
+
+.tile[data-size='lg'] .value {
+  font-size: var(--strata-font-size-3xl);
+}
+
+.meta {
+  display: flex;
+  grid-area: meta;
+  flex-wrap: wrap;
+  align-items: center;
+  column-gap: var(--strata-space-2);
+  row-gap: var(--strata-space-1);
+  min-inline-size: 0;
+  align-self: end;
+  margin: 0;
+  font-size: var(--strata-font-size-sm);
+  line-height: var(--strata-line-height-snug);
+}
+
+.deltaLabel,
+.caption {
+  color: var(--strata-color-text-subtle);
+  font-size: var(--strata-font-size-sm);
+}
+
+.caption:empty {
+  display: none;
+}
+
+/* Trend arrows follow the time axis, which runs right-to-left in RTL. */
+.trend:dir(rtl) {
+  scale: -1 1;
+}
+
+/* ---- sparkline --------------------------------------------------------- */
+
+.spark {
+  grid-area: spark;
+  align-self: end;
+  margin: 0;
+  color: var(--strata-color-text-brand);
+  line-height: 0;
+}
+
+.sparkSvg {
+  display: block;
+  /* 80 × 32: the SVG's own viewBox, 1:1. */
+  inline-size: calc(var(--strata-space-16) * 1.25);
+  block-size: var(--strata-space-8);
+  overflow: visible;
+}
+
+.sparkSvg:dir(rtl) {
+  scale: -1 1;
+}
+
+.sparkArea {
+  fill: color-mix(in oklab, var(--strata-color-text-brand) 12%, transparent);
+  stroke: none;
+}
+
+.sparkLine {
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 2;
+}
+
+.sparkDot {
+  fill: currentColor;
+  stroke: var(--strata-color-surface-raised);
+  stroke-width: 2;
+}
+
+.tile[data-variant='ghost'] .sparkDot {
+  stroke: var(--strata-color-surface-default);
+}
+
+/* ---- group ------------------------------------------------------------- */
+
+.group {
+  box-sizing: border-box;
+  display: grid;
+  /* ~224px minimum per tile; one column at 320px. */
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, calc(var(--strata-space-16) * 3.5)), 1fr));
+  gap: var(--strata-section-gap);
+  inline-size: 100%;
+  margin: 0;
+  padding: 0;
+}

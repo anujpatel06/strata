@@ -1,0 +1,262 @@
+/*
+ * Steps — numbered markers joined by connectors. Marker size follows density (control height − 8px).
+ * --_marker is a private alias for that size, not a theme token.
+ */
+
+.root {
+  --_marker: calc(var(--strata-control-height) - var(--strata-space-2));
+
+  box-sizing: border-box;
+  container: strata-steps / inline-size;
+  inline-size: 100%;
+  min-inline-size: 0;
+}
+
+.list {
+  display: flex;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.srOnly {
+  position: absolute;
+  inline-size: 1px;
+  block-size: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* ------------------------------------------------------------------ *
+ * Step body: marker + label (+ description)
+ * ------------------------------------------------------------------ */
+
+.body {
+  box-sizing: border-box;
+  display: grid;
+  grid-template-columns: var(--_marker) minmax(0, auto);
+  grid-template-rows: var(--_marker) auto;
+  grid-template-areas:
+    'marker label'
+    '. description';
+  column-gap: var(--strata-space-2);
+  align-items: center;
+  min-inline-size: 0;
+  text-align: start;
+}
+
+.button {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: var(--strata-radius-badge);
+  background-color: transparent;
+  color: inherit;
+  font: inherit;
+  letter-spacing: inherit;
+  cursor: pointer;
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.button[data-focus-visible] {
+  outline: 2px solid var(--strata-color-focus-ring);
+  outline-offset: 2px;
+}
+
+.button[data-hovered] .label {
+  text-decoration-line: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.2em;
+}
+
+.marker {
+  box-sizing: border-box;
+  grid-area: marker;
+  display: inline-grid;
+  place-items: center;
+  inline-size: var(--_marker);
+  block-size: var(--_marker);
+  border: 1px solid var(--strata-color-border-strong);
+  border-radius: var(--strata-radius-pill);
+  color: var(--strata-color-text-subtle);
+  font-size: var(--strata-font-size-sm);
+  font-variant-numeric: tabular-nums;
+  font-weight: var(--strata-font-weight-medium);
+  line-height: 1;
+}
+
+.label {
+  grid-area: label;
+  min-inline-size: 0;
+  color: var(--strata-color-text-subtle);
+  font-size: var(--strata-font-size-sm);
+  font-weight: var(--strata-font-weight-medium);
+  line-height: var(--strata-line-height-snug);
+}
+
+.description {
+  grid-area: description;
+  min-inline-size: 0;
+  color: var(--strata-color-text-subtle);
+  font-size: var(--strata-font-size-xs);
+  line-height: var(--strata-line-height-snug);
+}
+
+.step[data-status='complete'] .marker {
+  border-color: var(--strata-color-action-primary-bg);
+  background-color: var(--strata-color-action-primary-bg);
+  color: var(--strata-color-action-primary-fg);
+}
+
+.step[data-status='current'] .marker {
+  border: 2px solid var(--strata-color-action-primary-bg);
+  color: var(--strata-color-text-default);
+  font-weight: var(--strata-font-weight-semibold);
+}
+
+.step:is([data-status='complete'], [data-status='current']) .label {
+  color: var(--strata-color-text-default);
+}
+
+.connector {
+  display: block;
+  border-radius: var(--strata-radius-pill);
+  background-color: var(--strata-color-border-default);
+}
+
+.step[data-status='complete'] > .connector {
+  background-color: var(--strata-color-action-primary-bg);
+}
+
+/* ------------------------------------------------------------------ *
+ * Horizontal
+ * ------------------------------------------------------------------ */
+
+.root[data-orientation='horizontal'] .list {
+  align-items: flex-start;
+  gap: var(--strata-space-3);
+}
+
+.root[data-orientation='horizontal'] .step {
+  display: flex;
+  flex: 1 1 0;
+  align-items: flex-start;
+  gap: var(--strata-space-3);
+  min-inline-size: 0;
+}
+
+.root[data-orientation='horizontal'] .step:last-child {
+  flex: 0 1 auto;
+}
+
+.root[data-orientation='horizontal'] .body {
+  flex: 0 1 auto;
+}
+
+.root[data-orientation='horizontal'] .connector {
+  flex: 1 1 var(--strata-space-6);
+  min-inline-size: var(--strata-space-4);
+  block-size: 2px;
+  /* Centred on the marker. */
+  margin-block-start: calc(var(--_marker) / 2 - 1px);
+}
+
+/* ------------------------------------------------------------------ *
+ * Vertical
+ * ------------------------------------------------------------------ */
+
+.root[data-orientation='vertical'] .list {
+  flex-direction: column;
+}
+
+.root[data-orientation='vertical'] .step {
+  position: relative;
+  padding-block-end: var(--strata-space-6);
+}
+
+.root[data-orientation='vertical'] .step:last-child {
+  padding-block-end: 0;
+}
+
+.root[data-orientation='vertical'] .connector {
+  position: absolute;
+  inset-block: calc(var(--_marker) + var(--strata-space-1)) var(--strata-space-1);
+  inset-inline-start: calc(var(--_marker) / 2 - 1px);
+  inline-size: 2px;
+}
+
+.root[data-orientation='vertical'] .description {
+  margin-block-start: calc(var(--strata-space-1) * -1);
+}
+
+/* ------------------------------------------------------------------ *
+ * Narrow: "Step 2 of 3 · Upload" + segmented bar
+ * ------------------------------------------------------------------ */
+
+.compact {
+  display: none;
+  gap: var(--strata-space-2);
+}
+
+.summary {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  column-gap: var(--strata-space-2);
+  margin: 0;
+  font-size: var(--strata-font-size-sm);
+  line-height: var(--strata-line-height-snug);
+}
+
+.summaryCount {
+  color: var(--strata-color-text-subtle);
+  font-variant-numeric: tabular-nums;
+}
+
+.summaryDot {
+  color: var(--strata-color-text-subtle);
+}
+
+.summaryLabel {
+  min-inline-size: 0;
+  color: var(--strata-color-text-default);
+  font-weight: var(--strata-font-weight-medium);
+}
+
+.segments {
+  display: flex;
+  gap: var(--strata-space-1);
+}
+
+.segment {
+  flex: 1 1 0;
+  block-size: var(--strata-space-1);
+  border-radius: var(--strata-radius-pill);
+  background-color: var(--strata-color-border-default);
+}
+
+.segment:is([data-status='complete'], [data-status='current']) {
+  background-color: var(--strata-color-action-primary-bg);
+}
+
+@container strata-steps (inline-size < 480px) {
+  .root[data-orientation='horizontal'] .list {
+    display: none;
+  }
+
+  .root[data-orientation='horizontal'] .compact {
+    display: grid;
+  }
+}
+
+@container strata-steps (480px <= inline-size < 640px) {
+  .root[data-orientation='horizontal'][data-size='lg'] .list {
+    display: none;
+  }
+
+  .root[data-orientation='horizontal'][data-size='lg'] .compact {
+    display: grid;
+  }
+}

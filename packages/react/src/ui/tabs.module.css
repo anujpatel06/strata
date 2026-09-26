@@ -1,0 +1,250 @@
+/*
+ * Tabs — underline and pill (segmented) variants, horizontal and vertical.
+ * The moving indicator is RAC's <SelectionIndicator>: it animates `translate` between tabs and
+ * reads the physical `width`/`height` transition names, so those two appear in transition-property.
+ */
+
+.tabs {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-4);
+  inline-size: 100%;
+  min-inline-size: 0;
+}
+
+.tabs[data-orientation='vertical'] {
+  flex-direction: row;
+  align-items: flex-start;
+  gap: var(--strata-space-6);
+}
+
+/* ------------------------------------------------------------------ *
+ * List
+ * ------------------------------------------------------------------ */
+
+.list {
+  box-sizing: border-box;
+  display: flex;
+  flex: none;
+  min-inline-size: 0;
+  max-inline-size: 100%;
+}
+
+/* Overflowing tabs scroll inside the list, never the page. */
+.list[data-orientation='horizontal'] {
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scrollbar-width: none;
+}
+
+.list[data-orientation='horizontal']::-webkit-scrollbar {
+  display: none;
+}
+
+.list[data-orientation='vertical'] {
+  flex-direction: column;
+}
+
+.listUnderline[data-orientation='horizontal'] {
+  /* Size from the container, not the tabs: lets the list scroll instead of widening flex/grid ancestors. */
+  contain: inline-size;
+  gap: var(--strata-space-1);
+  /* Hairline drawn inside the scroller so it spans the visible width and sits under the indicator. */
+  box-shadow: inset 0 -1px 0 0 var(--strata-color-border-subtle);
+}
+
+.listUnderline[data-orientation='vertical'] {
+  gap: var(--strata-space-1);
+  border-inline-start: 1px solid var(--strata-color-border-subtle);
+}
+
+.listPill {
+  align-self: flex-start;
+  gap: var(--strata-space-1);
+  padding: var(--strata-space-1);
+  background-color: var(--strata-color-surface-sunken);
+  /* Concentric with the tabs inside it. */
+  border-radius: calc(var(--strata-radius-button) + var(--strata-space-1));
+}
+
+.listPill[data-orientation='vertical'] {
+  align-self: stretch;
+}
+
+/* ------------------------------------------------------------------ *
+ * Tab
+ * ------------------------------------------------------------------ */
+
+.tab {
+  box-sizing: border-box;
+  position: relative;
+  isolation: isolate;
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  gap: var(--strata-space-2);
+  padding-inline: var(--strata-space-3);
+  border-radius: var(--strata-radius-button);
+  color: var(--strata-color-text-subtle);
+  font-size: var(--strata-font-size-md);
+  font-weight: var(--strata-font-weight-medium);
+  line-height: var(--strata-line-height-tight);
+  white-space: nowrap;
+  cursor: default;
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.tab[data-hovered],
+.tab[data-selected] {
+  color: var(--strata-color-text-default);
+}
+
+.tab[data-disabled] {
+  color: var(--strata-color-text-disabled);
+}
+
+.label {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--strata-space-2);
+}
+
+.label :where(svg) {
+  flex: none;
+  inline-size: 1.15em;
+  block-size: 1.15em;
+}
+
+.tabUnderline {
+  min-block-size: var(--strata-control-height);
+  padding-inline: var(--strata-space-2);
+}
+
+/* The list is a scroll container, so an outset ring would be clipped: underline tabs draw it inset. */
+.tabUnderline[data-focus-visible] {
+  outline: 2px solid var(--strata-color-focus-ring);
+  outline-offset: -2px;
+}
+
+.listUnderline[data-orientation='vertical'] > .tabUnderline {
+  justify-content: flex-start;
+  padding-inline: var(--strata-space-3);
+}
+
+.tabPill {
+  min-block-size: calc(var(--strata-control-height) - var(--strata-space-2));
+}
+
+.tabPill[data-focus-visible] {
+  outline: 2px solid var(--strata-color-focus-ring);
+  outline-offset: 2px;
+}
+
+.listPill[data-orientation='vertical'] > .tabPill {
+  justify-content: flex-start;
+}
+
+@media (hover: hover) {
+  .tabPill[data-hovered]:not([data-selected]) {
+    background-color: color-mix(in oklab, var(--strata-color-text-default) 6%, transparent);
+  }
+}
+
+/* ------------------------------------------------------------------ *
+ * Count badge
+ * ------------------------------------------------------------------ */
+
+.count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-inline-size: var(--strata-space-5);
+  block-size: var(--strata-space-5);
+  padding-inline: var(--strata-space-1);
+  border-radius: var(--strata-radius-badge);
+  background-color: color-mix(in oklab, var(--strata-color-text-default) 8%, transparent);
+  color: var(--strata-color-text-subtle);
+  font-size: var(--strata-font-size-xs);
+  font-variant-numeric: tabular-nums;
+  font-weight: var(--strata-font-weight-medium);
+  line-height: 1;
+}
+
+.tab[data-selected] > .count {
+  color: var(--strata-color-text-default);
+}
+
+.tab[data-disabled] > .count {
+  color: var(--strata-color-text-disabled);
+}
+
+/* ------------------------------------------------------------------ *
+ * Selection indicator
+ * ------------------------------------------------------------------ */
+
+.indicator {
+  position: absolute;
+  pointer-events: none;
+  /* 'none' tells RAC not to snapshot for a slide; the no-preference block below turns the slide on. */
+  transition-property: none;
+}
+
+.tabUnderline > .indicator {
+  inset-block-end: 0;
+  inset-inline-start: 0;
+  inline-size: 100%;
+  block-size: 2px;
+  background-color: var(--strata-color-action-primary-bg);
+}
+
+.listUnderline[data-orientation='vertical'] > .tabUnderline > .indicator {
+  inset-block: 0 auto;
+  /* Centre the 2px bar on the list's 1px hairline. */
+  inset-inline-start: -1px;
+  inline-size: 2px;
+  block-size: 100%;
+}
+
+.tabPill > .indicator {
+  inset-block-start: 0;
+  inset-inline-start: 0;
+  z-index: -1;
+  inline-size: 100%;
+  block-size: 100%;
+  background-color: var(--strata-color-surface-raised);
+  border-radius: var(--strata-radius-button);
+  box-shadow: var(--strata-shadow-raised);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .tab {
+    transition: color var(--strata-motion-duration-fast) var(--strata-motion-easing);
+  }
+
+  .indicator {
+    /* width/height first: RAC measures the rect after applying them, which keeps RTL slides aligned. */
+    transition-property: width, height, translate;
+    transition-duration: var(--strata-motion-duration-normal);
+    transition-timing-function: var(--strata-motion-easing);
+  }
+}
+
+/* ------------------------------------------------------------------ *
+ * Panel
+ * ------------------------------------------------------------------ */
+
+.panel {
+  box-sizing: border-box;
+  flex: 1 1 auto;
+  min-inline-size: 0;
+  border-radius: var(--strata-radius-container);
+  outline: none;
+}
+
+.panel[data-focus-visible] {
+  outline: 2px solid var(--strata-color-focus-ring);
+  outline-offset: 2px;
+}

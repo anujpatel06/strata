@@ -1,0 +1,84 @@
+{
+  "name": "tabs",
+  "title": "Tabs",
+  "description": "Switches between related panels of content in the same place, one visible at a time.",
+  "category": "navigation",
+  "maturity": "beta",
+  "exports": ["Tabs", "TabList", "Tab", "TabPanel"],
+  "files": ["tabs.tsx", "tabs.module.css"],
+  "dependencies": ["react-aria-components"],
+  "registryDependencies": [],
+  "reactAria": "https://react-spectrum.adobe.com/react-aria/Tabs.html",
+  "usage": "import { Tab, TabList, TabPanel, Tabs } from '@strata/react';\n\nexport function ClaimTabs() {\n  return (\n    <Tabs defaultSelectedKey=\"overview\">\n      <TabList aria-label=\"Claim details\">\n        <Tab id=\"overview\">Overview</Tab>\n        <Tab id=\"documents\" count={3}>Documents</Tab>\n      </TabList>\n      <TabPanel id=\"overview\">…</TabPanel>\n      <TabPanel id=\"documents\">…</TabPanel>\n    </Tabs>\n  );\n}",
+  "examples": [
+    { "name": "tabs-demo", "title": "Tabs", "description": "Underline tabs for switching sections of a page." },
+    { "name": "tabs-pill", "title": "Pill", "description": "A segmented control for switching views of the same data." },
+    { "name": "tabs-with-counts", "title": "Icons, counts and disabled", "description": "Leading icons, a count after the label, and a disabled tab that arrow keys skip." },
+    { "name": "tabs-vertical", "title": "Vertical", "description": "Tabs stacked beside the panel, e.g. for settings." }
+  ],
+  "props": [
+    { "component": "Tabs", "name": "variant", "type": "'underline' | 'pill'", "default": "'underline'", "description": "underline: a 2px indicator under the selected tab. pill: a segmented control on a sunken track." },
+    { "component": "Tabs", "name": "orientation", "type": "'horizontal' | 'vertical'", "default": "'horizontal'", "description": "Vertical puts the tab list beside the panel and uses ↑/↓ to move." },
+    { "component": "Tabs", "name": "selectedKey", "type": "Key | null", "description": "The selected tab's id (controlled)." },
+    { "component": "Tabs", "name": "defaultSelectedKey", "type": "Key", "description": "The initially selected tab's id (uncontrolled). Defaults to the first enabled tab." },
+    { "component": "Tabs", "name": "onSelectionChange", "type": "(key: Key) => void", "description": "Called when the selected tab changes." },
+    { "component": "Tabs", "name": "keyboardActivation", "type": "'automatic' | 'manual'", "default": "'automatic'", "description": "manual: arrow keys move focus only; Enter/Space selects. Use when showing a panel is slow." },
+    { "component": "Tabs", "name": "disabledKeys", "type": "Iterable<Key>", "description": "Ids of tabs that can't be selected." },
+    { "component": "Tabs", "name": "isDisabled", "type": "boolean", "default": "false", "description": "Disables every tab." },
+    { "component": "TabList", "name": "aria-label", "type": "string", "required": true, "description": "Names the tab list (or use aria-labelledby)." },
+    { "component": "TabList", "name": "children", "type": "ReactNode | ((item: T) => ReactElement)", "required": true, "description": "Tab elements, or a render function with items." },
+    { "component": "Tab", "name": "id", "type": "Key", "required": true, "description": "Matches the TabPanel with the same id." },
+    { "component": "Tab", "name": "count", "type": "ReactNode", "description": "A small count after the label; part of the tab's accessible name." },
+    { "component": "Tab", "name": "isDisabled", "type": "boolean", "default": "false", "description": "Makes the tab unselectable; arrow keys skip it." },
+    { "component": "Tab", "name": "href", "type": "string", "description": "Renders the tab as a link, for tabs that change the URL (pair with a router)." },
+    { "component": "TabPanel", "name": "id", "type": "Key", "required": true, "description": "Matches the Tab with the same id." },
+    { "component": "TabPanel", "name": "shouldForceMount", "type": "boolean", "default": "false", "description": "Keeps the panel in the DOM (inert) while another tab is selected." }
+  ],
+  "accessibility": {
+    "keyboard": [
+      { "keys": "Tab", "action": "Moves focus into the tab list (to the selected tab), then to the panel." },
+      { "keys": "→ / ←", "action": "Moves to the next / previous tab and selects it (mirrored in right-to-left). Wraps around; skips disabled tabs." },
+      { "keys": "↓ / ↑", "action": "Same as → / ← for vertical tabs." },
+      { "keys": "Home / End", "action": "Moves to the first / last tab." },
+      { "keys": "Enter / Space", "action": "Selects the focused tab when keyboardActivation is manual." }
+    ],
+    "notes": [
+      "role=\"tablist\" / \"tab\" / \"tabpanel\" with aria-selected, aria-controls and aria-labelledby wired by React Aria.",
+      "The selected tab is shown by an indicator (underline) or raised surface (pill) plus text colour and weight — not colour alone.",
+      "Overflowing tabs scroll inside the list; the focused tab scrolls into view. Underline tabs draw an inset focus ring because the list clips outside it.",
+      "The panel is focusable when it has no focusable content, so keyboard users can reach it."
+    ]
+  },
+  "guidelines": {
+    "do": [
+      "Use short, parallel labels (one or two words).",
+      "Use underline tabs for sections of a page and pill tabs for switching views of the same data.",
+      "Give the TabList an aria-label that says what the tabs switch between."
+    ],
+    "dont": [
+      "Don't use tabs for steps in a sequence — use Steps.",
+      "Don't use tabs for site navigation between pages unless each Tab has an href.",
+      "Don't nest tabs inside tabs."
+    ]
+  },
+  "tokens": [
+    "color.action.primary.bg",
+    "color.text.default",
+    "color.text.subtle",
+    "color.text.disabled",
+    "color.border.subtle",
+    "color.surface.sunken",
+    "color.surface.raised",
+    "color.focus.ring",
+    "shadow.raised",
+    "radius.button",
+    "radius.badge",
+    "radius.container",
+    "control-height",
+    "font.size.md",
+    "font.size.xs",
+    "font.weight.medium",
+    "motion.duration.normal",
+    "motion.easing"
+  ]
+}

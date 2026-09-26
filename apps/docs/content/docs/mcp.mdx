@@ -1,0 +1,68 @@
+AI coding agents can install and use Strata components today through shadcn’s MCP server, which reads any registry listed in your `components.json`. A Strata MCP server that also serves tokens and usage rules is planned for Phase 5.
+
+## Set up with shadcn’s server
+
+<Steps>
+
+### Add the namespace
+
+<CodeBlock title="components.json">
+
+```json
+{
+  "registries": {
+    "@strata": "{{SITE_URL}}/r/{name}.json"
+  }
+}
+```
+
+</CodeBlock>
+
+### Register the server with your client
+
+<PackageCommand dlx="shadcn@latest mcp init --client claude" />
+
+For Cursor or VS Code, pass `--client cursor` or `--client vscode`. Restart the client so it picks the server up.
+
+### Ask for components
+
+Prompts that work well name the namespace:
+
+- “Show me the components in the @strata registry.”
+- “Add the Strata date picker and a dialog to the settings page.”
+- “Build a claim form with @strata text fields, a file upload and a submit button.”
+
+</Steps>
+
+## What the agent sees
+
+shadcn’s server exposes what a registry item carries: its name, description, files and dependencies. That is enough to find a component, install it and read its source.
+
+It doesn’t expose the rest of `meta.json` — the do and don’t guidelines, accessibility notes, and which tokens a component reads — or the tokens themselves. An agent working only from source can still reach for a raw hex value where a token exists.
+
+## Strata’s own server
+
+<Callout tone="neutral" title="Planned — Phase 5">
+  Nothing below ships yet. The tool list is the design in the project brief.
+</Callout>
+
+The Strata MCP server reads the same `meta.json` files as these pages and returns compact JSON:
+
+<Table aria-label="Planned MCP tools">
+  <thead>
+    <tr>
+      <th scope="col">Tool</th>
+      <th scope="col">Returns</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>`list_components()`</td><td>Name, maturity and one-line purpose of every component.</td></tr>
+    <tr><td>`get_component(name)`</td><td>Props, variants, states, guidelines, accessibility notes and a minimal example.</td></tr>
+    <tr><td>`get_tokens(category?, tenant?, mode?)`</td><td>Resolved token values.</td></tr>
+    <tr><td>`find_token(value)`</td><td>The nearest semantic token for a raw value, with the reason.</td></tr>
+    <tr><td>`get_pattern(name)`</td><td>Page-level patterns: multi-step form, overview dashboard, settings with a danger zone.</td></tr>
+    <tr><td>`audit_snippet(code)`</td><td>Off-system usage in a snippet, each with the fix.</td></tr>
+  </tbody>
+</Table>
+
+It will also serve `AGENTS.md`, which sets what an agent may change on its own and what needs a person — see the trust levels in [Governance](/docs/governance#agent-trust-levels). Whether this beats shadcn’s server alone is an experiment, not an assumption: the Phase 5 eval runs the same prompts with and without it and reports the difference either way.

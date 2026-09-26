@@ -1,0 +1,255 @@
+{
+  "name": "combobox",
+  "title": "Combobox",
+  "description": "A text input that filters a list of options as people type, for picking from long lists.",
+  "category": "inputs",
+  "maturity": "beta",
+  "exports": [
+    "Combobox",
+    "ComboboxItem",
+    "ComboboxSection"
+  ],
+  "files": [
+    "combobox.tsx",
+    "combobox.module.css"
+  ],
+  "dependencies": [
+    "react-aria-components",
+    "@tabler/icons-react"
+  ],
+  "registryDependencies": [
+    "text-field"
+  ],
+  "reactAria": "https://react-spectrum.adobe.com/react-aria/ComboBox.html",
+  "usage": "import { Combobox, ComboboxItem } from '@strata/react';\n\nexport function CountryField() {\n  return (\n    <Combobox label=\"Country\" placeholder=\"Search countries…\" onSelectionChange={(key) => console.log(key)}>\n      <ComboboxItem id=\"in\">India</ComboboxItem>\n      <ComboboxItem id=\"id\">Indonesia</ComboboxItem>\n      <ComboboxItem id=\"jp\">Japan</ComboboxItem>\n    </Combobox>\n  );\n}",
+  "examples": [
+    {
+      "name": "combobox-demo",
+      "title": "Combobox",
+      "description": "Filter a long list of countries by typing."
+    },
+    {
+      "name": "combobox-custom-value",
+      "title": "Custom value",
+      "description": "allowsCustomValue keeps text that isn't in the list."
+    },
+    {
+      "name": "combobox-with-sections",
+      "title": "Sections, icons and descriptions",
+      "description": "Group options under headings; items can have an icon and a second line."
+    },
+    {
+      "name": "combobox-invalid",
+      "title": "Invalid and disabled",
+      "description": "Required with an error message, and a disabled combobox."
+    }
+  ],
+  "props": [
+    {
+      "component": "Combobox",
+      "name": "label",
+      "type": "ReactNode",
+      "description": "Visible label. Use aria-label only when a visible label is impossible."
+    },
+    {
+      "component": "Combobox",
+      "name": "description",
+      "type": "ReactNode",
+      "description": "Help text under the input, linked with aria-describedby."
+    },
+    {
+      "component": "Combobox",
+      "name": "errorMessage",
+      "type": "string | ((validation: ValidationResult) => string)",
+      "description": "Shown under the input when the field is invalid."
+    },
+    {
+      "component": "Combobox",
+      "name": "placeholder",
+      "type": "string",
+      "description": "Placeholder text in the input."
+    },
+    {
+      "component": "Combobox",
+      "name": "emptyState",
+      "type": "ReactNode",
+      "default": "'No results'",
+      "description": "Row shown when nothing matches the typed text."
+    },
+    {
+      "component": "Combobox",
+      "name": "items / defaultItems",
+      "type": "Iterable<T>",
+      "description": "Items for a dynamic list. Use defaultItems to let the combobox filter them; items when you filter yourself."
+    },
+    {
+      "component": "Combobox",
+      "name": "children",
+      "type": "ReactNode | ((item: T) => ReactElement)",
+      "required": true,
+      "description": "ComboboxItem and ComboboxSection elements, or a function that renders one per item."
+    },
+    {
+      "component": "Combobox",
+      "name": "selectedKey / defaultSelectedKey",
+      "type": "Key | null",
+      "description": "The selected item's id, controlled or initial."
+    },
+    {
+      "component": "Combobox",
+      "name": "onSelectionChange",
+      "type": "(key: Key | null) => void",
+      "description": "Called when an option is chosen or the selection is cleared."
+    },
+    {
+      "component": "Combobox",
+      "name": "inputValue / defaultInputValue",
+      "type": "string",
+      "description": "The text in the input, controlled or initial."
+    },
+    {
+      "component": "Combobox",
+      "name": "onInputChange",
+      "type": "(value: string) => void",
+      "description": "Called as the text changes."
+    },
+    {
+      "component": "Combobox",
+      "name": "allowsCustomValue",
+      "type": "boolean",
+      "default": "false",
+      "description": "Keep typed text that doesn't match an option instead of reverting on blur."
+    },
+    {
+      "component": "Combobox",
+      "name": "menuTrigger",
+      "type": "'input' | 'focus' | 'manual'",
+      "default": "'input'",
+      "description": "What opens the list: typing, focusing, or only the button and arrow keys."
+    },
+    {
+      "component": "Combobox",
+      "name": "defaultFilter",
+      "type": "(textValue: string, inputValue: string) => boolean",
+      "description": "Custom filter for defaultItems. Defaults to a locale-aware 'contains'."
+    },
+    {
+      "component": "Combobox",
+      "name": "allowsEmptyCollection",
+      "type": "boolean",
+      "default": "true",
+      "description": "Keep the list open to show emptyState when nothing matches."
+    },
+    {
+      "component": "Combobox",
+      "name": "isRequired / isInvalid / isDisabled",
+      "type": "boolean",
+      "default": "false",
+      "description": "Field states; isRequired also shows the label's required marker."
+    },
+    {
+      "component": "ComboboxItem",
+      "name": "id",
+      "type": "Key",
+      "required": true,
+      "description": "Unique key used by selectedKey and onSelectionChange."
+    },
+    {
+      "component": "ComboboxItem",
+      "name": "children",
+      "type": "ReactNode",
+      "required": true,
+      "description": "The option label. A string also becomes its textValue, which fills the input when chosen."
+    },
+    {
+      "component": "ComboboxItem",
+      "name": "textValue",
+      "type": "string",
+      "description": "Plain text used for filtering and the input when children is not a string."
+    },
+    {
+      "component": "ComboboxItem",
+      "name": "description",
+      "type": "ReactNode",
+      "description": "A second, quieter line under the label."
+    },
+    {
+      "component": "ComboboxItem",
+      "name": "icon",
+      "type": "ReactNode",
+      "description": "Decorative leading icon."
+    },
+    {
+      "component": "ComboboxSection",
+      "name": "title",
+      "type": "ReactNode",
+      "description": "Heading for the group; also its accessible name. Sections with no matches hide while filtering."
+    }
+  ],
+  "accessibility": {
+    "keyboard": [
+      {
+        "keys": "Type characters",
+        "action": "Filters the list and opens it."
+      },
+      {
+        "keys": "↓ / ↑",
+        "action": "Opens the list; moves the highlighted option while focus stays in the input."
+      },
+      {
+        "keys": "Enter",
+        "action": "Chooses the highlighted option and closes the list."
+      },
+      {
+        "keys": "Escape",
+        "action": "Closes the list and puts back the text of the selected option (typed text is kept with allowsCustomValue)."
+      },
+      {
+        "keys": "Tab",
+        "action": "Commits the current text or selection and moves focus on."
+      }
+    ],
+    "notes": [
+      "The input is role=\"combobox\" with aria-expanded, aria-controls and aria-activedescendant; the highlighted option is announced as you arrow.",
+      "The chevron button is for pointer users and is excluded from the tab order.",
+      "The empty state is rendered inside the listbox so screen readers announce it."
+    ]
+  },
+  "guidelines": {
+    "do": [
+      "Use for long lists (15+ options) people know by name: countries, people, accounts.",
+      "Write a placeholder that says what can be searched.",
+      "Use allowsCustomValue only when free text is a valid answer."
+    ],
+    "dont": [
+      "Don't use for short lists — a Select is quicker to scan.",
+      "Don't use for search that navigates or runs actions — use SearchField or Command.",
+      "Don't hide the label behind the placeholder."
+    ]
+  },
+  "tokens": [
+    "color.surface.default",
+    "color.surface.raised",
+    "color.border.strong",
+    "color.border.default",
+    "color.border.subtle",
+    "color.text.default",
+    "color.text.subtle",
+    "color.text.disabled",
+    "color.focus.ring",
+    "control-height",
+    "control-padding-inline",
+    "radius.field",
+    "radius.container",
+    "radius.button",
+    "shadow.overlay",
+    "space.1",
+    "space.2",
+    "font.size.md",
+    "font.size.sm",
+    "font.size.xs",
+    "motion.duration.fast",
+    "motion.duration.normal",
+    "motion.easing"
+  ]
+}

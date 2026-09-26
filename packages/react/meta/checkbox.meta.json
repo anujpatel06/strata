@@ -1,0 +1,193 @@
+{
+  "name": "checkbox",
+  "title": "Checkbox",
+  "description": "Selects one or more options, alone or in a labelled group, with indeterminate and invalid states.",
+  "category": "inputs",
+  "maturity": "beta",
+  "exports": [
+    "Checkbox",
+    "CheckboxGroup"
+  ],
+  "files": [
+    "checkbox.tsx",
+    "checkbox.module.css"
+  ],
+  "dependencies": [
+    "react-aria-components",
+    "@tabler/icons-react"
+  ],
+  "registryDependencies": [
+    "text-field"
+  ],
+  "reactAria": "https://react-spectrum.adobe.com/react-aria/Checkbox.html",
+  "usage": "import { Checkbox, CheckboxGroup } from '@strata/react';\n\nexport function Channels() {\n  return (\n    <CheckboxGroup label=\"Notify me by\" defaultValue={['email']}>\n      <Checkbox value=\"email\">Email</Checkbox>\n      <Checkbox value=\"sms\">SMS</Checkbox>\n    </CheckboxGroup>\n  );\n}",
+  "examples": [
+    {
+      "name": "checkbox-demo",
+      "title": "Checkbox",
+      "description": "With a description linked to the input."
+    },
+    {
+      "name": "checkbox-group",
+      "title": "Group"
+    },
+    {
+      "name": "checkbox-horizontal",
+      "title": "Horizontal group"
+    },
+    {
+      "name": "checkbox-indeterminate",
+      "title": "Indeterminate",
+      "description": "A \"select all\" parent for a set of options."
+    },
+    {
+      "name": "checkbox-states",
+      "title": "Invalid and disabled"
+    }
+  ],
+  "props": [
+    {
+      "component": "Checkbox",
+      "name": "children",
+      "type": "ReactNode",
+      "description": "The label. Without one, pass aria-label."
+    },
+    {
+      "component": "Checkbox",
+      "name": "description",
+      "type": "ReactNode",
+      "description": "Help text under the label, linked with aria-describedby."
+    },
+    {
+      "component": "Checkbox",
+      "name": "value",
+      "type": "string",
+      "description": "Value inside a CheckboxGroup."
+    },
+    {
+      "component": "Checkbox",
+      "name": "isSelected / defaultSelected",
+      "type": "boolean",
+      "description": "Controlled / uncontrolled state (standalone)."
+    },
+    {
+      "component": "Checkbox",
+      "name": "onChange",
+      "type": "(isSelected: boolean) => void",
+      "description": "Called when toggled."
+    },
+    {
+      "component": "Checkbox",
+      "name": "isIndeterminate",
+      "type": "boolean",
+      "default": "false",
+      "description": "Shows a dash, e.g. for a partially selected \"select all\"."
+    },
+    {
+      "component": "Checkbox",
+      "name": "errorMessage",
+      "type": "string | ((validation: ValidationResult) => string)",
+      "description": "Standalone only (e.g. accepting terms with isRequired). In a group, the group shows errors."
+    },
+    {
+      "component": "Checkbox",
+      "name": "isRequired / isInvalid / isDisabled",
+      "type": "boolean",
+      "default": "false",
+      "description": "Validation and disabled state."
+    },
+    {
+      "component": "CheckboxGroup",
+      "name": "label",
+      "type": "ReactNode",
+      "description": "Group label. Without one, pass aria-label."
+    },
+    {
+      "component": "CheckboxGroup",
+      "name": "description",
+      "type": "ReactNode",
+      "description": "Help text under the group label."
+    },
+    {
+      "component": "CheckboxGroup",
+      "name": "errorMessage",
+      "type": "string | ((validation: ValidationResult) => string)",
+      "description": "Shown with an icon when the group is invalid."
+    },
+    {
+      "component": "CheckboxGroup",
+      "name": "value / defaultValue",
+      "type": "string[]",
+      "description": "Controlled / uncontrolled selected values."
+    },
+    {
+      "component": "CheckboxGroup",
+      "name": "onChange",
+      "type": "(value: string[]) => void",
+      "description": "Called when the selection changes."
+    },
+    {
+      "component": "CheckboxGroup",
+      "name": "orientation",
+      "type": "'horizontal' | 'vertical'",
+      "default": "'vertical'",
+      "description": "Stack options, or lay them out in a wrapping row."
+    },
+    {
+      "component": "CheckboxGroup",
+      "name": "isRequired / isInvalid / isDisabled",
+      "type": "boolean",
+      "default": "false",
+      "description": "Validation and disabled state for the whole group."
+    }
+  ],
+  "accessibility": {
+    "keyboard": [
+      {
+        "keys": "Space",
+        "action": "Toggles the focused checkbox."
+      },
+      {
+        "keys": "Tab",
+        "action": "Moves between checkboxes."
+      }
+    ],
+    "notes": [
+      "Uses a native checkbox input, so forms and assistive tech work without extra ARIA.",
+      "Each row is at least 24px tall and the whole label is clickable (WCAG 2.5.8).",
+      "Descriptions are linked with aria-describedby and stay out of the accessible name.",
+      "Invalid state shows a danger border plus an error message with an icon."
+    ]
+  },
+  "guidelines": {
+    "do": [
+      "Use for independent on/off choices or picking several items from a list.",
+      "Write labels as positive statements: \"Email me about updates\".",
+      "Use a group label that names the question."
+    ],
+    "dont": [
+      "Don't use a checkbox for settings that apply immediately; use a Switch.",
+      "Don't use checkboxes for mutually exclusive options; use RadioGroup."
+    ]
+  },
+  "tokens": [
+    "color.surface.default",
+    "color.surface.sunken",
+    "color.border.strong",
+    "color.border.default",
+    "color.action.primary.bg",
+    "color.action.primary.hover",
+    "color.action.primary.fg",
+    "color.feedback.danger.solid",
+    "color.feedback.danger.onSolid",
+    "color.text.default",
+    "color.text.subtle",
+    "color.text.disabled",
+    "color.focus.ring",
+    "control-height",
+    "space.2",
+    "space.6",
+    "font.size.md",
+    "radius.field"
+  ]
+}

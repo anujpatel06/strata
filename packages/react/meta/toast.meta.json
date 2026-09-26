@@ -1,0 +1,132 @@
+{
+  "name": "toast",
+  "title": "Toast",
+  "description": "A brief, stacked notification about something that just happened, with an optional action.",
+  "category": "feedback",
+  "maturity": "alpha",
+  "exports": [
+    "ToastRegion",
+    "toast"
+  ],
+  "files": [
+    "toast.tsx",
+    "toast.module.css"
+  ],
+  "dependencies": [
+    "react-aria-components",
+    "@tabler/icons-react"
+  ],
+  "registryDependencies": [],
+  "reactAria": "https://react-spectrum.adobe.com/react-aria/Toast.html",
+  "usage": "import { Button, ThemeScope, ToastRegion, toast } from '@strata/react';\n\n// Mount once, inside your ThemeScope (e.g. in the root layout).\nexport function App({ children }: { children: React.ReactNode }) {\n  return (\n    <ThemeScope theme=\"vela\">\n      {children}\n      <ToastRegion />\n    </ThemeScope>\n  );\n}\n\nexport function SaveButton() {\n  return <Button onPress={() => toast({ title: 'Changes saved', tone: 'success' })}>Save</Button>;\n}",
+  "examples": [
+    {
+      "name": "toast-demo",
+      "title": "Toast",
+      "description": "One button per tone. Toasts stack at the bottom inline-end and fan out on hover or keyboard focus."
+    },
+    {
+      "name": "toast-with-action",
+      "title": "With an action",
+      "description": "An Undo action; toasts with actions stay until dismissed."
+    },
+    {
+      "name": "toast-promise",
+      "title": "Dismiss by key",
+      "description": "A persistent \"working\" toast replaced by a result."
+    }
+  ],
+  "props": [
+    {
+      "component": "toast",
+      "name": "content",
+      "type": "string | { title: ReactNode; description?: ReactNode; tone?: 'neutral' | 'info' | 'success' | 'warning' | 'danger'; action?: { label: string; onAction: () => void } }",
+      "required": true,
+      "description": "What to show. A string is the title. Pressing the action runs onAction and closes the toast."
+    },
+    {
+      "component": "toast",
+      "name": "options",
+      "type": "{ timeout?: number | null; onClose?: () => void }",
+      "description": "timeout in ms: default 5000, or none when there is an action; null keeps the toast until dismissed. Returns the toast key."
+    },
+    {
+      "component": "toast",
+      "name": "dismiss",
+      "type": "(key?: string) => void",
+      "description": "toast.dismiss(key) closes one toast; toast.dismiss() closes all."
+    },
+    {
+      "component": "ToastRegion",
+      "name": "placement",
+      "type": "'top-start' | 'top' | 'top-end' | 'bottom-start' | 'bottom' | 'bottom-end'",
+      "default": "'bottom-end'",
+      "description": "Viewport corner or edge the stack grows from (logical: end = right in LTR, left in RTL)."
+    },
+    {
+      "component": "ToastRegion",
+      "name": "aria-label",
+      "type": "string",
+      "default": "'Notifications' (localised)",
+      "description": "Name of the notifications landmark."
+    }
+  ],
+  "accessibility": {
+    "keyboard": [
+      {
+        "keys": "F6 / Shift+F6",
+        "action": "Moves focus into and out of the notifications region (a landmark)."
+      },
+      {
+        "keys": "Tab / Shift+Tab",
+        "action": "Moves between toasts and their action and close buttons."
+      },
+      {
+        "keys": "Enter / Space",
+        "action": "Activates the focused action or close button."
+      }
+    ],
+    "notes": [
+      "Each toast is role=\"alertdialog\" (non-modal) with its title and description wired, and its content in a role=\"alert\" live region so it is announced when it appears.",
+      "Timers pause while the pointer is over the region or focus is inside it. When a focused toast closes, focus moves to the next toast, or back to where it was before entering the region.",
+      "Toasts with an action do not auto-dismiss, so keyboard and screen reader users have time to reach it (WCAG 2.2.1).",
+      "At most three toasts are visible; newer ones queue older ones.",
+      "Built on React Aria's UNSTABLE Toast APIs; the maturity stays alpha until those are stable."
+    ]
+  },
+  "guidelines": {
+    "do": [
+      "Mount exactly one ToastRegion, inside your ThemeScope. The region portals to <body> and copies the scope's theme, scheme, density, lang and dir onto itself so it looks and reads like the page. (Extra regions render nothing.)",
+      "Keep titles short and past tense: \"Claim submitted\".",
+      "Use a toast for results of the user's own actions; offer Undo instead of a confirmation dialog where you can."
+    ],
+    "dont": [
+      "Don't put information the user must act on only in a toast — use an Alert or Dialog.",
+      "Don't fire several toasts for one action.",
+      "Don't set a timeout below 5 seconds."
+    ]
+  },
+  "tokens": [
+    "color.surface.raised",
+    "color.border.default",
+    "shadow.overlay",
+    "radius.container",
+    "radius.button",
+    "color.text.default",
+    "color.text.subtle",
+    "color.feedback.*.fg",
+    "color.action.secondary.bg",
+    "color.action.secondary.fg",
+    "color.action.secondary.hover",
+    "color.action.secondary.pressed",
+    "color.focus.ring",
+    "font.body",
+    "font.size.sm",
+    "font.size.md",
+    "font.weight.semibold",
+    "space.1–16",
+    "motion.duration.fast",
+    "motion.duration.normal",
+    "motion.easing"
+  ]
+}

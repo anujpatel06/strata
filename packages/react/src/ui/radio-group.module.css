@@ -1,0 +1,251 @@
+/*
+ * RadioGroup + Radio — tokens only. Same geometry as Checkbox (16px/18px indicator, ≥ 24px row).
+ * The card variant turns each RadioField into a card; the label's ::after stretches over it, so the
+ * whole card is the click target while the description stays out of the accessible name.
+ */
+
+.group {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-2);
+  min-inline-size: 0;
+}
+
+.items {
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-2);
+}
+
+/* A little more air between the group label/description and the options. */
+.items:not(:first-child) {
+  margin-block-start: var(--strata-space-1);
+}
+
+.group[data-orientation='horizontal'] > .items {
+  flex-flow: row wrap;
+  gap: var(--strata-space-2) var(--strata-space-5);
+}
+
+.group[data-variant='card'] > .items {
+  gap: var(--strata-space-3);
+}
+
+.group[data-variant='card'][data-orientation='horizontal'] > .items > .card {
+  flex: 1 1 calc(var(--strata-space-16) * 3);
+}
+
+/* ------------------------------------------------------------------ *
+ * Radio
+ * ------------------------------------------------------------------ */
+
+.radio {
+  --_box: calc(var(--strata-control-height) / 4 + var(--strata-space-2));
+  --_gap: var(--strata-space-2);
+
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-inline-size: 0;
+}
+
+.button {
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: flex-start;
+  gap: var(--_gap);
+  inline-size: fit-content;
+  max-inline-size: 100%;
+  min-inline-size: var(--strata-space-6);
+  min-block-size: var(--strata-space-6);
+  padding-block: calc((var(--strata-space-6) - 1lh) / 2);
+  color: var(--strata-color-text-default);
+  font-size: var(--strata-font-size-md);
+  line-height: var(--strata-line-height-normal);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.circle {
+  position: relative;
+  box-sizing: border-box;
+  flex: none;
+  inline-size: var(--_box);
+  block-size: var(--_box);
+  margin-block-start: calc((1lh - var(--_box)) / 2);
+  border: 1px solid var(--strata-color-border-strong);
+  border-radius: 50%;
+  background-color: var(--strata-color-surface-default);
+}
+
+.circle::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  inline-size: 40%;
+  block-size: 40%;
+  border-radius: 50%;
+  background-color: var(--strata-color-action-primary-fg);
+  scale: 0;
+}
+
+.label {
+  min-inline-size: 0;
+  text-wrap: pretty;
+}
+
+.help {
+  padding-inline-start: calc(var(--_box) + var(--_gap));
+}
+
+/* --- states --- */
+
+.button[data-hovered] .circle {
+  border-color: var(--strata-color-text-subtle);
+}
+
+.button[data-selected] .circle {
+  border-color: var(--strata-color-action-primary-bg);
+  background-color: var(--strata-color-action-primary-bg);
+}
+
+.button[data-selected] .circle::after {
+  scale: 1;
+}
+
+.button[data-selected][data-hovered] .circle {
+  border-color: var(--strata-color-action-primary-hover);
+  background-color: var(--strata-color-action-primary-hover);
+}
+
+.button[data-focus-visible] .circle {
+  outline: 2px solid var(--strata-color-focus-ring);
+  outline-offset: 2px;
+}
+
+.button[data-invalid] .circle {
+  border-color: var(--strata-color-feedback-danger-solid);
+}
+
+.button[data-invalid][data-selected] .circle {
+  background-color: var(--strata-color-feedback-danger-solid);
+}
+
+.button[data-invalid][data-selected] .circle::after {
+  background-color: var(--strata-color-feedback-danger-on-solid);
+}
+
+.button[data-disabled] {
+  cursor: default;
+}
+
+.button[data-disabled] .circle {
+  border-color: var(--strata-color-border-default);
+  background-color: var(--strata-color-surface-sunken);
+}
+
+.button[data-disabled][data-selected] .circle {
+  border-color: var(--strata-color-text-disabled);
+  background-color: var(--strata-color-text-disabled);
+}
+
+.button[data-disabled][data-selected] .circle::after {
+  background-color: var(--strata-color-surface-default);
+}
+
+.button[data-disabled] .label {
+  color: var(--strata-color-text-disabled);
+}
+
+/* ------------------------------------------------------------------ *
+ * Card variant
+ * ------------------------------------------------------------------ */
+
+.card {
+  position: relative;
+  padding-block: var(--strata-space-3);
+  padding-inline: var(--strata-space-4);
+  border: 1px solid var(--strata-color-border-default);
+  border-radius: var(--strata-radius-field);
+  background-color: var(--strata-color-surface-default);
+}
+
+.card > .button {
+  inline-size: auto;
+}
+
+.card .label {
+  font-weight: var(--strata-font-weight-medium);
+}
+
+.card .help {
+  font-size: var(--strata-font-size-sm);
+}
+
+/* The label covers the whole card: one big target, focus ring drawn around the card. */
+.card > .button::after {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: var(--strata-radius-field);
+}
+
+.card > .button[data-focus-visible] .circle {
+  outline: none;
+}
+
+.card > .button[data-focus-visible]::after {
+  outline: 2px solid var(--strata-color-focus-ring);
+  outline-offset: 2px;
+}
+
+.card:has(> .button[data-hovered]) {
+  border-color: var(--strata-color-border-strong);
+}
+
+.card[data-selected] {
+  border-color: var(--strata-color-action-primary-bg);
+  background-color: var(--strata-color-surface-selected);
+  /* A second hairline inside so selection reads by weight, not only colour. */
+  box-shadow: inset 0 0 0 1px var(--strata-color-action-primary-bg);
+}
+
+.card[data-invalid] {
+  border-color: var(--strata-color-feedback-danger-solid);
+}
+
+.card[data-invalid][data-selected] {
+  box-shadow: inset 0 0 0 1px var(--strata-color-feedback-danger-solid);
+}
+
+.card[data-disabled] {
+  border-color: var(--strata-color-border-subtle);
+  background-color: var(--strata-color-surface-sunken);
+  box-shadow: none;
+}
+
+.card[data-disabled] .help {
+  color: var(--strata-color-text-disabled);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .circle {
+    transition:
+      background-color var(--strata-motion-duration-fast) var(--strata-motion-easing),
+      border-color var(--strata-motion-duration-fast) var(--strata-motion-easing);
+  }
+
+  .circle::after {
+    transition: scale var(--strata-motion-duration-fast) var(--strata-motion-easing);
+  }
+
+  .card {
+    transition:
+      background-color var(--strata-motion-duration-fast) var(--strata-motion-easing),
+      border-color var(--strata-motion-duration-fast) var(--strata-motion-easing),
+      box-shadow var(--strata-motion-duration-fast) var(--strata-motion-easing);
+  }
+}

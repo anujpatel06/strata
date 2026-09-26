@@ -1,0 +1,38 @@
+The Figma library uses the same tokens as the code. `pnpm tokens` writes them as Figma variables for every tenant, and the component properties in Figma use the prop names from each component’s `meta.json`.
+
+## Export the variables
+
+<PackageCommand run="tokens" />
+
+This writes one file per collection mode to `packages/tokens/dist/<tenant>/figma/`, e.g. `Brand.Vela.tokens.json` and `Semantic.Dark.tokens.json`. Import them with a variables-import plugin that reads DTCG JSON.
+
+## Collections
+
+Brand × scheme × density is twelve combinations. One collection with twelve modes would exceed common plan limits and hide how the system is built, so modes are split across collections ([ADR-010](https://github.com/anujpatel06/strata/blob/main/docs/adr/010-two-dtcg-dialects.md)):
+
+<Table aria-label="Figma collections">
+  <thead>
+    <tr>
+      <th scope="col">Collection</th>
+      <th scope="col">Modes</th>
+      <th scope="col">Holds</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>Brand</td><td>One per tenant</td><td>The 12-step ramps, plus each tenant’s resolved roles for light and dark — the contrast solver’s per-brand picks.</td></tr>
+    <tr><td>Semantic</td><td>Light, Dark</td><td>Every colour role, as an alias into Brand. Identical for every tenant — import it once. `pnpm tokens` fails if the tenants’ files ever differ.</td></tr>
+    <tr><td>Density</td><td>Comfortable, Compact</td><td>Control height, paddings, row height, card inset, gaps.</td></tr>
+    <tr><td>Shape</td><td>One per tenant</td><td>Radius for buttons, fields, containers and badges.</td></tr>
+    <tr><td>Type</td><td>One per tenant</td><td>Font families, sizes and weights.</td></tr>
+  </tbody>
+</Table>
+
+Switching a frame’s Brand mode re-skins it, because Semantic only ever points at Brand. With three tenants no collection needs more than three modes; a fourth tenant adds a mode to Brand, Shape and Type, so check your plan’s mode limit first.
+
+## Two file formats
+
+Most variable-import plugins still read the older DTCG draft — colours as hex strings, dimensions as plain numbers — so the Figma files use it. The canonical export, `dist/<tenant>/<tenant>.tokens.json`, follows DTCG 2025.10 exactly. Both come from the same engine, and neither is edited by hand.
+
+## Components
+
+Figma component properties use the same names and values as the React props — `variant`, `size`, `tone`, `isDisabled` — and each component’s description is the one-line `description` from its `meta.json`. A generated Figma ↔ code parity table is planned.

@@ -11,10 +11,32 @@
     ".": "./src/index.ts",
     "./ui/*": "./src/ui/*.tsx"
   },
+  "files": [
+    "dist"
+  ],
+  "publishConfig": {
+    "access": "public",
+    "exports": {
+      ".": {
+        "types": "./dist/types/index.d.ts",
+        "default": "./dist/index.js"
+      },
+      "./ui/*": {
+        "types": "./dist/types/ui/*.d.ts",
+        "default": "./dist/ui/*.js"
+      },
+      "./styles.css": "./dist/styles.css",
+      "./package.json": "./package.json"
+    },
+    "types": "./dist/types/index.d.ts"
+  },
   "scripts": {
     "test": "vitest run",
     "typecheck": "tsc -p tsconfig.json",
-    "gen:index": "node scripts/gen-index.mjs"
+    "gen:index": "node scripts/gen-index.mjs",
+    "build": "vite build",
+    "registry": "node scripts/build-registry.mjs",
+    "check:meta": "node scripts/check-meta.mjs"
   },
   "peerDependencies": {
     "react": "^19.0.0",

@@ -1,0 +1,38 @@
+Releases follow the project’s phases. Every number here comes from a script; the command is next to it.
+
+## v0.2 — Components
+
+<Badge tone="info" variant="soft">In progress</Badge>
+
+Phase 2.
+
+- Components built on React Aria Components, styled with CSS Modules and `--strata-*` tokens only. Each one has a maturity label.
+- One `meta.json` per component — props, examples, accessibility, guidelines, tokens — driving these docs and the registry ([ADR-007](https://github.com/anujpatel06/strata/blob/main/docs/adr/007-meta-json-single-source.md)).
+- A shadcn registry with component, token-file and theme items (`pnpm registry`), validated before it writes.
+- The shadcn bridge: `toShadcnCssVars` turns any Strata theme into shadcn/ui variables.
+- Overlays copy their opener’s theme attributes, so portaled dialogs and popovers keep the tenant, scheme and density.
+- This docs site, themed by the engine, with live previews in every tenant.
+
+## v0.1 — Tokens and theme engine
+
+Phase 1.
+
+- The theme engine: OKLCH ramps, semantic roles for light and dark, and a contrast solver that explains each change in plain English. No runtime dependencies.
+- Exporters for CSS variables, DTCG 2025.10 JSON and Figma variables.
+- Three tenants — Vela, Harbor and Qamar — each one `brand.json` and one `content.json`.
+- The Brand Generator: six inputs, a live preview, export.
+
+<Table aria-label="v0.1 numbers">
+  <thead>
+    <tr>
+      <th scope="col">Result</th>
+      <th scope="col">Value</th>
+      <th scope="col">Command</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>Random brands fuzzed, light and dark</td><td>1,000</td><td>`pnpm test:themes`</td></tr>
+    <tr><td>Contrast checks passed</td><td>78,000 of 78,000</td><td>`pnpm test:themes`</td></tr>
+    <tr><td>Tokens per theme</td><td>316</td><td>`pnpm tokens`</td></tr>
+  </tbody>
+</Table>

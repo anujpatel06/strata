@@ -1,0 +1,33 @@
+'use client';
+
+import { IconAlertTriangle, IconCircleCheck, IconInbox } from '@tabler/icons-react';
+import { Tab, TabList, TabPanel, Tabs } from '@strata/react';
+
+const text = { margin: 0, color: 'var(--strata-color-text-subtle)', fontSize: 'var(--strata-font-size-md)' };
+
+export default function Example() {
+  return (
+    <Tabs defaultSelectedKey="open">
+      <TabList aria-label="Requests">
+        <Tab id="open" count={12}>
+          <IconInbox aria-hidden="true" stroke={1.75} />
+          Open
+        </Tab>
+        <Tab id="action" count={3}>
+          <IconAlertTriangle aria-hidden="true" stroke={1.75} />
+          Needs action
+        </Tab>
+        <Tab id="closed" count={128}>
+          <IconCircleCheck aria-hidden="true" stroke={1.75} />
+          Closed
+        </Tab>
+        <Tab id="archived" isDisabled>
+          Archived
+        </Tab>
+      </TabList>
+      <TabPanel id="open"><p style={text}>12 requests are waiting for review.</p></TabPanel>
+      <TabPanel id="action"><p style={text}>3 requests need a document from you.</p></TabPanel>
+      <TabPanel id="closed"><p style={text}>128 requests closed this year.</p></TabPanel>
+    </Tabs>
+  );
+}

@@ -1,0 +1,65 @@
+{
+  "name": "breadcrumbs",
+  "title": "Breadcrumbs",
+  "description": "Shows where the current page sits in the hierarchy, with links back to each level.",
+  "category": "navigation",
+  "maturity": "beta",
+  "exports": ["Breadcrumbs", "Breadcrumb"],
+  "files": ["breadcrumbs.tsx", "breadcrumbs.module.css"],
+  "dependencies": ["react-aria-components", "@tabler/icons-react"],
+  "registryDependencies": [],
+  "reactAria": "https://react-spectrum.adobe.com/react-aria/Breadcrumbs.html",
+  "usage": "import { Breadcrumb, Breadcrumbs } from '@strata/react';\n\nexport function ClaimTrail() {\n  return (\n    <Breadcrumbs>\n      <Breadcrumb href=\"/\">Home</Breadcrumb>\n      <Breadcrumb href=\"/claims\">Claims</Breadcrumb>\n      <Breadcrumb>CLM-20481</Breadcrumb>\n    </Breadcrumbs>\n  );\n}",
+  "examples": [
+    { "name": "breadcrumbs-demo", "title": "Breadcrumbs", "description": "A three-level trail; the last item is the current page." },
+    { "name": "breadcrumbs-collapsed", "title": "Collapsed", "description": "maxItems folds the middle of a long trail into an ellipsis button that expands it." },
+    { "name": "breadcrumbs-with-icon", "title": "With an icon", "description": "Icons in children are sized to the text." }
+  ],
+  "props": [
+    { "component": "Breadcrumbs", "name": "children", "type": "ReactNode", "required": true, "description": "Breadcrumb elements, root first. The last one is the current page." },
+    { "component": "Breadcrumbs", "name": "maxItems", "type": "number", "description": "Collapse when there are more items: keeps the first and the last maxItems − 1, with an ellipsis button between." },
+    { "component": "Breadcrumbs", "name": "aria-label", "type": "string", "default": "'Breadcrumbs'", "description": "Name of the navigation landmark." },
+    { "component": "Breadcrumbs", "name": "expandLabel", "type": "string", "default": "'Show all breadcrumbs'", "description": "Accessible name of the ellipsis button." },
+    { "component": "Breadcrumbs", "name": "isDisabled", "type": "boolean", "default": "false", "description": "Disables every link." },
+    { "component": "Breadcrumbs", "name": "onAction", "type": "(key: Key) => void", "description": "Called when an item is pressed (for client-side routing without hrefs)." },
+    { "component": "Breadcrumb", "name": "href", "type": "string", "description": "Link target. Ignored on the last (current) item." },
+    { "component": "Breadcrumb", "name": "id", "type": "Key", "description": "Key passed to onAction." },
+    { "component": "Breadcrumb", "name": "linkProps", "type": "Omit<LinkProps, 'href' | 'children' | 'className'>", "description": "Extra props for the inner link, e.g. target or routerOptions." },
+    { "component": "Breadcrumb", "name": "autoFocus", "type": "boolean", "default": "false", "description": "Focuses the link when it mounts." }
+  ],
+  "accessibility": {
+    "keyboard": [
+      { "keys": "Tab", "action": "Moves between links; the current page is not a tab stop." },
+      { "keys": "Enter", "action": "Follows the focused link, or expands a collapsed trail from the ellipsis button (focus moves to the first revealed link)." }
+    ],
+    "notes": [
+      "Renders <nav aria-label=\"Breadcrumbs\"> around an <ol>.",
+      "The last item has aria-current=\"page\" and is not a link; it is set in medium weight so it doesn't rely on colour.",
+      "Chevron separators are decorative (aria-hidden) and mirror in right-to-left layouts."
+    ]
+  },
+  "guidelines": {
+    "do": [
+      "Start at the top level of the product and end at the current page.",
+      "Use the page titles people see in headings.",
+      "Collapse trails deeper than about four levels with maxItems."
+    ],
+    "dont": [
+      "Don't use breadcrumbs for steps in a flow — use Steps.",
+      "Don't make the current page a link.",
+      "Don't use them as the only navigation on a page."
+    ]
+  },
+  "tokens": [
+    "color.text.default",
+    "color.text.subtle",
+    "color.text.disabled",
+    "color.focus.ring",
+    "radius.badge",
+    "font.size.sm",
+    "font.weight.medium",
+    "space.1",
+    "space.2",
+    "space.6"
+  ]
+}

@@ -1,0 +1,77 @@
+/* Link — tokens only. Font size and line height inherit, so a link fits whatever text it sits in. */
+
+.root {
+  box-sizing: border-box;
+  color: var(--strata-color-text-brand);
+  font: inherit;
+  text-decoration-line: underline;
+  text-decoration-color: currentColor;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.2em;
+  border-radius: min(var(--strata-radius-field), var(--strata-space-1));
+  cursor: pointer;
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.root[data-hovered] {
+  text-decoration-thickness: 2px;
+}
+
+.root[data-focus-visible] {
+  outline: 2px solid var(--strata-color-focus-ring);
+  outline-offset: 2px;
+}
+
+.root[data-variant='standalone'] {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--strata-space-1);
+  font-weight: var(--strata-font-weight-medium);
+  text-decoration-line: none;
+}
+
+.root[data-variant='standalone'][data-hovered] {
+  text-decoration-line: underline;
+}
+
+/* Trailing (or leading) icon in a standalone link. */
+.root[data-variant='standalone'] > svg {
+  flex: none;
+  inline-size: 1.15em;
+  block-size: 1.15em;
+}
+
+/* Arrows and chevrons point "forward", whichever way forward is. */
+.root > :is([data-directional], :global([class*='tabler-icon-arrow']), :global([class*='tabler-icon-chevron'])):dir(rtl) {
+  scale: -1 1;
+}
+
+.root[data-disabled] {
+  color: var(--strata-color-text-disabled);
+  text-decoration-thickness: 1px;
+  cursor: default;
+}
+
+.root[data-variant='standalone'][data-disabled] {
+  text-decoration-line: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .root {
+    transition: text-decoration-thickness var(--strata-motion-duration-fast) var(--strata-motion-easing),
+      color var(--strata-motion-duration-fast) var(--strata-motion-easing);
+  }
+
+  .root[data-variant='standalone'] > svg:last-child:not(:first-child) {
+    transition: translate var(--strata-motion-duration-fast) var(--strata-motion-easing);
+  }
+
+  .root[data-variant='standalone'][data-hovered] > svg:last-child:not(:first-child) {
+    translate: 2px 0;
+  }
+
+  .root[data-variant='standalone'][data-hovered] > svg:last-child:not(:first-child):dir(rtl) {
+    translate: -2px 0;
+  }
+}

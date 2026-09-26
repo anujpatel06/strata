@@ -1,0 +1,84 @@
+/* Search field — the box comes from FieldGroup (text-field), so it matches every other input. Tokens only. */
+
+.field {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-2);
+  min-inline-size: 0;
+}
+
+/* The clear button sits in the end padding, centred on the same inset as the block padding. */
+.field .group {
+  padding-inline-end: calc((var(--strata-control-height) - var(--strata-space-6)) / 2 - 1px);
+}
+
+.icon {
+  flex: none;
+  inline-size: var(--strata-space-4);
+  block-size: var(--strata-space-4);
+  color: var(--strata-color-text-subtle);
+}
+
+[data-disabled] .icon {
+  color: var(--strata-color-text-disabled);
+}
+
+.input::-webkit-search-cancel-button,
+.input::-webkit-search-decoration {
+  appearance: none;
+  display: none;
+}
+
+.clear {
+  box-sizing: border-box;
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  inline-size: var(--strata-space-6);
+  block-size: var(--strata-space-6);
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: min(var(--strata-radius-field), var(--strata-space-1));
+  background-color: transparent;
+  color: var(--strata-color-text-subtle);
+  cursor: pointer;
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.clear > svg {
+  inline-size: calc(var(--strata-space-4) - 2px);
+  block-size: calc(var(--strata-space-4) - 2px);
+}
+
+.clear[data-hovered] {
+  background-color: color-mix(in oklab, var(--strata-color-text-default) 6%, transparent);
+  color: var(--strata-color-text-default);
+}
+
+.clear[data-pressed] {
+  background-color: color-mix(in oklab, var(--strata-color-text-default) 10%, transparent);
+}
+
+.clear[data-focus-visible] {
+  outline: 2px solid var(--strata-color-focus-ring);
+  outline-offset: 2px;
+}
+
+/* Keep the space so the text never jumps when the first character is typed. */
+.field[data-empty] .clear,
+.field[data-disabled] .clear,
+.field[data-readonly] .clear {
+  visibility: hidden;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .clear {
+    transition:
+      background-color var(--strata-motion-duration-fast) var(--strata-motion-easing),
+      color var(--strata-motion-duration-fast) var(--strata-motion-easing);
+  }
+}

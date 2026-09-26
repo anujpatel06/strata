@@ -1,0 +1,312 @@
+/*
+ * DataTable — matches the Phase 1 activity table: hairline rows, row height from --strata-table-row-height,
+ * block padding = row height − control height (so two-line cells keep the density difference).
+ *
+ * Private aliases (not theme tokens): --_row, --_head, --_pad-block. The `density` prop re-points them; the
+ * override values mirror theme-engine's density table (compact 36/32/4, comfortable 48/40/8) in space tokens.
+ */
+
+.root {
+  --_row: var(--strata-table-row-height);
+  --_head: var(--strata-control-height);
+  --_pad-block: calc(var(--strata-table-row-height) - var(--strata-control-height));
+
+  box-sizing: border-box;
+  position: relative;
+  inline-size: 100%;
+  min-inline-size: 0;
+  /* Narrow screens: the table scrolls inside its own frame, never the page. Containment keeps a wide table
+     from widening flex/grid ancestors (its width comes from the container, not the columns). */
+  contain: inline-size;
+  overflow: auto;
+  overscroll-behavior-x: contain;
+  background-color: var(--strata-color-surface-default);
+  border: 1px solid var(--strata-color-border-default);
+  border-radius: var(--strata-radius-container);
+  color: var(--strata-color-text-default);
+}
+
+.root[data-density='compact'] {
+  --_row: calc(var(--strata-space-8) + var(--strata-space-1));
+  --_head: var(--strata-space-8);
+  --_pad-block: var(--strata-space-1);
+}
+
+.root[data-density='comfortable'] {
+  --_row: var(--strata-space-12);
+  --_head: var(--strata-space-10);
+  --_pad-block: var(--strata-space-2);
+}
+
+.table {
+  inline-size: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  font-size: var(--strata-font-size-md);
+  line-height: var(--strata-line-height-snug);
+  outline: none;
+}
+
+.table[data-focus-visible] {
+  outline: 2px solid var(--strata-color-focus-ring);
+  outline-offset: -2px;
+}
+
+/* ------------------------------------------------------------------ *
+ * Header
+ * ------------------------------------------------------------------ */
+
+.column {
+  box-sizing: border-box;
+  block-size: var(--_head);
+  padding-block: 0;
+  padding-inline: var(--strata-space-3);
+  background-color: var(--strata-color-surface-default);
+  border-block-end: 1px solid var(--strata-color-border-default);
+  color: var(--strata-color-text-subtle);
+  font-size: var(--strata-font-size-xs);
+  font-weight: var(--strata-font-weight-medium);
+  line-height: var(--strata-line-height-snug);
+  text-align: start;
+  vertical-align: middle;
+  white-space: nowrap;
+  outline: none;
+}
+
+.sticky .column {
+  position: sticky;
+  inset-block-start: 0;
+  z-index: 1;
+}
+
+.column[data-focus-visible] {
+  outline: 2px solid var(--strata-color-focus-ring);
+  outline-offset: -2px;
+}
+
+.column[data-allows-sorting] {
+  cursor: pointer;
+  user-select: none;
+}
+
+.columnInner {
+  display: flex;
+  align-items: center;
+  gap: var(--strata-space-1);
+  min-inline-size: 0;
+}
+
+.columnLabel {
+  min-inline-size: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.column[data-allows-sorting][data-hovered] {
+  color: var(--strata-color-text-default);
+}
+
+.column[data-sort-direction] {
+  color: var(--strata-color-text-default);
+}
+
+.sortIcon {
+  display: inline-flex;
+  flex: none;
+  color: var(--strata-color-text-subtle);
+}
+
+.sortIcon:not([data-direction]) {
+  opacity: 0.6;
+}
+
+.sortIcon[data-direction] {
+  color: var(--strata-color-text-default);
+}
+
+/* Sort icon sits before the label in end-aligned columns, so labels line up with the numbers under them.
+   (row-reverse puts main-start at the inline end.) */
+.column.alignEnd .columnInner {
+  flex-direction: row-reverse;
+}
+
+/* ------------------------------------------------------------------ *
+ * Body
+ * ------------------------------------------------------------------ */
+
+.row {
+  block-size: var(--_row);
+  outline: none;
+}
+
+.cell {
+  box-sizing: border-box;
+  padding-block: var(--_pad-block);
+  padding-inline: var(--strata-space-3);
+  border-block-end: 1px solid var(--strata-color-border-subtle);
+  text-align: start;
+  vertical-align: middle;
+  white-space: nowrap;
+  outline: none;
+}
+
+.row:last-child > .cell {
+  border-block-end: 0;
+}
+
+/* Edge cells line up with the frame's inset. */
+.column:first-child,
+.cell:first-child {
+  padding-inline-start: var(--strata-space-4);
+}
+
+.column:last-child,
+.cell:last-child {
+  padding-inline-end: var(--strata-space-4);
+}
+
+@media (hover: hover) {
+  .row:not([data-skeleton]):hover {
+    background-color: color-mix(in oklab, var(--strata-color-surface-selected) 55%, transparent);
+  }
+}
+
+.row[data-selected] {
+  background-color: var(--strata-color-surface-selected);
+}
+
+@media (hover: hover) {
+  .row[data-selected]:hover {
+    background-color: color-mix(in oklab, var(--strata-color-surface-selected) 85%, var(--strata-color-text-default));
+  }
+}
+
+.table[data-actionable] .row:not([data-disabled]) {
+  cursor: pointer;
+}
+
+.row[data-disabled]:not([data-skeleton]) {
+  color: var(--strata-color-text-disabled);
+}
+
+.row[data-focus-visible],
+.cell[data-focus-visible] {
+  outline: 2px solid var(--strata-color-focus-ring);
+  outline-offset: -2px;
+}
+
+.alignEnd {
+  /* Numbers: end-aligned, tabular figures so digits line up down the column. */
+  font-variant-numeric: tabular-nums;
+  text-align: end;
+}
+
+.alignCenter {
+  text-align: center;
+}
+
+.column.alignCenter .columnInner {
+  justify-content: center;
+}
+
+/* ------------------------------------------------------------------ *
+ * Selection
+ * ------------------------------------------------------------------ */
+
+.selectionColumn,
+.selectionCell {
+  inline-size: 1%;
+  padding-inline-end: 0;
+}
+
+:is(.selectionColumn, .selectionCell) .checkbox {
+  /* Selection cells hold only the checkbox; keep its 24px target centred in the row. */
+  display: inline-flex;
+  vertical-align: middle;
+}
+
+/* ------------------------------------------------------------------ *
+ * Loading + empty
+ * ------------------------------------------------------------------ */
+
+.skeleton {
+  display: block;
+}
+
+.alignEnd > .skeleton {
+  margin-inline-start: auto;
+}
+
+.alignCenter > .skeleton {
+  margin-inline: auto;
+}
+
+.body[data-empty] > tr > td {
+  padding: 0;
+}
+
+.empty {
+  display: grid;
+  place-items: center;
+  min-block-size: calc(var(--_row) * 3);
+  padding: var(--strata-space-6) var(--strata-space-4);
+  color: var(--strata-color-text-subtle);
+  font-size: var(--strata-font-size-md);
+  text-align: center;
+  white-space: normal;
+}
+
+/* ------------------------------------------------------------------ *
+ * Toolbar + footer
+ * ------------------------------------------------------------------ */
+
+.toolbar {
+  box-sizing: border-box;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--strata-space-2);
+  inline-size: 100%;
+  min-inline-size: 0;
+}
+
+.footer {
+  box-sizing: border-box;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  column-gap: var(--strata-space-4);
+  row-gap: var(--strata-space-2);
+  inline-size: 100%;
+  min-inline-size: 0;
+}
+
+.footerSummary {
+  flex: none;
+  margin: 0;
+  color: var(--strata-color-text-subtle);
+  font-size: var(--strata-font-size-sm);
+  font-variant-numeric: tabular-nums;
+  line-height: var(--strata-line-height-snug);
+}
+
+.summaryNum {
+  color: var(--strata-color-text-default);
+  font-weight: var(--strata-font-weight-medium);
+}
+
+.footer .footerPagination {
+  /* Wraps under the summary before it gets narrower than ~256px. */
+  flex: 1 1 calc(var(--strata-space-16) * 4);
+  inline-size: auto;
+  justify-content: flex-end;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .row {
+    transition: background-color var(--strata-motion-duration-fast) var(--strata-motion-easing);
+  }
+
+}

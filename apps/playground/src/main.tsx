@@ -53,7 +53,7 @@ function App() {
   }
   const list = examples.filter((e) => e.comp === c);
   return (
-    <ThemeScope theme={tenant} scheme={scheme} density={density} dir={dir} lang={dir === 'rtl' ? 'ar' : 'en'} style={{ minHeight: '100vh', padding: 24 }}>
+    <ThemeScope theme={tenant} scheme={scheme} density={density} locale={dir === 'rtl' ? 'ar-AE' : 'en-US'} style={{ minHeight: '100vh', padding: 24 }}>
       <div style={{ display: 'grid', gap: 24 }}>
         {list.length === 0 && <p>No examples found for “{c}”.</p>}
         {list.map(({ name, Component }) => (

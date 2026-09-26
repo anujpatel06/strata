@@ -28,7 +28,7 @@ import { getTenant, isTenantId, type TenantId } from './tenants';
 export const TABS = ['preview', 'accessibility', 'tokens'] as const;
 export type Tab = (typeof TABS)[number];
 
-export const EXPORT_FORMATS = ['css', 'dtcg', 'figma'] as const;
+export const EXPORT_FORMATS = ['css', 'dtcg', 'figma', 'shadcn'] as const;
 export type ExportFormat = (typeof EXPORT_FORMATS)[number];
 
 export const NEUTRALS: readonly NeutralTemperature[] = ['cool', 'neutral', 'warm'];

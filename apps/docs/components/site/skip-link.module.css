@@ -1,0 +1,17 @@
+.skip {
+  position: absolute;
+  inset-block-start: var(--strata-space-2);
+  inset-inline-start: var(--strata-space-2);
+  z-index: 100;
+  padding-block: var(--strata-space-2);
+  padding-inline: var(--strata-space-4);
+  border-radius: var(--strata-radius-button);
+  background: var(--strata-color-action-primary-bg);
+  color: var(--strata-color-action-primary-fg);
+  font-weight: var(--strata-font-weight-medium);
+  translate: 0 calc(-100% - var(--strata-space-4));
+}
+.skip:focus-visible,
+.skip:focus {
+  translate: 0 0;
+}

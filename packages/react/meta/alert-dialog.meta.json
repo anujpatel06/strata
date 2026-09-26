@@ -1,0 +1,146 @@
+{
+  "name": "alert-dialog",
+  "title": "Alert Dialog",
+  "description": "A modal confirmation that interrupts the user before a destructive or irreversible action.",
+  "category": "overlays",
+  "maturity": "beta",
+  "exports": [
+    "AlertDialog"
+  ],
+  "files": [
+    "alert-dialog.tsx"
+  ],
+  "dependencies": [],
+  "registryDependencies": [
+    "button",
+    "dialog"
+  ],
+  "reactAria": "https://react-spectrum.adobe.com/react-aria/Modal.html",
+  "usage": "import { AlertDialog, Button, DialogTrigger } from '@strata/react';\n\nexport function DeleteCard({ onDelete }: { onDelete: () => Promise<void> }) {\n  return (\n    <DialogTrigger>\n      <Button variant=\"danger\">Delete card</Button>\n      <AlertDialog title=\"Delete this card?\" actionLabel=\"Delete\" tone=\"danger\" onAction={onDelete}>\n        Scheduled payments on this card will stop. This can’t be undone.\n      </AlertDialog>\n    </DialogTrigger>\n  );\n}",
+  "examples": [
+    {
+      "name": "alert-dialog-demo",
+      "title": "Confirmation",
+      "description": "A non-destructive confirmation with a primary action."
+    },
+    {
+      "name": "alert-dialog-danger",
+      "title": "Destructive action",
+      "description": "tone=\"danger\" styles the action and focuses Cancel first."
+    },
+    {
+      "name": "alert-dialog-async",
+      "title": "Async action",
+      "description": "Returning a promise from onAction shows a pending state until it settles."
+    }
+  ],
+  "props": [
+    {
+      "component": "AlertDialog",
+      "name": "title",
+      "type": "ReactNode",
+      "required": true,
+      "description": "The question or statement, e.g. \"Delete this card?\"."
+    },
+    {
+      "component": "AlertDialog",
+      "name": "children",
+      "type": "ReactNode",
+      "required": true,
+      "description": "The consequence. Announced as the dialog's description."
+    },
+    {
+      "component": "AlertDialog",
+      "name": "actionLabel",
+      "type": "ReactNode",
+      "required": true,
+      "description": "Label of the confirming button. Use a specific verb (\"Delete card\"), not \"OK\"."
+    },
+    {
+      "component": "AlertDialog",
+      "name": "cancelLabel",
+      "type": "ReactNode",
+      "default": "'Cancel'",
+      "description": "Label of the dismissing button."
+    },
+    {
+      "component": "AlertDialog",
+      "name": "tone",
+      "type": "'default' | 'danger'",
+      "default": "'default'",
+      "description": "danger uses the danger Button variant and moves initial focus to Cancel; default focuses the action."
+    },
+    {
+      "component": "AlertDialog",
+      "name": "onAction",
+      "type": "() => void | Promise<unknown>",
+      "description": "Runs on the action. The dialog then closes; a returned promise keeps it open and pending until it resolves (and open if it rejects)."
+    },
+    {
+      "component": "AlertDialog",
+      "name": "isPending",
+      "type": "boolean",
+      "default": "false",
+      "description": "Shows the action as pending and disables Cancel and Escape, when you track the request yourself."
+    },
+    {
+      "component": "AlertDialog",
+      "name": "size",
+      "type": "'sm' | 'md' | 'lg'",
+      "default": "'md'",
+      "description": "Maximum width."
+    },
+    {
+      "component": "AlertDialog",
+      "name": "isOpen / defaultOpen / onOpenChange",
+      "type": "boolean / boolean / (isOpen: boolean) => void",
+      "description": "Controlled or uncontrolled open state, when not inside a DialogTrigger (e.g. opened from a menu item)."
+    }
+  ],
+  "accessibility": {
+    "keyboard": [
+      {
+        "keys": "Tab / Shift+Tab",
+        "action": "Moves between Cancel and the action; focus is trapped."
+      },
+      {
+        "keys": "Enter / Space",
+        "action": "Activates the focused button."
+      },
+      {
+        "keys": "Escape",
+        "action": "Cancels (closes without acting) and returns focus to the trigger. Disabled while pending."
+      }
+    ],
+    "notes": [
+      "role=\"alertdialog\" named by the title and described by the message.",
+      "Clicking the backdrop does nothing — the user must choose.",
+      "Initial focus goes to Cancel for danger tone (least destructive choice) and to the action otherwise.",
+      "Overlays render in a portal on <body>, outside any ThemeScope. When it opens, the overlay copies data-strata-theme, data-strata-scheme and data-strata-density from the nearest [data-strata-theme] ancestor of its trigger (or of where the component is rendered, when controlled), plus dir and lang, onto its own root — so it uses the same tenant tokens and direction as the page region it came from, and nested overlays inherit from their parent overlay."
+    ]
+  },
+  "guidelines": {
+    "do": [
+      "Say what will happen in the title and the consequence in the message.",
+      "Name the action after the outcome: \"Delete card\", \"Publish\"."
+    ],
+    "dont": [
+      "Don't use it for information that needs no decision — use Alert or a toast.",
+      "Don't use \"Yes\" / \"No\" labels."
+    ]
+  },
+  "tokens": [
+    "color.surface.raised",
+    "color.border.default",
+    "shadow.overlay",
+    "radius.container",
+    "color.surface.inverse",
+    "color.surface.canvas",
+    "font.heading",
+    "font.size.lg",
+    "font.size.sm",
+    "color.text.subtle",
+    "card-inset",
+    "space.16"
+  ]
+}

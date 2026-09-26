@@ -1,0 +1,159 @@
+/*
+ * Checkbox + CheckboxGroup — tokens only.
+ * Box: 16px at compact density, 18px at comfortable (derived from the control height). Row: ≥ 24px target.
+ */
+
+.checkbox {
+  --_box: calc(var(--strata-control-height) / 4 + var(--strata-space-2));
+  --_gap: var(--strata-space-2);
+
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-inline-size: 0;
+}
+
+.button {
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: flex-start;
+  gap: var(--_gap);
+  inline-size: fit-content;
+  max-inline-size: 100%;
+  min-inline-size: var(--strata-space-6);
+  min-block-size: var(--strata-space-6);
+  padding-block: calc((var(--strata-space-6) - 1lh) / 2);
+  color: var(--strata-color-text-default);
+  font-size: var(--strata-font-size-md);
+  line-height: var(--strata-line-height-normal);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.box {
+  box-sizing: border-box;
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  inline-size: var(--_box);
+  block-size: var(--_box);
+  /* Centre on the first line of the label. */
+  margin-block-start: calc((1lh - var(--_box)) / 2);
+  border: 1px solid var(--strata-color-border-strong);
+  border-radius: min(var(--strata-radius-field), var(--strata-space-1));
+  background-color: var(--strata-color-surface-default);
+  color: var(--strata-color-action-primary-fg);
+}
+
+.box > svg {
+  inline-size: 80%;
+  block-size: 80%;
+}
+
+.label {
+  min-inline-size: 0;
+  text-wrap: pretty;
+}
+
+/* Description / error line up with the label text, not the box. */
+.help {
+  padding-inline-start: calc(var(--_box) + var(--_gap));
+}
+
+/* --- states (from React Aria data attributes on the button) --- */
+
+.button[data-hovered] .box {
+  border-color: var(--strata-color-text-subtle);
+}
+
+.button:is([data-selected], [data-indeterminate]) .box {
+  border-color: var(--strata-color-action-primary-bg);
+  background-color: var(--strata-color-action-primary-bg);
+}
+
+.button:is([data-selected], [data-indeterminate])[data-hovered] .box {
+  border-color: var(--strata-color-action-primary-hover);
+  background-color: var(--strata-color-action-primary-hover);
+}
+
+.button[data-focus-visible] .box {
+  outline: 2px solid var(--strata-color-focus-ring);
+  outline-offset: 2px;
+}
+
+.button[data-invalid] .box {
+  border-color: var(--strata-color-feedback-danger-solid);
+}
+
+.button[data-invalid]:is([data-selected], [data-indeterminate]) .box {
+  background-color: var(--strata-color-feedback-danger-solid);
+  color: var(--strata-color-feedback-danger-on-solid);
+}
+
+.button[data-disabled] {
+  cursor: default;
+}
+
+.button[data-disabled] .box {
+  border-color: var(--strata-color-border-default);
+  background-color: var(--strata-color-surface-sunken);
+}
+
+.button[data-disabled]:is([data-selected], [data-indeterminate]) .box {
+  border-color: var(--strata-color-text-disabled);
+  background-color: var(--strata-color-text-disabled);
+  color: var(--strata-color-surface-default);
+}
+
+.button[data-disabled] .label {
+  color: var(--strata-color-text-disabled);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .box {
+    transition:
+      background-color var(--strata-motion-duration-fast) var(--strata-motion-easing),
+      border-color var(--strata-motion-duration-fast) var(--strata-motion-easing);
+  }
+
+  .box > svg {
+    animation: strata-checkbox-in var(--strata-motion-duration-fast) var(--strata-motion-easing);
+  }
+}
+
+@keyframes strata-checkbox-in {
+  from {
+    scale: 0.6;
+    opacity: 0;
+  }
+}
+
+/* ------------------------------------------------------------------ *
+ * Group
+ * ------------------------------------------------------------------ */
+
+.group {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-2);
+  min-inline-size: 0;
+}
+
+.items {
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-2);
+}
+
+/* A little more air between the group label/description and the options. */
+.items:not(:first-child) {
+  margin-block-start: var(--strata-space-1);
+}
+
+.items[data-orientation='horizontal'] {
+  flex-flow: row wrap;
+  gap: var(--strata-space-2) var(--strata-space-5);
+}

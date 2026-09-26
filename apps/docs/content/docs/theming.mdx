@@ -1,0 +1,89 @@
+A Strata theme is generated, not drawn. Six brand inputs go through the theme engine, which builds colour ramps, assigns semantic roles for light and dark, fixes every contrast failure it finds, and writes CSS variables. Components only ever read those variables.
+
+## Token tiers
+
+<Table aria-label="Token tiers">
+  <thead>
+    <tr>
+      <th scope="col">Tier</th>
+      <th scope="col">Examples</th>
+      <th scope="col">Who reads it</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>Primitive</td><td>12-step OKLCH ramps, the 4px space scale, radius, type scale, motion, elevation</td><td>The engine and Figma. Never components.</td></tr>
+    <tr><td>Semantic</td><td>`color.surface.canvas`, `color.action.primary.bg`, `color.focus.ring`</td><td>Components.</td></tr>
+    <tr><td>Component</td><td>`control-height`, `table-row-height`</td><td>Components, only where a semantic role can’t express it.</td></tr>
+  </tbody>
+</Table>
+
+A new brand changes values, never names — so no component knows which brand it renders ([ADR-005](https://github.com/anujpatel06/strata/blob/main/docs/adr/005-token-tiers-and-naming.md)).
+
+## A brand is six inputs
+
+Primary colour, an optional accent, neutral temperature, shape, type pair and default density. This is Harbor’s whole brand:
+
+<TenantBrandJson id="harbor" />
+
+The engine keeps the brand hex exact where contrast allows and moves labels, rings and text first when it doesn’t. Every move is logged in a sentence, e.g. the house brand of this site:
+
+<HouseAdjustments />
+
+To generate a theme yourself:
+
+```ts
+import { generateTheme, toCSS } from '@strata/theme-engine';
+
+const theme = generateTheme({
+  name: 'Acme',
+  primary: '#0f766e',
+  neutral: 'cool',
+  shape: 'soft',
+  typePair: 'technical',
+  density: 'comfortable',
+});
+
+const css = toCSS(theme, { selector: '[data-strata-theme="acme"]' });
+```
+
+## Semantic roles
+
+The 48 colour roles every theme resolves, with the CSS variable components read. Values are generated from each tenant’s brand when this page is built, and follow this page’s scheme — switch it in the header to see the dark values.
+
+<RolesTable />
+
+Other variables follow the same pattern: `--strata-space-{0…16}`, `--strata-radius-{button,field,container,badge,pill}`, `--strata-font-{heading,body,mono}`, `--strata-font-size-{xs…3xl}`, `--strata-shadow-{raised,overlay}`, `--strata-motion-*` and the density variables. The full contract is in `packages/theme-engine/src/types.ts`.
+
+## ThemeScope
+
+Token CSS keys off `data-strata-theme`, `data-strata-scheme` and `data-strata-density`, and they must sit on the same element. `ThemeScope` puts them there and gives the subtree the theme’s canvas, text colour and body font.
+
+```tsx
+import { ThemeScope } from '@strata/react';
+
+<ThemeScope theme="harbor" scheme="dark" density="compact">
+  <ClaimForm />
+</ThemeScope>
+```
+
+## Several tenants on one page
+
+Scopes nest and sit side by side, each with its own tenant, scheme and density. This site is the example: the chrome uses the house theme on `:root`, and every preview is a `ThemeScope` you can switch between tenants.
+
+```tsx
+<div className="compare">
+  <ThemeScope theme="vela"><PaymentCard /></ThemeScope>
+  <ThemeScope theme="qamar" dir="rtl" lang="ar"><PaymentCard /></ThemeScope>
+</div>
+```
+
+Dialogs, popovers and menus render in a portal at the end of `<body>`, outside any scope. When one opens, it copies the scope attributes, `dir` and `lang` from the element that opened it — so a dialog opened from a Harbor-dark preview is Harbor-dark. Try it: pick a tenant and a scheme, then open the dialog.
+
+<ComponentPreview name="dialog-demo" label="Dialog" />
+
+## Adding a tenant
+
+1. Create `tenants/<id>/brand.json` with the six inputs, and `content.json` with the tenant’s copy, locale and direction.
+2. Run `pnpm tokens`. It fails if any contrast check fails, so a broken theme can’t ship.
+
+That’s all. No component changes, and this site picks the new tenant up on its next build — in the preview toolbar and the tables above.

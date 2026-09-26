@@ -23,3 +23,4 @@ export { toCssVariables } from './css-vars';
 export { toCSS } from './export/css';
 export { toDTCG } from './export/dtcg';
 export { toFigmaFiles } from './export/figma';
+export { toShadcnCssVars, toShadcnCSS, type ShadcnCssVars, type ToShadcnOptions } from './export/shadcn';

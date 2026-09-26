@@ -1,0 +1,53 @@
+The Strata registry is a folder of JSON files the [shadcn CLI](https://ui.shadcn.com/docs/registry) knows how to install. It is built from the same files as the npm package — the component source in `packages/react/src/ui` and one `meta.json` per component — so the two can’t drift apart.
+
+## How it’s built
+
+<PackageCommand run="registry" />
+
+The script (`packages/react/scripts/build-registry.mjs`) reads every `packages/react/meta/*.meta.json`, the component files each one lists, and every `tenants/*/brand.json`, then writes `apps/docs/public/r`, which this site serves at `/r`.
+
+Before it writes anything, it checks that each component can actually be installed on its own:
+
+- every file in `meta.files` exists, and `src/ui` stays flat;
+- a component only imports its own files, siblings listed in `registryDependencies`, and npm packages listed in `dependencies` — never the barrel or another Strata package;
+- every item matches the shadcn registry-item schema.
+
+A component that fails is left out and reported, and the script exits with an error. Set `STRATA_REGISTRY_URL` to the deployed origin so item URLs point at it.
+
+## Item types
+
+<RegistryItems />
+
+Components land in your `components/ui` folder side by side, because they import each other as `./button`. npm dependencies are pinned to the ranges Strata builds and tests against.
+
+## Theme items: the shadcn bridge
+
+A `theme-<tenant>` item re-expresses a Strata theme as shadcn/ui’s own variables, in the `oklch()` format shadcn uses since Tailwind v4. Add one to an existing shadcn project and its components pick up the tenant’s palette — light and dark — without installing any Strata component.
+
+<PackageCommand dlx="shadcn@latest add {{SITE_URL}}/r/theme-harbor.json" />
+
+Every shadcn variable maps to a Strata role, so the pairs shadcn draws together — `--foreground` on `--background`, `--primary-foreground` on `--primary` — inherit the contrast checks the solver already passed.
+
+<ShadcnMap />
+
+The mapping lives in `packages/theme-engine/src/export/shadcn.ts` (`toShadcnCssVars`). It is a bridge, not the whole system: shadcn has no roles for feedback surfaces or density, so those stay Strata-only.
+
+## Install by name
+
+Add the namespace to `components.json` once:
+
+<CodeBlock title="components.json">
+
+```json
+{
+  "registries": {
+    "@strata": "{{SITE_URL}}/r/{name}.json"
+  }
+}
+```
+
+</CodeBlock>
+
+Then any item installs by name — components, token files and themes alike:
+
+<PackageCommand dlx="shadcn@latest add @strata/strata @strata/button @strata/theme-vela" />

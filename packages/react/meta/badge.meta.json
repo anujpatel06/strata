@@ -1,0 +1,119 @@
+{
+  "name": "badge",
+  "title": "Badge",
+  "description": "A short label for a status, category or count.",
+  "category": "display",
+  "maturity": "beta",
+  "exports": [
+    "Badge"
+  ],
+  "files": [
+    "badge.tsx",
+    "badge.module.css"
+  ],
+  "dependencies": [],
+  "registryDependencies": [],
+  "usage": "import { Badge } from '@strata/react';\n\nexport function PaymentStatus() {\n  return <Badge tone=\"success\">Paid</Badge>;\n}",
+  "examples": [
+    {
+      "name": "badge-demo",
+      "title": "Badge",
+      "description": "Statuses in each tone, and a solid brand badge."
+    },
+    {
+      "name": "badge-variants",
+      "title": "Variants",
+      "description": "Soft, solid and outline across all six tones."
+    },
+    {
+      "name": "badge-with-icon",
+      "title": "Icons, dots and sizes",
+      "description": "A leading icon, a status dot, and the small size for counts and tags."
+    }
+  ],
+  "props": [
+    {
+      "component": "Badge",
+      "name": "tone",
+      "type": "'neutral' | 'info' | 'success' | 'warning' | 'danger | 'brand'",
+      "default": "'neutral'",
+      "description": "Colour. `brand` uses the primary action colours."
+    },
+    {
+      "component": "Badge",
+      "name": "variant",
+      "type": "'soft' | 'solid' | 'outline'",
+      "default": "'soft'",
+      "description": "soft = tinted fill, solid = strong fill, outline = hairline border only."
+    },
+    {
+      "component": "Badge",
+      "name": "size",
+      "type": "'sm' | 'md'",
+      "default": "'md'",
+      "description": "md is 24px tall, sm is 20px."
+    },
+    {
+      "component": "Badge",
+      "name": "icon",
+      "type": "ReactNode",
+      "description": "Leading icon, sized to the text. Decorative."
+    },
+    {
+      "component": "Badge",
+      "name": "dot",
+      "type": "boolean",
+      "default": "false",
+      "description": "Shows a small status dot before the label."
+    },
+    {
+      "component": "Badge",
+      "name": "children",
+      "type": "ReactNode",
+      "required": true,
+      "description": "The label: one or two words, or a number."
+    }
+  ],
+  "accessibility": {
+    "keyboard": [],
+    "notes": [
+      "A badge is plain text (a span); it is not focusable and has no role.",
+      "Icons and the dot are aria-hidden: the label must carry the meaning on its own.",
+      "Every tone pairing (soft bg/fg, solid/onSolid) is a contrast pair the theme engine guarantees."
+    ]
+  },
+  "guidelines": {
+    "do": [
+      "Use soft badges in tables and lists; save solid for one badge that must stand out.",
+      "Keep labels to one or two words.",
+      "Use the same tone for the same status everywhere."
+    ],
+    "dont": [
+      "Don't make a badge interactive — use a Button or ToggleButton.",
+      "Don't rely on colour alone: 'Rejected', not a red dot.",
+      "Don't use brand for statuses; it has no meaning beyond emphasis."
+    ]
+  },
+  "tokens": [
+    "color.feedback.*.bg",
+    "color.feedback.*.fg",
+    "color.feedback.*.border",
+    "color.feedback.*.solid",
+    "color.feedback.*.onSolid",
+    "color.action.primary.bg",
+    "color.action.primary.fg",
+    "color.action.secondary.bg",
+    "color.action.secondary.fg",
+    "color.surface.sunken",
+    "color.surface.inverse",
+    "color.text.inverse",
+    "color.text.brand",
+    "radius.badge",
+    "font.size.xs",
+    "font.weight.semibold",
+    "space.1",
+    "space.2",
+    "space.5",
+    "space.6"
+  ]
+}

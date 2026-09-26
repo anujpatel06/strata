@@ -1,0 +1,45 @@
+.separator {
+  box-sizing: border-box;
+  flex: none;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background-color: var(--strata-color-border-subtle);
+}
+
+.separator:not([aria-orientation='vertical']) {
+  inline-size: 100%;
+  block-size: 1px;
+}
+
+.separator[aria-orientation='vertical'] {
+  align-self: stretch;
+  inline-size: 1px;
+  block-size: auto;
+  min-block-size: 1em;
+}
+
+/* "— or —" divider: two hairlines around a small, quiet label. */
+.labelled {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  gap: var(--strata-space-3);
+  inline-size: 100%;
+  color: var(--strata-color-text-subtle);
+  font-size: var(--strata-font-size-xs);
+  font-weight: var(--strata-font-weight-medium);
+  line-height: var(--strata-line-height-snug);
+}
+
+.line {
+  flex: 1 1 0;
+  block-size: 1px;
+  background-color: var(--strata-color-border-subtle);
+}
+
+.label {
+  flex: none;
+  max-inline-size: 80%;
+  text-align: center;
+}

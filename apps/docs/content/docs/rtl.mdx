@@ -1,0 +1,53 @@
+Qamar runs in Arabic, right to left, on the same components as Vela and Harbor. RTL in Strata is a property of the layout, not a mode: styles use logical properties everywhere, so nothing needs mirroring after the fact ([ADR-009](https://github.com/anujpatel06/strata/blob/main/docs/adr/009-rtl-logical-properties.md)).
+
+## Set the direction
+
+Put `dir` and `lang` on the root of the right-to-left region, and give React Aria the locale. React Aria uses the locale — not the `dir` attribute — to mirror keyboard behaviour (arrow keys in tabs, menus and tables), place popovers, and format dates and numbers.
+
+```tsx
+import { I18nProvider } from 'react-aria-components';
+import { ThemeScope } from '@strata/react';
+
+<I18nProvider locale="ar-AE-u-nu-latn">
+  <ThemeScope theme="qamar" dir="rtl" lang="ar">
+    <OrderSummary />
+  </ThemeScope>
+</I18nProvider>
+```
+
+The `-u-nu-latn` extension keeps Latin digits in Arabic text, which is what Qamar’s copy uses; drop it for Arabic-Indic digits.
+
+## Logical properties only
+
+Components never use `left`, `right`, `margin-left` or `text-align: left`. The logical forms follow the writing direction:
+
+<Table aria-label="Physical to logical properties">
+  <thead>
+    <tr>
+      <th scope="col">Instead of</th>
+      <th scope="col">Use</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>`margin-left`</td><td>`margin-inline-start`</td></tr>
+    <tr><td>`padding-right`</td><td>`padding-inline-end`</td></tr>
+    <tr><td>`left: 0`</td><td>`inset-inline-start: 0`</td></tr>
+    <tr><td>`text-align: left`</td><td>`text-align: start`</td></tr>
+    <tr><td>`border-top-left-radius`</td><td>`border-start-start-radius`</td></tr>
+    <tr><td>`width` / `height`</td><td>`inline-size` / `block-size`</td></tr>
+  </tbody>
+</Table>
+
+A few things have no logical form — transforms, `background-position`, shadow offsets — and are handled case by case.
+
+## Icons
+
+Icons that point somewhere — arrows, chevrons — flip in RTL with `scale: -1 1` under `:dir(rtl)`. Button, Breadcrumbs and Pagination do this for you. Icons that don’t imply a direction, like a search glass or a check mark, stay as they are.
+
+## Type
+
+Qamar’s type pair, Readex Pro with IBM Plex Sans Arabic, covers Arabic and Latin. Arabic-capable pairs set heading letter-spacing to `0`: tracking breaks the joins in Arabic script.
+
+## Try it
+
+Every preview on this site has a direction switch. Pick Qamar and right-to-left to see a component the way Qamar’s users do.

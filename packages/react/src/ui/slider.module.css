@@ -1,0 +1,109 @@
+/*
+ * Slider — tokens only. Thumb 16px at compact density, 20px at comfortable; the track is a ≥ 24px hit area
+ * with a thin rail centred in it.
+ */
+
+.slider {
+  --_thumb: calc(var(--strata-control-height) / 2);
+  --_rail: calc(var(--strata-space-1) + 2px);
+
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-2);
+  inline-size: 100%;
+  min-inline-size: 0;
+}
+
+.header {
+  display: flex;
+  align-items: baseline;
+  gap: var(--strata-space-3);
+}
+
+.output {
+  margin-inline-start: auto;
+  color: var(--strata-color-text-subtle);
+  font-size: var(--strata-font-size-sm);
+  line-height: var(--strata-line-height-snug);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.track {
+  position: relative;
+  inline-size: 100%;
+  block-size: max(var(--_thumb), var(--strata-space-6));
+  cursor: pointer;
+  touch-action: none;
+}
+
+.rail {
+  position: absolute;
+  inset-inline: 0;
+  inset-block-start: 50%;
+  block-size: var(--_rail);
+  translate: 0 -50%;
+  border-radius: var(--strata-radius-pill);
+  background-color: var(--strata-color-surface-sunken);
+  /* Keeps the unfilled rail visible on dark canvases, where sunken is close to the surface. */
+  box-shadow: inset 0 0 0 1px var(--strata-color-border-default);
+}
+
+.fill {
+  border-radius: inherit;
+  background-color: var(--strata-color-action-primary-bg);
+}
+
+.thumb {
+  box-sizing: border-box;
+  inset-block-start: 50%;
+  inline-size: var(--_thumb);
+  block-size: var(--_thumb);
+  border: 1px solid var(--strata-color-border-strong);
+  border-radius: 50%;
+  background-color: var(--strata-color-surface-default);
+  box-shadow: var(--strata-shadow-raised);
+  outline: none;
+}
+
+.thumb[data-hovered],
+.thumb[data-dragging] {
+  border-color: var(--strata-color-text-subtle);
+}
+
+.thumb[data-focus-visible] {
+  outline: 2px solid var(--strata-color-focus-ring);
+  outline-offset: 2px;
+}
+
+/* --- disabled --- */
+
+.slider[data-disabled] .track {
+  cursor: default;
+}
+
+.slider[data-disabled] .fill {
+  background-color: var(--strata-color-text-disabled);
+}
+
+.slider[data-disabled] .thumb {
+  border-color: var(--strata-color-border-default);
+  box-shadow: none;
+}
+
+.slider[data-disabled] .output {
+  color: var(--strata-color-text-disabled);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .thumb {
+    transition:
+      border-color var(--strata-motion-duration-fast) var(--strata-motion-easing),
+      scale var(--strata-motion-duration-fast) var(--strata-motion-easing);
+  }
+
+  .thumb[data-dragging] {
+    scale: 1.1;
+  }
+}

@@ -1,0 +1,19 @@
+.footer {
+  border-block-start: var(--docs-hairline);
+}
+.inner {
+  max-inline-size: var(--docs-container);
+  margin-inline: auto;
+  padding-block: var(--strata-space-6);
+  padding-inline: var(--docs-gutter);
+  color: var(--strata-color-text-subtle);
+  font-size: var(--strata-font-size-sm);
+  line-height: var(--strata-line-height-normal);
+}
+.link {
+  color: var(--strata-color-text-default);
+  font-weight: var(--strata-font-weight-medium);
+  text-decoration: underline;
+  text-underline-offset: 0.25em;
+  text-decoration-thickness: 1px;
+}

@@ -1,0 +1,68 @@
+{
+  "name": "accordion",
+  "title": "Accordion",
+  "description": "A stack of headings that each show or hide a section of content.",
+  "category": "display",
+  "maturity": "beta",
+  "exports": ["Accordion", "AccordionItem"],
+  "files": ["accordion.tsx", "accordion.module.css"],
+  "dependencies": ["react-aria-components", "@tabler/icons-react"],
+  "registryDependencies": [],
+  "reactAria": "https://react-spectrum.adobe.com/react-aria/DisclosureGroup.html",
+  "usage": "import { Accordion, AccordionItem } from '@strata/react';\n\nexport function ClaimFaq() {\n  return (\n    <Accordion defaultExpandedKeys={['documents']}>\n      <AccordionItem id=\"documents\" title=\"Which documents do I need?\">\n        An itemised invoice and the prescription.\n      </AccordionItem>\n      <AccordionItem id=\"timeline\" title=\"How long does a review take?\">\n        Most claims are reviewed within 3 working days.\n      </AccordionItem>\n    </Accordion>\n  );\n}",
+  "examples": [
+    { "name": "accordion-demo", "title": "Accordion", "description": "One section open at a time." },
+    { "name": "accordion-faq", "title": "FAQ, several open", "description": "allowsMultipleExpanded, a custom heading level and a disabled item." }
+  ],
+  "props": [
+    { "component": "Accordion", "name": "allowsMultipleExpanded", "type": "boolean", "default": "false", "description": "Lets more than one item be open at once." },
+    { "component": "Accordion", "name": "expandedKeys", "type": "Iterable<Key>", "description": "Ids of open items (controlled)." },
+    { "component": "Accordion", "name": "defaultExpandedKeys", "type": "Iterable<Key>", "description": "Ids of items open at first (uncontrolled)." },
+    { "component": "Accordion", "name": "onExpandedChange", "type": "(keys: Set<Key>) => void", "description": "Called with the ids of open items when they change." },
+    { "component": "Accordion", "name": "isDisabled", "type": "boolean", "default": "false", "description": "Disables every item." },
+    { "component": "AccordionItem", "name": "id", "type": "Key", "required": true, "description": "Used by expandedKeys and onExpandedChange." },
+    { "component": "AccordionItem", "name": "title", "type": "ReactNode", "required": true, "description": "Text of the trigger button." },
+    { "component": "AccordionItem", "name": "children", "type": "ReactNode", "description": "The content shown when open." },
+    { "component": "AccordionItem", "name": "headingLevel", "type": "2 | 3 | 4 | 5 | 6", "default": "3", "description": "Heading level wrapping the trigger; match the page outline." },
+    { "component": "AccordionItem", "name": "isDisabled", "type": "boolean", "default": "false", "description": "Prevents opening or closing this item." }
+  ],
+  "accessibility": {
+    "keyboard": [
+      { "keys": "Tab / Shift+Tab", "action": "Moves between triggers and into open content." },
+      { "keys": "Enter / Space", "action": "Opens or closes the focused item." }
+    ],
+    "notes": [
+      "Each trigger is a button with aria-expanded and aria-controls inside a heading (level 3 by default).",
+      "Panels are role=\"group\" labelled by their trigger. Closed panels use hidden=\"until-found\", so find-in-page can open them.",
+      "The chevron rotates as a secondary cue; aria-expanded carries the state.",
+      "Height animates only with prefers-reduced-motion: no-preference."
+    ]
+  },
+  "guidelines": {
+    "do": [
+      "Use for optional detail people scan by heading, like FAQs or settings groups.",
+      "Write titles as the question or topic people look for.",
+      "Open the most useful item by default when there is one."
+    ],
+    "dont": [
+      "Don't hide content everyone needs — show it.",
+      "Don't put a whole page's main flow inside an accordion.",
+      "Don't nest accordions."
+    ]
+  },
+  "tokens": [
+    "color.text.default",
+    "color.text.subtle",
+    "color.text.disabled",
+    "color.border.subtle",
+    "color.focus.ring",
+    "radius.badge",
+    "control-height",
+    "font.size.md",
+    "font.weight.medium",
+    "line-height.snug",
+    "line-height.normal",
+    "motion.duration.normal",
+    "motion.easing"
+  ]
+}

@@ -1,0 +1,108 @@
+{
+  "name": "empty-state",
+  "title": "Empty State",
+  "description": "What to show when there is nothing to show: no data yet, no results, or nothing left to do.",
+  "category": "feedback",
+  "maturity": "beta",
+  "exports": [
+    "EmptyState"
+  ],
+  "files": [
+    "empty-state.tsx",
+    "empty-state.module.css"
+  ],
+  "dependencies": [],
+  "registryDependencies": [],
+  "usage": "import { IconFileText } from '@tabler/icons-react';\nimport { Button, EmptyState } from '@strata/react';\n\nexport function NoClaims() {\n  return (\n    <EmptyState\n      icon={<IconFileText />}\n      title=\"No claims yet\"\n      description=\"When you submit a claim, you can track it here.\"\n      action={<Button>Start a claim</Button>}\n    />\n  );\n}",
+  "examples": [
+    {
+      "name": "empty-state-demo",
+      "title": "Empty state",
+      "description": "First-use state with one primary action."
+    },
+    {
+      "name": "empty-state-actions",
+      "title": "Two actions",
+      "description": "A primary action and a help link."
+    },
+    {
+      "name": "empty-state-in-card",
+      "title": "In a card",
+      "description": "The small size for filtered results inside a card or table."
+    }
+  ],
+  "props": [
+    {
+      "component": "EmptyState",
+      "name": "title",
+      "type": "ReactNode",
+      "required": true,
+      "description": "What is empty, in plain words."
+    },
+    {
+      "component": "EmptyState",
+      "name": "description",
+      "type": "ReactNode",
+      "description": "Why it is empty and what to do next. Wraps at 48 characters."
+    },
+    {
+      "component": "EmptyState",
+      "name": "icon",
+      "type": "ReactNode",
+      "description": "Decorative icon shown in a tinted tile."
+    },
+    {
+      "component": "EmptyState",
+      "name": "action",
+      "type": "ReactNode",
+      "description": "The next step: usually one Button, optionally with a Link."
+    },
+    {
+      "component": "EmptyState",
+      "name": "size",
+      "type": "'sm' | 'md'",
+      "default": "'md'",
+      "description": "sm for cards, tables and popovers; md for pages and sections."
+    },
+    {
+      "component": "EmptyState",
+      "name": "level",
+      "type": "2 | 3 | 4 | 5 | 6",
+      "default": "3",
+      "description": "Heading level of the title."
+    }
+  ],
+  "accessibility": {
+    "keyboard": [],
+    "notes": [
+      "The title is a real heading (h3 by default); pick the level that fits the page outline.",
+      "The icon is aria-hidden.",
+      "When the empty state replaces results after a search or filter, announce the change (e.g. a polite status message)."
+    ]
+  },
+  "guidelines": {
+    "do": [
+      "Say what will appear here and how to get it.",
+      "Offer the one action that fills the space.",
+      "Tell people when filters caused the empty result, and let them clear them."
+    ],
+    "dont": [
+      "Don't blame the user or use jokes in error-adjacent states.",
+      "Don't add more than two actions."
+    ]
+  },
+  "tokens": [
+    "color.surface.sunken",
+    "color.border.subtle",
+    "color.text.default",
+    "color.text.subtle",
+    "radius.container",
+    "font.heading",
+    "font.heading-tracking",
+    "font.size.lg",
+    "font.size.md",
+    "font.size.sm",
+    "font.weight.semibold",
+    "space.1–12"
+  ]
+}

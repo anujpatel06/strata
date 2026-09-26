@@ -1,0 +1,82 @@
+.nav {
+  display: grid;
+  gap: var(--strata-space-6);
+  padding-block: var(--strata-space-8);
+  padding-inline-end: var(--strata-space-4);
+}
+
+.group {
+  display: grid;
+  gap: var(--strata-space-1);
+}
+
+.groupLabel {
+  padding-inline: var(--strata-space-2);
+  margin-block-end: var(--strata-space-1);
+  font-family: var(--strata-font-body);
+  font-size: var(--strata-font-size-sm);
+  font-weight: var(--strata-font-weight-semibold);
+  line-height: var(--strata-line-height-snug);
+  color: var(--strata-color-text-default);
+}
+
+.section + .section {
+  margin-block-start: var(--strata-space-4);
+}
+
+.sectionLabel {
+  padding-inline: var(--strata-space-2);
+  margin-block-end: var(--strata-space-1);
+  font-family: var(--strata-font-body);
+  font-size: var(--strata-font-size-xs);
+  font-weight: var(--strata-font-weight-medium);
+  line-height: var(--strata-line-height-snug);
+  color: var(--strata-color-text-subtle);
+}
+
+.list {
+  display: grid;
+  gap: 1px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.link {
+  display: flex;
+  align-items: center;
+  gap: var(--strata-space-2);
+  min-block-size: calc(var(--strata-space-8) - var(--strata-space-1));
+  padding-inline: var(--strata-space-2);
+  border-radius: var(--strata-radius-button);
+  color: var(--strata-color-text-subtle);
+  font-size: var(--strata-font-size-md);
+  line-height: var(--strata-line-height-snug);
+  transition:
+    background-color var(--strata-motion-duration-fast) var(--strata-motion-easing),
+    color var(--strata-motion-duration-fast) var(--strata-motion-easing);
+}
+.link:hover {
+  background: var(--docs-hover);
+  color: var(--strata-color-text-default);
+}
+.link[aria-current='page'] {
+  background: var(--strata-color-surface-selected);
+  color: var(--strata-color-text-default);
+  font-weight: var(--strata-font-weight-medium);
+}
+
+.linkText {
+  flex: 1;
+  min-inline-size: 0;
+}
+
+.badge {
+  padding-inline: var(--strata-space-1);
+  border: 1px solid var(--strata-color-border-default);
+  border-radius: var(--strata-radius-badge);
+  color: var(--strata-color-text-subtle);
+  font-size: var(--strata-font-size-xs);
+  font-weight: var(--strata-font-weight-regular);
+  line-height: var(--strata-line-height-snug);
+}

@@ -1,0 +1,194 @@
+/*
+ * Pagination. Page buttons mirror Button's ghost style; the current page mirrors Button outline.
+ * Responds to its own width (container query), never the viewport.
+ */
+
+.root {
+  box-sizing: border-box;
+  container: strata-pagination / inline-size;
+  display: flex;
+  justify-content: center;
+  inline-size: 100%;
+  min-inline-size: 0;
+}
+
+.list {
+  display: flex;
+  align-items: center;
+  gap: var(--strata-space-1);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.pageItem,
+.stepItem {
+  display: flex;
+}
+
+.num {
+  font-variant-numeric: tabular-nums;
+}
+
+/* ------------------------------------------------------------------ *
+ * Buttons
+ * ------------------------------------------------------------------ */
+
+.button {
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--strata-space-1);
+  min-block-size: var(--strata-control-height);
+  min-inline-size: var(--strata-control-height);
+  margin: 0;
+  padding-block: 0;
+  padding-inline: var(--strata-space-2);
+  border: 1px solid transparent;
+  border-radius: var(--strata-radius-button);
+  background-color: transparent;
+  color: var(--strata-color-text-default);
+  font-family: inherit;
+  font-size: var(--strata-font-size-md);
+  font-variant-numeric: tabular-nums;
+  font-weight: var(--strata-font-weight-medium);
+  line-height: var(--strata-line-height-tight);
+  letter-spacing: inherit;
+  white-space: nowrap;
+  cursor: pointer;
+  user-select: none;
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.button[data-hovered] {
+  background-color: color-mix(in oklab, var(--strata-color-text-default) 6%, transparent);
+}
+
+.button[data-pressed] {
+  background-color: color-mix(in oklab, var(--strata-color-text-default) 10%, transparent);
+}
+
+.button[data-focus-visible] {
+  outline: 2px solid var(--strata-color-focus-ring);
+  outline-offset: 2px;
+}
+
+.page[aria-current='page'] {
+  border-color: var(--strata-color-border-strong);
+  background-color: var(--strata-color-surface-default);
+  cursor: default;
+}
+
+.page[aria-current='page'][data-hovered] {
+  background-color: color-mix(in oklab, var(--strata-color-text-default) 6%, var(--strata-color-surface-default));
+}
+
+.step {
+  padding-inline: var(--strata-space-2) var(--strata-space-3);
+}
+
+.stepItem:last-child .step {
+  padding-inline: var(--strata-space-3) var(--strata-space-2);
+}
+
+/* Boundary: still focusable (focus is never dropped), announced as disabled, drawn as disabled. */
+.step[aria-disabled='true'],
+.button[data-disabled] {
+  background-color: transparent;
+  color: var(--strata-color-text-disabled);
+  cursor: default;
+}
+
+.page[data-disabled][aria-current='page'] {
+  border-color: var(--strata-color-border-default);
+}
+
+.dirIcon {
+  flex: none;
+}
+
+.dirIcon:dir(rtl) {
+  scale: -1 1;
+}
+
+.ellipsis {
+  align-items: center;
+  justify-content: center;
+  min-inline-size: var(--strata-control-height);
+  min-block-size: var(--strata-control-height);
+  color: var(--strata-color-text-subtle);
+  font-size: var(--strata-font-size-md);
+  user-select: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .button {
+    transition-property: background-color, border-color, color;
+    transition-duration: var(--strata-motion-duration-fast);
+    transition-timing-function: var(--strata-motion-easing);
+  }
+}
+
+/* ------------------------------------------------------------------ *
+ * Summary ("Page 3 of 12") — the compact variant, and the default variant's narrow fallback
+ * ------------------------------------------------------------------ */
+
+.summary {
+  display: none;
+  align-items: center;
+  padding-inline: var(--strata-space-2);
+  color: var(--strata-color-text-subtle);
+  font-size: var(--strata-font-size-sm);
+  white-space: nowrap;
+}
+
+.summary .num {
+  color: var(--strata-color-text-default);
+  font-weight: var(--strata-font-weight-medium);
+}
+
+.summaryCompact {
+  display: flex;
+}
+
+/* Compact: previous/next are icon-only; the text stays as the accessible name. */
+.root[data-variant='compact'] .step {
+  padding-inline: var(--strata-space-2);
+}
+
+.root[data-variant='compact'] .stepLabel {
+  position: absolute;
+  inline-size: 1px;
+  block-size: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+@container strata-pagination (inline-size < 520px) {
+  .step,
+  .stepItem:last-child .step {
+    padding-inline: var(--strata-space-2);
+  }
+
+  .stepLabel {
+    position: absolute;
+    inline-size: 1px;
+    block-size: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+}
+
+@container strata-pagination (inline-size < 400px) {
+  .pageItem {
+    display: none;
+  }
+
+  .summary {
+    display: flex;
+  }
+}

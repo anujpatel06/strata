@@ -1,0 +1,231 @@
+/* FileUpload: dashed drop zone + list of chosen files. */
+.field {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-2);
+  inline-size: 100%;
+  min-inline-size: 0;
+}
+
+.zone {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--strata-space-2);
+  inline-size: 100%;
+  padding-block: var(--strata-space-6);
+  padding-inline: var(--strata-space-4);
+  border: 1px dashed var(--strata-color-border-strong);
+  border-radius: var(--strata-radius-container);
+  background: var(--strata-color-surface-default);
+  color: var(--strata-color-text-default);
+  text-align: center;
+  outline: none;
+}
+.zone[data-focus-visible] {
+  outline: 2px solid var(--strata-color-focus-ring);
+  outline-offset: 2px;
+}
+.zone[data-drop-target] {
+  border-style: solid;
+  border-color: var(--strata-color-action-primary-bg);
+  background: var(--strata-color-surface-selected);
+}
+.field[data-invalid] .zone {
+  border-color: var(--strata-color-feedback-danger-solid);
+}
+.zone[data-disabled] {
+  border-color: var(--strata-color-border-default);
+  background: var(--strata-color-surface-sunken);
+  color: var(--strata-color-text-disabled);
+}
+
+.zoneIcon {
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: var(--strata-control-height);
+  block-size: var(--strata-control-height);
+  margin-block-end: var(--strata-space-1);
+  border: 1px solid var(--strata-color-border-default);
+  border-radius: var(--strata-radius-pill);
+  background: var(--strata-color-surface-raised);
+  color: var(--strata-color-text-subtle);
+  box-shadow: var(--strata-shadow-raised);
+}
+.zoneIcon > svg {
+  inline-size: 1.25em;
+  block-size: 1.25em;
+  stroke-width: 1.75;
+}
+.zone[data-drop-target] .zoneIcon {
+  border-color: var(--strata-color-action-primary-bg);
+  color: var(--strata-color-text-brand);
+}
+.zone[data-disabled] .zoneIcon {
+  color: var(--strata-color-text-disabled);
+  box-shadow: none;
+}
+
+.prompt {
+  font-size: var(--strata-font-size-md);
+  font-weight: var(--strata-font-weight-medium);
+  line-height: var(--strata-line-height-snug);
+}
+.prompt .browse {
+  vertical-align: baseline;
+}
+
+.hint {
+  color: var(--strata-color-text-subtle);
+  font-size: var(--strata-font-size-sm);
+  line-height: var(--strata-line-height-snug);
+}
+.zone[data-disabled] .hint {
+  color: var(--strata-color-text-disabled);
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.row {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  gap: var(--strata-space-3);
+  min-inline-size: 0;
+  padding-block: var(--strata-space-2);
+  padding-inline: var(--strata-space-3) var(--strata-space-2);
+  border: 1px solid var(--strata-color-border-default);
+  border-radius: min(var(--strata-radius-container), var(--strata-space-3));
+  background: var(--strata-color-surface-default);
+}
+.row[data-error] {
+  border-color: var(--strata-color-feedback-danger-border);
+}
+
+.fileIcon {
+  box-sizing: border-box;
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  inline-size: calc(var(--strata-control-height) - var(--strata-space-1));
+  block-size: calc(var(--strata-control-height) - var(--strata-space-1));
+  border-radius: min(var(--strata-radius-field), var(--strata-space-2));
+  background: var(--strata-color-surface-sunken);
+  color: var(--strata-color-text-subtle);
+}
+.fileIcon > svg {
+  inline-size: 1.15em;
+  block-size: 1.15em;
+  stroke-width: 1.75;
+}
+.row[data-error] .fileIcon {
+  background: var(--strata-color-feedback-danger-bg);
+  color: var(--strata-color-feedback-danger-fg);
+}
+
+.fileBody {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: var(--strata-space-1);
+  min-inline-size: 0;
+}
+.fileLine {
+  display: flex;
+  align-items: baseline;
+  gap: var(--strata-space-2);
+  min-inline-size: 0;
+}
+.fileName {
+  flex: 0 1 auto;
+  min-inline-size: 0;
+  overflow: hidden;
+  color: var(--strata-color-text-default);
+  font-size: var(--strata-font-size-md);
+  font-weight: var(--strata-font-weight-medium);
+  line-height: var(--strata-line-height-snug);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.fileSize {
+  flex: none;
+  color: var(--strata-color-text-subtle);
+  font-size: var(--strata-font-size-sm);
+  font-variant-numeric: tabular-nums;
+  line-height: var(--strata-line-height-snug);
+}
+
+.progress {
+  display: flex;
+  align-items: center;
+  gap: var(--strata-space-2);
+}
+.track {
+  position: relative;
+  flex: 1;
+  block-size: var(--strata-space-1);
+  overflow: hidden;
+  border-radius: var(--strata-radius-pill);
+  background: color-mix(in oklab, var(--strata-color-text-default) 10%, transparent);
+}
+.fill {
+  position: absolute;
+  inset-block: 0;
+  inset-inline-start: 0;
+  border-radius: inherit;
+  background: var(--strata-color-action-primary-bg);
+}
+.percent {
+  flex: none;
+  color: var(--strata-color-text-subtle);
+  font-size: var(--strata-font-size-xs);
+  font-variant-numeric: tabular-nums;
+  line-height: var(--strata-line-height-snug);
+}
+
+.status {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--strata-space-1);
+  color: var(--strata-color-feedback-success-fg);
+  font-size: var(--strata-font-size-sm);
+  line-height: var(--strata-line-height-snug);
+}
+.status > svg {
+  inline-size: 1.1em;
+  block-size: 1.1em;
+}
+
+.error {
+  color: var(--strata-color-feedback-danger-fg);
+  font-size: var(--strata-font-size-sm);
+  line-height: var(--strata-line-height-snug);
+}
+
+.remove {
+  flex: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .zone {
+    transition:
+      background-color var(--strata-motion-duration-fast) var(--strata-motion-easing),
+      border-color var(--strata-motion-duration-fast) var(--strata-motion-easing);
+  }
+  .fill {
+    transition: inline-size var(--strata-motion-duration-normal) var(--strata-motion-easing);
+  }
+}

@@ -1,0 +1,225 @@
+/* Combobox. The input is text-field's Input; the chevron button sits inside its inline-end padding. */
+.field {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-2);
+  min-inline-size: 0;
+}
+
+/* text-field's FieldGroup draws the box; tighten its end padding so the chevron button sits in the corner. */
+.field .control {
+  padding-inline-end: var(--strata-space-1);
+}
+
+.button {
+  box-sizing: border-box;
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  inline-size: calc(var(--strata-control-height) - var(--strata-space-2));
+  block-size: calc(var(--strata-control-height) - var(--strata-space-2));
+  min-inline-size: var(--strata-space-6);
+  min-block-size: var(--strata-space-6);
+  padding: 0;
+  border: 0;
+  border-radius: min(var(--strata-radius-button), var(--strata-space-2));
+  background: transparent;
+  color: var(--strata-color-text-subtle);
+  cursor: default;
+  outline: none;
+}
+.button[data-hovered] {
+  background: color-mix(in oklab, var(--strata-color-text-default) 6%, transparent);
+  color: var(--strata-color-text-default);
+}
+/* RAC keeps the button "pressed" while the list is open; only tint it for a real press. */
+.button[data-pressed][data-hovered] {
+  background: color-mix(in oklab, var(--strata-color-text-default) 10%, transparent);
+}
+.button[data-focus-visible] {
+  outline: 2px solid var(--strata-color-focus-ring);
+  outline-offset: 2px;
+}
+.button[data-disabled] {
+  color: var(--strata-color-text-disabled);
+  background: transparent;
+}
+.chevron {
+  inline-size: 1.15em;
+  block-size: 1.15em;
+  stroke-width: 2;
+}
+.field[data-open] .chevron {
+  rotate: 180deg;
+}
+
+.empty {
+  padding-block: var(--strata-space-2);
+  padding-inline: var(--strata-space-2);
+  color: var(--strata-color-text-subtle);
+  font-size: var(--strata-font-size-md);
+  text-align: center;
+}
+
+/* ——— Popover + list (kept identical to select.module.css) ——— */
+.popover {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  min-inline-size: var(--trigger-width);
+  overflow: hidden;
+  border: 1px solid var(--strata-color-border-default);
+  border-radius: var(--strata-radius-container);
+  background: var(--strata-color-surface-raised);
+  color: var(--strata-color-text-default);
+  box-shadow: var(--strata-shadow-overlay);
+  font-family: var(--strata-font-body);
+  font-size: var(--strata-font-size-md);
+  line-height: var(--strata-line-height-normal);
+  outline: none;
+}
+
+.listbox {
+  box-sizing: border-box;
+  flex: 1;
+  min-block-size: 0;
+  max-block-size: calc(var(--strata-space-16) * 5);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: var(--strata-space-1);
+  scroll-padding-block: var(--strata-space-1);
+  outline: none;
+}
+
+.section + .section {
+  margin-block-start: var(--strata-space-1);
+  padding-block-start: var(--strata-space-1);
+  border-block-start: 1px solid var(--strata-color-border-subtle);
+}
+.sectionHeader {
+  padding-block: var(--strata-space-1);
+  padding-inline: calc(var(--strata-control-padding-inline) - var(--strata-space-1));
+  color: var(--strata-color-text-subtle);
+  font-size: var(--strata-font-size-xs);
+  font-weight: var(--strata-font-weight-medium);
+  line-height: var(--strata-line-height-snug);
+}
+
+.item {
+  --item-radius: min(var(--strata-radius-button), var(--strata-space-2));
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  gap: var(--strata-space-2);
+  min-block-size: calc(var(--strata-control-height) - var(--strata-space-2));
+  padding-block: var(--strata-space-1);
+  /* Listbox padding + this = control padding, so option text lines up with the trigger's text. */
+  padding-inline: calc(var(--strata-control-padding-inline) - var(--strata-space-1)) var(--strata-space-2);
+  border-radius: var(--item-radius);
+  color: var(--strata-color-text-default);
+  cursor: default;
+  outline: none;
+  forced-color-adjust: none;
+}
+.item[data-hovered],
+.item[data-focused] {
+  background: color-mix(in oklab, var(--strata-color-text-default) 6%, transparent);
+}
+.item[data-pressed] {
+  background: color-mix(in oklab, var(--strata-color-text-default) 10%, transparent);
+}
+.item[data-focus-visible] {
+  outline: 2px solid var(--strata-color-focus-ring);
+  outline-offset: -2px;
+}
+.item[data-disabled] {
+  color: var(--strata-color-text-disabled);
+}
+.item[data-disabled] .itemDescription,
+.item[data-disabled] .icon {
+  color: var(--strata-color-text-disabled);
+}
+
+.icon {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  color: var(--strata-color-text-subtle);
+}
+.icon > svg {
+  inline-size: 1.15em;
+  block-size: 1.15em;
+}
+
+.itemText {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-inline-size: 0;
+}
+.itemLabel {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.item[data-selected] .itemLabel {
+  font-weight: var(--strata-font-weight-medium);
+}
+.itemDescription {
+  color: var(--strata-color-text-subtle);
+  font-size: var(--strata-font-size-sm);
+  line-height: var(--strata-line-height-snug);
+}
+
+.check {
+  flex: none;
+  inline-size: 1.15em;
+  block-size: 1.15em;
+  margin-inline-start: auto;
+  color: var(--strata-color-text-default);
+  stroke-width: 2;
+  visibility: hidden;
+}
+.check[data-visible] {
+  visibility: visible;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .chevron {
+    transition: rotate var(--strata-motion-duration-normal) var(--strata-motion-easing);
+  }
+  .popover[data-entering] {
+    animation: popover-in var(--strata-motion-duration-fast) var(--strata-motion-easing);
+  }
+  .popover[data-exiting] {
+    animation: popover-out var(--strata-motion-duration-fast) var(--strata-motion-easing) forwards;
+  }
+}
+/* Slide from the side the popover opens towards (placement is physical, as is translate). */
+.popover[data-placement='bottom'] {
+  --popover-slide: 0 calc(var(--strata-space-1) * -1);
+}
+.popover[data-placement='top'] {
+  --popover-slide: 0 var(--strata-space-1);
+}
+.popover[data-placement='left'] {
+  --popover-slide: var(--strata-space-1) 0;
+}
+.popover[data-placement='right'] {
+  --popover-slide: calc(var(--strata-space-1) * -1) 0;
+}
+@keyframes popover-in {
+  from {
+    opacity: 0;
+    translate: var(--popover-slide, 0 0);
+  }
+}
+@keyframes popover-out {
+  to {
+    opacity: 0;
+    translate: var(--popover-slide, 0 0);
+  }
+}

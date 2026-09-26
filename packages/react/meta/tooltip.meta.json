@@ -1,0 +1,141 @@
+{
+  "name": "tooltip",
+  "title": "Tooltip",
+  "description": "A short text label that appears on hover or keyboard focus to name or explain a control.",
+  "category": "overlays",
+  "maturity": "beta",
+  "exports": [
+    "Tooltip",
+    "TooltipTrigger"
+  ],
+  "files": [
+    "tooltip.tsx",
+    "tooltip.module.css"
+  ],
+  "dependencies": [
+    "react-aria-components"
+  ],
+  "registryDependencies": [],
+  "reactAria": "https://react-spectrum.adobe.com/react-aria/Tooltip.html",
+  "usage": "import { Button, Tooltip, TooltipTrigger } from '@strata/react';\nimport { IconCopy } from '@tabler/icons-react';\n\nexport function CopyButton() {\n  return (\n    <TooltipTrigger>\n      <Button variant=\"ghost\" size=\"icon\" aria-label=\"Copy reference\">\n        <IconCopy aria-hidden />\n      </Button>\n      <Tooltip>Copy reference</Tooltip>\n    </TooltipTrigger>\n  );\n}",
+  "examples": [
+    {
+      "name": "tooltip-demo",
+      "title": "Tooltip",
+      "description": "Adds a hint to a labelled button."
+    },
+    {
+      "name": "tooltip-on-icon-button",
+      "title": "Icon buttons",
+      "description": "Shows the accessible name of icon-only buttons to sighted users."
+    },
+    {
+      "name": "tooltip-placement",
+      "title": "Placement",
+      "description": "top, bottom, start and end; start and end follow the reading direction."
+    }
+  ],
+  "props": [
+    {
+      "component": "Tooltip",
+      "name": "children",
+      "type": "ReactNode",
+      "required": true,
+      "description": "Short plain text."
+    },
+    {
+      "component": "Tooltip",
+      "name": "placement",
+      "type": "Placement",
+      "default": "'top'",
+      "description": "Preferred side. Flips when there is no room."
+    },
+    {
+      "component": "Tooltip",
+      "name": "showArrow",
+      "type": "boolean",
+      "default": "true",
+      "description": "Draws an arrow pointing at the trigger."
+    },
+    {
+      "component": "Tooltip",
+      "name": "offset",
+      "type": "number",
+      "default": "8 (6 without arrow)",
+      "description": "Distance from the trigger in px."
+    },
+    {
+      "component": "Tooltip",
+      "name": "className",
+      "type": "string | (state) => string",
+      "description": "Merged onto the tooltip root."
+    },
+    {
+      "component": "TooltipTrigger",
+      "name": "delay",
+      "type": "number",
+      "default": "600",
+      "description": "Hover delay in ms before the first tooltip opens. Keyboard focus opens immediately."
+    },
+    {
+      "component": "TooltipTrigger",
+      "name": "closeDelay",
+      "type": "number",
+      "default": "0",
+      "description": "Delay in ms before closing after the pointer leaves."
+    },
+    {
+      "component": "TooltipTrigger",
+      "name": "isDisabled",
+      "type": "boolean",
+      "default": "false",
+      "description": "Turns the tooltip off."
+    },
+    {
+      "component": "TooltipTrigger",
+      "name": "trigger",
+      "type": "'focus'",
+      "description": "Open only on keyboard focus, not hover."
+    }
+  ],
+  "accessibility": {
+    "keyboard": [
+      {
+        "keys": "Tab",
+        "action": "Focusing the trigger shows the tooltip immediately."
+      },
+      {
+        "keys": "Escape",
+        "action": "Hides the tooltip without moving focus."
+      }
+    ],
+    "notes": [
+      "role=\"tooltip\"; the trigger is described by it via aria-describedby while it is open.",
+      "Hover opening starts after the user has used a pointer on the page (React Aria's interaction modality); keyboard focus always opens it.",
+      "Tooltips are not reachable on touch devices: never put essential information or interactive content in them.",
+      "Overlays render in a portal on <body>, outside any ThemeScope. When it opens, the overlay copies data-strata-theme, data-strata-scheme and data-strata-density from the nearest [data-strata-theme] ancestor of its trigger (or of where the component is rendered, when controlled), plus dir and lang, onto its own root — so it uses the same tenant tokens and direction as the page region it came from, and nested overlays inherit from their parent overlay."
+    ]
+  },
+  "guidelines": {
+    "do": [
+      "Pair every icon-only button with a Tooltip repeating its aria-label.",
+      "Keep it to a few words."
+    ],
+    "dont": [
+      "Don't put links or buttons in a tooltip — use a Popover.",
+      "Don't use tooltips on disabled buttons to explain why; show the reason inline."
+    ]
+  },
+  "tokens": [
+    "color.surface.inverse",
+    "color.text.inverse",
+    "font.size.xs",
+    "font.weight.medium",
+    "radius.button",
+    "space.1",
+    "space.2",
+    "space.16",
+    "motion.duration.fast",
+    "motion.easing"
+  ]
+}

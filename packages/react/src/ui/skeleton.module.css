@@ -1,0 +1,76 @@
+.skeleton {
+  --_dir: 1;
+
+  box-sizing: border-box;
+  display: block;
+  flex: none;
+  inline-size: 100%;
+  block-size: 1em;
+  max-inline-size: 100%;
+  border-radius: var(--strata-radius-field);
+  /* A translucent ink tint rather than surface.sunken: a slight tint on light surfaces and a slight lift
+     on dark ones. (Sunken is darker than the card in dark schemes, so placeholders read as holes.) */
+  background-color: color-mix(in oklab, var(--strata-color-text-default) 8%, transparent);
+}
+
+.skeleton:dir(rtl) {
+  --_dir: -1;
+}
+
+.skeleton[data-radius='container'] {
+  border-radius: var(--strata-radius-container);
+}
+.skeleton[data-radius='pill'] {
+  border-radius: var(--strata-radius-pill);
+}
+.skeleton[data-radius='badge'] {
+  border-radius: var(--strata-radius-badge);
+}
+
+.skeleton[data-circle] {
+  inline-size: var(--strata-space-10);
+  block-size: auto;
+  aspect-ratio: 1;
+}
+
+/* Shimmer: a soft highlight sweeps in the reading direction. */
+@media (prefers-reduced-motion: no-preference) {
+  .skeleton {
+    background-image: linear-gradient(
+      90deg,
+      transparent 25%,
+      color-mix(in oklab, var(--strata-color-surface-sunken) 50%, var(--strata-color-surface-default)) 50%,
+      transparent 75%
+    );
+    background-repeat: no-repeat;
+    background-size: 200% 100%;
+    animation: strata-skeleton-shimmer calc(var(--strata-motion-duration-normal) * 8) var(--strata-motion-easing) infinite;
+  }
+}
+
+@keyframes strata-skeleton-shimmer {
+  from {
+    background-position-x: calc(50% + 100% * var(--_dir));
+  }
+  to {
+    background-position-x: calc(50% - 100% * var(--_dir));
+  }
+}
+
+/* ---- text -------------------------------------------------------------- */
+
+.text {
+  display: grid;
+  /* Bars are 0.7em tall inside a 1lh row, so blocks of SkeletonText match real paragraphs. */
+  row-gap: calc(1lh - 0.7em);
+  inline-size: 100%;
+  padding-block: calc((1lh - 0.7em) / 2);
+}
+
+.text > [data-line] {
+  block-size: 0.7em;
+}
+
+.text > [data-last] {
+  inline-size: 60%;
+}

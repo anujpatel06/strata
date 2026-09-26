@@ -1,0 +1,7 @@
+'use client';
+
+import { SearchField } from '@strata/react';
+
+export default function Example() {
+  return <SearchField aria-label="Search transactions" placeholder="Search transactions" style={{ inlineSize: '100%', maxInlineSize: 320 }} />;
+}

@@ -13,7 +13,9 @@
     "test:themes": "pnpm --filter @strata/theme-engine fuzz",
     "typecheck": "pnpm -r typecheck",
     "tokens": "pnpm --filter @strata/tokens build",
-    "screenshots": "node scripts/screenshots.mjs"
+    "screenshots": "node scripts/screenshots.mjs",
+    "registry": "node packages/react/scripts/build-registry.mjs",
+    "check:meta": "node packages/react/scripts/check-meta.mjs"
   },
   "devDependencies": {
     "@changesets/cli": "^2.29.0",

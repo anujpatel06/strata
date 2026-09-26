@@ -1,0 +1,131 @@
+/*
+ * Docs site base styles. Colours, type, radius and spacing come only from --strata-* tokens (house theme on
+ * :root, tenants under [data-strata-theme]). The --docs-* variables below are page geometry, derived from
+ * the space scale — not design tokens.
+ */
+
+:root {
+  --docs-header-height: calc(var(--strata-space-12) + var(--strata-space-2)); /* 56px */
+  --docs-gutter: var(--strata-space-4);
+  --docs-container: calc(var(--strata-space-16) * 22); /* 1408px */
+  --docs-sidebar: calc(var(--strata-space-16) * 3.75); /* 240px */
+  --docs-toc: calc(var(--strata-space-16) * 3.5); /* 224px */
+  --docs-prose: calc(var(--strata-space-16) * 11.5); /* 736px */
+  --docs-hairline: 1px solid var(--strata-color-border-subtle);
+  --docs-hover: color-mix(in oklab, var(--strata-color-text-default) 6%, transparent);
+  scroll-padding-block-start: calc(var(--docs-header-height) + var(--strata-space-6));
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+@media (min-width: 768px) {
+  :root {
+    --docs-gutter: var(--strata-space-6);
+  }
+}
+@media (min-width: 1280px) {
+  :root {
+    --docs-gutter: var(--strata-space-8);
+  }
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  background: var(--strata-color-surface-canvas);
+}
+
+body {
+  margin: 0;
+  min-block-size: 100dvh;
+  display: flex;
+  flex-direction: column;
+  background: var(--strata-color-surface-canvas);
+  color: var(--strata-color-text-default);
+  font-family: var(--strata-font-body);
+  font-size: var(--strata-font-size-md);
+  line-height: var(--strata-line-height-normal);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+/* Any themed element — ThemeScope, or an overlay root that mirrored a scope's attributes — re-resolves
+   the inherited basics from its own tokens (overlays portal to <body>, outside the ThemeScope). */
+[data-strata-theme] {
+  color: var(--strata-color-text-default);
+  font-family: var(--strata-font-body);
+}
+
+h1,
+h2,
+h3,
+h4,
+p,
+figure,
+blockquote,
+ul,
+ol,
+dl,
+dd {
+  margin: 0;
+}
+
+/* Same media reset as Tailwind's preflight, so previews behave as they would in a typical app. */
+img,
+svg,
+video,
+canvas {
+  display: block;
+  vertical-align: middle;
+}
+img,
+video {
+  max-inline-size: 100%;
+  block-size: auto;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+  color: inherit;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+:where(a, button, [tabindex]):focus-visible {
+  outline: 2px solid var(--strata-color-focus-ring);
+  outline-offset: 2px;
+  border-radius: var(--strata-radius-badge);
+}
+
+::selection {
+  background: color-mix(in oklab, var(--strata-color-text-default) 16%, transparent);
+}
+
+.visually-hidden {
+  position: absolute;
+  inline-size: 1px;
+  block-size: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}

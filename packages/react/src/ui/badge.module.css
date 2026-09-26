@@ -1,0 +1,157 @@
+/*
+ * Badge — tone × variant are resolved into three private custom properties
+ * (--_bg, --_fg, --_border) plus the dot colour, so each variant rule stays one line per tone.
+ */
+
+.badge {
+  --_bg: var(--strata-color-surface-sunken);
+  --_fg: var(--strata-color-text-default);
+  --_border: transparent;
+  --_dot: var(--strata-color-text-subtle);
+
+  box-sizing: border-box;
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  gap: var(--strata-space-1);
+  min-block-size: var(--strata-space-6);
+  max-inline-size: 100%;
+  padding-block: 0;
+  padding-inline: var(--strata-space-2);
+  border: 1px solid var(--_border);
+  border-radius: var(--strata-radius-badge);
+  background-color: var(--_bg);
+  color: var(--_fg);
+  font-family: var(--strata-font-body);
+  font-size: var(--strata-font-size-xs);
+  font-variant-numeric: tabular-nums;
+  font-weight: var(--strata-font-weight-semibold);
+  letter-spacing: 0;
+  line-height: 1;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.badge[data-size='sm'] {
+  gap: calc(var(--strata-space-1) * 0.75);
+  min-block-size: var(--strata-space-5);
+  padding-inline: calc(var(--strata-space-2) * 0.75);
+}
+
+/* ---- soft (default) --------------------------------------------------- */
+
+.badge[data-variant='soft'][data-tone='neutral'] {
+  --_bg: var(--strata-color-surface-sunken);
+  --_fg: var(--strata-color-text-default);
+}
+.badge[data-variant='soft'][data-tone='brand'] {
+  --_bg: var(--strata-color-action-secondary-bg);
+  --_fg: var(--strata-color-action-secondary-fg);
+  --_dot: var(--strata-color-action-primary-bg);
+}
+.badge[data-variant='soft'][data-tone='info'] {
+  --_bg: var(--strata-color-feedback-info-bg);
+  --_fg: var(--strata-color-feedback-info-fg);
+  --_dot: var(--strata-color-feedback-info-solid);
+}
+.badge[data-variant='soft'][data-tone='success'] {
+  --_bg: var(--strata-color-feedback-success-bg);
+  --_fg: var(--strata-color-feedback-success-fg);
+  --_dot: var(--strata-color-feedback-success-solid);
+}
+.badge[data-variant='soft'][data-tone='warning'] {
+  --_bg: var(--strata-color-feedback-warning-bg);
+  --_fg: var(--strata-color-feedback-warning-fg);
+  --_dot: var(--strata-color-feedback-warning-solid);
+}
+.badge[data-variant='soft'][data-tone='danger'] {
+  --_bg: var(--strata-color-feedback-danger-bg);
+  --_fg: var(--strata-color-feedback-danger-fg);
+  --_dot: var(--strata-color-feedback-danger-solid);
+}
+
+/* ---- solid ------------------------------------------------------------- */
+
+.badge[data-variant='solid'] {
+  --_dot: currentColor;
+}
+.badge[data-variant='solid'][data-tone='neutral'] {
+  --_bg: var(--strata-color-surface-inverse);
+  --_fg: var(--strata-color-text-inverse);
+}
+.badge[data-variant='solid'][data-tone='brand'] {
+  --_bg: var(--strata-color-action-primary-bg);
+  --_fg: var(--strata-color-action-primary-fg);
+}
+.badge[data-variant='solid'][data-tone='info'] {
+  --_bg: var(--strata-color-feedback-info-solid);
+  --_fg: var(--strata-color-feedback-info-on-solid);
+}
+.badge[data-variant='solid'][data-tone='success'] {
+  --_bg: var(--strata-color-feedback-success-solid);
+  --_fg: var(--strata-color-feedback-success-on-solid);
+}
+.badge[data-variant='solid'][data-tone='warning'] {
+  --_bg: var(--strata-color-feedback-warning-solid);
+  --_fg: var(--strata-color-feedback-warning-on-solid);
+}
+.badge[data-variant='solid'][data-tone='danger'] {
+  --_bg: var(--strata-color-feedback-danger-solid);
+  --_fg: var(--strata-color-feedback-danger-on-solid);
+}
+
+/* ---- outline ----------------------------------------------------------- */
+
+.badge[data-variant='outline'] {
+  --_bg: transparent;
+}
+.badge[data-variant='outline'][data-tone='neutral'] {
+  --_border: var(--strata-color-border-default);
+  --_fg: var(--strata-color-text-default);
+}
+.badge[data-variant='outline'][data-tone='brand'] {
+  --_border: color-mix(in oklab, var(--strata-color-text-brand) 45%, transparent);
+  --_fg: var(--strata-color-text-brand);
+  --_dot: var(--strata-color-action-primary-bg);
+}
+.badge[data-variant='outline'][data-tone='info'] {
+  --_border: var(--strata-color-feedback-info-border);
+  --_fg: var(--strata-color-feedback-info-fg);
+  --_dot: var(--strata-color-feedback-info-solid);
+}
+.badge[data-variant='outline'][data-tone='success'] {
+  --_border: var(--strata-color-feedback-success-border);
+  --_fg: var(--strata-color-feedback-success-fg);
+  --_dot: var(--strata-color-feedback-success-solid);
+}
+.badge[data-variant='outline'][data-tone='warning'] {
+  --_border: var(--strata-color-feedback-warning-border);
+  --_fg: var(--strata-color-feedback-warning-fg);
+  --_dot: var(--strata-color-feedback-warning-solid);
+}
+.badge[data-variant='outline'][data-tone='danger'] {
+  --_border: var(--strata-color-feedback-danger-border);
+  --_fg: var(--strata-color-feedback-danger-fg);
+  --_dot: var(--strata-color-feedback-danger-solid);
+}
+
+/* ---- parts ------------------------------------------------------------- */
+
+.dot {
+  flex: none;
+  inline-size: calc(var(--strata-space-2) * 0.75);
+  block-size: calc(var(--strata-space-2) * 0.75);
+  border-radius: var(--strata-radius-pill);
+  background-color: var(--_dot);
+}
+
+.icon {
+  display: inline-flex;
+  flex: none;
+  margin-inline-start: calc(var(--strata-space-1) * -0.5);
+}
+
+.icon > svg {
+  inline-size: 1.1667em;
+  block-size: 1.1667em;
+}

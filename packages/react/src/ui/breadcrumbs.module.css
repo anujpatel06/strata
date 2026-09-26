@@ -1,0 +1,108 @@
+.nav {
+  box-sizing: border-box;
+  min-inline-size: 0;
+}
+
+.list {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  row-gap: var(--strata-space-1);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  color: var(--strata-color-text-subtle);
+  font-size: var(--strata-font-size-sm);
+  line-height: var(--strata-line-height-snug);
+}
+
+.item {
+  display: inline-flex;
+  align-items: center;
+  min-inline-size: 0;
+}
+
+.link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--strata-space-1);
+  /* 24px hit target (WCAG 2.5.8) at any density. */
+  min-block-size: var(--strata-space-6);
+  border-radius: var(--strata-radius-badge);
+  color: var(--strata-color-text-subtle);
+  text-decoration: none;
+  overflow-wrap: anywhere;
+  outline: none;
+}
+
+.link[data-hovered]:not([data-current]) {
+  color: var(--strata-color-text-default);
+}
+
+.link[data-focus-visible] {
+  outline: 2px solid var(--strata-color-focus-ring);
+  outline-offset: 2px;
+}
+
+.link[data-current] {
+  color: var(--strata-color-text-default);
+  font-weight: var(--strata-font-weight-medium);
+  cursor: default;
+}
+
+.link[data-disabled]:not([data-current]) {
+  color: var(--strata-color-text-disabled);
+}
+
+.link :where(svg) {
+  flex: none;
+  inline-size: 1.15em;
+  block-size: 1.15em;
+}
+
+.separator {
+  display: inline-flex;
+  flex: none;
+  margin-inline: var(--strata-space-2);
+  color: var(--strata-color-text-subtle);
+}
+
+/* Chevrons point "forward", whichever way forward is. */
+.separator:dir(rtl) {
+  scale: -1 1;
+}
+
+.ellipsis {
+  display: inline-grid;
+  place-items: center;
+  inline-size: var(--strata-space-6);
+  block-size: var(--strata-space-6);
+  /* Optical: the dots sit as close to the separators as text does. */
+  margin-inline: calc(var(--strata-space-1) * -1);
+  padding: 0;
+  border: 0;
+  border-radius: var(--strata-radius-badge);
+  background-color: transparent;
+  color: var(--strata-color-text-subtle);
+  font: inherit;
+  outline: none;
+}
+
+.ellipsis[data-hovered] {
+  background-color: color-mix(in oklab, var(--strata-color-text-default) 6%, transparent);
+  color: var(--strata-color-text-default);
+}
+
+.ellipsis[data-focus-visible] {
+  outline: 2px solid var(--strata-color-focus-ring);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .link,
+  .ellipsis {
+    transition-property: background-color, color;
+    transition-duration: var(--strata-motion-duration-fast);
+    transition-timing-function: var(--strata-motion-easing);
+  }
+}

@@ -1,0 +1,298 @@
+/*
+ * Toast region + stacked toasts.
+ *
+ * All toasts share one grid cell. Collapsed, older toasts sit behind the newest, shifted by a small
+ * peek and scaled down, clipped to the front toast's height. Hovered or keyboard-focused, the stack
+ * fans out to real positions using heights measured in JS (--_offset, --_self-h).
+ *   --_sign  −1 when older toasts stack upward (bottom placements), +1 downward (top placements)
+ */
+
+.region {
+  --_gap: var(--strata-space-3);
+  --_peek: var(--strata-space-3);
+  --_sign: -1;
+  --_enter: 1;
+  /* 16px on phones, 24px from ~600px up (percentages resolve against the viewport for a fixed box). */
+  --_edge: clamp(var(--strata-space-4), 4%, var(--strata-space-6));
+  --_width: calc(var(--strata-space-16) * 5.5);
+
+  position: fixed;
+  z-index: 9999;
+  inset-block-end: var(--_edge);
+  inset-inline-end: var(--_edge);
+  box-sizing: border-box;
+  display: grid;
+  inline-size: min(var(--_width), calc(100% - var(--_edge) * 2));
+  color: var(--strata-color-text-default);
+  font-family: var(--strata-font-body);
+  font-size: var(--strata-font-size-sm);
+  line-height: var(--strata-line-height-normal);
+  text-align: start;
+  outline: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.region :where(*, *::before, *::after) {
+  box-sizing: border-box;
+}
+
+.region[data-placement='bottom-start'] {
+  inset-inline: var(--_edge) auto;
+}
+
+.region[data-placement='bottom'],
+.region[data-placement='top'] {
+  inset-inline: 0;
+  margin-inline: auto;
+}
+
+.region[data-placement^='top'] {
+  --_sign: 1;
+  --_enter: -1;
+
+  inset-block: var(--_edge) auto;
+}
+
+.region[data-placement='top-start'] {
+  inset-inline: var(--_edge) auto;
+}
+
+.region[data-focus-visible] {
+  outline: 2px solid var(--strata-color-focus-ring);
+  outline-offset: 2px;
+  border-radius: var(--strata-radius-container);
+}
+
+/* ---- toast ------------------------------------------------------------- */
+
+.toast {
+  position: relative;
+  grid-area: 1 / 1;
+  align-self: end;
+  inline-size: 100%;
+  border: 1px solid var(--strata-color-border-default);
+  border-radius: var(--strata-radius-container);
+  background-color: var(--strata-color-surface-raised);
+  box-shadow: var(--strata-shadow-overlay);
+  color: var(--strata-color-text-default);
+  outline: none;
+  /* Collapsed: peek out behind the newer toasts, a little smaller each step back. */
+  translate: 0 calc(var(--_index) * var(--_peek) * var(--_sign));
+  scale: calc(1 - var(--_index) * 0.05);
+  transform-origin: 50% 0;
+}
+
+.region[data-placement^='top'] .toast {
+  align-self: start;
+  transform-origin: 50% 100%;
+}
+
+.toast[data-focus-visible] {
+  outline: 2px solid var(--strata-color-focus-ring);
+  outline-offset: 2px;
+}
+
+/* Bridges the gap between fanned-out toasts so the pointer never "leaves" the stack between them. */
+.toast::after {
+  position: absolute;
+  inset-inline: 0;
+  inset-block-start: 100%;
+  block-size: var(--_gap);
+  content: '';
+}
+
+.region[data-placement^='top'] .toast::after {
+  inset-block: auto 100%;
+}
+
+.toast:not([data-front]):not([data-exiting]) {
+  block-size: var(--_front-h, auto);
+  overflow: hidden;
+}
+
+.toast:not([data-front]):not([data-exiting]) > .inner {
+  opacity: 0;
+}
+
+/* Expanded: hover or keyboard focus fans the stack out. (After the collapsed rules: same specificity.) */
+.region:is([data-hovered], :has(:focus-visible)) .toast {
+  translate: 0 calc((var(--_offset) + var(--_index) * var(--_gap)) * var(--_sign));
+  scale: 1;
+  block-size: var(--_self-h, auto);
+}
+
+.region:is([data-hovered], :has(:focus-visible)) .toast > .inner {
+  opacity: 1;
+}
+
+/* ---- content ----------------------------------------------------------- */
+
+.inner {
+  --_line: calc(var(--strata-font-size-md) * var(--strata-line-height-snug));
+
+  display: flex;
+  align-items: flex-start;
+  gap: var(--strata-space-3);
+  padding-block: var(--strata-space-4);
+  padding-inline: var(--strata-space-4) var(--strata-space-3);
+}
+
+.icon {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  block-size: var(--_line);
+}
+
+.icon > svg {
+  inline-size: calc(var(--strata-font-size-md) * 1.2);
+  block-size: calc(var(--strata-font-size-md) * 1.2);
+}
+
+.toast[data-tone='info'] .icon {
+  color: var(--strata-color-feedback-info-fg);
+}
+.toast[data-tone='success'] .icon {
+  color: var(--strata-color-feedback-success-fg);
+}
+.toast[data-tone='warning'] .icon {
+  color: var(--strata-color-feedback-warning-fg);
+}
+.toast[data-tone='danger'] .icon {
+  color: var(--strata-color-feedback-danger-fg);
+}
+
+.content {
+  display: grid;
+  flex: 1 1 0;
+  gap: calc(var(--strata-space-1) * 0.5);
+  min-inline-size: 0;
+}
+
+.title {
+  display: block;
+  color: var(--strata-color-text-default);
+  font-size: var(--strata-font-size-md);
+  font-weight: var(--strata-font-weight-semibold);
+  line-height: var(--strata-line-height-snug);
+  overflow-wrap: anywhere;
+}
+
+.description {
+  display: block;
+  color: var(--strata-color-text-subtle);
+  font-size: var(--strata-font-size-sm);
+  line-height: var(--strata-line-height-normal);
+  overflow-wrap: anywhere;
+  text-wrap: pretty;
+}
+
+.action {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  align-self: center;
+  justify-content: center;
+  min-block-size: calc(var(--strata-space-6) + var(--strata-space-1));
+  margin: 0;
+  padding-block: 0;
+  padding-inline: var(--strata-space-3);
+  border: 1px solid color-mix(in oklab, var(--strata-color-action-secondary-fg) 18%, transparent);
+  border-radius: var(--strata-radius-button);
+  background-color: var(--strata-color-action-secondary-bg);
+  color: var(--strata-color-action-secondary-fg);
+  font-family: inherit;
+  font-size: var(--strata-font-size-sm);
+  font-weight: var(--strata-font-weight-semibold);
+  line-height: 1;
+  white-space: nowrap;
+  cursor: default;
+  outline: none;
+}
+
+.action[data-hovered] {
+  background-color: var(--strata-color-action-secondary-hover);
+}
+
+.action[data-pressed] {
+  background-color: var(--strata-color-action-secondary-pressed);
+}
+
+/* 24px hit target (WCAG 2.5.8), centred on the title's first line. */
+.close {
+  display: inline-grid;
+  flex: none;
+  place-items: center;
+  inline-size: var(--strata-space-6);
+  block-size: var(--strata-space-6);
+  margin-block: calc((var(--_line) - var(--strata-space-6)) / 2);
+  margin-inline: 0;
+  padding: 0;
+  border: 0;
+  border-radius: min(var(--strata-radius-button), var(--strata-space-2));
+  background-color: transparent;
+  color: var(--strata-color-text-subtle);
+  cursor: default;
+  outline: none;
+}
+
+.close > svg {
+  inline-size: var(--strata-space-4);
+  block-size: var(--strata-space-4);
+}
+
+.close[data-hovered] {
+  background-color: color-mix(in oklab, var(--strata-color-text-default) 6%, transparent);
+  color: var(--strata-color-text-default);
+}
+
+.close[data-pressed] {
+  background-color: color-mix(in oklab, var(--strata-color-text-default) 10%, transparent);
+}
+
+.action[data-focus-visible],
+.close[data-focus-visible] {
+  outline: 2px solid var(--strata-color-focus-ring);
+  outline-offset: 2px;
+}
+
+/* ---- motion ------------------------------------------------------------ */
+
+@media (prefers-reduced-motion: no-preference) {
+  .toast {
+    animation: strata-toast-in calc(var(--strata-motion-duration-normal) * 2) var(--strata-motion-easing);
+    transition:
+      translate calc(var(--strata-motion-duration-normal) * 2) var(--strata-motion-easing),
+      scale calc(var(--strata-motion-duration-normal) * 2) var(--strata-motion-easing),
+      block-size calc(var(--strata-motion-duration-normal) * 2) var(--strata-motion-easing);
+  }
+
+  .toast > .inner {
+    transition: opacity var(--strata-motion-duration-normal) var(--strata-motion-easing);
+  }
+
+  .toast[data-exiting] {
+    animation: strata-toast-out var(--strata-motion-duration-normal) var(--strata-motion-easing) forwards;
+    pointer-events: none;
+  }
+
+  .close,
+  .action {
+    transition: background-color var(--strata-motion-duration-fast) var(--strata-motion-easing);
+  }
+}
+
+@keyframes strata-toast-in {
+  from {
+    opacity: 0;
+    transform: translateY(calc(var(--_enter) * (100% + var(--_edge))));
+  }
+}
+
+@keyframes strata-toast-out {
+  to {
+    opacity: 0;
+    transform: translateY(calc(var(--_enter) * 30%)) scale(0.97);
+  }
+}

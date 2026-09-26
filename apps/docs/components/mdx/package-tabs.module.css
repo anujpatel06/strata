@@ -1,0 +1,47 @@
+.root {
+  min-inline-size: 0;
+  overflow: hidden;
+  border: 1px solid var(--strata-color-border-subtle);
+  border-radius: var(--strata-radius-container);
+  background: var(--strata-color-surface-default);
+}
+
+.tabs.tabs {
+  display: block;
+  gap: 0;
+}
+
+.bar {
+  display: flex;
+  align-items: center;
+  gap: var(--strata-space-2);
+  block-size: calc(var(--strata-space-10) + var(--strata-space-1));
+  padding-inline: var(--strata-space-4) var(--strata-space-1);
+  border-block-end: 1px solid var(--strata-color-border-subtle);
+}
+
+.icon {
+  color: var(--strata-color-text-subtle);
+}
+
+.list.list[data-orientation] {
+  flex: 1;
+  min-inline-size: 0;
+  gap: var(--strata-space-1);
+  border: 0;
+  box-shadow: none;
+  align-self: stretch;
+}
+
+.tab.tab {
+  font-family: var(--strata-font-mono);
+  font-size: var(--strata-font-size-xs);
+  padding-inline: var(--strata-space-2);
+  min-block-size: 0;
+  block-size: 100%;
+}
+
+.panel.panel {
+  padding: 0;
+  margin: 0;
+}

@@ -1,0 +1,62 @@
+Strata is a design system for products that ship under many brands. One React library renders every brand — light and dark, comfortable and compact, left-to-right and right-to-left — and a brand is a JSON file, never a fork.
+
+<TenantGrid />
+
+Three fictional tenants in three industries run the same components. Vela is a neobank, Harbor an insurer, Qamar a grocery and loyalty app in Arabic. They differ by tokens and copy only: the cards above are the same markup inside three `ThemeScope`s.
+
+## Why multi-brand
+
+White-label products run one codebase under many client brands. The usual failure is slow: a brand gets a few overrides, then a forked component, then its own release train. Strata removes the reason to fork. Six brand inputs go through a theme engine that produces every token, checks every contrast pair against WCAG 2.2 AA, and explains each change it makes in plain English.
+
+## Principles
+
+1. **Tokens are the API.** Components read semantic tokens only, never primitives.
+2. **A brand is data, not code.** A new tenant is one JSON file and zero component changes.
+3. **Accessible by construction.** A theme that fails WCAG 2.2 AA can't be generated or exported.
+4. **Logical properties only.** Right-to-left works from the first line, not as a retrofit.
+5. **Design and code parity.** Every Figma component property maps to a React prop.
+6. **One source for humans and agents.** Docs, the registry and the MCP server read the same `meta.json`.
+7. **Make the right thing the easy thing.** Every finding names the exact token or component to use.
+
+## What’s in the box
+
+<Table aria-label="Packages">
+  <thead>
+    <tr>
+      <th scope="col">Part</th>
+      <th scope="col">What it does</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>`@strata/theme-engine`</td>
+      <td>Brand inputs → a full theme: OKLCH ramps, semantic roles for light and dark, a contrast solver, and exporters for CSS, DTCG, Figma variables and shadcn/ui. No runtime dependencies.</td>
+    </tr>
+    <tr>
+      <td>`@strata/tokens`</td>
+      <td>The built token files for every tenant.</td>
+    </tr>
+    <tr>
+      <td>`@strata/react`</td>
+      <td>Components on React Aria Components, styled with CSS Modules and tokens only.</td>
+    </tr>
+    <tr>
+      <td>Registry</td>
+      <td>Every component, tenant token file and theme as a shadcn registry item.</td>
+    </tr>
+    <tr>
+      <td>This site</td>
+      <td>Themed by the same engine: the chrome is the monochrome house brand, and every preview is a `ThemeScope` you can switch between tenants.</td>
+    </tr>
+  </tbody>
+</Table>
+
+## Status
+
+Strata is built in phases. Phase 1 — tokens, the theme engine and the Brand Generator — shipped as v0.1. Phase 2, the component library, is in progress; component pages mark each one alpha, beta or stable. See the [changelog](/docs/changelog).
+
+## Next steps
+
+- [Install Strata](/docs/installation) with the shadcn CLI or npm.
+- Learn how [theming](/docs/theming) works, from six inputs to 48 colour roles.
+- Browse the [components](/docs/components).

@@ -1,0 +1,149 @@
+{
+  "name": "sheet",
+  "title": "Sheet",
+  "description": "A modal panel that slides in from an edge of the viewport, for filters, details and secondary tasks that keep the page in context.",
+  "category": "overlays",
+  "maturity": "beta",
+  "exports": [
+    "Sheet"
+  ],
+  "files": [
+    "sheet.tsx",
+    "sheet.module.css"
+  ],
+  "dependencies": [
+    "react-aria-components",
+    "@tabler/icons-react"
+  ],
+  "registryDependencies": [
+    "button"
+  ],
+  "reactAria": "https://react-spectrum.adobe.com/react-aria/Modal.html",
+  "usage": "import { Button, DialogTrigger, Sheet } from '@strata/react';\n\nexport function Filters() {\n  return (\n    <DialogTrigger>\n      <Button variant=\"outline\">Filters</Button>\n      <Sheet side=\"end\" title=\"Filters\" footer={({ close }) => <Button onPress={close}>Show results</Button>}>\n        {/* fields */}\n      </Sheet>\n    </DialogTrigger>\n  );\n}",
+  "examples": [
+    {
+      "name": "sheet-demo",
+      "title": "Filters panel",
+      "description": "Fields in a scrollable body with actions pinned to the bottom."
+    },
+    {
+      "name": "sheet-sides",
+      "title": "Sides",
+      "description": "start, end, top and bottom. start and end are logical and swap in right-to-left layouts."
+    }
+  ],
+  "props": [
+    {
+      "component": "Sheet",
+      "name": "side",
+      "type": "'start' | 'end' | 'top' | 'bottom'",
+      "default": "'end'",
+      "description": "Edge the panel is attached to. end is the right edge in LTR and the left edge in RTL."
+    },
+    {
+      "component": "Sheet",
+      "name": "title",
+      "type": "ReactNode",
+      "required": true,
+      "description": "Heading; also the panel's accessible name."
+    },
+    {
+      "component": "Sheet",
+      "name": "description",
+      "type": "ReactNode",
+      "description": "Supporting text under the title."
+    },
+    {
+      "component": "Sheet",
+      "name": "children",
+      "type": "ReactNode | (({ close }) => ReactNode)",
+      "description": "Panel content; scrolls independently of the header and footer."
+    },
+    {
+      "component": "Sheet",
+      "name": "footer",
+      "type": "ReactNode | (({ close }) => ReactNode)",
+      "description": "Actions pinned to the bottom of the panel."
+    },
+    {
+      "component": "Sheet",
+      "name": "isDismissable",
+      "type": "boolean",
+      "default": "true",
+      "description": "Whether clicking the backdrop closes the sheet."
+    },
+    {
+      "component": "Sheet",
+      "name": "isKeyboardDismissDisabled",
+      "type": "boolean",
+      "default": "false",
+      "description": "Whether Escape is ignored."
+    },
+    {
+      "component": "Sheet",
+      "name": "isOpen / defaultOpen / onOpenChange",
+      "type": "boolean / boolean / (isOpen: boolean) => void",
+      "description": "Open state when not inside a DialogTrigger."
+    },
+    {
+      "component": "Sheet",
+      "name": "className / style",
+      "type": "string / CSSProperties",
+      "description": "Applied to the panel, e.g. to change its width."
+    }
+  ],
+  "accessibility": {
+    "keyboard": [
+      {
+        "keys": "Enter / Space",
+        "action": "On the trigger: opens the sheet and moves focus into it."
+      },
+      {
+        "keys": "Tab / Shift+Tab",
+        "action": "Moves between focusable elements; focus is trapped inside the sheet."
+      },
+      {
+        "keys": "Escape",
+        "action": "Closes the sheet and returns focus to the trigger."
+      }
+    ],
+    "notes": [
+      "A modal dialog (role=\"dialog\") named by its title; the page behind is inert while it is open.",
+      "The slide animation respects prefers-reduced-motion.",
+      "Overlays render in a portal on <body>, outside any ThemeScope. When it opens, the overlay copies data-strata-theme, data-strata-scheme and data-strata-density from the nearest [data-strata-theme] ancestor of its trigger (or of where the component is rendered, when controlled), plus dir and lang, onto its own root — so it uses the same tenant tokens and direction as the page region it came from, and nested overlays inherit from their parent overlay.",
+      "Right-to-left: set dir on the scope for layout, and wrap the app in React Aria's I18nProvider with an RTL locale so keyboard arrows and start/end placement flip too."
+    ]
+  },
+  "guidelines": {
+    "do": [
+      "Use end for detail and filter panels, bottom for short mobile actions.",
+      "Keep the primary action in the footer so it stays visible while the body scrolls."
+    ],
+    "dont": [
+      "Don't use a sheet for navigation that should stay visible — use a persistent sidebar.",
+      "Don't stack sheets."
+    ]
+  },
+  "tokens": [
+    "color.surface.raised",
+    "color.border.default",
+    "shadow.overlay",
+    "radius.container",
+    "font.body",
+    "font.size.md",
+    "color.text.default",
+    "color.text.subtle",
+    "motion.duration.fast",
+    "motion.duration.normal",
+    "motion.easing",
+    "color.surface.inverse (light backdrop)",
+    "color.surface.canvas (dark backdrop)",
+    "font.heading",
+    "font.size.lg",
+    "font.size.sm",
+    "card-inset",
+    "field-gap",
+    "control-height",
+    "space.16"
+  ]
+}

@@ -1,0 +1,243 @@
+/* Calendar + RangeCalendar. Cells follow density: 36px comfortable, 32px compact (never below the 24px hit target). */
+.calendar {
+  --calendar-cell: max(calc(var(--strata-control-height) - var(--strata-space-1)), var(--strata-space-8));
+  --calendar-cell-radius: var(--strata-radius-button);
+  box-sizing: border-box;
+  display: inline-flex;
+  flex-direction: column;
+  gap: var(--strata-space-3);
+  inline-size: max-content;
+  max-inline-size: 100%;
+  padding: var(--strata-space-3);
+  color: var(--strata-color-text-default);
+  font-family: var(--strata-font-body);
+  font-size: var(--strata-font-size-md);
+  line-height: var(--strata-line-height-normal);
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: var(--strata-space-2);
+}
+
+.heading {
+  flex: 1;
+  margin: 0;
+  text-align: center;
+  font-family: var(--strata-font-heading);
+  font-size: var(--strata-font-size-md);
+  font-weight: var(--strata-font-weight-semibold);
+  letter-spacing: var(--strata-font-heading-tracking);
+  line-height: var(--strata-line-height-tight);
+  color: var(--strata-color-text-default);
+}
+
+.navButton {
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  inline-size: calc(var(--strata-control-height) - var(--strata-space-2));
+  block-size: calc(var(--strata-control-height) - var(--strata-space-2));
+  min-inline-size: var(--strata-space-6);
+  min-block-size: var(--strata-space-6);
+  padding: 0;
+  border: 1px solid var(--strata-color-border-default);
+  border-radius: min(var(--strata-radius-button), var(--strata-space-2));
+  background: transparent;
+  color: var(--strata-color-text-subtle);
+  cursor: default;
+  outline: none;
+}
+.navButton[data-hovered] {
+  background: color-mix(in oklab, var(--strata-color-text-default) 6%, transparent);
+  color: var(--strata-color-text-default);
+}
+.navButton[data-pressed] {
+  background: color-mix(in oklab, var(--strata-color-text-default) 10%, transparent);
+}
+.navButton[data-focus-visible] {
+  outline: 2px solid var(--strata-color-focus-ring);
+  outline-offset: 2px;
+}
+.navButton[data-disabled] {
+  color: var(--strata-color-text-disabled);
+  border-color: var(--strata-color-border-subtle);
+  background: transparent;
+}
+.navIcon {
+  inline-size: 1.15em;
+  block-size: 1.15em;
+  stroke-width: 2;
+}
+.navIcon:dir(rtl) {
+  scale: -1 1;
+}
+
+.months {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: var(--strata-space-6);
+}
+
+.grid {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+.grid td {
+  padding: 0;
+}
+/* Space between week rows; range bands stay continuous along a row. */
+.grid tbody tr + tr td {
+  padding-block-start: var(--strata-space-1);
+}
+
+.weekday {
+  inline-size: var(--calendar-cell);
+  padding: 0;
+  padding-block-end: var(--strata-space-2);
+  color: var(--strata-color-text-subtle);
+  font-size: var(--strata-font-size-sm);
+  font-weight: var(--strata-font-weight-regular);
+  line-height: var(--strata-line-height-tight);
+  text-align: center;
+}
+
+.cell {
+  position: relative;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: var(--calendar-cell);
+  block-size: var(--calendar-cell);
+  border-radius: var(--calendar-cell-radius);
+  color: var(--strata-color-text-default);
+  font-size: var(--strata-font-size-md);
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+  cursor: default;
+  outline: none;
+  forced-color-adjust: none;
+}
+.cell[data-hovered]:not([data-selected]):not([data-disabled]):not([data-unavailable]) {
+  background: color-mix(in oklab, var(--strata-color-text-default) 6%, transparent);
+}
+.cell[data-pressed]:not([data-selected]) {
+  background: color-mix(in oklab, var(--strata-color-text-default) 10%, transparent);
+}
+.cell[data-focus-visible] {
+  z-index: 1;
+  outline: 2px solid var(--strata-color-focus-ring);
+  outline-offset: 2px;
+}
+
+/* Today: a small dot under the number. */
+.cell[data-today]::after {
+  content: '';
+  position: absolute;
+  inset-block-end: calc(var(--strata-space-1) / 2);
+  inset-inline: 0;
+  margin-inline: auto;
+  inline-size: var(--strata-space-1);
+  block-size: var(--strata-space-1);
+  border-radius: var(--strata-radius-pill);
+  background: var(--strata-color-action-primary-bg);
+}
+.cell[data-today] {
+  font-weight: var(--strata-font-weight-semibold);
+}
+
+/* Single selection, and the two ends of a range. */
+.cell[data-selected] {
+  background: var(--strata-color-action-primary-bg);
+  color: var(--strata-color-action-primary-fg);
+  font-weight: var(--strata-font-weight-medium);
+}
+.cell[data-selected][data-hovered] {
+  background: var(--strata-color-action-primary-hover);
+}
+.cell[data-selected][data-today]::after {
+  background: var(--strata-color-action-primary-fg);
+}
+
+/* Range: the middle is a quiet band; the ends are solid and join the band. */
+.range .cell[data-selected]:not([data-selection-start]):not([data-selection-end]) {
+  border-radius: 0;
+  background: var(--strata-color-surface-selected);
+  color: var(--strata-color-text-default);
+}
+.range .cell[data-selected]:not([data-selection-start]):not([data-selection-end])[data-today]::after {
+  background: var(--strata-color-action-primary-bg);
+}
+.range .cell[data-selection-start]:not([data-selection-end]) {
+  border-start-end-radius: 0;
+  border-end-end-radius: 0;
+}
+.range .cell[data-selection-end]:not([data-selection-start]) {
+  border-start-start-radius: 0;
+  border-end-start-radius: 0;
+}
+/* Round the band where it wraps at the ends of a week row (more specific than the middle-band rule). */
+.range .grid td:first-child > .cell[data-selected] {
+  border-start-start-radius: var(--calendar-cell-radius);
+  border-end-start-radius: var(--calendar-cell-radius);
+}
+.range .grid td:last-child > .cell[data-selected] {
+  border-start-end-radius: var(--calendar-cell-radius);
+  border-end-end-radius: var(--calendar-cell-radius);
+}
+
+/* Days that belong to the neighbouring months: visible for orientation, not interactive. */
+.cell[data-outside-month] {
+  color: var(--strata-color-text-disabled);
+  background: transparent;
+  pointer-events: none;
+}
+.cell[data-outside-month]::after {
+  display: none;
+}
+
+/* Outside min/max, or the whole calendar disabled: muted, not focusable. */
+.cell[data-disabled]:not([data-outside-month]) {
+  color: var(--strata-color-text-disabled);
+  pointer-events: none;
+}
+/* Unavailable days (isDateUnavailable) stay focusable, so they keep readable contrast and are struck through
+   — the strike, not colour alone, says "can't pick this". */
+.cell[data-unavailable]:not([data-disabled]):not([data-outside-month]) {
+  color: var(--strata-color-text-subtle);
+  text-decoration: line-through;
+}
+
+.calendar[data-disabled] .heading {
+  color: var(--strata-color-text-disabled);
+}
+
+.cell[data-invalid][data-selected] {
+  background: var(--strata-color-feedback-danger-solid);
+  color: var(--strata-color-feedback-danger-on-solid);
+}
+.range .cell[data-invalid][data-selected]:not([data-selection-start]):not([data-selection-end]) {
+  background: var(--strata-color-feedback-danger-bg);
+  color: var(--strata-color-feedback-danger-fg);
+}
+
+.error {
+  max-inline-size: calc(var(--calendar-cell) * 7);
+  color: var(--strata-color-feedback-danger-fg);
+  font-size: var(--strata-font-size-sm);
+  line-height: var(--strata-line-height-snug);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .cell,
+  .navButton {
+    transition:
+      background-color var(--strata-motion-duration-fast) var(--strata-motion-easing),
+      color var(--strata-motion-duration-fast) var(--strata-motion-easing);
+  }
+}

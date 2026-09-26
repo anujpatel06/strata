@@ -1,0 +1,158 @@
+{
+  "name": "search-field",
+  "title": "Search Field",
+  "description": "A search input with a leading icon and a clear button; Escape clears and Enter submits.",
+  "category": "inputs",
+  "maturity": "beta",
+  "exports": [
+    "SearchField"
+  ],
+  "files": [
+    "search-field.tsx",
+    "search-field.module.css"
+  ],
+  "dependencies": [
+    "react-aria-components",
+    "@tabler/icons-react"
+  ],
+  "registryDependencies": [
+    "text-field"
+  ],
+  "reactAria": "https://react-spectrum.adobe.com/react-aria/SearchField.html",
+  "usage": "import { SearchField } from '@strata/react';\n\nexport function Search() {\n  return <SearchField aria-label=\"Search transactions\" placeholder=\"Search transactions\" onSubmit={(q) => search(q)} />;\n}",
+  "examples": [
+    {
+      "name": "search-field-demo",
+      "title": "Search field",
+      "description": "Named with aria-label when the context makes the purpose obvious."
+    },
+    {
+      "name": "search-field-with-label",
+      "title": "With label and description"
+    },
+    {
+      "name": "search-field-in-toolbar",
+      "title": "In a toolbar",
+      "description": "Same height as buttons at every density."
+    }
+  ],
+  "props": [
+    {
+      "component": "SearchField",
+      "name": "label",
+      "type": "ReactNode",
+      "description": "Visible label. Optional; without it, aria-label or aria-labelledby is required (enforced by the type)."
+    },
+    {
+      "component": "SearchField",
+      "name": "aria-label",
+      "type": "string",
+      "description": "Accessible name when there is no visible label."
+    },
+    {
+      "component": "SearchField",
+      "name": "description",
+      "type": "ReactNode",
+      "description": "Help text, linked with aria-describedby."
+    },
+    {
+      "component": "SearchField",
+      "name": "errorMessage",
+      "type": "string | ((validation: ValidationResult) => string)",
+      "description": "Shown with an icon when invalid."
+    },
+    {
+      "component": "SearchField",
+      "name": "placeholder",
+      "type": "string",
+      "description": "Hint text, e.g. what can be searched."
+    },
+    {
+      "component": "SearchField",
+      "name": "value / defaultValue",
+      "type": "string",
+      "description": "Controlled / uncontrolled value."
+    },
+    {
+      "component": "SearchField",
+      "name": "onChange",
+      "type": "(value: string) => void",
+      "description": "Called on every edit."
+    },
+    {
+      "component": "SearchField",
+      "name": "onSubmit",
+      "type": "(value: string) => void",
+      "description": "Called on Enter."
+    },
+    {
+      "component": "SearchField",
+      "name": "onClear",
+      "type": "() => void",
+      "description": "Called when cleared with Escape or the clear button."
+    },
+    {
+      "component": "SearchField",
+      "name": "clearLabel",
+      "type": "string",
+      "description": "Accessible name of the clear button. Defaults to React Aria's localized \"Clear search\"."
+    },
+    {
+      "component": "SearchField",
+      "name": "isDisabled",
+      "type": "boolean",
+      "default": "false",
+      "description": "Disables the field."
+    },
+    {
+      "component": "SearchField",
+      "name": "inputRef",
+      "type": "Ref<HTMLInputElement>",
+      "description": "Ref to the underlying input."
+    }
+  ],
+  "accessibility": {
+    "keyboard": [
+      {
+        "keys": "Enter",
+        "action": "Calls onSubmit."
+      },
+      {
+        "keys": "Escape",
+        "action": "Clears the field (focus stays in the input)."
+      },
+      {
+        "keys": "Tab",
+        "action": "Moves focus to the input; the clear button is not a tab stop."
+      }
+    ],
+    "notes": [
+      "The input has role searchbox.",
+      "The clear button is hidden while the field is empty but keeps its space, so text never shifts.",
+      "The search icon is decorative (aria-hidden)."
+    ]
+  },
+  "guidelines": {
+    "do": [
+      "Say what can be searched in the placeholder or label.",
+      "Use aria-label only when a visible label would be redundant, e.g. a search above a table."
+    ],
+    "dont": [
+      "Don't hide results behind Enter when filtering a short list; filter on change.",
+      "Don't put other buttons inside the field; place them beside it."
+    ]
+  },
+  "tokens": [
+    "color.surface.default",
+    "color.border.strong",
+    "color.text.subtle",
+    "color.text.default",
+    "color.focus.ring",
+    "radius.field",
+    "control-height",
+    "control-padding-inline",
+    "space.2",
+    "space.4",
+    "space.6"
+  ]
+}

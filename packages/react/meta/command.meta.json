@@ -1,0 +1,216 @@
+{
+  "name": "command",
+  "title": "Command",
+  "description": "A ⌘K command palette: a modal search field that filters commands and destinations as you type.",
+  "category": "overlays",
+  "maturity": "beta",
+  "exports": [
+    "CommandDialog",
+    "CommandItem",
+    "CommandSection",
+    "useCommandShortcut"
+  ],
+  "files": [
+    "command.tsx",
+    "command.module.css"
+  ],
+  "dependencies": [
+    "react-aria-components",
+    "@tabler/icons-react"
+  ],
+  "registryDependencies": [],
+  "reactAria": "https://react-spectrum.adobe.com/react-aria/Autocomplete.html",
+  "usage": "import { useState } from 'react';\nimport { Button, CommandDialog, CommandItem, CommandSection, useCommandShortcut } from '@strata/react';\n\nexport function Search() {\n  const [isOpen, setOpen] = useState(false);\n  useCommandShortcut(() => setOpen(true));\n  return (\n    <>\n      <Button variant=\"outline\" onPress={() => setOpen(true)}>Search…</Button>\n      <CommandDialog isOpen={isOpen} onOpenChange={setOpen} placeholder=\"Search docs…\" onAction={(key) => navigate(`/components/${key}`)}>\n        <CommandSection title=\"Components\">\n          <CommandItem id=\"button\">Button</CommandItem>\n          <CommandItem id=\"dialog\" textValue=\"Dialog modal\">Dialog</CommandItem>\n        </CommandSection>\n      </CommandDialog>\n    </>\n  );\n}",
+  "examples": [
+    {
+      "name": "command-demo",
+      "title": "Command palette",
+      "description": "Opens from a button or ⌘K / Ctrl+K; sections, icons, descriptions and trailing meta."
+    },
+    {
+      "name": "command-dynamic",
+      "title": "Dynamic items",
+      "description": "Render results from an items array; textValue adds searchable keywords."
+    }
+  ],
+  "props": [
+    {
+      "component": "CommandDialog",
+      "name": "children / items",
+      "type": "ReactNode | (item) => ReactElement / Iterable<T>",
+      "required": true,
+      "description": "CommandSection and CommandItem elements, or a render function over items."
+    },
+    {
+      "component": "CommandDialog",
+      "name": "isOpen / defaultOpen / onOpenChange",
+      "type": "boolean / boolean / (isOpen: boolean) => void",
+      "description": "Open state. Omit when the palette is inside a DialogTrigger."
+    },
+    {
+      "component": "CommandDialog",
+      "name": "onAction",
+      "type": "(key: Key) => void",
+      "description": "Called with the chosen item's id on Enter or click; the palette then closes."
+    },
+    {
+      "component": "CommandDialog",
+      "name": "placeholder",
+      "type": "string",
+      "default": "'Type a command or search…'",
+      "description": "Placeholder of the search input."
+    },
+    {
+      "component": "CommandDialog",
+      "name": "aria-label",
+      "type": "string",
+      "default": "'Command menu'",
+      "description": "Accessible name of the palette and its input."
+    },
+    {
+      "component": "CommandDialog",
+      "name": "filter",
+      "type": "(textValue: string, inputValue: string) => boolean",
+      "default": "case- and accent-insensitive contains",
+      "description": "Decides whether an item matches the query."
+    },
+    {
+      "component": "CommandDialog",
+      "name": "renderEmptyState",
+      "type": "(inputValue: string) => ReactNode",
+      "default": "No results for “…”",
+      "description": "Shown when nothing matches."
+    },
+    {
+      "component": "CommandDialog",
+      "name": "footer",
+      "type": "ReactNode",
+      "description": "Replaces the keyboard hint row; null hides it."
+    },
+    {
+      "component": "CommandDialog",
+      "name": "className / style",
+      "type": "string / CSSProperties",
+      "description": "Applied to the palette panel."
+    },
+    {
+      "component": "CommandSection",
+      "name": "title",
+      "type": "ReactNode",
+      "description": "Group heading. Sections with no matching items are hidden."
+    },
+    {
+      "component": "CommandItem",
+      "name": "children",
+      "type": "ReactNode",
+      "required": true,
+      "description": "The result label."
+    },
+    {
+      "component": "CommandItem",
+      "name": "textValue",
+      "type": "string",
+      "description": "Text the query is matched against. Defaults to children when it is a string; add synonyms here."
+    },
+    {
+      "component": "CommandItem",
+      "name": "icon",
+      "type": "ReactNode",
+      "description": "Leading icon. Decorative."
+    },
+    {
+      "component": "CommandItem",
+      "name": "description",
+      "type": "ReactNode",
+      "description": "Second line under the label."
+    },
+    {
+      "component": "CommandItem",
+      "name": "meta",
+      "type": "ReactNode",
+      "description": "Short trailing text at the inline end, e.g. a category or shortcut."
+    },
+    {
+      "component": "useCommandShortcut",
+      "name": "onOpen",
+      "type": "() => void",
+      "required": true,
+      "description": "Called on ⌘K (macOS) or Ctrl+K anywhere on the page."
+    },
+    {
+      "component": "useCommandShortcut",
+      "name": "options",
+      "type": "{ key?: string; isDisabled?: boolean }",
+      "default": "{ key: 'k' }",
+      "description": "Bind another letter or turn the shortcut off."
+    }
+  ],
+  "accessibility": {
+    "keyboard": [
+      {
+        "keys": "⌘K / Ctrl+K",
+        "action": "Opens the palette (with useCommandShortcut)."
+      },
+      {
+        "keys": "Typing",
+        "action": "Filters the results; the first match becomes active."
+      },
+      {
+        "keys": "↑ / ↓",
+        "action": "Moves the active result while focus stays in the input."
+      },
+      {
+        "keys": "Enter",
+        "action": "Runs the active result and closes the palette."
+      },
+      {
+        "keys": "Escape",
+        "action": "Clears the query; a second Escape closes the palette and restores focus."
+      }
+    ],
+    "notes": [
+      "The input controls a role=\"menu\" list via aria-activedescendant (virtual focus), so screen readers announce the active result without focus leaving the input.",
+      "The dialog and input are named by aria-label.",
+      "Overlays render in a portal on <body>, outside any ThemeScope. When it opens, the overlay copies data-strata-theme, data-strata-scheme and data-strata-density from the nearest [data-strata-theme] ancestor of its trigger (or of where the component is rendered, when controlled), plus dir and lang, onto its own root — so it uses the same tenant tokens and direction as the page region it came from, and nested overlays inherit from their parent overlay."
+    ]
+  },
+  "guidelines": {
+    "do": [
+      "Group results into a few titled sections.",
+      "Put synonyms in textValue so people find items by the words they use.",
+      "Show the shortcut near the search button so people learn it."
+    ],
+    "dont": [
+      "Don't put hundreds of static items in it; filter on the server and pass items.",
+      "Don't use it as the only way to reach a page."
+    ]
+  },
+  "tokens": [
+    "color.surface.raised",
+    "color.border.default",
+    "shadow.overlay",
+    "radius.container",
+    "font.body",
+    "font.size.md",
+    "color.text.default",
+    "color.text.subtle",
+    "motion.duration.fast",
+    "motion.duration.normal",
+    "motion.easing",
+    "color.surface.inverse (light backdrop)",
+    "color.surface.canvas (dark backdrop)",
+    "color.border.subtle",
+    "color.surface.sunken",
+    "control-height",
+    "radius.button",
+    "radius.badge",
+    "font.mono",
+    "font.size.xs",
+    "font.size.sm",
+    "space.1",
+    "space.2",
+    "space.4",
+    "space.5",
+    "space.16"
+  ]
+}

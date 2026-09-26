@@ -4,10 +4,13 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "gen:examples": "node scripts/gen-examples.mjs",
+    "predev": "node scripts/gen-examples.mjs",
     "dev": "next dev --port 3000",
+    "prebuild": "node scripts/gen-examples.mjs",
     "build": "next build",
     "start": "next start --port 3000",
-    "typecheck": "tsc -p tsconfig.json --noEmit"
+    "typecheck": "node scripts/gen-examples.mjs && tsc -p tsconfig.json --noEmit"
   },
   "dependencies": {
     "@internationalized/date": "^3.12.0",

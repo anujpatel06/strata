@@ -1,0 +1,184 @@
+{
+  "name": "radio-group",
+  "title": "Radio Group",
+  "description": "Picks exactly one option from a short list, as classic radios or as selectable cards with a title and description.",
+  "category": "inputs",
+  "maturity": "beta",
+  "exports": [
+    "RadioGroup",
+    "Radio"
+  ],
+  "files": [
+    "radio-group.tsx",
+    "radio-group.module.css"
+  ],
+  "dependencies": [
+    "react-aria-components"
+  ],
+  "registryDependencies": [
+    "text-field"
+  ],
+  "reactAria": "https://react-spectrum.adobe.com/react-aria/RadioGroup.html",
+  "usage": "import { Radio, RadioGroup } from '@strata/react';\n\nexport function Payout() {\n  return (\n    <RadioGroup variant=\"card\" label=\"How should we pay you?\" defaultValue=\"bank\">\n      <Radio value=\"bank\" description=\"1–2 working days. No fee.\">Bank transfer</Radio>\n      <Radio value=\"instant\" description=\"In minutes. 1% fee.\">Instant payout</Radio>\n    </RadioGroup>\n  );\n}",
+  "examples": [
+    {
+      "name": "radio-group-demo",
+      "title": "Radio group"
+    },
+    {
+      "name": "radio-group-cards",
+      "title": "Cards",
+      "description": "variant=\"card\": the whole card is the target; the description is linked, not part of the name."
+    },
+    {
+      "name": "radio-group-cards-horizontal",
+      "title": "Cards in a row",
+      "description": "Wraps to a column on narrow screens."
+    },
+    {
+      "name": "radio-group-horizontal",
+      "title": "Horizontal"
+    },
+    {
+      "name": "radio-group-states",
+      "title": "Invalid and disabled"
+    }
+  ],
+  "props": [
+    {
+      "component": "RadioGroup",
+      "name": "label",
+      "type": "ReactNode",
+      "description": "Group label. Without one, pass aria-label."
+    },
+    {
+      "component": "RadioGroup",
+      "name": "description",
+      "type": "ReactNode",
+      "description": "Help text under the group label."
+    },
+    {
+      "component": "RadioGroup",
+      "name": "errorMessage",
+      "type": "string | ((validation: ValidationResult) => string)",
+      "description": "Shown with an icon when invalid."
+    },
+    {
+      "component": "RadioGroup",
+      "name": "variant",
+      "type": "'default' | 'card'",
+      "default": "'default'",
+      "description": "card renders each Radio as a selectable card (title = children, plus description)."
+    },
+    {
+      "component": "RadioGroup",
+      "name": "orientation",
+      "type": "'horizontal' | 'vertical'",
+      "default": "'vertical'",
+      "description": "Layout. Horizontal cards share the row and wrap when narrow."
+    },
+    {
+      "component": "RadioGroup",
+      "name": "value / defaultValue",
+      "type": "string | null",
+      "description": "Controlled / uncontrolled selected value."
+    },
+    {
+      "component": "RadioGroup",
+      "name": "onChange",
+      "type": "(value: string) => void",
+      "description": "Called when the selection changes."
+    },
+    {
+      "component": "RadioGroup",
+      "name": "isRequired / isInvalid / isDisabled",
+      "type": "boolean",
+      "default": "false",
+      "description": "Validation and disabled state."
+    },
+    {
+      "component": "Radio",
+      "name": "value",
+      "type": "string",
+      "required": true,
+      "description": "Unique value of this option."
+    },
+    {
+      "component": "Radio",
+      "name": "children",
+      "type": "ReactNode",
+      "description": "The label (the card title in the card variant)."
+    },
+    {
+      "component": "Radio",
+      "name": "description",
+      "type": "ReactNode",
+      "description": "Secondary text, linked with aria-describedby."
+    },
+    {
+      "component": "Radio",
+      "name": "isDisabled",
+      "type": "boolean",
+      "default": "false",
+      "description": "Disables this option; arrow keys skip it."
+    }
+  ],
+  "accessibility": {
+    "keyboard": [
+      {
+        "keys": "Tab",
+        "action": "Moves focus to the selected radio (or the first), then out of the group."
+      },
+      {
+        "keys": "Arrow keys",
+        "action": "Move to and select the next/previous option, skipping disabled ones."
+      },
+      {
+        "keys": "Space",
+        "action": "Selects the focused radio if nothing is selected."
+      }
+    ],
+    "notes": [
+      "Uses native radio inputs inside a radiogroup.",
+      "In the card variant the label stretches over the card, so the whole card is clickable, and the focus ring is drawn around the card.",
+      "Selected cards get a 2px primary edge and a tinted fill, not colour alone."
+    ]
+  },
+  "guidelines": {
+    "do": [
+      "Use for 2–6 mutually exclusive options that should all be visible.",
+      "Use cards when each option needs a sentence of explanation (fees, timing).",
+      "Preselect a sensible default when there is one."
+    ],
+    "dont": [
+      "Don't use radios for more than about 7 options; use a Select.",
+      "Don't put interactive elements inside a card; the whole card is the target."
+    ]
+  },
+  "tokens": [
+    "color.surface.default",
+    "color.surface.sunken",
+    "color.border.strong",
+    "color.border.default",
+    "color.action.primary.bg",
+    "color.action.primary.hover",
+    "color.action.primary.fg",
+    "color.feedback.danger.solid",
+    "color.feedback.danger.onSolid",
+    "color.text.default",
+    "color.text.subtle",
+    "color.text.disabled",
+    "color.focus.ring",
+    "control-height",
+    "space.2",
+    "space.6",
+    "font.size.md",
+    "color.surface.selected",
+    "color.border.subtle",
+    "radius.field",
+    "space.3",
+    "space.4",
+    "font.weight.medium",
+    "font.size.sm"
+  ]
+}

@@ -1,0 +1,82 @@
+.spinner {
+  --_size: var(--strata-space-6);
+
+  box-sizing: border-box;
+  display: inline-flex;
+  flex: none;
+  inline-size: var(--_size);
+  block-size: var(--_size);
+  color: inherit;
+  vertical-align: middle;
+}
+
+.spinner[data-size='sm'] {
+  --_size: var(--strata-space-4);
+}
+
+.spinner[data-size='lg'] {
+  --_size: var(--strata-space-8);
+}
+
+.svg {
+  inline-size: 100%;
+  block-size: 100%;
+  overflow: visible;
+}
+
+.track,
+.arc {
+  stroke: currentColor;
+  /* viewBox units: 2.5px at md. */
+  stroke-width: 2.5;
+}
+
+.track {
+  opacity: 0.2;
+}
+
+/* A quarter arc (pathLength=100), starting at 12 o'clock. */
+.arc {
+  stroke-dasharray: 28 100;
+  stroke-linecap: round;
+  transform: rotate(-90deg);
+  transform-origin: center;
+}
+
+.spinner[data-size='sm'] .track,
+.spinner[data-size='sm'] .arc {
+  stroke-width: 3; /* 2px at 16px */
+}
+
+.spinner[data-size='lg'] .track,
+.spinner[data-size='lg'] .arc {
+  stroke-width: 2.25; /* 3px at 32px */
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .svg {
+    animation: strata-spinner-rotate calc(var(--strata-motion-duration-normal) * 4) linear infinite;
+  }
+}
+
+/* Reduced motion: no rotation; a slow fade keeps it from looking frozen. */
+@media (prefers-reduced-motion: reduce) {
+  .arc {
+    animation: strata-spinner-fade calc(var(--strata-motion-duration-normal) * 8) ease-in-out infinite alternate;
+  }
+}
+
+@keyframes strata-spinner-rotate {
+  to {
+    rotate: 1turn;
+  }
+}
+
+@keyframes strata-spinner-fade {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0.55;
+  }
+}

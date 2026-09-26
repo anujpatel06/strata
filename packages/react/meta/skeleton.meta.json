@@ -1,0 +1,101 @@
+{
+  "name": "skeleton",
+  "title": "Skeleton",
+  "description": "Placeholder shapes that stand in for content while it loads.",
+  "category": "feedback",
+  "maturity": "beta",
+  "exports": [
+    "Skeleton",
+    "SkeletonText"
+  ],
+  "files": [
+    "skeleton.tsx",
+    "skeleton.module.css"
+  ],
+  "dependencies": [],
+  "registryDependencies": [],
+  "usage": "import { Skeleton, SkeletonText } from '@strata/react';\n\nexport function LoadingRow() {\n  return (\n    <div aria-busy=\"true\">\n      <Skeleton circle inlineSize={40} />\n      <SkeletonText lines={2} />\n    </div>\n  );\n}",
+  "examples": [
+    {
+      "name": "skeleton-demo",
+      "title": "Skeleton",
+      "description": "An avatar and two lines."
+    },
+    {
+      "name": "skeleton-card",
+      "title": "Card",
+      "description": "A loading card, marked aria-busy."
+    },
+    {
+      "name": "skeleton-text",
+      "title": "Text",
+      "description": "SkeletonText follows the surrounding font size and line height."
+    }
+  ],
+  "props": [
+    {
+      "component": "Skeleton",
+      "name": "inlineSize",
+      "type": "number | string",
+      "default": "'100%'",
+      "description": "Width. Numbers are pixels; strings are any CSS length."
+    },
+    {
+      "component": "Skeleton",
+      "name": "blockSize",
+      "type": "number | string",
+      "default": "'1em'",
+      "description": "Height. Numbers are pixels; strings are any CSS length."
+    },
+    {
+      "component": "Skeleton",
+      "name": "radius",
+      "type": "'field' | 'container' | 'pill' | 'badge'",
+      "default": "'field'",
+      "description": "Corner radius from the theme's shape tokens."
+    },
+    {
+      "component": "Skeleton",
+      "name": "circle",
+      "type": "boolean",
+      "default": "false",
+      "description": "A circle; inlineSize sets the diameter (default 40px)."
+    },
+    {
+      "component": "SkeletonText",
+      "name": "lines",
+      "type": "number",
+      "default": "3",
+      "description": "Number of lines; the last one is 60% wide."
+    }
+  ],
+  "accessibility": {
+    "keyboard": [],
+    "notes": [
+      "Skeletons are aria-hidden. Put aria-busy=\"true\" on the loading region and announce completion if it matters.",
+      "The shimmer runs only under prefers-reduced-motion: no-preference and sweeps in the reading direction."
+    ]
+  },
+  "guidelines": {
+    "do": [
+      "Match the layout of the content that will replace it, so nothing jumps.",
+      "Use for loads longer than ~300ms."
+    ],
+    "dont": [
+      "Don't skeleton things that never load (labels, headings you already know).",
+      "Don't mix skeletons and spinners for the same content."
+    ]
+  },
+  "tokens": [
+    "color.text.default (8% tint)",
+    "color.surface.sunken",
+    "color.surface.default",
+    "radius.field",
+    "radius.container",
+    "radius.pill",
+    "radius.badge",
+    "space.10",
+    "motion.duration.normal",
+    "motion.easing"
+  ]
+}

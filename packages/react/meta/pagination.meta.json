@@ -1,0 +1,73 @@
+{
+  "name": "pagination",
+  "title": "Pagination",
+  "description": "Moves between pages of a long list or table.",
+  "category": "navigation",
+  "maturity": "beta",
+  "exports": ["Pagination"],
+  "files": ["pagination.tsx", "pagination.module.css"],
+  "dependencies": ["react-aria-components", "@tabler/icons-react"],
+  "registryDependencies": [],
+  "usage": "import { useState } from 'react';\nimport { Pagination } from '@strata/react';\n\nexport function Results() {\n  const [page, setPage] = useState(1);\n  return <Pagination page={page} pageCount={12} onPageChange={setPage} />;\n}",
+  "examples": [
+    { "name": "pagination-demo", "title": "Pagination", "description": "Previous, next, boundary pages and siblings around the current page." },
+    { "name": "pagination-compact", "title": "Compact", "description": "\"Page 3 of 12\" between previous and next, for tight spaces." },
+    { "name": "pagination-siblings", "title": "More siblings", "description": "siblingCount={2} shows two pages either side of the current one." }
+  ],
+  "props": [
+    { "component": "Pagination", "name": "page", "type": "number", "required": true, "description": "Current page, 1-based." },
+    { "component": "Pagination", "name": "pageCount", "type": "number", "required": true, "description": "Total number of pages." },
+    { "component": "Pagination", "name": "onPageChange", "type": "(page: number) => void", "description": "Called with the new page. Not called for the current page or past either end." },
+    { "component": "Pagination", "name": "siblingCount", "type": "number", "default": "1", "description": "Pages shown each side of the current page." },
+    { "component": "Pagination", "name": "boundaryCount", "type": "number", "default": "1", "description": "Pages always shown at the start and end." },
+    { "component": "Pagination", "name": "variant", "type": "'default' | 'compact'", "default": "'default'", "description": "compact shows \"Page 3 of 12\" instead of page buttons." },
+    { "component": "Pagination", "name": "label", "type": "string", "default": "'Pagination'", "description": "Name of the navigation landmark. Make it specific when a page has more than one." },
+    { "component": "Pagination", "name": "previousLabel", "type": "string", "default": "'Previous'", "description": "Previous button text; stays its accessible name when the text is hidden." },
+    { "component": "Pagination", "name": "nextLabel", "type": "string", "default": "'Next'", "description": "Next button text; stays its accessible name when the text is hidden." },
+    { "component": "Pagination", "name": "pageLabel", "type": "string", "default": "'Page'", "description": "Word used in page button names (\"Page 3\") and the compact summary." },
+    { "component": "Pagination", "name": "ofLabel", "type": "string", "default": "'of'", "description": "Word used in the compact summary (\"Page 3 of 12\")." },
+    { "component": "Pagination", "name": "isDisabled", "type": "boolean", "default": "false", "description": "Disables every button, e.g. while a page loads." }
+  ],
+  "accessibility": {
+    "keyboard": [
+      { "keys": "Tab / Shift+Tab", "action": "Moves between previous, page and next buttons." },
+      { "keys": "Enter / Space", "action": "Goes to the focused page." }
+    ],
+    "notes": [
+      "Renders <nav aria-label=\"Pagination\"> around a list of buttons.",
+      "The current page has aria-current=\"page\" and an outline, not only a colour change.",
+      "Page buttons are named \"Page 3\"; ellipses are hidden from assistive technology.",
+      "At the first or last page, previous/next keep focus and are marked aria-disabled instead of being removed from the tab order.",
+      "The compact summary is a polite live region, so page changes are announced.",
+      "Responds to its own width: labels hide below 520px and page buttons collapse to \"Page 3 of 12\" below 400px. Chevrons mirror in right-to-left layouts."
+    ]
+  },
+  "guidelines": {
+    "do": [
+      "Pair with a result count (\"Showing 1–10 of 48\") — DataTablePagination does this for tables.",
+      "Keep the page size stable while people page.",
+      "Reset to page 1 when filters change."
+    ],
+    "dont": [
+      "Don't paginate lists short enough to show in full.",
+      "Don't use for infinite feeds — load more on scroll instead.",
+      "Don't hide the current page number."
+    ]
+  },
+  "tokens": [
+    "color.text.default",
+    "color.text.subtle",
+    "color.text.disabled",
+    "color.surface.default",
+    "color.border.strong",
+    "color.border.default",
+    "color.focus.ring",
+    "radius.button",
+    "control-height",
+    "font.size.md",
+    "font.size.sm",
+    "font.weight.medium",
+    "motion.duration.fast",
+    "motion.easing"
+  ]
+}

@@ -1,0 +1,122 @@
+{
+  "name": "switch",
+  "title": "Switch",
+  "description": "Turns a setting on or off immediately, with its label on the inline-end side and optional help text.",
+  "category": "inputs",
+  "maturity": "beta",
+  "exports": [
+    "Switch"
+  ],
+  "files": [
+    "switch.tsx",
+    "switch.module.css"
+  ],
+  "dependencies": [
+    "react-aria-components"
+  ],
+  "registryDependencies": [
+    "text-field"
+  ],
+  "reactAria": "https://react-spectrum.adobe.com/react-aria/Switch.html",
+  "usage": "import { Switch } from '@strata/react';\n\nexport function Alerts() {\n  return (\n    <Switch defaultSelected description=\"Get a notification for every card payment.\">\n      Payment alerts\n    </Switch>\n  );\n}",
+  "examples": [
+    {
+      "name": "switch-demo",
+      "title": "Switch"
+    },
+    {
+      "name": "switch-settings",
+      "title": "Settings list",
+      "description": "Label plus description, linked with aria-describedby."
+    },
+    {
+      "name": "switch-states",
+      "title": "Controlled and disabled"
+    }
+  ],
+  "props": [
+    {
+      "component": "Switch",
+      "name": "children",
+      "type": "ReactNode",
+      "description": "The label. Without one, pass aria-label."
+    },
+    {
+      "component": "Switch",
+      "name": "description",
+      "type": "ReactNode",
+      "description": "Help text under the label, linked with aria-describedby."
+    },
+    {
+      "component": "Switch",
+      "name": "isSelected / defaultSelected",
+      "type": "boolean",
+      "description": "Controlled / uncontrolled on state."
+    },
+    {
+      "component": "Switch",
+      "name": "onChange",
+      "type": "(isSelected: boolean) => void",
+      "description": "Called when toggled."
+    },
+    {
+      "component": "Switch",
+      "name": "isDisabled",
+      "type": "boolean",
+      "default": "false",
+      "description": "Disables the switch."
+    },
+    {
+      "component": "Switch",
+      "name": "isReadOnly",
+      "type": "boolean",
+      "default": "false",
+      "description": "Focusable but can't be changed."
+    }
+  ],
+  "accessibility": {
+    "keyboard": [
+      {
+        "keys": "Space",
+        "action": "Toggles the switch."
+      },
+      {
+        "keys": "Tab",
+        "action": "Moves focus to the switch."
+      }
+    ],
+    "notes": [
+      "Uses a native checkbox with role switch; the on/off state is announced.",
+      "State shows by thumb position and track fill, not colour alone; the off track (border.strong) meets 3:1 against the surface.",
+      "The thumb moves toward the inline end, so it mirrors in right-to-left layouts.",
+      "Rows are at least 24px tall and the label is part of the target."
+    ]
+  },
+  "guidelines": {
+    "do": [
+      "Use for settings that take effect immediately.",
+      "Label the setting, not the state: \"Payment alerts\", not \"On\"."
+    ],
+    "dont": [
+      "Don't use a switch in a form that needs a Submit button; use a Checkbox.",
+      "Don't change the label text when toggling."
+    ]
+  },
+  "tokens": [
+    "color.border.strong",
+    "color.action.primary.bg",
+    "color.action.primary.hover",
+    "color.action.primary.fg",
+    "color.text.default",
+    "color.text.subtle",
+    "color.text.disabled",
+    "color.focus.ring",
+    "shadow.raised",
+    "radius.pill",
+    "font.size.md",
+    "space.2",
+    "space.6",
+    "motion.duration.normal",
+    "motion.easing"
+  ]
+}

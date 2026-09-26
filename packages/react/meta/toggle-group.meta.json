@@ -1,0 +1,179 @@
+{
+  "name": "toggle-group",
+  "title": "Toggle Group",
+  "description": "A segmented control of toggle buttons for switching views or filters, plus a standalone toggle button.",
+  "category": "actions",
+  "maturity": "beta",
+  "exports": [
+    "ToggleButtonGroup",
+    "ToggleButton"
+  ],
+  "files": [
+    "toggle-group.tsx",
+    "toggle-group.module.css"
+  ],
+  "dependencies": [
+    "react-aria-components"
+  ],
+  "registryDependencies": [],
+  "reactAria": "https://react-spectrum.adobe.com/react-aria/ToggleButtonGroup.html",
+  "usage": "import { ToggleButton, ToggleButtonGroup } from '@strata/react';\n\nexport function Period() {\n  return (\n    <ToggleButtonGroup aria-label=\"Period\" defaultSelectedKeys={['month']} disallowEmptySelection>\n      <ToggleButton id=\"week\">Week</ToggleButton>\n      <ToggleButton id=\"month\">Month</ToggleButton>\n      <ToggleButton id=\"year\">Year</ToggleButton>\n    </ToggleButtonGroup>\n  );\n}",
+  "examples": [
+    {
+      "name": "toggle-group-demo",
+      "title": "Segmented control"
+    },
+    {
+      "name": "toggle-group-sizes",
+      "title": "Sizes"
+    },
+    {
+      "name": "toggle-group-icons",
+      "title": "Icon only",
+      "description": "Items named with aria-label render square."
+    },
+    {
+      "name": "toggle-group-multiple",
+      "title": "Multiple selection"
+    },
+    {
+      "name": "toggle-group-standalone",
+      "title": "Standalone toggle button"
+    }
+  ],
+  "props": [
+    {
+      "component": "ToggleButtonGroup",
+      "name": "selectionMode",
+      "type": "'single' | 'multiple'",
+      "default": "'single'",
+      "description": "Whether one or several items can be on."
+    },
+    {
+      "component": "ToggleButtonGroup",
+      "name": "selectedKeys / defaultSelectedKeys",
+      "type": "Iterable<Key>",
+      "description": "Controlled / uncontrolled selection, by item id."
+    },
+    {
+      "component": "ToggleButtonGroup",
+      "name": "onSelectionChange",
+      "type": "(keys: Set<Key>) => void",
+      "description": "Called when the selection changes."
+    },
+    {
+      "component": "ToggleButtonGroup",
+      "name": "disallowEmptySelection",
+      "type": "boolean",
+      "default": "false",
+      "description": "Keep one item selected (typical for a segmented control)."
+    },
+    {
+      "component": "ToggleButtonGroup",
+      "name": "size",
+      "type": "'sm' | 'md'",
+      "default": "'md'",
+      "description": "md matches the control height; sm is 8px smaller."
+    },
+    {
+      "component": "ToggleButtonGroup",
+      "name": "orientation",
+      "type": "'horizontal' | 'vertical'",
+      "default": "'horizontal'",
+      "description": "Layout and arrow-key direction."
+    },
+    {
+      "component": "ToggleButtonGroup",
+      "name": "isDisabled",
+      "type": "boolean",
+      "default": "false",
+      "description": "Disables every item."
+    },
+    {
+      "component": "ToggleButtonGroup",
+      "name": "aria-label",
+      "type": "string",
+      "description": "Names the group (or use aria-labelledby)."
+    },
+    {
+      "component": "ToggleButton",
+      "name": "id",
+      "type": "Key",
+      "description": "Required inside a group; the selection key."
+    },
+    {
+      "component": "ToggleButton",
+      "name": "isSelected / defaultSelected",
+      "type": "boolean",
+      "description": "Standalone only: controlled / uncontrolled pressed state."
+    },
+    {
+      "component": "ToggleButton",
+      "name": "onChange",
+      "type": "(isSelected: boolean) => void",
+      "description": "Standalone only: called when toggled."
+    },
+    {
+      "component": "ToggleButton",
+      "name": "size",
+      "type": "'sm' | 'md'",
+      "default": "'md'",
+      "description": "Standalone only; inside a group the group's size wins."
+    },
+    {
+      "component": "ToggleButton",
+      "name": "aria-label",
+      "type": "string",
+      "description": "Required for icon-only items; also makes the item square."
+    }
+  ],
+  "accessibility": {
+    "keyboard": [
+      {
+        "keys": "Tab",
+        "action": "Moves focus into the group, then out of it."
+      },
+      {
+        "keys": "Arrow keys",
+        "action": "Move focus between items (direction follows the locale)."
+      },
+      {
+        "keys": "Space / Enter",
+        "action": "Toggles the focused item."
+      }
+    ],
+    "notes": [
+      "Single selection renders a radiogroup of radios; multiple selection renders a toolbar of pressed buttons.",
+      "The selected item is raised and bold-coloured, not colour-only.",
+      "A standalone ToggleButton exposes aria-pressed."
+    ]
+  },
+  "guidelines": {
+    "do": [
+      "Use for 2–5 short, mutually related options that switch a view immediately.",
+      "Name the group with aria-label or a visible heading.",
+      "Use disallowEmptySelection when one option must always be active."
+    ],
+    "dont": [
+      "Don't use it for form choices that are submitted later; use RadioGroup.",
+      "Don't put long labels in segments; they won't fit on small screens."
+    ]
+  },
+  "tokens": [
+    "color.surface.sunken",
+    "color.surface.raised",
+    "color.surface.selected",
+    "shadow.raised",
+    "color.text.default",
+    "color.text.subtle",
+    "color.text.disabled",
+    "color.border.default",
+    "color.border.subtle",
+    "color.text.brand",
+    "color.focus.ring",
+    "radius.button",
+    "control-height",
+    "control-padding-inline",
+    "font.weight.medium"
+  ]
+}

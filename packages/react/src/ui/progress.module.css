@@ -1,0 +1,104 @@
+.progress {
+  --_fill: var(--strata-color-accent-bg);
+  --_track-size: var(--strata-space-2);
+  --_dir: 1;
+
+  box-sizing: border-box;
+  display: grid;
+  gap: var(--strata-space-2);
+  inline-size: 100%;
+  min-inline-size: 0;
+  color: var(--strata-color-text-default);
+  font-family: var(--strata-font-body);
+  font-size: var(--strata-font-size-sm);
+  line-height: var(--strata-line-height-snug);
+}
+
+.progress:dir(rtl) {
+  --_dir: -1;
+}
+
+.progress[data-size='sm'] {
+  --_track-size: var(--strata-space-1);
+  gap: calc(var(--strata-space-1) * 1.5);
+}
+
+.progress[data-tone='success'] {
+  --_fill: var(--strata-color-feedback-success-solid);
+}
+.progress[data-tone='warning'] {
+  --_fill: var(--strata-color-feedback-warning-solid);
+}
+.progress[data-tone='danger'] {
+  --_fill: var(--strata-color-feedback-danger-solid);
+}
+
+.header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--strata-space-3);
+  min-inline-size: 0;
+}
+
+.label {
+  min-inline-size: 0;
+  color: var(--strata-color-text-default);
+  font-size: var(--strata-font-size-sm);
+  font-weight: var(--strata-font-weight-medium);
+}
+
+.value {
+  flex: none;
+  margin-inline-start: auto;
+  color: var(--strata-color-text-subtle);
+  font-size: var(--strata-font-size-sm);
+  font-variant-numeric: tabular-nums;
+}
+
+.track {
+  position: relative;
+  block-size: var(--_track-size);
+  overflow: hidden;
+  border-radius: var(--strata-radius-pill);
+  background-color: var(--strata-color-surface-sunken);
+}
+
+.fill {
+  block-size: 100%;
+  max-inline-size: 100%;
+  border-radius: inherit;
+  background-color: var(--_fill);
+}
+
+/* Indeterminate, reduced motion: a quiet full-width tint says "working" without moving. */
+.fill[data-indeterminate] {
+  inline-size: 100%;
+  background-color: color-mix(in oklab, var(--_fill) 45%, transparent);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .fill {
+    transition: inline-size var(--strata-motion-duration-normal) var(--strata-motion-easing);
+  }
+
+  /* Indeterminate: a 40% segment slides in the reading direction. */
+  .fill[data-indeterminate] {
+    position: absolute;
+    inset-block: 0;
+    inset-inline-start: 0;
+    inline-size: 40%;
+    background-color: var(--_fill);
+    transition: none;
+    animation: strata-progress-slide calc(var(--strata-motion-duration-normal) * 7) var(--strata-motion-easing) infinite;
+  }
+}
+
+@keyframes strata-progress-slide {
+  from {
+    translate: calc(-100% * var(--_dir)) 0;
+  }
+  to {
+    translate: calc(250% * var(--_dir)) 0;
+  }
+}

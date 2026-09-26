@@ -1,0 +1,47 @@
+.link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--strata-space-2);
+  block-size: var(--strata-control-height);
+  padding-inline: var(--strata-control-padding-inline);
+  border: 1px solid transparent;
+  border-radius: var(--strata-radius-button);
+  font-size: var(--strata-font-size-md);
+  font-weight: var(--strata-font-weight-medium);
+  line-height: var(--strata-line-height-tight);
+  white-space: nowrap;
+  transition:
+    background-color var(--strata-motion-duration-fast) var(--strata-motion-easing),
+    border-color var(--strata-motion-duration-fast) var(--strata-motion-easing);
+}
+.link svg {
+  inline-size: var(--strata-space-4);
+  block-size: var(--strata-space-4);
+}
+
+.link[data-variant='primary'] {
+  border-color: var(--strata-color-action-primary-border);
+  background: var(--strata-color-action-primary-bg);
+  color: var(--strata-color-action-primary-fg);
+}
+.link[data-variant='primary']:hover {
+  background: var(--strata-color-action-primary-hover);
+  border-color: var(--strata-color-action-primary-hover);
+}
+
+.link[data-variant='outline'] {
+  border-color: var(--strata-color-border-strong);
+  background: var(--strata-color-surface-default);
+  color: var(--strata-color-text-default);
+}
+.link[data-variant='outline']:hover {
+  background: color-mix(in oklab, var(--strata-color-text-default) 6%, var(--strata-color-surface-default));
+}
+
+.link[data-variant='ghost'] {
+  color: var(--strata-color-text-default);
+}
+.link[data-variant='ghost']:hover {
+  background: color-mix(in oklab, var(--strata-color-text-default) 6%, transparent);
+}
