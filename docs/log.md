@@ -6,6 +6,43 @@ Numbers only with the command that produced them. Design trade-offs get an ADR i
 
 ---
 
+## 2026-09-26/27 — v0.2: shadcn-level component library, docs site, registry
+
+**Changed**
+- `@strata/react`: 41 components on React Aria + CSS Modules, each with a meta.json, tests and docs examples (136).
+- `apps/docs`: Next.js 16 site themed by Strata itself. It has component pages (live Preview/Code per tenant, scheme, direction and density; install tabs; API; accessibility; tokens), Blocks (5), Themes (the generator rebuilt with Strata components), Colors, and ⌘K search.
+- Registry: 55 shadcn-schema-valid items (components, blocks, token files, `theme-<tenant>` bridge items, `@strata/strata` base). Verified with shadcn CLI 4.21 through URL installs, namespaced installs and dependency resolution.
+- npm build: Vite library mode with `preserveModules`; `'use client'` kept; `dist/styles.css`; types verified with bundler and nodenext resolution.
+- Engine: `toShadcnCssVars` / `toShadcnCSS`. Feedback text is now checked against selected rows too (86 checks per theme), and feedback text is a step deeper, so the solver still never touches the system palette.
+- Built by parallel agents (5 component owners, docs, registry, blocks, home, themes). Every change was integrated, reviewed and verified by the lead.
+
+**Decided**
+- Distribution: npm + shadcn-compatible registry from one source (ADR-011) — **Anuj**.
+- Docs framework: Next.js App Router + MDX (ADR-004 accepted) — **Anuj**.
+- Scope: ~30 core components + full site this round — **Anuj**.
+- Overlays copy their scope's attributes; ThemeScope owns the locale (ADR-012) — **Claude recommended**, Anuj to confirm.
+- House brand `tenants/house/brand.json` (#18181B, monochrome) so tenant colours are the only colour on the site — **Claude**.
+- Registry token selector `:root, [data-strata-theme="<id>"], [data-strata-scheme]:not([data-strata-theme])` — **Claude**.
+- Docs examples use fixed dates so static pages hydrate identically on any day — **Claude**.
+
+**Results**
+- Tests: 271 component + 157 engine, all passing — `pnpm test`.
+- Fuzz: 86,000 / 86,000 checks; adjustments median 4 — `pnpm test:themes`.
+- axe: 0 violations across 73 routes × light/dark — `node scripts/axe-sweep.mjs`.
+- `pnpm check:meta` 41/41; `pnpm registry` 55 items.
+
+**Known gaps (next wave)**
+- shadcn bridge: `--destructive` used as *text* reaches ~4.4:1 (light) / ~4.1:1 (dark), and `--primary` as text isn't guaranteed. Documented on /docs/registry.
+- `feedback.danger.hover` token requested by C1 (the danger button hover uses a blend workaround).
+- Dialog close label and a few TextArea announcements are English-only; FileUpload now takes `strings`.
+- Not yet on npm; the registry URL must be set at deploy (`NEXT_PUBLIC_SITE_URL`).
+
+**Next**
+- Anuj: review the site locally (`pnpm --filter @strata/docs dev`), confirm ADR-012, deploy the docs to Vercel.
+- Then Phase 4 (governance + deprecation demo) and Phase 5 (MCP + drift audit + agent eval).
+
+---
+
 ## 2026-09-26 — Phase 0 + Phase 1 started
 
 **Changed**

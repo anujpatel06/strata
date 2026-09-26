@@ -1,0 +1,26 @@
+/*
+ * Full-page block view. The root layout always renders the site header, skip link and footer; this page is the
+ * block alone (for "Open in new tab" and screenshots), so hide them while a view is on the page.
+ */
+:global(body):has(.scope, .fallback) > :global(header),
+:global(body):has(.scope, .fallback) > :global(footer),
+:global(body):has(.scope, .fallback) > :global(a[href='#main']) {
+  display: none;
+}
+
+.scope {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-block-size: 100dvh;
+}
+
+.scope > * {
+  flex: 1 0 auto;
+}
+
+.fallback {
+  flex: 1;
+  min-block-size: 100dvh;
+  background: var(--strata-color-surface-canvas);
+}

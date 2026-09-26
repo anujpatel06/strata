@@ -1,0 +1,407 @@
+/*
+ * Settings. Tokens only; container breakpoints are the only literals (CSS can't read them from variables).
+ */
+
+.root {
+  --_page: calc(var(--strata-space-16) * 15);
+  --_gutter: var(--strata-space-4);
+
+  container: settings / inline-size;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  min-block-size: 100%;
+  background-color: var(--strata-color-surface-canvas);
+  color: var(--strata-color-text-default);
+  font-family: var(--strata-font-body);
+  font-size: var(--strata-font-size-md);
+  line-height: var(--strata-line-height-normal);
+  text-align: start;
+}
+
+.root :where(*, *::before, *::after) {
+  box-sizing: border-box;
+}
+
+.root :where(h1, h2, h3, h4, h5, h6, p, ul, ol) {
+  margin: 0;
+}
+
+@container settings (min-width: 640px) {
+  .root > * {
+    --_gutter: var(--strata-space-6);
+  }
+}
+
+@container settings (min-width: 1024px) {
+  .root > * {
+    --_gutter: var(--strata-space-8);
+  }
+}
+
+.srOnly {
+  position: absolute;
+  inline-size: 1px;
+  block-size: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* Email and phone numbers read left to right even on right-to-left pages, still aligned to the field's start. */
+.ltrValue:dir(rtl) input {
+  direction: ltr;
+  text-align: end;
+}
+
+.page {
+  flex: 1;
+  display: grid;
+  align-content: start;
+  gap: var(--strata-space-6);
+  inline-size: 100%;
+  max-inline-size: var(--_page);
+  margin-inline: auto;
+  padding-block: var(--strata-space-6) var(--strata-space-12);
+  padding-inline: var(--_gutter);
+}
+
+@container settings (min-width: 1024px) {
+  .page {
+    padding-block-start: var(--strata-space-10);
+  }
+}
+
+.header {
+  display: grid;
+  gap: var(--strata-space-1);
+}
+
+.title {
+  font-family: var(--strata-font-heading);
+  font-size: var(--strata-font-size-xl);
+  font-weight: var(--strata-font-weight-semibold);
+  letter-spacing: var(--strata-font-heading-tracking);
+  line-height: var(--strata-line-height-tight);
+}
+
+@container settings (min-width: 640px) {
+  .title {
+    font-size: var(--strata-font-size-2xl);
+  }
+}
+
+.description {
+  color: var(--strata-color-text-subtle);
+  text-wrap: pretty;
+}
+
+.tabs.tabs {
+  gap: var(--strata-space-6);
+  min-inline-size: 0;
+}
+
+.tabList.tabList {
+  max-inline-size: 100%;
+}
+
+.panel.panel {
+  display: grid;
+  gap: var(--strata-section-gap);
+  min-inline-size: 0;
+}
+
+/* ------------------------------------------------------------------ *
+ * Shared card internals
+ * ------------------------------------------------------------------ */
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-card-inset);
+}
+
+.stack.stack {
+  display: grid;
+  gap: var(--strata-space-6);
+}
+
+.footerEnd.footerEnd {
+  justify-content: flex-end;
+}
+
+.fieldGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--strata-field-gap);
+  align-items: start;
+}
+
+@container settings (min-width: 640px) {
+  .fieldGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: var(--strata-space-4);
+    row-gap: var(--strata-space-5);
+  }
+
+  /* Full name spans the row; the rest pair up. */
+  .fieldGrid > :first-child {
+    grid-column: 1 / -1;
+  }
+}
+
+.photoRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--strata-space-4);
+}
+
+.photo.photo {
+  flex: none;
+  inline-size: var(--strata-space-16);
+  block-size: var(--strata-space-16);
+  font-size: var(--strata-font-size-xl);
+}
+
+.upload.upload {
+  flex: 1 1 calc(var(--strata-space-16) * 4);
+  min-inline-size: 0;
+}
+
+.choices.choices {
+  display: grid;
+  gap: var(--strata-space-5);
+}
+
+.choice {
+  display: grid;
+  gap: var(--strata-space-2);
+  justify-items: start;
+  min-inline-size: 0;
+}
+
+@container settings (min-width: 640px) {
+  .choice {
+    grid-template-columns: calc(var(--strata-space-16) * 2.5) minmax(0, 1fr);
+    align-items: center;
+    column-gap: var(--strata-space-4);
+  }
+}
+
+.choiceLabel {
+  color: var(--strata-color-text-default);
+  font-size: var(--strata-font-size-sm);
+  font-weight: var(--strata-font-weight-medium);
+}
+
+.toggles.toggles {
+  flex-wrap: wrap;
+  block-size: auto;
+  min-block-size: var(--strata-control-height);
+}
+
+/* ------------------------------------------------------------------ *
+ * Danger zone
+ * ------------------------------------------------------------------ */
+
+.danger.danger {
+  border-color: var(--strata-color-feedback-danger-border);
+}
+
+/* Narrow: the action drops under the text instead of squeezing it. (Tripled class: beats Card's :has() rule.) */
+@container settings (max-width: 559.98px) {
+  .dangerHeader.dangerHeader.dangerHeader {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .dangerHeader .dangerAction.dangerAction {
+    grid-row: auto;
+    grid-column: 1;
+    justify-self: start;
+    margin-block-start: var(--strata-space-2);
+  }
+}
+
+/* ------------------------------------------------------------------ *
+ * Notifications
+ * ------------------------------------------------------------------ */
+
+.groups.groups {
+  display: grid;
+  gap: var(--strata-space-6);
+}
+
+.group {
+  display: grid;
+  gap: var(--strata-space-3);
+}
+
+@container settings (min-width: 720px) {
+  .group {
+    grid-template-columns: calc(var(--strata-space-16) * 2.5) minmax(0, 1fr);
+    column-gap: var(--strata-space-4);
+    align-items: start;
+  }
+}
+
+.groupTitle {
+  font-family: var(--strata-font-body);
+  font-size: var(--strata-font-size-sm);
+  font-weight: var(--strata-font-weight-semibold);
+  line-height: var(--strata-line-height-snug);
+}
+
+.switches {
+  display: grid;
+  gap: var(--strata-space-4);
+}
+
+.switch.switch {
+  min-inline-size: 0;
+}
+
+/* ------------------------------------------------------------------ *
+ * Security
+ * ------------------------------------------------------------------ */
+
+.rows.rows {
+  display: grid;
+  gap: var(--strata-space-4);
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--strata-space-3) var(--strata-space-4);
+}
+
+.rowText {
+  display: grid;
+  gap: var(--strata-space-1);
+  min-inline-size: 0;
+}
+
+.rowLabel {
+  font-weight: var(--strata-font-weight-medium);
+}
+
+.rowDescription {
+  color: var(--strata-color-text-subtle);
+  font-size: var(--strata-font-size-sm);
+}
+
+.tableCard.tableCard {
+  padding-block-end: 0;
+  overflow: hidden;
+}
+
+.table.table {
+  border: 0;
+  border-block-start: 1px solid var(--strata-color-border-subtle);
+  border-radius: 0;
+  background-color: transparent;
+}
+
+.device {
+  display: flex;
+  align-items: center;
+  gap: var(--strata-space-3);
+  min-inline-size: 0;
+}
+
+.deviceIcon,
+.methodIcon {
+  display: inline-grid;
+  flex: none;
+  place-items: center;
+  inline-size: var(--strata-space-8);
+  block-size: var(--strata-space-8);
+  border-radius: var(--strata-radius-field);
+  background-color: var(--strata-color-surface-sunken);
+  color: var(--strata-color-text-subtle);
+}
+
+.deviceIcon svg,
+.methodIcon svg {
+  inline-size: var(--strata-space-4);
+  block-size: var(--strata-space-4);
+}
+
+.deviceText {
+  display: grid;
+  min-inline-size: 0;
+}
+
+.deviceName {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--strata-space-2);
+  font-weight: var(--strata-font-weight-medium);
+}
+
+.deviceMeta {
+  color: var(--strata-color-text-subtle);
+  font-size: var(--strata-font-size-sm);
+}
+
+/* ------------------------------------------------------------------ *
+ * Billing
+ * ------------------------------------------------------------------ */
+
+.plan.plan {
+  display: grid;
+  gap: var(--strata-space-4);
+}
+
+.price {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--strata-space-2);
+}
+
+.priceValue {
+  font-family: var(--strata-font-heading);
+  font-size: var(--strata-font-size-3xl);
+  font-weight: var(--strata-font-weight-semibold);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: var(--strata-font-heading-tracking);
+  line-height: var(--strata-line-height-tight);
+}
+
+.pricePeriod {
+  color: var(--strata-color-text-subtle);
+}
+
+.features {
+  display: grid;
+  gap: var(--strata-space-2);
+  padding: 0;
+  list-style: none;
+}
+
+.features li {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--strata-space-2);
+}
+
+.featureIcon {
+  flex: none;
+  inline-size: 1.25em;
+  block-size: 1.25em;
+  /* Centre the icon on the first line of the item. */
+  margin-block-start: calc((1lh - 1.25em) / 2);
+  color: var(--strata-color-feedback-success-fg);
+}
+
+.method {
+  display: flex;
+  align-items: center;
+  gap: var(--strata-space-3);
+  min-inline-size: 0;
+}

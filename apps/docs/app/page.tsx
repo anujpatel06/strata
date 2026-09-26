@@ -1,19 +1,24 @@
+import { getHomeTenants } from '@/components/home/home-data';
+import { LiveShowcase } from '@/components/home/live-showcase';
+import { AccessibilitySection, AgentsSection, BrandsSection, ClosingCta, Hero, ShipSection } from '@/components/home/sections';
 import { PageShell } from '@/components/page/page-shell';
-import { ButtonLink } from '@/components/page/button-link';
+import styles from './page.module.css';
 
 export default function Home() {
   return (
-    <PageShell
-      title="One design system. Every brand."
-      description="Strata turns six brand inputs into an accessible theme and renders it through one React library — for people and for AI agents."
-      actions={
-        <>
-          <ButtonLink href="/docs">Get started</ButtonLink>
-          <ButtonLink href="/docs/components" variant="outline">
-            Components
-          </ButtonLink>
-        </>
-      }
-    />
+    <PageShell>
+      <Hero />
+      <section className={styles.showcase} aria-labelledby="showcase-title">
+        <h2 id="showcase-title" className="visually-hidden">
+          Live examples
+        </h2>
+        <LiveShowcase tenants={getHomeTenants()} />
+      </section>
+      <BrandsSection />
+      <AccessibilitySection />
+      <ShipSection />
+      <AgentsSection />
+      <ClosingCta />
+    </PageShell>
   );
 }

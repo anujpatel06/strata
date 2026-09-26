@@ -1,0 +1,232 @@
+/* Block viewer on /blocks. Site chrome in house tokens; the stage inside is a ThemeScope in the chosen tenant. */
+
+.viewer {
+  display: grid;
+  gap: var(--strata-space-4);
+  min-inline-size: 0;
+  scroll-margin-block-start: calc(var(--docs-header-height) + var(--strata-space-6));
+}
+
+.header {
+  display: grid;
+  gap: var(--strata-space-1);
+  max-inline-size: calc(var(--docs-prose) + var(--strata-space-16));
+}
+
+.title {
+  font-family: var(--strata-font-heading);
+  font-size: var(--strata-font-size-xl);
+  font-weight: var(--strata-font-weight-semibold);
+  letter-spacing: var(--strata-font-heading-tracking);
+  line-height: var(--strata-line-height-tight);
+}
+
+.anchor:hover {
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
+.description {
+  color: var(--strata-color-text-subtle);
+  text-wrap: pretty;
+}
+
+/* ---- toolbar ------------------------------------------------------------ */
+
+.tabs.tabs {
+  gap: var(--strata-space-3);
+}
+
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--strata-space-2);
+}
+
+.viewTabs.viewTabs {
+  flex: none;
+}
+
+.controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--strata-space-2);
+}
+
+.controls[hidden] {
+  display: none;
+}
+
+.tenantToggle.tenantToggle {
+  gap: var(--strata-space-2);
+}
+
+/* The ring is drawn in the site's tokens; the dot inside reads the tenant's primary (it carries data-strata-theme). */
+.dotRing {
+  display: inline-flex;
+  padding: 1px;
+  border-radius: var(--strata-radius-pill);
+  background: color-mix(in oklab, var(--strata-color-text-default) 22%, transparent);
+}
+
+.dot {
+  display: block;
+  inline-size: var(--strata-space-2);
+  block-size: var(--strata-space-2);
+  border-radius: var(--strata-radius-pill);
+  background: var(--strata-color-action-primary-bg);
+}
+
+.iconToggle.iconToggle {
+  padding-inline: var(--strata-space-2);
+}
+
+/* Simulated widths only mean something when the page is wider than a tablet. */
+.viewports.viewports {
+  display: none;
+}
+
+@media (min-width: 1024px) {
+  .viewports.viewports {
+    display: inline-flex;
+  }
+}
+
+.open {
+  display: inline-flex;
+  align-items: center;
+  gap: calc(var(--strata-space-2) - 2px);
+  block-size: max(calc(var(--strata-control-height) - var(--strata-space-2)), var(--strata-space-6));
+  padding-inline: var(--strata-space-3);
+  border: 1px solid var(--strata-color-border-strong);
+  border-radius: var(--strata-radius-button);
+  background: var(--strata-color-surface-default);
+  color: var(--strata-color-text-default);
+  font-size: var(--strata-font-size-sm);
+  font-weight: var(--strata-font-weight-medium);
+  white-space: nowrap;
+}
+
+.open:hover {
+  background: color-mix(in oklab, var(--strata-color-text-default) 6%, var(--strata-color-surface-default));
+}
+
+.open svg {
+  inline-size: calc(var(--strata-space-4) - 2px);
+  block-size: calc(var(--strata-space-4) - 2px);
+}
+
+/* ---- preview ------------------------------------------------------------ */
+
+.panel.panel {
+  border-radius: var(--strata-radius-container);
+}
+
+/* The preview stays mounted (block state survives a look at the code), but an inactive panel must not show. */
+.panel.panel[data-inert] {
+  display: none;
+}
+
+.frame {
+  overflow: hidden;
+  border: var(--docs-hairline);
+  border-radius: var(--strata-radius-container);
+  background-color: var(--strata-color-surface-sunken);
+  background-image: radial-gradient(
+    color-mix(in oklab, var(--strata-color-border-default) 55%, transparent) 1px,
+    transparent 1px
+  );
+  background-size: var(--strata-space-4) var(--strata-space-4);
+}
+
+/* The stage the block renders in. Its inline size is what the block's container queries respond to. */
+.viewport {
+  --_frame-block: calc(var(--strata-space-16) * 12);
+
+  inline-size: 100%;
+  max-inline-size: 100%;
+  block-size: min(var(--_frame-block), calc(100dvh - var(--docs-header-height) - var(--strata-space-16)));
+  min-block-size: calc(var(--strata-space-16) * 8);
+  margin-inline: auto;
+}
+
+/* Simulated device widths (CSS px of common devices), not design sizes. */
+.viewport[data-viewport='tablet'] {
+  inline-size: 768px;
+}
+
+.viewport[data-viewport='mobile'] {
+  inline-size: 390px;
+}
+
+.viewport:not([data-viewport='desktop']) {
+  border-inline: var(--docs-hairline);
+  box-shadow: var(--strata-shadow-raised);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .viewport {
+    transition: inline-size var(--strata-motion-duration-normal) var(--strata-motion-easing);
+  }
+}
+
+/* A ThemeScope: scrolls inside the frame, so sticky headers stick to the frame, not the page. */
+.scope {
+  display: flex;
+  flex-direction: column;
+  block-size: 100%;
+  overflow: auto;
+  overscroll-behavior: contain;
+}
+
+.scope > * {
+  flex: 1 0 auto;
+}
+
+.message {
+  margin: auto;
+  padding: var(--strata-space-8);
+  max-inline-size: 48ch;
+  color: var(--strata-color-text-subtle);
+  text-align: center;
+}
+
+/* ---- code --------------------------------------------------------------- */
+
+.code {
+  min-inline-size: 0;
+}
+
+.files.files {
+  gap: var(--strata-space-3);
+}
+
+.fileList.fileList {
+  max-inline-size: 100%;
+}
+
+.filePanel.filePanel {
+  border-radius: var(--strata-radius-container);
+}
+
+/* Same height as the preview frame; long files scroll inside. */
+.filePanel :global(pre) {
+  max-block-size: calc(var(--strata-space-16) * 11);
+  overflow: auto;
+}
+
+/* ---- install ------------------------------------------------------------ */
+
+.install {
+  display: grid;
+  gap: var(--strata-space-2);
+}
+
+.installLabel {
+  color: var(--strata-color-text-subtle);
+  font-size: var(--strata-font-size-sm);
+  font-weight: var(--strata-font-weight-medium);
+}

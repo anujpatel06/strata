@@ -13,6 +13,10 @@
   overscroll-behavior: contain;
   outline: none;
 }
+/* Programmatic focus on open. Pseudo-class selector so page-level `[tabindex]:focus-visible` rules can't outrank it. */
+.menu:focus-visible {
+  outline: none;
+}
 
 .item {
   --menu-item-radius: min(var(--strata-radius-button), var(--strata-space-2));
@@ -38,6 +42,11 @@
 }
 .item[data-pressed] {
   background: color-mix(in oklab, var(--strata-color-text-default) 10%, transparent);
+}
+/* Neutralise page-level `[tabindex]:focus-visible` rules; the ring below is the item's focus indicator. */
+.item:focus-visible {
+  outline: none;
+  border-radius: var(--menu-item-radius);
 }
 .item[data-focus-visible] {
   outline: 2px solid var(--strata-color-focus-ring);

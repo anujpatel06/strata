@@ -1,0 +1,89 @@
+/*
+ * The grid's column count follows its own width (container queries), so it fills the homepage or a narrow
+ * preview panel alike. Tokens only; the thresholds are layout constants.
+ *
+ *   < 600px   one column: the cards stack in DOM order.
+ *   600–959   two columns: CSS multi-column; the column wrappers step aside (display: contents), so cards flow
+ *             top to bottom and the browser balances the heights.
+ *   ≥ 960px   three columns: the wrappers are grid columns, and each column's last card stretches so the
+ *             grid ends on a straight line.
+ */
+
+.root {
+  container-type: inline-size;
+  inline-size: 100%;
+  min-inline-size: 0;
+}
+
+.grid {
+  --_gap: var(--strata-space-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--_gap);
+}
+
+.column {
+  display: contents;
+}
+
+.item {
+  min-inline-size: 0;
+}
+
+@container (min-width: 600px) {
+  .grid {
+    display: block;
+    column-count: 2;
+    column-gap: var(--_gap);
+  }
+  .item {
+    /* A card never splits across columns; column content can't use `gap`, so the item carries it. */
+    break-inside: avoid;
+    margin-block-end: var(--_gap);
+  }
+  .column:last-child > .item:last-child {
+    margin-block-end: 0;
+  }
+}
+
+@container (min-width: 960px) {
+  .grid {
+    --_gap: var(--strata-space-5);
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    align-items: stretch;
+    gap: var(--_gap);
+  }
+  .column {
+    display: flex;
+    flex-direction: column;
+    gap: var(--_gap);
+    min-inline-size: 0;
+  }
+  .item {
+    margin-block-end: 0;
+  }
+  .item:last-child {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+  .item:last-child > * {
+    flex: 1;
+  }
+}
+
+/*
+ * English copy in a right-to-left layout (locale="ar-AE" here or on the ThemeScope): the layout mirrors, but each run of text takes
+ * its direction from its own content, so "Pick the days you'll be away." keeps its full stop at the end and
+ * "5 days selected" doesn't become "days selected 5". match-parent keeps the text on the layout's start side
+ * (plaintext alone would align English to the left); Chromium only knows the prefixed keyword.
+ */
+.root:dir(rtl) :where(h2, h3, h4, p, label, dt, dd, span, input, textarea) {
+  unicode-bidi: plaintext;
+  text-align: -webkit-match-parent;
+  text-align: match-parent;
+}
+.root:dir(rtl) :where(input, textarea)::placeholder {
+  unicode-bidi: plaintext;
+}

@@ -4,7 +4,7 @@ Read `BRIEF.md` end to end before changing anything. It is the spec. Anuj owns d
 
 ## Current phase
 
-**Phase 1** — tokens, theme engine, Brand Generator v0. Next: **Phase 2** (components). Stop after each phase for Anuj's review.
+**v0.2** — Phases 1–2 done plus the docs site and registry (shadcn-level). Next: Phase 4 (governance) and Phase 5 (MCP, audit, agent eval). Stop after each phase for Anuj's review. Component rules: `packages/react/CONVENTIONS.md`.
 
 ## Commands
 

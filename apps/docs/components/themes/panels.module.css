@@ -1,0 +1,440 @@
+/* /themes — Accessibility, Tokens and Export tabs. Tokens only; swatch colours come from theme data. */
+
+.stack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-12);
+  min-inline-size: 0;
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-4);
+  min-inline-size: 0;
+}
+
+.sectionHead {
+  display: grid;
+  gap: var(--strata-space-1);
+}
+
+.h2 {
+  font-family: var(--strata-font-heading);
+  font-size: var(--strata-font-size-xl);
+  font-weight: var(--strata-font-weight-semibold);
+  line-height: var(--strata-line-height-tight);
+  letter-spacing: var(--strata-font-heading-tracking);
+}
+
+.h2Meta {
+  color: var(--strata-color-text-subtle);
+  font-weight: var(--strata-font-weight-medium);
+}
+
+.h3 {
+  display: flex;
+  align-items: center;
+  gap: var(--strata-space-2);
+  font-size: var(--strata-font-size-md);
+  font-weight: var(--strata-font-weight-semibold);
+  line-height: var(--strata-line-height-snug);
+}
+.h3 svg {
+  inline-size: var(--strata-space-4);
+  block-size: var(--strata-space-4);
+  color: var(--strata-color-text-subtle);
+}
+
+.sub {
+  max-inline-size: 72ch;
+  color: var(--strata-color-text-subtle);
+  font-size: var(--strata-font-size-sm);
+  line-height: var(--strata-line-height-normal);
+  text-wrap: pretty;
+}
+
+.sub code,
+.install code {
+  font-family: var(--strata-font-mono);
+  font-size: 0.92em;
+  color: var(--strata-color-text-default);
+}
+
+.mono {
+  font-family: var(--strata-font-mono);
+  font-size: var(--strata-font-size-sm);
+  font-variant-numeric: tabular-nums;
+}
+
+.subtle {
+  color: var(--strata-color-text-subtle);
+  font-size: var(--strata-font-size-sm);
+}
+
+.role,
+.cssVar,
+.ref {
+  font-family: var(--strata-font-mono);
+  font-size: var(--strata-font-size-sm);
+}
+.ref {
+  color: var(--strata-color-text-subtle);
+}
+
+.swatch {
+  flex: none;
+  inline-size: var(--strata-space-5);
+  block-size: var(--strata-space-5);
+  border-radius: var(--strata-radius-badge);
+  box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--strata-color-text-default) 14%, transparent);
+}
+
+/* ------------------------------------------------------------------ solver changes */
+
+.empty.empty {
+  border: 1px dashed var(--strata-color-border-default);
+  border-radius: var(--strata-radius-container);
+}
+
+.changeGroups {
+  display: grid;
+  gap: var(--strata-space-6);
+}
+
+.changeGroup {
+  display: grid;
+  gap: var(--strata-space-3);
+}
+
+.count {
+  color: var(--strata-color-text-subtle);
+  font-size: var(--strata-font-size-sm);
+  font-weight: var(--strata-font-weight-regular);
+}
+
+.none {
+  padding: var(--strata-space-4);
+  border: 1px dashed var(--strata-color-border-default);
+  border-radius: var(--strata-radius-container);
+  color: var(--strata-color-text-subtle);
+  font-size: var(--strata-font-size-sm);
+}
+
+.changes {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border: 1px solid var(--strata-color-border-subtle);
+  border-radius: var(--strata-radius-container);
+  background: var(--strata-color-surface-default);
+}
+
+.change {
+  display: grid;
+  grid-template-columns: calc(var(--strata-space-16) * 3.5) minmax(0, 1fr);
+  align-items: start;
+  gap: var(--strata-space-2) var(--strata-space-6);
+  padding: var(--strata-space-4);
+}
+.change + .change {
+  border-block-start: 1px solid var(--strata-color-border-subtle);
+}
+
+@media (max-width: 639.98px) {
+  .change {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.changeSwatches {
+  display: flex;
+  align-items: center;
+  gap: var(--strata-space-2);
+}
+
+.hex {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--strata-space-2);
+  font-family: var(--strata-font-mono);
+  font-size: var(--strata-font-size-xs);
+}
+
+.arrow {
+  flex: none;
+  inline-size: var(--strata-space-4);
+  block-size: var(--strata-space-4);
+  color: var(--strata-color-text-subtle);
+}
+.arrow:dir(rtl) {
+  transform: scaleX(-1);
+}
+
+.changeBody {
+  display: grid;
+  gap: var(--strata-space-1);
+  min-inline-size: 0;
+}
+
+.changeTitle {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--strata-space-2);
+}
+
+.changeLabel {
+  font-weight: var(--strata-font-weight-semibold);
+}
+
+.changeTitle .role {
+  color: var(--strata-color-text-subtle);
+  font-size: var(--strata-font-size-xs);
+}
+
+.changeMessage {
+  font-size: var(--strata-font-size-sm);
+  line-height: var(--strata-line-height-normal);
+  text-wrap: pretty;
+}
+
+.changeRatio {
+  font-family: var(--strata-font-mono);
+  font-size: var(--strata-font-size-xs);
+  font-variant-numeric: tabular-nums;
+}
+
+.needs {
+  color: var(--strata-color-text-subtle);
+}
+
+/* ------------------------------------------------------------------ checks table */
+
+.sample {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: var(--strata-space-10);
+  block-size: var(--strata-space-6);
+  border-radius: var(--strata-radius-badge);
+  box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--strata-color-text-default) 12%, transparent);
+  font-size: var(--strata-font-size-sm);
+  font-weight: var(--strata-font-weight-semibold);
+  line-height: 1;
+}
+
+.ring {
+  inline-size: var(--strata-space-4);
+  block-size: var(--strata-space-3);
+  border: 2px solid;
+  border-radius: var(--strata-radius-badge);
+}
+
+.needsCell {
+  display: inline-flex;
+  align-items: baseline;
+  gap: var(--strata-space-2);
+}
+
+.kind {
+  color: var(--strata-color-text-subtle);
+  font-size: var(--strata-font-size-xs);
+}
+
+/* ------------------------------------------------------------------ ramps */
+
+.ramps {
+  display: grid;
+  gap: var(--strata-space-2);
+  padding: var(--strata-space-5);
+  border: 1px solid var(--strata-color-border-subtle);
+  border-radius: var(--strata-radius-container);
+  background: var(--strata-color-surface-default);
+}
+
+.rampRow {
+  display: grid;
+  grid-template-columns: calc(var(--strata-space-16) + var(--strata-space-4)) minmax(0, 1fr);
+  align-items: center;
+  gap: var(--strata-space-3);
+}
+
+.stepHead,
+.ramp {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: var(--strata-space-1);
+}
+
+.stepHead {
+  color: var(--strata-color-text-subtle);
+  font-family: var(--strata-font-mono);
+  font-size: var(--strata-font-size-xs);
+  font-variant-numeric: tabular-nums;
+  text-align: center;
+}
+
+.rampName {
+  color: var(--strata-color-text-subtle);
+  font-family: var(--strata-font-mono);
+  font-size: var(--strata-font-size-xs);
+}
+
+.ramp {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.step {
+  position: relative;
+  min-inline-size: 0;
+}
+
+.chip {
+  display: block;
+  block-size: var(--strata-space-10);
+  border-radius: var(--strata-radius-badge);
+  box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--strata-color-text-default) 10%, transparent);
+}
+
+/* Your input colour: a ring in the page's ink, so it reads on any swatch. */
+.step[data-input] .chip {
+  outline: 2px solid var(--strata-color-text-default);
+  outline-offset: 2px;
+}
+
+.legend {
+  display: flex;
+  align-items: center;
+  gap: var(--strata-space-2);
+  margin-block-start: var(--strata-space-2);
+  color: var(--strata-color-text-subtle);
+  font-size: var(--strata-font-size-xs);
+}
+
+.legendMark {
+  inline-size: var(--strata-space-3);
+  block-size: var(--strata-space-3);
+  border-radius: 2px;
+  outline: 2px solid var(--strata-color-text-default);
+  outline-offset: 1px;
+}
+
+@media (max-width: 639.98px) {
+  .ramps {
+    padding: var(--strata-space-3);
+  }
+  .rampRow {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--strata-space-1);
+  }
+  .rampRow:first-child > span:first-child {
+    display: none;
+  }
+  .chip {
+    block-size: var(--strata-space-8);
+  }
+  .rampRow + .rampRow {
+    margin-block-start: var(--strata-space-2);
+  }
+}
+
+/* ------------------------------------------------------------------ roles table */
+
+.roleSwatch {
+  display: block;
+  inline-size: var(--strata-space-6);
+  block-size: var(--strata-space-6);
+  border-radius: var(--strata-radius-badge);
+  box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--strata-color-text-default) 14%, transparent);
+}
+
+.cssVar {
+  white-space: nowrap;
+}
+
+.source {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--strata-space-2);
+}
+
+.adjustedBadge {
+  cursor: help;
+}
+.adjustedBadge:focus-visible {
+  outline: 2px solid var(--strata-color-focus-ring);
+  outline-offset: 2px;
+}
+
+.tooltip.tooltip {
+  max-inline-size: calc(var(--strata-space-16) * 5);
+}
+
+.was {
+  color: var(--strata-color-text-subtle);
+  font-family: var(--strata-font-mono);
+  font-size: var(--strata-font-size-xs);
+}
+
+/* ------------------------------------------------------------------ export */
+
+.exportTabs.exportTabs {
+  gap: var(--strata-space-4);
+}
+
+.exportPanel.exportPanel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-4);
+  min-inline-size: 0;
+}
+
+.fileSplit {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--strata-space-4);
+}
+
+@media (min-width: 1280px) {
+  .fileSplit {
+    grid-template-columns: calc(var(--strata-space-16) * 4) minmax(0, 1fr);
+    align-items: start;
+  }
+}
+
+.fileList.fileList {
+  display: flex;
+  inline-size: 100%;
+}
+
+.fileItem.fileItem {
+  justify-content: flex-start;
+  min-inline-size: 0;
+}
+.fileItem svg {
+  flex: none;
+}
+
+.fileName {
+  min-inline-size: 0;
+  overflow: hidden;
+  font-family: var(--strata-font-mono);
+  font-size: var(--strata-font-size-xs);
+  text-overflow: ellipsis;
+}
+
+.registry {
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-8);
+}
+
+.install {
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-3);
+}

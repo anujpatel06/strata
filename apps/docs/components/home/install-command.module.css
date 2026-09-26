@@ -1,0 +1,53 @@
+.command {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--strata-space-2);
+  max-inline-size: 100%;
+  min-inline-size: 0;
+  padding-block: var(--strata-space-1);
+  padding-inline: var(--strata-space-4) var(--strata-space-1);
+  border: var(--docs-hairline);
+  border-radius: var(--strata-radius-button);
+  background: var(--strata-color-surface-default);
+  direction: ltr;
+}
+
+.command[data-block] {
+  display: flex;
+  inline-size: 100%;
+}
+.command[data-block] .code {
+  flex: 1;
+  font-size: var(--strata-font-size-xs);
+}
+
+.code {
+  display: flex;
+  gap: var(--strata-space-2);
+  min-inline-size: 0;
+  color: var(--strata-color-text-default);
+  font-family: var(--strata-font-mono);
+  font-size: var(--strata-font-size-sm);
+  line-height: var(--strata-line-height-snug);
+  text-align: start;
+}
+
+/* Wraps between words on narrow screens rather than scrolling (a scroll box would need to be focusable). */
+.words {
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: 1ch;
+  min-inline-size: 0;
+}
+.word {
+  white-space: nowrap;
+}
+
+.prompt {
+  color: var(--strata-color-text-subtle);
+  user-select: none;
+}
+
+.copy.copy {
+  flex: none;
+}

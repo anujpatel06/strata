@@ -45,6 +45,10 @@
   min-block-size: 0;
   outline: none;
 }
+/* Programmatic focus on open. Pseudo-class selector so page-level `[tabindex]:focus-visible` rules can't outrank it. */
+.dialog:focus-visible {
+  outline: none;
+}
 
 /* Search row: no box, just a hairline underneath. */
 .search {
@@ -55,6 +59,12 @@
   min-block-size: calc(var(--strata-control-height) + var(--strata-space-2));
   padding-inline: var(--strata-space-4);
   border-block-end: 1px solid var(--strata-color-border-subtle);
+}
+/* Focus indicator: the input is flat, so the hairline under it thickens to a 2px focus-ring line while the input has
+   focus (it always does while the palette is open; it goes away if focus moves to the panel). */
+.search:focus-within {
+  border-block-end-color: var(--strata-color-focus-ring);
+  box-shadow: inset 0 -1px 0 var(--strata-color-focus-ring);
 }
 .searchIcon {
   flex: none;
@@ -73,6 +83,10 @@
   font-size: var(--strata-font-size-md);
   outline: none;
   appearance: none;
+}
+/* The search row's underline is the focus indicator (see .search:focus-within). */
+.input:focus-visible {
+  outline: none;
 }
 .input::placeholder {
   color: var(--strata-color-text-subtle);

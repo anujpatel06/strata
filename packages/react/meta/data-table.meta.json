@@ -66,6 +66,7 @@
       "Sort direction is shown with an arrow icon and aria-sort, not colour; unsorted sortable columns show a neutral up/down icon.",
       "While loading, the grid is aria-busy=\"true\"; skeleton rows are disabled, their placeholders are hidden, and each row header reads loadingLabel (\"Loading\") so no header is empty. Column headers stay visible.",
       "The table scrolls sideways inside its own frame on narrow screens; the page never scrolls horizontally.",
+      "Selected rows use surface.selected, and hover does not darken them. Inside selected rows text.subtle is re-pointed to text.default so secondary text keeps AA on the tint.",
       "DataTablePagination is a labelled group, not a landmark, by default, so several tables on one page never produce duplicate navigation landmarks."
     ]
   },

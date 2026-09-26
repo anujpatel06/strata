@@ -2,7 +2,9 @@
 
 A multi-brand design system that humans and AI agents build with.
 
-Paste a brand colour → get a complete light + dark theme that passes WCAG 2.2 AA, every adjustment explained, exported as CSS variables, DTCG JSON and Figma variables.
+41 React Aria components, a docs site at the level of ui.shadcn.com, and a shadcn-compatible registry, all themed by an engine that turns six brand inputs into a light and dark theme passing WCAG 2.2 AA.
+
+![Strata docs home](docs/screenshots/v0.2/home.png)
 
 | Vela · neobank | Harbor · insurer | Qamar · grocery, Arabic RTL |
 |---|---|---|
@@ -10,7 +12,14 @@ Paste a brand colour → get a complete light + dark theme that passes WCAG 2.2 
 
 Same components, same code. A tenant differs by tokens + copy only. Screenshots: `pnpm screenshots`.
 
-## What works today (v0.1)
+## What works today (v0.2)
+
+- **41 components** (`@strata/react`) on React Aria: fields, pickers, overlays, feedback, navigation and a DataTable. Every one works in light and dark, both densities, and RTL, and each has a `meta.json` that drives its docs page and registry item.
+- **Docs site** (`apps/docs`, Next.js): component pages with live previews per tenant, scheme, direction and density; Blocks; Themes; Colors; ⌘K search. The site is themed by Strata itself.
+- **Two ways to ship from one source** (ADR-011): the npm package, or `npx shadcn@latest add @strata/<name>` (verified with shadcn CLI 4.21). A theme bridge re-skins any existing shadcn project.
+- **5 blocks**: dashboard, request flow, settings, sign-in and activity table. Each runs in all three tenants and installs from the registry.
+
+Phase 1:
 
 - **Brand Generator** — 6 inputs (primary, accent, neutral temperature, shape, type pair, density) → full theme, live preview, export. Runs in the browser.
 - **OKLCH theme engine + contrast solver** — 12-step ramps, brand hex kept exact, every failing pair fixed and explained in plain English. Zero runtime dependencies.
@@ -25,12 +34,14 @@ Every number comes from a script. Run the command to reproduce it.
 | Metric | Value | Reproduce |
 |---|---|---|
 | Themes fuzzed (random brands × light/dark) | 1,000 | `pnpm test:themes` |
-| Contrast checks passed | 78,000 / 78,000 (100%) | `pnpm test:themes` |
-| Tenants rendering from one codebase | 3 (one Arabic RTL) | `pnpm tokens` |
-| Tokens per theme | 316 | `pnpm tokens` |
-| Median generation time | 0.42 ms (p95 0.73 ms, this machine) | `pnpm test:themes` |
-| Solver adjustments per brand | median 4, max 6 | `pnpm test:themes` |
-| axe violations (WCAG 2.2 AA tags, 6 preview pages) | 0 | `pnpm screenshots` |
+| Contrast checks passed | 86,000 / 86,000 (100%) | `pnpm test:themes` |
+| Solver adjustments per brand | median 4, max 6 (all brand-driven) | `pnpm test:themes` |
+| Median theme generation time | 0.45 ms (this machine) | `pnpm test:themes` |
+| Components / blocks | 41 / 5 | `pnpm check:meta`, `pnpm registry` |
+| Component + engine tests | 271 + 157 passing | `pnpm test` |
+| Registry items (shadcn schema-valid) | 55 | `pnpm registry` |
+| Docs routes swept with axe (light + dark) | 73 × 2, 0 violations | `node scripts/axe-sweep.mjs` (with the docs site running) |
+| Tenants rendering from one codebase | 3 (one Arabic RTL) + house | `pnpm tokens` |
 <!-- numbers:end -->
 
 ## Quick start

@@ -6,18 +6,22 @@
  *   STRATA_REGISTRY_URL=https://strata.dev pnpm registry
  *
  * Reads  packages/react/meta/*.meta.json + packages/react/src/ui/*   and   tenants/<id>/brand.json
+ *        apps/docs/blocks/blocks.json + apps/docs/blocks/<block>/*
  * Writes apps/docs/public/r/
  *   registry.json                 index of every item (shadcn registry schema, files without content)
  *   <component>.json              registry:ui — .tsx + .module.css inlined, side by side in the user's ui folder
  *   strata-tokens-<id>.json       registry:file — styles/strata-<id>.css (the --strata-* variables components read)
  *   theme-<id>.json               registry:theme — the shadcn bridge: a Strata palette as shadcn cssVars
  *   strata.json                   registry:style — "init": house tokens + ThemeScope
+ *   <block>.json                  registry:block — a page from apps/docs/blocks/<block>/ (tsx + module.css + content.ts),
+ *                                 installed into <components>/<block>/ with its '@strata/react' imports rewritten to
+ *                                 the user's ui alias (@/components/ui/<component>)
  *
  * Install:  npx shadcn@latest add <base>/r/button.json
  *      or   components.json → "registries": { "@strata": "<base>/r/{name}.json" }, then  npx shadcn@latest add @strata/button
  *
  * Options: --out <dir> (default apps/docs/public/r) · --pkg <dir> (default packages/react; for fixtures)
- *          --tenants <dir> (default tenants) · --base <url> (overrides STRATA_REGISTRY_URL)
+ *          --tenants <dir> (default tenants) · --blocks <dir> (default apps/docs/blocks) · --base <url> (overrides STRATA_REGISTRY_URL)
  * Re-runnable; wipes --out first. Components with errors are skipped and reported; exit 1 if any.
  */
 import { existsSync, mkdirSync, readFileSync, readdirSync, rmSync, writeFileSync } from 'node:fs';
@@ -175,6 +179,147 @@ export function itemProblems(item, { inline }) {
   return p;
 }
 
+/* ------------------------------------------------------------------ blocks */
+
+/** Where block files sit in the registry. The CLI keeps the part after "components/" → <user components alias>/<block>/<file>. */
+const BLOCK_PREFIX = 'registry/strata/components';
+/** Import path a block uses for a component once installed. The CLI rewrites "@/components/ui" to the user's ui alias. */
+const UI_IMPORT = '@/components/ui';
+
+/** Export name → component file (without extension), from the export statements in src/ui/*.tsx. */
+export function strataExportMap(uiDir) {
+  const map = new Map();
+  if (!existsSync(uiDir)) return map;
+  for (const file of readdirSync(uiDir).sort()) {
+    if (!file.endsWith('.tsx')) continue;
+    const base = file.slice(0, -4);
+    const code = readFileSync(path.join(uiDir, file), 'utf8').replace(/\/\*[\s\S]*?\*\//g, '').replace(/(^|[^:])\/\/.*$/gm, '$1');
+    for (const m of code.matchAll(/\bexport\s+(?:declare\s+)?(?:async\s+)?(?:function|const|let|class|interface|type|enum)\s+([A-Za-z_$][\w$]*)/g)) {
+      if (!map.has(m[1])) map.set(m[1], base);
+    }
+    for (const m of code.matchAll(/\bexport\s+(?:type\s+)?\{([^}]*)\}/g)) {
+      for (const part of m[1].split(',')) {
+        const name = part.trim().replace(/^type\s+/, '').split(/\s+as\s+/).pop()?.trim();
+        if (name && !map.has(name)) map.set(name, base);
+      }
+    }
+  }
+  return map;
+}
+
+/**
+ * Rewrites `import { A, type B } from '@strata/react'` into one import per component file,
+ * `import { A, type B } from '@/components/ui/<file>'`, so an installed block uses the user's copied components.
+ * Returns the new source, the component files it uses and any problems.
+ */
+export function rewriteStrataImports(source, exportMap) {
+  const components = new Set();
+  const problems = [];
+  const code = source.replace(/import\s+(type\s+)?\{([^}]*)\}\s*from\s*['"]@strata\/react['"];?/g, (_all, typeOnly, list) => {
+    /** file → specifiers, in source order */
+    const byFile = new Map();
+    for (const raw of list.split(',')) {
+      const spec = raw.trim();
+      if (!spec) continue;
+      const name = spec.replace(/^type\s+/, '').split(/\s+as\s+/)[0].trim();
+      const file = exportMap.get(name);
+      if (!file) {
+        problems.push(`imports '${name}' from '@strata/react', which no src/ui file exports`);
+        continue;
+      }
+      components.add(file);
+      if (!byFile.has(file)) byFile.set(file, []);
+      byFile.get(file).push(spec);
+    }
+    return [...byFile]
+      .sort(([a], [b]) => a.localeCompare(b))
+      .map(([file, specs]) => `import ${typeOnly ? 'type ' : ''}{ ${specs.join(', ')} } from '${UI_IMPORT}/${file}';`)
+      .join('\n');
+  });
+  if (/from\s*['"]@strata\/react['"]|import\s*['"]@strata\/react['"]/.test(code)) {
+    problems.push(`has an '@strata/react' import that isn't a named import list — use import { … } from '@strata/react'`);
+  }
+  return { code, components, problems };
+}
+
+/** Reads apps/docs/blocks/blocks.json and each block folder. Returns registry items and problems. */
+export function buildBlockItems({ blocksDir, uiDir, url, pin, componentNames }) {
+  const items = [];
+  const problems = [];
+  const rows = [];
+  const index = path.join(blocksDir, 'blocks.json');
+  if (!existsSync(index)) return { items, problems, rows };
+  const exportMap = strataExportMap(uiDir);
+  for (const block of readJson(index)) {
+    const { name } = block;
+    const dir = path.join(blocksDir, name);
+    const blockProblems = [];
+    if (!/^[a-z0-9][a-z0-9-]*$/.test(name ?? '')) blockProblems.push('name must be kebab-case');
+    if (!existsSync(dir)) blockProblems.push(`folder ${path.relative(REPO_ROOT, dir)} does not exist`);
+    // Component first, then its styles and content — the order the CLI lists them in.
+    const order = (f) => (f.endsWith('.tsx') ? 0 : f.endsWith('.css') ? 1 : 2);
+    const files = existsSync(dir)
+      ? readdirSync(dir)
+          .filter((f) => /\.(tsx?|css)$/.test(f))
+          .sort((a, b) => order(a) - order(b) || a.localeCompare(b))
+      : [];
+    if (!files.includes(`${name}.tsx`)) blockProblems.push(`${name}.tsx is missing`);
+    const components = new Set();
+    const deps = new Set();
+    const out = [];
+    for (const file of files) {
+      let content = readFileSync(path.join(dir, file), 'utf8');
+      if (/\.(tsx?)$/.test(file)) {
+        const rewritten = rewriteStrataImports(content, exportMap);
+        content = rewritten.code;
+        rewritten.components.forEach((c) => components.add(c));
+        blockProblems.push(...rewritten.problems.map((p) => `${file}: ${p}`));
+        for (const spec of importSpecifiers(content)) {
+          if (spec.startsWith(`${UI_IMPORT}/`)) continue;
+          if (spec.startsWith('./')) {
+            const target = spec.slice(2);
+            const exists = [target, `${target}.ts`, `${target}.tsx`].some((t) => files.includes(t));
+            if (target.includes('/') || !exists) blockProblems.push(`${file}: import '${spec}' is not a file in the block folder`);
+            continue;
+          }
+          if (spec.startsWith('.') || spec.startsWith('@/') || spec.startsWith('~/') || spec.startsWith('/') || spec.startsWith('@strata/')) {
+            blockProblems.push(`${file}: import '${spec}' breaks registry installs`);
+            continue;
+          }
+          const pkg = packageName(spec);
+          if (IMPLICIT_PACKAGES.has(pkg)) continue;
+          deps.add(pkg);
+        }
+      }
+      out.push({ path: `${BLOCK_PREFIX}/${name}/${file}`, type: 'registry:component', content });
+    }
+    for (const c of components) if (!componentNames.has(c)) blockProblems.push(`uses component '${c}', which has no registry item`);
+    if (blockProblems.length) {
+      problems.push(...blockProblems.map((p) => `block ${name}: ${p}`));
+      rows.push([name, 'registry:block', out.length, deps.size, components.size, 'ERROR — skipped']);
+      continue;
+    }
+    const exportName = /export function ([A-Z]\w*)/.exec(readFileSync(path.join(dir, `${name}.tsx`), 'utf8'))?.[1];
+    items.push({
+      $schema: ITEM_SCHEMA,
+      name,
+      type: 'registry:block',
+      title: block.title,
+      description: block.description,
+      dependencies: [...deps].sort().map(pin),
+      registryDependencies: [...components].sort().map(url),
+      files: out,
+      categories: ['block', ...(block.categories ?? [])],
+      docs:
+        `Render <${exportName ?? 'Block'} /> inside your ThemeScope (it follows the theme, scheme, density and locale around it). ` +
+        `Its copy and data live in components/${name}/${name}.content.ts: pass your own object as \`content\` to translate or rebrand it.`,
+      meta: { export: exportName, content: `${name}.content.ts` },
+    });
+    rows.push([name, 'registry:block', out.length, deps.size, components.size, 'ok']);
+  }
+  return { items, problems, rows };
+}
+
 /* ------------------------------------------------------------------ build */
 
 async function loadEngine() {
@@ -204,6 +349,7 @@ export async function buildRegistry({
   pkgDir = DEFAULT_PKG,
   outDir = path.join(REPO_ROOT, 'apps/docs/public/r'),
   tenantsDir = path.join(REPO_ROOT, 'tenants'),
+  blocksDir = path.join(REPO_ROOT, 'apps/docs/blocks'),
   base = process.env.STRATA_REGISTRY_URL || 'http://localhost:3000',
 } = {}) {
   base = base.replace(/\/+$/, '');
@@ -316,6 +462,18 @@ export async function buildRegistry({
     rows.push([`theme-${id}`, 'registry:theme', 0, 0, 0, failed.length ? 'CONTRAST FAIL' : 'ok']);
   }
 
+  /* ---- blocks ---- */
+  const blocks = buildBlockItems({
+    blocksDir,
+    uiDir,
+    url,
+    pin,
+    componentNames: new Set(items.filter((i) => i.type === 'registry:ui').map((i) => i.name)),
+  });
+  items.push(...blocks.items);
+  errors.push(...blocks.problems);
+  rows.push(...blocks.rows);
+
   /* ---- init item ---- */
   const initDeps = ['strata-tokens-house', 'theme-scope'];
   const missingInit = initDeps.filter((d) => !items.some((i) => i.name === d));
@@ -372,6 +530,7 @@ async function main() {
     pkgDir,
     outDir: path.resolve(flag('out') ?? path.join(REPO_ROOT, 'apps/docs/public/r')),
     tenantsDir: path.resolve(flag('tenants') ?? path.join(REPO_ROOT, 'tenants')),
+    blocksDir: path.resolve(flag('blocks') ?? path.join(REPO_ROOT, 'apps/docs/blocks')),
     base: flag('base') ?? process.env.STRATA_REGISTRY_URL ?? 'http://localhost:3000',
   });
   console.log(table(result.rows));

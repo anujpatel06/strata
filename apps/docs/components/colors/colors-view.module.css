@@ -1,0 +1,345 @@
+/* /colors. Tokens only; swatch fills come from the engine's output as inline custom properties (data, not style). */
+
+.root {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: calc(var(--strata-space-16) * 1.25);
+  min-inline-size: 0;
+  margin-block-start: var(--strata-space-8);
+}
+
+/* ---- Toolbar ---- */
+
+.toolbar {
+  z-index: 20;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--strata-space-3) var(--strata-space-6);
+  margin-block-end: calc(var(--strata-space-16) * -0.5);
+  margin-inline: calc(var(--strata-space-2) * -1);
+  padding: var(--strata-space-2);
+  border-radius: calc(var(--strata-radius-container) + var(--strata-space-1));
+}
+@media (min-width: 768px) {
+  .toolbar {
+    position: sticky;
+    inset-block-start: calc(var(--docs-header-height) + var(--strata-space-2));
+    background: color-mix(in oklab, var(--strata-color-surface-canvas) 85%, transparent);
+    -webkit-backdrop-filter: saturate(1.8) blur(var(--strata-space-3));
+    backdrop-filter: saturate(1.8) blur(var(--strata-space-3));
+  }
+}
+
+.jumpList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--strata-space-1);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.jumpLink {
+  display: inline-flex;
+  align-items: center;
+  block-size: calc(var(--strata-space-8) + var(--strata-space-1));
+  padding-inline: var(--strata-space-3);
+  border-radius: var(--strata-radius-button);
+  color: var(--strata-color-text-subtle);
+  font-size: var(--strata-font-size-md);
+  font-weight: var(--strata-font-weight-medium);
+}
+.jumpLink:hover {
+  background: var(--docs-hover);
+  color: var(--strata-color-text-default);
+}
+
+.format {
+  display: flex;
+  align-items: center;
+  gap: var(--strata-space-3);
+}
+
+.formatLabel {
+  color: var(--strata-color-text-subtle);
+  font-size: var(--strata-font-size-sm);
+  font-weight: var(--strata-font-weight-medium);
+}
+
+/* ---- Tenant ---- */
+
+.tenant {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--strata-space-6);
+  min-inline-size: 0;
+  scroll-margin-block-start: calc(var(--docs-header-height) + var(--strata-space-16) + var(--strata-space-4));
+}
+
+.tenantHeader {
+  display: grid;
+  gap: var(--strata-space-4);
+}
+
+.tenantHeading {
+  display: grid;
+  gap: var(--strata-space-1);
+}
+
+.tenantTitle {
+  font-family: var(--strata-font-heading);
+  font-size: var(--strata-font-size-2xl);
+  font-weight: var(--strata-font-weight-semibold);
+  line-height: var(--strata-line-height-tight);
+  letter-spacing: var(--strata-font-heading-tracking);
+}
+
+.tenantDescription {
+  color: var(--strata-color-text-subtle);
+  font-size: var(--strata-font-size-md);
+}
+
+.facts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--strata-space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.fact {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--strata-space-2);
+  block-size: calc(var(--strata-space-8) - 2px);
+  padding-inline: var(--strata-space-3);
+  border: var(--docs-hairline);
+  border-radius: var(--strata-radius-pill);
+  background: var(--strata-color-surface-default);
+  font-size: var(--strata-font-size-sm);
+  white-space: nowrap;
+}
+
+.factLabel {
+  color: var(--strata-color-text-subtle);
+}
+
+.factValue {
+  color: var(--strata-color-text-default);
+  font-weight: var(--strata-font-weight-medium);
+  font-variant-numeric: tabular-nums;
+}
+
+.factSwatch {
+  inline-size: var(--strata-space-3);
+  block-size: var(--strata-space-3);
+  border-radius: var(--strata-radius-pill);
+  box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--strata-color-text-default) 20%, transparent);
+}
+
+/* ---- Panels: one ThemeScope per scheme, so each ramp sits on its own scheme's canvas ---- */
+
+.panels {
+  display: grid;
+  gap: var(--strata-space-4);
+}
+@media (min-width: 1200px) {
+  .panels {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.panel.panel {
+  /* Resolved against the tenant's own tokens: the panel is the ThemeScope. */
+  container-type: inline-size;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--strata-space-4);
+  min-inline-size: 0;
+  padding: var(--strata-space-3);
+  border: 1px solid var(--strata-color-border-subtle);
+  border-radius: var(--strata-radius-container);
+}
+@media (min-width: 768px) {
+  .panel.panel {
+    padding: var(--strata-space-5);
+  }
+}
+
+.panelTitle {
+  color: var(--strata-color-text-default);
+  font-size: var(--strata-font-size-sm);
+  font-weight: var(--strata-font-weight-semibold);
+}
+
+.table {
+  --_label: calc(var(--strata-space-16) + var(--strata-space-2));
+  --_gap: calc(var(--strata-space-1) * 0.5);
+  display: grid;
+  gap: var(--strata-space-1);
+}
+
+.stepRow,
+.row {
+  display: grid;
+  grid-template-columns: var(--_label) repeat(12, minmax(0, 1fr));
+  align-items: center;
+  column-gap: var(--_gap);
+}
+
+.swatches {
+  display: grid;
+  gap: var(--strata-space-1);
+  outline: none;
+}
+
+/* Narrow panels: the ramp name moves above its row so the 12 swatches get the full width. */
+@container (max-width: 520px) {
+  .table {
+    --_gap: calc(var(--strata-space-1) * 0.25);
+  }
+  .stepRow,
+  .row {
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+  }
+  .stepSpacer {
+    display: none;
+  }
+  .rampLabel {
+    grid-column: 1 / -1;
+    margin-block: var(--strata-space-2) var(--strata-space-1);
+  }
+}
+
+.stepNumber {
+  color: var(--strata-color-text-subtle);
+  font-size: var(--strata-font-size-xs);
+  font-variant-numeric: tabular-nums;
+  text-align: center;
+}
+
+.rampLabel {
+  color: var(--strata-color-text-subtle);
+  font-size: var(--strata-font-size-sm);
+  font-weight: var(--strata-font-weight-medium);
+}
+
+.swatch {
+  position: relative;
+  display: grid;
+  place-items: end center;
+  block-size: var(--strata-space-10);
+  min-inline-size: var(--strata-space-6);
+  margin: 0;
+  padding: 0 0 var(--strata-space-1);
+  border: 0;
+  border-radius: min(var(--strata-radius-field), var(--strata-space-1));
+  background: var(--swatch);
+  box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--strata-color-text-default) 8%, transparent);
+  cursor: pointer;
+  outline: none;
+}
+.swatch[data-hovered] {
+  scale: 1.08;
+  z-index: 1;
+}
+.swatch[data-pressed] {
+  scale: 0.96;
+}
+.swatch[data-focus-visible] {
+  z-index: 1;
+  outline: 2px solid var(--strata-color-focus-ring);
+  outline-offset: 2px;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .swatch {
+    transition: scale var(--strata-motion-duration-fast) var(--strata-motion-easing);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .swatch[data-hovered],
+  .swatch[data-pressed] {
+    scale: none;
+  }
+}
+
+.roleDot {
+  inline-size: calc(var(--strata-space-1) + 1px);
+  block-size: calc(var(--strata-space-1) + 1px);
+  border-radius: var(--strata-radius-pill);
+  background: var(--swatch-ink);
+  opacity: 0.8;
+}
+
+/* ---- Readout ---- */
+
+.readout {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--strata-space-1) var(--strata-space-3);
+  min-block-size: var(--strata-space-6);
+  color: var(--strata-color-text-subtle);
+  font-size: var(--strata-font-size-sm);
+}
+
+.readoutHint {
+  color: var(--strata-color-text-subtle);
+}
+
+.readoutSwatch {
+  inline-size: var(--strata-space-4);
+  block-size: var(--strata-space-4);
+  border-radius: min(var(--strata-radius-field), var(--strata-space-1));
+  background: var(--swatch);
+  box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--strata-color-text-default) 12%, transparent);
+}
+
+.readoutName {
+  color: var(--strata-color-text-default);
+  font-weight: var(--strata-font-weight-semibold);
+}
+
+.readoutValue {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--strata-space-1);
+  font-family: var(--strata-font-mono);
+  font-size: var(--strata-font-size-xs);
+}
+.readoutValue[data-selected] {
+  color: var(--strata-color-text-default);
+}
+
+.readoutCheck {
+  inline-size: var(--strata-space-3);
+  block-size: var(--strata-space-3);
+}
+
+/* ---- Note ---- */
+
+.note {
+  color: var(--strata-color-text-subtle);
+  font-size: var(--strata-font-size-sm);
+}
+
+.noteDot {
+  display: inline-block;
+  inline-size: calc(var(--strata-space-1) + 1px);
+  block-size: calc(var(--strata-space-1) + 1px);
+  margin-inline-end: var(--strata-space-2);
+  border-radius: var(--strata-radius-pill);
+  background: var(--strata-color-text-subtle);
+  vertical-align: middle;
+}
+
+.noteLink {
+  color: var(--strata-color-text-default);
+  font-weight: var(--strata-font-weight-medium);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.25em;
+}

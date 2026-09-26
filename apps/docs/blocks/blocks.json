@@ -1,0 +1,37 @@
+[
+  {
+    "name": "dashboard-overview",
+    "title": "Dashboard overview",
+    "description": "An account overview: app header with a command menu, notifications and account menus, KPI tiles, an alert, recent activity and a quick-action form.",
+    "categories": ["dashboard"],
+    "contentKeys": ["locale", "currency", "product", "nav", "user", "a11y", "overview", "dashboard"]
+  },
+  {
+    "name": "request-flow",
+    "title": "Request flow",
+    "description": "A three-step request with inline validation, an error summary, evidence upload with progress, a confirmation dialog and a success state.",
+    "categories": ["forms", "flows"],
+    "contentKeys": ["locale", "currency", "product", "requestFlow"]
+  },
+  {
+    "name": "settings",
+    "title": "Settings",
+    "description": "Tabbed account settings: profile form with photo upload, appearance, notification switches, active sessions and a danger zone.",
+    "categories": ["settings", "forms"],
+    "contentKeys": ["locale", "currency", "product", "user", "settings"]
+  },
+  {
+    "name": "sign-in",
+    "title": "Sign in",
+    "description": "Email and password sign-in with a passkey option. A centred card on narrow containers, a two-column layout with a brand panel on wide ones.",
+    "categories": ["authentication"],
+    "contentKeys": ["locale", "product", "signIn"]
+  },
+  {
+    "name": "activity-table",
+    "title": "Activity table",
+    "description": "A full data table page: search, status filter, sorting, row selection with bulk actions, CSV export, density, pagination, empty and loading states.",
+    "categories": ["data", "tables"],
+    "contentKeys": ["locale", "currency", "product", "activity"]
+  }
+]

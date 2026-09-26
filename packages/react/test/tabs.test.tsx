@@ -93,6 +93,44 @@ describe('Tabs', () => {
     expect(screen.getByRole('tabpanel')).toHaveTextContent('History panel');
   });
 
+  it('hides inactive force-mounted panels', async () => {
+    // Vitest doesn't inject CSS Modules into jsdom, so load the panel rules from the real stylesheet.
+    // (Node's fs via a runtime specifier: this package's tsconfig has no Node types.)
+    const fsModule = 'node:fs';
+    const { readFileSync } = (await import(/* @vite-ignore */ fsModule)) as { readFileSync: (path: string, enc: 'utf8') => string };
+    const cwd = (globalThis as unknown as { process: { cwd(): string } }).process.cwd();
+    const css = readFileSync(`${cwd}/src/ui/tabs.module.css`, 'utf8');
+    const rules = css.match(/\.panel\[inert\][^{]*\{[^}]*\}/)?.[0];
+    expect(rules).toBeDefined();
+    const style = document.createElement('style');
+    style.textContent = rules ?? '';
+    document.head.append(style);
+
+    const user = userEvent.setup();
+    render(
+      <Tabs defaultSelectedKey="preview">
+        <TabList aria-label="Example">
+          <Tab id="preview">Preview</Tab>
+          <Tab id="code">Code</Tab>
+        </TabList>
+        <TabPanel id="preview" shouldForceMount>
+          Preview panel
+        </TabPanel>
+        <TabPanel id="code" shouldForceMount>
+          Code panel
+        </TabPanel>
+      </Tabs>,
+    );
+    expect(screen.getByText('Preview panel')).toBeVisible();
+    expect(screen.getByText('Code panel')).toBeInTheDocument();
+    expect(screen.getByText('Code panel')).not.toBeVisible();
+
+    await user.click(screen.getByRole('tab', { name: 'Code' }));
+    expect(screen.getByText('Code panel')).toBeVisible();
+    expect(screen.getByText('Preview panel')).not.toBeVisible();
+    style.remove();
+  });
+
   it('supports vertical orientation', () => {
     render(<Example orientation="vertical" />);
     expect(screen.getByRole('tablist')).toHaveAttribute('aria-orientation', 'vertical');

@@ -135,7 +135,7 @@
       "name": "onOpen",
       "type": "() => void",
       "required": true,
-      "description": "Called on ⌘K (macOS) or Ctrl+K anywhere on the page."
+      "description": "Called on ⌘K (macOS) or Ctrl+K anywhere on the page, unless an earlier listener already called preventDefault() on the key press."
     },
     {
       "component": "useCommandShortcut",
@@ -169,10 +169,11 @@
       }
     ],
     "notes": [
-      "The input controls a role=\"menu\" list via aria-activedescendant (virtual focus), so screen readers announce the active result without focus leaving the input.",
+      "The input is a combobox (WAI-ARIA APG pattern): it controls a role=\"listbox\" of options via aria-controls and points at the active option with aria-activedescendant, so focus never leaves the input. The results list scrolls without being a tab stop; the combobox relationship is what makes that keyboard-accessible (axe scrollable-region-focusable passes).",
       "The dialog and input are named by aria-label.",
       "Overlays render in a portal on <body>, outside any ThemeScope. When it opens, the overlay looks up data-strata-theme, data-strata-scheme, data-strata-density, dir and lang — each on the nearest ancestor that has it — starting from its trigger (or from where the component is rendered, when controlled), and copies them onto its own root — so it uses the same tenant tokens and direction as the page region it came from, and nested overlays inherit from their parent overlay.",
-      "The backdrop dims the page with backdrop-filter: brightness(0.55), so it reads in light and dark schemes alike."
+      "The backdrop dims the page with backdrop-filter: brightness(0.55), so it reads in light and dark schemes alike.",
+      "Focus indicator: the hairline under the search field becomes a 2px focus-ring line while the input has focus."
     ]
   },
   "guidelines": {

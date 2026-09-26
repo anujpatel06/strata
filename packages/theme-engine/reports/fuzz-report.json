@@ -7,17 +7,17 @@
   },
   "seed": 2026,
   "themes": 1000,
-  "checksPerTheme": 78,
-  "totalChecks": 78000,
-  "passed": 78000,
+  "checksPerTheme": 86,
+  "totalChecks": 86000,
+  "passed": 86000,
   "failed": 0,
   "passRatePercent": 100,
   "failures": [],
   "invariantViolations": [],
   "generationMs": {
-    "median": 0.4222895000000335,
-    "p95": 0.7254350000000045,
-    "max": 8.090898000000038
+    "median": 0.47929350000001136,
+    "p95": 0.8457579999999325,
+    "max": 6.853515000000016
   },
   "minMargin": {
     "3": {

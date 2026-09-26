@@ -155,5 +155,738 @@
       "label": "5 of 9 years",
       "caption": "Windscreen claims don’t affect your discount. You’ll reach 6 years on 12 March 2027."
     }
+  },
+  "dashboard": {
+    "sparkline": {
+      "stat": 1,
+      "values": [
+        0,
+        1,
+        1,
+        0,
+        1,
+        2,
+        1,
+        2
+      ]
+    },
+    "command": {
+      "placeholder": "Search policies, claims and pages…",
+      "empty": "Nothing found for “{query}”",
+      "pages": "Pages",
+      "actions": "Actions",
+      "recent": "Recent claims and payments",
+      "hints": {
+        "navigate": "to move",
+        "select": "to open",
+        "close": "to close"
+      }
+    },
+    "notifications": {
+      "title": "Notifications",
+      "markAllRead": "Mark all as read",
+      "items": [
+        {
+          "id": "windscreen",
+          "title": "We need photos for your windscreen claim",
+          "description": "Upload them by 3 October so we can book the repair.",
+          "ago": {
+            "value": 3,
+            "unit": "hour"
+          }
+        }
+      ]
+    },
+    "account": {
+      "profile": "Your details",
+      "settings": "Account settings",
+      "help": "Contact us",
+      "signOut": "Sign out"
+    },
+    "formSubmitted": {
+      "title": "Claim started",
+      "description": "We’ve saved your answers. Carry on whenever you’re ready."
+    }
+  },
+  "requestFlow": {
+    "exit": "Save and exit",
+    "title": "Make a home insurance claim",
+    "subtitle": "Tell us what happened and send us any photos. You can save your claim and come back to it at any point.",
+    "progressLabel": "Claim progress",
+    "stepWord": "Step",
+    "ofWord": "of",
+    "completedWord": "completed",
+    "steps": {
+      "details": "What happened",
+      "evidence": "Photos",
+      "review": "Check and send"
+    },
+    "subject": {
+      "label": "Policy",
+      "title": "Home insurance",
+      "meta": "HB-HOM-31877 · 14 Wren Close, Bristol",
+      "dateLabel": "Renews",
+      "date": "2026-10-14",
+      "amountLabel": "Excess",
+      "amount": 250
+    },
+    "help": {
+      "title": "What happens next",
+      "items": [
+        "A claims handler will call you within one working day to talk through the damage.",
+        "If it’s urgent, we can send an approved plumber or builder, and you won’t pay upfront.",
+        "Your £250 excess is taken from your settlement, not paid separately."
+      ]
+    },
+    "errorSummary": "There’s a problem",
+    "back": "Back",
+    "next": "Continue",
+    "details": {
+      "title": "What happened?",
+      "description": "Tell us about the damage to your home. Rough estimates are fine at this stage.",
+      "reason": {
+        "label": "Type of damage",
+        "options": [
+          {
+            "id": "water",
+            "label": "Escape of water",
+            "description": "A leak or burst pipe, including a washing machine or dishwasher."
+          },
+          {
+            "id": "storm",
+            "label": "Storm or flood",
+            "description": "Damage from heavy rain, strong wind or rising water."
+          },
+          {
+            "id": "theft",
+            "label": "Theft or break-in",
+            "description": "Something was stolen, or your home was damaged in a break-in."
+          },
+          {
+            "id": "accident",
+            "label": "Accidental damage",
+            "description": "A one-off accident, like paint spilled on a carpet."
+          }
+        ],
+        "error": "Choose the type of damage"
+      },
+      "field": {
+        "kind": "amount",
+        "label": "Estimated cost of repairs",
+        "description": "A builder’s quote or your best guess. You can change it later.",
+        "placeholder": "0",
+        "errors": {
+          "required": "Enter an estimated cost",
+          "invalid": "Enter an amount in pounds, like 1,250"
+        }
+      },
+      "date": {
+        "label": "Date of incident",
+        "description": "If you’re not sure, give your best estimate.",
+        "errors": {
+          "required": "Enter the date the damage happened",
+          "future": "The date of the incident must be today or in the past"
+        }
+      }
+    },
+    "evidence": {
+      "title": "Photos and quotes",
+      "description": "Clear photos of the damage and any repair quotes help us settle your claim sooner.",
+      "upload": {
+        "label": "Photos and documents",
+        "description": "Add at least one photo. Include a wide shot of the room and close-ups of the damage.",
+        "dropLabel": "Drag files here or",
+        "browseLabel": "choose files",
+        "hint": "JPG, PNG, HEIC or PDF, up to 10 MB each",
+        "error": "Add at least one photo of the damage"
+      }
+    },
+    "review": {
+      "title": "Check your claim",
+      "description": "Take a moment to check your answers. Your handler will see exactly what you’ve told us.",
+      "edit": "Change",
+      "labels": {
+        "reason": "Type of damage",
+        "field": "Estimated cost",
+        "date": "Date of incident",
+        "files": "Photos and documents"
+      },
+      "files": {
+        "one": "{count} file",
+        "other": "{count} files"
+      },
+      "confirm": {
+        "label": "The information I’ve given is true to the best of my knowledge",
+        "error": "Confirm your answers are correct to send your claim"
+      },
+      "submit": "Send claim",
+      "dialog": {
+        "title": "Send your claim?",
+        "body": "Your claims handler will receive everything you’ve told us and will call you within one working day.",
+        "action": "Send claim",
+        "cancel": "Keep editing"
+      }
+    },
+    "success": {
+      "title": "Claim sent",
+      "description": "Thanks, Daniel. Your claim reference is {reference}. We’ll call you within one working day.",
+      "reference": "HB-CLM-20452",
+      "track": "Track your claim",
+      "done": "Back to overview"
+    }
+  },
+  "settings": {
+    "title": "Account settings",
+    "description": "Update your details, choose how we contact you and manage your payments.",
+    "tabsLabel": "Settings sections",
+    "tabs": {
+      "profile": "Your details",
+      "notifications": "Contact preferences",
+      "security": "Security",
+      "billing": "Payments"
+    },
+    "save": "Save changes",
+    "saved": "Your details have been saved",
+    "profile": {
+      "title": "Your details",
+      "description": "Keep these up to date so we can reach you quickly if you need to claim.",
+      "photo": {
+        "label": "Profile photo",
+        "dropLabel": "Drag a photo here or",
+        "browseLabel": "choose a file",
+        "hint": "JPG or PNG, up to 5 MB"
+      },
+      "name": {
+        "label": "Full name",
+        "value": "Daniel Okafor",
+        "description": "This must match the name on your policies."
+      },
+      "email": {
+        "label": "Email address",
+        "value": "daniel.okafor@example.com",
+        "description": "We’ll send policy documents and claim updates here."
+      },
+      "phone": {
+        "label": "Phone number",
+        "value": "07700 900418"
+      },
+      "language": {
+        "label": "Language",
+        "value": "en-GB",
+        "options": [
+          {
+            "id": "en-GB",
+            "label": "English (UK)"
+          },
+          {
+            "id": "cy-GB",
+            "label": "Cymraeg"
+          },
+          {
+            "id": "pl-PL",
+            "label": "Polski"
+          }
+        ]
+      },
+      "region": {
+        "label": "Time zone",
+        "value": "Europe/London",
+        "options": [
+          {
+            "id": "Europe/London",
+            "label": "UK time"
+          },
+          {
+            "id": "Europe/Dublin",
+            "label": "Irish time"
+          },
+          {
+            "id": "Europe/Lisbon",
+            "label": "Portugal time"
+          }
+        ]
+      }
+    },
+    "display": {
+      "title": "Appearance",
+      "description": "Choose how Harbor looks on this device.",
+      "theme": {
+        "label": "Theme",
+        "options": {
+          "system": "Match my device",
+          "light": "Light",
+          "dark": "Dark"
+        }
+      },
+      "density": {
+        "label": "Spacing",
+        "options": {
+          "comfortable": "Roomy",
+          "compact": "Compact"
+        }
+      }
+    },
+    "danger": {
+      "title": "Close your online account",
+      "description": "Your policies stay active if you close your online account. You’ll manage them by phone and post instead.",
+      "action": "Close online account",
+      "dialog": {
+        "title": "Close your online account?",
+        "body": "You’ll no longer be able to make claims or download documents online. Your cover isn’t affected.",
+        "action": "Close account",
+        "cancel": "Cancel"
+      },
+      "done": "We’ve closed your online account"
+    },
+    "notifications": {
+      "title": "Contact preferences",
+      "description": "Choose which updates you’d like and how we send them.",
+      "groups": [
+        {
+          "title": "Claims",
+          "items": [
+            {
+              "id": "claim-updates",
+              "label": "Claim updates",
+              "description": "When your claim moves to a new stage or we need something from you. We always send these.",
+              "on": true,
+              "locked": true
+            },
+            {
+              "id": "handler",
+              "label": "Messages from your handler",
+              "description": "When your claims handler sends you a message.",
+              "on": true
+            }
+          ]
+        },
+        {
+          "title": "Policies and payments",
+          "items": [
+            {
+              "id": "renewal",
+              "label": "Renewal reminders",
+              "description": "Four weeks and one week before a policy renews.",
+              "on": true
+            },
+            {
+              "id": "payments",
+              "label": "Payment confirmations",
+              "description": "Each time a premium is collected.",
+              "on": false
+            }
+          ]
+        },
+        {
+          "title": "News and offers",
+          "items": [
+            {
+              "id": "tips",
+              "label": "Home and travel tips",
+              "description": "Seasonal advice, like protecting your pipes in a freeze.",
+              "on": true
+            },
+            {
+              "id": "offers",
+              "label": "Offers from Harbor",
+              "description": "Discounts on other types of cover.",
+              "on": false
+            }
+          ]
+        }
+      ],
+      "channels": {
+        "label": "Contact me by",
+        "options": [
+          {
+            "id": "email",
+            "label": "Email"
+          },
+          {
+            "id": "sms",
+            "label": "Text"
+          },
+          {
+            "id": "post",
+            "label": "Post"
+          }
+        ],
+        "selected": [
+          "email",
+          "sms"
+        ]
+      }
+    },
+    "security": {
+      "title": "Signing in",
+      "description": "Protect your account and the personal details it holds.",
+      "twoFactor": {
+        "label": "Two-step verification",
+        "description": "We’ll text a code to 07700 900418 when you sign in from a new device.",
+        "on": false
+      },
+      "password": {
+        "label": "Password",
+        "description": "Last changed on 3 February 2026.",
+        "action": "Change password"
+      },
+      "sessions": {
+        "title": "Where you’re signed in",
+        "description": "If you see a device you don’t recognise, sign it out and change your password.",
+        "columns": {
+          "device": "Device",
+          "location": "Location",
+          "lastActive": "Last active",
+          "actions": "Actions"
+        },
+        "current": "This device",
+        "actionsLabel": "Actions for {device}",
+        "signOut": "Sign out",
+        "signedOut": "{device} has been signed out",
+        "rows": [
+          {
+            "id": "h1",
+            "device": "Safari on MacBook",
+            "kind": "desktop",
+            "location": "Bristol, UK",
+            "lastActive": "2026-09-26T14:02:00+01:00",
+            "current": true
+          },
+          {
+            "id": "h2",
+            "device": "Harbor app on Android",
+            "kind": "mobile",
+            "location": "Bristol, UK",
+            "lastActive": "2026-09-25T18:30:00+01:00"
+          },
+          {
+            "id": "h3",
+            "device": "Chrome on Windows",
+            "kind": "desktop",
+            "location": "Bath, UK",
+            "lastActive": "2026-09-11T09:15:00+01:00"
+          }
+        ]
+      }
+    },
+    "billing": {
+      "title": "Payments",
+      "description": "How and when you pay for your cover.",
+      "plan": {
+        "name": "Monthly Direct Debit",
+        "price": 88.65,
+        "period": "per month",
+        "badge": "Active",
+        "features": [
+          "Home insurance, £27.90",
+          "Motor insurance, £48.35",
+          "Travel insurance, £12.40"
+        ],
+        "change": "Switch to annual"
+      },
+      "method": {
+        "title": "Paid from",
+        "label": "Current account •• 2291",
+        "detail": "Collected on the 15th and 22nd of each month",
+        "update": "Change bank details"
+      }
+    }
+  },
+  "signIn": {
+    "title": "Sign in to your account",
+    "subtitle": "Manage your policies, make a claim or check a payment.",
+    "email": {
+      "label": "Email address",
+      "placeholder": "name@example.com",
+      "errors": {
+        "required": "Enter your email address",
+        "invalid": "Enter an email address in the correct format, like name@example.com"
+      }
+    },
+    "password": {
+      "label": "Password",
+      "show": "Show password",
+      "hide": "Hide password",
+      "forgot": "Forgotten your password?",
+      "errors": {
+        "required": "Enter your password"
+      }
+    },
+    "remember": "Keep me signed in",
+    "submit": "Sign in",
+    "or": "or",
+    "passkey": "Sign in with a passkey",
+    "signUp": {
+      "prompt": "Bought a policy by phone?",
+      "action": "Set up your online account"
+    },
+    "legal": {
+      "terms": "Terms of use",
+      "privacy": "Privacy notice",
+      "help": "Contact us"
+    },
+    "brand": {
+      "headline": "Cover that’s there when you need it.",
+      "body": "Make a claim in minutes, day or night, and follow every step online."
+    },
+    "success": {
+      "title": "You’re signed in"
+    }
+  },
+  "activity": {
+    "title": "Claims and payments",
+    "description": "Every claim you’ve made and every premium you’ve paid, across all your policies.",
+    "export": "Export CSV",
+    "exported": {
+      "one": "Exported {count} item",
+      "other": "Exported {count} items"
+    },
+    "refresh": "Refresh",
+    "search": {
+      "label": "Search claims and payments",
+      "placeholder": "Search by description or reference"
+    },
+    "status": {
+      "label": "Status",
+      "all": "All statuses"
+    },
+    "density": {
+      "label": "Row spacing",
+      "comfortable": "Roomy",
+      "compact": "Compact"
+    },
+    "bulk": {
+      "label": "Actions",
+      "items": [
+        {
+          "id": "download",
+          "label": "Download documents",
+          "done": {
+            "one": "Downloading documents for {count} item",
+            "other": "Downloading documents for {count} items"
+          }
+        },
+        {
+          "id": "read",
+          "label": "Mark as read",
+          "done": {
+            "one": "{count} item marked as read",
+            "other": "{count} items marked as read"
+          }
+        }
+      ]
+    },
+    "selected": {
+      "one": "{count} selected",
+      "other": "{count} selected"
+    },
+    "columns": {
+      "date": "Date",
+      "description": "Description",
+      "category": "Policy",
+      "status": "Status",
+      "amount": "Amount"
+    },
+    "statuses": {
+      "paid": {
+        "label": "Paid",
+        "tone": "success"
+      },
+      "settled": {
+        "label": "Settled",
+        "tone": "success"
+      },
+      "action_needed": {
+        "label": "Action needed",
+        "tone": "warning"
+      },
+      "in_review": {
+        "label": "In review",
+        "tone": "info"
+      },
+      "failed": {
+        "label": "Payment failed",
+        "tone": "danger"
+      }
+    },
+    "rows": [
+      {
+        "id": "HB-20418",
+        "date": "2026-09-24",
+        "title": "Escape of water, kitchen",
+        "meta": "HB-CLM-20418",
+        "category": "Home",
+        "status": "in_review",
+        "amount": 1840
+      },
+      {
+        "id": "HB-P-0922M",
+        "date": "2026-09-22",
+        "title": "Monthly premium",
+        "meta": "Direct Debit",
+        "category": "Motor",
+        "status": "paid",
+        "amount": -48.35
+      },
+      {
+        "id": "HB-20377",
+        "date": "2026-09-19",
+        "title": "Windscreen claim",
+        "meta": "HB-CLM-20377",
+        "category": "Motor",
+        "status": "action_needed",
+        "amount": 320
+      },
+      {
+        "id": "HB-P-0916T",
+        "date": "2026-09-16",
+        "title": "Premium retry",
+        "meta": "Card •• 7730",
+        "category": "Travel",
+        "status": "paid",
+        "amount": -12.4
+      },
+      {
+        "id": "HB-P-0915H",
+        "date": "2026-09-15",
+        "title": "Monthly premium",
+        "meta": "Direct Debit",
+        "category": "Home",
+        "status": "paid",
+        "amount": -27.9
+      },
+      {
+        "id": "HB-20291",
+        "date": "2026-09-12",
+        "title": "Lost luggage, Lisbon",
+        "meta": "HB-CLM-20291",
+        "category": "Travel",
+        "status": "settled",
+        "amount": 410
+      },
+      {
+        "id": "HB-P-0908T",
+        "date": "2026-09-08",
+        "title": "Monthly premium",
+        "meta": "Direct Debit returned",
+        "category": "Travel",
+        "status": "failed",
+        "amount": -12.4
+      },
+      {
+        "id": "HB-X-20291",
+        "date": "2026-09-03",
+        "title": "Excess payment",
+        "meta": "HB-CLM-20291",
+        "category": "Travel",
+        "status": "paid",
+        "amount": -100
+      },
+      {
+        "id": "HB-P-0822M",
+        "date": "2026-08-22",
+        "title": "Monthly premium",
+        "meta": "Direct Debit",
+        "category": "Motor",
+        "status": "paid",
+        "amount": -48.35
+      },
+      {
+        "id": "HB-P-0815H",
+        "date": "2026-08-15",
+        "title": "Monthly premium",
+        "meta": "Direct Debit",
+        "category": "Home",
+        "status": "paid",
+        "amount": -27.9
+      },
+      {
+        "id": "HB-P-0808T",
+        "date": "2026-08-08",
+        "title": "Monthly premium",
+        "meta": "Direct Debit",
+        "category": "Travel",
+        "status": "paid",
+        "amount": -12.4
+      },
+      {
+        "id": "HB-19870",
+        "date": "2026-07-30",
+        "title": "Storm damage, fence panels",
+        "meta": "HB-CLM-19870",
+        "category": "Home",
+        "status": "settled",
+        "amount": 685
+      },
+      {
+        "id": "HB-P-0722M",
+        "date": "2026-07-22",
+        "title": "Monthly premium",
+        "meta": "Direct Debit",
+        "category": "Motor",
+        "status": "paid",
+        "amount": -48.35
+      },
+      {
+        "id": "HB-P-0715H",
+        "date": "2026-07-15",
+        "title": "Monthly premium",
+        "meta": "Direct Debit",
+        "category": "Home",
+        "status": "paid",
+        "amount": -27.9
+      },
+      {
+        "id": "HB-P-0708T",
+        "date": "2026-07-08",
+        "title": "Monthly premium",
+        "meta": "Direct Debit",
+        "category": "Travel",
+        "status": "paid",
+        "amount": -12.4
+      },
+      {
+        "id": "HB-X-19870",
+        "date": "2026-06-27",
+        "title": "Excess payment",
+        "meta": "HB-CLM-19870",
+        "category": "Home",
+        "status": "paid",
+        "amount": -250
+      },
+      {
+        "id": "HB-P-0622M",
+        "date": "2026-06-22",
+        "title": "Monthly premium",
+        "meta": "Direct Debit",
+        "category": "Motor",
+        "status": "paid",
+        "amount": -48.35
+      },
+      {
+        "id": "HB-19602",
+        "date": "2026-06-11",
+        "title": "Chipped windscreen repair",
+        "meta": "HB-CLM-19602",
+        "category": "Motor",
+        "status": "settled",
+        "amount": 95
+      }
+    ],
+    "empty": {
+      "title": "Nothing matches your search",
+      "description": "Try another word or reference, or clear the filters to see all your claims and payments.",
+      "clear": "Clear filters"
+    },
+    "pagination": {
+      "label": "Claims and payments pages",
+      "previous": "Previous",
+      "next": "Next",
+      "page": "Page",
+      "of": "of",
+      "summary": "Showing {start}–{end} of {total}",
+      "none": "No results"
+    },
+    "loading": "Loading claims and payments"
   }
 }

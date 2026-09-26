@@ -1,0 +1,186 @@
+.root {
+  /* The frame keeps the site's radius even though the scope inside it re-points --strata-radius-*. */
+  --home-frame-radius: calc(var(--strata-radius-container) + var(--strata-space-1));
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--strata-space-4);
+  min-inline-size: 0;
+}
+
+/* ---- Toolbar ---- */
+
+.toolbar {
+  z-index: 20;
+  margin-inline: calc(var(--strata-space-2) * -1);
+  padding: var(--strata-space-2);
+  border-radius: var(--home-frame-radius);
+}
+@media (min-width: 768px) {
+  /* Sticky under the site header on wide screens, so the controls stay in reach while you scroll the grid. */
+  .toolbar {
+    position: sticky;
+    inset-block-start: calc(var(--docs-header-height) + var(--strata-space-2));
+    background: color-mix(in oklab, var(--strata-color-surface-canvas) 85%, transparent);
+    -webkit-backdrop-filter: saturate(1.8) blur(var(--strata-space-3));
+    backdrop-filter: saturate(1.8) blur(var(--strata-space-3));
+  }
+}
+
+.toolbarInner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--strata-space-2) var(--strata-space-3);
+}
+
+/* Tenant chips: the segmented control scrolls sideways on narrow screens rather than wrapping. The padding
+   leaves room for the focus ring, which would otherwise be clipped by the scroll box. */
+.chipScroller {
+  max-inline-size: calc(100% + var(--strata-space-2));
+  margin: calc(var(--strata-space-1) * -1);
+  padding: var(--strata-space-1);
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.chipScroller::-webkit-scrollbar {
+  display: none;
+}
+
+.chips.chips {
+  max-inline-size: none;
+}
+
+.chip.chip {
+  gap: var(--strata-space-2);
+}
+
+.dot {
+  flex: none;
+  inline-size: calc(var(--strata-space-2) + var(--strata-space-1));
+  block-size: calc(var(--strata-space-2) + var(--strata-space-1));
+  border-radius: var(--strata-radius-pill);
+  box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--strata-color-text-default) 20%, transparent);
+}
+
+.tag {
+  padding-inline: var(--strata-space-1);
+  border-radius: var(--strata-radius-badge);
+  background: color-mix(in oklab, var(--strata-color-text-default) 8%, transparent);
+  color: var(--strata-color-text-subtle);
+  font-size: var(--strata-font-size-xs);
+  font-weight: var(--strata-font-weight-medium);
+  line-height: var(--strata-line-height-normal);
+}
+
+.picker {
+  display: flex;
+  align-items: center;
+  gap: var(--strata-space-2);
+}
+
+/* The native colour input, drawn as a swatch the size of a small control. */
+.swatch {
+  flex: none;
+  inline-size: calc(var(--strata-control-height) - var(--strata-space-2));
+  block-size: calc(var(--strata-control-height) - var(--strata-space-2));
+  padding: 0;
+  border: 1px solid var(--strata-color-border-strong);
+  border-radius: var(--strata-radius-field);
+  background: transparent;
+  cursor: pointer;
+  overflow: hidden;
+}
+.swatch::-webkit-color-swatch-wrapper {
+  padding: 0;
+}
+.swatch::-webkit-color-swatch {
+  border: 0;
+  border-radius: 0;
+}
+.swatch::-moz-color-swatch {
+  border: 0;
+  border-radius: 0;
+}
+.swatch:focus-visible {
+  outline: 2px solid var(--strata-color-focus-ring);
+  outline-offset: 2px;
+}
+
+.hex.hex {
+  inline-size: calc(var(--strata-space-16) + var(--strata-space-12));
+}
+.hex.hex input {
+  block-size: calc(var(--strata-control-height) - var(--strata-space-2));
+  font-family: var(--strata-font-mono);
+  font-size: var(--strata-font-size-sm);
+}
+
+.scheme.scheme {
+  margin-inline-start: auto;
+}
+
+/* ---- Frame ---- */
+
+.frame {
+  min-inline-size: 0;
+  border: var(--docs-hairline);
+  border-radius: var(--home-frame-radius);
+  overflow: hidden;
+}
+
+.scope.scope {
+  padding: var(--strata-space-3);
+}
+@media (min-width: 768px) {
+  .scope.scope {
+    padding: var(--strata-space-6);
+  }
+}
+
+/* ---- Solver line ---- */
+
+.solver {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: var(--strata-space-1) var(--strata-space-2);
+  color: var(--strata-color-text-subtle);
+  font-size: var(--strata-font-size-sm);
+  text-align: center;
+}
+
+.solverIcon {
+  flex: none;
+  inline-size: var(--strata-space-4);
+  block-size: var(--strata-space-4);
+  color: var(--strata-color-text-default);
+}
+
+.solverName {
+  color: var(--strata-color-text-default);
+  font-weight: var(--strata-font-weight-medium);
+}
+
+.solverFigure {
+  font-variant-numeric: tabular-nums;
+}
+
+.solverLink {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--strata-space-1);
+  color: var(--strata-color-text-default);
+  font-weight: var(--strata-font-weight-medium);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.25em;
+}
+
+.arrow {
+  inline-size: calc(var(--strata-space-4) - 2px);
+  block-size: calc(var(--strata-space-4) - 2px);
+}
+.arrow:dir(rtl) {
+  scale: -1 1;
+}

@@ -1,0 +1,120 @@
+/* Layout glue inside the showcase cards. Tokens only; components bring their own styling. */
+
+/* A <form> that shouldn't add a box: the card's own gap keeps spacing between header, content and footer. */
+.contents {
+  display: contents;
+}
+
+.fields {
+  display: grid;
+  align-content: start;
+  gap: var(--strata-field-gap);
+}
+
+.switches {
+  display: grid;
+  align-content: start;
+  gap: var(--strata-space-4);
+}
+
+/* In a card that stretches to end its column, the content takes the extra height and the footer stays last. */
+.fill {
+  flex: 1;
+}
+
+.stack {
+  display: grid;
+  gap: var(--strata-space-4);
+}
+
+/* Two equal columns that keep their items' own heights (e.g. two Selects with labels). */
+.pair {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--strata-space-3);
+  align-items: start;
+}
+.stack > .pair {
+  gap: var(--strata-space-4);
+}
+
+.grow {
+  flex: 1;
+}
+
+.between {
+  justify-content: space-between;
+}
+
+.center {
+  display: flex;
+  justify-content: center;
+}
+
+.list {
+  display: grid;
+  gap: var(--strata-space-4);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.person {
+  display: flex;
+  align-items: center;
+  gap: var(--strata-space-3);
+  min-inline-size: 0;
+}
+
+.personText,
+.cellStack {
+  display: grid;
+  min-inline-size: 0;
+  line-height: var(--strata-line-height-snug);
+}
+.personText {
+  flex: 1;
+}
+.personText > *,
+.cellStack > * {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.strong {
+  color: var(--strata-color-text-default);
+  font-size: var(--strata-font-size-md);
+  font-weight: var(--strata-font-weight-medium);
+}
+
+.muted {
+  color: var(--strata-color-text-subtle);
+  font-size: var(--strata-font-size-sm);
+}
+
+.roleSelect {
+  flex: none;
+  inline-size: calc(var(--strata-space-16) * 1.75);
+}
+
+.radioLabel {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--strata-space-2);
+}
+
+.icon {
+  flex: none;
+  inline-size: var(--strata-space-4);
+  block-size: var(--strata-space-4);
+  color: var(--strata-color-text-subtle);
+}
+
+/* The inline Menu is a list of suggestions inside the card, not a floating panel. */
+.menu {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+}

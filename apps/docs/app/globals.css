@@ -102,7 +102,7 @@ a {
   text-decoration: none;
 }
 
-:where(a, button, [tabindex]):focus-visible {
+:where(a:focus-visible, button:focus-visible, [tabindex]:focus-visible) {
   outline: 2px solid var(--strata-color-focus-ring);
   outline-offset: 2px;
   border-radius: var(--strata-radius-badge);

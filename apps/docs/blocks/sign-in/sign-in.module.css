@@ -1,0 +1,263 @@
+/*
+ * Sign in. Tokens only; container breakpoints are the only literals (CSS can't read them from variables).
+ * Narrow: a centred card. From 960px of the block's own width: form | brand panel, and the card loses its chrome.
+ */
+
+.root {
+  --_gutter: var(--strata-space-4);
+
+  container: sign-in / inline-size;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  min-block-size: 100%;
+  background-color: var(--strata-color-surface-canvas);
+  color: var(--strata-color-text-default);
+  font-family: var(--strata-font-body);
+  font-size: var(--strata-font-size-md);
+  line-height: var(--strata-line-height-normal);
+  text-align: start;
+}
+
+.root :where(*, *::before, *::after) {
+  box-sizing: border-box;
+}
+
+.root :where(h1, h2, h3, h4, h5, h6, p, ul) {
+  margin: 0;
+}
+
+@container sign-in (min-width: 640px) {
+  .root > * {
+    --_gutter: var(--strata-space-8);
+  }
+}
+
+/* Email addresses read left to right even on right-to-left pages, still aligned to the field's start. */
+.ltrValue:dir(rtl) input {
+  direction: ltr;
+  text-align: end;
+}
+
+.layout {
+  flex: 1;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+}
+
+@container sign-in (min-width: 960px) {
+  .layout {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  }
+}
+
+/* ------------------------------------------------------------------ *
+ * Form side
+ * ------------------------------------------------------------------ */
+
+.formSide {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--strata-space-6);
+  padding-block: var(--strata-space-10);
+  padding-inline: var(--_gutter);
+}
+
+.card.card {
+  inline-size: 100%;
+  max-inline-size: calc(var(--strata-space-16) * 6.5);
+}
+
+@container sign-in (min-width: 960px) {
+  /* Beside the brand panel the page itself is the surface; the card chrome would be a box in a box. */
+  .card.card {
+    border-color: transparent;
+    background-color: transparent;
+    box-shadow: none;
+  }
+
+  .cardHeader .logoMark {
+    display: none;
+  }
+}
+
+.cardHeader.cardHeader {
+  justify-items: center;
+  text-align: center;
+}
+
+@container sign-in (min-width: 960px) {
+  .cardHeader.cardHeader {
+    justify-items: start;
+    text-align: start;
+  }
+}
+
+.logoMark {
+  display: inline-grid;
+  place-items: center;
+  inline-size: var(--strata-space-10);
+  block-size: var(--strata-space-10);
+  margin-block-end: var(--strata-space-2);
+  border-radius: var(--strata-radius-button);
+  background-color: var(--strata-color-action-primary-bg);
+  color: var(--strata-color-action-primary-fg);
+  font-family: var(--strata-font-heading);
+  font-size: var(--strata-font-size-lg);
+  font-weight: var(--strata-font-weight-bold);
+  line-height: 1;
+}
+
+.title.title {
+  font-size: var(--strata-font-size-xl);
+  letter-spacing: var(--strata-font-heading-tracking);
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+}
+
+.fields.fields {
+  display: grid;
+  gap: var(--strata-field-gap);
+}
+
+.reveal.reveal {
+  inline-size: max(var(--strata-space-6), calc(var(--strata-control-height) - var(--strata-space-3)));
+  block-size: max(var(--strata-space-6), calc(var(--strata-control-height) - var(--strata-space-3)));
+  min-inline-size: 0;
+  min-block-size: 0;
+  margin-inline-end: calc(var(--strata-space-2) * -1);
+  color: var(--strata-color-text-subtle);
+}
+
+.options {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--strata-space-2) var(--strata-space-4);
+}
+
+.small.small {
+  font-size: var(--strata-font-size-sm);
+}
+
+.full.full {
+  inline-size: 100%;
+}
+
+.cardFooter.cardFooter {
+  justify-content: center;
+  gap: var(--strata-space-1);
+  font-size: var(--strata-font-size-sm);
+}
+
+.muted {
+  color: var(--strata-color-text-subtle);
+}
+
+.legal {
+  display: flex;
+  justify-content: center;
+}
+
+.legalList {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--strata-space-1) var(--strata-space-4);
+  padding: 0;
+  list-style: none;
+}
+
+.legalLink.legalLink {
+  color: var(--strata-color-text-subtle);
+  font-size: var(--strata-font-size-xs);
+}
+
+.legalLink.legalLink[data-hovered] {
+  color: var(--strata-color-text-default);
+}
+
+/* ------------------------------------------------------------------ *
+ * Brand panel (wide containers only)
+ * ------------------------------------------------------------------ */
+
+.brandPanel {
+  display: none;
+}
+
+@container sign-in (min-width: 960px) {
+  .brandPanel {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: var(--strata-space-12);
+    padding: var(--strata-space-12);
+    background-color: var(--strata-color-action-primary-bg);
+    background-image: radial-gradient(
+        circle at 100% 0%,
+        color-mix(in oklab, var(--strata-color-action-primary-fg) 14%, transparent),
+        transparent 55%
+      ),
+      radial-gradient(
+        circle at 0% 100%,
+        color-mix(in oklab, var(--strata-color-action-primary-fg) 8%, transparent),
+        transparent 45%
+      );
+    color: var(--strata-color-action-primary-fg);
+  }
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--strata-space-3);
+}
+
+.brandMark {
+  display: inline-grid;
+  place-items: center;
+  inline-size: var(--strata-space-10);
+  block-size: var(--strata-space-10);
+  border-radius: var(--strata-radius-button);
+  background-color: var(--strata-color-action-primary-fg);
+  color: var(--strata-color-action-primary-bg);
+  font-family: var(--strata-font-heading);
+  font-size: var(--strata-font-size-lg);
+  font-weight: var(--strata-font-weight-bold);
+  line-height: 1;
+}
+
+.brandName {
+  font-family: var(--strata-font-heading);
+  font-size: var(--strata-font-size-xl);
+  font-weight: var(--strata-font-weight-semibold);
+  letter-spacing: var(--strata-font-heading-tracking);
+}
+
+.brandCopy {
+  display: grid;
+  gap: var(--strata-space-4);
+  max-inline-size: 28ch;
+}
+
+.headline {
+  font-family: var(--strata-font-heading);
+  font-size: var(--strata-font-size-3xl);
+  font-weight: var(--strata-font-weight-semibold);
+  letter-spacing: var(--strata-font-heading-tracking);
+  line-height: var(--strata-line-height-tight);
+  text-wrap: balance;
+}
+
+.brandBody {
+  max-inline-size: 36ch;
+  font-size: var(--strata-font-size-lg);
+  line-height: var(--strata-line-height-normal);
+  text-wrap: pretty;
+}

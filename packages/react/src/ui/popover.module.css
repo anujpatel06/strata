@@ -18,6 +18,11 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+/* Programmatic focus on open. Pseudo-class selector so page-level `[tabindex]:focus-visible` rules can't outrank it. */
+.popover:focus-visible {
+  outline: none;
+  border-radius: var(--strata-radius-container);
+}
 .popover *,
 .popover *::before,
 .popover *::after {

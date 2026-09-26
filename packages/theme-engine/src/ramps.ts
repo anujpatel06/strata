@@ -52,10 +52,10 @@ const DARK_CHROMA = [0.12, 0.16, 0.25, 0.33, 0.4, 0.48, 0.58, 0.72, 1, 1, 0.75, 
 const clamp = (v: number, lo: number, hi: number) => Math.min(hi, Math.max(lo, v));
 
 /** L targets for steps 1–12. Index 8 (step 9) is the base L; it is never used (the base hex is kept verbatim). */
-export function brandLightnessTargets(baseL: number, scheme: Scheme): number[] {
+export function brandLightnessTargets(baseL: number, scheme: Scheme, textCapL = 0.52): number[] {
   if (scheme === 'light') {
     const s10 = baseL < 0.32 ? baseL + 0.06 : baseL - 0.05;
-    const s11 = Math.min(0.52, baseL);
+    const s11 = Math.min(textCapL, baseL);
     const s12 = clamp(Math.min(0.3, baseL - 0.06), 0.15, 0.3);
     return [0.99, 0.975, 0.95, 0.92, 0.885, 0.845, 0.79, 0.715, baseL, s10, s11, s12];
   }
@@ -64,11 +64,17 @@ export function brandLightnessTargets(baseL: number, scheme: Scheme): number[] {
   return [0.17, 0.2, 0.245, 0.28, 0.315, 0.355, 0.41, 0.48, baseL, s10, s11, 0.93];
 }
 
-/** A brand-type ramp: step 9 === normalizeHex(baseHex). */
-export function brandRamp(baseHex: string, scheme: Scheme): Ramp {
+/**
+ * Feedback message text (step 11, light) sits a little deeper than a brand's, so it keeps 4.5:1 on every tinted
+ * surface it meets — including a selected row, whose tint comes from the brand — without the solver stepping in.
+ */
+const FEEDBACK_TEXT_CAP_L = 0.48;
+
+/** A brand-type ramp: step 9 === normalizeHex(baseHex). `textCapL` caps step 11's lightness in the light scheme. */
+export function brandRamp(baseHex: string, scheme: Scheme, textCapL?: number): Ramp {
   const base = normalizeHex(baseHex);
   const { l, c, h } = hexToOklch(base);
-  const targets = brandLightnessTargets(l, scheme);
+  const targets = brandLightnessTargets(l, scheme, textCapL);
   const factors = scheme === 'light' ? LIGHT_CHROMA : DARK_CHROMA;
   return targets.map((targetL, i) =>
     i === BASE_STEP - 1 ? base : oklchToHex({ l: targetL, c: c * factors[i]!, h }),
@@ -102,9 +108,9 @@ export function buildRamps(input: ResolvedBrandInput, scheme: Scheme): Record<Ra
     primary: brandRamp(input.primary, scheme),
     accent: brandRamp(input.accent, scheme),
     neutral: neutralRamp(input.neutral, input.primary, scheme),
-    success: brandRamp(feedbackBaseHex('success'), scheme),
-    warning: brandRamp(feedbackBaseHex('warning'), scheme),
-    danger: brandRamp(feedbackBaseHex('danger'), scheme),
-    info: brandRamp(feedbackBaseHex('info'), scheme),
+    success: brandRamp(feedbackBaseHex('success'), scheme, FEEDBACK_TEXT_CAP_L),
+    warning: brandRamp(feedbackBaseHex('warning'), scheme, FEEDBACK_TEXT_CAP_L),
+    danger: brandRamp(feedbackBaseHex('danger'), scheme, FEEDBACK_TEXT_CAP_L),
+    info: brandRamp(feedbackBaseHex('info'), scheme, FEEDBACK_TEXT_CAP_L),
   };
 }

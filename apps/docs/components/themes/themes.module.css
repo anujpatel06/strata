@@ -1,0 +1,127 @@
+/* /themes — page layout and header stat line. */
+
+/* ------------------------------------------------------------------ stat line */
+
+.stats {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--strata-space-1) var(--strata-space-2);
+  padding-block: var(--strata-space-1);
+  padding-inline: var(--strata-space-2) var(--strata-space-3);
+  border: 1px solid var(--strata-color-border-subtle);
+  /* A pill on one line; still a tidy box when it wraps on phones. */
+  border-radius: var(--strata-space-4);
+  background: var(--strata-color-surface-default);
+  color: var(--strata-color-text-subtle);
+  font-family: var(--strata-font-mono);
+  font-size: var(--strata-font-size-xs);
+  line-height: var(--strata-line-height-snug);
+  font-variant-numeric: tabular-nums;
+}
+
+.statsIcon {
+  display: inline-flex;
+  color: var(--strata-color-feedback-danger-fg);
+}
+.statsIcon[data-pass] {
+  color: var(--strata-color-feedback-success-fg);
+}
+.statsIcon svg {
+  inline-size: var(--strata-space-4);
+  block-size: var(--strata-space-4);
+}
+
+.copyLink.copyLink {
+  color: var(--strata-color-text-subtle);
+}
+.copyLink.copyLink[data-hovered] {
+  color: var(--strata-color-text-default);
+}
+
+.statsSep {
+  color: var(--strata-color-border-strong);
+}
+
+/* ------------------------------------------------------------------ workspace */
+
+.workspace {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--strata-space-8);
+  margin-block-start: var(--strata-space-10);
+}
+
+.controls {
+  min-inline-size: 0;
+}
+
+@media (min-width: 1024px) {
+  .workspace {
+    grid-template-columns: calc(var(--strata-space-16) * 5.25) minmax(0, 1fr);
+    align-items: start;
+    gap: var(--strata-space-10);
+  }
+
+  /* The inputs stay in view while the views scroll. */
+  .controls {
+    position: sticky;
+    inset-block-start: calc(var(--docs-header-height) + var(--strata-space-6));
+    max-block-size: calc(100dvh - var(--docs-header-height) - var(--strata-space-6) * 2);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    /* Room for focus rings and the card borders at the scroll edges. */
+    margin-inline: calc(var(--strata-space-1) * -1);
+    padding-inline: var(--strata-space-1);
+    padding-block: var(--strata-space-1);
+    scrollbar-width: thin;
+  }
+}
+
+.views.views {
+  container-type: inline-size;
+  gap: var(--strata-space-6);
+  min-inline-size: 0;
+}
+
+/* One hairline under the tabs and the scheme toggle, like the tab list's own. */
+.tabbar {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--strata-space-4);
+  box-shadow: inset 0 -1px 0 0 var(--strata-color-border-subtle);
+}
+
+.tablist.tablist {
+  flex: 1 1 auto;
+}
+
+/* Narrow: the toggle drops under the tabs and the hairline stays with the tabs. */
+@container (max-width: 35rem) {
+  .tabbar {
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--strata-space-3);
+    box-shadow: none;
+  }
+  .schemeToggle.schemeToggle {
+    align-self: flex-start;
+    order: 1;
+  }
+}
+
+.schemeToggle.schemeToggle {
+  flex: none;
+  margin-block-end: var(--strata-space-1);
+}
+
+.panel.panel {
+  min-inline-size: 0;
+  outline: none;
+}
+.panel.panel:focus-visible {
+  outline: 2px solid var(--strata-color-focus-ring);
+  outline-offset: var(--strata-space-2);
+  border-radius: var(--strata-radius-container);
+}

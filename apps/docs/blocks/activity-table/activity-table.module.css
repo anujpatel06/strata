@@ -1,0 +1,222 @@
+/*
+ * Activity table. Tokens only; container breakpoints are the only literals (CSS can't read them from variables).
+ */
+
+.root {
+  --_page: calc(var(--strata-space-16) * 20);
+  --_gutter: var(--strata-space-4);
+
+  container: activity-table / inline-size;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  min-block-size: 100%;
+  background-color: var(--strata-color-surface-canvas);
+  color: var(--strata-color-text-default);
+  font-family: var(--strata-font-body);
+  font-size: var(--strata-font-size-md);
+  line-height: var(--strata-line-height-normal);
+  text-align: start;
+}
+
+.root :where(*, *::before, *::after) {
+  box-sizing: border-box;
+}
+
+.root :where(h1, h2, h3, h4, h5, h6, p) {
+  margin: 0;
+}
+
+@container activity-table (min-width: 640px) {
+  .root > * {
+    --_gutter: var(--strata-space-6);
+  }
+}
+
+@container activity-table (min-width: 1024px) {
+  .root > * {
+    --_gutter: var(--strata-space-8);
+  }
+}
+
+.page {
+  flex: 1;
+  display: grid;
+  align-content: start;
+  gap: var(--strata-space-6);
+  inline-size: 100%;
+  max-inline-size: var(--_page);
+  margin-inline: auto;
+  padding-block: var(--strata-space-6) var(--strata-space-12);
+  padding-inline: var(--_gutter);
+}
+
+@container activity-table (min-width: 1024px) {
+  .page {
+    padding-block-start: var(--strata-space-10);
+  }
+}
+
+.header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--strata-space-4);
+}
+
+.titleBlock {
+  display: grid;
+  gap: var(--strata-space-1);
+  flex: 1 1 calc(var(--strata-space-16) * 5);
+  min-inline-size: 0;
+}
+
+.title {
+  font-family: var(--strata-font-heading);
+  font-size: var(--strata-font-size-xl);
+  font-weight: var(--strata-font-weight-semibold);
+  letter-spacing: var(--strata-font-heading-tracking);
+  line-height: var(--strata-line-height-tight);
+}
+
+@container activity-table (min-width: 640px) {
+  .title {
+    font-size: var(--strata-font-size-2xl);
+  }
+}
+
+.description {
+  color: var(--strata-color-text-subtle);
+  text-wrap: pretty;
+}
+
+.headerActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--strata-space-2);
+}
+
+@container activity-table (max-width: 479.98px) {
+  .headerActions {
+    inline-size: 100%;
+  }
+
+  .headerActions > * {
+    flex: 1 1 0;
+  }
+}
+
+/* ------------------------------------------------------------------ *
+ * Card: toolbar, edge-to-edge table, pagination
+ * ------------------------------------------------------------------ */
+
+.card.card {
+  gap: 0;
+  padding-block: 0;
+  overflow: hidden;
+}
+
+.toolbar.toolbar {
+  padding: var(--strata-card-inset);
+}
+
+.filters {
+  display: flex;
+  flex: 1 1 calc(var(--strata-space-16) * 6);
+  flex-wrap: wrap;
+  gap: var(--strata-space-2);
+  min-inline-size: 0;
+}
+
+.search.search {
+  flex: 1 1 calc(var(--strata-space-16) * 4);
+  min-inline-size: 0;
+  max-inline-size: calc(var(--strata-space-16) * 6);
+}
+
+.status.status {
+  flex: 0 1 calc(var(--strata-space-16) * 3);
+  min-inline-size: calc(var(--strata-space-16) * 2.5);
+}
+
+.tools {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--strata-space-2);
+}
+
+.selection {
+  color: var(--strata-color-text-subtle);
+  font-size: var(--strata-font-size-sm);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.selection:empty {
+  display: none;
+}
+
+.bulk.bulk {
+  gap: var(--strata-space-1);
+}
+
+.table.table {
+  border: 0;
+  border-block: 1px solid var(--strata-color-border-subtle);
+  border-radius: 0;
+  background-color: transparent;
+}
+
+.pagination.pagination {
+  padding-block: var(--strata-space-3);
+  padding-inline: var(--strata-card-inset);
+}
+
+.desc {
+  display: grid;
+  min-inline-size: 0;
+}
+
+.descTitle {
+  overflow: hidden;
+  font-weight: var(--strata-font-weight-medium);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.descMeta {
+  overflow: hidden;
+  color: var(--strata-color-text-subtle);
+  font-size: var(--strata-font-size-sm);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.amount {
+  font-variant-numeric: tabular-nums;
+  font-weight: var(--strata-font-weight-medium);
+  white-space: nowrap;
+}
+
+.amountIn {
+  color: var(--strata-color-feedback-success-fg);
+}
+
+.amountStack {
+  display: inline-grid;
+  justify-items: end;
+  gap: var(--strata-space-1);
+}
+
+/*
+ * Selected rows sit on surface.selected (darker still while hovered), which the theme's contrast pairs don't
+ * cover for secondary text or feedback colours. Use the default text colour there; the sign and the label carry
+ * the meaning.
+ */
+[data-selected] .descMeta,
+[data-selected] .amountIn {
+  color: var(--strata-color-text-default);
+}

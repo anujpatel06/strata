@@ -171,14 +171,14 @@
   }
 }
 
-.row[data-selected] {
+/*
+ * Selected rows: surface.selected, and hover does not darken it further (a darker mix pushed feedback text
+ * to ~3.2:1). Subtle text re-points to default text so secondary content keeps AA on the tinted surface.
+ */
+.row[data-selected],
+.row[data-selected]:hover {
+  --strata-color-text-subtle: var(--strata-color-text-default);
   background-color: var(--strata-color-surface-selected);
-}
-
-@media (hover: hover) {
-  .row[data-selected]:hover {
-    background-color: color-mix(in oklab, var(--strata-color-surface-selected) 85%, var(--strata-color-text-default));
-  }
 }
 
 .table[data-actionable] .row:not([data-disabled]) {

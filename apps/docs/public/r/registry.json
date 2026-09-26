@@ -1698,6 +1698,242 @@
       ]
     },
     {
+      "name": "dashboard-overview",
+      "type": "registry:block",
+      "title": "Dashboard overview",
+      "description": "An account overview: app header with a command menu, notifications and account menus, KPI tiles, an alert, recent activity and a quick-action form.",
+      "dependencies": [
+        "@tabler/icons-react@^3.30.0"
+      ],
+      "registryDependencies": [
+        "http://localhost:3000/r/alert.json",
+        "http://localhost:3000/r/avatar.json",
+        "http://localhost:3000/r/badge.json",
+        "http://localhost:3000/r/button.json",
+        "http://localhost:3000/r/card.json",
+        "http://localhost:3000/r/command.json",
+        "http://localhost:3000/r/data-table.json",
+        "http://localhost:3000/r/kbd.json",
+        "http://localhost:3000/r/link.json",
+        "http://localhost:3000/r/menu.json",
+        "http://localhost:3000/r/progress.json",
+        "http://localhost:3000/r/select.json",
+        "http://localhost:3000/r/stat-tile.json",
+        "http://localhost:3000/r/text-field.json",
+        "http://localhost:3000/r/toast.json"
+      ],
+      "files": [
+        {
+          "path": "registry/strata/components/dashboard-overview/dashboard-overview.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "registry/strata/components/dashboard-overview/dashboard-overview.module.css",
+          "type": "registry:component"
+        },
+        {
+          "path": "registry/strata/components/dashboard-overview/dashboard-overview.content.ts",
+          "type": "registry:component"
+        }
+      ],
+      "categories": [
+        "block",
+        "dashboard"
+      ],
+      "docs": "Render <DashboardOverview /> inside your ThemeScope (it follows the theme, scheme, density and locale around it). Its copy and data live in components/dashboard-overview/dashboard-overview.content.ts: pass your own object as `content` to translate or rebrand it.",
+      "meta": {
+        "export": "DashboardOverview",
+        "content": "dashboard-overview.content.ts"
+      }
+    },
+    {
+      "name": "request-flow",
+      "type": "registry:block",
+      "title": "Request flow",
+      "description": "A three-step request with inline validation, an error summary, evidence upload with progress, a confirmation dialog and a success state.",
+      "dependencies": [
+        "@internationalized/date@^3.12.0",
+        "@tabler/icons-react@^3.30.0",
+        "react-aria-components@^1.21.0"
+      ],
+      "registryDependencies": [
+        "http://localhost:3000/r/alert.json",
+        "http://localhost:3000/r/alert-dialog.json",
+        "http://localhost:3000/r/button.json",
+        "http://localhost:3000/r/card.json",
+        "http://localhost:3000/r/checkbox.json",
+        "http://localhost:3000/r/date-picker.json",
+        "http://localhost:3000/r/empty-state.json",
+        "http://localhost:3000/r/file-upload.json",
+        "http://localhost:3000/r/link.json",
+        "http://localhost:3000/r/radio-group.json",
+        "http://localhost:3000/r/steps.json",
+        "http://localhost:3000/r/text-field.json"
+      ],
+      "files": [
+        {
+          "path": "registry/strata/components/request-flow/request-flow.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "registry/strata/components/request-flow/request-flow.module.css",
+          "type": "registry:component"
+        },
+        {
+          "path": "registry/strata/components/request-flow/request-flow.content.ts",
+          "type": "registry:component"
+        }
+      ],
+      "categories": [
+        "block",
+        "forms",
+        "flows"
+      ],
+      "docs": "Render <RequestFlow /> inside your ThemeScope (it follows the theme, scheme, density and locale around it). Its copy and data live in components/request-flow/request-flow.content.ts: pass your own object as `content` to translate or rebrand it.",
+      "meta": {
+        "export": "RequestFlow",
+        "content": "request-flow.content.ts"
+      }
+    },
+    {
+      "name": "settings",
+      "type": "registry:block",
+      "title": "Settings",
+      "description": "Tabbed account settings: profile form with photo upload, appearance, notification switches, active sessions and a danger zone.",
+      "dependencies": [
+        "@tabler/icons-react@^3.30.0"
+      ],
+      "registryDependencies": [
+        "http://localhost:3000/r/alert-dialog.json",
+        "http://localhost:3000/r/avatar.json",
+        "http://localhost:3000/r/badge.json",
+        "http://localhost:3000/r/button.json",
+        "http://localhost:3000/r/card.json",
+        "http://localhost:3000/r/data-table.json",
+        "http://localhost:3000/r/dialog.json",
+        "http://localhost:3000/r/file-upload.json",
+        "http://localhost:3000/r/menu.json",
+        "http://localhost:3000/r/select.json",
+        "http://localhost:3000/r/separator.json",
+        "http://localhost:3000/r/switch.json",
+        "http://localhost:3000/r/tabs.json",
+        "http://localhost:3000/r/text-field.json",
+        "http://localhost:3000/r/toast.json",
+        "http://localhost:3000/r/toggle-group.json"
+      ],
+      "files": [
+        {
+          "path": "registry/strata/components/settings/settings.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "registry/strata/components/settings/settings.module.css",
+          "type": "registry:component"
+        },
+        {
+          "path": "registry/strata/components/settings/settings.content.ts",
+          "type": "registry:component"
+        }
+      ],
+      "categories": [
+        "block",
+        "settings",
+        "forms"
+      ],
+      "docs": "Render <Settings /> inside your ThemeScope (it follows the theme, scheme, density and locale around it). Its copy and data live in components/settings/settings.content.ts: pass your own object as `content` to translate or rebrand it.",
+      "meta": {
+        "export": "Settings",
+        "content": "settings.content.ts"
+      }
+    },
+    {
+      "name": "sign-in",
+      "type": "registry:block",
+      "title": "Sign in",
+      "description": "Email and password sign-in with a passkey option. A centred card on narrow containers, a two-column layout with a brand panel on wide ones.",
+      "dependencies": [
+        "@tabler/icons-react@^3.30.0"
+      ],
+      "registryDependencies": [
+        "http://localhost:3000/r/button.json",
+        "http://localhost:3000/r/card.json",
+        "http://localhost:3000/r/checkbox.json",
+        "http://localhost:3000/r/link.json",
+        "http://localhost:3000/r/separator.json",
+        "http://localhost:3000/r/text-field.json",
+        "http://localhost:3000/r/toast.json"
+      ],
+      "files": [
+        {
+          "path": "registry/strata/components/sign-in/sign-in.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "registry/strata/components/sign-in/sign-in.module.css",
+          "type": "registry:component"
+        },
+        {
+          "path": "registry/strata/components/sign-in/sign-in.content.ts",
+          "type": "registry:component"
+        }
+      ],
+      "categories": [
+        "block",
+        "authentication"
+      ],
+      "docs": "Render <SignIn /> inside your ThemeScope (it follows the theme, scheme, density and locale around it). Its copy and data live in components/sign-in/sign-in.content.ts: pass your own object as `content` to translate or rebrand it.",
+      "meta": {
+        "export": "SignIn",
+        "content": "sign-in.content.ts"
+      }
+    },
+    {
+      "name": "activity-table",
+      "type": "registry:block",
+      "title": "Activity table",
+      "description": "A full data table page: search, status filter, sorting, row selection with bulk actions, CSV export, density, pagination, empty and loading states.",
+      "dependencies": [
+        "@tabler/icons-react@^3.30.0"
+      ],
+      "registryDependencies": [
+        "http://localhost:3000/r/badge.json",
+        "http://localhost:3000/r/button.json",
+        "http://localhost:3000/r/card.json",
+        "http://localhost:3000/r/data-table.json",
+        "http://localhost:3000/r/empty-state.json",
+        "http://localhost:3000/r/menu.json",
+        "http://localhost:3000/r/search-field.json",
+        "http://localhost:3000/r/select.json",
+        "http://localhost:3000/r/toast.json",
+        "http://localhost:3000/r/toggle-group.json",
+        "http://localhost:3000/r/tooltip.json"
+      ],
+      "files": [
+        {
+          "path": "registry/strata/components/activity-table/activity-table.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "registry/strata/components/activity-table/activity-table.module.css",
+          "type": "registry:component"
+        },
+        {
+          "path": "registry/strata/components/activity-table/activity-table.content.ts",
+          "type": "registry:component"
+        }
+      ],
+      "categories": [
+        "block",
+        "data",
+        "tables"
+      ],
+      "docs": "Render <ActivityTable /> inside your ThemeScope (it follows the theme, scheme, density and locale around it). Its copy and data live in components/activity-table/activity-table.content.ts: pass your own object as `content` to translate or rebrand it.",
+      "meta": {
+        "export": "ActivityTable",
+        "content": "activity-table.content.ts"
+      }
+    },
+    {
       "name": "strata",
       "type": "registry:style",
       "title": "Strata",

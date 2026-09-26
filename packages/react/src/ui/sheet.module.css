@@ -88,6 +88,10 @@
   padding-block: var(--strata-card-inset);
   outline: none;
 }
+/* Programmatic focus on open. Pseudo-class selector so page-level `[tabindex]:focus-visible` rules can't outrank it. */
+.dialog:focus-visible {
+  outline: none;
+}
 
 .header {
   display: grid;

@@ -16,9 +16,9 @@ import {
   Dialog as RACDialog,
   Header,
   Input,
-  Menu as RACMenu,
-  MenuItem as RACMenuItem,
-  MenuSection as RACMenuSection,
+  ListBox,
+  ListBoxItem,
+  ListBoxSection,
   Modal,
   ModalOverlay,
   PopoverContext,
@@ -28,8 +28,8 @@ import {
   useFilter,
   useSlottedContext,
   type Key,
-  type MenuItemProps as RACMenuItemProps,
-  type MenuSectionProps as RACMenuSectionProps,
+  type ListBoxItemProps,
+  type ListBoxSectionProps,
 } from 'react-aria-components';
 import { IconSearch } from '@tabler/icons-react';
 import styles from './command.module.css';
@@ -172,9 +172,11 @@ function CommandPalette<T extends object>({
       <Autocomplete inputValue={query} onInputChange={setQuery} filter={filter ?? contains}>
         <SearchField aria-label={ariaLabel} autoFocus className={styles.search}>
           <IconSearch aria-hidden className={styles.searchIcon} size="1.125em" stroke={1.75} />
-          <Input placeholder={placeholder} className={styles.input} />
+          {/* The combobox pattern (APG): focus stays here and aria-activedescendant points at the active option. It
+              also tells assistive tech — and axe — that the scrolling results list is operated from this input. */}
+          <Input placeholder={placeholder} role="combobox" aria-expanded className={styles.input} />
         </SearchField>
-        <RACMenu<T>
+        <ListBox<T>
           aria-label={ariaLabel}
           items={items}
           onAction={onAction}
@@ -196,7 +198,7 @@ function CommandPalette<T extends object>({
           }
         >
           {children}
-        </RACMenu>
+        </ListBox>
       </Autocomplete>
       {footer === undefined ? (
         <div className={styles.footer}>
@@ -221,7 +223,7 @@ function CommandPalette<T extends object>({
   );
 }
 
-export interface CommandSectionProps<T> extends RACMenuSectionProps<T> {
+export interface CommandSectionProps<T> extends ListBoxSectionProps<T> {
   /** Visible heading for the group, e.g. "Components". */
   title?: ReactNode;
 }
@@ -235,14 +237,14 @@ export function CommandSection<T extends object>({
   ...props
 }: CommandSectionProps<T>): JSX.Element {
   return (
-    <RACMenuSection<T> {...props} className={cx(styles.section, className)}>
+    <ListBoxSection<T> {...props} className={cx(styles.section, className)}>
       {title != null && <Header className={styles.sectionTitle}>{title}</Header>}
       {typeof children === 'function' ? <Collection items={items}>{children}</Collection> : children}
-    </RACMenuSection>
+    </ListBoxSection>
   );
 }
 
-export interface CommandItemProps<T = object> extends Omit<RACMenuItemProps<T>, 'children'> {
+export interface CommandItemProps<T = object> extends Omit<ListBoxItemProps<T>, 'children'> {
   /** The result's label. */
   children: ReactNode;
   /** Text matched against the query. Required when `children` isn't a plain string; add keywords here too. */
@@ -266,7 +268,7 @@ export function CommandItem<T extends object>({
   ...props
 }: CommandItemProps<T>): JSX.Element {
   return (
-    <RACMenuItem<T>
+    <ListBoxItem<T>
       {...props}
       textValue={textValue ?? (typeof children === 'string' ? children : undefined)}
       className={composeRenderProps(className, (c) => cx(styles.item, c))}
@@ -287,13 +289,14 @@ export function CommandItem<T extends object>({
         )}
       </span>
       {meta != null && <span className={styles.meta}>{meta}</span>}
-    </RACMenuItem>
+    </ListBoxItem>
   );
 }
 
 /**
  * Calls `onOpen` when the user presses ⌘K (macOS) or Ctrl+K (elsewhere), anywhere on the page. Pass a different
- * `key` to bind another letter, or `isDisabled` to unbind.
+ * `key` to bind another letter, or `isDisabled` to unbind. Skips key presses an earlier listener already handled
+ * (`preventDefault()`), so two palettes on one page don't both open.
  */
 export function useCommandShortcut(
   onOpen: () => void,
@@ -306,6 +309,8 @@ export function useCommandShortcut(
   useEffect(() => {
     if (isDisabled) return;
     const onKeyDown = (e: KeyboardEvent) => {
+      // A handler that ran earlier (e.g. the app's own search) already claimed the shortcut.
+      if (e.defaultPrevented) return;
       if (e.key?.toLowerCase() === key.toLowerCase() && (e.metaKey || e.ctrlKey) && !e.altKey && !e.shiftKey) {
         e.preventDefault();
         handler.current();

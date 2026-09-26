@@ -30,10 +30,25 @@ describe('CommandDialog', () => {
     await user.tab();
     await user.keyboard('{Enter}');
     const dialog = screen.getByRole('dialog', { name: 'Command menu' });
-    const input = within(dialog).getByRole('searchbox');
+    const input = within(dialog).getByRole('combobox');
     expect(input).toHaveAttribute('placeholder', 'Search docs…');
     await waitFor(() => expect(input).toHaveFocus());
-    expect(within(dialog).getAllByRole('menuitem')).toHaveLength(3);
+    expect(within(dialog).getAllByRole('option')).toHaveLength(3);
+  });
+
+  it('uses the combobox pattern: the input controls the listbox and points at the active option', async () => {
+    const user = userEvent.setup();
+    render(<Example />);
+    await user.click(screen.getByRole('button', { name: 'Search' }));
+    const input = screen.getByRole('combobox', { name: 'Command menu' });
+    const listbox = screen.getByRole('listbox');
+    expect(input).toHaveAttribute('aria-expanded', 'true');
+    expect(input).toHaveAttribute('aria-controls', listbox.id);
+    expect(listbox).not.toHaveAttribute('tabindex');
+    await user.keyboard('{ArrowDown}');
+    const active = screen.getByRole('option', { name: 'Button' });
+    expect(input).toHaveAttribute('aria-activedescendant', active.id);
+    expect(input).toHaveFocus();
   });
 
   it('filters case-insensitively and hides empty sections', async () => {
@@ -41,7 +56,7 @@ describe('CommandDialog', () => {
     render(<Example />);
     await user.click(screen.getByRole('button', { name: 'Search' }));
     await user.keyboard('MODAL');
-    const items = screen.getAllByRole('menuitem');
+    const items = screen.getAllByRole('option');
     expect(items).toHaveLength(1);
     expect(items[0]).toHaveTextContent('Dialog');
     expect(screen.queryByText('Guides')).not.toBeInTheDocument();
@@ -84,7 +99,7 @@ describe('CommandDialog', () => {
     await user.click(screen.getByRole('button', { name: 'Search' }));
     await user.keyboard('but');
     await user.keyboard('{Escape}');
-    expect(screen.getByRole('searchbox')).toHaveValue('');
+    expect(screen.getByRole('combobox')).toHaveValue('');
     await user.keyboard('{Escape}');
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
   });
@@ -93,6 +108,18 @@ describe('CommandDialog', () => {
     render(<Example />);
     fireEvent.keyDown(document, { key: 'k', metaKey: true });
     expect(screen.getByRole('dialog')).toBeInTheDocument();
+  });
+
+  it('leaves the shortcut alone when an earlier listener already handled it', () => {
+    const claim = (e: KeyboardEvent) => e.preventDefault();
+    document.addEventListener('keydown', claim);
+    try {
+      render(<Example />);
+      fireEvent.keyDown(document, { key: 'k', metaKey: true });
+      expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
+    } finally {
+      document.removeEventListener('keydown', claim);
+    }
   });
 
   it('opens with Ctrl+K and carries ThemeScope attributes', () => {

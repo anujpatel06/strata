@@ -244,6 +244,12 @@
   outline: none;
 }
 
+/* shouldForceMount keeps inactive panels in the DOM (inert) to preserve their state; they must not show. */
+.panel[inert],
+.panel[data-inert] {
+  display: none;
+}
+
 .panel[data-focus-visible] {
   outline: 2px solid var(--strata-color-focus-ring);
   outline-offset: 2px;

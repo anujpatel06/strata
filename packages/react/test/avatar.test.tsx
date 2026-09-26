@@ -2,6 +2,12 @@ import { fireEvent, render, screen, within } from '@testing-library/react';
 import { Avatar, AvatarGroup, getInitials } from '../src/ui/avatar';
 
 describe('getInitials', () => {
+  it('skips the Arabic definite article', () => {
+    // "سارة المنصوري" → س + م (not the alif of "ال"); joined letters get a ZWNJ so they don't connect.
+    expect(getInitials('سارة المنصوري', 'ar').replace('\u200c', '')).toBe('سم');
+    expect(getInitials('ال', 'ar')).toBe('ا');
+  });
+
   it('takes the first and last word', () => {
     expect(getInitials('Priya Raman')).toBe('PR');
     expect(getInitials('  ana maría de la cruz ')).toBe('AC');

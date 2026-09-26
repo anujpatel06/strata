@@ -1,0 +1,417 @@
+/*
+ * Request flow. Tokens only; container breakpoints are the only literals (CSS can't read them from variables).
+ * Narrow: subject card, then the flow, then help. Wide: the flow on the start side, context cards on the end side.
+ */
+
+.root {
+  --_page: calc(var(--strata-space-16) * 17);
+  --_gutter: var(--strata-space-4);
+
+  container: request-flow / inline-size;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  min-block-size: 100%;
+  background-color: var(--strata-color-surface-canvas);
+  color: var(--strata-color-text-default);
+  font-family: var(--strata-font-body);
+  font-size: var(--strata-font-size-md);
+  line-height: var(--strata-line-height-normal);
+  text-align: start;
+}
+
+.root :where(*, *::before, *::after) {
+  box-sizing: border-box;
+}
+
+.root :where(h1, h2, h3, h4, h5, h6, p, ul, ol, dl, dd) {
+  margin: 0;
+}
+
+@container request-flow (min-width: 640px) {
+  .root > * {
+    --_gutter: var(--strata-space-6);
+  }
+}
+
+@container request-flow (min-width: 1024px) {
+  .root > * {
+    --_gutter: var(--strata-space-8);
+  }
+}
+
+.directional:dir(rtl) {
+  scale: -1 1;
+}
+
+.num {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Headings that receive focus on step change: no ring for a programmatic focus, which isn't an action target. */
+.focusTarget:focus {
+  outline: none;
+}
+
+.focusTarget:focus-visible {
+  outline: 2px solid var(--strata-color-focus-ring);
+  outline-offset: 2px;
+  border-radius: var(--strata-radius-badge);
+}
+
+/* ------------------------------------------------------------------ *
+ * Top bar
+ * ------------------------------------------------------------------ */
+
+.topBar {
+  background-color: var(--strata-color-surface-default);
+  border-block-end: 1px solid var(--strata-color-border-subtle);
+}
+
+.topBarInner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--strata-space-4);
+  min-block-size: calc(var(--strata-control-height) + var(--strata-space-4));
+  max-inline-size: var(--_page);
+  margin-inline: auto;
+  padding-inline: var(--_gutter);
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--strata-space-2);
+}
+
+.logoMark {
+  display: inline-grid;
+  place-items: center;
+  inline-size: var(--strata-space-8);
+  block-size: var(--strata-space-8);
+  border-radius: var(--strata-radius-button);
+  background-color: var(--strata-color-action-primary-bg);
+  color: var(--strata-color-action-primary-fg);
+  font-family: var(--strata-font-heading);
+  font-weight: var(--strata-font-weight-bold);
+  line-height: 1;
+}
+
+.productName {
+  font-family: var(--strata-font-heading);
+  font-size: var(--strata-font-size-lg);
+  font-weight: var(--strata-font-weight-semibold);
+  letter-spacing: var(--strata-font-heading-tracking);
+}
+
+.exit.exit {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--strata-space-2);
+  min-block-size: var(--strata-space-6);
+  color: var(--strata-color-text-subtle);
+  font-size: var(--strata-font-size-sm);
+  font-weight: var(--strata-font-weight-medium);
+}
+
+.exit.exit[data-hovered] {
+  color: var(--strata-color-text-default);
+}
+
+.exit svg {
+  inline-size: 1.15em;
+  block-size: 1.15em;
+}
+
+/* ------------------------------------------------------------------ *
+ * Page
+ * ------------------------------------------------------------------ */
+
+.main {
+  flex: 1;
+  min-inline-size: 0;
+}
+
+.page {
+  display: grid;
+  gap: var(--strata-space-6);
+  max-inline-size: var(--_page);
+  margin-inline: auto;
+  padding-block: var(--strata-space-6) var(--strata-space-12);
+  padding-inline: var(--_gutter);
+}
+
+@container request-flow (min-width: 1024px) {
+  .page {
+    gap: var(--strata-space-8);
+    padding-block-start: var(--strata-space-10);
+  }
+}
+
+.intro {
+  display: grid;
+  gap: var(--strata-space-2);
+  max-inline-size: 60ch;
+}
+
+.title {
+  font-family: var(--strata-font-heading);
+  font-size: var(--strata-font-size-xl);
+  font-weight: var(--strata-font-weight-semibold);
+  letter-spacing: var(--strata-font-heading-tracking);
+  line-height: var(--strata-line-height-tight);
+  text-wrap: balance;
+}
+
+@container request-flow (min-width: 640px) {
+  .title {
+    font-size: var(--strata-font-size-2xl);
+  }
+}
+
+.subtitle {
+  color: var(--strata-color-text-subtle);
+  text-wrap: pretty;
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-areas:
+    'subject'
+    'flow'
+    'help';
+  gap: var(--strata-section-gap);
+  align-items: start;
+}
+
+@container request-flow (min-width: 960px) {
+  .layout {
+    grid-template-columns: minmax(0, 1fr) calc(var(--strata-space-16) * 5);
+    grid-template-rows: auto 1fr;
+    grid-template-areas:
+      'flow subject'
+      'flow help';
+    column-gap: var(--strata-space-8);
+  }
+}
+
+.flow {
+  grid-area: flow;
+  display: grid;
+  gap: var(--strata-section-gap);
+  min-inline-size: 0;
+}
+
+.subject {
+  grid-area: subject;
+}
+
+.help {
+  grid-area: help;
+}
+
+/* ------------------------------------------------------------------ *
+ * Step card
+ * ------------------------------------------------------------------ */
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-card-inset);
+}
+
+.fields.fields {
+  display: grid;
+  gap: var(--strata-space-6);
+}
+
+.anchor {
+  min-inline-size: 0;
+  scroll-margin-block: var(--strata-space-16);
+}
+
+.reasons.reasons {
+  min-inline-size: 0;
+}
+
+/* Two short fields side by side once there's room. */
+.pair {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--strata-space-6);
+  align-items: start;
+}
+
+@container request-flow (min-width: 640px) {
+  .pair {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--strata-space-4);
+  }
+}
+
+.summary {
+  scroll-margin-block: var(--strata-space-16);
+}
+
+.summary:focus {
+  outline: none;
+}
+
+.summary:focus-visible {
+  outline: 2px solid var(--strata-color-focus-ring);
+  outline-offset: 2px;
+}
+
+.summaryList {
+  display: grid;
+  gap: var(--strata-space-1);
+  margin-block-start: var(--strata-space-1);
+  padding-inline-start: var(--strata-space-4);
+}
+
+.summaryLink.summaryLink {
+  color: inherit;
+  font-weight: var(--strata-font-weight-medium);
+}
+
+.actions.actions {
+  justify-content: space-between;
+}
+
+/* Continue/Submit keeps the inline end even when Back isn't shown. */
+.next.next {
+  margin-inline-start: auto;
+}
+
+@container request-flow (max-width: 479.98px) {
+  .actions > * {
+    flex: 1 1 0;
+  }
+}
+
+/* ------------------------------------------------------------------ *
+ * Review
+ * ------------------------------------------------------------------ */
+
+.answers {
+  display: grid;
+  border-block-start: 1px solid var(--strata-color-border-subtle);
+}
+
+.answer {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-areas:
+    'label edit'
+    'value value';
+  column-gap: var(--strata-space-4);
+  row-gap: var(--strata-space-1);
+  align-items: center;
+  padding-block: var(--strata-space-3);
+  border-block-end: 1px solid var(--strata-color-border-subtle);
+}
+
+@container request-flow (min-width: 640px) {
+  .answer {
+    grid-template-columns: calc(var(--strata-space-16) * 3) minmax(0, 1fr) auto;
+    grid-template-areas: 'label value edit';
+    align-items: baseline;
+  }
+}
+
+.answerLabel {
+  grid-area: label;
+  color: var(--strata-color-text-subtle);
+  font-size: var(--strata-font-size-sm);
+  font-weight: var(--strata-font-weight-medium);
+}
+
+.answerValue {
+  grid-area: value;
+  display: grid;
+  gap: var(--strata-space-1);
+  min-inline-size: 0;
+  overflow-wrap: anywhere;
+}
+
+.answerEdit {
+  grid-area: edit;
+  justify-self: end;
+}
+
+.fileNames {
+  color: var(--strata-color-text-subtle);
+  font-size: var(--strata-font-size-sm);
+}
+
+/* ------------------------------------------------------------------ *
+ * Success
+ * ------------------------------------------------------------------ */
+
+.successCard.successCard {
+  padding-block: var(--strata-space-8);
+}
+
+.successIcon {
+  color: var(--strata-color-feedback-success-fg);
+}
+
+.reference {
+  font-weight: var(--strata-font-weight-medium);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.successActions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--strata-space-2);
+}
+
+/* ------------------------------------------------------------------ *
+ * Context cards
+ * ------------------------------------------------------------------ */
+
+.eyebrow {
+  color: var(--strata-color-text-subtle);
+  font-size: var(--strata-font-size-xs);
+  font-weight: var(--strata-font-weight-medium);
+}
+
+.facts {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--strata-space-4);
+  padding-block-start: var(--strata-space-4);
+  border-block-start: 1px solid var(--strata-color-border-subtle);
+}
+
+.fact {
+  display: grid;
+  gap: var(--strata-space-1);
+}
+
+.fact dt {
+  color: var(--strata-color-text-subtle);
+  font-size: var(--strata-font-size-sm);
+}
+
+.fact dd {
+  font-weight: var(--strata-font-weight-semibold);
+}
+
+.helpList {
+  display: grid;
+  gap: var(--strata-space-3);
+  padding-inline-start: var(--strata-space-5);
+  color: var(--strata-color-text-subtle);
+  font-size: var(--strata-font-size-sm);
+}
+
+.helpList li::marker {
+  color: var(--strata-color-text-default);
+  font-weight: var(--strata-font-weight-semibold);
+}

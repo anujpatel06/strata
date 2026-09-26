@@ -1,10 +1,11 @@
 'use client';
 
-import { getLocalTimeZone, today } from '@internationalized/date';
+import { parseDate } from '@internationalized/date';
 import { DatePicker } from '@strata/react';
 
 export default function Example() {
-  const now = today(getLocalTimeZone());
+  // A fixed date keeps the statically built page identical to what the browser renders.
+  const now = parseDate('2026-10-05');
   return (
     <div style={{ display: 'grid', gap: 24, inlineSize: '100%', maxInlineSize: 320 }}>
       <DatePicker

@@ -33,8 +33,18 @@ function firstGrapheme(word: string, locale: string): string {
 }
 
 /** "Priya Raman" → "PR", "Ana María de la Cruz" → "AC", "محمد علي" → "م‌ع". Grapheme-safe (emoji, accents). */
+/**
+ * Arabic names often carry the definite article "ال" (e.g. "المنصوري"); the initial is the letter after it.
+ * Only stripped when letters follow, so a bare "ال" is kept.
+ */
+const ARABIC_ARTICLE = /^\u0627\u0644(?=\p{L})/u;
+
 export function getInitials(name: string, locale = 'en'): string {
-  const words = name.trim().split(/\s+/u).filter(Boolean);
+  const words = name
+    .trim()
+    .split(/\s+/u)
+    .filter(Boolean)
+    .map((word) => word.replace(ARABIC_ARTICLE, ''));
   const first = words[0];
   if (!first) return '';
   const last = words.length > 1 ? words[words.length - 1] : undefined;

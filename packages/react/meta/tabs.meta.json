@@ -32,7 +32,7 @@
     { "component": "Tab", "name": "isDisabled", "type": "boolean", "default": "false", "description": "Makes the tab unselectable; arrow keys skip it." },
     { "component": "Tab", "name": "href", "type": "string", "description": "Renders the tab as a link, for tabs that change the URL (pair with a router)." },
     { "component": "TabPanel", "name": "id", "type": "Key", "required": true, "description": "Matches the Tab with the same id." },
-    { "component": "TabPanel", "name": "shouldForceMount", "type": "boolean", "default": "false", "description": "Keeps the panel in the DOM (inert) while another tab is selected." }
+    { "component": "TabPanel", "name": "shouldForceMount", "type": "boolean", "default": "false", "description": "Keeps the panel in the DOM while another tab is selected (inert and display: none), so its state survives switching." }
   ],
   "accessibility": {
     "keyboard": [
