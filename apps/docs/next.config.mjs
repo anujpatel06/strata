@@ -40,6 +40,8 @@ const nextConfig = {
   },
   reactStrictMode: true,
   poweredByHeader: false,
+  // Lets parallel builds in one checkout use separate output folders: NEXT_DIST_DIR=.next-b1 next build
+  distDir: process.env.NEXT_DIST_DIR || '.next',
 };
 
 // Keep the MDX plugin lists empty: Turbopack can only pass serialisable options to the loader.
