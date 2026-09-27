@@ -6,6 +6,50 @@ Numbers only with the command that produced them. Design trade-offs get an ADR i
 
 ---
 
+## 2026-09-27 (Phase 4) — governance, and the first deprecation done end to end
+
+**Changed**
+- `GOVERNANCE.md`: who decides what, how a change gets in, the four outcomes (extend, vary, add, override), versioning and deprecation, agent trust levels. It says which rules a script enforces and which nothing enforces yet. `CONTRIBUTING.md` is no longer the Phase 0 stub.
+- RFC flow: `docs/rfcs/000-template.md`, RFC-001, two issue templates and a pull request template.
+- Button: new `tone` (`neutral` | `danger`) on `primary`, `outline` and `ghost`. `variant="danger"` is deprecated; it renders exactly as before (`data-variant="danger"` included) and warns once in development. AlertDialog uses the new prop. New `button-tone` example.
+- Deprecations are records: `Deprecation`, `PropDoc.deprecated` and `PropDoc.deprecatedValues` in the meta schema. `pnpm check:meta` checks them (every field, removal is a later major, the codemod and RFC exist). Component pages show them.
+- New package `@strata/codemods` with `button-variant-danger-to-tone` and a CLI. It was run on `apps/` and `packages/react/test`: 3 usages rewritten, 3 places reported for a person to read (all three turned out to need no change).
+- The settings block had a local override that made an outline button look destructive. It now uses `variant="outline" tone="danger"`, and the override's CSS is gone.
+- Engine: the four `feedback.*.fg` roles are also solved on `surface.canvas` and `surface.raised`. No token value moved; tenants still need 3 adjustments each (`pnpm tokens`).
+- Docs: governance and changelog pages; the decision list no longer shows raw `**` marks or clipped text.
+- CI runs `pnpm check:meta`. `scripts/axe-sweep.mjs` takes `STRATA_BASE_URL`. README numbers, repo map and roadmap brought up to date.
+
+**Decided**
+- `variant="danger"` → `tone="danger"`, not `tone="critical"` as the brief said: twelve components and the tokens already say `danger` (RFC-001, ADR-021) — **Claude recommended, Anuj accepted**.
+- `tone` works on primary, outline and ghost — **Claude recommended, Anuj accepted**.
+- Deprecated APIs are removed at 1.0.0 only, never in a 0.x minor — **Claude recommended, Anuj accepted**.
+- The exported `ButtonVariant` type keeps `'danger'` until 1.0.0, because narrowing it would break code typed with it — **Claude**.
+- No `@deprecated` tag on the `variant` prop: it would strike through every use of the prop, not only the one value — **Claude**.
+- A codemod stays quiet about a choice between literals when none of them is `danger` — **Claude**.
+
+**Results** (measured 2026-09-27, before the Card and StatTile work that another session has in progress in this checkout)
+- `pnpm typecheck`: clean.
+- `pnpm test`: 435 components · 219 engine · 245 icons · 8 codemods, all passing.
+- `pnpm test:themes`: 118,000 / 118,000 checks, 118 per brand (was 102); 2,000 / 2,000 chart palettes; adjustments per brand median 4, max 7.
+- Danger label contrast on outline and ghost buttons, worst case over 5 tenants and 1,000 fuzz brands, light and dark: 6.10:1 on `surface.selected`, 6.18:1 on `feedback.danger.bg` — `pnpm --filter @strata/react exec vitest run test/button.test.tsx -t "contrast proof"`.
+- `pnpm check:meta`: 53 / 53; 18 alpha · 35 beta · 0 stable.
+- `pnpm --filter @strata/docs build`: 80 pages.
+- `STRATA_BASE_URL=http://localhost:3010 node scripts/axe-sweep.mjs`: 105 routes × light/dark, 0 violation nodes.
+- **Failing, and already failing at commit 31cde5d:**
+  - `pnpm registry`: 7 errors, all blocks that import `@strata/icons`. Fixed later the same day; see the registry entry above.
+  - The production docs build logs React error #418 (hydration) on 20 component pages in both schemes. The mismatch is in the Installation tabs. Confirmed by building 31cde5d in a separate worktree.
+  - Both are being fixed in separate sessions.
+
+**Phase 4 review (Anuj, 2026-09-27): accepted**
+- The outline danger button keeps its red border at rest — **Anuj** ("yes to all"; Claude read that as keeping what was built).
+- Review times in `GOVERNANCE.md` §3 — **Claude proposed, Anuj accepted**.
+- `CLAUDE.md` Status brought up to date — **Anuj** approved the edit.
+
+**Next**
+- Phase 5 as widened by ADR-018: MCP server, drift auditor with autofix, per-model agent eval, root `AGENTS.md`.
+
+---
+
 ## 2026-09-27 (maturity) — written criteria for alpha, beta and stable; every component re-checked
 
 **Changed**

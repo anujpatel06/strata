@@ -15,7 +15,7 @@ permissions:
 
 jobs:
   verify:
-    name: typecheck · test · fuzz · tokens · build
+    name: typecheck · test · meta · fuzz · tokens · build
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
@@ -32,6 +32,8 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - run: pnpm typecheck
       - run: pnpm test
+      # Component metadata, maturity criteria and deprecation records (GOVERNANCE.md §5, §7)
+      - run: pnpm check:meta
       - run: pnpm test:themes
       - run: pnpm tokens
       - run: pnpm build

@@ -60,7 +60,8 @@ export function AlertDialog({
             {cancelLabel}
           </Button>
           <Button
-            variant={isDanger ? 'danger' : 'primary'}
+            variant="primary"
+            tone={isDanger ? 'danger' : 'neutral'}
             isPending={pending}
             autoFocus={!isDanger}
             onPress={() => {

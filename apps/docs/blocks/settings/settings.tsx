@@ -380,7 +380,7 @@ function DisplaySection({ content, level: l }: SectionProps): JSX.Element {
 }
 
 /**
- * Closing the account is calm until it's chosen: a plain row and an outline button in the danger text colour.
+ * Closing the account is calm until it's chosen: a plain row and an outline button with tone="danger".
  * The alert dialog that follows is where the red fill belongs.
  */
 function DangerSection({ content, level: l }: SectionProps): JSX.Element {
@@ -393,7 +393,7 @@ function DangerSection({ content, level: l }: SectionProps): JSX.Element {
           <div className={styles.row}>
             <p className={cx(styles.rowDescription, styles.dangerText)}>{d.description}</p>
             <DialogTrigger>
-              <Button variant="outline" className={styles.dangerButton}>
+              <Button variant="outline" tone="danger">
                 {d.action}
               </Button>
               <AlertDialog

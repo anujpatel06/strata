@@ -1,5 +1,5 @@
 /** Isomorphic re-export of the component metadata contract (packages/react/meta/schema.ts). */
-export type { Category, ComponentMeta, ExampleDoc, PropDoc } from '../../../packages/react/meta/schema';
+export type { Category, ComponentMeta, Deprecation, ExampleDoc, PropDoc } from '../../../packages/react/meta/schema';
 import type { Category } from '../../../packages/react/meta/schema';
 
 /** Sidebar / index order and labels for meta.category. */

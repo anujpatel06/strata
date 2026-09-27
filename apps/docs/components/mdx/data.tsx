@@ -323,9 +323,12 @@ function readAdrs(): Adr[] {
     const m = /^(\d{3})-.+\.md$/.exec(file);
     if (!m || m[1] === '000') continue;
     const text = readRepoFile('docs', 'adr', file) ?? '';
-    const heading = /^#\s+ADR-\d+:\s*(.+)$/m.exec(text)?.[1]?.trim() ?? file;
-    const statusLine = /\*\*Status:\*\*\s*(.+)$/m.exec(text)?.[1]?.trim() ?? '';
-    const [status = '', ...rest] = statusLine.split(/\s+—\s+/);
+    // The ADRs are Markdown; this table shows plain text, so bold and code marks are dropped.
+    const plain = (t: string) => t.replace(/\*\*|`/g, '').trim();
+    const heading = plain(/^#\s+ADR-\d+:\s*(.+)$/m.exec(text)?.[1] ?? file);
+    const statusLine = plain(/\*\*Status:\*\*\s*(.+)$/m.exec(text)?.[1] ?? '');
+    // "Accepted — decided by …" and "Accepted. Decided by …" both split into the status word and who decided.
+    const [status = '', ...rest] = statusLine.split(/\s+—\s+|(?<=^[A-Za-z ]+)\.\s+/);
     out.push({ number: m[1]!, title: heading, status: status.trim(), decidedBy: rest.join(' — ').trim(), file });
   }
   return out;

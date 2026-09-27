@@ -1,0 +1,30 @@
+{
+  "name": "@strata/codemods",
+  "version": "0.0.0",
+  "description": "Codemods for Strata's breaking changes. Each one rewrites what it can be sure of and reports the rest.",
+  "type": "module",
+  "license": "MIT",
+  "bin": {
+    "strata-codemods": "./bin/cli.mjs"
+  },
+  "files": [
+    "bin",
+    "transforms"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "test": "vitest run",
+    "typecheck": "tsc -p tsconfig.json"
+  },
+  "dependencies": {
+    "jscodeshift": "^17.4.0"
+  },
+  "devDependencies": {
+    "@types/jscodeshift": "^17.3.0",
+    "@types/node": "^22.0.0",
+    "typescript": "~5.9.0",
+    "vitest": "^5.0.0"
+  }
+}

@@ -86,8 +86,11 @@
   justify-items: start;
 }
 .decidedBy {
+  max-inline-size: 52ch;
   color: var(--strata-color-text-subtle);
   font-size: var(--strata-font-size-sm);
+  white-space: normal;
+  overflow-wrap: anywhere;
 }
 
 .adjustments {

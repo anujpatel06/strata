@@ -1,0 +1,40 @@
+name: Component or variant request
+description: Ask for a new component, a new variant, or a change to an existing one.
+labels: [request]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Requests end in one of four outcomes, cheapest first: extend a component, add a variant, add a component, or a local override in your product. See GOVERNANCE.md §4.
+  - type: textarea
+    id: need
+    attributes:
+      label: The need
+      description: Which screen is it for, and what do people do today instead? Attach the design or a screenshot.
+    validations:
+      required: true
+  - type: dropdown
+    id: outcome
+    attributes:
+      label: Which outcome do you expect?
+      options:
+        - Extend an existing component (a new prop)
+        - Add a variant
+        - Add a component (needs an RFC)
+        - Not sure
+    validations:
+      required: true
+  - type: textarea
+    id: tried
+    attributes:
+      label: What you tried with the existing components
+    validations:
+      required: true
+  - type: checkboxes
+    id: tenants
+    attributes:
+      label: Does it hold for every brand?
+      options:
+        - label: It works with any brand colour, light and dark
+        - label: It works right to left
+        - label: It works in both densities

@@ -2,7 +2,8 @@ import { chromium } from 'playwright';
 import { launchBrowser } from './launch-browser.mjs';
 import { AxeBuilder } from '@axe-core/playwright';
 import { readdirSync } from 'node:fs';
-const base = 'http://localhost:3000';
+// STRATA_BASE_URL lets the sweep run against a server on another port when 3000 is taken.
+const base = process.env.STRATA_BASE_URL ?? 'http://localhost:3000';
 const comps = readdirSync('packages/react/meta').filter((f) => f.endsWith('.meta.json')).map((f) => f.replace('.meta.json', ''));
 const docs = readdirSync('apps/docs/content/docs').filter((f) => f.endsWith('.mdx')).map((f) => f.replace('.mdx', '')).filter((s) => s !== 'index');
 const blocks = ['benefits-overview', 'portfolio', 'dashboard-overview', 'request-flow', 'settings', 'sign-in', 'activity-table'];

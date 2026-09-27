@@ -1,5 +1,18 @@
 Releases follow the project’s phases. Every number here comes from a script; the command is next to it.
 
+## v0.4 — Governance
+
+<Badge tone="info" variant="soft">In progress</Badge>
+
+How the system changes, and the first change made that way.
+
+- `GOVERNANCE.md`: who decides what, the four outcomes for a request, and the deprecation policy. Deprecated APIs keep working until 1.0.0. See [Governance](/docs/governance).
+- Requests for comments, with a template. RFC-001 is the first.
+- **Deprecated:** Button’s `variant="danger"`. Use `tone="danger"`, which also works on outline and ghost buttons (<AdrLink n="021" />). The old prop renders the same and warns once in development.
+- `@strata/codemods`: a new package. `npx @strata/codemods button-variant-danger-to-tone <path>` rewrites literal usages and reports the ones it can’t be sure of.
+- Deprecations are records in `meta.json`. Component pages show them, and `pnpm check:meta` fails if a record names a codemod or RFC that doesn’t exist.
+- The engine now solves success, warning, danger and info text on the canvas and raised surfaces too: 118 contrast checks per brand, up from 102 — `pnpm test:themes`.
+
 ## v0.3 — Craft
 
 <Badge tone="info" variant="soft">In progress</Badge>

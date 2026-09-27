@@ -2,7 +2,7 @@
 
 A multi-brand design system that humans and AI agents build with.
 
-41 React Aria components and a docs site with live previews, all themed by an engine that turns six brand inputs into a light and dark theme passing WCAG 2.2 AA.
+53 React Aria components, its own icon set and a docs site with live previews, all themed by an engine that turns six brand inputs into a light and dark theme passing WCAG 2.2 AA.
 
 ![Strata docs home](docs/screenshots/v0.2/home.png)
 
@@ -12,18 +12,20 @@ A multi-brand design system that humans and AI agents build with.
 
 Same components, same code. A tenant differs by tokens + copy only. Screenshots: `pnpm screenshots`.
 
-## What works today (v0.2)
+## What works today
 
-- **41 components** (`@strata/react`) on React Aria: fields, pickers, overlays, feedback, navigation and a DataTable. Every one works in light and dark, both densities, and RTL, and each has a `meta.json` that drives its docs page.
+- **53 components** (`@strata/react`) on React Aria: fields, pickers, overlays, feedback, navigation and a DataTable. Every one works in light and dark, both densities, and RTL, and each has a `meta.json` that drives its docs page.
 - **Docs site** (`apps/docs`, Next.js): component pages with live previews per tenant, scheme, direction and density; Blocks; Themes; Colors; ⌘K search. The site is themed by Strata itself.
 - **Distribution** (ADR-011): install `@strata/react` and `@strata/tokens` from npm (published in Phase 6), or copy a component's source files into your project.
-- **5 blocks**: dashboard, request flow, settings, sign-in and activity table. Each runs in all three tenants.
+- **7 blocks**: dashboard, request flow, settings, sign-in, activity table, benefits overview and portfolio. Each runs in every tenant.
+- **Governance** (`GOVERNANCE.md`): an RFC flow, a deprecation policy, and one deprecation carried out end to end. Button's `variant="danger"` became `tone="danger"`, with a codemod in `@strata/codemods`.
+- **`@strata/icons`**: Strata's own icon set (ADR-014).
 
 Phase 1:
 
 - **Brand Generator** — 6 inputs (primary, accent, neutral temperature, shape, type pair, density) → full theme, live preview, export. Runs in the browser.
 - **OKLCH theme engine + contrast solver** — 12-step ramps, brand hex kept exact, every failing pair fixed and explained in plain English. Zero runtime dependencies.
-- **Three tenants** — Vela, Harbor, Qamar. A tenant is one `brand.json` + one `content.json`.
+- **Five tenants** — Vela, Harbor, Qamar (Arabic, right to left), Care and the house theme the site uses. A tenant is one `brand.json` + one `content.json`.
 - **Exports** — CSS variables, DTCG 2025.10 JSON, Figma-variables JSON (Brand / Scheme / Density collections).
 
 ## Numbers
@@ -34,13 +36,17 @@ Every number comes from a script. Run the command to reproduce it.
 | Metric | Value | Reproduce |
 |---|---|---|
 | Themes fuzzed (random brands × light/dark) | 1,000 | `pnpm test:themes` |
-| Contrast checks passed | 102,000 / 102,000 (100%) | `pnpm test:themes` |
-| Solver adjustments per brand | median 4, max 6 (all brand-driven) | `pnpm test:themes` |
-| Median theme generation time | 0.45 ms (this machine) | `pnpm test:themes` |
-| Components / blocks | 41 / 5 | `pnpm check:meta`; blocks listed in `apps/docs/blocks/blocks.json` |
-| Component + engine tests | 271 + 157 passing | `pnpm test` |
-| Docs routes swept with axe (light + dark) | 73 × 2, 0 violations | `node scripts/axe-sweep.mjs` (with the docs site running) |
-| Tenants rendering from one codebase | 3 (one Arabic RTL) + house | `pnpm tokens` |
+| Contrast checks passed | 118,000 / 118,000 (100%), 118 per brand | `pnpm test:themes` |
+| Chart palettes passed | 2,000 / 2,000 | `pnpm test:themes` |
+| Solver adjustments per brand | median 4, max 7 | `pnpm test:themes` |
+| Components / blocks | 53 / 7 | `pnpm check:meta`; blocks listed in `apps/docs/blocks/blocks.json` |
+| Component maturity | 18 alpha · 35 beta · 0 stable | `pnpm check:meta` |
+| Tests passing | 435 components · 219 engine · 245 icons · 8 codemods | `pnpm test` |
+| Docs routes swept with axe (light + dark) | 105 × 2, 0 violations | `node scripts/axe-sweep.mjs` (with the built docs site running) |
+| Tenants rendering from one codebase | 5 (one Arabic RTL), including the house theme | `pnpm tokens` |
+| Deprecations shipped with a codemod | 1 | `GOVERNANCE.md` §5; `pnpm --filter @strata/codemods test` |
+
+Measured 2026-09-27. Known failures on that date, both older than the governance work: the production docs build logs a hydration error on 20 component pages, and `pnpm registry` (internal only) fails on 7 blocks.
 <!-- numbers:end -->
 
 ## Quick start
@@ -60,25 +66,32 @@ pnpm screenshots    # Playwright: every tenant × scheme + axe report
 ## Repo map
 
 ```
-apps/generator/          Brand Generator (Vite + React)
 packages/theme-engine/   brand inputs → theme: OKLCH ramps, contrast solver, exporters
+packages/react/          components on React Aria, one meta.json each
+packages/icons/          Strata's own icon set
 packages/tokens/         built tokens for every tenant: CSS, DTCG, Figma
+packages/codemods/       one codemod per breaking change
+apps/docs/               docs site (Next.js): components, blocks, themes, governance
+apps/generator/          Brand Generator (Vite + React)
+apps/playground/         every example per tenant, scheme, direction and density
 tenants/<name>/          brand.json + content.json — a brand is data, not code
-docs/adr/                architecture decisions, each with who made the call
+docs/adr/                decisions, each with who made the call
+docs/rfcs/               proposals, written before the change is built
 docs/log.md              session log: changed / decided / next
-scripts/screenshots.mjs  Playwright screenshots + axe
+GOVERNANCE.md            who decides, how a change gets in, deprecation policy
 ```
 
-Coming: `packages/react`, `packages/meta`, `apps/storybook` (Phase 2) · `apps/reference` (Phase 3) · `GOVERNANCE.md`, codemods (Phase 4) · `packages/mcp`, `packages/audit`, `AGENTS.md`, `evals/` (Phase 5) · `apps/docs` + `/story` (Phase 6).
+Coming: `packages/mcp`, `packages/audit`, `AGENTS.md`, `evals/` (Phase 5) · server-driven UI schema, native tokens, Hindi tenant (Phase 5a) · npm release and `/story` (Phase 6).
 
 ## Roadmap
 
-- [ ] **0 · Plan** — scaffold, ADR drafts *(in progress)*
-- [ ] **1 · Tokens + engine + generator v0** — tiers, 3 tenants, contrast solver + fuzz, one preview screen *(in progress)*
-- [ ] **2 · Components** — ~20 components, meta, a11y, RTL, density, Storybook, visual tests
-- [ ] **3 · Reference product** — 3 screens × 3 tenants, Qamar in Arabic RTL
-- [ ] **4 · Governance** — GOVERNANCE, RFC flow, Changesets, one real deprecation + codemod
-- [ ] **5 · MCP + audit + eval** — MCP server, drift auditor, CI gate, agent eval A vs B
+- [x] **0 · Plan** — scaffold, ADR drafts
+- [x] **1 · Tokens + engine + generator v0** — tiers, tenants, contrast solver + fuzz
+- [x] **2 · Components** — components on React Aria, meta, accessibility, RTL, density
+- [x] **3 · Docs site and blocks** — the docs site and its blocks stand in for the reference product and Storybook the brief planned
+- [ ] **4 · Governance** — GOVERNANCE, RFC flow, Changesets, one real deprecation + codemod *(built, waiting for Anuj's review)*
+- [ ] **5 · MCP + audit + eval** — MCP server, drift auditor, CI gate, per-model agent eval
+- [ ] **5a · Mobile reach** — server-driven UI schema, native token export, Hindi tenant
 - [ ] **6 · Publish** — npm, docs site, `/story` page
 
 ## Principles

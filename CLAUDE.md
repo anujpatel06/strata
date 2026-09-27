@@ -1,18 +1,21 @@
 # CLAUDE.md — Strata
 
-Strata is a multi-brand design system. It has 46 React Aria components, its own icon set (`@strata/icons`) and a Next.js docs site, all themed by an engine that turns six brand inputs into a light and dark theme passing WCAG 2.2 AA. It's Anuj Patel's portfolio project for Lead/Staff Product Designer and UX Design Engineer interviews, so **craft, accessibility and honest claims matter more than speed**.
+Strata is a multi-brand design system. It has 53 React Aria components, its own icon set (`@strata/icons`) and a Next.js docs site, all themed by an engine that turns six brand inputs into a light and dark theme passing WCAG 2.2 AA. It's Anuj Patel's portfolio project for Lead/Staff Product Designer and UX Design Engineer interviews, so **craft, accessibility and honest claims matter more than speed**.
 
 - Spec: `BRIEF.md`. Read the relevant section before planning any phase.
 - Component rules: `packages/react/CONVENTIONS.md`. Read it before touching `packages/react` or `apps/docs/examples`.
-- History: `docs/log.md` has what changed, who decided, and what's next. Decisions are in `docs/adr/`.
+- How the system changes: `GOVERNANCE.md`. Read §5 before changing or removing anything on a beta or stable component.
+- History: `docs/log.md` has what changed, who decided, and what's next. Decisions are in `docs/adr/`, proposals in `docs/rfcs/`.
 
 Anuj owns design decisions. You pair on engineering and push back when he's wrong.
 
 ## Status
 
-- **Done (v0.2):** Phase 0–2, plus the docs site. That covers the theme engine and contrast solver, 41 components, 5 blocks, the docs site (Home, Docs, Components, Blocks, Themes, Colors, ⌘K) and the npm build. No shadcn anywhere users look (ADR-011 revision).
-- **Next:** Phase 4, governance (GOVERNANCE.md, RFC flow, the `Button variant="danger"` → `tone="critical"` deprecation with a codemod). Then Phase 5: MCP server, drift auditor, agent eval. See BRIEF §7–10 and §13.
-- **Waiting on Anuj:** deploy the docs to Vercel. All ADRs 001–017 are decided (2026-09-27).
+- **Done:** Phase 0–4.
+  - The theme engine and contrast solver, 53 components, 7 blocks, `@strata/icons`, the docs site (Home, Docs, Components, Blocks, Themes, Colors, Icons, ⌘K) and the npm build. No shadcn anywhere users look (ADR-011 revision).
+  - Governance (Phase 4): `GOVERNANCE.md`, RFCs in `docs/rfcs/`, deprecation records in `meta.json`, `packages/codemods`. First deprecation: `Button variant="danger"` → `tone="danger"` (RFC-001, ADR-021).
+- **Next:** Phase 5: MCP server, drift auditor with autofix, per-model agent eval, root `AGENTS.md` (BRIEF §8–10, ADR-008, ADR-018). Then Phase 5a: server-driven UI schema, native token export, Hindi tenant (BRIEF §10a, ADR-019, ADR-020).
+- **Waiting on Anuj:** deploy the docs to Vercel; the Hindi tenant's name, industry and brand inputs (ADR-020).
 - **Known gaps:** listed at the end of the latest entry in `docs/log.md`.
 
 ## Run it
@@ -41,6 +44,7 @@ Use `/verify` before saying work is done, and `/screenshots` after any UI change
 | `packages/theme-engine` | OKLCH ramps, 48 semantic roles, contrast solver, exporters (CSS, DTCG 2025.10, Figma, shadcn). Zero runtime deps. |
 | `packages/react` | Components: `src/ui/<name>.tsx` + `.module.css` (flat; sibling imports only), `meta/<name>.meta.json`, `test/`. `src/index.ts` is generated (`pnpm --filter @strata/react gen:index`). |
 | `packages/tokens` | Builds token files for every `tenants/*/brand.json`. |
+| `packages/codemods` | One jscodeshift transform per breaking change, with fixture tests. `npx @strata/codemods <transform> <path>`. |
 | `packages/icons` | `@strata/icons`: our own icon set (ADR-014). Style spec in `src/create-icon.tsx`; `pnpm --filter @strata/icons sheet` renders the review sheet. |
 | `apps/docs` | Next.js 16 site. Examples in `examples/<component>/`; blocks in `blocks/<name>/`; pages in `app/`; MDX in `content/docs/`. |
 | `apps/generator` | Phase 1 Brand Generator (Vite; single-file build for hosted demos). |

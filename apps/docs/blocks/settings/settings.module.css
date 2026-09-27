@@ -390,15 +390,6 @@
   max-inline-size: 60ch;
 }
 
-/* feedback.danger.fg is checked on surface.default, the outline button's fill. */
-.dangerButton.dangerButton {
-  color: var(--strata-color-feedback-danger-fg);
-}
-
-.dangerButton.dangerButton[data-hovered] {
-  border-color: var(--strata-color-feedback-danger-border);
-}
-
 /* ------------------------------------------------------------------ *
  * Notifications
  * ------------------------------------------------------------------ */

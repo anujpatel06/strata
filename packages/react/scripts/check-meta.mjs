@@ -7,7 +7,8 @@
  * Per meta: required fields and types · name = file name · files exist in src/ui · every listed export is exported
  * by the component's .tsx · props[].component is a listed export · examples exist in apps/docs/examples/<name>/ and
  * the first is <name>-demo · registryDependencies have metas · imports match dependencies/registryDependencies
- * (the same rules the registry build enforces). Also flags src/ui/*.tsx files with no meta.
+ * (the same rules the registry build enforces) · deprecation records are complete and the codemod and RFC they name
+ * exist (GOVERNANCE.md §5). Also flags src/ui/*.tsx files with no meta.
  * Prints a table, then every problem. Exit 1 on any error. Options: --pkg <dir>, --examples <dir>.
  *
  * Maturity criteria (the "Maturity" section of apps/docs/content/docs/governance.mdx; keep the two in step):
@@ -125,6 +126,34 @@ export function exportedNames(source) {
   return names;
 }
 
+const codemodsDir = path.join(REPO_ROOT, 'packages/codemods/transforms');
+const rfcsDir = path.join(REPO_ROOT, 'docs/rfcs');
+const SEMVER = /^(\d+)\.(\d+)\.(\d+)$/;
+const semverCompare = (a, b) => {
+  const [x, y] = [a, b].map((v) => SEMVER.exec(v).slice(1).map(Number));
+  return x[0] - y[0] || x[1] - y[1] || x[2] - y[2];
+};
+
+/**
+ * A deprecation record (meta/schema.ts `Deprecation`, policy in GOVERNANCE.md §5): every field present, removal is a
+ * later release than since and is a major (x.0.0), and the codemod and RFC it names exist.
+ */
+export function deprecationProblems(d, where) {
+  if (typeof d !== 'object' || d === null) return [`${where}: must be an object`];
+  const out = [];
+  for (const k of ['since', 'removal', 'replacement', 'reason', 'codemod', 'rfc']) if (!isStr(d[k])) out.push(`${where}.${k}: required non-empty string`);
+  for (const k of ['since', 'removal']) if (isStr(d[k]) && !SEMVER.test(d[k])) out.push(`${where}.${k}: "${d[k]}" must be a release like 0.2.0`);
+  if (SEMVER.test(d.since ?? '') && SEMVER.test(d.removal ?? '')) {
+    if (semverCompare(d.removal, d.since) <= 0) out.push(`${where}: removal ${d.removal} must be later than since ${d.since}`);
+    if (!/^\d+\.0\.0$/.test(d.removal)) out.push(`${where}.removal: ${d.removal} isn't a major release; deprecated APIs are removed in a major (GOVERNANCE.md §5)`);
+  }
+  if (isStr(d.codemod) && !['.ts', '.js', '.mjs'].some((ext) => existsSync(path.join(codemodsDir, d.codemod + ext)))) {
+    out.push(`${where}.codemod: packages/codemods/transforms/${d.codemod}.ts does not exist`);
+  }
+  if (isStr(d.rfc) && !existsSync(path.join(rfcsDir, `${d.rfc}.md`))) out.push(`${where}.rfc: docs/rfcs/${d.rfc}.md does not exist`);
+  return out;
+}
+
 function checkMeta(name, file) {
   const errors = [];
   const warnings = [];
@@ -151,7 +180,23 @@ function checkMeta(name, file) {
   if (!Array.isArray(meta.props)) errors.push('props: required array');
   else meta.props.forEach((p, i) => {
     for (const k of ['component', 'name', 'type', 'description']) if (!isStr(p?.[k])) errors.push(`props[${i}].${k}: required string`);
+    const at = `props[${i}] (${p?.name})`;
+    if (p?.deprecated !== undefined) errors.push(...deprecationProblems(p.deprecated, `${at}.deprecated`));
+    if (p?.deprecatedValues !== undefined) {
+      if (!Array.isArray(p.deprecatedValues) || p.deprecatedValues.length === 0) errors.push(`${at}.deprecatedValues: must be a non-empty array when present`);
+      else p.deprecatedValues.forEach((d, j) => {
+        const where = `${at}.deprecatedValues[${j}]`;
+        errors.push(...deprecationProblems(d, where));
+        const values = isStr(p.type) ? p.type.split('|').map((v) => v.trim()) : [];
+        if (!isStr(d?.value)) errors.push(`${where}.value: required string, written as in type (e.g. "'danger'")`);
+        else if (!values.includes(d.value)) errors.push(`${where}.value: ${d.value} isn't one of the values in type; it stays listed until the release that removes it`);
+        else if (p.default === d.value) errors.push(`${where}.value: ${d.value} is the prop's default; a default can't be deprecated`);
+      });
+    }
   });
+  if (meta.maturity === 'alpha' && Array.isArray(meta.props) && meta.props.some((p) => p?.deprecated || p?.deprecatedValues)) {
+    warnings.push('has a deprecation record but is alpha; alpha APIs may change without one (GOVERNANCE.md §5)');
+  }
   const a11y = meta.accessibility;
   if (!a11y || !Array.isArray(a11y.keyboard) || !isStrArr(a11y.notes)) errors.push('accessibility: needs keyboard[] and notes[]');
   else a11y.keyboard.forEach((k, i) => {

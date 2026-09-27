@@ -16,7 +16,7 @@
     "dialog"
   ],
   "reactAria": "https://react-spectrum.adobe.com/react-aria/Modal.html",
-  "usage": "import { AlertDialog, Button, DialogTrigger } from '@strata/react';\n\nexport function DeleteCard({ onDelete }: { onDelete: () => Promise<void> }) {\n  return (\n    <DialogTrigger>\n      <Button variant=\"danger\">Delete card</Button>\n      <AlertDialog title=\"Delete this card?\" actionLabel=\"Delete\" tone=\"danger\" onAction={onDelete}>\n        Scheduled payments on this card will stop. This can’t be undone.\n      </AlertDialog>\n    </DialogTrigger>\n  );\n}",
+  "usage": "import { AlertDialog, Button, DialogTrigger } from '@strata/react';\n\nexport function DeleteCard({ onDelete }: { onDelete: () => Promise<void> }) {\n  return (\n    <DialogTrigger>\n      <Button tone=\"danger\">Delete card</Button>\n      <AlertDialog title=\"Delete this card?\" actionLabel=\"Delete\" tone=\"danger\" onAction={onDelete}>\n        Scheduled payments on this card will stop. This can’t be undone.\n      </AlertDialog>\n    </DialogTrigger>\n  );\n}",
   "examples": [
     {
       "name": "alert-dialog-demo",
@@ -68,7 +68,7 @@
       "name": "tone",
       "type": "'default' | 'danger'",
       "default": "'default'",
-      "description": "danger uses the danger Button variant and moves initial focus to Cancel; default focuses the action."
+      "description": "danger uses the solid danger Button (variant=\"primary\" tone=\"danger\") and moves initial focus to Cancel; default focuses the action."
     },
     {
       "component": "AlertDialog",

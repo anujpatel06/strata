@@ -1,0 +1,30 @@
+name: Bug
+description: Something renders or behaves wrongly.
+labels: [bug]
+body:
+  - type: input
+    id: component
+    attributes:
+      label: Component or package
+    validations:
+      required: true
+  - type: textarea
+    id: what
+    attributes:
+      label: What happens, and what you expected
+      description: Include the tenant, scheme (light or dark), direction and density. A screenshot helps.
+    validations:
+      required: true
+  - type: textarea
+    id: repro
+    attributes:
+      label: Smallest code that shows it
+      render: tsx
+    validations:
+      required: true
+  - type: checkboxes
+    id: a11y
+    attributes:
+      label: Accessibility
+      options:
+        - label: This blocks keyboard or screen-reader use, or fails a contrast requirement

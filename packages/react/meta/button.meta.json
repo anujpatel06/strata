@@ -1,7 +1,7 @@
 {
   "name": "button",
   "title": "Button",
-  "description": "Triggers an action, with variants for emphasis, three sizes plus icon-only, and a pending state.",
+  "description": "Triggers an action, with variants for emphasis, a danger tone for destructive actions, three sizes plus icon-only, and a pending state.",
   "category": "actions",
   "maturity": "beta",
   "exports": [
@@ -29,6 +29,11 @@
       "description": "Every variant, including the monochrome contrast action."
     },
     {
+      "name": "button-tone",
+      "title": "Tone",
+      "description": "tone=\"danger\" on primary, outline and ghost: one solid destructive action and two quieter ones. Disabled looks the same in every tone."
+    },
+    {
       "name": "button-contrast",
       "title": "Contrast",
       "description": "The monochrome strong action: near-black in light schemes, near-white in dark, at the lg hero size."
@@ -53,9 +58,27 @@
     {
       "component": "Button",
       "name": "variant",
-      "type": "'primary' | 'secondary' | 'outline' | 'ghost' | 'danger' | 'link' | 'contrast'",
+      "type": "'primary' | 'secondary' | 'outline' | 'ghost' | 'link' | 'contrast' | 'danger'",
       "default": "'primary'",
-      "description": "Visual emphasis. Use one primary per view; danger for destructive actions. contrast is the monochrome strong action (surface.inverse + text.inverse), for when brand colour should stay rare."
+      "description": "Visual emphasis. Use one primary per view. contrast is the monochrome strong action (surface.inverse + text.inverse), for when brand colour should stay rare. For destructive actions set tone=\"danger\". 'danger' is deprecated: it renders as before and logs one warning in development.",
+      "deprecatedValues": [
+        {
+          "value": "'danger'",
+          "since": "0.2.0",
+          "removal": "1.0.0",
+          "replacement": "tone=\"danger\"",
+          "reason": "Status belongs in tone, as in every other component; variant is only the visual emphasis.",
+          "codemod": "button-variant-danger-to-tone",
+          "rfc": "001-button-tone"
+        }
+      ]
+    },
+    {
+      "component": "Button",
+      "name": "tone",
+      "type": "'neutral' | 'danger'",
+      "default": "'neutral'",
+      "description": "Feedback colour. danger marks a destructive action. It works with the primary (solid), outline and ghost variants and sets data-tone=\"danger\". secondary, link and contrast ignore it: they render as neutral, with one warning in development."
     },
     {
       "component": "Button",
@@ -126,7 +149,9 @@
       "Icon-only buttons must have an aria-label; the type requires it for size=\"icon\".",
       "While pending the button stays focusable, is aria-disabled and aria-busy, and screen readers hear the label again when the state changes.",
       "Focus ring: 2px focus.ring outline with a 2px offset, keyboard only.",
-      "Every size keeps a target of at least 24×24px, including the link variant."
+      "Every size keeps a target of at least 24×24px, including the link variant.",
+      "tone=\"danger\" is colour only. The label must say what is destroyed, e.g. \"Delete account\".",
+      "The danger label on outline and ghost buttons is at least 4.5:1 on every opaque surface and on the hover face, for every tenant and 1,000 generated brands (test/button.test.tsx)."
     ]
   },
   "guidelines": {
@@ -134,10 +159,15 @@
       "Use one primary button per view for the main action.",
       "Use a verb for the label: \"Save changes\", not \"OK\".",
       "Use isPending for async actions instead of disabling the button.",
-      "Use variant=\"contrast\" for strong actions when the page's one hero action already carries the brand colour."
+      "Use variant=\"contrast\" for strong actions when the page's one hero action already carries the brand colour.",
+      "Use tone=\"danger\" for actions that delete or can't be undone, and name the thing in the label: \"Delete account\".",
+      "Use the solid danger button (primary) for the final confirming step. Use outline or ghost for destructive actions that sit in a row, a toolbar or a settings list.",
+      "Inside dialogs, popovers and menus use primary or outline with tone=\"danger\": both have an opaque face."
     ],
     "dont": [
-      "Don't use danger for anything that isn't destructive.",
+      "Don't use tone=\"danger\" for anything that isn't destructive.",
+      "Don't put a ghost button with tone=\"danger\" directly on a glass overlay (dialog, popover, menu, sheet). Its face is transparent, and feedback colours aren't solved for contrast on glass.",
+      "Don't use variant=\"danger\" in new code. It is deprecated and will be removed in 1.0.0.",
       "Don't use the link variant for navigation; use Link, which renders an anchor.",
       "Don't put a contrast and a primary button side by side: that's two loud actions. Pair either with outline or ghost."
     ]
@@ -154,18 +184,26 @@
     "color.action.secondary.pressed",
     "color.border.default",
     "color.border.strong",
+    "color.feedback.danger.bg",
+    "color.feedback.danger.border",
+    "color.feedback.danger.fg",
     "color.feedback.danger.onSolid",
     "color.feedback.danger.solid",
     "color.focus.ring",
     "color.surface.default",
+    "color.surface.inverse",
     "color.text.brand",
     "color.text.default",
     "color.text.disabled",
+    "color.text.inverse",
+    "color.text.subtle",
     "control-height",
-    "control-padding-inline",
     "font.size.md",
     "font.size.sm",
+    "font.tracking.md",
+    "font.tracking.sm",
     "font.weight.medium",
+    "icon-stroke",
     "line-height.tight",
     "motion.duration.fast",
     "motion.duration.normal",
@@ -173,19 +211,13 @@
     "motion.easing",
     "motion.spring",
     "radius.button",
+    "radius.field",
+    "radius.pill",
     "shadow.highlight",
     "shadow.raised",
     "space.1",
     "space.2",
     "space.4",
-    "space.6",
-    "font.tracking.md",
-    "font.tracking.sm",
-    "radius.pill",
-    "color.surface.inverse",
-    "color.text.inverse",
-    "color.text.subtle",
-    "space.3",
-    "radius.field"
+    "space.6"
   ]
 }

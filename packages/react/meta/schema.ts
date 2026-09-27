@@ -4,6 +4,25 @@
  */
 export type Category = 'actions' | 'inputs' | 'overlays' | 'feedback' | 'display' | 'navigation' | 'data' | 'layout';
 
+/**
+ * A deprecation, following GOVERNANCE.md: deprecated in a minor release, removed in a major, with a codemod.
+ * The docs page, the dev-time warning text and (Phase 5) the MCP server all read this record.
+ */
+export interface Deprecation {
+  /** The release that deprecated it, e.g. "0.2.0". */
+  since: string;
+  /** The release that removes it, e.g. "1.0.0". Must be later than `since`. */
+  removal: string;
+  /** What to write instead, as code, e.g. `tone="danger"`. */
+  replacement: string;
+  /** One sentence: why it changed. */
+  reason: string;
+  /** Transform name in packages/codemods/transforms, without the extension, e.g. "button-variant-danger-to-tone". */
+  codemod: string;
+  /** The RFC that decided it: a file name in docs/rfcs without the extension, e.g. "001-button-tone". */
+  rfc: string;
+}
+
 export interface PropDoc {
   /** Which exported component this prop belongs to, e.g. "Button" or "CardHeader". */
   component: string;
@@ -13,6 +32,13 @@ export interface PropDoc {
   default?: string;
   required?: boolean;
   description: string;
+  /** The whole prop is deprecated. */
+  deprecated?: Deprecation;
+  /**
+   * Single values of a string-literal union that are deprecated while the prop itself stays. `value` is written as
+   * in `type`, quotes included, e.g. "'danger'", and must appear there until the release that removes it.
+   */
+  deprecatedValues?: Array<Deprecation & { value: string }>;
 }
 
 export interface ExampleDoc {

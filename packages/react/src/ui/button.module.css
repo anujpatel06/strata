@@ -148,7 +148,12 @@
   --_bg: color-mix(in oklab, var(--strata-color-text-default) 10%, transparent);
 }
 
-.root[data-variant='danger'] {
+/*
+ * Solid danger. One rule set serves the deprecated variant="danger" and its replacement, variant="primary"
+ * tone="danger", so the two can't drift apart. Every tone rule excludes [data-disabled], because its selector
+ * outweighs the disabled rules further down.
+ */
+.root:is([data-variant='danger'], [data-variant='primary'][data-tone='danger']):not([data-disabled]) {
   --_bg: var(--strata-color-feedback-danger-solid);
   --_fg: var(--strata-color-feedback-danger-on-solid);
   --_border: var(--strata-color-feedback-danger-solid);
@@ -159,12 +164,34 @@
  * drop the solved label contrast below 4.5:1 (pure red is exactly 4.50). So hover adds a soft danger halo *outside*
  * the shape instead. Proper fix: a feedback.danger.hover/pressed role in the theme engine.
  */
-.root[data-variant='danger'][data-hovered] {
+.root:is([data-variant='danger'], [data-variant='primary'][data-tone='danger'])[data-hovered]:not([data-disabled]) {
   --_shadow: var(--strata-shadow-highlight), var(--strata-shadow-raised),
     0 0 0 4px color-mix(in oklab, var(--strata-color-feedback-danger-solid) 22%, transparent);
 }
-.root[data-variant='danger'][data-pressed] {
+.root:is([data-variant='danger'], [data-variant='primary'][data-tone='danger'])[data-pressed]:not([data-disabled]) {
   --_shadow: var(--strata-shadow-raised), 0 0 0 4px color-mix(in oklab, var(--strata-color-feedback-danger-solid) 30%, transparent);
+}
+
+/*
+ * Quiet danger: outline and ghost with tone="danger". The label is feedback.danger.fg, and every face it sits on is
+ * an opaque role the engine solves it against (proof: test/button.test.tsx). Outline rests on surface.default;
+ * ghost is transparent at rest, so it shows the surface underneath. Hover and press turn the face to
+ * feedback.danger.bg: the same opaque role for both, never a tint, so the label's contrast is the solved pair's.
+ * Press is told apart by the edge and the scale.
+ */
+.root[data-variant='outline'][data-tone='danger']:not([data-disabled]) {
+  --_fg: var(--strata-color-feedback-danger-fg);
+  --_bg: var(--strata-color-surface-default);
+  --_border: var(--strata-color-feedback-danger-border);
+}
+.root[data-variant='ghost'][data-tone='danger']:not([data-disabled]) {
+  --_fg: var(--strata-color-feedback-danger-fg);
+}
+.root:is([data-variant='outline'], [data-variant='ghost'])[data-tone='danger']:is([data-hovered], [data-pressed]):not([data-disabled]) {
+  --_bg: var(--strata-color-feedback-danger-bg);
+}
+.root[data-variant='outline'][data-tone='danger'][data-pressed]:not([data-disabled]) {
+  --_border: var(--strata-color-feedback-danger-fg);
 }
 
 .root[data-variant='link'] {
@@ -322,7 +349,7 @@
   .root:is([data-variant='secondary'], [data-variant='outline'])[data-hovered]:not([data-pressed], [data-disabled]) {
     --_shadow: var(--strata-shadow-raised), var(--strata-shadow-raised);
   }
-  .root[data-variant='danger'][data-hovered]:not([data-pressed], [data-disabled]) {
+  .root:is([data-variant='danger'], [data-variant='primary'][data-tone='danger'])[data-hovered]:not([data-pressed], [data-disabled]) {
     --_shadow: var(--strata-shadow-highlight), var(--strata-shadow-raised), var(--strata-shadow-raised),
       0 0 0 4px color-mix(in oklab, var(--strata-color-feedback-danger-solid) 22%, transparent);
   }

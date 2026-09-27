@@ -1,5 +1,7 @@
-<Callout tone="info" title="Phase 4 — in progress">
-  The decision records below are live. The contribution flow, versioning and deprecation policy are the plan from the project brief; `GOVERNANCE.md` and the first real deprecation land in Phase 4.
+How Strata changes: who decides, how a request gets in, and how something gets out again without breaking the products that use it. The full text is [`GOVERNANCE.md`](https://github.com/anujpatel06/strata/blob/main/GOVERNANCE.md).
+
+<Callout tone="info" title="What’s real today">
+  Strata has one maintainer, who pairs with AI agents. The process is written for a team so it can be judged as one. Where a script enforces a rule, the command is next to it. Where nothing enforces it yet, this page says so.
 </Callout>
 
 ## Decision records
@@ -10,12 +12,28 @@ Every choice with a design trade-off gets an architecture decision record: conte
 
 ## How a change gets in
 
-1. **Issue** — describe the need, with the screen it’s for.
-2. **RFC** — for anything beyond a fix: the proposal, alternatives, and what it costs other tenants.
-3. **Design review** — a designer signs off on the API, states and tokens.
-4. **Build** — component, `meta.json`, examples and tests together.
-5. **Docs** — the component page is generated from `meta.json`, so docs ship with the code.
-6. **Release** — a changeset describes the change for consumers; Changesets versions and writes the changelog.
+1. **Issue**: describe the need, with the screen it’s for.
+2. **RFC**, when one is needed: the proposal, the alternatives, and what it costs every tenant.
+3. **Design review**: a designer signs off on the API, states and tokens.
+4. **Build**: component, `meta.json`, examples and tests together.
+5. **Docs**: the component page is generated from `meta.json`, so docs ship with the code.
+6. **Release**: a changeset describes the change for consumers; Changesets versions and writes the changelog.
+
+An RFC is needed for a new component, a breaking change, a deprecation, or a change to what the theme engine guarantees. A fix, a new prop that fits a component’s purpose, or a docs change doesn’t need one.
+
+<Table aria-label="Requests for comments">
+  <thead>
+    <tr>
+      <th scope="col">RFC</th>
+      <th scope="col">Change</th>
+      <th scope="col">Status</th>
+      <th scope="col">Decided by</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>[RFC-001](https://github.com/anujpatel06/strata/blob/main/docs/rfcs/001-button-tone.md)</td><td>Button gets `tone`; `variant="danger"` is deprecated</td><td>Accepted</td><td>Claude recommended, Anuj accepted</td></tr>
+  </tbody>
+</Table>
 
 ## Extend, vary, add or override
 
@@ -28,7 +46,53 @@ A request ends in one of four outcomes, cheapest first:
 
 ## Versioning and deprecation
 
-Packages follow semver through Changesets. Something is deprecated in a minor release and removed in the next major, and every breaking change ships with a codemod that rewrites consumer code. The first real one — renaming Button’s `variant="danger"` to `tone="critical"`, with its codemod run on the reference app — is planned for Phase 4.
+Packages follow semver through Changesets.
+
+1. **Deprecate in a minor release.** The old API keeps working and renders exactly as before.
+2. **Remove in the next major release.**
+3. **Before 1.0**, semver lets a minor release break things. Strata doesn’t use that: a deprecated API keeps working through every 0.x release and is removed at 1.0.0.
+4. **Every breaking change ships with a codemod.** A codemod rewrites what it can be sure of and reports the rest with file and line. It never guesses.
+5. **Alpha components are exempt.** Beta and stable components change only through this policy.
+
+Removing or renaming a component, prop, value or token is breaking. So is changing a default, or a `data-*` attribute that a consumer could target in CSS.
+
+### What a deprecation includes
+
+<Table aria-label="Parts of a deprecation">
+  <thead>
+    <tr>
+      <th scope="col">Part</th>
+      <th scope="col">How it’s checked</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>An accepted RFC.</td><td>`pnpm check:meta` (the file exists)</td></tr>
+    <tr><td>A record in `meta.json`: since, removal, replacement, reason, codemod and RFC.</td><td>`pnpm check:meta`. Removal must be a later major release.</td></tr>
+    <tr><td>A notice on the component’s page.</td><td>Generated from the record.</td></tr>
+    <tr><td>A warning in development, once, and never in production.</td><td>The component’s tests.</td></tr>
+    <tr><td>A codemod with fixture tests.</td><td>`pnpm --filter @strata/codemods test`</td></tr>
+    <tr><td>The codemod run on this repo.</td><td>The pull request’s diff.</td></tr>
+    <tr><td>A changeset and a changelog entry.</td><td>Review.</td></tr>
+  </tbody>
+</Table>
+
+### The first one
+
+Button was the only component that put a status in `variant`; every other component uses `tone`. So `variant="danger"` became `tone="danger"`, which also works on outline and ghost buttons. See it on the [Button page](/docs/components/button#api-reference).
+
+```tsx
+// Deprecated in 0.2.0, removed in 1.0.0
+<Button variant="danger">Delete card</Button>
+
+// Use this instead
+<Button tone="danger">Delete card</Button>
+```
+
+```sh
+npx @strata/codemods button-variant-danger-to-tone src
+```
+
+The brief named the new value `critical`. It became `danger` because twelve components and the `feedback.danger.*` tokens already say `danger` (<AdrLink n="021" />).
 
 ## Maturity
 
@@ -121,3 +185,5 @@ AI agents change code too, so how much they may do alone depends on how far a ch
     <tr><td>Hard gate</td><td>Propose new components, token-tier changes and breaking changes.</td><td>RFC, design review and merge. Agents can’t merge.</td></tr>
   </tbody>
 </Table>
+
+Not enforced yet: CODEOWNERS, branch protection and the drift auditor arrive with the MCP server. Until then this is a working agreement, kept by recording who decided in every decision record, RFC and log entry.

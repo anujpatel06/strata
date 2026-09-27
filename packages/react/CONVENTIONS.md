@@ -28,9 +28,13 @@ apps/docs/examples/<name>/<name>-<variant>.tsx    more examples listed in meta.e
 - React 19: `ref` is a normal prop — no `forwardRef`. Spread remaining props onto the RAC root.
 - Merge classes with RAC's render-prop support: `className={composeRenderProps(className, (c) => cx(styles.root, c))}`.
 - Shared vocabulary (use exactly these names/values):
-  - `variant` = visual style. Button: `'primary' | 'secondary' | 'outline' | 'ghost' | 'danger' | 'link'`.
+  - `variant` = visual emphasis, never status. Button: `'primary' | 'secondary' | 'outline' | 'ghost' | 'link' | 'contrast'`.
+    (`'danger'` is deprecated since 0.2.0 and removed in 1.0.0: use `tone="danger"`, RFC-001. Don't write it in new code.)
   - `size` = `'sm' | 'md' | 'lg'` (+ `'icon'` for Button). Default `'md'`. `md` = `--strata-control-height`.
   - `tone` = `'neutral' | 'info' | 'success' | 'warning' | 'danger'` (+ `'brand'` for Badge) for feedback colour.
+    Button takes `'neutral' | 'danger'` on `primary`, `outline` and `ghost`.
+  - Changing or removing a prop, a value or a `data-*` attribute on a beta or stable component is a deprecation:
+    follow `GOVERNANCE.md` §5 (RFC, a record in meta, a development warning, a codemod).
   - Field components take `label`, `description`, `errorMessage` (string or RAC validation fn), and RAC's `isRequired`, `isDisabled`, `isInvalid`.
   - Boolean props use RAC naming: `isDisabled`, `isOpen`, `isPending`, `isSelected`.
 - Export the main component first; export sub-parts (e.g. `CardHeader`) and their `*Props` types.

@@ -252,6 +252,39 @@
   background: var(--strata-color-surface-selected);
   box-shadow: inset 0 0 0 var(--strata-hairline) var(--strata-color-border-default);
 }
+/* Deprecated values stay listed until they're removed. The word "deprecated" carries the meaning; the line is extra. */
+.value[data-deprecated] > code {
+  text-decoration-line: line-through;
+  text-decoration-thickness: 1px;
+}
+.deprecation {
+  display: grid;
+  gap: var(--strata-space-1);
+  max-inline-size: 62ch;
+  padding-inline-start: var(--strata-space-3);
+  box-shadow: inset var(--strata-hairline) 0 0 0 var(--strata-color-border-strong);
+  color: var(--strata-color-text-subtle);
+  font-size: var(--strata-font-size-sm);
+  letter-spacing: var(--strata-font-tracking-sm);
+  line-height: var(--strata-line-height-normal);
+}
+.deprecation:dir(rtl) {
+  box-shadow: inset calc(var(--strata-hairline) * -1) 0 0 0 var(--strata-color-border-strong);
+}
+.deprecation > p {
+  margin: 0;
+}
+.deprecation strong {
+  color: var(--strata-color-text-default);
+  font-weight: var(--strata-font-weight-semibold);
+}
+/* Doubled: the prose styles set a larger size on code, and inline code here should match the note's text. */
+.deprecation.deprecation code {
+  font-size: inherit;
+  font-family: var(--strata-font-mono);
+  color: var(--strata-color-text-default);
+  overflow-wrap: anywhere;
+}
 .valueDefault {
   color: var(--strata-color-text-subtle);
   font-family: var(--strata-font-body);

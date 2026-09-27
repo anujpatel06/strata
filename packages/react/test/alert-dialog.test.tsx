@@ -7,7 +7,7 @@ import { AlertDialog, type AlertDialogProps } from '../src/ui/alert-dialog';
 function Example(props: Partial<AlertDialogProps>) {
   return (
     <DialogTrigger>
-      <Button variant="danger">Delete card</Button>
+      <Button tone="danger">Delete card</Button>
       <AlertDialog title="Delete this card?" actionLabel="Delete" tone="danger" {...props}>
         Payments on this card will stop immediately. This can’t be undone.
       </AlertDialog>
@@ -55,7 +55,8 @@ describe('AlertDialog', () => {
     render(<Example onAction={onAction} />);
     await user.click(screen.getByRole('button', { name: 'Delete card' }));
     const action = screen.getByRole('button', { name: 'Delete' });
-    expect(action).toHaveAttribute('data-variant', 'danger');
+    expect(action).toHaveAttribute('data-variant', 'primary');
+    expect(action).toHaveAttribute('data-tone', 'danger');
     await user.click(action);
     expect(onAction).toHaveBeenCalledTimes(1);
     expect(screen.queryByRole('alertdialog')).not.toBeInTheDocument();

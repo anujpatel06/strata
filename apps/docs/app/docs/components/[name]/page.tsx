@@ -10,7 +10,7 @@ import { CodeBlock } from '@/components/mdx/code-block';
 import { PackageCommand } from '@/components/mdx/package-command';
 import { H2, H3, P, Steps, Table, A } from '@/components/mdx/prose';
 import { ComponentPreview } from '@/components/preview/component-preview';
-import { CATEGORY_LABEL, type ComponentMeta, type PropDoc } from '@/lib/meta-types';
+import { CATEGORY_LABEL, type ComponentMeta, type Deprecation, type PropDoc } from '@/lib/meta-types';
 import { getAllMeta, getMeta } from '@/lib/meta';
 import { readRepoFile } from '@/lib/repo';
 import { githubBlob } from '@/lib/site';
@@ -66,19 +66,40 @@ function literalUnion(type: string): string[] | null {
   return parts.length > 1 && parts.every((p) => /^'[^']*'$/.test(p)) ? parts : null;
 }
 
-/** A prop's type: string-literal unions become a row of values (the default one marked); anything else is code. */
+/**
+ * A prop's type: string-literal unions become a row of values (the default one marked, deprecated ones struck
+ * through and labelled in words); anything else is code.
+ */
 function PropType({ prop }: { prop: PropDoc }) {
   const literals = literalUnion(prop.type);
   if (!literals) return <code className={styles.typeCode}>{prop.type}</code>;
+  const deprecated = new Set(prop.deprecatedValues?.map((d) => d.value));
   return (
     <ul className={styles.values} aria-label="Values">
       {literals.map((v) => (
-        <li key={v} className={styles.value} data-default={v === prop.default || undefined}>
+        <li key={v} className={styles.value} data-default={v === prop.default || undefined} data-deprecated={deprecated.has(v) || undefined}>
           <code>{v.slice(1, -1)}</code>
           {v === prop.default && <span className={styles.valueDefault}>default</span>}
+          {deprecated.has(v) && <span className={styles.valueDefault}>deprecated</span>}
         </li>
       ))}
     </ul>
+  );
+}
+
+/** One deprecation record from meta.json, in words: what, since when, until when, what instead, and how to migrate. */
+function DeprecationNote({ what, record }: { what: string; record: Deprecation }) {
+  return (
+    <div className={styles.deprecation}>
+      <p>
+        <strong>Deprecated:</strong> <code>{what}</code>, since {record.since}. It keeps working until {record.removal}. Use{' '}
+        <code>{record.replacement}</code> instead. {record.reason}
+      </p>
+      <p>
+        Migrate with <code>npx @strata/codemods {record.codemod} &lt;path&gt;</code>. The decision is in{' '}
+        <A href={githubBlob(`docs/rfcs/${record.rfc}.md`)}>RFC-{record.rfc.slice(0, 3)}</A>.
+      </p>
+    </div>
   );
 }
 
@@ -312,6 +333,11 @@ export default async function ComponentPage({ params }: { params: Promise<{ name
                   <div key={p.name} className={styles.prop}>
                     <dt className={styles.propName}>
                       <code>{p.name}</code>
+                      {p.deprecated && (
+                        <Tag size="sm" variant="outline" className={styles.propRequired}>
+                          Deprecated
+                        </Tag>
+                      )}
                       {p.required && (
                         <Tag size="sm" variant="outline" className={styles.propRequired}>
                           Required
@@ -321,6 +347,10 @@ export default async function ComponentPage({ params }: { params: Promise<{ name
                     <dd className={styles.propBody}>
                       <PropType prop={p} />
                       <p className={styles.propDescription}>{p.description}</p>
+                      {p.deprecated && <DeprecationNote what={p.name} record={p.deprecated} />}
+                      {p.deprecatedValues?.map((d) => (
+                        <DeprecationNote key={d.value} what={`${p.name}=${d.value.replace(/'/g, '"')}`} record={d} />
+                      ))}
                       {p.default && !literalUnion(p.type)?.includes(p.default) && (
                         <p className={styles.propDefault}>
                           Default <code>{p.default}</code>
