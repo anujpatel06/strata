@@ -11,3 +11,5 @@ playwright-report
 .next-*
 next-env.d.ts.bak
 .claude/settings.local.json
+
+packages/react/registry/
