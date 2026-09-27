@@ -20,22 +20,36 @@
   min-inline-size: 0;
   margin: 0;
   padding: var(--strata-card-inset);
-  /* Finesse: the soft shadow carries the depth; the edge is a hairline ring (0.5px on 2× screens). It's a
-     box-shadow, not a border, because Chromium rounds sub-pixel border widths up to 1px. The 1px transparent
-     border keeps the box size and becomes the visible edge in forced-colours mode. */
+  /*
+   * Surface recipe, as Card (card.module.css has the notes): the sheen (dark only; proven on surface.raised, see
+   * theme-engine test/exporters.test.ts) and the face in the padding box, the rim light (dark only) in the 1px
+   * transparent border over the fill, a border.subtle hairline ring (box-shadow: Chromium rounds sub-pixel borders
+   * up to 1px; the border is the edge in forced-colours mode) and the raised shadow.
+   */
+  --_fill: var(--strata-color-surface-raised);
+  --_sheen: var(--strata-sheen);
+  --_rim: transparent;
+  --_edge: var(--strata-color-border-subtle);
   border: 1px solid transparent;
   border-radius: var(--strata-radius-container);
-  background-color: var(--strata-color-surface-raised);
-  box-shadow:
-    0 0 0 var(--strata-hairline) var(--strata-color-border-subtle),
-    var(--strata-shadow-highlight),
-    var(--strata-shadow-raised);
+  background:
+    var(--_sheen) padding-box,
+    linear-gradient(var(--_fill), var(--_fill)) padding-box,
+    linear-gradient(135deg, var(--_rim), transparent 60%) border-box var(--_fill);
+  box-shadow: 0 0 0 var(--strata-hairline) var(--_edge), var(--strata-shadow-raised);
   color: var(--strata-color-text-default);
   font-family: var(--strata-font-body);
   font-size: var(--strata-font-size-md);
   letter-spacing: var(--strata-font-tracking-md);
   line-height: var(--strata-line-height-normal);
   text-align: start;
+}
+/* Rim light in dark only (CONVENTIONS "Surface recipe"): --strata-sheen is `none` exactly in light schemes, so it's
+   the scheme signal, and the rim can never show without the sheen. Browsers without style queries get no rim. */
+@container not style(--strata-sheen: none) {
+  .tile {
+    --_rim: var(--strata-rim);
+  }
 }
 
 @supports (corner-shape: squircle) {
@@ -53,11 +67,16 @@
 }
 
 .tile[data-variant='outline'] {
-  box-shadow: 0 0 0 var(--strata-hairline) var(--strata-color-border-default);
+  --_edge: var(--strata-color-border-default);
+  --_sheen: none;
+  --_rim: transparent;
+  box-shadow: 0 0 0 var(--strata-hairline) var(--_edge);
 }
 
 .tile[data-variant='ghost'] {
-  background-color: transparent;
+  --_fill: transparent;
+  --_sheen: none;
+  --_rim: transparent;
   box-shadow: none;
 }
 

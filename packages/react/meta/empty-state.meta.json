@@ -96,7 +96,6 @@
     "color.surface.raised",
     "color.text.default",
     "color.text.subtle",
-    "shadow.highlight",
     "shadow.raised",
     "radius.container",
     "font.body",
@@ -115,6 +114,9 @@
     "space.6",
     "space.8",
     "space.10",
-    "space.12"
+    "space.12",
+    "sheen",
+    "rim",
+    "hairline"
   ]
 }

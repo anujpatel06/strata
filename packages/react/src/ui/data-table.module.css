@@ -20,14 +20,28 @@
   contain: inline-size;
   overflow: auto;
   overscroll-behavior-x: contain;
-  background-color: var(--strata-color-surface-default);
-  /* Finesse: the frame is a card (raised shadow), so its edge is a hairline ring, not a full border. A box-shadow,
-     because Chromium rounds sub-pixel borders up to 1px; the transparent border keeps the size and shows in
-     forced-colours mode. Dividers inside use the same inset-shadow hairline. */
+  /* Surface recipe, as Card (card.module.css has the notes), on surface.default: the sheen (dark only; proven on
+     surface.default, see theme-engine test/exporters.test.ts) and the face in the padding box, the rim light (dark
+     only) in the 1px transparent border, a border.subtle hairline ring and the raised shadow. The ring is a
+     box-shadow, because Chromium rounds sub-pixel borders up to 1px; the transparent border keeps the size and shows
+     in forced-colours mode. Dividers inside use the same inset-shadow hairline. The layers don't scroll with the
+     rows (background-attachment: scroll), so the light stays on the frame. */
+  --_rim: transparent;
   border: 1px solid transparent;
   border-radius: var(--strata-radius-container);
+  background:
+    var(--strata-sheen) padding-box,
+    linear-gradient(var(--strata-color-surface-default), var(--strata-color-surface-default)) padding-box,
+    linear-gradient(135deg, var(--_rim), transparent 60%) border-box var(--strata-color-surface-default);
   box-shadow: 0 0 0 var(--strata-hairline) var(--strata-color-border-subtle), var(--strata-shadow-raised);
   color: var(--strata-color-text-default);
+}
+/* Rim light in dark only (CONVENTIONS "Surface recipe"): --strata-sheen is `none` exactly in light schemes, so it's
+   the scheme signal, and the rim can never show without the sheen. Browsers without style queries get no rim. */
+@container not style(--strata-sheen: none) {
+  .root {
+    --_rim: var(--strata-rim);
+  }
 }
 
 @supports (corner-shape: squircle) {

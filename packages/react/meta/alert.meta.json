@@ -26,12 +26,12 @@
     {
       "name": "alert-tones",
       "title": "Tones",
-      "description": "Neutral, info, success, warning and danger. Each tone has its own icon, so colour is never the only signal."
+      "description": "Neutral, info, success, warning and danger. Each tone has its own filled shape, so colour is never the only signal."
     },
     {
       "name": "alert-with-action",
       "title": "Actions, dismiss and live",
-      "description": "A button or link in the action slot, a dismissible alert, and a live alert without an icon."
+      "description": "Action weight by severity (contrast on a danger alert, outline on a success one), a dismissible alert, and a live alert with no icon and a link action."
     }
   ],
   "props": [
@@ -40,7 +40,7 @@
       "name": "tone",
       "type": "'neutral' | 'info' | 'success' | 'warning' | 'danger'",
       "default": "'neutral'",
-      "description": "Feedback colour and default icon."
+      "description": "Sets the filled status shape and its colour. The surface is the same for every tone."
     },
     {
       "component": "Alert",
@@ -52,19 +52,19 @@
       "component": "Alert",
       "name": "children",
       "type": "ReactNode",
-      "description": "The message body. Links inside are underlined in the tone colour."
+      "description": "The message body, in text.subtle. Links inside are underlined."
     },
     {
       "component": "Alert",
       "name": "icon",
       "type": "ReactNode | false",
-      "description": "Replaces the tone glyph inside the tone chip. `false` shows no icon."
+      "description": "Replaces the filled status shape; it takes the tone colour (feedback.<tone>.fg). `false` shows no icon."
     },
     {
       "component": "Alert",
       "name": "action",
       "type": "ReactNode",
-      "description": "A small Button or a link. Sits at the inline end, and wraps under the text when the alert is narrow."
+      "description": "One small Button or a link. It sits at the inline end and wraps under the text when the alert is narrow. Match its weight to the tone: `<Button size=\"sm\" variant=\"contrast\">` for danger and warning, `variant=\"outline\"` otherwise."
     },
     {
       "component": "Alert",
@@ -100,15 +100,17 @@
     "notes": [
       "No live role by default, so alerts rendered with the page are not re-announced. Set `live` for alerts that appear after a user action (e.g. a failed submit).",
       "With `live`, the alert is named by its title (aria-labelledby).",
-      "Every tone has a distinct icon plus a text title; colour is never the only signal.",
-      "The close button is a 24×24px target (WCAG 2.5.8) and has an accessible name."
+      "The close button is a 24×24px target (WCAG 2.5.8) and has an accessible name.",
+      "Each tone has its own filled shape and a text title, so colour is never the only signal. The shape is feedback.<tone>.fg: ≥ 6.09:1 against the surface, including the sheen's brightest pixel (WCAG 1.4.11 needs 3:1). The knocked-out glyph is feedback.<tone>.bg: ≥ 5.43:1 against the shape. Both hold for every tenant and the 1,000 fuzz brands in both schemes, and test/alert.test.tsx re-proves them.",
+      "Surface recipe: an opaque surface.raised face, --strata-sheen in dark, a neutral hairline and the raised shadow. Only text.default and text.subtle sit on it."
     ]
   },
   "guidelines": {
     "do": [
       "Lead with what happened, then what to do next.",
       "Use danger for problems that block the task; warning for things that will become problems.",
-      "Keep the action to one short verb phrase."
+      "Keep the action to one short verb phrase.",
+      "Give danger and warning alerts a `contrast` action and the others an `outline` one, so the strongest button on the page is the one that fixes something."
     ],
     "dont": [
       "Don't use an alert for transient confirmations — use a toast.",
@@ -118,25 +120,19 @@
   },
   "tokens": [
     "color.feedback.*.bg",
-    "color.feedback.*.border",
     "color.feedback.*.fg",
     "color.focus.ring",
     "color.surface.raised",
     "color.text.default",
     "color.text.subtle",
     "shadow.raised",
-    "radius.badge",
-    "radius.button",
     "radius.container",
     "font.body",
     "font.size.md",
     "font.size.sm",
-    "font.weight.medium",
     "font.weight.semibold",
     "line-height.normal",
     "line-height.snug",
-    "space.1",
-    "space.2",
     "space.3",
     "space.4",
     "space.6",
@@ -149,7 +145,13 @@
     "font.tracking.md",
     "font.tracking.sm",
     "hairline",
-    "radius.pill",
-    "color.surface.sunken"
+    "sheen",
+    "rim",
+    "card-inset",
+    "space.1",
+    "font.weight.medium",
+    "radius.button",
+    "space.2",
+    "radius.badge"
   ]
 }

@@ -26,7 +26,14 @@ import {
   type QueuedToast,
   type ToastRegionProps as AriaToastRegionProps,
 } from 'react-aria-components';
-import { IconAlertTriangle, IconCheck, IconExclamationMark, IconInfoSmall, IconX } from '@strata/icons';
+import {
+  IconAlertCircleFilled,
+  IconAlertTriangleFilled,
+  IconInfoCircleFilled,
+  IconSealCheckFilled,
+  IconX,
+} from '@strata/icons';
+import { Button } from './button';
 import styles from './toast.module.css';
 
 const cx = (...c: Array<string | false | null | undefined>) => c.filter(Boolean).join(' ');
@@ -41,7 +48,11 @@ export interface ToastContent {
   title: ReactNode;
   description?: ReactNode;
   tone?: ToastTone;
-  /** One short action, e.g. Undo. Pressing it runs `onAction` and closes the toast. */
+  /**
+   * One short action, e.g. Undo. Pressing it runs `onAction` and closes the toast. Its weight follows the tone:
+   * a high-contrast button (`contrast`) for `danger` and `warning`, because something needs you, and a quiet neutral
+   * one (`outline`) otherwise. Not `secondary`: in some brands that's brand-tinted and competes with the status colour.
+   */
   action?: { label: string; onAction: () => void };
 }
 
@@ -327,12 +338,17 @@ export function ToastRegion({ placement = 'bottom-end', className, ...rest }: To
  * Toast
  * ------------------------------------------------------------------ */
 
-/* Plain glyphs on an opaque tone chip. Each tone has its own shape, so tone never relies on colour alone. */
-const TONE_ICON: Record<Exclude<ToastTone, 'neutral'>, typeof IconInfoSmall> = {
-  info: IconInfoSmall,
-  success: IconCheck,
-  warning: IconAlertTriangle,
-  danger: IconExclamationMark,
+/*
+ * Filled status shapes (Anuj's reference): each tone has its own shape, so tone never relies on colour alone.
+ * Danger is the rounded triangle, as in the reference; warning takes the circled "!" so the two stay distinct.
+ * CSS colours the shape feedback.<tone>.fg and knocks the glyph out in feedback.<tone>.bg (see the proof in
+ * test/toast.test.tsx: shape ≥ 3:1 on the toast surface, glyph ≥ 4.5:1 on the shape).
+ */
+const TONE_ICON: Record<Exclude<ToastTone, 'neutral'>, typeof IconInfoCircleFilled> = {
+  info: IconInfoCircleFilled,
+  success: IconSealCheckFilled,
+  warning: IconAlertCircleFilled,
+  danger: IconAlertTriangleFilled,
 };
 
 function ToastItem({ toast: item }: { toast: QueuedToast<ToastContent> }): JSX.Element {
@@ -387,24 +403,27 @@ function ToastItem({ toast: item }: { toast: QueuedToast<ToastContent> }): JSX.E
       className={styles.toast}
     >
       <div ref={innerRef} className={styles.inner}>
-        {ToneIcon && (
-          <span className={styles.icon} aria-hidden="true">
-            {/* IconInfoSmall is drawn small in its box; CSS scales it up 1.5×, so it gets a lighter stroke. */}
-            <ToneIcon stroke={tone === 'info' ? 1.5 : 2.25} />
-          </span>
-        )}
-        <AriaToastContent className={styles.content}>
-          <Text slot="title" className={styles.title}>
-            {content.title}
-          </Text>
-          {content.description != null && content.description !== false && (
-            <Text slot="description" className={styles.description}>
-              {content.description}
-            </Text>
+        <div className={styles.lead}>
+          {ToneIcon && (
+            <span className={styles.icon} aria-hidden="true">
+              <ToneIcon />
+            </span>
           )}
-        </AriaToastContent>
+          <AriaToastContent className={styles.content}>
+            <Text slot="title" className={styles.title}>
+              {content.title}
+            </Text>
+            {content.description != null && content.description !== false && (
+              <Text slot="description" className={styles.description}>
+                {content.description}
+              </Text>
+            )}
+          </AriaToastContent>
+        </div>
         {content.action && (
-          <AriaButton
+          <Button
+            size="sm"
+            variant={tone === 'danger' || tone === 'warning' ? 'contrast' : 'outline'}
             className={styles.action}
             onPress={() => {
               content.action?.onAction();
@@ -412,12 +431,12 @@ function ToastItem({ toast: item }: { toast: QueuedToast<ToastContent> }): JSX.E
             }}
           >
             {content.action.label}
-          </AriaButton>
+          </Button>
         )}
-        <AriaButton slot="close" className={styles.close}>
-          <IconX aria-hidden="true" stroke={2} />
-        </AriaButton>
       </div>
+      <AriaButton slot="close" className={styles.close}>
+        <IconX aria-hidden="true" stroke={2} />
+      </AriaButton>
     </AriaToast>
   );
 }

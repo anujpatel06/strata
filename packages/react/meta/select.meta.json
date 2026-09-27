@@ -272,12 +272,10 @@
     "color.border.default",
     "color.surface.sunken",
     "color.text.disabled",
-    "glass.bg",
     "radius.container",
     "color.surface.raised",
     "glass.opacity",
     "glass.blur",
-    "shadow.highlight",
     "shadow.overlay",
     "font.body",
     "space.16",
@@ -299,6 +297,8 @@
     "hairline",
     "radius.badge",
     "color.surface.canvas",
-    "space.4"
+    "space.4",
+    "sheen",
+    "rim"
   ]
 }

@@ -340,6 +340,8 @@
     "card-inset",
     "font.tracking.md",
     "font.tracking.sm",
-    "hairline"
+    "hairline",
+    "sheen",
+    "rim"
   ]
 }

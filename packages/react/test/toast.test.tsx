@@ -1,6 +1,7 @@
 import { act, render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { ToastRegion, toast } from '../src/ui/toast';
+import { STATUS_TONES, TENANTS, loadFuzzInputs, readUiCss, statusIconWorst } from './status-icon-contrast';
 
 afterEach(() => {
   act(() => toast.dismiss());
@@ -141,4 +142,72 @@ describe('toast + ToastRegion', () => {
     act(() => toast.dismiss());
     expect(screen.queryByRole('region')).not.toBeInTheDocument();
   });
+});
+
+describe('toast: filled status icon and action weight', () => {
+  it('shows a filled status shape per tone, decorative, and none for neutral', () => {
+    render(<ToastRegion />);
+    act(() => {
+      toast({ title: 'Plain', tone: 'neutral' }, { timeout: null });
+      toast({ title: 'Done', tone: 'success' }, { timeout: null });
+      toast({ title: 'Broken', tone: 'danger' }, { timeout: null });
+    });
+    const icon = (name: string) => screen.getByRole('alertdialog', { name }).querySelector('[data-strata-icon]');
+    expect(icon('Done')).toHaveAttribute('data-strata-icon', 'seal-check-filled');
+    expect(icon('Broken')).toHaveAttribute('data-strata-icon', 'alert-triangle-filled');
+    expect(icon('Done')?.closest('[aria-hidden="true"]')).not.toBeNull();
+    expect(screen.getByRole('alertdialog', { name: 'Plain' }).querySelector('[data-strata-icon$="-filled"]')).toBeNull();
+  });
+
+  it('weights the action by severity: contrast for danger and warning, outline otherwise', () => {
+    render(<ToastRegion />);
+    act(() => {
+      toast({ title: 'Fine', tone: 'success', action: { label: 'Got it', onAction: () => {} } });
+      toast({ title: 'Failed', tone: 'danger', action: { label: 'Retry', onAction: () => {} } });
+      toast({ title: 'Careful', tone: 'warning', action: { label: 'Review', onAction: () => {} } });
+    });
+    expect(screen.getByRole('button', { name: 'Got it' })).toHaveAttribute('data-variant', 'outline');
+    expect(screen.getByRole('button', { name: 'Retry' })).toHaveAttribute('data-variant', 'contrast');
+    expect(screen.getByRole('button', { name: 'Review' })).toHaveAttribute('data-variant', 'contrast');
+  });
+
+  it('keeps the close button named and reachable by keyboard when there is an action', async () => {
+    const user = userEvent.setup();
+    render(<ToastRegion />);
+    act(() => {
+      toast({ title: 'Archived', action: { label: 'Undo', onAction: () => {} } });
+    });
+    const item = screen.getByRole('alertdialog', { name: 'Archived' });
+    within(item).getByRole('button', { name: 'Undo' }).focus();
+    await user.tab();
+    expect(within(item).getByRole('button', { name: 'Close' })).toHaveFocus();
+    await user.keyboard('{Enter}');
+    expect(screen.queryByRole('alertdialog')).not.toBeInTheDocument();
+  });
+});
+
+/*
+ * Contrast proof for the filled status icon on the toast surface (WCAG 1.4.11 non-text ≥ 3:1; the knocked-out glyph
+ * held to text's 4.5:1). Reads which roles the CSS actually uses, then checks every tenant and the 1,000 fuzz brands,
+ * light and dark, on surface.raised and on the sheen's brightest pixel (dark), composited the way the engine does.
+ */
+describe('toast: status icon contrast proof', () => {
+  const css = readUiCss('toast.module.css');
+
+  it('reads the roles it proves from the CSS', () => {
+    expect(css).toMatch(/--_face: var\(--strata-color-surface-raised\)/);
+    expect(css).toMatch(/var\(--strata-sheen\) padding-box/);
+    for (const t of STATUS_TONES) {
+      expect(css).toContain(`--_tone: var(--strata-color-feedback-${t}-fg);`);
+      expect(css).toContain(`--strata-icon-on: var(--strata-color-feedback-${t}-bg);`);
+    }
+  });
+
+  it('shape ≥ 3:1 on the surface and glyph ≥ 4.5:1 on the shape, every tenant × scheme and 1,000 fuzz brands', async () => {
+    const tenants = statusIconWorst(Object.values(TENANTS), Object.keys(TENANTS));
+    const fuzz = statusIconWorst(await loadFuzzInputs());
+    // Measured 2026-09-27: tenants shape 6.09 / glyph 5.43; fuzz the same (feedback hues don't follow the brand).
+    expect(Math.min(tenants.shape, fuzz.shape)).toBeGreaterThanOrEqual(3);
+    expect(Math.min(tenants.glyph, fuzz.glyph)).toBeGreaterThanOrEqual(4.5);
+  }, 60_000);
 });

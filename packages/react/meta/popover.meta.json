@@ -112,11 +112,8 @@
   "tokens": [
     "space.4",
     "card-inset",
-    "glass.bg",
     "glass.blur",
-    "color.border.default",
     "radius.container",
-    "shadow.highlight",
     "shadow.overlay",
     "font.body",
     "font.size.md",
@@ -130,6 +127,11 @@
     "motion.duration.spring",
     "motion.spring",
     "motion.duration.fast",
-    "motion.easing"
+    "motion.easing",
+    "glass.opacity",
+    "sheen",
+    "rim",
+    "hairline",
+    "color.border.subtle"
   ]
 }

@@ -3,16 +3,9 @@
   display: flex;
   flex-direction: column;
 }
-/* Finesse: the glass edge is decoration (the overlay shadow carries the shape), so it's a hairline ring: a
-   box-shadow, since Chromium rounds sub-pixel borders up to 1px. The Popover's border turns transparent (it keeps
-   the size and is the edge in forced-colours mode). Doubled class so it outranks the Popover's own rule whatever
-   order the stylesheets load in. */
+/* The surface (glass face, sheen, rim, hairline edge, overlay shadow) is the Popover's surface recipe. Doubled class
+   so it outranks the Popover's own rule whatever order the stylesheets load in. */
 .popover.popover {
-  border-color: transparent;
-  box-shadow:
-    0 0 0 var(--strata-hairline) var(--strata-color-border-default),
-    var(--strata-shadow-highlight),
-    var(--strata-shadow-overlay);
   letter-spacing: var(--strata-font-tracking-md);
 }
 @supports (corner-shape: squircle) {

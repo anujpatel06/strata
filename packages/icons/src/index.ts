@@ -8,3 +8,4 @@ export * from './icons/commerce';
 export * from './icons/media';
 export * from './icons/travel';
 export * from './icons/system';
+export * from './icons/filled';

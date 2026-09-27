@@ -132,9 +132,6 @@
     "line-height.normal",
     "color.text.default",
     "space.2",
-    "glass.bg",
-    "color.border.default",
-    "shadow.highlight",
     "shadow.overlay",
     "color.surface.raised",
     "space.16",
@@ -154,6 +151,11 @@
     "motion.duration.normal",
     "motion.easing-out",
     "motion.easing",
-    "motion.duration.slow"
+    "motion.duration.slow",
+    "glass.opacity",
+    "sheen",
+    "rim",
+    "hairline",
+    "color.border.subtle"
   ]
 }

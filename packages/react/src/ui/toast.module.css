@@ -14,7 +14,8 @@
   --_enter: 1;
   /* 16px on phones, 24px from ~600px up (percentages resolve against the viewport for a fixed box). */
   --_edge: clamp(var(--strata-space-4), 4%, var(--strata-space-6));
-  --_width: calc(var(--strata-space-16) * 5.5);
+  /* 416px: room for the reference's icon | two lines | action row without squeezing the text. */
+  --_width: calc(var(--strata-space-16) * 6.5);
 
   position: fixed;
   z-index: 9999;
@@ -67,25 +68,33 @@
 /* ---- toast ------------------------------------------------------------- */
 
 /*
- * Glass: the engine solves --strata-glass-bg so text.default and text.subtle reach 4.5:1 over any
- * backdrop. Only those two text roles sit directly on it; the tone colour lives on the opaque icon
- * chip and the action sits on its own opaque fill.
+ * Surface recipe (CONVENTIONS.md, from Anuj's toast reference): an opaque surface.raised face under the
+ * engine's diagonal --strata-sheen (dark only; `none` in light), a hairline edge, and in dark a rim light
+ * along the top-left. Opaque rather than glass: text.subtle ≥ 4.5:1 and the status shape ≥ 3:1 are proven
+ * on this exact face (engine test + test/toast.test.tsx), which a see-through surface can't guarantee once
+ * the sheen is added. Only text.default and text.subtle sit on it; the tone lives in the filled icon and
+ * the action has its own fill.
  */
 .toast {
+  --_face: var(--strata-color-surface-raised);
+  --_rim: linear-gradient(transparent, transparent);
+  --_inset: clamp(var(--strata-space-4), 7%, var(--strata-card-inset));
+
   position: relative;
   grid-area: 1 / 1;
   align-self: end;
   inline-size: 100%;
-  /* Decorative edge: a hairline ring (Chromium rounds sub-pixel borders up to 1px, so it's a box-shadow; the
-     transparent 1px border keeps the size and is the edge in forced-colours mode). The overlay shadow carries the shape. */
+  /* The transparent border is where the rim paints (background-clip trick, so it follows any radius) and the
+     edge in forced-colours mode. The hairline itself is a box-shadow: Chromium rounds sub-pixel borders up. */
   border: 1px solid transparent;
   border-radius: var(--strata-radius-container);
-  background-color: var(--strata-glass-bg);
-  -webkit-backdrop-filter: blur(var(--strata-glass-blur)) saturate(1.6);
-  backdrop-filter: blur(var(--strata-glass-blur)) saturate(1.6);
+  background:
+    var(--strata-sheen) padding-box,
+    linear-gradient(var(--_face), var(--_face)) padding-box,
+    var(--_rim) border-box,
+    var(--_face);
   box-shadow:
-    0 0 0 var(--strata-hairline) var(--strata-color-border-default),
-    var(--strata-shadow-highlight),
+    0 0 0 var(--strata-hairline) var(--strata-color-border-subtle),
     var(--strata-shadow-overlay);
   color: var(--strata-color-text-default);
   outline: 2px solid transparent;
@@ -101,29 +110,17 @@
     outline-color var(--strata-motion-duration-fast) var(--strata-motion-easing);
 }
 
-@supports (corner-shape: squircle) {
-  .toast,
-  .icon,
-  .action {
-    corner-shape: squircle;
-  }
-}
-/* Pills and circles keep true round ends (a squircle flattens them into rounded rectangles). The style query
-   compares tokens, so no radius value is hard-coded. */
-@container style(--strata-radius-badge: var(--strata-radius-pill)) {
-  .icon {
-    corner-shape: round;
-  }
-}
-@container style(--strata-radius-button: var(--strata-radius-pill)) {
-  .action {
-    corner-shape: round;
+/* Rim light in dark only. The engine's sheen is `none` exactly in light schemes, so it doubles as the scheme
+   signal without naming a scheme; browsers without style queries simply get no rim. */
+@container not style(--strata-sheen: none) {
+  .toast {
+    --_rim: linear-gradient(135deg, var(--strata-rim), transparent 60%);
   }
 }
 
-@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+@supports (corner-shape: squircle) {
   .toast {
-    background-color: var(--strata-color-surface-raised);
+    corner-shape: squircle;
   }
 }
 
@@ -155,7 +152,7 @@
   overflow: hidden;
 }
 
-.toast:not([data-front]):not([data-exiting]) > .inner {
+.toast:not([data-front]):not([data-exiting]) > :is(.inner, .close) {
   opacity: 0;
 }
 
@@ -172,68 +169,66 @@
 
 /* ---- content ----------------------------------------------------------- */
 
+/*
+ * The reference layout: [icon | title over description] … [one action], all vertically centred. On a narrow
+ * toast the action wraps under the message and stays at the inline end (intrinsic: no container query).
+ */
 .inner {
-  --_line: calc(var(--strata-font-size-md) * var(--strata-line-height-snug));
-  --_chip: var(--strata-space-6);
-
   display: flex;
-  align-items: flex-start;
-  gap: var(--strata-space-3);
-  padding-block: var(--strata-space-4);
-  padding-inline: var(--strata-space-4) var(--strata-space-3);
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  column-gap: var(--strata-space-4);
+  row-gap: var(--strata-space-3);
+  /* Inline: the card inset. Block: capped at space-5, the reference's proportion (a two-line message ≈ 44px
+     tall with ≈ 20px above and below); the full card inset made a two-line toast read as a card. */
+  padding-block: min(var(--_inset), var(--strata-space-5));
+  padding-inline: var(--_inset);
 }
 
-/* The tone chip: an opaque feedback fill, so the tone colour never sits on glass. Centred on the title's first line. */
+.lead {
+  display: flex;
+  flex: 1 1 calc(var(--strata-space-16) * 3);
+  align-items: center;
+  gap: var(--strata-space-3);
+  min-inline-size: 0;
+}
+
+/*
+ * Filled status shape: feedback.<tone>.fg with the glyph knocked out in feedback.<tone>.bg. `solid` was the first
+ * choice but falls below 3:1 on the toast face (warning light 2.08, success dark 2.93, info dark 2.99); fg/bg is
+ * ≥ 6.09:1 for the shape and ≥ 5.43:1 for the glyph everywhere. Proof: test/toast.test.tsx.
+ */
 .icon {
-  --_tone-bg: var(--strata-color-surface-sunken);
-  --_tone-fg: var(--strata-color-text-default);
-  --_tone-border: var(--strata-color-border-default);
+  --_tone: var(--strata-color-text-subtle);
+  --strata-icon-on: var(--_face);
 
   display: grid;
   flex: none;
   place-items: center;
-  inline-size: var(--_chip);
-  block-size: var(--_chip);
-  margin-block: calc((var(--_line) - var(--_chip)) / 2);
-  /* Calm tint: the tone's own bg, a same-hue hairline, and a radius concentric with the toast's corner. */
-  border: 0;
-  border-radius: min(50%, max(var(--strata-radius-badge), calc(var(--strata-radius-container) - var(--strata-space-4))));
-  background-color: var(--_tone-bg);
-  box-shadow:
-    inset 0 0 0 var(--strata-hairline) color-mix(in oklab, var(--_tone-border) 60%, transparent),
-    var(--strata-shadow-highlight);
-  color: var(--_tone-fg);
+  color: var(--_tone);
 }
 
 .icon > svg {
-  inline-size: calc(var(--_chip) * 0.625);
-  block-size: calc(var(--_chip) * 0.625);
-  stroke-width: var(--strata-icon-stroke, 1.5);
-}
-
-.toast[data-tone='info'] .icon > svg {
-  scale: 1.5;
+  inline-size: var(--strata-space-6);
+  block-size: var(--strata-space-6);
 }
 
 .toast[data-tone='info'] .icon {
-  --_tone-bg: var(--strata-color-feedback-info-bg);
-  --_tone-fg: var(--strata-color-feedback-info-fg);
-  --_tone-border: var(--strata-color-feedback-info-border);
+  --_tone: var(--strata-color-feedback-info-fg);
+  --strata-icon-on: var(--strata-color-feedback-info-bg);
 }
 .toast[data-tone='success'] .icon {
-  --_tone-bg: var(--strata-color-feedback-success-bg);
-  --_tone-fg: var(--strata-color-feedback-success-fg);
-  --_tone-border: var(--strata-color-feedback-success-border);
+  --_tone: var(--strata-color-feedback-success-fg);
+  --strata-icon-on: var(--strata-color-feedback-success-bg);
 }
 .toast[data-tone='warning'] .icon {
-  --_tone-bg: var(--strata-color-feedback-warning-bg);
-  --_tone-fg: var(--strata-color-feedback-warning-fg);
-  --_tone-border: var(--strata-color-feedback-warning-border);
+  --_tone: var(--strata-color-feedback-warning-fg);
+  --strata-icon-on: var(--strata-color-feedback-warning-bg);
 }
 .toast[data-tone='danger'] .icon {
-  --_tone-bg: var(--strata-color-feedback-danger-bg);
-  --_tone-fg: var(--strata-color-feedback-danger-fg);
-  --_tone-border: var(--strata-color-feedback-danger-border);
+  --_tone: var(--strata-color-feedback-danger-fg);
+  --strata-icon-on: var(--strata-color-feedback-danger-bg);
 }
 
 .content {
@@ -243,6 +238,7 @@
   min-inline-size: 0;
 }
 
+/* A step above the description: md semibold over sm regular. */
 .title {
   display: block;
   color: var(--strata-color-text-default);
@@ -263,85 +259,76 @@
   text-wrap: pretty;
 }
 
-/* Brand-coloured label on its own opaque fill (never straight on glass). */
+/* The action is a sibling <Button size="sm">; its weight (contrast vs outline) is chosen in toast.tsx. */
 .action {
-  display: inline-flex;
   flex: none;
-  align-items: center;
-  align-self: center;
-  justify-content: center;
-  min-block-size: calc(var(--strata-space-6) + var(--strata-space-1));
-  margin: 0;
-  padding-block: 0;
-  padding-inline: var(--strata-space-3);
-  border: 1px solid color-mix(in oklab, var(--strata-color-action-secondary-fg) 16%, transparent);
-  /* Concentric with the toast: its radius minus the inset, capped at the brand's button radius. */
-  border-radius: min(var(--strata-radius-button), max(var(--strata-radius-badge), calc(var(--strata-radius-container) - var(--strata-space-4))));
-  background-color: var(--strata-color-action-secondary-bg);
-  box-shadow: var(--strata-shadow-highlight), var(--strata-shadow-raised);
-  color: var(--strata-color-action-secondary-fg);
-  font-family: inherit;
-  font-size: var(--strata-font-size-sm);
-  font-weight: var(--strata-font-weight-semibold);
-  letter-spacing: var(--strata-font-tracking-sm);
-  line-height: 1;
-  white-space: nowrap;
-  cursor: default;
 }
 
-.action[data-hovered] {
-  background-color: var(--strata-color-action-secondary-hover);
-}
-
-.action[data-pressed] {
-  background-color: var(--strata-color-action-secondary-pressed);
-}
-
-/* 24px hit target (WCAG 2.5.8), centred on the title's first line. */
+/*
+ * Close: a small round button on the top-end corner, so the row keeps the reference's single action. Shown on
+ * hover of that toast or when anything in it has focus; always on the front toast on touch screens (no hover). It
+ * is never removed from the accessibility tree or the tab order. 24px target (WCAG 2.5.8).
+ */
 .close {
+  position: absolute;
+  z-index: 1;
+  inset-block-start: calc(var(--strata-space-2) * -1);
+  inset-inline-end: calc(var(--strata-space-2) * -1);
   display: inline-grid;
-  flex: none;
   place-items: center;
   inline-size: var(--strata-space-6);
   block-size: var(--strata-space-6);
-  margin-block: calc((var(--_line) - var(--strata-space-6)) / 2);
-  margin-inline: 0;
+  margin: 0;
   padding: 0;
-  border: 0;
-  border-radius: min(var(--strata-radius-button), var(--strata-space-2));
-  background-color: transparent;
+  border: 1px solid transparent;
+  border-radius: var(--strata-radius-pill);
+  background-color: var(--strata-color-surface-raised);
+  box-shadow:
+    0 0 0 var(--strata-hairline) var(--strata-color-border-default),
+    var(--strata-shadow-raised);
   color: var(--strata-color-text-subtle);
   cursor: default;
+  opacity: 0;
 }
 
 .close > svg {
-  inline-size: var(--strata-space-4);
-  block-size: var(--strata-space-4);
+  inline-size: calc(var(--strata-space-4) * 0.875);
+  block-size: calc(var(--strata-space-4) * 0.875);
   stroke-width: var(--strata-icon-stroke, 1.5);
 }
 
+.toast:is(:hover, :focus-within) > .close {
+  opacity: 1;
+}
+
+@media (hover: none) {
+  .toast[data-front] > .close {
+    opacity: 1;
+  }
+}
+
 .close[data-hovered] {
-  background-color: color-mix(in oklab, var(--strata-color-text-default) 8%, transparent);
+  background-color: var(--strata-color-surface-default);
   color: var(--strata-color-text-default);
 }
 
 .close[data-pressed] {
-  background-color: color-mix(in oklab, var(--strata-color-text-default) 12%, transparent);
+  background-color: var(--strata-color-surface-sunken);
 }
 
-.action,
 .close {
   outline: 2px solid transparent;
   outline-offset: 0;
   transition:
+    opacity var(--strata-motion-duration-fast) var(--strata-motion-easing),
     background-color var(--strata-motion-duration-fast) var(--strata-motion-easing),
     color var(--strata-motion-duration-fast) var(--strata-motion-easing),
     outline-offset var(--strata-motion-duration-fast) var(--strata-motion-easing),
     outline-color var(--strata-motion-duration-fast) var(--strata-motion-easing);
 }
 
-.action[data-focus-visible],
 .close[data-focus-visible] {
+  opacity: 1;
   outline-color: var(--strata-color-focus-ring);
   outline-offset: 2px;
 }
@@ -374,7 +361,7 @@
     transition: opacity var(--strata-motion-duration-normal) var(--strata-motion-easing);
   }
 
-  /* The tone chip pops (0.6 → 1 on the spring) just after the toast lands, so the status registers. */
+  /* The status shape pops (0.6 → 1 on the spring) just after the toast lands, so the status registers. */
   .toast .icon {
     animation: strata-toast-icon-pop var(--strata-motion-duration-spring) var(--strata-motion-spring)
       var(--strata-motion-duration-fast) backwards;
@@ -385,18 +372,14 @@
     pointer-events: none;
   }
 
-  .action,
   .close {
     transition:
+      opacity var(--strata-motion-duration-fast) var(--strata-motion-easing),
       background-color var(--strata-motion-duration-fast) var(--strata-motion-easing),
       color var(--strata-motion-duration-fast) var(--strata-motion-easing),
       outline-offset var(--strata-motion-duration-fast) var(--strata-motion-easing),
       outline-color var(--strata-motion-duration-fast) var(--strata-motion-easing),
       scale var(--strata-motion-duration-spring) var(--strata-motion-spring);
-  }
-
-  .action[data-pressed] {
-    scale: 0.97;
   }
 
   .close[data-pressed] {

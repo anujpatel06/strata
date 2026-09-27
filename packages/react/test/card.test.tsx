@@ -162,6 +162,15 @@ describe('feature card contrast', () => {
     return rgb8ToHex([0, 1, 2].map((i) => f[i]! * alpha + b[i]! * (1 - alpha)) as Rgb);
   };
 
+  // The sheen (surface recipe) is proven on plain surface.raised by the engine, not on the glow: over the dark glow it
+  // would drop text.subtle and text.brand to 4.15:1 (qamar, at a 6% peak, measured 2026-09-27; the peak is now 8%). So the feature variant opts out.
+  it('layers the sheen on default cards and keeps it off the feature glow', () => {
+    expect(css).toMatch(/--_sheen: var\(--strata-sheen\);/);
+    expect(css).toMatch(/var\(--_sheen\) padding-box,\s*var\(--_face\) padding-box/);
+    const feature = /\.card\[data-variant='feature'\] \{([\s\S]*?)\n\}/.exec(css)?.[1] ?? '';
+    expect(feature).toMatch(/--_sheen: none;/);
+  });
+
   it('reads the numbers it proves from the CSS', () => {
     expect([SL, SD, STOP, AL, AD]).toEqual([6, 30, 70, 0.6, 0.2]);
   });

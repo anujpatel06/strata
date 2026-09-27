@@ -1,34 +1,38 @@
 /*
- * Alert — tone sets private properties; everything else is shared.
- * Layout: icon | main | dismiss, where main is a wrapping row of [text, action]. The action sits at
- * the inline end when there is room and drops under the text (aligned with it) when there isn't —
- * intrinsic, so no container query and no collapse inside shrink-to-fit parents.
+ * Alert: the inline banner form of the surface recipe (CONVENTIONS.md, from Anuj's toast reference, 2026-09-27).
+ * Layout: [icon | title over body] … [action] | dismiss, all vertically centred. The icon and text are one group
+ * (.lead), so when the action wraps under the text on a narrow alert, the icon stays centred on the words.
+ * Intrinsic, so no container query and no collapse inside shrink-to-fit parents.
  *
- * Surface (Finesse, ADR-013 + pass 21 "calm"): every tone shares the card's body, surface.raised with the
- * raised shadow, so an alert reads as part of the same product as the cards around it. The tone shows in two
- * quiet places only: a same-hue hairline edge (feedback.<tone>.border) and the icon chip (feedback.<tone>.bg
- * behind a feedback.<tone>.fg glyph, an engine-checked pair). Title and body are text.default / text.subtle on
- * surface.raised, also engine-checked, so no text ever sits on a tint.
+ * Surface: every tone shares one face, opaque surface.raised under the engine's diagonal --strata-sheen (dark
+ * only), with a neutral hairline, the raised shadow and, in dark, a rim light on the top-left edge. The tone lives
+ * only in the filled status shape: feedback.<tone>.fg with the glyph knocked out in feedback.<tone>.bg (shape
+ * ≥ 3:1 on the face incl. the sheen's brightest pixel, glyph ≥ 4.5:1 on the shape; proof in test/alert.test.tsx).
+ * Title and body are text.default / text.subtle, the only text roles proven on the sheen.
  */
 
 .alert {
-  --_border: var(--strata-color-border-subtle);
-  --_chip: var(--strata-color-surface-sunken);
-  --_on-chip: var(--strata-color-text-subtle);
-  /* One title line: the icon and dismiss button centre on it. */
-  --_line: calc(var(--strata-font-size-md) * var(--strata-line-height-snug));
+  --_face: var(--strata-color-surface-raised);
+  --_rim: linear-gradient(transparent, transparent);
+  --_tone: var(--strata-color-text-subtle);
+  --_on-tone: var(--_face);
+  /* Generous, like a card: the density's card inset, easing down on narrow alerts (% = of the alert's width). */
+  --_inset: clamp(var(--strata-space-4), 5%, var(--strata-card-inset));
 
   box-sizing: border-box;
-  padding-block: var(--strata-space-4);
-  padding-inline: var(--strata-space-4);
-  /* Hairline edge as a ring (Chromium rounds sub-pixel borders up to 1px); the transparent 1px border keeps the
-     size and is the visible edge in forced-colours mode. */
+  padding-block: min(var(--_inset), var(--strata-space-6));
+  padding-inline: var(--_inset);
+  /* The transparent border is where the rim paints (background-clip trick, so it follows any radius) and the edge in
+     forced-colours mode. The hairline is a box-shadow, because Chromium rounds sub-pixel borders up to 1px. */
   border: 1px solid transparent;
   border-radius: var(--strata-radius-container);
-  background-color: var(--strata-color-surface-raised);
-  /* The tone edge is eased 30% toward border.subtle: at 1x the hairline is a full pixel, and full-strength tone
-     read as an outlined box rather than a calm surface. Decorative: the chip glyph and the words carry the tone. */
-  box-shadow: 0 0 0 var(--strata-hairline) color-mix(in oklab, var(--_border) 70%, var(--strata-color-border-subtle)),
+  background:
+    var(--strata-sheen) padding-box,
+    linear-gradient(var(--_face), var(--_face)) padding-box,
+    var(--_rim) border-box,
+    var(--_face);
+  box-shadow:
+    0 0 0 var(--strata-hairline) var(--strata-color-border-subtle),
     var(--strata-shadow-raised);
   color: var(--strata-color-text-default);
   font-family: var(--strata-font-body);
@@ -38,6 +42,14 @@
   text-align: start;
 }
 
+/* Rim light in dark only: the engine's sheen is `none` exactly in light schemes, so it doubles as the scheme signal
+   without naming a scheme. Browsers without style queries get no rim. */
+@container not style(--strata-sheen: none) {
+  .alert {
+    --_rim: linear-gradient(135deg, var(--strata-rim), transparent 60%);
+  }
+}
+
 @supports (corner-shape: squircle) {
   .alert {
     corner-shape: squircle;
@@ -45,67 +57,26 @@
 }
 
 .alert[data-tone='info'] {
-  --_border: var(--strata-color-feedback-info-border);
-  --_chip: var(--strata-color-feedback-info-bg);
-  --_on-chip: var(--strata-color-feedback-info-fg);
+  --_tone: var(--strata-color-feedback-info-fg);
+  --_on-tone: var(--strata-color-feedback-info-bg);
 }
 .alert[data-tone='success'] {
-  --_border: var(--strata-color-feedback-success-border);
-  --_chip: var(--strata-color-feedback-success-bg);
-  --_on-chip: var(--strata-color-feedback-success-fg);
+  --_tone: var(--strata-color-feedback-success-fg);
+  --_on-tone: var(--strata-color-feedback-success-bg);
 }
 .alert[data-tone='warning'] {
-  --_border: var(--strata-color-feedback-warning-border);
-  --_chip: var(--strata-color-feedback-warning-bg);
-  --_on-chip: var(--strata-color-feedback-warning-fg);
+  --_tone: var(--strata-color-feedback-warning-fg);
+  --_on-tone: var(--strata-color-feedback-warning-bg);
 }
 .alert[data-tone='danger'] {
-  --_border: var(--strata-color-feedback-danger-border);
-  --_chip: var(--strata-color-feedback-danger-bg);
-  --_on-chip: var(--strata-color-feedback-danger-fg);
+  --_tone: var(--strata-color-feedback-danger-fg);
+  --_on-tone: var(--strata-color-feedback-danger-bg);
 }
 
 .layout {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   gap: var(--strata-space-3);
-}
-
-/* A soft tone chip, centred on the title's first line. Flat: it's part of the surface, not raised off it. */
-.icon {
-  display: grid;
-  flex: none;
-  place-items: center;
-  inline-size: var(--strata-space-6);
-  block-size: var(--strata-space-6);
-  margin-block: calc((var(--_line) - var(--strata-space-6)) / 2);
-  /* Concentric with the alert: outer radius minus the inset, never below the badge radius, never above a circle. */
-  border-radius: min(50%, max(var(--strata-radius-badge), calc(var(--strata-radius-container) - var(--strata-space-4))));
-  background-color: var(--_chip);
-  color: var(--_on-chip);
-}
-
-@supports (corner-shape: squircle) {
-  .icon {
-    corner-shape: squircle;
-  }
-}
-/* Pills and circles keep true round ends (a squircle flattens them into rounded rectangles). The style query
-   compares tokens, so no radius value is hard-coded. */
-@container style(--strata-radius-badge: var(--strata-radius-pill)) {
-  .icon {
-    corner-shape: round;
-  }
-}
-
-.icon > svg {
-  inline-size: 66.667%;
-  block-size: 66.667%;
-  stroke-width: var(--strata-icon-stroke, 1.5);
-}
-
-.icon[data-glyph='info'] > svg {
-  scale: 1.5;
 }
 
 .main {
@@ -113,16 +84,40 @@
   flex: 1 1 0;
   flex-wrap: wrap;
   align-items: center;
+  justify-content: flex-end;
   column-gap: var(--strata-space-4);
   row-gap: var(--strata-space-3);
   min-inline-size: 0;
 }
 
-.content {
-  display: grid;
+.lead {
+  display: flex;
   /* The text wants ~16rem before the action is pushed to its own line. */
   flex: 1 1 calc(var(--strata-space-16) * 4);
-  gap: var(--strata-space-1);
+  align-items: center;
+  gap: var(--strata-space-3);
+  min-inline-size: 0;
+}
+
+/* The filled status shape. A custom `icon` (e.g. an outline icon) takes the tone colour too. */
+.icon {
+  --strata-icon-on: var(--_on-tone);
+
+  display: grid;
+  flex: none;
+  place-items: center;
+  color: var(--_tone);
+}
+
+.icon > svg {
+  inline-size: var(--strata-space-6);
+  block-size: var(--strata-space-6);
+}
+
+.content {
+  display: grid;
+  flex: 1 1 0;
+  gap: calc(var(--strata-space-1) * 0.5);
   min-inline-size: 0;
 }
 
@@ -189,7 +184,6 @@
   place-items: center;
   inline-size: var(--strata-space-6);
   block-size: var(--strata-space-6);
-  margin-block: calc((var(--_line) - var(--strata-space-6)) / 2);
   margin-inline-end: calc(var(--strata-space-1) * -1);
   padding: 0;
   border: 0;

@@ -16,7 +16,9 @@
     "react-aria-components",
     "@strata/icons"
   ],
-  "registryDependencies": [],
+  "registryDependencies": [
+    "button"
+  ],
   "reactAria": "https://react-spectrum.adobe.com/react-aria/Toast.html",
   "usage": "import { Button, ThemeScope, ToastRegion, toast } from '@strata/react';\n\n// Mount once, inside your ThemeScope (e.g. in the root layout).\nexport function App({ children }: { children: React.ReactNode }) {\n  return (\n    <ThemeScope theme=\"vela\">\n      {children}\n      <ToastRegion />\n    </ThemeScope>\n  );\n}\n\nexport function SaveButton() {\n  return <Button onPress={() => toast({ title: 'Changes saved', tone: 'success' })}>Save</Button>;\n}",
   "examples": [
@@ -24,6 +26,11 @@
       "name": "toast-demo",
       "title": "Toast",
       "description": "One button per tone. Toasts stack at the bottom inline-end and fan out on hover or keyboard focus."
+    },
+    {
+      "name": "toast-severity",
+      "title": "Action weight by severity",
+      "description": "The reference pattern: a quiet outline action on a success toast, a high-contrast action on an error toast."
     },
     {
       "name": "toast-with-action",
@@ -42,7 +49,7 @@
       "name": "content",
       "type": "string | { title: ReactNode; description?: ReactNode; tone?: 'neutral' | 'info' | 'success' | 'warning' | 'danger'; action?: { label: string; onAction: () => void } }",
       "required": true,
-      "description": "What to show. A string is the title. Pressing the action runs onAction and closes the toast."
+      "description": "What to show. A string is the title. Each tone except neutral gets its own filled status shape. Pressing the action runs onAction and closes the toast; its weight follows the tone (Button variant=\"contrast\" for danger and warning, \"outline\" otherwise)."
     },
     {
       "component": "toast",
@@ -92,42 +99,37 @@
       "Toasts with an action do not auto-dismiss, so keyboard and screen reader users have time to reach it (WCAG 2.2.1).",
       "At most three toasts are visible; newer ones queue older ones.",
       "Built on React Aria's UNSTABLE Toast APIs; the maturity stays alpha until those are stable.",
-      "Toasts are glass: only text.default and text.subtle sit on it (the engine solves the glass for 4.5:1). The tone shows as a glyph on an opaque chip, each tone with its own shape.",
-      "Toasts slide in from the edge and grow from 0.94 on the spring, and the tone chip pops as they land. With reduced motion toasts only fade in and close at once; nothing slides or springs."
+      "Surface recipe: an opaque surface.raised face under the engine's --strata-sheen (dark only). Only text.default and text.subtle sit on it; the engine proves text.subtle ≥ 4.5:1 at the sheen's brightest pixel.",
+      "Each tone has its own filled shape (info circle, success seal, warning circled !, danger triangle), and the title says it in words too, so colour is never the only signal. The shape is feedback.<tone>.fg (≥ 6.09:1 against the toast face, WCAG 1.4.11 needs 3:1) with the glyph knocked out in feedback.<tone>.bg (≥ 5.43:1 against the shape), across every tenant and the 1,000 fuzz brands in both schemes. test/toast.test.tsx re-proves it.",
+      "The close button is a 24×24px corner button, always in the tab order and named \"Close\" (localised). It shows when you hover that toast or focus anything in it, and it's always visible on the front toast on touch screens.",
+      "Toasts slide in from the edge and grow from 0.94 on the spring, and the status shape pops as they land. With reduced motion, toasts only fade in and close at once; nothing slides or springs."
     ]
   },
   "guidelines": {
     "do": [
       "Mount exactly one ToastRegion, inside your ThemeScope. The region portals to <body> and copies the scope's theme, scheme, density, lang and dir onto itself so it looks and reads like the page. (Extra regions render nothing.)",
       "Keep titles short and past tense: \"Claim submitted\".",
-      "Use a toast for results of the user's own actions; offer Undo instead of a confirmation dialog where you can."
+      "Use a toast for results of the user's own actions; offer Undo instead of a confirmation dialog where you can.",
+      "Match the action's weight to the tone: toast() does it for you (contrast for danger/warning, outline otherwise), so only pass a short label."
     ],
     "dont": [
       "Don't put information the user must act on only in a toast — use an Alert or Dialog.",
       "Don't fire several toasts for one action.",
-      "Don't set a timeout below 5 seconds."
+      "Don't set a timeout below 5 seconds.",
+      "Don't put brand or feedback-coloured text on the toast surface; only text.default and text.subtle are proven on the sheen."
     ]
   },
   "tokens": [
-    "color.action.secondary.bg",
-    "color.action.secondary.fg",
-    "color.action.secondary.hover",
-    "color.action.secondary.pressed",
     "color.border.default",
     "color.feedback.*.bg",
-    "color.feedback.*.border",
     "color.feedback.*.fg",
     "color.focus.ring",
     "color.surface.raised",
     "color.surface.sunken",
     "color.text.default",
     "color.text.subtle",
-    "glass.bg",
-    "glass.blur",
-    "shadow.highlight",
     "shadow.overlay",
     "shadow.raised",
-    "radius.button",
     "radius.container",
     "font.body",
     "font.size.md",
@@ -135,8 +137,6 @@
     "font.weight.semibold",
     "line-height.normal",
     "line-height.snug",
-    "space.1",
-    "space.2",
     "space.3",
     "space.4",
     "space.6",
@@ -151,7 +151,14 @@
     "font.tracking.md",
     "font.tracking.sm",
     "hairline",
-    "radius.badge",
-    "radius.pill"
+    "radius.pill",
+    "sheen",
+    "rim",
+    "color.border.subtle",
+    "color.surface.default",
+    "card-inset",
+    "space.5",
+    "space.1",
+    "space.2"
   ]
 }

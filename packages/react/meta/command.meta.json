@@ -196,10 +196,8 @@
     "font.size.md",
     "line-height.normal",
     "color.text.default",
-    "glass.bg",
     "color.border.default",
     "radius.container",
-    "shadow.highlight",
     "shadow.overlay",
     "color.surface.raised",
     "space.2",
@@ -228,6 +226,9 @@
     "motion.easing-out",
     "font.tracking.md",
     "font.tracking.xs",
-    "hairline"
+    "hairline",
+    "glass.opacity",
+    "sheen",
+    "rim"
   ]
 }

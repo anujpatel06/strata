@@ -137,10 +137,7 @@
     "color.text.default",
     "space.16",
     "space.4",
-    "glass.bg",
-    "color.border.default",
     "radius.container",
-    "shadow.highlight",
     "shadow.overlay",
     "color.surface.raised",
     "card-inset",
@@ -161,6 +158,11 @@
     "motion.easing",
     "motion.duration.spring",
     "motion.spring",
-    "motion.duration.slow"
+    "motion.duration.slow",
+    "glass.opacity",
+    "sheen",
+    "rim",
+    "hairline",
+    "color.border.subtle"
   ]
 }

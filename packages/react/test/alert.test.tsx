@@ -1,6 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { Alert } from '../src/ui/alert';
+import { STATUS_TONES, TENANTS, loadFuzzInputs, readUiCss, statusIconWorst } from './status-icon-contrast';
 
 describe('Alert', () => {
   it('renders title and body without a live role by default', () => {
@@ -63,4 +64,39 @@ describe('Alert', () => {
     expect(screen.getByTestId('alert')).toHaveClass('mine', 'alert');
     expect(container.firstElementChild).toHaveAttribute('data-tone', 'neutral');
   });
+});
+
+describe('Alert: filled status icon (surface recipe)', () => {
+  it('uses a distinct filled shape per tone', () => {
+    const shape = (tone: 'neutral' | 'info' | 'success' | 'warning' | 'danger') => {
+      const { container, unmount } = render(<Alert tone={tone} title="t" />);
+      const name = container.querySelector('[data-strata-icon]')?.getAttribute('data-strata-icon');
+      unmount();
+      return name;
+    };
+    expect(shape('success')).toBe('seal-check-filled');
+    expect(shape('danger')).toBe('alert-triangle-filled');
+    expect(shape('warning')).toBe('alert-circle-filled');
+    expect(shape('info')).toBe('info-circle-filled');
+    expect(shape('neutral')).toBe('info-circle-filled');
+  });
+
+  it('reads the roles it proves from the CSS', () => {
+    const css = readUiCss('alert.module.css');
+    expect(css).toMatch(/--_face: var\(--strata-color-surface-raised\)/);
+    expect(css).toMatch(/var\(--strata-sheen\) padding-box/);
+    expect(css).toMatch(/--strata-icon-on: var\(--_on-tone\)/);
+    for (const t of STATUS_TONES) {
+      expect(css).toContain(`--_tone: var(--strata-color-feedback-${t}-fg);`);
+      expect(css).toContain(`--_on-tone: var(--strata-color-feedback-${t}-bg);`);
+    }
+  });
+
+  it('shape ≥ 3:1 on the surface and glyph ≥ 4.5:1 on the shape, every tenant × scheme and 1,000 fuzz brands', async () => {
+    const tenants = statusIconWorst(Object.values(TENANTS), Object.keys(TENANTS));
+    const fuzz = statusIconWorst(await loadFuzzInputs());
+    // Measured 2026-09-27: shape 6.09 (light success), glyph 5.43, tenants and fuzz alike.
+    expect(Math.min(tenants.shape, fuzz.shape)).toBeGreaterThanOrEqual(3);
+    expect(Math.min(tenants.glyph, fuzz.glyph)).toBeGreaterThanOrEqual(4.5);
+  }, 60_000);
 });

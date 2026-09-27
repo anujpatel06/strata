@@ -32,12 +32,24 @@
   inline-size: var(--_tile);
   block-size: var(--_tile);
   /* Follows the brand's container shape, capped so round brands get a squircle, not a coin. */
-  border: 1px solid var(--strata-color-border-subtle);
+  border: 1px solid transparent;
   border-radius: min(var(--strata-radius-container), 30%);
-  /* A small raised tile: lit top edge, soft shadow. Depth from light, not colour, so it stays calm. */
-  background-color: var(--strata-color-surface-raised);
-  box-shadow: var(--strata-shadow-highlight), var(--strata-shadow-raised);
+  /* A small raised tile in the surface recipe (as Card): the sheen (dark only) and surface.raised in the padding
+     box, the rim light (dark only) in the transparent border, a border.subtle hairline ring and the raised shadow. */
+  --_rim: transparent;
+  background:
+    var(--strata-sheen) padding-box,
+    linear-gradient(var(--strata-color-surface-raised), var(--strata-color-surface-raised)) padding-box,
+    linear-gradient(135deg, var(--_rim), transparent 60%) border-box var(--strata-color-surface-raised);
+  box-shadow: 0 0 0 var(--strata-hairline) var(--strata-color-border-subtle), var(--strata-shadow-raised);
   color: var(--strata-color-text-subtle);
+}
+/* Rim light in dark only (CONVENTIONS "Surface recipe"): --strata-sheen is `none` exactly in light schemes, so it's
+   the scheme signal, and the rim can never show without the sheen. Browsers without style queries get no rim. */
+@container not style(--strata-sheen: none) {
+  .icon {
+    --_rim: var(--strata-rim);
+  }
 }
 
 .icon > svg {
@@ -57,8 +69,9 @@
   font-family: var(--strata-font-heading);
   font-size: var(--strata-font-size-lg);
   font-weight: var(--strata-font-weight-semibold);
-  /* Heading tracking is tuned for display sizes; at lg (16px) and below it closes up word spaces. */
-  letter-spacing: 0;
+  /* Size-matched tracking, as CardTitle (the brand's display tracking is tuned for large headings and closes up
+     word spaces here). */
+  letter-spacing: var(--strata-font-tracking-lg);
   line-height: var(--strata-line-height-snug);
   text-wrap: balance;
 }
@@ -72,6 +85,7 @@
 
 .empty[data-size='sm'] .title {
   font-size: var(--strata-font-size-md);
+  letter-spacing: var(--strata-font-tracking-md);
 }
 
 .description {
@@ -79,6 +93,7 @@
   margin: 0;
   color: var(--strata-color-text-subtle);
   font-size: var(--strata-font-size-sm);
+  letter-spacing: var(--strata-font-tracking-sm);
   line-height: var(--strata-line-height-normal);
   text-wrap: pretty;
 }

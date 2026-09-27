@@ -114,7 +114,8 @@ pair it with `--strata-motion-duration-spring`).
   Opt-in on Card (`rim`), built into `Card variant="feature"`, `Sidebar variant="floating"` and `IconTile`. `--strata-glow` (the brand
   halo) is for one hero element per view: the feature card, the current-page bar in Sidebar.
 - **Inputs:** flat, bordered. Focus = the 2px ring plus a soft halo: `box-shadow: 0 0 0 4px color-mix(in oklab, var(--strata-color-focus-ring) 18%, transparent)`.
-- **Glass** is for floating layers only: popover, menu, select/combobox listbox, dialog, alert dialog, sheet, command palette, toast.
+- **Glass** is for floating layers only: popover, menu, select/combobox listbox, dialog, alert dialog, sheet, command palette.
+  (Toast moved to the opaque **Surface recipe**, 2026-09-27: its sheen is proven on an opaque face only.)
   `background: var(--strata-glass-bg); backdrop-filter: blur(var(--strata-glass-blur)) saturate(1.6);` (plus the `-webkit-` prefix),
   `border: 1px solid var(--strata-color-border-default)`, `box-shadow: var(--strata-shadow-overlay)`. Add
   `@supports not (backdrop-filter: blur(1px)) { background: var(--strata-color-surface-raised); }`.
@@ -147,13 +148,88 @@ Premium comes from restraint and consistency, not more effects. Check every comp
   Currency and units can be a size smaller in `text.subtle`.
 - **Quiet chips.** Badges are soft pills: tinted background, no border, `font-weight: medium`, `font-size: xs` + tracking. Solid badges keep the highlight.
   Status dots are small (6px via `calc(var(--strata-space-1) * 1.5)`), never shouting.
-- **Calm tints.** Alerts and callouts: soft tinted surface, a `--strata-hairline` edge in the tone's border colour, and the tone carried by the icon chip.
-  No thick borders or heavy fills.
+- **Calm tints.** Callouts: soft tinted surface, a `--strata-hairline` edge in the tone's border colour, and the tone carried by the icon chip.
+  No thick borders or heavy fills. (Alert and Toast now follow the **Surface recipe** below: a neutral face, with the tone only in the filled status shape.)
 - **Hierarchy through weight and colour, not size jumps.** Section labels in `text.subtle`, `font-size: sm`; table headers `text.subtle`, `font-weight: medium`, no background fill.
 - **Air.** Table rows use `--strata-table-row-height` with comfortable inline padding; card content breathes at `--strata-card-inset`.
   Icon + text pairs align on the text's cap height, with a `--strata-space-2` gap.
 - **Icons match text.** Icons follow the text colour at ~1.25× the font size, and outline icons use `stroke-width: 1.75` (Tabler's default of 2 looks heavy next to text).
 - **Every state is intentional.** Hover is a quiet tint, press is the spring scale, selected is `surface.selected`, and focus is the ring plus halo. Nothing changes abruptly.
+
+## Surface recipe (from Anuj's toast reference, 2026-09-27)
+
+A dark card lit by a soft diagonal band of light, with a faint hairline, a large radius and a lot of air. It holds a filled
+status shape, a two-line message and one action whose weight follows severity. Built into **Toast** and **Alert** (the reference
+implementations: `src/ui/toast.module.css`, `src/ui/alert.module.css`). Use exactly this recipe on other containers; don't add effects to it.
+
+**1. Background layers.** Opaque face, sheen on top:
+```css
+--_face: var(--strata-color-surface-raised);
+background:
+  var(--strata-sheen) padding-box,                           /* dark: a 115° band peaking at 6% text.default; light: none */
+  linear-gradient(var(--_face), var(--_face)) padding-box,   /* the face */
+  var(--_rim) border-box,                                    /* the rim, dark only (see 2) */
+  var(--_face);                                              /* fills the border box under the rim */
+```
+- Write the layer list in this order and nothing else. No extra gradients, tints or glows.
+- The face is **opaque** `surface.raised`, not glass, even on floating layers such as Toast: the engine proves text.subtle
+  ≥ 4.5:1 at the sheen's brightest pixel on an opaque `surface.raised`/`surface.default` only (theme-engine `test/exporters.test.ts`,
+  measured ≥ 7.25:1). Sheen over glass only with the face made 8 points more opaque (`calc(var(--strata-glass-opacity) * 100% + 8%)`): text.default/subtle then stay ≥ 4.72:1 over black and white backdrops for tenants and 1,000 fuzz brands (proof: `test/popover.test.tsx`). Without the offset it fails (3.67:1).
+- The sheen is physical light from the top-left, like the rim and shadows: it doesn't mirror in RTL.
+- **Text on it:** only `text.default` and `text.subtle`. Brand, feedback and disabled colours go on their own opaque fill
+  (a button, a badge) or into the status shape.
+
+**2. The edge.**
+- Draw a hairline plus the elevation shadow, both as box-shadow: `box-shadow: 0 0 0 var(--strata-hairline) var(--strata-color-border-subtle), <elevation>;`
+  - `<elevation>` is `--strata-shadow-raised` for inline containers (Alert, cards) and `--strata-shadow-overlay` for floating ones (Toast).
+  - No heavier shadows, and no tone-coloured edges: the tone lives in the status shape.
+- Keep `border: 1px solid transparent`: the rim paints there, and forced-colours mode draws it as the edge.
+- Add the rim in dark only. `--strata-sheen` is `none` exactly in light schemes, so it serves as the scheme signal without naming a scheme:
+  ```css
+  --_rim: linear-gradient(transparent, transparent);
+  @container not style(--strata-sheen: none) { .x { --_rim: linear-gradient(135deg, var(--strata-rim), transparent 60%); } }
+  ```
+  Browsers without style queries get no rim, which is fine.
+
+**3. Radius and padding.**
+- Radius: `border-radius: var(--strata-radius-container)`, plus `corner-shape: squircle` under `@supports`.
+- Padding: the density's card inset, easing down on narrow boxes: `--_inset: clamp(var(--strata-space-4), <5–7%>, var(--strata-card-inset))`.
+  - Inline padding is `var(--_inset)`.
+  - Block padding is `min(var(--_inset), var(--strata-space-5))` for a two-line message (Toast) or `…space-6` (Alert), so a message doesn't read as a card.
+- Width: a message row wants about 416px (`calc(var(--strata-space-16) * 6.5)`; Toast's width).
+
+**4. Message layout.** `[status shape | title over description] … [one action]`, everything vertically centred (`align-items: center`).
+- The shape and the text are one flex group (`flex: 1 1 calc(var(--strata-space-16) * 3–4)`). The action is a sibling with `flex: none`.
+  The row is `flex-wrap: wrap; justify-content: flex-end`, so on narrow boxes the action wraps under the message at the inline end.
+  The wrap is intrinsic: no container query, and it doesn't collapse in shrink-to-fit parents.
+- **Status shape:** the filled icons from `@strata/icons` (`IconSealCheckFilled` success, `IconInfoCircleFilled` info/neutral,
+  `IconAlertCircleFilled` warning, `IconAlertTriangleFilled` danger, `IconCircleCheckFilled` / `IconCircleXFilled` where a circle fits better).
+  - Size: `var(--strata-space-6)` square.
+  - Colour: set on the wrapper, `color: var(--strata-color-feedback-<tone>-fg); --strata-icon-on: var(--strata-color-feedback-<tone>-bg);`.
+    `--strata-icon-on` is the knockout colour of the glyph; outside a component it falls back to the page surface.
+  - Don't use `feedback.<tone>.solid` for the shape: it falls below 3:1 on `surface.raised` (warning light 2.08, success dark 2.93, info dark 2.99).
+  - Neutral: `text.subtle` shape with a `surface.raised` knockout, or no icon.
+  - Decorative (`aria-hidden`): the title carries the meaning in words, and each tone has its own shape.
+- **Title:** `text.default`, `font-size-md`, semibold, `line-height-snug`, tracking md.
+  **Description:** `text.subtle`, `font-size-sm`, `line-height-normal`, tracking sm. Gap `calc(var(--strata-space-1) * 0.5)`.
+- **Dismiss:** keep it named and in the tab order, 24px target.
+  - A floating container puts it on the top-end corner (a small round `surface.raised` button), revealed on hover of that item or focus inside it, and always visible on the front item on `(hover: none)`. The row keeps a single action.
+  - An inline container keeps a quiet 24px icon button after the action.
+
+**5. Action weight follows severity.** One action, `<Button size="sm">` from `./button`:
+- `danger` and `warning`: `variant="contrast"` (near-white in dark, near-black in light). Something needs you, so it's the strongest thing in the row.
+- `success`, `info` and `neutral`: `variant="outline"` (the quiet neutral button). Not `secondary`: in some brands it's brand-tinted and competes with the status colour.
+- Toast picks the variant itself. Alert takes a node, so pass the right variant (see `alert-with-action`).
+
+**6. Contrast proofs.** Every surface built on this recipe ships a test that proves the following, reading the roles it proves from the CSS so they can't drift:
+- the status shape (`feedback.<tone>.fg`) ≥ **3:1** (WCAG 1.4.11) against the face **and** against the face under the sheen's peak
+  (`surface.raised` mixed with `text.default` at the peak in sRGB; the peak is parsed from `--strata-sheen`);
+- the knocked-out glyph (`feedback.<tone>.bg`) ≥ **4.5:1** against the shape;
+- all of it for every tenant (vela, harbor, qamar, care, house) × light/dark and the engine's 1,000 fuzz brands (`fuzzInputs()`).
+
+Use `test/status-icon-contrast.ts` (`statusIconWorst`, `loadFuzzInputs`, `readUiCss`); see `test/toast.test.tsx` and `test/alert.test.tsx`.
+Measured 2026-09-27: shape ≥ 6.09:1 (worst: light success), glyph ≥ 5.43:1, tenants and fuzz alike. The feedback hues don't follow the brand;
+only the surfaces do. Ratios are never rounded up. If you put anything else on the sheen, extend the proof first.
 
 ## Accessibility (WCAG 2.2 AA)
 

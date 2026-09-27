@@ -54,7 +54,7 @@
     {
       "name": "card-rim",
       "title": "Rim light",
-      "description": "The opt-in rim: the edge catches light at the top-left and fades."
+      "description": "Rim light: the edge catches light at the top-left and fades. Built into default cards in dark; the rim prop adds it in light."
     }
   ],
   "props": [
@@ -63,7 +63,7 @@
       "name": "variant",
       "type": "'default' | 'outline' | 'ghost' | 'feature'",
       "default": "'default'",
-      "description": "default = raised surface, hairline edge and soft shadow; outline = hairline edge only; ghost = no chrome, same spacing; feature = a promo/hero card with a deep brand glow from the top-start corner, the rim light and the brand halo (one per view). Its glow is capped so text.default, text.subtle and text.brand stay ≥ 4.5:1 (proved in test/card.test.tsx). feature adapts to the scheme: in light it's the raised shadow and a very faint brand gradient; in dark, a deep gradient and the brand halo."
+      "description": "default = raised surface, hairline edge and soft shadow, plus the sheen (a diagonal band of light) and the rim light in dark; outline = hairline edge only; ghost = no chrome, same spacing; feature = a promo/hero card with a deep brand glow from the top-start corner, the rim light and the brand halo (one per view). Its glow is capped so text.default, text.subtle and text.brand stay ≥ 4.5:1 (proved in test/card.test.tsx). feature adapts to the scheme: in light it's the raised shadow and a very faint brand gradient; in dark, a deep gradient and the brand halo."
     },
     {
       "component": "Card",
@@ -77,7 +77,7 @@
       "name": "rim",
       "type": "boolean",
       "default": "false",
-      "description": "Rim light: the 1px edge is brighter at the top-left and fades, like light catching glass. Opt-in; always on for variant=\"feature\"."
+      "description": "Rim light: the 1px edge is brighter at the top-left and fades, like light catching glass. Built into default cards in dark (the surface recipe); rim adds it in light and to outline and ghost cards. Always on for variant=\"feature\"."
     },
     {
       "component": "Card",
@@ -152,7 +152,6 @@
     "color.surface.raised",
     "color.text.default",
     "color.text.subtle",
-    "shadow.highlight",
     "shadow.overlay",
     "shadow.raised",
     "radius.container",
@@ -185,6 +184,7 @@
     "color.action.primary.bg",
     "color.text.brand",
     "rim",
+    "sheen",
     "glow",
     "icon-stroke"
   ]

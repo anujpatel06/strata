@@ -249,13 +249,11 @@
     "motion.easing",
     "motion.duration.spring",
     "motion.spring",
-    "glass.bg",
     "color.border.default",
     "radius.container",
     "color.surface.raised",
     "glass.opacity",
     "glass.blur",
-    "shadow.highlight",
     "shadow.overlay",
     "font.body",
     "line-height.normal",
@@ -275,6 +273,9 @@
     "color.surface.canvas",
     "radius.field",
     "space.4",
-    "font.tracking.sm"
+    "font.tracking.sm",
+    "sheen",
+    "rim",
+    "hairline"
   ]
 }

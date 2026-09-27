@@ -167,7 +167,6 @@
     "line-height.tight",
     "radius.container",
     "section-gap",
-    "shadow.highlight",
     "shadow.raised",
     "space.1",
     "space.16",
@@ -178,6 +177,8 @@
     "motion.duration.slow",
     "motion.duration.spring",
     "motion.easingOut",
-    "motion.spring"
+    "motion.spring",
+    "sheen",
+    "rim"
   ]
 }

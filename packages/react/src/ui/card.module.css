@@ -11,20 +11,45 @@
   gap: var(--strata-card-inset);
   min-inline-size: 0;
   padding-block: var(--strata-card-inset);
+  /*
+   * Surface recipe (CONVENTIONS "Surface recipe"): four private hooks the variants re-point.
+   *   --_fill   the face colour (surface.raised);
+   *   --_face   the face image (the fill as a gradient, so the feature variant can swap in its glow);
+   *   --_sheen  the engine's diagonal band of light: dark only (the token is `none` in light, where depth comes
+   *             from the shadow). Proven on surface.raised: text.subtle stays ≥ 6.86:1 at its brightest pixel
+   *             (theme-engine test/exporters.test.ts); every other text role measured ≥ 6.34:1 (text.brand, fuzz; 8% peak);
+   *   --_rim    the rim light. Built in for dark (a style query on --strata-sheen, below); `rim` adds it in light.
+   */
+  --_fill: var(--strata-color-surface-raised);
+  --_face: linear-gradient(var(--_fill), var(--_fill));
+  --_sheen: var(--strata-sheen);
+  --_rim: transparent;
   --_edge: var(--strata-color-border-subtle);
   /* Finesse: the soft shadow carries the depth; the edge is a hairline ring (0.5px on 2× screens). It's a
      box-shadow, not a border, because Chromium rounds sub-pixel border widths up to 1px. The 1px transparent
-     border keeps the box size and becomes the visible edge in forced-colours mode. */
+     border keeps the box size, carries the rim light and becomes the visible edge in forced-colours mode.
+     Background layers, top to bottom: the sheen and the face (padding box), then the rim gradient over the fill
+     (border box), so the rim only shows in the 1px ring and follows any radius (CONVENTIONS "Rim light"). */
   border: 1px solid transparent;
   border-radius: var(--strata-radius-container);
-  background-color: var(--strata-color-surface-raised);
-  box-shadow: 0 0 0 var(--strata-hairline) var(--_edge), var(--strata-shadow-highlight), var(--strata-shadow-raised);
+  background:
+    var(--_sheen) padding-box,
+    var(--_face) padding-box,
+    linear-gradient(135deg, var(--_rim), transparent 60%) border-box var(--_fill);
+  box-shadow: 0 0 0 var(--strata-hairline) var(--_edge), var(--strata-shadow-raised);
   color: var(--strata-color-text-default);
   font-family: var(--strata-font-body);
   font-size: var(--strata-font-size-md);
   letter-spacing: var(--strata-font-tracking-md);
   line-height: var(--strata-line-height-normal);
   text-align: start;
+}
+/* Rim light in dark only (CONVENTIONS "Surface recipe"): --strata-sheen is `none` exactly in light schemes, so it's
+   the scheme signal, and the rim can never show without the sheen. Browsers without style queries get no rim. */
+@container not style(--strata-sheen: none) {
+  .card {
+    --_rim: var(--strata-rim);
+  }
 }
 
 /* Continuous (squircle) corners where the browser supports them; radii stay the same. */
@@ -34,41 +59,30 @@
   }
 }
 
+/* Outline: for dense layouts. A flat face and a stronger hairline, no shadow and no sheen; the rim only via `rim`. */
 .card[data-variant='outline'] {
   --_edge: var(--strata-color-border-default);
+  --_sheen: none;
+  --_rim: transparent;
   box-shadow: 0 0 0 var(--strata-hairline) var(--_edge);
 }
 
 .card[data-variant='ghost'] {
-  background-color: transparent;
+  --_fill: transparent;
+  --_sheen: none;
+  --_rim: transparent;
   box-shadow: none;
 }
 
 /* ---- rim light ----------------------------------------------------------- */
 
 /*
- * The edge catches light at the top-left and fades (CONVENTIONS, Depth: "Rim light"). The border is already a
- * transparent 1px; the background is painted in layers so the gradient only shows in that 1px ring and follows the
- * radius: the face (padding box) on top, the rim gradient (border box) under it, and the face colour under the rim,
- * so where the rim fades out the edge is the card, not the page. The light is physical (top-left in RTL too), like
- * the shadows. --_face is the private hook the feature variant layers its glow onto.
+ * The edge catches light at the top-left and fades (CONVENTIONS, Depth: "Rim light"). Dark cards always have it
+ * (the surface recipe); `rim` turns it on in light too, and on outline and ghost cards. The light is physical
+ * (top-left in RTL too), like the shadows.
  */
 .card[data-rim] {
-  --_face: linear-gradient(var(--strata-color-surface-raised), var(--strata-color-surface-raised));
-  background:
-    var(--_face) padding-box,
-    linear-gradient(135deg, var(--strata-rim), transparent 60%) border-box var(--strata-color-surface-raised);
-}
-
-.card[data-rim][data-variant='outline'] {
-  --_face: linear-gradient(var(--strata-color-surface-raised), var(--strata-color-surface-raised));
-}
-
-.card[data-rim][data-variant='ghost'] {
-  --_face: linear-gradient(transparent, transparent);
-  background:
-    var(--_face) padding-box,
-    linear-gradient(135deg, var(--strata-rim), transparent 60%) border-box;
+  --_rim: var(--strata-rim);
 }
 
 /* ---- feature ------------------------------------------------------------- */
@@ -107,15 +121,17 @@
   /*
    * The brand halo, dark only. It mirrors --strata-glow's geometry and mix (a 1px ring at 40%, a 0 12px 40px -12px
    * bloom at 60%) with light-dark() colours, because a token shadow can't be switched per scheme. In light both
-   * layers are transparent, leaving the hairline edge, the sheen and the raised shadow.
+   * layers are transparent, leaving the hairline edge and the raised shadow.
    */
   --_halo-ring: light-dark(transparent, color-mix(in srgb, var(--strata-color-action-primary-bg) 40%, transparent));
   --_halo: light-dark(transparent, color-mix(in srgb, var(--strata-color-action-primary-bg) 60%, transparent));
+  /* No sheen: on the glow it would cost the proof its margin (qamar dark: text.subtle and text.brand drop to 4.15:1
+     at a 6% peak, measured 2026-09-27; the peak is now 8%, so lower still). The glow is this variant's light. */
+  --_sheen: none;
   position: relative;
   isolation: isolate;
   box-shadow:
     0 0 0 var(--strata-hairline) var(--_edge),
-    var(--strata-shadow-highlight),
     var(--strata-shadow-raised),
     0 0 0 1px var(--_halo-ring),
     0 var(--strata-space-3) var(--strata-space-10) calc(var(--strata-space-3) * -1) var(--_halo);
@@ -211,7 +227,7 @@
 /* No lift while the pointer is on a nested control: that control is the target, not the card. */
 .card[data-interactive]:hover:not(:has(:where(a[href], button, input, select, textarea, [role='button']):not(.title a):hover)) {
   --_edge: var(--strata-color-border-default);
-  box-shadow: 0 0 0 var(--strata-hairline) var(--_edge), var(--strata-shadow-highlight), var(--strata-shadow-overlay);
+  box-shadow: 0 0 0 var(--strata-hairline) var(--_edge), var(--strata-shadow-overlay);
 }
 
 .card[data-interactive]:has(.title a:hover) .title :where(a[href]) {
@@ -397,7 +413,7 @@
 .content[data-variant='inset'] > :has(> :is(table, [role='grid'])) {
   border-color: transparent;
   border-radius: 0;
-  background-color: transparent;
+  background: none;
   box-shadow: none;
 }
 

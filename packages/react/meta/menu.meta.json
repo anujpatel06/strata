@@ -236,11 +236,9 @@
     "font.weight.medium",
     "color.border.subtle",
     "card-inset",
-    "glass.bg",
     "glass.blur",
     "color.border.default",
     "radius.container",
-    "shadow.highlight",
     "shadow.overlay",
     "color.surface.raised",
     "space.3",
@@ -249,6 +247,9 @@
     "font.tracking.md",
     "font.tracking.xs",
     "hairline",
-    "radius.badge"
+    "radius.badge",
+    "glass.opacity",
+    "sheen",
+    "rim"
   ]
 }

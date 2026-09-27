@@ -7,14 +7,14 @@ const cx = (...c: Array<string | false | null | undefined>) => c.filter(Boolean)
 
 export interface CardProps extends HTMLAttributes<HTMLDivElement> {
   /**
-   * `default` = raised surface with border and shadow, `outline` = border only, `ghost` = no chrome.
+   * `default` = raised surface with a hairline edge and a soft shadow (plus the sheen and rim light in dark), `outline` = border only, `ghost` = no chrome.
    * `feature` = a promo/hero card: a deep brand glow from the top-start corner, a rim-light edge and the brand halo.
    * Its text stays on checked pairs (see card.module.css for the numbers). Use one per view.
    */
   variant?: 'default' | 'outline' | 'ghost' | 'feature';
   /**
-   * Rim light: the 1px edge catches light at the top-left and fades, like glass. Off by default, so existing screens
-   * don't change. Always on for `variant="feature"`.
+   * Rim light: the 1px edge catches light at the top-left and fades, like glass. Default cards always have it in
+   * dark (the surface recipe); `rim` adds it in light, and to outline and ghost cards. Always on for `variant="feature"`.
    */
   rim?: boolean;
   /** A faint, decorative star field (CSS dots, hidden from assistive tech). Only drawn on `variant="feature"`. */
