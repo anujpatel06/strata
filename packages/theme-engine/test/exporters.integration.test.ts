@@ -38,7 +38,10 @@ describe.each(TENANTS)('$name', (input) => {
       ':root[data-strata-scheme="dark"]',
       ':root[data-strata-scheme="auto"]',
       `:root[data-strata-density="${other}"]`,
+      ':root',
     ]);
+    expect(rules[4]?.at).toBe('@media (min-resolution: 2dppx)');
+    expect(rules[4]?.decls).toEqual({ '--strata-hairline': '0.5px' });
     expect(rules[2]?.at).toBe('@media (prefers-color-scheme: dark)');
     const { 'color-scheme': _cs, ...base } = rules[0]!.decls;
     expect(base).toEqual(toCssVariables(theme, 'light'));
@@ -47,10 +50,10 @@ describe.each(TENANTS)('$name', (input) => {
     }
   });
 
-  it('toDTCG leaf count matches the engine summary (316)', () => {
+  it('toDTCG leaf count matches the engine summary (339)', () => {
     const doc = toDTCG(theme);
     expect(countLeafTokens(doc)).toBe(theme.summary.tokenCount);
-    expect(countLeafTokens(doc)).toBe(316);
+    expect(countLeafTokens(doc)).toBe(339);
   });
 
   it('toDTCG: types resolvable, aliases resolve, colour objects valid', () => {

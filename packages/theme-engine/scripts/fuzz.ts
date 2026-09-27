@@ -11,6 +11,8 @@ import { cpus } from 'node:os';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { contrastRatio, formatRatio } from '../src/color';
+import { CHART_AXIS_ROLE, CHART_GRID_ROLE, CHART_SERIES, CHART_SURFACES, chartCvdDeltaE, chartDeltaE, chartPaletteProblems } from '../src/chart';
+import { GLASS_TEXT_ROLES, glassWorstRatio } from '../src/glass';
 import { BASE_STEP, RAMP_NAMES } from '../src/ramps';
 import { CONTRAST_PAIRS } from '../src/roles';
 import { countTokens, generateTheme } from '../src/theme';
@@ -45,9 +47,9 @@ export function mulberry32(seed: number): () => number {
   };
 }
 
-const NEUTRALS: NeutralTemperature[] = ['cool', 'neutral', 'warm'];
+const NEUTRALS: NeutralTemperature[] = ['cool', 'neutral', 'warm', 'paper'];
 const SHAPES: Shape[] = ['sharp', 'soft', 'round'];
-const TYPE_PAIR_IDS: TypePairId[] = ['precise', 'calm', 'friendly', 'technical', 'bilingual-round', 'bilingual-classic'];
+const TYPE_PAIR_IDS: TypePairId[] = ['precise', 'calm', 'friendly', 'technical', 'bilingual-round', 'bilingual-classic', 'editorial', 'modern'];
 const DENSITIES: Density[] = ['comfortable', 'compact'];
 
 /** Deterministic random brands: random primary; random neutral/shape/typePair/density; 50% get a random accent. */
@@ -88,6 +90,25 @@ export function validateTheme(theme: Theme): string[] {
   if (theme.summary.failed !== theme.checks.length - passed) bad('summary.failed mismatch');
   if (theme.summary.adjustments !== theme.adjustments.length) bad('summary.adjustments mismatch');
   if (theme.summary.tokenCount !== countTokens()) bad('summary.tokenCount mismatch');
+
+  // Glass: text on the translucent overlay surface passes over a black AND a white backdrop.
+  for (const scheme of ['light', 'dark'] as const) {
+    const { roles, glass } = theme.schemes[scheme];
+    for (const r of GLASS_TEXT_ROLES) {
+      const ratio = glassWorstRatio(roles['surface.raised'].hex, roles[r].hex, glass.opacity);
+      if (ratio < 4.5) bad(`${scheme} ${r} on glass (${glass.opacity}) only reaches ${formatRatio(ratio)}:1`);
+    }
+  }
+
+  // Chart palette: 4 series that pass the dataviz checks (band, chroma, 3:1 on both surfaces, CVD + normal ΔE).
+  for (const scheme of ['light', 'dark'] as const) {
+    const { roles, chart } = theme.schemes[scheme];
+    if (chart.series.length !== CHART_SERIES) bad(`${scheme} chart has ${chart.series.length} series`);
+    for (const hex of chart.series) if (!HEX.test(hex)) bad(`${scheme} chart series has invalid hex ${hex}`);
+    const surfaces = CHART_SURFACES.map((r) => roles[r].hex);
+    for (const p of chartPaletteProblems(chart.series, scheme, surfaces)) bad(`${scheme} chart ${p}`);
+    if (chart.grid !== roles[CHART_GRID_ROLE].hex || chart.axis !== roles[CHART_AXIS_ROLE].hex) bad(`${scheme} chart grid/axis differ from their roles`);
+  }
 
   const seenPairs = new Set<string>();
   for (const c of theme.checks) {
@@ -199,6 +220,23 @@ export interface FuzzResult {
   minMargin: Record<string, MarginRecord>;
   adjustmentsPerTheme: { min: number; median: number; max: number };
   interventions: Intervention[];
+  chart: ChartStats;
+}
+
+/** Chart palette results across every brand × scheme. */
+export interface ChartStats {
+  /** Brand × scheme palettes checked (brands × 2). */
+  palettes: number;
+  /** Palettes with no chartPaletteProblems. */
+  passed: number;
+  /** Floored to 2 decimals. */
+  passRatePercent: number;
+  /** Palettes where the solver left a note (near-grey brand, gamut limit, or a closest-miss pick). */
+  withNotes: Record<string, number>;
+  /** Tightest values shipped (the thresholds are 8, 15 and 3). */
+  minCvdDeltaE: number;
+  minNormalDeltaE: number;
+  minContrast: number;
 }
 
 function quantile(sorted: number[], q: number): number {
@@ -224,6 +262,7 @@ export function runFuzz(inputs: BrandInput[] = fuzzInputs(), seed = FUZZ_SEED): 
   let totalChecks = 0;
   let passed = 0;
   let checksPerTheme = 0;
+  const chart: ChartStats = { palettes: 0, passed: 0, passRatePercent: 0, withNotes: {}, minCvdDeltaE: Infinity, minNormalDeltaE: Infinity, minContrast: Infinity };
 
   inputs.forEach((input, i) => {
     const theme = generateTheme(input);
@@ -253,6 +292,23 @@ export function runFuzz(inputs: BrandInput[] = fuzzInputs(), seed = FUZZ_SEED): 
           bgHex: c.bgHex,
         };
       }
+    }
+
+    for (const scheme of ['light', 'dark'] as const) {
+      const { roles, chart: ch } = theme.schemes[scheme];
+      const surfaces = CHART_SURFACES.map((r) => roles[r].hex);
+      chart.palettes++;
+      if (chartPaletteProblems(ch.series, scheme, surfaces).length === 0) chart.passed++;
+      for (const note of ch.notes ?? []) {
+        const kind = note.includes('near-grey') ? 'near-grey brand' : note.includes("can't reach chroma") ? 'gamut limit (series 1)' : 'closest-miss pick';
+        chart.withNotes[kind] = (chart.withNotes[kind] ?? 0) + 1;
+      }
+      ch.series.forEach((hex, k) => {
+        for (const sf of surfaces) chart.minContrast = Math.min(chart.minContrast, contrastRatio(hex, sf));
+        const next = ch.series[k + 1];
+        if (next) chart.minCvdDeltaE = Math.min(chart.minCvdDeltaE, chartCvdDeltaE(hex, next));
+        for (const other of ch.series.slice(k + 1)) chart.minNormalDeltaE = Math.min(chart.minNormalDeltaE, chartDeltaE(hex, other));
+      });
     }
 
     const problems = validateTheme(theme);
@@ -293,6 +349,7 @@ export function runFuzz(inputs: BrandInput[] = fuzzInputs(), seed = FUZZ_SEED): 
     minMargin,
     adjustmentsPerTheme: { min: sortedAdj[0] ?? 0, median: median(sortedAdj), max: sortedAdj[sortedAdj.length - 1] ?? 0 },
     interventions,
+    chart: { ...chart, passRatePercent: chart.palettes === 0 ? 0 : Math.floor((chart.passed / chart.palettes) * 10000) / 100 },
   };
 }
 
@@ -307,6 +364,8 @@ function pickCheck(c: ContrastCheck) {
 const fmtInt = (n: number) => n.toLocaleString('en-US');
 const fmtMs = (n: number) => n.toFixed(2);
 /** Margins are floored to 3 decimals so a tight pass is never shown as looser than it is. */
+/** ΔE floored to 1 decimal (never shown looser than it is). */
+const fmtFloor1 = (n: number) => (Math.floor(n * 10 + 1e-9) / 10).toFixed(1);
 const fmtMargin = (n: number) => (Math.floor(n * 1000 + 1e-9) / 1000).toFixed(3);
 
 function environment() {
@@ -354,10 +413,25 @@ export function toMarkdown(r: FuzzResult, env = environment()): string {
   }
   lines.push('');
 
+  lines.push('## Chart palette', '');
+  const c = r.chart;
+  lines.push(
+    'Every brand × scheme gets 4 chart series from `src/chart.ts`. Checked on the final hex against the dataviz validator\'s rules: OKLCH L in the scheme band, chroma ≥ 0.1, ≥ 3:1 on surface.raised and surface.default, adjacent-pair CVD ΔE ≥ 8 (protan, deutan, tritan; Machado 2009), and normal-vision ΔE ≥ 15 on every pair.',
+    '',
+  );
+  lines.push('| Metric | Value |', '|---|---|');
+  lines.push(`| Palettes (brands × 2 schemes) | ${fmtInt(c.palettes)} |`);
+  lines.push(`| Passed every chart check | ${fmtInt(c.passed)} (${c.passRatePercent.toFixed(2)}%) |`);
+  lines.push(`| Lowest adjacent CVD ΔE (needs 8) | ${fmtFloor1(c.minCvdDeltaE)} |`);
+  lines.push(`| Lowest normal-vision ΔE, any pair (needs 15) | ${fmtFloor1(c.minNormalDeltaE)} |`);
+  lines.push(`| Lowest contrast on a surface (needs 3:1) | ${formatRatio(c.minContrast)}:1 (${c.minContrast.toFixed(4)}) |`);
+  for (const [kind, n] of Object.entries(c.withNotes)) lines.push(`| Solver notes: ${kind} | ${fmtInt(n)} palettes |`);
+  lines.push('');
+
   lines.push('## Structural invariants', '');
   lines.push(
     r.invariantViolations.length === 0
-      ? 'All brands passed `validateTheme`: 12 valid steps per ramp, step 9 = the exact brand/accent hex in both schemes, every role resolved, refs match their ramp step, every adjusted role links to an adjustment whose message quotes its hexes and floored ratio, primary hover/pressed distinct.'
+      ? 'All brands passed `validateTheme`: 12 valid steps per ramp, step 9 = the exact brand/accent hex in both schemes, every role resolved, refs match their ramp step, every adjusted role links to an adjustment whose message quotes its hexes and floored ratio, primary hover/pressed distinct, 4 chart series passing every chart check with grid/axis equal to their roles.'
       : `${r.invariantViolations.length} brand(s) violated invariants:`,
   );
   for (const v of r.invariantViolations.slice(0, 50)) lines.push(`- #${v.theme + 1} (${v.input.primary}): ${v.problems.join('; ')}`);
@@ -395,6 +469,7 @@ function main(): void {
     `  time     median ${fmtMs(result.generationMs.median)} ms  p95 ${fmtMs(result.generationMs.p95)} ms  max ${fmtMs(result.generationMs.max)} ms`,
     m45 ? `  4.5:1    lowest ${m45.minRatio.toFixed(4)} (margin ${fmtMargin(m45.margin)}) — ${m45.scheme} ${m45.fg} on ${m45.bg}` : '',
     m3 ? `  3:1      lowest ${m3.minRatio.toFixed(4)} (margin ${fmtMargin(m3.margin)}) — ${m3.scheme} ${m3.fg} on ${m3.bg}` : '',
+    `  chart    ${fmtInt(result.chart.passed)}/${fmtInt(result.chart.palettes)} palettes pass (${result.chart.passRatePercent.toFixed(2)}%)  min CVD ΔE ${fmtFloor1(result.chart.minCvdDeltaE)}  min normal ΔE ${fmtFloor1(result.chart.minNormalDeltaE)}  min contrast ${result.chart.minContrast.toFixed(4)}`,
     `  invariants  ${result.invariantViolations.length === 0 ? 'all brands valid' : `${result.invariantViolations.length} brand(s) with violations`}`,
     `  adjustments per brand  min ${result.adjustmentsPerTheme.min} / median ${result.adjustmentsPerTheme.median} / max ${result.adjustmentsPerTheme.max}`,
     '  most frequent interventions:',

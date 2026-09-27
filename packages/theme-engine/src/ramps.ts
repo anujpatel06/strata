@@ -91,6 +91,7 @@ const HUELESS_PRIMARY_C = 1e-3;
 export function neutralTint(temperature: NeutralTemperature, primaryHex: string): { h: number; c: number } {
   if (temperature === 'cool') return { h: 255, c: 0.012 };
   if (temperature === 'warm') return { h: 75, c: 0.01 };
+  if (temperature === 'paper') return { h: 85, c: 0.022 };
   const p = hexToOklch(primaryHex);
   // "neutral" borrows the primary's hue. A grey/black/white primary has no hue (h is a placeholder 0,
   // i.e. pink), so the neutrals stay pure grey instead of picking up an arbitrary tint.

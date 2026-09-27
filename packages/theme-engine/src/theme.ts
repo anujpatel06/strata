@@ -5,6 +5,8 @@
 import { normalizeHex } from './color';
 import { foundationsForShape } from './foundations';
 import { buildRamps } from './ramps';
+import { solveChart } from './chart';
+import { solveGlass } from './glass';
 import { checkScheme, resolveRoles } from './roles';
 import { TYPE_PAIRS } from './type-pairs';
 import {
@@ -24,18 +26,22 @@ import {
 
 export const SCHEMES: readonly Scheme[] = ['light', 'dark'];
 
-const NEUTRALS: readonly NeutralTemperature[] = ['cool', 'neutral', 'warm'];
+const NEUTRALS: readonly NeutralTemperature[] = ['cool', 'neutral', 'warm', 'paper'];
 const SHAPES: readonly Shape[] = ['sharp', 'soft', 'round'];
 const DENSITIES: readonly Density[] = ['comfortable', 'compact'];
 
 export const SHADOWS: Record<Scheme, SchemeTheme['shadows']> = {
+  // Layered: a tight contact shadow plus a soft ambient one reads as real depth (Linear/Vercel style).
   light: {
-    raised: '0 1px 2px rgb(16 24 40 / 0.06), 0 1px 3px rgb(16 24 40 / 0.10)',
-    overlay: '0 12px 32px -8px rgb(16 24 40 / 0.18), 0 4px 8px -4px rgb(16 24 40 / 0.08)',
+    raised: '0 0.5px 1px rgb(16 24 40 / 0.06), 0 2px 8px -2px rgb(16 24 40 / 0.07)',
+    overlay: '0 0 0 0.5px rgb(16 24 40 / 0.06), 0 8px 24px -6px rgb(16 24 40 / 0.12), 0 24px 64px -16px rgb(16 24 40 / 0.18)',
+    highlight: 'inset 0 1px 0 rgb(255 255 255 / 0.20)',
   },
+  // Dark: shadows barely show, so a hairline light ring carries the edge.
   dark: {
-    raised: '0 1px 2px rgb(0 0 0 / 0.40), 0 0 0 1px rgb(255 255 255 / 0.04)',
-    overlay: '0 16px 40px -8px rgb(0 0 0 / 0.60), 0 0 0 1px rgb(255 255 255 / 0.06)',
+    raised: '0 0 0 0.5px rgb(255 255 255 / 0.06), 0 1px 2px rgb(0 0 0 / 0.30), 0 4px 12px -4px rgb(0 0 0 / 0.40)',
+    overlay: '0 0 0 0.5px rgb(255 255 255 / 0.10), 0 8px 24px -6px rgb(0 0 0 / 0.40), 0 32px 72px -16px rgb(0 0 0 / 0.60)',
+    highlight: 'inset 0 1px 0 rgb(255 255 255 / 0.12)',
   },
 };
 
@@ -66,12 +72,13 @@ export function normalizeBrandInput(input: BrandInput): ResolvedBrandInput {
 
 /**
  * Number of leaf tokens in the DTCG export:
- * primitive colours (2 schemes × 7 ramps × 12) + semantic colours (2 × roles) + shadows (4)
- * + space (11) + radius (5) + font families (3) + font sizes (7) + line heights (3)
- * + font weights (4) + durations (2) + easing (1) + density (2 × 6).
+ * primitive colours (2 schemes × 7 ramps × 12) + semantic colours (2 × roles) + shadows (2 × 3)
+ * + glass (2 × 2) + chart (2 × 6: series 1–4, grid, axis) + space (11) + radius (5) + font families (3) + font sizes (9) + line heights (3)
+ * + font weights (4) + durations (4) + easings (2) + density (2 × 6).
+ * The spring's linear() easing is CSS-only (DTCG has no type for it), so it isn't counted.
  */
 export function countTokens(): number {
-  return 2 * 7 * 12 + 2 * ROLES.length + 4 + 11 + 5 + 3 + 7 + 3 + 4 + 2 + 1 + 12;
+  return 2 * 7 * 12 + 2 * ROLES.length + 6 + 4 + 12 + 11 + 5 + 3 + 9 + 3 + 4 + 4 + 2 + 12;
 }
 
 export function generateTheme(input: BrandInput): Theme {
@@ -83,8 +90,9 @@ export function generateTheme(input: BrandInput): Theme {
   const checks: ContrastCheck[] = [];
   for (const scheme of SCHEMES) {
     const ramps = buildRamps(resolved, scheme);
-    const { roles, adjustments: adj } = resolveRoles(scheme, ramps);
-    schemes[scheme] = { ramps, roles, shadows: { ...SHADOWS[scheme] } };
+    // Dark is resolved after light and gets its roles, so solid fills keep their labels (ADR-006).
+    const { roles, adjustments: adj } = resolveRoles(scheme, ramps, scheme === 'dark' ? schemes.light?.roles : undefined);
+    schemes[scheme] = { ramps, roles, shadows: { ...SHADOWS[scheme] }, glass: solveGlass(roles), chart: solveChart(roles, scheme, resolved.primary, resolved.accent) };
     adjustments.push(...adj);
     checks.push(...checkScheme(scheme, roles));
   }

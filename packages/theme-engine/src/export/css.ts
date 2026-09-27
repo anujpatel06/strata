@@ -78,6 +78,8 @@ export function toCSS(theme: Theme, opts: ToCSSOptions = {}): string {
       '}',
     ].join('\n'),
     block(withAttr(sel, `[data-strata-density="${other}"]`), [], [[`Density — ${other}`, writeDensityVars({}, theme, other)]]),
+    // A true hairline on 2× screens: half a CSS pixel is one device pixel.
+    ['@media (min-resolution: 2dppx) {', `  ${sel} { --strata-hairline: 0.5px; }`, '}'].join('\n'),
   ];
   return parts.join('\n\n') + '\n';
 }

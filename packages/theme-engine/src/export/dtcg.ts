@@ -1,15 +1,18 @@
 /**
  * Theme → W3C Design Tokens Format Module 2025.10 JSON.
  *
- * Tree (the engine's countTokens() relies on this exact shape — 316 leaf tokens):
+ * Tree (the engine's countTokens() relies on this exact shape — 339 leaf tokens):
  *   primitive.color.<scheme>.<ramp>.<1–12>                 168
  *   semantic.<scheme>.color.<role path>                      96  (alias to a primitive when the role is a ramp step)
- *   semantic.<scheme>.shadow.{raised,overlay}                 4
+ *   semantic.<scheme>.shadow.{raised,overlay,highlight}       6
+ *   semantic.<scheme>.glass.{opacity,blur}                    4
+ *   semantic.<scheme>.chart.{1–4,grid,axis}                  12  (grid/axis alias border.subtle / text.subtle)
  *   foundation.space / radius / font.* / motion.*            36
  *   density.<density>.<token>                                12
  */
 import type { Adjustment, ResolvedColor, Role, Scheme, Theme } from '../types';
 import { ROLES } from '../types';
+import { CHART_AXIS_ROLE, CHART_GRID_ROLE } from '../chart';
 import {
   DENSITY_KEYS,
   FONT_ROLES,
@@ -92,6 +95,19 @@ function semanticColor(scheme: Scheme, role: Role, c: ResolvedColor, adjustments
   return t;
 }
 
+/** Chart palette: series are solved literals (chart.ts); grid and axis alias the roles they are. */
+function chartTokens(scheme: Scheme, chart: Theme['schemes'][Scheme]['chart']): Record<string, unknown> {
+  const out: Record<string, unknown> = {
+    $description: 'Categorical chart series in fixed order (series 1 = brand hue). Solved to pass the dataviz checks: lightness band, chroma ≥ 0.1, 3:1 on surfaces, CVD and normal-vision ΔE.',
+  };
+  chart.series.forEach((hex, i) => {
+    out[String(i + 1)] = token('color', dtcgColor(hex));
+  });
+  out.grid = token('color', `{semantic.${scheme}.color.${rolePath(CHART_GRID_ROLE).join('.')}}`);
+  out.axis = token('color', `{semantic.${scheme}.color.${rolePath(CHART_AXIS_ROLE).join('.')}}`);
+  return out;
+}
+
 function semantic(theme: Theme): Record<string, unknown> {
   const adjustments = new Map(theme.adjustments.map((a) => [a.id, a] as const));
   const out: Record<string, unknown> = {
@@ -108,7 +124,13 @@ function semantic(theme: Theme): Record<string, unknown> {
       shadow: {
         raised: token('shadow', parseShadow(s.shadows.raised)),
         overlay: token('shadow', parseShadow(s.shadows.overlay)),
+        highlight: token('shadow', parseShadow(s.shadows.highlight)),
       },
+      glass: {
+        opacity: token('number', s.glass.opacity),
+        blur: token('dimension', px(s.glass.blur)),
+      },
+      chart: chartTokens(scheme, s.chart),
     };
   }
   return out;
@@ -139,8 +161,13 @@ function foundation(theme: Theme): Record<string, unknown> {
       duration: {
         fast: token('duration', { value: f.motion.durationFast, unit: 'ms' }),
         normal: token('duration', { value: f.motion.durationNormal, unit: 'ms' }),
+        slow: token('duration', { value: f.motion.durationSlow, unit: 'ms' }),
+        spring: token('duration', { value: f.motion.spring.duration, unit: 'ms' }),
       },
-      easing: { standard: token('cubicBezier', parseCubicBezier(f.motion.easing)) },
+      easing: {
+        standard: token('cubicBezier', parseCubicBezier(f.motion.easing)),
+        out: token('cubicBezier', parseCubicBezier(f.motion.easingOut)),
+      },
     },
   };
 }

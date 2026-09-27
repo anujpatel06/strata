@@ -29,7 +29,9 @@ const compactTheme: Theme = { ...theme, input: { ...theme.input, density: 'compa
 describe('CSS variable contract (parsed from types.ts)', () => {
   it('parses every non-colour contract variable', () => {
     const vars = contractFoundationVars();
-    expect(vars).toHaveLength(45);
+    expect(vars).toHaveLength(75);
+    expect(vars).toContain('--strata-chart-4');
+    expect(vars).toContain('--strata-chart-grid');
     expect(vars).toContain('--strata-space-16');
     expect(vars).toContain('--strata-font-heading-tracking');
     expect(vars).toContain('--strata-motion-easing');
@@ -43,6 +45,12 @@ describe('toCssVariables', () => {
     expect(cssVarProblems(vars, theme, scheme)).toEqual([]);
     expect(Object.keys(vars).sort()).toEqual(contractCssVars().sort());
     expect(Object.keys(vars).every((k) => k.startsWith('--strata-'))).toBe(true);
+  });
+
+  it.each(['light', 'dark'] as const)('every var() inside a value points at a variable it defines (%s)', (scheme) => {
+    const vars = toCssVariables(theme, scheme);
+    const refs = Object.values(vars).flatMap((v) => [...v.matchAll(/var\((--[\w-]+)/g)].map((m) => m[1]!));
+    expect(refs.filter((r) => !(r in vars))).toEqual([]);
   });
 
   it('formats values CSS-ready', () => {
@@ -125,6 +133,7 @@ describe('toCSS', () => {
       '[data-strata-theme="vela"][data-strata-scheme="dark"]',
       '[data-strata-theme="vela"][data-strata-scheme="auto"]',
       '[data-strata-theme="vela"][data-strata-density="compact"]',
+      '[data-strata-theme="vela"]',
     ]);
     expect(scoped).not.toContain(':root');
   });
@@ -139,22 +148,24 @@ describe('toDTCG', () => {
   const doc = toDTCG(theme);
   const leaves = collectLeaves(doc);
 
-  it('has exactly 316 leaf tokens in the documented structure', () => {
-    expect(countLeafTokens(doc)).toBe(316);
-    expect(leaves).toHaveLength(316);
+  it('has exactly 339 leaf tokens in the documented structure', () => {
+    expect(countLeafTokens(doc)).toBe(339);
+    expect(leaves).toHaveLength(339);
     const count = (prefix: string) => leaves.filter((l) => l.path.startsWith(prefix)).length;
     expect(count('primitive.color.')).toBe(2 * 7 * 12);
     expect(count('semantic.light.color.')).toBe(48);
     expect(count('semantic.dark.color.')).toBe(48);
-    expect(count('semantic.light.shadow.') + count('semantic.dark.shadow.')).toBe(4);
+    expect(count('semantic.light.shadow.') + count('semantic.dark.shadow.')).toBe(6);
+    expect(count('semantic.light.glass.') + count('semantic.dark.glass.')).toBe(4);
+    expect(count('semantic.light.chart.') + count('semantic.dark.chart.')).toBe(12);
     expect(count('foundation.space.')).toBe(11);
     expect(count('foundation.radius.')).toBe(5);
     expect(count('foundation.font.family.')).toBe(3);
-    expect(count('foundation.font.size.')).toBe(7);
+    expect(count('foundation.font.size.')).toBe(9);
     expect(count('foundation.font.lineHeight.')).toBe(3);
     expect(count('foundation.font.weight.')).toBe(4);
-    expect(count('foundation.motion.duration.')).toBe(2);
-    expect(count('foundation.motion.easing.')).toBe(1);
+    expect(count('foundation.motion.duration.')).toBe(4);
+    expect(count('foundation.motion.easing.')).toBe(2);
     expect(count('density.')).toBe(12);
   });
 

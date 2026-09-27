@@ -232,6 +232,8 @@ class SchemeResolver {
   constructor(
     readonly scheme: Scheme,
     readonly ramps: Record<RampName, Ramp>,
+    /** Light-mode roles, passed when resolving dark so solid fills keep the same label (ADR-006). */
+    readonly lightRoles?: Record<Role, ResolvedColor>,
   ) {}
 
   step(ramp: RampName, n: number): StepRef {
@@ -387,6 +389,9 @@ class SchemeResolver {
    * 1. (dark, opt-in) visibility: raise the fill's L until it reaches 2.2:1 on the dark canvas.
    * 2. label: the preferred label (white unless `prefer: 'ink'`) if ≥ 4.5; else the other label
    *    ('choice'); else move the fill (see chooseFillMove).
+   *    Dark mode tries the light-mode label first, deepening or lightening the fill by up to
+   *    ΔL 0.12 so the button looks like the same button in both schemes (ADR-006, Anuj). If that
+   *    move is too big, or would undo the visibility lift, the rule above applies instead.
    * 3. hover / pressed: move away from the label by ΔL 0.04 / 0.08 (see deriveState).
    * 4. border: the fill itself, or border.strong when the fill vanishes into the surface.
    */
@@ -450,7 +455,29 @@ class SchemeResolver {
     const preferred = preferInk ? ink : white;
     const other = preferInk ? white : ink;
     let label: StepRef;
-    if (contrastRatio(preferred.hex, bg) >= TEXT_MIN) {
+    const match = this.lightMatch(o.fgRole);
+    const matchLabel = match === 'ink' ? ink : match === 'white' ? white : undefined;
+    const matchMove = matchLabel && this.matchFillMove(bg, matchLabel.hex, match === 'white' ? -1 : 1, o.darkVisibility);
+    if (matchLabel && contrastRatio(matchLabel.hex, bg) >= TEXT_MIN) {
+      label = matchLabel;
+    } else if (matchLabel && matchMove) {
+      const otherR = contrastRatio(match === 'white' ? ink.hex : WHITE, bg);
+      const after = contrastRatio(matchLabel.hex, matchMove);
+      const tone = match === 'white' ? 'deeper' : 'lighter';
+      bgAdj = this.addAdjustment({
+        role: o.bgRole,
+        kind: 'choice',
+        fromHex: bg,
+        toHex: matchMove,
+        against: [o.fgRole],
+        ratioBefore: contrastRatio(matchLabel.hex, bg),
+        ratioAfter: after,
+        required: TEXT_MIN,
+        message: `${match === 'white' ? 'White' : 'Ink'} labels on ${bg} only reach ${r1(contrastRatio(matchLabel.hex, bg))}:1 (${match === 'white' ? 'ink' : 'white'} would pass at ${r1(otherR)}:1), but to match light mode, dark-mode ${o.fillsNoun} use a ${tone} tone, ${matchMove}, so ${o.labelsNoun} stay ${match} (${r1(after)}:1).`,
+      });
+      bg = matchMove;
+      label = matchLabel;
+    } else if (contrastRatio(preferred.hex, bg) >= TEXT_MIN) {
       label = preferred;
     } else if (contrastRatio(other.hex, bg) >= TEXT_MIN) {
       label = other;
@@ -531,6 +558,31 @@ class SchemeResolver {
         this.set(o.borderRole, fillRef);
       }
     }
+  }
+
+  /** The label ('white' | 'ink') this fill's label role got in light mode; undefined when resolving light. */
+  private lightMatch(fgRole: Role): 'white' | 'ink' | undefined {
+    const light = this.lightRoles?.[fgRole];
+    if (this.scheme !== 'dark' || !light) return undefined;
+    return light.hex === WHITE ? 'white' : 'ink';
+  }
+
+  /**
+   * Smallest fill move (0.005 L steps, at most PREFERRED_LABEL_MAX_DL) that gives `labelHex` 4.5:1,
+   * darker for white and lighter for ink. Deepening must keep the dark visibility minimum when
+   * the fill has one. Undefined when no move within the cap works.
+   */
+  private matchFillMove(bgHex: string, labelHex: string, dir: -1 | 1, keepVisible: boolean): string | undefined {
+    if (contrastRatio(labelHex, bgHex) >= TEXT_MIN) return undefined;
+    const start = hexToOklch(bgHex);
+    const canvas = this.hex('surface.canvas');
+    for (let i = 1; NUDGE_STEP * i <= PREFERRED_LABEL_MAX_DL + 1e-9; i++) {
+      const hex = stepL(start, dir, NUDGE_STEP * i);
+      if (contrastRatio(labelHex, hex) < TEXT_MIN) continue;
+      if (keepVisible && contrastRatio(hex, canvas) < DARK_VISIBILITY_MIN) return undefined;
+      return hex;
+    }
+    return undefined;
   }
 
   result(): RoleResolution {
@@ -616,8 +668,12 @@ export function deriveState(bgHex: string, labelHex: string, dl: number): string
  * Mapping
  * ------------------------------------------------------------------ */
 
-export function resolveRoles(scheme: Scheme, ramps: Record<RampName, Ramp>): RoleResolution {
-  const s = new SchemeResolver(scheme, ramps);
+export function resolveRoles(
+  scheme: Scheme,
+  ramps: Record<RampName, Ramp>,
+  lightRoles?: Record<Role, ResolvedColor>,
+): RoleResolution {
+  const s = new SchemeResolver(scheme, ramps, lightRoles);
   const L = scheme === 'light';
   const n = (i: number) => s.step('neutral', i);
   const p = (i: number) => s.step('primary', i);

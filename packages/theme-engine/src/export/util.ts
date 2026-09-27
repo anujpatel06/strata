@@ -21,7 +21,7 @@ export const RAMP_NAMES = [
 
 export const SPACE_KEYS = ['0', '1', '2', '3', '4', '5', '6', '8', '10', '12', '16'] as const satisfies readonly (keyof Foundations['space'])[];
 export const RADIUS_KEYS = ['button', 'field', 'container', 'badge', 'pill'] as const satisfies readonly (keyof Foundations['radius'])[];
-export const FONT_SIZE_KEYS = ['xs', 'sm', 'md', 'lg', 'xl', '2xl', '3xl'] as const satisfies readonly (keyof Foundations['fontSize'])[];
+export const FONT_SIZE_KEYS = ['xs', 'sm', 'md', 'lg', 'xl', '2xl', '3xl', '4xl', '5xl'] as const satisfies readonly (keyof Foundations['fontSize'])[];
 export const LINE_HEIGHT_KEYS = ['tight', 'snug', 'normal'] as const satisfies readonly (keyof Foundations['lineHeight'])[];
 export const FONT_WEIGHT_KEYS = ['regular', 'medium', 'semibold', 'bold'] as const satisfies readonly (keyof Foundations['fontWeight'])[];
 export const DENSITY_KEYS = [

@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { FOUNDATIONS, foundationsForShape, radiusForShape } from '../src/foundations';
 import { FEEDBACK_NAMES, feedbackBaseHex } from '../src/ramps';
+import { glassWorstRatio } from '../src/glass';
 import { CONTRAST_PAIRS } from '../src/roles';
 import { countTokens, generateTheme, normalizeBrandInput } from '../src/theme';
 import { TYPE_PAIRS, googleFontsHref } from '../src/type-pairs';
@@ -66,6 +67,37 @@ describe('generateTheme — tenants', () => {
         expect(t.schemes[scheme].roles['action.primary.bg']).toEqual({ hex: input.primary, ref: 'primary.9' });
         expect(t.schemes[scheme].roles['action.primary.fg'].hex).toBe('#ffffff');
       }
+    }
+  });
+
+  it('pure red keeps white labels in both schemes: dark deepens the fill to match light (ADR-006)', () => {
+    const t = generateTheme({ ...TENANTS.harbor, primary: '#ff0000', accent: '#ff0000' });
+    expectValidTheme(t);
+    const light = t.schemes.light.roles;
+    const dark = t.schemes.dark.roles;
+    expect(light['action.primary.fg'].hex).toBe('#ffffff');
+    expect(dark['action.primary.fg'].hex).toBe('#ffffff');
+    expect(dark['action.primary.bg'].hex).toBe(light['action.primary.bg'].hex);
+    const adj = t.adjustments.find((a) => a.id === 'dark:action.primary.bg');
+    expect(adj?.kind).toBe('choice');
+    expect(adj?.message).toMatch(/to match light mode/);
+  });
+
+  it('dark keeps ink labels when light chose ink (orange), and never undoes the visibility lift (navy)', () => {
+    const orange = generateTheme({ ...TENANTS.harbor, primary: '#ff5500', accent: '#ff5500' });
+    for (const scheme of SCHEMES) expect(orange.schemes[scheme].roles['action.primary.fg'].hex).not.toBe('#ffffff');
+    const navy = generateTheme({ ...TENANTS.harbor, primary: '#0b1f5c', accent: '#0b1f5c' });
+    expectValidTheme(navy);
+    expect(navy.adjustments.find((a) => a.id === 'dark:action.primary.bg')?.kind).toBe('visibility');
+  });
+
+  it('glass: the most translucent overlay where text still reaches 4.5:1 over black and white', () => {
+    const t = generateTheme(TENANTS.vela);
+    for (const scheme of SCHEMES) {
+      const { roles, glass } = t.schemes[scheme];
+      const worst = (o: number) => Math.min(glassWorstRatio(roles['surface.raised'].hex, roles['text.subtle'].hex, o), glassWorstRatio(roles['surface.raised'].hex, roles['text.default'].hex, o));
+      expect(worst(glass.opacity)).toBeGreaterThanOrEqual(4.5);
+      if (glass.opacity > 0.6) expect(worst(glass.opacity - 0.01)).toBeLessThan(4.5);
     }
   });
 
@@ -167,16 +199,16 @@ describe('normalizeBrandInput', () => {
 describe('countTokens', () => {
   it('matches the documented formula', () => {
     expect(ROLES.length).toBe(48);
-    expect(countTokens()).toBe(2 * 7 * 12 + 2 * 48 + 4 + 11 + 5 + 3 + 7 + 3 + 4 + 2 + 1 + 12);
-    expect(countTokens()).toBe(316);
+    expect(countTokens()).toBe(2 * 7 * 12 + 2 * 48 + 6 + 4 + 12 + 11 + 5 + 3 + 9 + 3 + 4 + 4 + 2 + 12);
+    expect(countTokens()).toBe(339);
   });
 });
 
 describe('foundations', () => {
   it('radius follows shape', () => {
-    expect(radiusForShape('sharp')).toEqual({ button: 2, field: 2, container: 4, badge: 2, pill: 9999 });
-    expect(radiusForShape('soft')).toEqual({ button: 8, field: 8, container: 12, badge: 6, pill: 9999 });
-    expect(radiusForShape('round')).toEqual({ button: 9999, field: 14, container: 20, badge: 9999, pill: 9999 });
+    expect(radiusForShape('sharp')).toEqual({ button: 8, field: 8, container: 12, badge: 6, pill: 9999 });
+    expect(radiusForShape('soft')).toEqual({ button: 12, field: 12, container: 20, badge: 8, pill: 9999 });
+    expect(radiusForShape('round')).toEqual({ button: 9999, field: 18, container: 28, badge: 9999, pill: 9999 });
     expect(() => radiusForShape('blob' as never)).toThrow();
   });
 
@@ -184,16 +216,16 @@ describe('foundations', () => {
     expect(FOUNDATIONS.radius).toEqual(radiusForShape('soft'));
     expect(Object.isFrozen(FOUNDATIONS.space)).toBe(true);
     for (const v of Object.values(FOUNDATIONS.space)) expect(v % 4).toBe(0);
-    expect(FOUNDATIONS.density.comfortable).toEqual({ controlHeight: 40, controlPaddingInline: 16, tableRowHeight: 48, cardInset: 24, sectionGap: 24, fieldGap: 16 });
-    expect(FOUNDATIONS.density.compact).toEqual({ controlHeight: 32, controlPaddingInline: 12, tableRowHeight: 36, cardInset: 16, sectionGap: 16, fieldGap: 12 });
+    expect(FOUNDATIONS.density.comfortable).toEqual({ controlHeight: 40, controlPaddingInline: 16, tableRowHeight: 48, cardInset: 28, sectionGap: 28, fieldGap: 16 });
+    expect(FOUNDATIONS.density.compact).toEqual({ controlHeight: 32, controlPaddingInline: 12, tableRowHeight: 40, cardInset: 20, sectionGap: 20, fieldGap: 12 });
     expect(FOUNDATIONS.lineHeight.normal).toBe(1.5);
     expect(foundationsForShape('sharp')).toEqual({ ...FOUNDATIONS, radius: radiusForShape('sharp') });
   });
 });
 
 describe('type pairs', () => {
-  it('has six pairs with fallbacks; Arabic-capable pairs use zero tracking', () => {
-    expect(Object.keys(TYPE_PAIRS)).toHaveLength(6);
+  it('has eight pairs with fallbacks; Arabic-capable pairs use zero tracking', () => {
+    expect(Object.keys(TYPE_PAIRS)).toHaveLength(8);
     for (const [id, p] of Object.entries(TYPE_PAIRS)) {
       expect(p.id).toBe(id);
       expect(p.heading).toMatch(/(sans-serif|serif)$/);

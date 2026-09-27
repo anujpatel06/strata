@@ -76,9 +76,35 @@ export const TYPE_PAIRS: Record<TypePairId, TypePair> = {
     supportsArabic: true,
     googleFamilies: ['Noto Kufi Arabic', 'Noto Sans Arabic', 'Noto Sans', 'IBM Plex Mono'],
   },
+  // Editorial: a variable serif with real italics for headings and numbers, a friendly grotesk for UI.
+  // Anuj's KYB/care prototype voice (ADR-015). Fraunces' optical sizes keep display numbers crisp.
+  editorial: {
+    id: 'editorial',
+    label: 'Editorial — Fraunces / DM Sans',
+    heading: `${q('Fraunces')}, ${SERIF_FALLBACK}`,
+    body: `${q('DM Sans')}, ${SANS_FALLBACK}`,
+    mono: `${q('DM Mono')}, ${MONO_FALLBACK}`,
+    headingTracking: '-0.01em',
+    supportsArabic: false,
+    googleFamilies: ['Fraunces', 'DM Sans', 'DM Mono'],
+    italicFamilies: ['Fraunces'],
+    opticalSizeFamilies: { Fraunces: '9..144' },
+  },
+  // Modern: Geist (Vercel, SIL OFL) for everything. Anuj picked it over Inter for the house brand after a
+  // side-by-side of the free fonts premium product sites ship (2026-09-27).
+  modern: {
+    id: 'modern',
+    label: 'Modern — Geist / Geist',
+    heading: `${q('Geist')}, ${SANS_FALLBACK}`,
+    body: `${q('Geist')}, ${SANS_FALLBACK}`,
+    mono: `${q('Geist Mono')}, ${MONO_FALLBACK}`,
+    headingTracking: '-0.01em',
+    supportsArabic: false,
+    googleFamilies: ['Geist', 'Geist Mono'],
+  },
 };
 
-const MONO_FAMILIES = new Set(['JetBrains Mono', 'Source Code Pro', 'IBM Plex Mono']);
+const MONO_FAMILIES = new Set(['JetBrains Mono', 'Source Code Pro', 'IBM Plex Mono', 'DM Mono', 'Geist Mono']);
 
 /**
  * Google Fonts css2 URL for a pair: text families at 400;500;600;700, mono at 400;500,
@@ -87,8 +113,23 @@ const MONO_FAMILIES = new Set(['JetBrains Mono', 'Source Code Pro', 'IBM Plex Mo
 export function googleFontsHref(pair: TypePair): string {
   const families = [...new Set(pair.googleFamilies)];
   const params = families.map((family) => {
-    const weights = MONO_FAMILIES.has(family) ? '400;500' : '400;500;600;700';
-    return `family=${family.trim().replace(/\s+/g, '+')}:wght@${weights}`;
+    const weights = MONO_FAMILIES.has(family) ? ['400', '500'] : ['400', '500', '600', '700'];
+    const name = family.trim().replace(/\s+/g, '+');
+    const opsz = pair.opticalSizeFamilies?.[family];
+    if (opsz) {
+      // Variable request: opsz + weight ranges, so the browser picks the optical cut per font-size.
+      const wght = `${weights[0]}..${weights[weights.length - 1]}`;
+      const ital = pair.italicFamilies?.includes(family);
+      return ital
+        ? `family=${name}:ital,opsz,wght@0,${opsz},${wght};1,${opsz},${wght}`
+        : `family=${name}:opsz,wght@${opsz},${wght}`;
+    }
+    if (pair.italicFamilies?.includes(family)) {
+      // Google's css2 axis order: ital,wght — upright tuples first, then italic ones.
+      const tuples = [...weights.map((w) => `0,${w}`), ...weights.map((w) => `1,${w}`)];
+      return `family=${name}:ital,wght@${tuples.join(';')}`;
+    }
+    return `family=${name}:wght@${weights.join(';')}`;
   });
   return `https://fonts.googleapis.com/css2?${params.join('&')}&display=swap`;
 }

@@ -146,16 +146,26 @@ function buildScheme(scheme: Scheme): Omit<SchemeTheme, 'shadows'> {
       roles[role] = { hex: ramps[name][Number(step) - 1]!, ref: v };
     }
   }
-  return { ramps, roles };
+  // Hand-copied from the engine's Vela output (same primary/accent as this fixture); exporters only pass them through.
+  const series = scheme === 'light' ? ['#3d45d6', '#ce5604', '#009582', '#d765b5'] : ['#4956e7', '#dc621e', '#00a28e', '#b14393'];
+  const chart = { series, grid: roles['border.subtle'].hex, axis: roles['text.subtle'].hex };
+  return { ramps, roles, glass: { opacity: 0.8, blur: 20 }, chart };
 }
 
 const FOUNDATIONS: Foundations = {
   space: { '0': 0, '1': 4, '2': 8, '3': 12, '4': 16, '5': 20, '6': 24, '8': 32, '10': 40, '12': 48, '16': 64 },
   radius: { button: 8, field: 8, container: 12, badge: 6, pill: 9999 },
-  fontSize: { xs: 12, sm: 13, md: 14, lg: 16, xl: 20, '2xl': 24, '3xl': 32 },
+  fontSize: { xs: 12, sm: 13, md: 14, lg: 16, xl: 20, '2xl': 24, '3xl': 32, '4xl': 40, '5xl': 48 },
   lineHeight: { tight: 1.2, snug: 1.35, normal: 1.5 },
   fontWeight: { regular: 400, medium: 500, semibold: 600, bold: 700 },
-  motion: { durationFast: 120, durationNormal: 200, easing: 'cubic-bezier(0.2, 0, 0, 1)' },
+  motion: {
+    durationFast: 120,
+    durationNormal: 200,
+    durationSlow: 320,
+    easing: 'cubic-bezier(0.2, 0, 0, 1)',
+    easingOut: 'cubic-bezier(0.16, 1, 0.3, 1)',
+    spring: { easing: 'linear(0, 0.5, 1)', duration: 360, stiffness: 260, damping: 22 },
+  },
   density: {
     comfortable: { controlHeight: 40, controlPaddingInline: 16, tableRowHeight: 48, cardInset: 24, sectionGap: 24, fieldGap: 16 },
     compact: { controlHeight: 32, controlPaddingInline: 12, tableRowHeight: 36, cardInset: 16, sectionGap: 16, fieldGap: 12 },
@@ -177,10 +187,12 @@ export const FIXTURE_SHADOWS: Record<Scheme, SchemeTheme['shadows']> = {
   light: {
     raised: '0 1px 2px rgb(16 24 40 / 0.06), 0 1px 3px rgb(16 24 40 / 0.10)',
     overlay: '0 12px 32px -4px rgb(16 24 40 / 0.16), 0 4px 8px -2px rgb(16 24 40 / 0.08)',
+    highlight: 'inset 0 1px 0 rgb(255 255 255 / 0.20)',
   },
   dark: {
     raised: '0 1px 2px rgb(0 0 0 / 0.40)',
     overlay: '0 16px 40px -8px rgb(0 0 0 / 0.60)',
+    highlight: 'inset 0 1px 0 rgb(255 255 255 / 0.12)',
   },
 };
 
@@ -272,7 +284,7 @@ export function makeFixtureTheme(): Theme {
       passed: checks.filter((c) => c.pass).length,
       failed: checks.filter((c) => !c.pass).length,
       adjustments: adjustments.length,
-      tokenCount: 316,
+      tokenCount: 339,
       generationMs: 0,
     },
   };

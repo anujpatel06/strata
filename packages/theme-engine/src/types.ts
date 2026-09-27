@@ -8,7 +8,8 @@
 
 export type Scheme = 'light' | 'dark';
 export type Density = 'comfortable' | 'compact';
-export type NeutralTemperature = 'cool' | 'neutral' | 'warm';
+/** 'paper' is a warmer, yellower off-white, like printed stock (added for the editorial Care brand, ADR-015). */
+export type NeutralTemperature = 'cool' | 'neutral' | 'warm' | 'paper';
 export type Shape = 'sharp' | 'soft' | 'round';
 export type TypePairId =
   | 'precise'
@@ -16,7 +17,9 @@ export type TypePairId =
   | 'friendly'
   | 'technical'
   | 'bilingual-round'
-  | 'bilingual-classic';
+  | 'bilingual-classic'
+  | 'editorial'
+  | 'modern';
 
 /** The ≤6 inputs a brand provides. A tenant's brand.json is exactly this shape. */
 export interface BrandInput {
@@ -142,7 +145,16 @@ export interface ContrastCheck {
 export interface SchemeTheme {
   ramps: Record<RampName, Ramp>;
   roles: Record<Role, ResolvedColor>;
-  shadows: { raised: string; overlay: string };
+  /** raised/overlay: elevation. highlight: an inset top-edge sheen for solid fills (tactile buttons). */
+  shadows: { raised: string; overlay: string; highlight: string };
+  /** Translucent overlay surface: surface.raised at `opacity` + backdrop blur (px). Opacity is solved (glass.ts). */
+  glass: { opacity: number; blur: number };
+  /**
+   * Chart palette (chart.ts). `series`: 4 categorical hexes in fixed order. Series 1 is the brand hue;
+   * every series passes the dataviz checks (band, chroma ≥ 0.1, 3:1 on surfaces, CVD + normal ΔE).
+   * `grid` = border.subtle (decorative), `axis` = text.subtle (text). `notes` only when the solver fell back.
+   */
+  chart: { series: string[]; grid: string; axis: string; notes?: string[] };
 }
 
 export interface DensityTokens {
@@ -160,10 +172,21 @@ export interface Foundations {
   /** px. Depends on `shape`. */
   radius: { button: number; field: number; container: number; badge: number; pill: number };
   /** px */
-  fontSize: { xs: number; sm: number; md: number; lg: number; xl: number; '2xl': number; '3xl': number };
+  fontSize: { xs: number; sm: number; md: number; lg: number; xl: number; '2xl': number; '3xl': number; '4xl': number; '5xl': number };
   lineHeight: { tight: number; snug: number; normal: number };
   fontWeight: { regular: number; medium: number; semibold: number; bold: number };
-  motion: { durationFast: number; durationNormal: number; easing: string };
+  /**
+   * ms + CSS easings. `easing` is the standard curve, `easingOut` a fast-settling enter curve,
+   * `spring` a damped spring sampled into CSS linear() with the time it takes to settle.
+   */
+  motion: {
+    durationFast: number;
+    durationNormal: number;
+    durationSlow: number;
+    easing: string;
+    easingOut: string;
+    spring: { easing: string; duration: number; stiffness: number; damping: number };
+  };
   density: Record<Density, DensityTokens>;
 }
 
@@ -180,6 +203,10 @@ export interface TypePair {
   supportsArabic: boolean;
   /** Google Fonts family names to load, e.g. ["Inter Tight", "Inter", "JetBrains Mono"]. */
   googleFamilies: string[];
+  /** Families whose italics are loaded too (for editorial emphasis: an <em> in a heading is a real italic). */
+  italicFamilies?: string[];
+  /** Variable families loaded with their optical-size axis range, e.g. { Fraunces: '9..144' }: display sizes get the display cut. */
+  opticalSizeFamilies?: Record<string, string>;
 }
 
 export interface ThemeSummary {
@@ -212,11 +239,16 @@ export interface Theme {
  * Radius:        --strata-radius-{button,field,container,badge,pill} (px)
  * Fonts:         --strata-font-heading | --strata-font-body | --strata-font-mono (stacks)
  *                --strata-font-heading-tracking
- * Type scale:    --strata-font-size-{xs,sm,md,lg,xl,2xl,3xl}      (px)
+ * Type scale:    --strata-font-size-{xs,sm,md,lg,xl,2xl,3xl,4xl,5xl}  (px)
+ * Tracking:      --strata-font-tracking-{xs,sm,md,lg,xl,2xl,3xl,4xl,5xl,caps}  (em; 0 for Arabic-capable pairs)
+ * Icons:         --strata-icon-stroke  (unitless SVG stroke width)
  *                --strata-line-height-{tight,snug,normal}         (unitless)
  *                --strata-font-weight-{regular,medium,semibold,bold}
- * Elevation:     --strata-shadow-raised | --strata-shadow-overlay
- * Motion:        --strata-motion-duration-fast | --strata-motion-duration-normal (ms) | --strata-motion-easing
+ * Elevation:     --strata-shadow-raised | --strata-shadow-overlay | --strata-shadow-highlight | --strata-hairline | --strata-rim | --strata-glow
+ * Glass:         --strata-glass-bg | --strata-glass-blur | --strata-glass-opacity
+ * Chart:         --strata-chart-{1,2,3,4}  (series hexes, fixed order; per scheme)
+ *                --strata-chart-grid | --strata-chart-axis   (var() aliases of border.subtle / text.subtle)
+ * Motion:        --strata-motion-duration-{fast,normal,slow,spring} (ms) | --strata-motion-easing | --strata-motion-easing-out | --strata-motion-spring
  * Density:       --strata-control-height | --strata-control-padding-inline | --strata-table-row-height
  *                --strata-card-inset | --strata-section-gap | --strata-field-gap   (px)
  * ------------------------------------------------------------------ */

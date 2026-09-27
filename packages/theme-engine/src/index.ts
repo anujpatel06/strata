@@ -17,6 +17,7 @@ export {
 } from './color';
 export { TYPE_PAIRS, googleFontsHref } from './type-pairs';
 export { FOUNDATIONS, radiusForShape } from './foundations';
+export { CHART_CANDIDATES, chartPaletteProblems, solveChartSeries } from './chart';
 
 // Exporters
 export { toCssVariables } from './css-vars';

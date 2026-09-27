@@ -7,7 +7,7 @@ import { buildRamps } from '../src/ramps';
 import { PREFERRED_LABEL_MAX_DL, chooseFillMove, resolveRoles } from '../src/roles';
 
 const EXTREMES = ['#ffffff', '#000000', '#ffff00', '#00ff00', '#0000ff', '#ff0000', '#808080', '#0b1f5c', '#fff3a0'];
-const NEUTRALS: NeutralTemperature[] = ['cool', 'neutral', 'warm'];
+const NEUTRALS: NeutralTemperature[] = ['cool', 'neutral', 'warm', 'paper'];
 
 const brand = (primary: string, extra: Partial<BrandInput> = {}): BrandInput => ({
   name: `Edge ${primary}`,
