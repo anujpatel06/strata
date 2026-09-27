@@ -3,7 +3,7 @@
   "title": "Sparkline",
   "description": "A small trend line for stat cards and table cells, decorative unless you name it.",
   "category": "data",
-  "maturity": "alpha",
+  "maturity": "beta",
   "exports": [
     "Sparkline"
   ],

@@ -1,15 +1,17 @@
 {
   "name": "sidebar",
   "title": "Sidebar",
-  "description": "App navigation: a brand block, labelled sections of links with icons, counts and badges, a footer, and an icon-only collapsed mode.",
+  "description": "App navigation: a brand block, a search slot, labelled sections of links with icons, counts, badges and expandable groups, a footer with the signed-in user, and an icon-rail collapsed mode.",
   "category": "navigation",
   "maturity": "alpha",
   "exports": [
     "Sidebar",
     "SidebarHeader",
+    "SidebarSearch",
     "SidebarSection",
     "SidebarItem",
     "SidebarFooter",
+    "SidebarUser",
     "useSidebar"
   ],
   "files": [
@@ -21,27 +23,30 @@
     "@strata/icons"
   ],
   "registryDependencies": [
+    "avatar",
     "badge",
-    "button",
+    "kbd",
+    "popover",
+    "search-field",
     "tooltip"
   ],
-  "reactAria": "https://react-spectrum.adobe.com/react-aria/Link.html",
-  "usage": "import { IconTile, Sidebar, SidebarHeader, SidebarItem, SidebarSection } from '@strata/react';\nimport { IconLayoutDashboard, IconReceipt, IconSparkles } from '@strata/icons';\n\nexport function AppNav({ collapsed, onCollapsedChange }) {\n  return (\n    <Sidebar aria-label=\"Main\" variant=\"floating\" collapsed={collapsed} onCollapsedChange={onCollapsedChange}>\n      <SidebarHeader logo={<IconTile tint=\"solid\" size=\"sm\"><IconSparkles /></IconTile>} title=\"Ledger\" subtitle=\"Wealth dashboard\" />\n      <SidebarSection title=\"Overview\">\n        <SidebarItem href=\"/\" icon={<IconLayoutDashboard />} isCurrent>Dashboard</SidebarItem>\n        <SidebarItem href=\"/statements\" icon={<IconReceipt />} count={3}>Statements</SidebarItem>\n      </SidebarSection>\n    </Sidebar>\n  );\n}",
+  "reactAria": "https://react-spectrum.adobe.com/react-aria/Disclosure.html",
+  "usage": "import { IconTile, Menu, MenuItem, Sidebar, SidebarFooter, SidebarHeader, SidebarItem, SidebarSearch, SidebarSection, SidebarUser } from '@strata/react';\nimport { IconLayoutGrid, IconSettings, IconSparkles, IconUsers } from '@strata/icons';\n\nexport function AppNav({ collapsed, onCollapsedChange, openSearch }) {\n  return (\n    <Sidebar aria-label=\"Main\" variant=\"floating\" collapsed={collapsed} onCollapsedChange={onCollapsedChange}>\n      <SidebarHeader logo={<IconTile tint=\"none\"><IconSparkles /></IconTile>} title=\"Tempo\" subtitle=\"Plan the team's week\" />\n      <SidebarSearch shortcut=\"⌘K\" onPress={openSearch} />\n      <SidebarSection title=\"General\">\n        <SidebarItem href=\"/\" icon={<IconLayoutGrid />}>Overview</SidebarItem>\n        <SidebarItem icon={<IconUsers />} label=\"Employees\" count={2}>\n          <SidebarItem href=\"/people/jonah\">Jonah Adams</SidebarItem>\n          <SidebarItem href=\"/people/yuri\" isCurrent>Yuri Jackson</SidebarItem>\n        </SidebarItem>\n      </SidebarSection>\n      <SidebarFooter>\n        <SidebarItem href=\"/settings\" icon={<IconSettings />}>Settings</SidebarItem>\n        <SidebarUser name=\"Maya Chen\" description=\"maya@example.com\" menu={<Menu><MenuItem id=\"out\">Sign out</MenuItem></Menu>} />\n      </SidebarFooter>\n    </Sidebar>\n  );\n}",
   "examples": [
     {
       "name": "sidebar-demo",
       "title": "Sidebar",
-      "description": "Floating panel with a brand block, three sections, counts, New/Beta badges, a user row in the footer and the collapse toggle."
+      "description": "Floating panel: brand block, a search launcher (⌘K opens a command palette), three sections, an expandable Employees group holding the current page, footer links with a New badge, and the user card with its menu and the collapse toggle."
     },
     {
       "name": "sidebar-collapsed",
       "title": "Collapsed",
-      "description": "Icon-only mode (controlled). Labels show in tooltips on hover and focus; counts become a dot; names stay."
+      "description": "The icon rail (controlled). Tooltips name every icon, counts become a dot, and the Employees group opens its people in a popover. The toggle sits under the avatar."
     },
     {
       "name": "sidebar-flush",
       "title": "Flush",
-      "description": "Full-height app chrome with a hairline at the inline end, and a button item (onPress)."
+      "description": "Full-height app chrome with a hairline at the inline end, a search launcher, and a button item (onPress). Without a SidebarUser the toggle gets its own row."
     },
     {
       "name": "sidebar-upgrade",
@@ -67,7 +72,7 @@
       "name": "variant",
       "type": "'flush' | 'floating'",
       "default": "'flush'",
-      "description": "flush = full-height chrome with a hairline at the inline end; floating = an inset panel with container radius, raised surface, rim light and shadow."
+      "description": "flush = full-height chrome with a hairline at the inline end; floating = an inset panel: the canvas tone (darker than the page in dark), container radius, hairline edge, generous padding."
     },
     {
       "component": "Sidebar",
@@ -85,7 +90,7 @@
       "component": "Sidebar",
       "name": "onCollapsedChange",
       "type": "(collapsed: boolean) => void",
-      "description": "Called by the collapse toggle. Setting it shows the toggle."
+      "description": "Called by the collapse toggle (and by the collapsed SidebarSearch in field mode). Setting it shows the toggle, which sits beside SidebarUser (or in its own row at the bottom when there's no SidebarUser)."
     },
     {
       "component": "Sidebar",
@@ -126,10 +131,36 @@
       "description": "A small line under the title (workspace, plan)."
     },
     {
+      "component": "SidebarSearch",
+      "name": "aria-label",
+      "type": "string",
+      "default": "'Search'",
+      "description": "Names the field (and the icon button when collapsed). Localise it."
+    },
+    {
+      "component": "SidebarSearch",
+      "name": "placeholder",
+      "type": "string",
+      "default": "'Search…'",
+      "description": "Placeholder text."
+    },
+    {
+      "component": "SidebarSearch",
+      "name": "shortcut",
+      "type": "string",
+      "description": "A Kbd hint at the end, e.g. \"⌘K\". Display only: bind the keys yourself (see sidebar-demo)."
+    },
+    {
+      "component": "SidebarSearch",
+      "name": "onPress",
+      "type": "(e: PressEvent) => void",
+      "description": "Launcher mode: the field is a button that calls this (e.g. to open a CommandDialog), and so is the collapsed icon button. Without it the field is a SearchField (value/onChange/onSubmit pass through) and the collapsed button expands the sidebar and focuses it."
+    },
+    {
       "component": "SidebarSection",
       "name": "title",
       "type": "ReactNode",
-      "description": "Quiet label above the items; names the list (aria-labelledby). Visually hidden when collapsed, where a hairline separates sections."
+      "description": "Quiet label above the items; names the list (aria-labelledby). Visually hidden when collapsed."
     },
     {
       "component": "SidebarItem",
@@ -147,14 +178,14 @@
       "component": "SidebarItem",
       "name": "icon",
       "type": "ReactNode",
-      "description": "Leading icon from @strata/icons. Needed for the collapsed mode."
+      "description": "Leading icon from @strata/icons. Needed for the collapsed mode. Nested items without one get a small square bullet."
     },
     {
       "component": "SidebarItem",
       "name": "isCurrent",
       "type": "boolean",
       "default": "false",
-      "description": "The current page: aria-current=\"page\", the surface.selected pill, the brand indicator bar at the inline start."
+      "description": "The current page: aria-current=\"page\" and the neutral raised pill (surface.raised, hairline, sheen). Nested items also get their bullet in text.brand and a small brand marker on the guide line. A group holding the current page opens by default, and shows the pill on the collapsed rail."
     },
     {
       "component": "SidebarItem",
@@ -166,7 +197,7 @@
       "component": "SidebarItem",
       "name": "badge",
       "type": "ReactNode",
-      "description": "Trailing badge. A string becomes a soft brand Badge (\"New\", \"Beta\"); pass a Badge for another tone."
+      "description": "Trailing badge. A string becomes a soft neutral Badge (\"New\", \"Beta\"); pass a Badge for another tone."
     },
     {
       "component": "SidebarItem",
@@ -176,66 +207,139 @@
       "description": "Not focusable or pressable; text.disabled."
     },
     {
+      "component": "SidebarItem",
+      "name": "children",
+      "type": "ReactNode",
+      "required": true,
+      "description": "The label, or nested SidebarItems: then the item is an expandable group (a React Aria Disclosure; a popover dialog on the collapsed rail). A group is always a button, never a link."
+    },
+    {
+      "component": "SidebarItem",
+      "name": "label",
+      "type": "ReactNode",
+      "description": "A group's label when its children are nested items. Plain children before the items work too."
+    },
+    {
+      "component": "SidebarItem",
+      "name": "defaultExpanded",
+      "type": "boolean",
+      "description": "Group only: initially open. Defaults to true when a nested item isCurrent."
+    },
+    {
+      "component": "SidebarItem",
+      "name": "isExpanded",
+      "type": "boolean",
+      "description": "Group only: open (controlled)."
+    },
+    {
+      "component": "SidebarItem",
+      "name": "onExpandedChange",
+      "type": "(isExpanded: boolean) => void",
+      "description": "Group only: called when the group opens or closes."
+    },
+    {
       "component": "SidebarFooter",
       "name": "children",
       "type": "ReactNode",
-      "description": "Pinned to the bottom, outside the nav landmark: a user row or an upgrade card. Use useSidebar().collapsed to render a compact version."
+      "description": "Pinned to the bottom behind a hairline, outside the nav landmark: SidebarItems (gathered into a list), then a SidebarUser. Use useSidebar().collapsed for custom content."
+    },
+    {
+      "component": "SidebarUser",
+      "name": "name",
+      "type": "string",
+      "required": true,
+      "description": "The person's name, in medium weight. Avatar initials and the collapsed avatar button's name come from it."
+    },
+    {
+      "component": "SidebarUser",
+      "name": "description",
+      "type": "ReactNode",
+      "description": "A second line in text.subtle, e.g. the email address or plan."
+    },
+    {
+      "component": "SidebarUser",
+      "name": "src",
+      "type": "string",
+      "description": "Avatar photo; initials without it."
+    },
+    {
+      "component": "SidebarUser",
+      "name": "menu",
+      "type": "ReactElement",
+      "description": "A <Menu> of account actions, opened by the ⋯ button (by the avatar when collapsed). Children work too."
+    },
+    {
+      "component": "SidebarUser",
+      "name": "menuLabel",
+      "type": "string",
+      "default": "'Account options'",
+      "description": "Accessible name of the ⋯ button. Localise it."
     }
   ],
   "accessibility": {
     "keyboard": [
       {
         "keys": "Tab / Shift+Tab",
-        "action": "Moves through the toggle, then every item in order, then the footer."
+        "action": "Moves through the search, every item (and the links of open groups) in order, then the footer items, the account menu button and the collapse toggle."
       },
       {
         "keys": "Enter",
-        "action": "Follows a link item; activates a button item."
+        "action": "Follows a link item; activates a button item; opens or closes a group."
       },
       {
         "keys": "Space",
-        "action": "Activates a button item (and the collapse toggle)."
+        "action": "Activates a button item, the collapse toggle and the ⋯ button; opens or closes a group."
       },
       {
         "keys": "Escape",
-        "action": "Closes an open tooltip (collapsed mode)."
+        "action": "Closes an open tooltip, the collapsed group's popover or the account menu, returning focus to its trigger."
+      },
+      {
+        "keys": "Arrow keys",
+        "action": "Inside the account menu only: move between its items (React Aria Menu)."
       }
     ],
     "notes": [
-      "The sections render in a <nav> landmark named by aria-label; each section is a <ul role=\"list\"> named by its title. SidebarHeader and SidebarFooter sit outside the landmark.",
-      "No roving focus, on purpose: this is site navigation, a list of links, not a menu or a tree (WAI-ARIA's navigation pattern uses the Tab sequence; role=\"menu\" would make screen readers announce application-style menus and hide the links from the links list).",
-      "The current page is aria-current=\"page\" on the link, shown by the selected pill, the medium weight and the brand bar together — never colour alone.",
-      "Collapsed mode visually hides labels, counts, badges and section titles, but they stay in the DOM, so names and list labels don't change. Each item gets a Tooltip on hover and keyboard focus.",
-      "The collapse toggle is an icon button whose label says what it will do (\"Collapse sidebar\" / \"Expand sidebar\") and has aria-controls pointing at the nav. It doesn't also set aria-expanded, so the state isn't announced twice.",
+      "The sections render in a <nav> landmark named by aria-label; each section is a <ul role=\"list\"> named by its title. SidebarHeader, SidebarSearch and SidebarFooter sit outside the landmark.",
+      "No roving focus, on purpose: this is site navigation, a list of links, not a menu or a tree (WAI-ARIA's navigation pattern uses the Tab sequence). React Aria's NavigationTree was considered and not used for groups: it's a tree with arrow-key focus, which would break the Tab-through list of links.",
+      "Groups use React Aria's Disclosure: the parent is a button with aria-expanded and aria-controls, and the panel is a group named by it. Closed groups get hidden=\"until-found\", so their links leave the tab order. A group holding the current page opens by default.",
+      "Collapsed groups: the parent icon opens a Popover dialog (named by the group's label) holding the same links, so links stay links and keep aria-current. Focus moves in, Escape closes it and returns focus. We chose this over 'expand the whole sidebar', which would move every other item under the pointer.",
+      "The current page is aria-current=\"page\" on the link, shown by the raised pill and medium weight together (plus the brand marker when nested), never colour alone.",
+      "Collapsed mode visually hides labels, counts, badges and section titles, but they stay in the DOM, so names and list labels don't change. Each icon gets a Tooltip on hover and keyboard focus; the search button's tooltip includes the shortcut.",
+      "The collapse toggle lives beside SidebarUser (under the avatar on the rail). Its label says what it will do (\"Collapse sidebar\" / \"Expand sidebar\") and it has aria-controls pointing at the nav. It doesn't also set aria-expanded, so the state isn't announced twice.",
+      "SidebarSearch in launcher mode is a button (it opens something), not a text input that opens a dialog on focus. The ⌘K hint is aria-hidden display text; bind the shortcut yourself.",
       "Narrow screens: put the Sidebar (without its header) inside <Sheet side=\"start\"> opened from a menu button; the Sheet gives the modal focus trap, Escape and the title. See the sidebar-mobile example."
     ]
   },
   "guidelines": {
     "do": [
-      "Give every item an icon, so the collapsed mode works.",
-      "Keep section titles to one or two words (\"Overview\", \"Account\").",
-      "Use counts for things that need attention and badges for status (\"New\", \"Beta\") — sparingly.",
-      "Mark exactly one item isCurrent."
+      "Give every top-level item an icon, so the collapsed mode works.",
+      "Keep section titles to one word (\"General\", \"Other\").",
+      "Use nested items for a short list of related pages (people, projects); keep it to one level.",
+      "Mark exactly one item isCurrent.",
+      "Bind the shortcut you show in SidebarSearch."
     ],
     "dont": [
-      "Don't nest sections or put menus inside items; link to a page instead.",
-      "Don't rely on the brand bar alone for the current page: it comes with the pill and aria-current.",
+      "Don't nest groups inside groups.",
+      "Don't make a group's parent a page as well; give it an Overview child instead.",
+      "Don't add brand fills to items: the brand marker on the current nested item is the only brand colour in the nav.",
       "Don't hide the Sidebar on narrow screens without offering it in a Sheet."
     ]
   },
   "tokens": [
-    "color.action.primary.bg",
     "color.border.subtle",
     "color.focus.ring",
+    "color.surface.canvas",
     "color.surface.default",
     "color.surface.raised",
-    "color.surface.selected",
+    "color.text.brand",
     "color.text.default",
     "color.text.disabled",
     "color.text.subtle",
     "control-height",
     "font.body",
     "font.heading",
+    "font.heading-tracking",
     "font.size.md",
     "font.size.sm",
     "font.size.xs",
@@ -245,7 +349,6 @@
     "font.weight.medium",
     "font.weight.regular",
     "font.weight.semibold",
-    "glow",
     "hairline",
     "icon-stroke",
     "line-height.normal",
@@ -253,6 +356,7 @@
     "line-height.tight",
     "motion.duration.fast",
     "motion.duration.normal",
+    "motion.duration.slow",
     "motion.duration.spring",
     "motion.easing",
     "motion.easingOut",
@@ -261,7 +365,6 @@
     "radius.button",
     "radius.container",
     "radius.pill",
-    "rim",
     "shadow.highlight",
     "shadow.raised",
     "space.1",
@@ -269,6 +372,7 @@
     "space.2",
     "space.3",
     "space.4",
-    "space.5"
+    "space.5",
+    "space.6"
   ]
 }

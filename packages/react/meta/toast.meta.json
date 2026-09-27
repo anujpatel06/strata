@@ -3,7 +3,7 @@
   "title": "Toast",
   "description": "A brief, stacked notification about something that just happened, with an optional action.",
   "category": "feedback",
-  "maturity": "alpha",
+  "maturity": "beta",
   "exports": [
     "ToastRegion",
     "toast"

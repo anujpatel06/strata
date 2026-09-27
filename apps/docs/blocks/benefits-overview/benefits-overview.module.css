@@ -125,6 +125,11 @@
   outline-offset: 2px;
 }
 
+/* Scoped under .rail so it outranks ChipGroup's own display whatever order the stylesheets load in. */
+.rail .railChips {
+  display: none;
+}
+
 .railLabel {
   overflow: hidden;
   min-inline-size: 0;
@@ -779,18 +784,19 @@
   }
 }
 
-/* Narrow: rail items become wrapping chips. */
+/* Narrow: the listboxes give way to the ChipGroups (the real Chip component, not a restyled rail). */
 @container (max-width: 759.98px) {
-  .railItem {
-    --_radius: var(--strata-radius-pill);
-    padding-inline: var(--strata-space-1) var(--strata-space-3);
-    background-color: var(--strata-color-surface-default);
-    box-shadow: inset 0 0 0 var(--strata-hairline) var(--strata-color-border-subtle);
+  .railList {
+    display: none;
   }
 
-  .railItem[data-selected] {
-    background-color: var(--strata-color-action-secondary-bg);
-    box-shadow: none;
+  .rail .railChips {
+    display: flex;
+  }
+
+  /* The heading lines up with the chips' outer edge, not with a list row's inner padding. */
+  .railHead {
+    padding-inline: 0;
   }
 
   .actions,

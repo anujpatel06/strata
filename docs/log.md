@@ -6,6 +6,51 @@ Numbers only with the command that produced them. Design trade-offs get an ADR i
 
 ---
 
+## 2026-09-27 (maturity) — written criteria for alpha, beta and stable; every component re-checked
+
+**Changed**
+- Governance page: new "Maturity" section with the criteria and how each is checked. Alpha (the floor) = complete meta, a test file, keyboard tests when meta lists keys, ≥3 examples, axe 0 light + dark, renders in all five tenants. Beta = alpha + used in a block or the homepage showcase + a person decides the API is settled (then it changes only by deprecation). Stable = beta + published on npm + a dated manual accessibility review (`review.a11y`) + production use + one release without a breaking change.
+- `pnpm check:meta` enforces the automatable criteria: a declared beta/stable that misses one is an error; an alpha that misses the floor is a printed note (nothing lower to move it to); stable is rejected while `@strata/react` is unpublished (`PUBLISHED_ON_NPM` in the script). New optional `review.a11y` meta field (a date, only for a real review).
+- The component page badge is now a link to the criteria with a tooltip on hover and focus; /docs/components shows a legend with counts per level read from meta.
+- Maturity before → after (`pnpm check:meta`): 13 alpha · 40 beta · 0 stable → 18 alpha · 35 beta · 0 stable. 15 beta → alpha (not used in a block, <3 examples, or no keyboard test); 10 alpha → beta (used in blocks, criteria met). Sidebar (being rebuilt) and Chip (new today) meet the beta checks but stay alpha.
+
+**Decided**
+- Criteria and the automated checks — **Claude recommended, Anuj accepted** the direction ("Explain + define rules").
+- The manual accessibility review sits at stable, not beta: none has happened yet, and axe/keyboard tests are automated checks, not a review — **Claude** (pending Anuj).
+
+**Next**
+- Close the alpha-floor gaps `pnpm check:meta` lists: a third example for Accordion, Chart, Command, Kbd, Popover, Separator, Sheet and Spinner; tests and examples for ThemeScope; a keyboard test for FileUpload.
+- Anuj: a real screen-reader review, recorded in `review.a11y`, before anything is proposed for stable.
+
+---
+
+## 2026-09-27 (research) — differentiation, mobile story, Hindi tenant
+
+**Changed**
+- New `docs/research/2026-09-27-differentiation.md`: four research passes (component libraries, theme generators, AI tooling, Indian consumer companies) with sources and a verification level on every claim.
+- ADR-018, 019 and 020 written.
+- BRIEF: §2 non-goal (no native components), §5 brand fidelity, §9 autofix, §10 widened eval, new §10a mobile reach, §13 Phase 5a.
+- Docs only. No code, tokens or components changed.
+
+**Decided**
+- Position Strata on published evidence; widen Phase 5 with a per-model eval, a brand fidelity metric and auditor autofix (ADR-018) — **Claude recommended, Anuj accepted**.
+- Mobile story is a server-driven UI schema plus native token export, not native components (ADR-019) — **Claude recommended, Anuj accepted**. Claude first recommended a native Compose slice and changed that after the research.
+- Add a Hindi tenant with per-script type tokens (ADR-020) — **Claude recommended, Anuj accepted**.
+
+**Results**
+- None. The research contains no Strata-measured numbers, and its figures must not appear on the site as Strata metrics.
+
+**Open for Anuj**
+- Hindi tenant: name, industry and six brand inputs; who reviews the Hindi copy.
+- Eval: which models to run, and the new run cap.
+- Native token exporter: own code or Style Dictionary downstream (ADR-001 revisit).
+
+**Next**
+- Phase 4 (governance) is unchanged and still next. Then Phase 5 as widened, then Phase 5a.
+- Follow-ups in the research file, §7: Untitled UI React in depth; live job descriptions; the legal sources at first hand.
+
+---
+
 ## 2026-09-27 (close) — every ADR decided
 
 **Decided**

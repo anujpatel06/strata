@@ -1,7 +1,17 @@
 import { useState } from 'react';
 import { act, render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { Sidebar, SidebarFooter, SidebarHeader, SidebarItem, SidebarSection, useSidebar } from '../src/ui/sidebar';
+import { Menu, MenuItem } from '../src/ui/menu';
+import {
+  Sidebar,
+  SidebarFooter,
+  SidebarHeader,
+  SidebarItem,
+  SidebarSearch,
+  SidebarSection,
+  SidebarUser,
+  useSidebar,
+} from '../src/ui/sidebar';
 
 const Icon = () => <svg data-testid="icon" />;
 
@@ -148,4 +158,161 @@ describe('Sidebar', () => {
     expect(item).toHaveAttribute('aria-current', 'page');
     expect(screen.getByRole('list')).not.toHaveAttribute('aria-labelledby');
   });
+});
+
+describe('Sidebar groups, search and user', () => {
+  function Full(props: Partial<React.ComponentProps<typeof Sidebar>> & { onSearch?: () => void; groupProps?: object }) {
+    const { onSearch, groupProps, ...rest } = props;
+    return (
+      <Sidebar aria-label="Main" {...rest}>
+        <SidebarHeader title="Tempo" subtitle="Team" />
+        <SidebarSearch shortcut="⌘K" onPress={onSearch} />
+        <SidebarSection title="Management">
+          <SidebarItem href="/org" icon={<Icon />}>Organization</SidebarItem>
+          <SidebarItem icon={<Icon />} label="Employees" count={2} {...groupProps}>
+            <SidebarItem href="/jonah">Jonah Adams</SidebarItem>
+            <SidebarItem href="/yuri" isCurrent>Yuri Jackson</SidebarItem>
+          </SidebarItem>
+        </SidebarSection>
+        <SidebarFooter>
+          <SidebarItem href="/settings" icon={<Icon />}>Settings</SidebarItem>
+          <SidebarUser
+            name="Maya Chen"
+            description="maya@example.com"
+            menu={
+              <Menu>
+                <MenuItem id="profile">Profile</MenuItem>
+                <MenuItem id="out">Sign out</MenuItem>
+              </Menu>
+            }
+          />
+        </SidebarFooter>
+      </Sidebar>
+    );
+  }
+
+  it('renders a group as a disclosure, open by default when it holds the current page', async () => {
+    const user = userEvent.setup();
+    render(<Full />);
+    const trigger = screen.getByRole('button', { name: 'Employees 2' });
+    expect(trigger).toHaveAttribute('aria-expanded', 'true');
+    expect(trigger).toHaveAttribute('aria-controls');
+    const current = screen.getByRole('link', { name: 'Yuri Jackson' });
+    expect(current).toHaveAttribute('aria-current', 'page');
+    // The panel is a group named by its trigger.
+    expect(screen.getByRole('group', { name: 'Employees 2' })).toContainElement(current);
+
+    trigger.focus();
+    await user.keyboard('{Enter}');
+    expect(trigger).toHaveAttribute('aria-expanded', 'false');
+    expect(screen.queryByRole('link', { name: 'Yuri Jackson' })).toBeNull();
+    await user.keyboard(' ');
+    expect(trigger).toHaveAttribute('aria-expanded', 'true');
+    // Tab moves from the trigger into the open group's links.
+    await user.tab();
+    expect(screen.getByRole('link', { name: 'Jonah Adams' })).toHaveFocus();
+  });
+
+  it('supports defaultExpanded and controlled isExpanded / onExpandedChange', async () => {
+    const user = userEvent.setup();
+    const onExpandedChange = vi.fn();
+    const { unmount } = render(<Full groupProps={{ defaultExpanded: false }} />);
+    expect(screen.getByRole('button', { name: 'Employees 2' })).toHaveAttribute('aria-expanded', 'false');
+    unmount();
+
+    render(<Full groupProps={{ isExpanded: false, onExpandedChange }} />);
+    const trigger = screen.getByRole('button', { name: 'Employees 2' });
+    await user.click(trigger);
+    expect(onExpandedChange).toHaveBeenCalledWith(true);
+    expect(trigger).toHaveAttribute('aria-expanded', 'false');
+  });
+
+  it('collapsed: a group opens its links in a named popover dialog; Escape closes it', async () => {
+    const user = userEvent.setup();
+    render(<Full collapsed />);
+    const trigger = screen.getByRole('button', { name: 'Employees 2' });
+    // React Aria's DialogTrigger announces the state through aria-expanded (it doesn't set aria-haspopup for dialogs).
+    expect(trigger).toHaveAttribute('aria-expanded', 'false');
+    expect(trigger).toHaveAttribute('data-current-ancestor', 'true');
+    await user.click(trigger);
+    const dialog = await screen.findByRole('dialog', { name: 'Employees' });
+    expect(within(dialog).getByRole('link', { name: 'Yuri Jackson' })).toHaveAttribute('aria-current', 'page');
+    expect(trigger).toHaveAttribute('aria-expanded', 'true');
+    await user.keyboard('{Escape}');
+    expect(screen.queryByRole('dialog')).toBeNull();
+  });
+
+  it('SidebarSearch: launcher mode calls onPress; the shortcut is a visual hint', async () => {
+    const user = userEvent.setup();
+    const onSearch = vi.fn();
+    render(<Full onSearch={onSearch} />);
+    const launcher = screen.getByRole('button', { name: 'Search' });
+    expect(launcher).toHaveTextContent('⌘K');
+    launcher.focus();
+    await user.keyboard('{Enter}');
+    expect(onSearch).toHaveBeenCalledTimes(1);
+  });
+
+  it('SidebarSearch: field mode is a searchbox; collapsed, its icon button expands the sidebar and focuses it', async () => {
+    const user = userEvent.setup();
+    const onCollapsedChange = vi.fn();
+    render(<Full defaultCollapsed onCollapsedChange={onCollapsedChange} />);
+    expect(screen.queryByRole('searchbox')).toBeNull();
+    await user.click(screen.getByRole('button', { name: 'Search' }));
+    expect(onCollapsedChange).toHaveBeenCalledWith(false);
+    expect(screen.getByRole('searchbox', { name: 'Search' })).toHaveFocus();
+    await user.keyboard('rota');
+    expect(screen.getByRole('searchbox')).toHaveValue('rota');
+  });
+
+  it('SidebarUser: shows the person, opens the account menu, and holds the collapse toggle', async () => {
+    const user = userEvent.setup();
+    const { container } = render(<Full defaultCollapsed={false} />);
+    expect(screen.getByText('Maya Chen')).toBeInTheDocument();
+    expect(screen.getByText('maya@example.com')).toBeInTheDocument();
+    // The toggle moved from the header to the user row.
+    const toggle = screen.getByRole('button', { name: 'Collapse sidebar' });
+    expect(toggle.closest('[class*="user"]')).not.toBeNull();
+    expect(container.querySelector('[class*="header"]')).not.toContainElement(toggle);
+
+    await user.click(screen.getByRole('button', { name: 'Account options' }));
+    const menu = await screen.findByRole('menu');
+    expect(within(menu).getByRole('menuitem', { name: 'Sign out' })).toBeInTheDocument();
+    await user.keyboard('{Escape}');
+
+    // Collapsed: the avatar is the menu button, named by the person; the toggle is still there.
+    await user.click(toggle);
+    const avatarButton = screen.getByRole('button', { name: 'Maya Chen' });
+    expect(avatarButton).toHaveAttribute('aria-haspopup', 'true');
+    expect(screen.getByRole('button', { name: 'Expand sidebar' })).toBeInTheDocument();
+    await user.click(avatarButton);
+    expect(await screen.findByRole('menu')).toBeInTheDocument();
+  });
+
+  it('footer items render as a list outside the nav landmark', () => {
+    render(<Full />);
+    const nav = screen.getByRole('navigation', { name: 'Main' });
+    const settings = screen.getByRole('link', { name: 'Settings' });
+    expect(nav).not.toContainElement(settings);
+    expect(settings.closest('ul')).toHaveAttribute('role', 'list');
+  });
+});
+
+it('partitions children passed through a Fragment (header and footer stay outside the nav)', () => {
+  render(
+    <Sidebar aria-label="Main">
+      <>
+        <SidebarHeader title="Tempo" />
+        <SidebarSection title="General">
+          <SidebarItem href="/a" icon={<Icon />}>Overview</SidebarItem>
+        </SidebarSection>
+        <SidebarFooter>
+          <SidebarUser name="Maya Chen" />
+        </SidebarFooter>
+      </>
+    </Sidebar>,
+  );
+  const nav = screen.getByRole('navigation');
+  expect(nav).not.toContainElement(screen.getByText('Tempo'));
+  expect(nav).not.toContainElement(screen.getByText('Maya Chen'));
 });

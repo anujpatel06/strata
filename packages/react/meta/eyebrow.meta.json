@@ -3,7 +3,7 @@
   "title": "Eyebrow",
   "description": "A small uppercase kicker label with wide tracking that sits above a heading, figure or section.",
   "category": "display",
-  "maturity": "alpha",
+  "maturity": "beta",
   "exports": [
     "Eyebrow"
   ],

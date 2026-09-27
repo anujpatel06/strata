@@ -18,7 +18,7 @@ import { IconLayoutDashboard, IconSparkles, IconTrendingUp, IconWallet } from '@
 
 export default function Example() {
   return (
-    <div style={{ blockSize: 520, display: 'flex', maxInlineSize: '100%' }}>
+    <div style={{ blockSize: 520, display: 'flex', maxInlineSize: '100%', minInlineSize: 0 }}>
       <Sidebar aria-label="Main" variant="floating">
         <SidebarHeader logo={<IconTile tint="solid" size="sm"><IconSparkles /></IconTile>} title="Ledger" subtitle="Free plan" />
         <SidebarSection title="Overview">

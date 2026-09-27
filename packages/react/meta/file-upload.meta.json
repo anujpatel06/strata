@@ -3,7 +3,7 @@
   "title": "File Upload",
   "description": "A drop zone with a browse button and the list of chosen files, with size and type checks.",
   "category": "inputs",
-  "maturity": "beta",
+  "maturity": "alpha",
   "exports": ["FileUpload"],
   "files": ["file-upload.tsx", "file-upload.module.css"],
   "dependencies": ["react-aria-components", "@strata/icons"],

@@ -3,7 +3,7 @@
   "title": "Person Chip",
   "description": "A person as a small avatar and their name in a pill, with a placeholder for someone not added yet.",
   "category": "display",
-  "maturity": "alpha",
+  "maturity": "beta",
   "exports": [
     "PersonChip",
     "PersonChipGroup"

@@ -3,7 +3,7 @@
   "title": "Theme Scope",
   "description": "Applies a Strata theme, colour scheme and density to everything inside it.",
   "category": "layout",
-  "maturity": "beta",
+  "maturity": "alpha",
   "exports": [
     "ThemeScope"
   ],

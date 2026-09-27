@@ -3,7 +3,7 @@
   "title": "Slider",
   "description": "Picks a number or a range by dragging or with the keyboard, with a formatted value next to the label.",
   "category": "inputs",
-  "maturity": "beta",
+  "maturity": "alpha",
   "exports": [
     "Slider"
   ],

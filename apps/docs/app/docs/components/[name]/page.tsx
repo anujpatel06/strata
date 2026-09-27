@@ -5,7 +5,7 @@ import type { Metadata } from 'next';
 import type { CSSProperties } from 'react';
 import { notFound } from 'next/navigation';
 import { DocsPage } from '@/components/docs/docs-page';
-import { MaturityBadge } from '@/components/docs/maturity-badge';
+import { MaturityBadgeLink } from '@/components/docs/maturity-badge';
 import { CodeBlock } from '@/components/mdx/code-block';
 import { PackageCommand } from '@/components/mdx/package-command';
 import { H2, H3, P, Steps, Table, A } from '@/components/mdx/prose';
@@ -147,7 +147,7 @@ export default async function ComponentPage({ params }: { params: Promise<{ name
       description={meta.description}
       meta={
         <>
-          <MaturityBadge maturity={meta.maturity} size="md" />
+          <MaturityBadgeLink maturity={meta.maturity} size="md" />
           <span className={styles.metaLinks}>
             {meta.reactAria && (
               <a href={meta.reactAria} className={styles.metaLink} target="_blank" rel="noreferrer">

@@ -1,28 +1,52 @@
 'use client';
 
 import { useState } from 'react';
-import { IconTile, Sidebar, SidebarHeader, SidebarItem, SidebarSection } from '@strata/react';
-import { IconBell, IconLayoutDashboard, IconReceipt, IconSettings, IconSparkles, IconWallet } from '@strata/icons';
+import {
+  IconTile,
+  Sidebar,
+  SidebarFooter,
+  SidebarHeader,
+  SidebarItem,
+  SidebarSearch,
+  SidebarSection,
+  SidebarUser,
+} from '@strata/react';
+import {
+  IconBuilding,
+  IconClock,
+  IconFileText,
+  IconHeadphones,
+  IconLayoutGrid,
+  IconSettings,
+  IconSparkles,
+  IconUsers,
+} from '@strata/icons';
 
+/** The icon rail. Tooltips name every icon; the Employees group opens its people in a popover. */
 export default function Example() {
   const [collapsed, setCollapsed] = useState(true);
   return (
-    <div style={{ blockSize: 440, display: 'flex', maxInlineSize: '100%' }}>
+    <div style={{ blockSize: 640, display: 'flex', maxInlineSize: '100%', minInlineSize: 0 }}>
       <Sidebar aria-label="Main" variant="floating" collapsed={collapsed} onCollapsedChange={setCollapsed}>
-        <SidebarHeader
-          logo={<IconTile tint="solid" size="sm"><IconSparkles /></IconTile>}
-          title="Ledger"
-          subtitle="Wealth dashboard"
-        />
-        <SidebarSection title="Overview">
-          <SidebarItem href="#dashboard" icon={<IconLayoutDashboard />}>Dashboard</SidebarItem>
-          <SidebarItem href="#wallets" icon={<IconWallet />} isCurrent>Wallets</SidebarItem>
-          <SidebarItem href="#statements" icon={<IconReceipt />} count={3}>Statements</SidebarItem>
+        <SidebarHeader logo={<IconTile tint="none" size="md"><IconSparkles /></IconTile>} title="Tempo" subtitle="Plan the team's week" />
+        <SidebarSearch shortcut="⌘K" />
+        <SidebarSection title="General">
+          <SidebarItem href="#overview" icon={<IconLayoutGrid />} isCurrent>Overview</SidebarItem>
+          <SidebarItem href="#tasks" icon={<IconFileText />} count={4}>Daily tasks</SidebarItem>
         </SidebarSection>
-        <SidebarSection title="Activity">
-          <SidebarItem href="#alerts" icon={<IconBell />} badge="New">Alerts</SidebarItem>
+        <SidebarSection title="Management">
+          <SidebarItem href="#organization" icon={<IconBuilding />}>Organization</SidebarItem>
+          <SidebarItem icon={<IconUsers />} label="Employees" count={2}>
+            <SidebarItem href="#jonah">Jonah Adams</SidebarItem>
+            <SidebarItem href="#yuri">Yuri Jackson</SidebarItem>
+          </SidebarItem>
+          <SidebarItem href="#time" icon={<IconClock />}>Time tracking</SidebarItem>
+        </SidebarSection>
+        <SidebarFooter>
+          <SidebarItem href="#support" icon={<IconHeadphones />}>Need support?</SidebarItem>
           <SidebarItem href="#settings" icon={<IconSettings />}>Settings</SidebarItem>
-        </SidebarSection>
+          <SidebarUser name="Maya Chen" description="maya@example.com" />
+        </SidebarFooter>
       </Sidebar>
     </div>
   );

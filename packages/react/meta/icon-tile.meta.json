@@ -3,7 +3,7 @@
   "title": "Icon Tile",
   "description": "A rounded-square tile holding an icon or logo on a contrast-checked tint or the brand fill.",
   "category": "display",
-  "maturity": "alpha",
+  "maturity": "beta",
   "exports": [
     "IconTile"
   ],

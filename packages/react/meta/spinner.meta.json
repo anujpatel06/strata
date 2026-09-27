@@ -3,7 +3,7 @@
   "title": "Spinner",
   "description": "A small loading indicator in the current text colour.",
   "category": "feedback",
-  "maturity": "beta",
+  "maturity": "alpha",
   "exports": [
     "Spinner"
   ],

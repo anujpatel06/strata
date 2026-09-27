@@ -3,7 +3,7 @@
   "title": "Kbd",
   "description": "A keyboard key or shortcut, shown as a small keycap.",
   "category": "display",
-  "maturity": "beta",
+  "maturity": "alpha",
   "exports": [
     "Kbd",
     "KbdGroup"

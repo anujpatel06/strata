@@ -3,7 +3,7 @@
   "title": "Meter",
   "description": "A quantity within a known range, such as wallet usage, storage or a limit, with a label, a readout and a slim track.",
   "category": "feedback",
-  "maturity": "alpha",
+  "maturity": "beta",
   "exports": [
     "Meter"
   ],

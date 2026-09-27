@@ -2,8 +2,9 @@
  * Badge — tone × variant are resolved into three private custom properties
  * (--_bg, --_fg, --_border) plus the dot colour, so each variant rule stays one line per tone.
  *
- * Finesse (ADR-013): a quiet chip. A soft pill, tinted fill, no visible border, medium weight, xs text with
- * its own tracking. Only the outline variant draws a real edge, since the edge is its whole look.
+ * Finesse (ADR-013): a quiet chip. A soft pill, tinted fill, medium weight, xs text with its own tracking.
+ * Edges are box-shadow hairlines, like Tag, PersonChip and Chip (the family): outline's edge is its whole look,
+ * soft neutral gets a faint one so a sunken fill never reads as a hole; tinted soft badges have none.
  * No corner-shape: squircle is for rounded rectangles; on a pill it flattens the round ends.
  */
 
@@ -12,44 +13,55 @@
   --_fg: var(--strata-color-text-default);
   --_border: transparent;
   --_dot: var(--strata-color-text-subtle);
+  --_h: var(--strata-space-6);
+  --_dot-size: calc(var(--strata-space-1) * 1.5);
 
   box-sizing: border-box;
   display: inline-flex;
   flex: none;
-  align-items: center;
+  /*
+   * Optical alignment. The text's line box is the badge's whole inner height, so the label is centred by its own
+   * half-leading (as before); items align on the baseline, which lets the dot sit on the x-height (see .dot), and
+   * the icon centres itself. Font-independent: no per-font offsets.
+   */
+  align-items: baseline;
   gap: var(--strata-space-1);
-  min-block-size: var(--strata-space-6);
+  min-block-size: var(--_h);
   max-inline-size: 100%;
   padding-block: 0;
   padding-inline: var(--strata-space-2);
-  border: 1px solid var(--_border);
+  /* Edges are hairlines drawn as box-shadow (Finesse); the transparent 1px keeps sizes equal and draws the edge in
+     forced colours. */
+  border: 1px solid transparent;
   border-radius: var(--strata-radius-pill);
   background-color: var(--_bg);
+  box-shadow: inset 0 0 0 var(--strata-hairline) var(--_border);
   color: var(--_fg);
   font-family: var(--strata-font-body);
   font-size: var(--strata-font-size-xs);
   font-variant-numeric: tabular-nums;
   font-weight: var(--strata-font-weight-medium);
   letter-spacing: var(--strata-font-tracking-xs);
-  line-height: 1;
+  line-height: calc(var(--_h) - 2px);
   vertical-align: middle;
   white-space: nowrap;
   transition:
     background-color var(--strata-motion-duration-fast) var(--strata-motion-easing),
     color var(--strata-motion-duration-fast) var(--strata-motion-easing),
-    border-color var(--strata-motion-duration-fast) var(--strata-motion-easing);
+    box-shadow var(--strata-motion-duration-fast) var(--strata-motion-easing);
 }
 
 .badge[data-size='sm'] {
+  --_h: var(--strata-space-5);
+
   gap: calc(var(--strata-space-1) * 0.75);
-  min-block-size: var(--strata-space-5);
   padding-inline: calc(var(--strata-space-2) * 0.75);
 }
 
 /* ---- soft (default) --------------------------------------------------- */
 
 /*
- * No visible border: the 1px stays reserved (so the outline variant is the same size) but transparent.
+ * No visible edge, except neutral (below): the 1px stays reserved (so the outline variant is the same size) but transparent.
  * A soft fill can match the surface it sits on (a warning badge in a selected table row, where
  * surface.selected ≈ the warning bg). The container that knows about that surface draws a faint
  * same-hue edge there (data-table does, for selected rows); on ordinary surfaces the tint alone reads.
@@ -57,6 +69,9 @@
 .badge[data-variant='soft'][data-tone='neutral'] {
   --_bg: var(--strata-color-surface-sunken);
   --_fg: var(--strata-color-text-default);
+  /* surface.sunken can be darker than the card it sits on (dark schemes), where a bare fill reads as a hole.
+     A border.subtle hairline, like Tag's neutral, keeps it a chip. */
+  --_border: var(--strata-color-border-subtle);
 }
 .badge[data-variant='soft'][data-tone='brand'] {
   --_bg: var(--strata-color-action-secondary-bg);
@@ -199,9 +214,12 @@
 .dot {
   position: relative;
   flex: none;
+  /* On the baseline (a box without text aligns its bottom edge there), then lifted so its centre is at half the
+     x-height: the dot lines up with the lowercase letters, not the line box. */
+  inset-block-end: calc(0.5ex - var(--_dot-size) / 2);
   /* 6px: a small light, never shouting. */
-  inline-size: calc(var(--strata-space-1) * 1.5);
-  block-size: calc(var(--strata-space-1) * 1.5);
+  inline-size: var(--_dot-size);
+  block-size: var(--_dot-size);
   border-radius: var(--strata-radius-pill);
   background-color: var(--_dot);
 }
@@ -209,12 +227,18 @@
 .icon {
   display: inline-flex;
   flex: none;
+  align-self: center;
   margin-inline-start: calc(var(--strata-space-1) * -0.5);
 }
 
 .icon > svg {
   inline-size: 1.1667em;
   block-size: 1.1667em;
+}
+
+/* In a pill the dot's halo needs a little more room before the label than the 4px gap gives. */
+.badge:not([data-variant='status']) > .dot {
+  margin-inline-end: calc(var(--strata-space-1) * 0.5);
 }
 
 /* The status dot gets a soft same-hue halo, so "● Active" reads as a light, not a bullet. */

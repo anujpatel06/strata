@@ -3,7 +3,7 @@
   "title": "Combobox",
   "description": "A text input that filters a list of options as people type, for picking from long lists.",
   "category": "inputs",
-  "maturity": "beta",
+  "maturity": "alpha",
   "exports": [
     "Combobox",
     "ComboboxItem",

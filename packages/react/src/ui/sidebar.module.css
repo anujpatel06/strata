@@ -1,24 +1,47 @@
 /*
- * Sidebar — app navigation. Every row is the same square-cornered grid: the icon sits in a control-height square at the
- * start, so collapsing to icons only removes the label column and nothing jumps sideways.
+ * Sidebar — app navigation, after Anuj's reference (2026-09-27): a recessed panel, quiet rows, one neutral raised pill
+ * for the current page, and a single small brand mark (on a nested group's guide line). Every row is the same grid:
+ * the icon sits in a control-height square at the start, so collapsing to the icon rail only removes the label column
+ * and nothing jumps sideways.
  *
- * --_pad is the panel's inline padding; the current-page bar sits in it, on the panel's inner edge.
- * --_icon-box is the icon's square (= control height); the row's inline padding centres the icon in it.
+ * Roles (every text pair is engine-checked, packages/theme-engine/src/contrast-pairs.json):
+ *   panel      floating: surface.canvas (dark: the darkest step, below the page's surface.default; light: a soft grey
+ *              under white pills). flush: surface.default. text.default / text.subtle / text.brand and focus.ring are
+ *              all checked on canvas and default.
+ *   pill       surface.raised + border.subtle hairline + the highlight sheen; text.default (and text.brand for the
+ *              nested bullet), both checked on raised. No brand fill, no glow.
+ *   marker     text.brand on the panel: ≥ 4.5:1 on canvas/default, so well over the 3:1 a non-text mark needs.
+ *
+ * --_pad       the panel's inline padding.
+ * --_icon      the glyph size: 1.25 × the row's text size (CONVENTIONS, "Icons match text").
+ * --_icon-box  the icon's square (= control height); the row's inline padding centres the icon in it.
+ * --_radius    rows, tiles and the user card: concentric with the panel, never rounder than the brand's buttons.
  */
 
-.sidebar {
+.sidebar,
+.flyout {
   --_pad: var(--strata-space-3);
-  --_icon: var(--strata-space-5);
+  --_icon: calc(var(--strata-font-size-sm) * 1.25);
   --_icon-box: var(--strata-control-height);
   --_row-pad: calc((var(--_icon-box) - var(--_icon)) / 2);
   --_panel: var(--strata-color-surface-default);
+  --_radius: max(
+    min(var(--strata-radius-badge), var(--strata-space-2)),
+    min(var(--strata-radius-button), calc(var(--strata-radius-container) - var(--_pad)))
+  );
+  --_tint: color-mix(in oklab, var(--strata-color-text-default) 6%, transparent);
+  --_tint-strong: color-mix(in oklab, var(--strata-color-text-default) 10%, transparent);
+}
 
+.sidebar {
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
   gap: var(--strata-space-4);
   inline-size: calc(var(--strata-space-16) * 4);
   max-inline-size: 100%;
+  /* As a flex item it may give way on narrow screens (labels ellipsize) instead of pushing the page wide. */
+  min-inline-size: 0;
   block-size: 100%;
   min-block-size: 0;
   padding-block: var(--_pad);
@@ -41,17 +64,18 @@
   inline-size: calc(var(--_icon-box) + var(--_pad) * 2 + 2px);
 }
 
-/* Floating: an inset panel with the rim light (see CONVENTIONS, Depth), the raised shadow and a hairline edge. */
+/*
+ * Floating: an inset panel. Recessed, not lit: the canvas tone (darker than the page's surface.default in dark), a
+ * hairline edge, the container radius and generous padding. The 1px transparent border keeps an edge in
+ * forced-colours mode.
+ */
 .sidebar[data-variant='floating'] {
-  --_panel: var(--strata-color-surface-raised);
+  --_pad: var(--strata-space-4);
+  --_panel: var(--strata-color-surface-canvas);
   border: 1px solid transparent;
   border-radius: var(--strata-radius-container);
-  background:
-    linear-gradient(var(--strata-color-surface-raised), var(--strata-color-surface-raised)) padding-box,
-    linear-gradient(135deg, var(--strata-rim), transparent 60%) border-box var(--strata-color-surface-raised);
   box-shadow:
     0 0 0 var(--strata-hairline) var(--strata-color-border-subtle),
-    var(--strata-shadow-highlight),
     var(--strata-shadow-raised);
 }
 
@@ -61,12 +85,41 @@
   }
 }
 
+/* Visually hidden, still in the accessibility tree (collapsed labels, titles, counts). */
+.sidebar[data-collapsed] :is(.brandText, .sectionTitle, .label, .count, .badge) {
+  position: absolute;
+  inline-size: 1px;
+  block-size: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
 /* ---- header ------------------------------------------------------------ */
 
 .header {
+  position: relative;
   display: grid;
   gap: var(--strata-space-3);
   padding-inline: var(--_pad);
+  padding-block-end: var(--strata-space-4);
+}
+
+/* The hairline under the brand block, inset to the content edges. */
+.header::after {
+  position: absolute;
+  inset-block-end: 0;
+  inset-inline: var(--_pad);
+  block-size: var(--strata-hairline);
+  background-color: var(--strata-color-border-subtle);
+  content: '';
+}
+
+.sidebar[data-collapsed] .header {
+  padding-block-end: 0;
+}
+.sidebar[data-collapsed] .header::after {
+  display: none;
 }
 
 .brand {
@@ -88,6 +141,7 @@
 .brandText {
   display: grid;
   flex: 1;
+  gap: calc(var(--strata-space-1) * 0.5);
   min-inline-size: 0;
 }
 
@@ -97,7 +151,7 @@
   font-family: var(--strata-font-heading);
   font-size: var(--strata-font-size-md);
   font-weight: var(--strata-font-weight-semibold);
-  letter-spacing: var(--strata-font-tracking-md);
+  letter-spacing: var(--strata-font-heading-tracking);
   line-height: var(--strata-line-height-tight);
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -106,11 +160,54 @@
 .subtitle {
   overflow: hidden;
   color: var(--strata-color-text-subtle);
-  font-size: var(--strata-font-size-xs);
-  letter-spacing: var(--strata-font-tracking-xs);
+  font-size: var(--strata-font-size-sm);
+  letter-spacing: var(--strata-font-tracking-sm);
   line-height: var(--strata-line-height-snug);
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+.sidebar[data-collapsed] .brand {
+  justify-content: center;
+}
+
+/* ---- icon buttons (toggle, ⋯) -------------------------------------------- */
+
+.iconButton {
+  box-sizing: border-box;
+  display: inline-grid;
+  flex: none;
+  place-items: center;
+  /* 28px: over the 24px target minimum at every density. */
+  inline-size: calc(var(--strata-space-6) + var(--strata-space-1));
+  block-size: calc(var(--strata-space-6) + var(--strata-space-1));
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: max(min(var(--strata-radius-badge), var(--strata-space-1)), calc(var(--_radius) - var(--strata-space-1)));
+  background-color: transparent;
+  color: var(--strata-color-text-subtle);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  outline: 0 solid transparent;
+  outline-offset: 0;
+}
+
+.iconButton > svg {
+  inline-size: var(--_icon);
+  block-size: var(--_icon);
+  stroke-width: var(--strata-icon-stroke, 1.5);
+}
+
+.iconButton[data-hovered],
+.iconButton[data-pressed] {
+  background-color: var(--_tint);
+  color: var(--strata-color-text-default);
+}
+
+/* The panel glyph's rail sits at the inline start, like the panel. */
+.toggle > svg:dir(rtl) {
+  scale: -1 1;
 }
 
 .toggleRow {
@@ -119,37 +216,87 @@
   padding-inline: var(--_pad);
 }
 
-.toggle {
-  margin-inline-start: auto;
-  color: var(--strata-color-text-subtle);
-}
-
-/* The chevron points the way the panel will move: toward the start to collapse, toward the end to expand. */
-.toggle > svg {
-  transition: rotate var(--strata-motion-duration-normal) var(--strata-motion-easing);
-}
-.sidebar[data-collapsed] .toggle > svg {
-  rotate: 180deg;
-}
-
-/* Collapsed: the brand block stacks (logo, then toggle) and the words go, visually only. */
-.sidebar[data-collapsed] .brand {
-  flex-direction: column;
-  gap: var(--strata-space-2);
-}
-.sidebar[data-collapsed] .toggle {
-  margin-inline-start: 0;
-}
-.sidebar[data-collapsed] .brandText {
-  position: absolute;
-  inline-size: 1px;
-  block-size: 1px;
-  overflow: hidden;
-  clip-path: inset(50%);
-  white-space: nowrap;
-}
 .sidebar[data-collapsed] .toggleRow {
   justify-content: center;
+}
+
+/* ---- search ------------------------------------------------------------ */
+
+.search {
+  position: relative;
+  display: grid;
+  padding-inline: var(--_pad);
+}
+
+/* The shortcut hint sits where the clear button appears; it steps aside once there is text. */
+.search > .searchKbd {
+  position: absolute;
+  inset-block-start: 50%;
+  inset-inline-end: calc(var(--_pad) + (var(--strata-control-height) - var(--strata-space-5)) / 2);
+  translate: 0 -50%;
+  pointer-events: none;
+}
+
+.search:not(:has(> [data-empty])) > .searchKbd {
+  visibility: hidden;
+}
+
+/* The launcher: a button dressed as a filled field (a tint and a hairline, not an input's edge: it isn't one). */
+.searchLauncher,
+.searchTile {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  gap: var(--strata-space-2);
+  min-block-size: var(--strata-control-height);
+  margin: 0;
+  border: 1px solid transparent;
+  border-radius: var(--_radius);
+  background-color: var(--_tint);
+  box-shadow: 0 0 0 var(--strata-hairline) var(--strata-color-border-subtle);
+  color: var(--strata-color-text-subtle);
+  font: inherit;
+  font-size: var(--strata-font-size-sm);
+  letter-spacing: var(--strata-font-tracking-sm);
+  text-align: start;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  outline: 0 solid transparent;
+  outline-offset: 0;
+}
+
+.searchLauncher {
+  inline-size: 100%;
+  padding-inline: calc((var(--strata-control-height) - var(--strata-space-4)) / 2 - 1px);
+}
+
+.searchIcon,
+.searchTile > svg {
+  flex: none;
+  inline-size: var(--strata-space-4);
+  block-size: var(--strata-space-4);
+  stroke-width: var(--strata-icon-stroke, 1.5);
+}
+
+.searchPlaceholder {
+  flex: 1;
+  min-inline-size: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.searchTile {
+  justify-content: center;
+  justify-self: center;
+  inline-size: var(--_icon-box);
+  padding: 0;
+}
+
+.searchLauncher[data-hovered],
+.searchTile[data-hovered] {
+  background-color: var(--_tint-strong);
+  color: var(--strata-color-text-default);
 }
 
 /* ---- nav --------------------------------------------------------------- */
@@ -163,6 +310,7 @@
   /* Room for the focus ring (2px offset + 2px ring) inside the scroll clip. */
   padding-block: var(--strata-space-1);
   padding-inline: var(--_pad);
+  margin-block: calc(var(--strata-space-1) * -1);
   overflow-y: auto;
   overscroll-behavior: contain;
   scrollbar-width: thin;
@@ -174,41 +322,26 @@
 }
 
 .sectionTitle {
-  padding-inline: var(--_row-pad);
+  /* Flush with the pill's edge (and the logo and search above), not indented to the icon. */
+  padding-inline: 0;
   padding-block-end: var(--strata-space-1);
   color: var(--strata-color-text-subtle);
   font-size: var(--strata-font-size-xs);
-  font-weight: var(--strata-font-weight-medium);
+  font-weight: var(--strata-font-weight-regular);
   letter-spacing: var(--strata-font-tracking-xs);
   line-height: var(--strata-line-height-snug);
 }
 
-/* Collapsed: the section label is visually hidden (it still names the list); a hairline separates the groups. */
-.sidebar[data-collapsed] .sectionTitle {
-  position: absolute;
-  inline-size: 1px;
-  block-size: 1px;
-  overflow: hidden;
-  clip-path: inset(50%);
-  white-space: nowrap;
-}
-.sidebar[data-collapsed] .section + .section {
-  padding-block-start: var(--strata-space-4);
-  box-shadow: inset 0 var(--strata-hairline) 0 var(--strata-color-border-subtle);
-}
-.sidebar[data-collapsed] .nav {
-  gap: var(--strata-space-4);
-}
-
 .list {
   display: grid;
-  gap: 2px;
+  gap: calc(var(--strata-space-1) * 0.5);
   margin: 0;
   padding: 0;
   list-style: none;
 }
 
 .listItem {
+  position: relative;
   display: grid;
   min-inline-size: 0;
 }
@@ -216,13 +349,15 @@
 /* ---- item -------------------------------------------------------------- */
 
 /*
- * A row: icon square, label, trailing count/badge. Rest = text.subtle on nothing; hover = the quiet tint; current =
- * surface.selected pill, text.default, medium weight, and the brand bar at the start edge. The current state is
- * carried by the fill, the bar and the weight together, and by aria-current for assistive tech, never by colour alone.
+ * A row: icon square, label, trailing count/badge (and a chevron on groups). Rest = text.subtle on nothing; hover =
+ * the quiet tint; current = the neutral raised pill, text.default, medium weight. The current page is carried by the
+ * pill and the weight together, and by aria-current for assistive tech, never by colour alone.
  */
 .item {
   --_bg: transparent;
   --_fg: var(--strata-color-text-subtle);
+  --_edge: transparent;
+  --_ring: var(--_panel);
 
   position: relative;
   box-sizing: border-box;
@@ -234,17 +369,14 @@
   margin: 0;
   padding-block: 0;
   padding-inline: var(--_row-pad);
-  border: 0;
-  /* Concentric with the panel, never rounder than the brand's buttons. */
-  border-radius: max(
-    min(var(--strata-radius-badge), var(--strata-space-2)),
-    min(var(--strata-radius-button), calc(var(--strata-radius-container) - var(--_pad)))
-  );
+  border: 1px solid transparent;
+  border-radius: var(--_radius);
   background-color: var(--_bg);
+  box-shadow: 0 0 0 var(--strata-hairline) var(--_edge);
   color: var(--_fg);
   font: inherit;
   font-size: var(--strata-font-size-sm);
-  font-weight: var(--strata-font-weight-medium);
+  font-weight: var(--strata-font-weight-regular);
   letter-spacing: var(--strata-font-tracking-sm);
   line-height: var(--strata-line-height-tight);
   text-align: start;
@@ -253,36 +385,45 @@
   -webkit-tap-highlight-color: transparent;
   outline: 0 solid transparent;
   outline-offset: 0;
-  transition:
-    background-color var(--strata-motion-duration-fast) var(--strata-motion-easing),
-    color var(--strata-motion-duration-fast) var(--strata-motion-easing),
-    box-shadow var(--strata-motion-duration-fast) var(--strata-motion-easing),
-    outline-offset var(--strata-motion-duration-fast) var(--strata-motion-easing);
 }
 
 @supports (corner-shape: squircle) {
-  .item {
+  .item,
+  .searchLauncher,
+  .searchTile,
+  .userCard {
     corner-shape: squircle;
   }
 }
 
 .item[data-hovered] {
-  --_bg: color-mix(in oklab, var(--strata-color-text-default) 6%, transparent);
+  --_bg: var(--_tint);
   --_fg: var(--strata-color-text-default);
 }
 
 .item[data-pressed] {
-  --_bg: color-mix(in oklab, var(--strata-color-text-default) 10%, transparent);
+  --_bg: var(--_tint-strong);
 }
 
-.item[data-current] {
-  --_bg: var(--strata-color-surface-selected);
+/* The current page (and, on the icon rail, the group that holds it): the neutral raised pill. */
+.item:is([aria-current='page'], [data-current]),
+.sidebar[data-collapsed] .item[data-current-ancestor] {
+  --_bg: var(--strata-color-surface-raised);
   --_fg: var(--strata-color-text-default);
-  /* A lit pill: the top-edge sheen. The brand halo sits on the indicator bar, where it reads as a glow, not a ring. */
-  box-shadow: var(--strata-shadow-highlight);
+  --_edge: var(--strata-color-border-subtle);
+  --_ring: var(--strata-color-surface-raised);
+  box-shadow:
+    0 0 0 var(--strata-hairline) var(--_edge),
+    var(--strata-shadow-highlight),
+    var(--strata-shadow-raised);
+  font-weight: var(--strata-font-weight-medium);
 }
 
-.item[data-focus-visible] {
+.item[data-focus-visible],
+.iconButton[data-focus-visible],
+.searchLauncher[data-focus-visible],
+.searchTile[data-focus-visible],
+.avatarButton[data-focus-visible] {
   outline: 2px solid var(--strata-color-focus-ring);
   outline-offset: 2px;
 }
@@ -290,19 +431,6 @@
 .item[data-disabled] {
   --_fg: var(--strata-color-text-disabled);
   cursor: default;
-}
-
-/* The brand indicator bar, on the panel's inner edge at the inline start (so it moves to the right in RTL). */
-.item[data-current]::before {
-  position: absolute;
-  inset-block: 25%;
-  inset-inline-start: calc(var(--_pad) * -1);
-  inline-size: calc(var(--strata-space-1) * 0.75);
-  border-start-end-radius: var(--strata-radius-pill);
-  border-end-end-radius: var(--strata-radius-pill);
-  background-color: var(--strata-color-action-primary-bg);
-  box-shadow: var(--strata-glow);
-  content: '';
 }
 
 .icon {
@@ -320,7 +448,7 @@
   stroke-width: var(--strata-icon-stroke, 1.5);
 }
 
-/* The count/badge dot on the icon: only shown when collapsed (the label and count are in the tooltip and the name). */
+/* The count/badge dot on the icon: only on the rail (the label and count are in the tooltip and the name). */
 .marker {
   position: absolute;
   inset-block-start: calc(var(--strata-space-1) * -0.5);
@@ -329,8 +457,8 @@
   inline-size: calc(var(--strata-space-1) * 1.5);
   block-size: calc(var(--strata-space-1) * 1.5);
   border-radius: var(--strata-radius-pill);
-  background-color: var(--strata-color-action-primary-bg);
-  box-shadow: 0 0 0 2px var(--_panel);
+  background-color: var(--strata-color-text-default);
+  box-shadow: 0 0 0 2px var(--_ring);
 }
 
 .label {
@@ -349,24 +477,150 @@
 .count {
   min-inline-size: var(--strata-space-5);
   justify-content: center;
+  font-variant-numeric: tabular-nums;
 }
 
-/* ---- collapsed items ----------------------------------------------------- */
+/* ---- groups ------------------------------------------------------------ */
+
+.group {
+  display: grid;
+  min-inline-size: 0;
+}
+
+/* Points to the inline end while closed (to the left in RTL) and down once open. */
+.chevron {
+  flex: none;
+  inline-size: var(--strata-space-4);
+  block-size: var(--strata-space-4);
+  margin-inline-end: calc(var(--strata-space-1) * -1);
+  color: var(--strata-color-text-subtle);
+  stroke-width: var(--strata-icon-stroke, 1.5);
+  rotate: -90deg;
+}
+
+.chevron:dir(rtl) {
+  rotate: 90deg;
+}
+
+.item[aria-expanded='true'] > .chevron {
+  rotate: 0deg;
+}
+
+/*
+ * Height: the panel is a one-row grid that animates grid-template-rows 0fr → 1fr (no measuring, no max-height).
+ * React Aria waits for the panel's transition before it sets hidden="until-found" on close, so the closed links
+ * leave the tab order.
+ */
+.panel {
+  display: grid;
+  grid-template-rows: 0fr;
+}
+
+.group[data-expanded] > .panel {
+  grid-template-rows: 1fr;
+}
+
+.clip {
+  min-block-size: 0;
+  overflow: clip;
+  /* Room for focus rings on the nested links. */
+  overflow-clip-margin: var(--strata-space-1);
+}
+
+/*
+ * The nested list hangs off a hairline guide under the parent's icon (on the inline-start side, so it moves in RTL).
+ * The current child gets the pill, its bullet in text.brand, and a small brand marker on the guide.
+ */
+.subList {
+  position: relative;
+  display: grid;
+  gap: calc(var(--strata-space-1) * 0.5);
+  margin: 0;
+  margin-inline-start: calc(var(--_row-pad) + var(--_icon) / 2);
+  padding: 0;
+  padding-block-start: calc(var(--strata-space-1) * 0.5);
+  padding-inline-start: var(--strata-space-2);
+  list-style: none;
+  opacity: 0;
+  transition: opacity var(--strata-motion-duration-fast) var(--strata-motion-easing);
+}
+
+.group[data-expanded] .subList {
+  opacity: 1;
+  transition-duration: var(--strata-motion-duration-slow);
+  transition-timing-function: var(--strata-motion-easing-out);
+}
+
+.subList::before {
+  position: absolute;
+  inset-block: calc(var(--strata-space-1) * 0.5) var(--strata-space-1);
+  inset-inline-start: 0;
+  inline-size: var(--strata-hairline);
+  background-color: var(--strata-color-border-subtle);
+  content: '';
+}
+
+.subList > .listItem[data-current]::before {
+  position: absolute;
+  z-index: 1;
+  inset-block: 30%;
+  inset-inline-start: calc(var(--strata-space-2) * -1 - 1px + var(--strata-hairline) / 2);
+  inline-size: 2px;
+  border-radius: var(--strata-radius-pill);
+  background-color: var(--strata-color-text-brand);
+  content: '';
+}
+
+.subList .listItem[data-current] .icon {
+  color: var(--strata-color-text-brand);
+}
+
+/* ---- collapsed group flyout ---------------------------------------------- */
+
+/* The popover's glass face (popover.module.css) is the panel here. */
+.flyout {
+  --_pad: var(--strata-space-1);
+  --_panel: var(--strata-color-surface-raised);
+}
+
+.flyoutDialog {
+  display: grid;
+  gap: var(--strata-space-1);
+  min-inline-size: calc(var(--strata-space-16) * 3);
+  padding: var(--strata-space-1);
+  outline: none;
+}
+
+.flyoutTitle {
+  padding-block: var(--strata-space-1);
+  padding-inline: var(--_row-pad);
+  color: var(--strata-color-text-subtle);
+  font-size: var(--strata-font-size-xs);
+  letter-spacing: var(--strata-font-tracking-xs);
+  line-height: var(--strata-line-height-snug);
+}
+
+.flyout .subList {
+  margin: 0;
+  padding: 0;
+  opacity: 1;
+}
+
+.flyout .subList::before,
+.flyout .subList > .listItem[data-current]::before {
+  display: none;
+}
+
+/* ---- collapsed rail ------------------------------------------------------- */
+
+.sidebar[data-collapsed] .list {
+  justify-items: center;
+}
 
 .sidebar[data-collapsed] .item {
   justify-content: center;
   inline-size: var(--_icon-box);
   padding-inline: 0;
-}
-
-/* Visually hidden, still the accessible name ("Inbox 3"). */
-.sidebar[data-collapsed] :is(.label, .count, .badge) {
-  position: absolute;
-  inline-size: 1px;
-  block-size: 1px;
-  overflow: hidden;
-  clip-path: inset(50%);
-  white-space: nowrap;
 }
 
 .sidebar[data-collapsed] .marker {
@@ -381,21 +635,128 @@
 
 /* ---- footer ------------------------------------------------------------ */
 
+/* Behind a full-width hairline: secondary items, then the user card with the toggle. */
 .footer {
   display: grid;
-  gap: var(--strata-space-2);
+  gap: var(--strata-space-3);
   min-inline-size: 0;
+  padding-block-start: var(--strata-space-4);
   padding-inline: var(--_pad);
+  box-shadow: inset 0 var(--strata-hairline) 0 var(--strata-color-border-subtle);
+}
+
+.footer > * + .user {
+  position: relative;
+  padding-block-start: var(--strata-space-3);
+}
+
+/* An inset hairline between the footer's items and the user card. */
+.footer > * + .user::before {
+  position: absolute;
+  inset-block-start: 0;
+  inset-inline: 0;
+  block-size: var(--strata-hairline);
+  background-color: var(--strata-color-border-subtle);
+  content: '';
 }
 
 .sidebar[data-collapsed] .footer {
   justify-items: center;
 }
 
+.user {
+  display: flex;
+  align-items: center;
+  gap: var(--strata-space-2);
+  min-inline-size: 0;
+}
+
+.userCard {
+  box-sizing: border-box;
+  display: flex;
+  flex: 1;
+  align-items: center;
+  gap: var(--strata-space-3);
+  min-inline-size: 0;
+  padding: var(--strata-space-2);
+  border: 1px solid transparent;
+  border-radius: var(--_radius);
+  box-shadow: 0 0 0 var(--strata-hairline) var(--strata-color-border-subtle);
+}
+
+.userText {
+  display: grid;
+  flex: 1;
+  min-inline-size: 0;
+}
+
+.userName,
+.userDescription {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.userName {
+  color: var(--strata-color-text-default);
+  font-size: var(--strata-font-size-sm);
+  font-weight: var(--strata-font-weight-medium);
+  letter-spacing: var(--strata-font-tracking-sm);
+  line-height: var(--strata-line-height-snug);
+}
+
+.userDescription {
+  color: var(--strata-color-text-subtle);
+  font-size: var(--strata-font-size-xs);
+  letter-spacing: var(--strata-font-tracking-xs);
+  line-height: var(--strata-line-height-snug);
+}
+
+.userMenu {
+  margin-inline-start: calc(var(--strata-space-1) * -1);
+}
+
+.sidebar[data-collapsed] .user {
+  flex-direction: column;
+}
+
+.avatarButton {
+  display: inline-grid;
+  place-items: center;
+  inline-size: var(--_icon-box);
+  block-size: var(--_icon-box);
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: var(--_radius);
+  background-color: transparent;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  outline: 0 solid transparent;
+  outline-offset: 0;
+}
+
 /* ---- motion ------------------------------------------------------------ */
 
+/* Colour fades stay on with reduced motion; they don't move anything. */
+.item,
+.iconButton,
+.searchLauncher,
+.searchTile,
+.avatarButton {
+  transition:
+    background-color var(--strata-motion-duration-fast) var(--strata-motion-easing),
+    color var(--strata-motion-duration-fast) var(--strata-motion-easing),
+    box-shadow var(--strata-motion-duration-fast) var(--strata-motion-easing),
+    outline-offset var(--strata-motion-duration-fast) var(--strata-motion-easing);
+}
+
 @media (prefers-reduced-motion: no-preference) {
-  .item {
+  .item,
+  .iconButton,
+  .searchLauncher,
+  .searchTile,
+  .avatarButton {
     transition:
       background-color var(--strata-motion-duration-fast) var(--strata-motion-easing),
       color var(--strata-motion-duration-fast) var(--strata-motion-easing),
@@ -404,20 +765,48 @@
       scale var(--strata-motion-duration-spring) var(--strata-motion-spring);
   }
 
-  .item[data-pressed] {
+  .item[data-pressed],
+  .searchLauncher[data-pressed] {
     scale: 0.97;
-    transition:
-      background-color var(--strata-motion-duration-fast) var(--strata-motion-easing),
-      scale var(--strata-motion-duration-fast) var(--strata-motion-easing);
   }
 
-  /* The bar grows in from its centre when a row becomes current. */
-  .item[data-current]::before {
-    animation: sidebar-bar-in var(--strata-motion-duration-spring) var(--strata-motion-spring);
+  .iconButton[data-pressed],
+  .searchTile[data-pressed],
+  .avatarButton[data-pressed] {
+    scale: 0.94;
   }
 
-  /* Labels fade in when the panel opens (they appear at once when it collapses: less to look at). */
-  .sidebar:not([data-collapsed]) :is(.label, .count, .badge, .brandText, .sectionTitle) {
+  /* The chevron turns with the spring: a small overshoot that settles. */
+  .chevron {
+    transition: rotate var(--strata-motion-duration-spring) var(--strata-motion-spring);
+  }
+
+  .panel {
+    transition: grid-template-rows var(--strata-motion-duration-normal) var(--strata-motion-easing);
+  }
+
+  .group[data-expanded] > .panel {
+    transition-duration: var(--strata-motion-duration-slow);
+    transition-timing-function: var(--strata-motion-easing-out);
+  }
+
+  /* Nested rows drop 4px into place as the group opens. */
+  .subList {
+    translate: 0 calc(var(--strata-space-1) * -1);
+    transition-property: opacity, translate;
+  }
+
+  .group[data-expanded] .subList {
+    translate: none;
+  }
+
+  /* The brand marker grows from its centre when a nested row becomes current. */
+  .subList > .listItem[data-current]::before {
+    animation: sidebar-marker-in var(--strata-motion-duration-spring) var(--strata-motion-spring);
+  }
+
+  /* Labels fade in when the panel opens (they go at once when it collapses: less to look at). */
+  .sidebar:not([data-collapsed]) :is(.label, .count, .badge, .brandText, .sectionTitle, .userText, .chevron) {
     animation: sidebar-fade-in var(--strata-motion-duration-normal) var(--strata-motion-easing-out);
   }
 
@@ -426,7 +815,7 @@
   }
 }
 
-@keyframes sidebar-bar-in {
+@keyframes sidebar-marker-in {
   from {
     scale: 1 0;
   }

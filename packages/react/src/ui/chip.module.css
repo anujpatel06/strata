@@ -1,0 +1,482 @@
+/*
+ * Chip — something the user picks or removes, in a pill (always a pill, like PersonChip and Badge, in every brand
+ * shape; no squircle, which would flatten the round ends).
+ *
+ * Height follows the control rhythm: md = --strata-control-height (a Button or TextField beside it), sm one 8px step
+ * less. So a sm chip is the height of a md PersonChip in the comfortable density, and they sit together.
+ *
+ * Quiet at rest: surface.default and a border.default hairline (box-shadow, Finesse), text.default, regular weight.
+ * Hover is a 4% tint. Selected: surface.selected, a brand-tinted hairline lifted by the raised shadow, medium weight
+ * and (filter mode) a check in text.brand. text.default, text.subtle and text.brand are each engine-checked on
+ * surface.default and surface.selected, so every label, count and check passes on both faces.
+ * Selection never relies on colour: the check (filter) and the weight (every mode) carry it, plus aria-selected.
+ */
+
+.root {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-2);
+  min-inline-size: 0;
+}
+
+/* The same label as a field's (text-field.module.css). */
+.label {
+  box-sizing: border-box;
+  inline-size: fit-content;
+  max-inline-size: 100%;
+  color: var(--strata-color-text-default);
+  font-size: var(--strata-font-size-sm);
+  font-weight: var(--strata-font-weight-medium);
+  letter-spacing: var(--strata-font-tracking-sm);
+  line-height: var(--strata-line-height-snug);
+  cursor: default;
+}
+
+.list {
+  box-sizing: border-box;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--strata-space-2);
+  min-inline-size: 0;
+  margin: 0;
+  padding: 0;
+  outline: none;
+}
+
+.list[data-size='sm'] {
+  gap: calc(var(--strata-space-1) * 1.5);
+}
+
+/*
+ * One row that scrolls sideways. The 4px padding (cancelled by a negative margin) leaves room for the focus ring and
+ * the press spring, which overflow would otherwise clip.
+ */
+.list[data-wrap='false'] {
+  flex-wrap: nowrap;
+  margin: calc(var(--strata-space-1) * -1);
+  padding: var(--strata-space-1);
+  overflow-x: auto;
+  overscroll-behavior-inline: contain;
+  scroll-padding-inline: var(--strata-space-1);
+  scrollbar-width: none;
+}
+.list[data-wrap='false']::-webkit-scrollbar {
+  display: none;
+}
+
+/* ---- chip ---------------------------------------------------------------- */
+
+.chip {
+  --_h: var(--strata-control-height);
+  --_icon: var(--strata-space-4);
+  --_gap: var(--strata-space-2);
+  /* Inline padding ~3/8 of the height (15px at 40, 12 at 32); a leading icon's side gets one 4px step less. */
+  --_pad: calc(var(--_h) * 0.375);
+  --_lead: calc(var(--_pad) - var(--strata-space-1));
+  /* The avatar and the remove button hug the round ends, inset evenly (concentric with the pill). */
+  --_face: calc(var(--_h) * 0.75);
+  --_x: min(var(--strata-space-6), var(--_face));
+  --_bg: var(--strata-color-surface-default);
+  --_edge: var(--strata-color-border-default);
+
+  position: relative;
+  box-sizing: border-box;
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  block-size: var(--_h);
+  max-inline-size: 100%;
+  margin: 0;
+  padding-block: 0;
+  padding-inline: var(--_pad);
+  /* Transparent: keeps sizes equal across states and draws the edge in forced-colours mode. */
+  border: 1px solid transparent;
+  border-radius: var(--strata-radius-pill);
+  background-color: var(--_bg);
+  box-shadow: 0 0 0 var(--strata-hairline) var(--_edge);
+  color: var(--strata-color-text-default);
+  font-family: var(--strata-font-body);
+  font-size: var(--strata-font-size-sm);
+  font-weight: var(--strata-font-weight-regular);
+  letter-spacing: var(--strata-font-tracking-sm);
+  line-height: 1;
+  white-space: nowrap;
+  vertical-align: middle;
+  cursor: pointer;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  outline: none;
+  outline-offset: 0;
+  transition:
+    background-color var(--strata-motion-duration-fast) var(--strata-motion-easing),
+    box-shadow var(--strata-motion-duration-fast) var(--strata-motion-easing),
+    color var(--strata-motion-duration-fast) var(--strata-motion-easing),
+    outline-offset var(--strata-motion-duration-fast) var(--strata-motion-easing);
+}
+
+.chip[data-size='sm'] {
+  --_h: calc(var(--strata-control-height) - var(--strata-space-2));
+  --_icon: calc(var(--strata-space-4) - 2px);
+  --_gap: calc(var(--strata-space-2) - 2px);
+}
+
+/*
+ * Parts are spaced by margins, not `gap`, so the collapsed check slot adds no space of its own. React Aria wraps the
+ * parts in a `display: contents` gridcell, so they're flex items of the chip but children of that cell.
+ */
+.chip > [role='gridcell'] > * + * {
+  margin-inline-start: var(--_gap);
+}
+.chip > [role='gridcell'] > .checkSlot + * {
+  margin-inline-start: 0;
+}
+
+.chip[data-icon] {
+  padding-inline-start: var(--_lead);
+}
+.chip[data-avatar] {
+  padding-inline-start: calc((var(--_h) - var(--_face)) / 2 - 1px);
+}
+.chip[data-allows-removing] {
+  padding-inline-end: calc((var(--_h) - var(--_x)) / 2 - 1px);
+}
+
+.chip[data-hovered] {
+  --_bg: color-mix(in oklab, var(--strata-color-text-default) 4%, var(--strata-color-surface-default));
+  --_edge: var(--strata-color-border-strong);
+}
+
+.chip[data-selected] {
+  --_bg: var(--strata-color-surface-selected);
+  --_edge: color-mix(in oklab, var(--strata-color-text-brand) 45%, transparent);
+
+  box-shadow:
+    0 0 0 var(--strata-hairline) var(--_edge),
+    var(--strata-shadow-raised);
+  font-weight: var(--strata-font-weight-medium);
+}
+.chip[data-selected][data-hovered] {
+  --_edge: color-mix(in oklab, var(--strata-color-text-brand) 65%, transparent);
+}
+
+.chip[data-focus-visible] {
+  z-index: 1;
+  outline: 2px solid var(--strata-color-focus-ring);
+  outline-offset: 2px;
+}
+
+.chip[data-disabled] {
+  --_bg: transparent;
+  --_edge: var(--strata-color-border-subtle);
+
+  box-shadow: 0 0 0 var(--strata-hairline) var(--_edge);
+  color: var(--strata-color-text-disabled);
+  cursor: default;
+}
+.chip[data-disabled][data-selected] {
+  --_bg: var(--strata-color-surface-sunken);
+}
+
+/* Not every mode has a pointer action: input chips are only focused and removed. */
+.chip[data-mode='input'] {
+  cursor: default;
+}
+.chip[data-mode='input'][data-hovered]:not([data-disabled]) {
+  --_bg: var(--strata-color-surface-default);
+  --_edge: var(--strata-color-border-default);
+}
+
+@media (forced-colors: active) {
+  .chip[data-selected] {
+    border-color: Highlight;
+  }
+}
+
+/* ---- label and count ----------------------------------------------------- */
+
+/*
+ * A string label reserves its medium-weight width with an invisible zero-height copy, so selecting doesn't shift it.
+ * A block, so a squeezed chip ends the label with an ellipsis instead of running into the count.
+ */
+.text {
+  display: block;
+  flex: 0 1 auto;
+  min-inline-size: 0;
+  overflow: hidden;
+  line-height: var(--strata-line-height-tight);
+  text-overflow: ellipsis;
+}
+.text[data-label]::after {
+  display: block;
+  block-size: 0;
+  overflow: hidden;
+  font-weight: var(--strata-font-weight-medium);
+  visibility: hidden;
+  content: attr(data-label);
+  pointer-events: none;
+  user-select: none;
+}
+
+/* A quiet trailing number, a little closer to its label than a separate part would be. */
+.chip > [role='gridcell'] > .count {
+  margin-inline-start: max(var(--strata-space-1), calc(var(--_gap) - var(--strata-space-1)));
+}
+.count {
+  flex: none;
+  color: var(--strata-color-text-subtle);
+  font-variant-numeric: tabular-nums;
+  font-weight: var(--strata-font-weight-medium);
+}
+.chip[data-disabled] .count {
+  color: var(--strata-color-text-disabled);
+}
+
+/* ---- leading icon, check and avatar -------------------------------------- */
+
+.icon {
+  display: inline-grid;
+  flex: none;
+  place-items: center;
+}
+.icon > svg {
+  grid-area: 1 / 1;
+  inline-size: var(--_icon);
+  block-size: var(--_icon);
+}
+.icon > svg:not(.check) {
+  stroke-width: var(--strata-icon-stroke, 1.75);
+}
+
+/* The check: one stroke that draws itself in (pathLength 1, dash offset 1.1 → 0), like Checkbox's. */
+.check {
+  flex: none;
+  inline-size: var(--_icon);
+  block-size: var(--_icon);
+  color: var(--strata-color-text-brand);
+  stroke-width: 2.5;
+}
+.check > path {
+  stroke-dasharray: 1 2;
+  stroke-dashoffset: 1.1;
+}
+.chip[data-selected] .check > path {
+  stroke-dashoffset: 0;
+}
+.chip[data-disabled] .check {
+  color: var(--strata-color-text-disabled);
+}
+
+/* In a filter icon chip the icon steps aside for the check (choice chips keep their icon). */
+.chip[data-mode='filter'][data-selected] .icon > svg:not(.check) {
+  opacity: 0;
+  scale: 0.6;
+}
+
+/* No icon: the check sits in a slot that opens from zero width (0fr → 1fr). */
+.checkSlot {
+  display: inline-grid;
+  flex: none;
+  grid-template-columns: 0fr;
+}
+.chip[data-selected] .checkSlot {
+  grid-template-columns: 1fr;
+}
+.checkInner {
+  display: flex;
+  min-inline-size: 0;
+}
+/* The check's side of the chip reads like an icon's: one 4px step tighter. */
+.checkInner > .check {
+  margin-inline: calc(var(--strata-space-1) * -1) var(--_gap);
+}
+
+/* An Avatar sized by the chip (three classes outrank Avatar's own [data-size] rule), with no pop of its own. */
+.avatar {
+  position: relative;
+  display: inline-grid;
+  flex: none;
+  place-items: center;
+}
+.chip .avatar > [data-size] {
+  --_size: var(--_face);
+
+  grid-area: 1 / 1;
+  animation: none;
+}
+
+/* Filter mode with an avatar: a brand disc with the check covers the face (action.primary fg on bg, a checked pair). */
+.checkDisc {
+  z-index: 2;
+  display: grid;
+  grid-area: 1 / 1;
+  place-items: center;
+  inline-size: var(--_face);
+  block-size: var(--_face);
+  border-radius: var(--strata-radius-pill);
+  background-color: var(--strata-color-action-primary-bg);
+  box-shadow: var(--strata-shadow-highlight);
+  opacity: 0;
+}
+.checkDisc > .check {
+  inline-size: 62%;
+  block-size: 62%;
+  color: var(--strata-color-action-primary-fg);
+}
+.chip[data-selected] .checkDisc {
+  opacity: 1;
+}
+
+/* ---- remove button (input mode) ------------------------------------------ */
+
+.remove {
+  position: relative;
+  box-sizing: border-box;
+  display: inline-grid;
+  flex: none;
+  place-items: center;
+  inline-size: var(--_x);
+  block-size: var(--_x);
+  margin-block: 0;
+  margin-inline-end: 0;
+  padding: 0;
+  border: 0;
+  border-radius: var(--strata-radius-pill);
+  outline: none;
+  outline-offset: 0;
+  background: transparent;
+  color: var(--strata-color-text-subtle);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition:
+    background-color var(--strata-motion-duration-fast) var(--strata-motion-easing),
+    color var(--strata-motion-duration-fast) var(--strata-motion-easing),
+    outline-offset var(--strata-motion-duration-fast) var(--strata-motion-easing);
+}
+/* The label and the × read as one unit: a slightly smaller gap before the button. */
+.chip > [role='gridcell'] > .remove {
+  margin-inline-start: calc(var(--_gap) - var(--strata-space-1));
+}
+
+/* Keep the hit area at 24px or more (WCAG 2.5.8) when the button is drawn smaller (sm chips in compact brands). */
+.remove::before {
+  position: absolute;
+  inset: min(0px, (var(--_x) - var(--strata-space-6)) / 2);
+  content: '';
+}
+
+.remove > svg {
+  inline-size: 66%;
+  block-size: 66%;
+  stroke-width: var(--strata-icon-stroke, 1.75);
+}
+
+.remove[data-hovered] {
+  background-color: color-mix(in oklab, var(--strata-color-text-default) 8%, transparent);
+  color: var(--strata-color-text-default);
+}
+
+.remove[data-focus-visible] {
+  outline: 2px solid var(--strata-color-focus-ring);
+  outline-offset: 1px;
+}
+
+.remove[data-disabled] {
+  background: transparent;
+  color: var(--strata-color-text-disabled);
+  cursor: default;
+}
+
+/* ---- motion -------------------------------------------------------------- */
+
+/*
+ * - Chips pop in when they appear (scale 0.8 → 1 on the spring, a quick fade), in reading order in a group. An input
+ *   chip that's added pops in the same way.
+ * - Press sinks to 0.96 and springs back past 1.
+ * - The check draws in on the spring; the icon it replaces shrinks away. The check slot opens 0fr → 1fr on the
+ *   spring: a layout transition, the same technique CONVENTIONS allows for height, applied to a 16px slot so the
+ *   chip grows instead of jumping (neighbours slide with it).
+ * - Reduced motion: no scale, pop or slot animation; the check and colours still fade.
+ */
+.check > path {
+  transition: stroke-dashoffset var(--strata-motion-duration-fast) var(--strata-motion-easing);
+}
+.icon > svg,
+.checkDisc {
+  transition: opacity var(--strata-motion-duration-fast) var(--strata-motion-easing);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .chip {
+    animation:
+      chip-fade-in var(--strata-motion-duration-fast) var(--strata-motion-easing-out) backwards,
+      chip-pop var(--strata-motion-duration-spring) var(--strata-motion-spring) backwards;
+    transition:
+      background-color var(--strata-motion-duration-fast) var(--strata-motion-easing),
+      box-shadow var(--strata-motion-duration-fast) var(--strata-motion-easing),
+      color var(--strata-motion-duration-fast) var(--strata-motion-easing),
+      outline-offset var(--strata-motion-duration-fast) var(--strata-motion-easing),
+      scale var(--strata-motion-duration-spring) var(--strata-motion-spring);
+  }
+  .list > .chip:nth-child(2) {
+    animation-delay: calc(var(--strata-motion-duration-fast) / 3);
+  }
+  .list > .chip:nth-child(3) {
+    animation-delay: calc(var(--strata-motion-duration-fast) / 3 * 2);
+  }
+  .list > .chip:nth-child(4) {
+    animation-delay: var(--strata-motion-duration-fast);
+  }
+  .list > .chip:nth-child(n + 5) {
+    animation-delay: calc(var(--strata-motion-duration-fast) / 3 * 4);
+  }
+
+  .chip[data-pressed]:not([data-disabled], [data-mode='input']) {
+    scale: 0.96;
+  }
+
+  .chip[data-selected] .check > path {
+    transition: stroke-dashoffset var(--strata-motion-duration-spring) var(--strata-motion-spring)
+      calc(var(--strata-motion-duration-fast) / 3);
+  }
+  .icon > svg {
+    transition:
+      opacity var(--strata-motion-duration-fast) var(--strata-motion-easing),
+      scale var(--strata-motion-duration-spring) var(--strata-motion-spring);
+  }
+  .checkSlot {
+    transition: grid-template-columns var(--strata-motion-duration-spring) var(--strata-motion-spring);
+  }
+  .checkDisc {
+    scale: 0.6;
+    transition:
+      opacity var(--strata-motion-duration-fast) var(--strata-motion-easing),
+      scale var(--strata-motion-duration-spring) var(--strata-motion-spring);
+  }
+  .chip[data-selected] .checkDisc {
+    scale: 1;
+  }
+
+  .remove {
+    transition:
+      background-color var(--strata-motion-duration-fast) var(--strata-motion-easing),
+      color var(--strata-motion-duration-fast) var(--strata-motion-easing),
+      outline-offset var(--strata-motion-duration-fast) var(--strata-motion-easing),
+      scale var(--strata-motion-duration-spring) var(--strata-motion-spring);
+  }
+  .remove[data-pressed] {
+    scale: 0.9;
+  }
+}
+
+@keyframes chip-fade-in {
+  from {
+    opacity: 0;
+  }
+}
+@keyframes chip-pop {
+  from {
+    scale: 0.8;
+  }
+}

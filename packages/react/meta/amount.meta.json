@@ -3,7 +3,7 @@
   "title": "Amount",
   "description": "Money set as typography: a locale-grouped figure in the heading face with a small raised currency sign.",
   "category": "display",
-  "maturity": "alpha",
+  "maturity": "beta",
   "exports": [
     "Amount"
   ],

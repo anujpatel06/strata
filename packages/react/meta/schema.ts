@@ -30,7 +30,16 @@ export interface ComponentMeta {
   /** One sentence: what it is for. */
   description: string;
   category: Category;
+  /**
+   * alpha | beta | stable. The criteria are the "Maturity" section of the governance docs page; `pnpm check:meta`
+   * enforces the automatable ones (examples, tests, keyboard tests, block use, npm publication).
+   */
   maturity: 'alpha' | 'beta' | 'stable';
+  /**
+   * Dated records of reviews a person actually did (YYYY-MM-DD). Never fill it from an automated run: axe and the
+   * test suite are checked separately. `a11y` = a manual keyboard + screen-reader review; stable requires it.
+   */
+  review?: { a11y?: string };
   /** Named exports from src/ui/<name>.tsx, main component first. */
   exports: string[];
   /** Files in src/ui this component ships (tsx + module.css), relative to src/ui. */

@@ -3,7 +3,7 @@
   "title": "Accordion",
   "description": "A stack of headings that each show or hide a section of content.",
   "category": "display",
-  "maturity": "beta",
+  "maturity": "alpha",
   "exports": ["Accordion", "AccordionItem"],
   "files": ["accordion.tsx", "accordion.module.css"],
   "dependencies": ["react-aria-components", "@strata/icons"],

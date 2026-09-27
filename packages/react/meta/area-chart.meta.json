@@ -3,7 +3,7 @@
   "title": "Area Chart",
   "description": "A trend over time: a smooth line with a gradient fill, plus LineChart for comparing series without fills.",
   "category": "data",
-  "maturity": "alpha",
+  "maturity": "beta",
   "exports": [
     "AreaChart",
     "LineChart"

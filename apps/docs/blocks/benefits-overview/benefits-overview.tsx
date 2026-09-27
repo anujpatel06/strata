@@ -14,7 +14,9 @@
  * Each state is said in words as well as colour.
  *
  * The rail is two React Aria listboxes with single selection. They filter the rows; they don't navigate.
- * From 760px of its own width the rail sits beside the list; below that it goes on top and its items wrap as chips.
+ * From 760px of its own width the rail sits beside the list; below that it goes on top and the same two filters render
+ * as Strata ChipGroups (choice mode, one tab stop each, arrow keys), bound to the same state. Only one of the two is
+ * displayed at a time, so assistive tech meets each filter once.
  *
  * `headingLevel` (default 1) is the level of the page title (visually hidden: the product has none). Above 1 the
  * block is embedded in another page and renders no <main> landmark.
@@ -29,6 +31,8 @@ import {
   Button,
   Card,
   CardContent,
+  Chip,
+  ChipGroup,
   Eyebrow,
   IconTile,
   Meter,
@@ -182,6 +186,11 @@ export function BenefitsOverview({ content: contentProp, headingLevel = 1, class
     if (keys !== 'all' && keys.size) set([...keys][0]!);
   };
 
+  // How many benefits each category holds (the chips show it; "All" is every benefit). Not narrowed by the other
+  // filters, so the numbers don't jump while you pick.
+  const categoryCount = (id: string) =>
+    id === ALL ? c.benefits.length : c.benefits.filter((b) => b.categories.includes(id)).length;
+
   const membersLabelId = `${uid}-members`;
   const categoriesLabelId = `${uid}-categories`;
   const walletTitleId = `${uid}-wallet`;
@@ -274,6 +283,24 @@ export function BenefitsOverview({ content: contentProp, headingLevel = 1, class
               </ListBoxItem>
             ))}
           </ListBox>
+          {/* Below 760px the same filter as chips (the list above is hidden there, and this one above it). */}
+          <ChipGroup
+            mode="choice"
+            size="sm"
+            aria-labelledby={membersLabelId}
+            selectedKeys={[member]}
+            onSelectionChange={single(setMember)}
+            className={styles.railChips}
+          >
+            <Chip id={ALL} icon={<IconUsers />}>
+              {L.everyone}
+            </Chip>
+            {c.members.map((m) => (
+              <Chip key={m.id} id={m.id} avatar={<Avatar name={m.name} alt="" tint="auto" />}>
+                {m.name}
+              </Chip>
+            ))}
+          </ChipGroup>
         </section>
 
         <section className={styles.railGroup} aria-labelledby={categoriesLabelId}>
@@ -311,6 +338,23 @@ export function BenefitsOverview({ content: contentProp, headingLevel = 1, class
               );
             })}
           </ListBox>
+          <ChipGroup
+            mode="choice"
+            size="sm"
+            aria-labelledby={categoriesLabelId}
+            selectedKeys={[category]}
+            onSelectionChange={single(setCategory)}
+            className={styles.railChips}
+          >
+            {c.categories.map((cat) => {
+              const Icon = ICONS[cat.icon];
+              return (
+                <Chip key={cat.id} id={cat.id} icon={<Icon />} count={categoryCount(cat.id)}>
+                  {cat.label}
+                </Chip>
+              );
+            })}
+          </ChipGroup>
         </section>
       </div>
 

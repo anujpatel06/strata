@@ -3,7 +3,7 @@
   "title": "Sheet",
   "description": "A modal panel that slides in from an edge of the viewport, for filters, details and secondary tasks that keep the page in context.",
   "category": "overlays",
-  "maturity": "beta",
+  "maturity": "alpha",
   "exports": [
     "Sheet"
   ],

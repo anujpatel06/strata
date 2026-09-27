@@ -3,7 +3,7 @@
   "title": "Text Area",
   "description": "A multi-line text input with label, help text, validation, optional auto-resize and a character counter.",
   "category": "inputs",
-  "maturity": "beta",
+  "maturity": "alpha",
   "exports": [
     "TextArea"
   ],

@@ -3,7 +3,7 @@
   "title": "Popover",
   "description": "A floating panel anchored to a trigger, for rich or interactive content such as a small form, filters or details.",
   "category": "overlays",
-  "maturity": "beta",
+  "maturity": "alpha",
   "exports": [
     "Popover"
   ],

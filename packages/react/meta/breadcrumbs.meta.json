@@ -3,7 +3,7 @@
   "title": "Breadcrumbs",
   "description": "Shows where the current page sits in the hierarchy, with links back to each level.",
   "category": "navigation",
-  "maturity": "beta",
+  "maturity": "alpha",
   "exports": ["Breadcrumbs", "Breadcrumb"],
   "files": ["breadcrumbs.tsx", "breadcrumbs.module.css"],
   "dependencies": ["react-aria-components", "@strata/icons"],

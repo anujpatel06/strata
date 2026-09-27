@@ -3,7 +3,7 @@
   "title": "Command",
   "description": "A ⌘K command palette: a modal search field that filters commands and destinations as you type.",
   "category": "overlays",
-  "maturity": "beta",
+  "maturity": "alpha",
   "exports": [
     "CommandDialog",
     "CommandItem",

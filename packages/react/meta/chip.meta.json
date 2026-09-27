@@ -1,0 +1,251 @@
+{
+  "name": "chip",
+  "title": "Chip",
+  "description": "Pills the user picks or removes: filters, a single choice, or values they entered.",
+  "category": "inputs",
+  "maturity": "alpha",
+  "exports": [
+    "ChipGroup",
+    "Chip"
+  ],
+  "files": [
+    "chip.tsx",
+    "chip.module.css"
+  ],
+  "dependencies": [
+    "react-aria-components",
+    "@strata/icons"
+  ],
+  "registryDependencies": [],
+  "reactAria": "https://react-spectrum.adobe.com/react-aria/TagGroup.html",
+  "usage": "import { Chip, ChipGroup } from '@strata/react';\n\nexport function Filters() {\n  return (\n    <ChipGroup label=\"Show\" defaultSelectedKeys={['sponsored']}>\n      <Chip id=\"sponsored\" count={3}>Sponsored</Chip>\n      <Chip id=\"discounted\" count={2}>Discounted</Chip>\n      <Chip id=\"consults\" count={4}>Consults</Chip>\n    </ChipGroup>\n  );\n}",
+  "examples": [
+    {
+      "name": "chip-demo",
+      "title": "Chip",
+      "description": "Filter chips with counts. \"All\" turns on when nothing else is."
+    },
+    {
+      "name": "chip-choice",
+      "title": "Choice",
+      "description": "mode=\"choice\": exactly one on, like a period picker that wraps."
+    },
+    {
+      "name": "chip-input",
+      "title": "Input",
+      "description": "mode=\"input\": entered values with a remove button; Delete or Backspace removes the focused chip."
+    },
+    {
+      "name": "chip-with-icons",
+      "title": "Icons and avatars",
+      "description": "A leading icon gives way to the check when selected; an avatar is covered by a check disc."
+    },
+    {
+      "name": "chip-sizes",
+      "title": "Sizes and one row",
+      "description": "md (the control height) and sm, and wrap={false} for a single row that scrolls, with a disabled chip."
+    },
+    {
+      "name": "chip-family",
+      "title": "Badge, Tag, PersonChip or Chip",
+      "description": "Badge = a state or count. Tag = a static attribute. PersonChip = a person. Chip = something the user picks or removes."
+    }
+  ],
+  "props": [
+    {
+      "component": "ChipGroup",
+      "name": "mode",
+      "type": "'filter' | 'choice' | 'input'",
+      "default": "'filter'",
+      "description": "filter = any number on (multiple selection) with a check on selected chips; choice = exactly one on (single selection, can't be emptied); input = removable values, not selectable (needs onRemove)."
+    },
+    {
+      "component": "ChipGroup",
+      "name": "label",
+      "type": "ReactNode",
+      "description": "Visible label above the chips. Without it, pass aria-label or aria-labelledby."
+    },
+    {
+      "component": "ChipGroup",
+      "name": "size",
+      "type": "'sm' | 'md'",
+      "default": "'md'",
+      "description": "md is the control height (40px comfortable, 32px compact), the same as a Button or TextField; sm is one 8px step smaller."
+    },
+    {
+      "component": "ChipGroup",
+      "name": "wrap",
+      "type": "boolean",
+      "default": "true",
+      "description": "Wrap onto more lines, or (false) keep one row that scrolls sideways."
+    },
+    {
+      "component": "ChipGroup",
+      "name": "selectedKeys / defaultSelectedKeys",
+      "type": "'all' | Iterable<Key>",
+      "description": "Controlled or initial selection (filter and choice modes)."
+    },
+    {
+      "component": "ChipGroup",
+      "name": "onSelectionChange",
+      "type": "(keys: Selection) => void",
+      "description": "Called when chips are turned on or off."
+    },
+    {
+      "component": "ChipGroup",
+      "name": "onRemove",
+      "type": "(keys: Set<Key>) => void",
+      "description": "input mode: called with the keys to remove (the remove button, Delete or Backspace)."
+    },
+    {
+      "component": "ChipGroup",
+      "name": "disabledKeys",
+      "type": "Iterable<Key>",
+      "description": "Chips that can't be focused, toggled or removed."
+    },
+    {
+      "component": "ChipGroup",
+      "name": "items",
+      "type": "Iterable<T>",
+      "description": "Items for a dynamic collection; children is then a function that renders one Chip."
+    },
+    {
+      "component": "ChipGroup",
+      "name": "renderEmptyState",
+      "type": "() => ReactNode",
+      "description": "Shown when there are no chips (e.g. every input chip was removed)."
+    },
+    {
+      "component": "ChipGroup",
+      "name": "children",
+      "type": "ReactNode | (item: T) => ReactNode",
+      "required": true,
+      "description": "Chip elements."
+    },
+    {
+      "component": "Chip",
+      "name": "id",
+      "type": "Key",
+      "required": true,
+      "description": "The chip's key in selection and onRemove."
+    },
+    {
+      "component": "Chip",
+      "name": "children",
+      "type": "ReactNode",
+      "required": true,
+      "description": "The label: one to three words."
+    },
+    {
+      "component": "Chip",
+      "name": "icon",
+      "type": "ReactNode",
+      "description": "Leading icon from @strata/icons. Decorative. In filter mode the check takes its place when selected."
+    },
+    {
+      "component": "Chip",
+      "name": "avatar",
+      "type": "ReactNode",
+      "description": "A leading Avatar (pass alt=\"\"). Sized to the chip; in filter mode a brand check disc covers it when selected."
+    },
+    {
+      "component": "Chip",
+      "name": "count",
+      "type": "number",
+      "description": "A quiet trailing number, formatted for the locale and read as part of the chip's name (\"Sponsored 3\")."
+    },
+    {
+      "component": "Chip",
+      "name": "textValue",
+      "type": "string",
+      "description": "Plain-text name when children isn't a string. The count is appended."
+    },
+    {
+      "component": "Chip",
+      "name": "isDisabled",
+      "type": "boolean",
+      "default": "false",
+      "description": "Disables this chip (same as listing it in disabledKeys)."
+    }
+  ],
+  "accessibility": {
+    "keyboard": [
+      {
+        "keys": "Tab",
+        "action": "Moves focus into the group (to the last focused chip), then (input mode) to that chip's remove button, then out."
+      },
+      {
+        "keys": "ArrowLeft / ArrowRight",
+        "action": "Moves between chips (flipped in RTL). Disabled chips are skipped."
+      },
+      {
+        "keys": "Home / End",
+        "action": "First / last chip."
+      },
+      {
+        "keys": "Space / Enter",
+        "action": "filter: turns the focused chip on or off. choice: selects it (the selected chip stays on)."
+      },
+      {
+        "keys": "Delete / Backspace",
+        "action": "input: removes the focused chip."
+      }
+    ],
+    "notes": [
+      "A React Aria TagGroup: role=\"grid\" named by the label (or aria-label), each chip a row with aria-selected in filter and choice modes; filter mode sets aria-multiselectable.",
+      "A chip's accessible name is its label plus its count (\"Sponsored 3\"), in the user's number format.",
+      "Selection isn't carried by colour alone: selected chips turn medium weight, filter chips show a check, and forced-colours mode draws a Highlight edge.",
+      "Remove buttons are named \"Remove <label>\" in the user's language and keep a 24px target at every size and density.",
+      "Icons, avatars and the check are decorative (aria-hidden or alt=\"\").",
+      "Motion (pop-in, press spring, check draw-in, the check slot opening) is off with reduced motion; colours and the check still fade."
+    ]
+  },
+  "guidelines": {
+    "do": [
+      "Use filter chips to narrow a list, choice chips for one option among a few, input chips for values the user typed or picked.",
+      "Keep labels to one to three words; add a count when it helps people choose.",
+      "Use wrap={false} for a filter row on narrow screens, and keep the first chips the most used."
+    ],
+    "dont": [
+      "Don't use a Chip for a status or count on its own (Badge), a static attribute (Tag) or a person (PersonChip).",
+      "Don't use chips to navigate between pages; use Tabs or links.",
+      "Don't mix modes in one group or put more than about ten chips in a row."
+    ]
+  },
+  "tokens": [
+    "color.surface.default",
+    "color.surface.selected",
+    "color.surface.sunken",
+    "color.text.default",
+    "color.text.subtle",
+    "color.text.brand",
+    "color.text.disabled",
+    "color.border.default",
+    "color.border.strong",
+    "color.border.subtle",
+    "color.action.primary.bg",
+    "color.action.primary.fg",
+    "color.focus.ring",
+    "control-height",
+    "radius.pill",
+    "font.body",
+    "font.size.sm",
+    "font.tracking.sm",
+    "font.weight.regular",
+    "font.weight.medium",
+    "line-height.snug",
+    "space.1",
+    "space.2",
+    "space.4",
+    "space.6",
+    "hairline",
+    "shadow.raised",
+    "shadow.highlight",
+    "icon.stroke",
+    "motion.duration.fast",
+    "motion.duration.spring",
+    "motion.spring",
+    "motion.easing",
+    "motion.easingOut"
+  ]
+}

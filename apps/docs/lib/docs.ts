@@ -118,9 +118,9 @@ export const DOC_PAGES: readonly DocPage[] = [
     slug: 'governance',
     href: '/docs/governance',
     title: 'Governance',
-    description: 'Decision records, how changes get in, and who decides.',
+    description: 'Decision records, how changes get in, maturity criteria, and who decides.',
     group: 'project',
-    keywords: 'adr decisions contribution rfc process',
+    keywords: 'adr decisions contribution rfc process maturity alpha beta stable graduation',
   },
   {
     slug: 'changelog',

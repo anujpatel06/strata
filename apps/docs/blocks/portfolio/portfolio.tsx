@@ -20,7 +20,6 @@
 import {
   AreaChart,
   Amount,
-  Avatar,
   Badge,
   BarChart,
   Button,
@@ -42,12 +41,12 @@ import {
   SidebarHeader,
   SidebarItem,
   SidebarSection,
+  SidebarUser,
   Sparkline,
   StatTile,
   StatTileGroup,
   ToggleButton,
   ToggleButtonGroup,
-  useSidebar,
   useSortedRows,
   type DataTableColumn,
   type DataTableSortDescriptor,
@@ -387,7 +386,7 @@ export function Portfolio({ content: contentProp, headingLevel = 1, className }:
       </SidebarSection>
       {withHeader && (
         <SidebarFooter>
-          <Account name={user.name} caption={L.nav.personal} />
+          <SidebarUser name={user.name} description={L.nav.personal} />
         </SidebarFooter>
       )}
     </>
@@ -705,22 +704,6 @@ export function Portfolio({ content: contentProp, headingLevel = 1, className }:
         </div>
       </div>
     </Main>
-  );
-}
-
-/** The signed-in person, in the sidebar footer. Collapsed, only the avatar shows and carries the name. */
-function Account({ name, caption }: { name: string; caption: string }): JSX.Element {
-  const { collapsed } = useSidebar();
-  return (
-    <div className={styles.account}>
-      <Avatar name={name} size="md" alt={collapsed ? name : ''} />
-      {!collapsed && (
-        <span className={styles.assetText}>
-          <span className={styles.assetName}>{name}</span>
-          <span className={styles.meta}>{caption}</span>
-        </span>
-      )}
-    </div>
   );
 }
 

@@ -124,3 +124,7 @@ export const IconTextDirectionRtl = createIcon('text-direction-rtl', [
   ['path', { d: 'M19 5.5H5M19 10h-9' }],
   ['path', { d: 'M19 16.5H5.5M8.25 13.75 5.5 16.5l2.75 2.75' }],
 ]);
+// A panel with its rail at the inline start: the sidebar collapse toggle (moved from sidebar.tsx).
+export const IconLayoutSidebar = createIcon('layout-sidebar', [['rect', { x: 3, y: 4, width: 18, height: 16, rx: 4.5 }], ['path', { d: 'M9.5 4v16' }]]);
+// A small rounded square: a bullet for list items that have no icon of their own (moved from sidebar.tsx).
+export const IconSquareSmall = createIcon('square-small', [['rect', { x: 7.5, y: 7.5, width: 9, height: 9, rx: 2.5 }]]);

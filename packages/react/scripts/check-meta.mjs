@@ -9,6 +9,14 @@
  * the first is <name>-demo · registryDependencies have metas · imports match dependencies/registryDependencies
  * (the same rules the registry build enforces). Also flags src/ui/*.tsx files with no meta.
  * Prints a table, then every problem. Exit 1 on any error. Options: --pkg <dir>, --examples <dir>.
+ *
+ * Maturity criteria (the "Maturity" section of apps/docs/content/docs/governance.mdx; keep the two in step):
+ *   alpha  = the floor: ≥3 examples · a test file · if meta lists keyboard interactions, a test drives the keyboard.
+ *   beta   = alpha + imported from '@strata/react' by a block (apps/docs/blocks/**) or the homepage showcase.
+ *   stable = beta + published on npm + a dated manual accessibility review (meta.review.a11y).
+ * A declared beta or stable that misses a criterion is an error. A declared alpha that misses the floor is a warning:
+ * there is no lower level to move it to, so the gap is listed until someone closes it. Axe (0 violations on the docs
+ * page, light and dark) and the five-tenant render are browser checks: scripts/axe-sweep.mjs and the playground, not this file.
  */
 import { existsSync, readFileSync, readdirSync } from 'node:fs';
 import path from 'node:path';
@@ -26,6 +34,76 @@ const uiDir = path.join(pkgDir, 'src/ui');
 
 const CATEGORIES = ['actions', 'inputs', 'overlays', 'feedback', 'display', 'navigation', 'data', 'layout'];
 const MATURITY = ['alpha', 'beta', 'stable'];
+
+/**
+ * @strata/react has never been published to npm (0.1.0 is built, not released), so nothing may be declared stable.
+ * package.json can't tell us this: it has publishConfig ready and no `private` flag, on purpose. Flip this to true
+ * in the release that actually publishes the package.
+ */
+const PUBLISHED_ON_NPM = false;
+const MIN_EXAMPLES = 3;
+const blocksDir = path.join(REPO_ROOT, 'apps/docs/blocks');
+const showcaseDir = path.join(REPO_ROOT, 'apps/docs/components/showcase');
+const testDir = path.join(pkgDir, 'test');
+
+/** Every name imported from '@strata/react' by a block or the homepage showcase → the files that import it. */
+function productUsage() {
+  const walk = (dir) =>
+    existsSync(dir)
+      ? readdirSync(dir, { withFileTypes: true }).flatMap((e) =>
+          e.isDirectory() ? walk(path.join(dir, e.name)) : e.name.endsWith('.tsx') ? [path.join(dir, e.name)] : [],
+        )
+      : [];
+  const files = [...walk(blocksDir), ...(existsSync(showcaseDir) ? readdirSync(showcaseDir).filter((f) => f.endsWith('.tsx')).map((f) => path.join(showcaseDir, f)) : [])];
+  const used = new Map();
+  for (const file of files) {
+    const source = readFileSync(file, 'utf8');
+    for (const m of source.matchAll(/import\s+(?:type\s+)?\{([^}]*)\}\s*from\s*['"]@strata\/react['"]/g)) {
+      for (const part of m[1].split(',')) {
+        const n = part.trim().replace(/^type\s+/, '').split(/\s+as\s+/)[0];
+        if (!n) continue;
+        if (!used.has(n)) used.set(n, new Set());
+        used.get(n).add(path.relative(REPO_ROOT, file));
+      }
+    }
+  }
+  return used;
+}
+
+/** A test "drives the keyboard" if it presses keys: user.keyboard(), user.tab() or fireEvent.keyDown/keyUp. */
+const drivesKeyboard = (source) => /\.keyboard\(|\.tab\(|fireEvent\.key(?:Down|Up)\(/.test(source);
+
+/**
+ * The criteria each level adds, as plain-words failures (empty = met). Not cumulative: beta's list is only what beta adds.
+ */
+function maturityGaps(meta, usage) {
+  const alpha = [];
+  const beta = [];
+  const stable = [];
+  const examples = Array.isArray(meta.examples) ? meta.examples.length : 0;
+  if (examples < MIN_EXAMPLES) alpha.push(`has ${examples} example(s); alpha needs at least ${MIN_EXAMPLES}`);
+  const testFile = path.join(testDir, `${meta.name}.test.tsx`);
+  const testSource = existsSync(testFile) ? readFileSync(testFile, 'utf8') : null;
+  if (testSource === null) alpha.push(`has no test file (test/${meta.name}.test.tsx)`);
+  const keys = meta.accessibility?.keyboard?.length ?? 0;
+  if (testSource !== null && keys > 0 && !drivesKeyboard(testSource)) {
+    alpha.push(`meta lists ${keys} keyboard interaction(s) but no test presses a key`);
+  }
+  const exports = isStrArr(meta.exports) ? meta.exports : [];
+  const where = new Set(exports.flatMap((e) => [...(usage.get(e) ?? [])]));
+  if (where.size === 0) beta.push('is not used in any block or the homepage showcase');
+  if (!PUBLISHED_ON_NPM) stable.push('@strata/react is not published on npm yet, so nothing can be stable');
+  if (!isStr(meta.review?.a11y)) stable.push('has no recorded manual accessibility review (review.a11y)');
+  return { alpha, beta, stable, usedIn: [...where].sort() };
+}
+
+/** The highest level whose criteria (and every lower level's) are met; 'none' if even alpha's floor isn't. */
+function levelMet(gaps) {
+  if (gaps.alpha.length) return 'none';
+  if (gaps.beta.length) return 'alpha';
+  if (gaps.stable.length) return 'beta';
+  return 'stable';
+}
 
 const isStr = (v) => typeof v === 'string' && v.trim().length > 0;
 const isStrArr = (v) => Array.isArray(v) && v.every((s) => typeof s === 'string');
@@ -80,6 +158,12 @@ function checkMeta(name, file) {
     if (!isStr(k?.keys) || !isStr(k?.action)) errors.push(`accessibility.keyboard[${i}]: needs keys and action`);
   });
   if (!meta.guidelines || !isStrArr(meta.guidelines.do) || !isStrArr(meta.guidelines.dont)) errors.push('guidelines: needs do[] and dont[]');
+  if (meta.review !== undefined) {
+    const date = meta.review?.a11y;
+    if (typeof meta.review !== 'object' || meta.review === null) errors.push('review: must be an object when present');
+    else if (date !== undefined && (!/^\d{4}-\d{2}-\d{2}$/.test(date) || Number.isNaN(Date.parse(date)))) errors.push(`review.a11y: "${date}" must be a YYYY-MM-DD date`);
+    else if (date !== undefined && Date.parse(date) > Date.now()) errors.push(`review.a11y: ${date} is in the future`);
+  }
 
   // Identity.
   if (meta.name !== name) errors.push(`name: "${meta.name}" must equal the file name "${name}"`);
@@ -143,13 +227,29 @@ function table(rows) {
 
 function main() {
   const metas = listMeta(path.join(pkgDir, 'meta'));
-  const rows = [['component', 'maturity', 'files', 'exports', 'examples', 'deps', 'reg deps', 'errors', 'status']];
+  const usage = productUsage();
+  const rows = [['component', 'maturity', 'meets', 'files', 'exports', 'examples', 'deps', 'reg deps', 'errors', 'status']];
   const problems = [];
   const notes = [];
+  const maturityNotes = [];
   for (const { name, file } of metas) {
     const { meta, errors, warnings } = checkMeta(name, file);
+    let met = '-';
+    if (meta && MATURITY.includes(meta.maturity)) {
+      // Maturity criteria: a declared level must be met; the floor (alpha) can only be flagged.
+      const gaps = maturityGaps(meta, usage);
+      met = levelMet(gaps);
+      const required = { alpha: ['alpha'], beta: ['alpha', 'beta'], stable: ['alpha', 'beta', 'stable'] }[meta.maturity];
+      for (const level of required) {
+        for (const gap of gaps[level]) {
+          if (level === 'alpha' && meta.maturity === 'alpha') maturityNotes.push(`${name}: below the alpha bar: ${gap}`);
+          else errors.push(`maturity: declared ${meta.maturity}, but ${gap} (${level === "alpha" ? "an" : "a"} ${level} criterion)`);
+        }
+      }
+      if (meta.maturity === 'alpha' && met === 'beta') maturityNotes.push(`${name}: declared alpha but meets beta (used in ${gaps.usedIn.length} block/showcase file(s)); promote it if the API is settled`);
+    }
     const n = (v) => (Array.isArray(v) ? v.length : '-');
-    rows.push([name, meta?.maturity ?? '-', n(meta?.files), n(meta?.exports), n(meta?.examples), n(meta?.dependencies), n(meta?.registryDependencies), errors.length, errors.length ? 'FAIL' : 'ok']);
+    rows.push([name, meta?.maturity ?? '-', met, n(meta?.files), n(meta?.exports), n(meta?.examples), n(meta?.dependencies), n(meta?.registryDependencies), errors.length, errors.length ? 'FAIL' : 'ok']);
     problems.push(...errors.map((e) => `${name}: ${e}`));
     notes.push(...warnings.map((w) => `${name}: ${w}`));
   }
@@ -158,13 +258,16 @@ function main() {
     ? readdirSync(uiDir).filter((f) => f.endsWith('.tsx')).map((f) => f.slice(0, -4)).filter((n) => !withMeta.has(n)).sort()
     : [];
   for (const n of orphans) {
-    rows.push([n, '-', '-', '-', '-', '-', '-', 1, 'NO META']);
+    rows.push([n, '-', '-', '-', '-', '-', '-', '-', 1, 'NO META']);
     problems.push(`${n}: src/ui/${n}.tsx has no meta/${n}.meta.json`);
   }
 
   console.log(table(rows));
   const ok = rows.slice(1).filter((r) => r.at(-1) === 'ok').length;
   console.log(`\n${ok}/${rows.length - 1} component(s) pass · ${metas.length} meta file(s) · ${orphans.length} component(s) without meta`);
+  const levels = Object.fromEntries(MATURITY.map((l) => [l, rows.slice(1).filter((r) => r[1] === l).length]));
+  console.log(`maturity: ${MATURITY.map((l) => `${levels[l]} ${l}`).join(' · ')} (criteria: apps/docs/content/docs/governance.mdx#maturity)`);
+  if (maturityNotes.length) console.warn(`\n! ${maturityNotes.length} maturity note(s) (not errors):\n  ${maturityNotes.join('\n  ')}`);
   if (notes.length) console.warn(`\n! ${notes.length} warning(s):\n  ${notes.join('\n  ')}`);
   if (problems.length) {
     console.error(`\n✗ ${problems.length} error(s):\n  ${problems.join('\n  ')}`);

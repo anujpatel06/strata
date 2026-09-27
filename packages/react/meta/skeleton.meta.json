@@ -3,7 +3,7 @@
   "title": "Skeleton",
   "description": "Placeholder shapes that stand in for content while it loads.",
   "category": "feedback",
-  "maturity": "beta",
+  "maturity": "alpha",
   "exports": [
     "Skeleton",
     "SkeletonText"

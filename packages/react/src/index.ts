@@ -13,6 +13,7 @@ export * from './ui/calendar';
 export * from './ui/card';
 export * from './ui/chart';
 export * from './ui/checkbox';
+export * from './ui/chip';
 export * from './ui/combobox';
 export * from './ui/command';
 export * from './ui/data-table';

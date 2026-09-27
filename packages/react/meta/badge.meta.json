@@ -40,7 +40,7 @@
     {
       "component": "Badge",
       "name": "tone",
-      "type": "'neutral' | 'info' | 'success' | 'warning' | 'danger | 'brand'",
+      "type": "'neutral' | 'info' | 'success' | 'warning' | 'danger' | 'brand'",
       "default": "'neutral'",
       "description": "Colour. `brand` uses the primary action colours."
     },
@@ -49,7 +49,7 @@
       "name": "variant",
       "type": "'soft' | 'solid' | 'outline' | 'status'",
       "default": "'soft'",
-      "description": "soft = quiet pill with a tinted fill and no border (default), solid = strong fill, outline = border only, status = no chip: a small tone dot plus the label in text.default (text.subtle for neutral), for tables and lists."
+      "description": "soft = quiet pill with a tinted fill (neutral adds a faint hairline edge so a sunken fill never reads as a hole), solid = strong fill, outline = a hairline edge only, status = no chip: a small tone dot plus the label in text.default (text.subtle for neutral), for tables and lists."
     },
     {
       "component": "Badge",
@@ -69,7 +69,7 @@
       "name": "dot",
       "type": "boolean",
       "default": "false",
-      "description": "Shows a small status dot before the label. Always on for variant=\"status\"."
+      "description": "Shows a small status dot before the label, centred on the text's x-height. Always on for variant=\"status\"."
     },
     {
       "component": "Badge",
@@ -84,7 +84,8 @@
     "notes": [
       "A badge is plain text (a span); it is not focusable and has no role.",
       "Icons and the dot are aria-hidden: the label must carry the meaning on its own.",
-      "Every tone pairing (soft bg/fg, solid/onSolid) is a contrast pair the theme engine guarantees."
+      "Every tone pairing (soft bg/fg, solid/onSolid) is a contrast pair the theme engine guarantees.",
+      "Edges are box-shadow hairlines over a transparent 1px border, so forced-colours mode still draws an edge."
     ]
   },
   "guidelines": {
@@ -92,7 +93,8 @@
       "Use soft badges in tables and lists; save solid for one badge that must stand out.",
       "Keep labels to one or two words.",
       "Use the same tone for the same status everywhere.",
-      "Use variant=\"status\" in tables and dense lists, where a column of filled pills gets loud."
+      "Use variant=\"status\" in tables and dense lists, where a column of filled pills gets loud.",
+      "Pick by job: Badge = a state or count, Tag = a static attribute, PersonChip = a person, Chip = something the user picks or removes (see the chip-family example)."
     ],
     "dont": [
       "Don't make a badge interactive — use a Button or ToggleButton.",
@@ -135,6 +137,8 @@
     "motion.spring",
     "color.border.strong",
     "font.size.sm",
-    "font.tracking.sm"
+    "font.tracking.sm",
+    "color.border.subtle",
+    "hairline"
   ]
 }

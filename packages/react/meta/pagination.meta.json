@@ -3,7 +3,7 @@
   "title": "Pagination",
   "description": "Moves between pages of a long list or table.",
   "category": "navigation",
-  "maturity": "beta",
+  "maturity": "alpha",
   "exports": ["Pagination"],
   "files": ["pagination.tsx", "pagination.module.css"],
   "dependencies": ["react-aria-components", "@strata/icons"],

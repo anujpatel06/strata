@@ -1,0 +1,15 @@
+/* The badge as a link: a ≥24px target around the badge, the standard 2px focus ring, and a quiet hover. */
+.link.link {
+  display: inline-flex;
+  align-items: center;
+  min-block-size: var(--strata-space-6);
+  min-inline-size: var(--strata-space-6);
+  border-radius: var(--strata-radius-badge);
+  text-decoration: none;
+}
+.link.link > :last-child {
+  transition: box-shadow var(--strata-motion-duration-fast) var(--strata-motion-easing);
+}
+.link.link:hover > :last-child {
+  box-shadow: 0 0 0 1px var(--strata-color-border-strong);
+}

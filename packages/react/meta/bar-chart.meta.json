@@ -3,7 +3,7 @@
   "title": "Bar Chart",
   "description": "Compares magnitudes across categories with vertical bars: rounded data ends, grouped series and an optional highlighted bar.",
   "category": "data",
-  "maturity": "alpha",
+  "maturity": "beta",
   "exports": [
     "BarChart"
   ],

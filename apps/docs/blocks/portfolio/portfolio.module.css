@@ -109,14 +109,6 @@
   }
 }
 
-.account {
-  display: flex;
-  align-items: center;
-  gap: var(--strata-space-3);
-  min-inline-size: 0;
-  padding-inline: var(--strata-space-3);
-}
-
 /* ------------------------------------------------------------------ page + header */
 
 .page {

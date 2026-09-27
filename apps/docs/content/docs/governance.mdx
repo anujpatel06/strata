@@ -30,6 +30,79 @@ A request ends in one of four outcomes, cheapest first:
 
 Packages follow semver through Changesets. Something is deprecated in a minor release and removed in the next major, and every breaking change ships with a codemod that rewrites consumer code. The first real one — renaming Button’s `variant="danger"` to `tone="critical"`, with its codemod run on the reference app — is planned for Phase 4.
 
+## Maturity
+
+Every component page shows a maturity badge: **alpha**, **beta** or **stable**. The badge is a claim about the component, and each claim has written criteria. `pnpm check:meta` checks every criterion a script can check and fails the build when a beta or stable component misses one. The rest are browser checks or a dated review recorded in the component’s `meta.json`. Every level needs everything from the level below it.
+
+### Alpha: new, and the API may change
+
+The API can change in any release, without a deprecation.
+
+<Table aria-label="Alpha criteria">
+  <thead>
+    <tr>
+      <th scope="col">Criterion</th>
+      <th scope="col">How it’s checked</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>A complete `meta.json`: props, examples, keyboard, notes, do and don’t, tokens.</td><td>`pnpm check:meta`</td></tr>
+    <tr><td>A test file that passes.</td><td>`pnpm check:meta` (the file exists) and `pnpm test`</td></tr>
+    <tr><td>If `meta.json` lists keyboard interactions, at least one test presses keys.</td><td>`pnpm check:meta`. It checks that keys are pressed, not that every listed key is covered.</td></tr>
+    <tr><td>At least three examples.</td><td>`pnpm check:meta`</td></tr>
+    <tr><td>Zero axe violations on its docs page, light and dark.</td><td>`node scripts/axe-sweep.mjs`</td></tr>
+    <tr><td>Renders in all five tenants (Vela, Harbor, Qamar right to left, Care and the house theme), light and dark.</td><td>The playground and `scripts/screenshots.mjs`, reviewed by eye.</td></tr>
+  </tbody>
+</Table>
+
+Alpha is the floor, so a component that misses an alpha criterion stays alpha. `pnpm check:meta` prints each gap as a note on every run until someone closes it.
+
+### Beta: used in a real screen
+
+The API changes only through a deprecation: deprecate in a minor release, remove in the next major, with a codemod (see Versioning and deprecation above).
+
+<Table aria-label="Beta criteria">
+  <thead>
+    <tr>
+      <th scope="col">Criterion</th>
+      <th scope="col">How it’s checked</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>Everything in alpha.</td><td>As above.</td></tr>
+    <tr><td>Used in at least one block or the homepage showcase.</td><td>`pnpm check:meta` scans their `@strata/react` imports.</td></tr>
+    <tr><td>Someone has decided the API is settled.</td><td>A person decides. Meeting the checks makes a component eligible, not beta: `pnpm check:meta` lists alpha components that meet beta.</td></tr>
+  </tbody>
+</Table>
+
+### Stable: frozen under semver
+
+The API only breaks in a major release.
+
+<Table aria-label="Stable criteria">
+  <thead>
+    <tr>
+      <th scope="col">Criterion</th>
+      <th scope="col">How it’s checked</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>Everything in beta.</td><td>As above.</td></tr>
+    <tr><td>Published on npm.</td><td>`pnpm check:meta` rejects stable while `@strata/react` is unpublished.</td></tr>
+    <tr><td>A manual accessibility review: keyboard and a screen reader, by a person.</td><td>The date goes in `meta.json` as `review.a11y`. `pnpm check:meta` requires it.</td></tr>
+    <tr><td>Used in production by at least one product.</td><td>Recorded in the RFC that proposes the move.</td></tr>
+    <tr><td>One release with no breaking change to it.</td><td>The changelog.</td></tr>
+  </tbody>
+</Table>
+
+<Callout tone="warning" title="Nothing is stable yet">
+  `@strata/react` isn’t published on npm, so no component can be stable, and `pnpm check:meta` fails if one claims to be.
+</Callout>
+
+### Why the manual review sits at stable
+
+Axe and keyboard tests are automated, so they’re part of alpha. No person has run a screen-reader review on any component yet. Requiring one for beta would make every component alpha, and recording one from an automated run would be false. So beta rests on the automated checks and real use in a screen, and stable adds the manual review. `review.a11y` stays empty until a review actually happens.
+
 ## Agent trust levels
 
 AI agents change code too, so how much they may do alone depends on how far a change reaches and how easily it’s undone ([ADR-008](https://github.com/anujpatel06/strata/blob/main/docs/adr/008-agent-trust-levels.md)):

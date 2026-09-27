@@ -94,3 +94,48 @@
 .action.action {
   grid-row: 1;
 }
+
+/* Maturity legend: the three levels with counts from meta, and a link to the criteria. */
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--strata-space-2) var(--strata-space-4);
+  font-size: var(--strata-font-size-sm);
+  color: var(--strata-color-text-subtle);
+}
+.legendLabel {
+  color: var(--strata-color-text-default);
+  font-weight: var(--strata-font-weight-medium);
+}
+.legendList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--strata-space-2) var(--strata-space-4);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.legendItem {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--strata-space-2);
+}
+.legendCount {
+  color: var(--strata-color-text-default);
+  font-variant-numeric: tabular-nums;
+  font-weight: var(--strata-font-weight-medium);
+}
+.legendLink {
+  display: inline-flex;
+  align-items: center;
+  min-block-size: var(--strata-space-6);
+  color: var(--strata-color-text-brand);
+  text-decoration-line: underline;
+  text-underline-offset: 0.2em;
+  border-radius: var(--strata-radius-badge);
+}
+.legendLink:focus-visible {
+  outline: 2px solid var(--strata-color-focus-ring);
+  outline-offset: 2px;
+}

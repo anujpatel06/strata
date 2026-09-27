@@ -58,6 +58,8 @@
 .label {
   overflow: hidden;
   min-inline-size: 0;
+  /* Tight rather than 1, so the ellipsis clip never shaves descenders ("Prescription"). */
+  line-height: var(--strata-line-height-tight);
   text-overflow: ellipsis;
 }
 

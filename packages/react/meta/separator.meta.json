@@ -3,7 +3,7 @@
   "title": "Separator",
   "description": "A hairline between groups of content, optionally with a short label such as \"or\".",
   "category": "layout",
-  "maturity": "beta",
+  "maturity": "alpha",
   "exports": [
     "Separator"
   ],

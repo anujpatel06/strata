@@ -83,6 +83,7 @@ pair it with `--strata-motion-duration-spring`).
 - Animate only `opacity`, `transform`/`scale`/`translate`, colours and `box-shadow`. No layout properties, no JS animation libraries.
   A *static* `scale` (e.g. optically enlarging a glyph) is not motion and may sit outside the reduced-motion block.
   Documented exceptions: a `SelectionIndicator` pill may animate its `inline-size`, because it's absolutely positioned and empty, so nothing reflows.
+  Chip's filter check slot opens with `grid-template-columns: 0fr → 1fr` so the chip grows as the ✓ draws in (the same grid technique as height, applied inline; nothing outside the chip reflows mid-press).
   Pagination fades instead of sliding: React Aria's `SharedElement` calls `getAnimations`, which jsdom lacks, so consumer tests would crash.
   The toast stack animates `block-size` when it fans out; the alternatives (squash, clip-path) distort corners or cut the peeking edge.
 
