@@ -1,6 +1,6 @@
 # ADR-011: Distribution — npm package and shadcn-compatible registry from one source
 
-- **Status:** Accepted — decided by Anuj (2026-09-26)
+- **Status:** Revised — decided by Anuj (2026-09-27): npm only for users. See Revision.
 - **Date:** 2026-09-26
 - **Principles:** 2, 6, 7
 
@@ -26,3 +26,10 @@
 
 - **Good:** teams choose ownership or upgrades. The registry was verified with shadcn CLI 4.21 (URL installs, namespaced installs, dependencies, theme merge).
 - **Bad:** two artefacts to test. Registry installs are forks: once someone copies the code, our deprecations reach them only as docs, not codemods. Registry dependencies are absolute URLs baked at build time (`STRATA_REGISTRY_URL`).
+
+## Revision (2026-09-27) — decided by Anuj
+
+- **No shadcn anywhere users look:** docs site, Brand Generator and README. Users install with npm (`@strata/react`) or copy a component's source.
+- **Removed from the site:** shadcn install commands, the registry JSON under `/r`, the theme bridge commands, the shadcn and registry export formats, the Registry docs page and the shadcn MCP setup.
+- **Kept as internal code:** `pnpm registry` still builds, now to `packages/react/registry/` (gitignored, not served), and the engine keeps `toShadcnCssVars` / `toShadcnCSS`. Nothing user-facing depends on them; they can be deleted or brought back later.
+- **Consequence:** one install route to document and test. Teams that want to own and edit component code copy the source by hand.

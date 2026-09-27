@@ -6,6 +6,154 @@ Numbers only with the command that produced them. Design trade-offs get an ADR i
 
 ---
 
+## 2026-09-27 (late) — charts, app shell, 235 icons, KYB web rebuild, soft fields
+
+**Changed**
+- Engine: a chart palette solver (`src/chart.ts`, ADR-016). Series 1 keeps the brand hue in the validator's band; series 2–4 are fixed-order hues. It checks band, chroma ≥ 0.1, 3:1, CVD ΔE ≥ 8 and normal-vision ΔE ≥ 15. Rim light and glow tokens. DTCG leaves: 339.
+- Components:
+  - AreaChart/LineChart/BarChart/Sparkline and a shared `chart` toolkit (no library; monotone-cubic; a keyboard ListBox hit layer; a table view);
+  - Sidebar, IconTile, Card `feature`/`rim`/`stars`;
+  - fields in the soft-outline style (ADR-017) with sm/md/lg sizes shared with Button;
+  - a clearer segmented selection (and a StrictMode fix: the pill ended hidden under `next dev`);
+  - CardTitle at 600;
+  - x labels thinned by pixel distance.
+- `@strata/icons`: 235 icons (health, commerce, media, travel and system domains added).
+- Care is re-based on the KYB **web** prototype (ADR-015 revision). `benefits-overview` replaces `benefits-home`. New `portfolio` block (dark fintech, with Anuj's five references as the bar). The homepage showcase is rewritten as a bento of product moments.
+
+**Decided**
+- KYB = the web prototype — **Anuj**.
+- Soft-outline fields, still AA — **Claude recommended, Anuj accepted** (ADR-017).
+- The chart palette is solved per brand — **Claude recommended, pending Anuj** (ADR-016).
+
+**Results**
+- `pnpm test`: react 378, engine 209, icons 237; typecheck clean; `pnpm check:meta` 52/52.
+- Fuzz: 98,000 / 98,000 contrast checks and 2,000 / 2,000 chart palettes pass — `pnpm test:themes`. The dataviz validator reports ALL CHECKS PASS for 5 tenants × 2 schemes.
+- Field boundary ≥ 3.17:1 worst case (light, on sunken) over tenants and 1,000 fuzz brands — `test/text-field.test.tsx`.
+
+**Next**
+- Anuj: confirm ADR-012 and ADR-016; deploy to Vercel.
+- Open questions from agents:
+  - a meter pair on `action.primary.bg` (the solid KYB wallet);
+  - portfolio's block-level dark surface tint;
+  - a `triggerClassName` on AccordionItem;
+  - PersonChipGroup trailing tags;
+  - calendar day decorations.
+
+---
+
+## 2026-09-27 (evening) — own icons, editorial voice, Care tenant, Geist
+
+**Changed**
+- `@strata/icons` (ADR-014): 95 curvy, minimal icons drawn to one spec (24 grid, 1.5 stroke, `--strata-icon-stroke`). Tabler is replaced everywhere except the GitHub and React logos (official marks, docs only). `pnpm --filter @strata/icons sheet` renders the review sheet.
+- Editorial voice (ADR-015):
+  - engine: `editorial` type pair (Fraunces with italics and optical size, DM Sans, DM Mono), `paper` neutral, `--strata-font-tracking-caps`, `--strata-icon-stroke`;
+  - components: Eyebrow, Amount, Meter, Tag, PersonChip/PersonChipGroup, Avatar `tint="auto"` and placeholders, and `<em>` as the brand italic in headings.
+- **Care** tenant (sage/coral, paper, round, editorial; built from Anuj's KYB prototype language, with no client names) and a `benefits-home` block that rebuilds the KYB home screen.
+- Engine contrast pairs added: `text.subtle` on `surface.selected`, `text.brand` on `surface.sunken`, and `feedback.*.fg` on `surface.sunken`. That makes 98 checks per brand (was 86).
+- House font is now **Geist** (new `modern` pair), chosen by Anuj from a side-by-side of the free fonts that premium product sites ship. Measured with Playwright on the live sites: Linear/Raycast use Inter, Vercel uses Geist, GitHub uses Mona Sans, and 21st.dev uses General Sans; Stripe, Apple, OpenAI, Anthropic and Figma use proprietary fonts.
+- Tenant cards on /docs redesigned as brand specimens. Settings, sign-in, request-flow and activity-table brought up to the dashboard's level.
+- Meter: axe-core rejects React Aria's `role="meter progressbar"`, so the element gets `role="meter"` once mounted.
+- `scripts/launch-browser.mjs`: the repo scripts fall back to the installed Chrome when Playwright's bundled Chromium is missing.
+
+**Decided**
+- Own icon set, "curvy and minimalistic" — **Anuj** (ADR-014).
+- Editorial capability, plus Care and a KYB block as the proof — **Claude recommended, Anuj accepted** (ADR-015).
+- Geist for the house brand — **Anuj**.
+- Avatar auto-tints never pick danger — **Claude** (agent call).
+
+**Results**
+- `pnpm test`: engine 171, react 316, icons 97, all passing; `pnpm typecheck` clean; `pnpm check:meta` 46/46.
+- Fuzz: 98,000 / 98,000 checks, all invariants valid (including glass) — `pnpm test:themes`.
+- axe: 0 violations on the blocks (5 tenants × light/dark), meter and benefits-home (agent sweeps, Chrome channel).
+
+**Next**
+- Anuj: confirm ADR-012; deploy to Vercel.
+- Wider-screen RTL check of benefits-home tip cards; a stethoscope/pill icon for health tenants; the Care wallet card in dark mode is `surface.inverse` (light), which is worth a look.
+
+---
+
+## 2026-09-27 — shadcn removed from the product; tactile restyle; finesse pass started
+
+**Changed**
+- No shadcn anywhere users look: docs site, Brand Generator and README. Install is npm or copying the source. `/r/*.json` is no longer served, `pnpm registry` writes to `packages/react/registry/` (gitignored), and the Registry docs page was deleted. The engine's shadcn exporter stays as internal code. `@strata/tokens` now ships `dist` (`files`).
+- Engine tokens:
+  - motion: `duration-slow`, `easing-out`, and a damped spring (stiffness 400, damping 28) sampled into `linear()`, which settles in 402ms;
+  - elevation: `shadow-highlight`;
+  - glass: `glass-bg`/`blur`/`opacity`, with the opacity *solved* per scheme;
+  - finesse: radii retuned (sharp 6/6/10/4, soft 10/10/16/6, round pill/14/22/pill), softer layered shadows, `--strata-hairline` (0.5px on 2× screens), and `--strata-font-tracking-*` (Inter dynamic-metrics curve, 0 for Arabic pairs).
+- DTCG leaves: 325 (was 316). The spring easing and tracking are CSS-only.
+- Tactile restyle of all 41 components and the site, in parallel by owner group:
+  - spring press, sliding `SelectionIndicator` (tabs, toggle group), drawn checkmarks;
+  - glass overlays (select/combobox/date-picker listboxes, dialog, sheet, menu, popover, command, toast) and a glass site header;
+  - card lift, skeleton shimmer, eight-spoke spinner.
+  Spec: CONVENTIONS "Tactile style" and "Finesse".
+- Fixes found along the way: the glass token pointed at a variable that doesn't exist (a new test now catches dangling `var()`s); calendar SSR/CSR heading mismatch (ICU range-dash spaces); the two-month calendar example had no fixed date; progress value order in RTL; avatar-group initials clipping.
+
+**Decided**
+- Remove shadcn from everything users see (ADR-011 revision) — **Anuj**.
+- Direction "tactile modern", references Linear/Apple/Vercel/Raycast, all components at once — **Anuj**. Glass only on floating layers and sticky chrome — **Claude recommended, Anuj accepted**.
+- Finesse inspired by macOS + visionOS, not copied (ADR-013) — **Anuj**.
+- Glass opacity solved, not picked: the lowest opacity where `text.default`/`text.subtle` reach 4.5:1 over black *and* white backdrops — **Claude**.
+- Modal underlay dims (`brightness(0.6)`) instead of an inverse tint; pagination fades instead of sliding (jsdom lacks `getAnimations`); the toggle pill may animate width — **Claude** (agent calls accepted by the lead).
+
+**Results**
+- `pnpm typecheck` clean. Tests: 162 engine + 277 component — `pnpm test`. `pnpm check:meta` 41/41.
+- Fuzz: all invariants valid, including glass text ≥ 4.5:1; adjustments median 4 — `pnpm test:themes`.
+- Glass opacity across the 1,000 fuzz brands: light 0.83–0.84, dark 0.80–0.81 (scratch script over `fuzzInputs()`).
+- axe: 0 violation nodes across 72 routes × light/dark — `scripts/axe-sweep.mjs` (run with system Chrome because Playwright's headless shell isn't installed).
+
+**Changed (later the same day, after Anuj's reviews)**
+- Rounder radii (sharp 8/8/12/6, soft 12/12/20/8, round pill/18/28/pill); card inset 28/20, compact row 40; display sizes `4xl`/`5xl` (DTCG 327).
+- Visible motion (Anuj: "there is no motion"). Pass-1 motion was too subtle to notice; his Mac doesn't have Reduce Motion on.
+  - Components: hover lift, spring press to 0.96, pops on state change, halo grows, content fades up, and list rows stagger in.
+  - Site: the hero builds in, CSS scroll reveal, card hover lift, and block entrances.
+  - Measured frame by frame in Chrome; with reduced motion everything is visible and nothing moves.
+- 21st.dev-inspired pass:
+  - Button `variant="contrast"` and a taller `size="lg"`; Badge `variant="status"` (dot + words); CardContent `variant="inset"`.
+  - Calm alerts on raised surfaces.
+  - The dashboard rebuilt with these.
+  - Homepage: a token-driven hero glow that follows the tenant, the accent "Every brand." (gated at ≥ 4.5:1 against the glow), inverse pill CTAs, a floating showcase stage, and one card radius and gap throughout.
+
+**Results (end of day)**
+- Tests: 162 engine + 280 component; typecheck clean; `pnpm check:meta` 41/41.
+- axe: 0 violation nodes, 72 routes × light/dark, no page errors.
+
+**Next**
+- Anuj judges the dashboard and homepage passes. Then roll the same treatment out to the other 4 blocks, the component docs pages and the remaining components.
+- Engine candidates:
+  - `surface.inverseHover` (the contrast hover is measured at ≥ 14:1, not solved);
+  - `feedback.success.fg` on `surface.sunken` (so money-in amounts can be green again);
+  - `text.subtle` on `surface.selected`.
+- Playwright's bundled Chromium isn't installed on this Mac; agents used `channel: 'chrome'`. Add that fallback to `scripts/*.mjs`.
+- Open design questions: a danger hover/pressed token (the button uses an outer glow for now), halo tokens for focus/slider glows, `ease-in-out` as a token, and subtle text on `surface.selected` (not a solved pair yet).
+- English example copy inside RTL tenants shows punctuation at the wrong end (e.g. ".Your card was declined"); set `dir="auto"` on user text or use tenant copy.
+- Still waiting on Anuj: confirm ADR-012; deploy to Vercel.
+
+---
+
+## 2026-09-27 — ADR-006: button labels match across light and dark
+
+**Changed**
+- Theme engine: dark mode now tries the light-mode label first on solid fills and moves the dark fill up to ΔL 0.12 so it passes. It never undoes the dark visibility lift. `resolveRoles(scheme, ramps, lightRoles?)`; `generateTheme` passes light roles into dark. Two new tests in `test/theme.test.ts` (pure red, orange/navy).
+- Pure red: `#ec0000` + white labels in both schemes (was `#ff0000` + ink in dark).
+- Dev setup: pnpm linked via `corepack enable --install-directory ~/.local/bin pnpm` (no sudo on this Mac). Added `.claude/launch.json` (docs on :3000).
+
+**Decided**
+- Same button label in both schemes, deepen the dark fill (ADR-006 open question) — **Claude recommended, Anuj accepted**.
+
+**Results**
+- Tests: 159 engine + 271 component, all passing — `pnpm test`; `pnpm typecheck` clean.
+- Fuzz: all checks pass, invariants valid, adjustments median 4 (unchanged) — `pnpm test:themes`.
+- Brands whose labels differ between schemes: 95 → 0 (primary), 102 → 0 (accent) of the 1,000 fuzz brands (scratch script over `fuzzInputs()`).
+- Dark fill moved to match: 10.9% of brands (primary), 11.5% (accent) — `pnpm test:themes` report.
+
+**Next**
+- Anuj: confirm ADR-012; deploy docs to Vercel.
+- Verify the other-systems comparison in ADR-006 against current docs before quoting it publicly.
+- Then Phase 4.
+
+---
+
 ## 2026-09-26/27 — v0.2: shadcn-level component library, docs site, registry
 
 **Changed**

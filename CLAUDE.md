@@ -1,6 +1,6 @@
 # CLAUDE.md — Strata
 
-Strata is a multi-brand design system built to shadcn/ui quality. It has 41 React Aria components, a Next.js docs site and a shadcn-compatible registry, all themed by an engine that turns six brand inputs into a light and dark theme passing WCAG 2.2 AA. It's Anuj Patel's portfolio project for Lead/Staff Product Designer and UX Design Engineer interviews, so **craft, accessibility and honest claims matter more than speed**.
+Strata is a multi-brand design system. It has 46 React Aria components, its own icon set (`@strata/icons`) and a Next.js docs site, all themed by an engine that turns six brand inputs into a light and dark theme passing WCAG 2.2 AA. It's Anuj Patel's portfolio project for Lead/Staff Product Designer and UX Design Engineer interviews, so **craft, accessibility and honest claims matter more than speed**.
 
 - Spec: `BRIEF.md`. Read the relevant section before planning any phase.
 - Component rules: `packages/react/CONVENTIONS.md`. Read it before touching `packages/react` or `apps/docs/examples`.
@@ -10,9 +10,9 @@ Anuj owns design decisions. You pair on engineering and push back when he's wron
 
 ## Status
 
-- **Done (v0.2):** Phase 0–2, plus the docs site and registry. That covers the theme engine and contrast solver, 41 components, 5 blocks, the docs site (Home, Docs, Components, Blocks, Themes, Colors, ⌘K), npm build and registry.
+- **Done (v0.2):** Phase 0–2, plus the docs site. That covers the theme engine and contrast solver, 41 components, 5 blocks, the docs site (Home, Docs, Components, Blocks, Themes, Colors, ⌘K) and the npm build. No shadcn anywhere users look (ADR-011 revision).
 - **Next:** Phase 4, governance (GOVERNANCE.md, RFC flow, the `Button variant="danger"` → `tone="critical"` deprecation with a codemod). Then Phase 5: MCP server, drift auditor, agent eval. See BRIEF §7–10 and §13.
-- **Waiting on Anuj:** confirm ADR-012. Decide whether pure-red brands should use matching labels in both schemes (ADR-006, open question).
+- **Waiting on Anuj:** confirm ADR-012.
 - **Known gaps:** listed at the end of the latest entry in `docs/log.md`.
 
 ## Run it
@@ -27,7 +27,7 @@ pnpm --filter @strata/playground dev   # component playground: /?c=button&tenant
 pnpm typecheck && pnpm test            # all packages
 pnpm test:themes           # contrast fuzz, 1,000 brands → packages/theme-engine/reports
 pnpm check:meta            # every component's meta.json vs its files
-pnpm registry              # shadcn registry → apps/docs/public/r (STRATA_REGISTRY_URL sets the base)
+pnpm registry              # internal only: registry JSON → packages/react/registry (not published; ADR-011 revision)
 pnpm tokens                # tenant token files → packages/tokens/dist
 pnpm --filter @strata/react build      # npm build → packages/react/dist
 ```
@@ -41,10 +41,11 @@ Use `/verify` before saying work is done, and `/screenshots` after any UI change
 | `packages/theme-engine` | OKLCH ramps, 48 semantic roles, contrast solver, exporters (CSS, DTCG 2025.10, Figma, shadcn). Zero runtime deps. |
 | `packages/react` | Components: `src/ui/<name>.tsx` + `.module.css` (flat; sibling imports only), `meta/<name>.meta.json`, `test/`. `src/index.ts` is generated (`pnpm --filter @strata/react gen:index`). |
 | `packages/tokens` | Builds token files for every `tenants/*/brand.json`. |
+| `packages/icons` | `@strata/icons`: our own icon set (ADR-014). Style spec in `src/create-icon.tsx`; `pnpm --filter @strata/icons sheet` renders the review sheet. |
 | `apps/docs` | Next.js 16 site. Examples in `examples/<component>/`; blocks in `blocks/<name>/`; pages in `app/`; MDX in `content/docs/`. |
 | `apps/generator` | Phase 1 Brand Generator (Vite; single-file build for hosted demos). |
 | `apps/playground` | Renders `apps/docs/examples/<c>/*` per tenant, scheme, dir and density for visual QA. |
-| `tenants/<id>` | `brand.json` (6 inputs) + `content.json` (copy). Vela (en-IN), Harbor (en-GB), Qamar (ar-AE, RTL), house (the site). |
+| `tenants/<id>` | `brand.json` (6 inputs) + `content.json` (copy). Vela (en-IN), Harbor (en-GB), Qamar (ar-AE, RTL), Care (en-IN, editorial, ADR-015), house (the site, Geist). |
 | `scripts/` | `screenshots.mjs`, `shoot.mjs` (one URL → PNG), `axe-sweep.mjs` (every docs route, light + dark). |
 
 ## Conventions (non-negotiable)
@@ -76,6 +77,5 @@ When parallelising, give each agent exact file ownership and these rules: no dep
   - `next dev` rewrites `apps/docs/AGENTS.md`/`CLAUDE.md` (committed on purpose) and `next-env.d.ts` (restore it if a custom `NEXT_DIST_DIR` build changes it).
 - **Docs CSS:** `apps/docs/package.json` has a `browserslist`, so Lightning CSS doesn't polyfill `:dir()` or `light-dark()` (the polyfills broke RTL and backdrops).
 - **Docs examples use fixed dates** (`parseDate('2026-10-05')`), so statically built pages hydrate the same on any day.
-- **Registry dependencies are absolute URLs** baked at build. For deploys, `NEXT_PUBLIC_SITE_URL` must be the production URL; the docs prebuild passes it to `pnpm registry`.
 - **Stopping servers:** `pgrep -f "next start"` also matches your own shell command. Kill by the PID you started instead.
 - **Offline sandboxes** can't reach Google Fonts. Screenshot scripts accept `STRATA_LOCAL_FONTS=<node_modules with @fontsource/*>`. You don't need this on a normal Mac.
