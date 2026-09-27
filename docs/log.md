@@ -74,6 +74,55 @@ Numbers only with the command that produced them. Design trade-offs get an ADR i
 
 ---
 
+## 2026-09-27 (registry, icons, hydration) — `pnpm registry` passes; icons flip under RTL; component pages hydrate
+
+**Changed**
+- `packages/react/scripts/build-registry.mjs`: `buildBlockItems` rejected every `@strata/*` import, so the 7 blocks that import `@strata/icons` were skipped and the build exited 1. Components never failed because `importProblems` already exempts `@strata/icons` (ADR-014). Blocks now get the same exemption: the package is added to the item's `dependencies`. Other `@strata/*` imports are still errors.
+- `packages/react/CONVENTIONS.md`: the allowed-imports line lists `@strata/icons` instead of `@tabler/icons-react`.
+- Tabler selectors replaced in `button`, `link` and `toggle-group` CSS. They matched Tabler's class names, which `@strata/icons` doesn't render, so two rules were dead:
+  - The RTL flip for arrows and chevrons only worked with `data-directional`. It now matches `[data-strata-icon^='arrow']` and `[data-strata-icon^='chevron']`. Not yet checked in a browser.
+  - The icon stroke rule now matches `[data-strata-icon]`. ThemeScope already applied the same value, so nothing looked different.
+- `button.test.tsx`: the pending test looked for `.tabler-icon-plus`, which could never be there, so it passed without testing anything. It now looks for `[data-strata-icon="plus"]`.
+- Comments that described Tabler behaviour in `button.tsx`, `button.module.css`, `link.module.css` and `badge.module.css` now describe `@strata/icons`. `steps.tsx` and `checkbox.tsx` still credit Tabler for their path geometry, which is accurate.
+- Icon stroke is 1.5 everywhere. CONVENTIONS "Icons match text" said 1.75 and cited Tabler; it now names the token. The 1.75 fallbacks in `chip` and `eyebrow` CSS are 1.5 (the token is always set to 1.5, so nothing looked different). Two places did render at 1.75 and now follow the token: the portfolio block's next-step icon and the file icons in docs code blocks.
+- Hydration fix brought over from the `infallible-merkle-6dffef` worktree, where another session wrote it:
+  - Cause: the component page (a server component) rendered `Tabs`, `TabList`, `Tab` and `TabPanel` directly. React Aria chose the default tab from a collection that was still empty, so the server HTML had no selected tab and no panel, and hydration threw React error 418.
+  - Fix: the new client component `apps/docs/components/docs/install-tabs.tsx` creates the tabs; the page passes only the panel contents. No change to the Tabs component.
+  - New `scripts/check-ssr-tabs.mjs` fails when a prerendered page has a tab list without a panel. It is step 8 of `/verify` and runs in CI after the build.
+  - Tabs meta: one Do and one Don't about server components.
+- Registry build: a `workspace:*` dependency is written as the package's own version (`@strata/icons@^0.1.0`). Also from that worktree.
+- Accordion: closed panels in server-rendered HTML are `display: none` again. The panel's `display: grid` beat the browser's `[hidden]` rule, so until React Aria mounted, links inside a closed panel could take keyboard focus while invisible. Found by running axe on `/blocks` with the site's scripts blocked.
+
+**Decided**
+- Fix the hydration error in the docs page, not in Tabs — **Claude** (pending Anuj), as the other session recorded it.
+- The Accordion finding is a real fault, not a false one as the showcase-card entry calls it: without the fix a keyboard user can tab into hidden links before hydration, or for good if scripts fail — **Claude** (pending Anuj). The Meter finding in the same state is false: `role="meter progressbar"` is valid ARIA that axe-core 4.13 rejects.
+- Icon stroke is 1.5, as ADR-014 says, not the 1.75 in CONVENTIONS — **Anuj**.
+- Treat `@strata/icons` in blocks the way components already treat it — **Claude recommended, Anuj accepted**. Not a design trade-off: it applies ADR-014 to a check that was missed when Tabler was replaced. The registry stays internal (ADR-011 revision).
+
+**Results**
+- `pnpm registry`: exit 1 with 7 errors, 64 items → exit 0, 71 items (7 blocks `ok`).
+- `pnpm check:meta`: 53/53 components pass, exit 0.
+- Both were run in the main checkout on `v0.3-craft` (c2305fe) with the uncommitted Phase 4 changes in place.
+- `/verify` in the main checkout, after all of the above:
+  - `pnpm typecheck`: clean.
+  - `pnpm test`: 443 components · 219 engine · 245 icons · 8 codemods, all passing (components re-run after the Accordion fix: 443 / 443).
+  - `pnpm test:themes`: 118,000 / 118,000 checks; 2,000 / 2,000 chart palettes; adjustments per brand median 4, max 7.
+  - `pnpm check:meta`: 53 / 53; 18 alpha · 35 beta · 0 stable.
+  - `pnpm registry`: 71 items, exit 0.
+  - `NEXT_DIST_DIR=.next-verify pnpm --filter @strata/docs build`: 80 pages.
+  - `NEXT_DIST_DIR=.next-verify node scripts/check-ssr-tabs.mjs`: 79 pages, 323 tab lists, 0 pages with a tab list missing its panel.
+  - `STRATA_BASE_URL=http://localhost:3021 node scripts/axe-sweep.mjs` against `next start -p 3021`: 105 routes × light/dark, 0 violation nodes, 0 page errors.
+- Before the hydration fix the sweep gave 40 page errors (#418 on 20 component pages × 2 schemes) and 8 violation nodes on `/blocks`. The 8 appear only when axe runs before hydration: 1 run in 18 under load, every run with the site's scripts blocked. After the Accordion fix that state gives 1, the Meter false finding.
+- Screenshots (`node scripts/shoot.mjs`, playground and the built site), looked at one by one: arrows in Button and Link point left under Qamar RTL and right under Vela; the portfolio block's next-step icon and the code block file icons read clearly at the 1.5 stroke.
+
+**Next**
+- `@strata/icons` is not on npm, so a registry install that needs it would still fail. Only matters if the registry is published again.
+- `Tabs` rendered straight from a server component without `defaultSelectedKey` can fail the same way in any Next.js app. Not yet reported to React Aria.
+- The docs header's search button shows its icon off-centre at 390px in dark mode.
+- The `infallible-merkle-6dffef` worktree can be discarded once Anuj has checked nothing else in it is wanted.
+
+---
+
 ## 2026-09-27 (Phase 4) — governance, and the first deprecation done end to end
 
 **Changed**

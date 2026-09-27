@@ -361,6 +361,12 @@ export async function buildRegistry({
   const uiDir = path.join(pkgDir, 'src/ui');
   const pkg = readJson(path.join(pkgDir, 'package.json'));
   const versions = { ...pkg.peerDependencies, ...pkg.dependencies };
+  // "workspace:*" only resolves inside this repo. Replace it with the workspace package's own version as a caret range.
+  for (const [dep, range] of Object.entries(versions)) {
+    if (!String(range).startsWith('workspace:')) continue;
+    const manifest = path.join(REPO_ROOT, 'packages', dep.split('/').pop(), 'package.json');
+    versions[dep] = `^${readJson(manifest).version}`;
+  }
   /** "react-aria-components" → "react-aria-components@^1.21.0" (the range we build and test against). */
   const pin = (dep) => (versions[dep] && !dep.slice(1).includes('@') ? `${dep}@${versions[dep]}` : dep);
 

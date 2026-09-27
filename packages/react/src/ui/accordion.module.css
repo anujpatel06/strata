@@ -110,6 +110,15 @@
   grid-template-rows: 1fr;
 }
 
+/*
+ * `display: grid` above beats the browser's own `[hidden] { display: none }`. Server-rendered HTML has a plain
+ * `hidden` on closed panels until React Aria mounts and switches to "until-found", and until then links inside a
+ * closed panel could take focus. Put the rule back for a plain `hidden`.
+ */
+.panel[hidden]:not([hidden='until-found']) {
+  display: none;
+}
+
 .clip {
   min-block-size: 0;
   overflow: clip;
