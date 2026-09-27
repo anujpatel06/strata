@@ -18,7 +18,7 @@ apps/docs/examples/<name>/<name>-<variant>.tsx    more examples listed in meta.e
 - `src/ui` is **flat**. Registry installs put every file in the user's `components/ui/` folder, so imports between
   components MUST be sibling-relative: `import { Button } from './button';` — never `../`, never `@/`, never the barrel.
 - No shared util files. Need a class joiner? Define `const cx = (...c: Array<string | false | null | undefined>) => c.filter(Boolean).join(' ');` locally.
-- Allowed imports in `src/ui`: `react`, `react-aria-components`, `@internationalized/date`, `@tabler/icons-react`, sibling `./<name>`. List npm ones in `meta.dependencies`, siblings in `meta.registryDependencies`.
+- Allowed imports in `src/ui`: `react`, `react-aria-components`, `@internationalized/date`, `@strata/icons` (ADR-014; no other `@strata/*` package), sibling `./<name>`. List npm ones in `meta.dependencies`, siblings in `meta.registryDependencies`.
 - Do not edit `src/index.ts` (the lead generates it) or other agents' files.
 
 ## API style
@@ -158,7 +158,7 @@ Premium comes from restraint and consistency, not more effects. Check every comp
 - **Hierarchy through weight and colour, not size jumps.** Section labels in `text.subtle`, `font-size: sm`; table headers `text.subtle`, `font-weight: medium`, no background fill.
 - **Air.** Table rows use `--strata-table-row-height` with comfortable inline padding; card content breathes at `--strata-card-inset`.
   Icon + text pairs align on the text's cap height, with a `--strata-space-2` gap.
-- **Icons match text.** Icons follow the text colour at ~1.25× the font size, and outline icons use `stroke-width: 1.75` (Tabler's default of 2 looks heavy next to text).
+- **Icons match text.** Icons follow the text colour at ~1.25× the font size, and outline icons use `stroke-width: var(--strata-icon-stroke, 1.5)` (ADR-014). Don't set another width.
 - **Every state is intentional.** Hover is a quiet tint, press is the spring scale, selected is `surface.selected`, and focus is the ring plus halo. Nothing changes abruptly.
 
 ## Surface recipe (from Anuj's toast reference, 2026-09-27)

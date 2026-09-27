@@ -106,7 +106,7 @@
   block-size: var(--_icon);
 }
 
-.item > :is([data-directional], :global([class*='tabler-icon-arrow']), :global([class*='tabler-icon-chevron'])):dir(rtl) {
+.item > :is([data-directional], [data-strata-icon^='arrow'], [data-strata-icon^='chevron']):dir(rtl) {
   scale: -1 1;
 }
 

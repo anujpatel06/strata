@@ -40,19 +40,19 @@
   text-decoration-thickness: 1px;
 }
 
-/* Trailing (or leading) icon in a standalone link, at the text's weight (1.75 stroke, not Tabler's heavier 2). */
+/* Trailing (or leading) icon in a standalone link, at the text's weight (the theme's icon stroke, 1.5 by default). */
 .root[data-variant='standalone'] > svg {
   flex: none;
   inline-size: 1.15em;
   block-size: 1.15em;
 }
 
-.root > :global(.tabler-icon) {
+.root > [data-strata-icon] {
   stroke-width: var(--strata-icon-stroke, 1.5);
 }
 
 /* Arrows and chevrons point "forward", whichever way forward is. */
-.root > :is([data-directional], :global([class*='tabler-icon-arrow']), :global([class*='tabler-icon-chevron'])):dir(rtl) {
+.root > :is([data-directional], [data-strata-icon^='arrow'], [data-strata-icon^='chevron']):dir(rtl) {
   scale: -1 1;
 }
 

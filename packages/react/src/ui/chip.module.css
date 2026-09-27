@@ -246,7 +246,7 @@
   block-size: var(--_icon);
 }
 .icon > svg:not(.check) {
-  stroke-width: var(--strata-icon-stroke, 1.75);
+  stroke-width: var(--strata-icon-stroke, 1.5);
 }
 
 /* The check: one stroke that draws itself in (pathLength 1, dash offset 1.1 → 0), like Checkbox's. */
@@ -369,7 +369,7 @@
 .remove > svg {
   inline-size: 66%;
   block-size: 66%;
-  stroke-width: var(--strata-icon-stroke, 1.75);
+  stroke-width: var(--strata-icon-stroke, 1.5);
 }
 
 .remove[data-hovered] {

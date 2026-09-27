@@ -10,7 +10,7 @@ export function withSiteUrl(code: string): string {
 }
 
 function fileIcon(lang: string, title?: string) {
-  const props = { size: 14, stroke: 1.75, 'aria-hidden': true } as const;
+  const props = { size: 14, 'aria-hidden': true } as const;
   if (lang === 'bash') return <IconTerminal2 {...props} />;
   if (lang === 'css' || title?.endsWith('.css')) return <IconFileTypeCss {...props} />;
   if (lang === 'json') return <IconJson {...props} />;

@@ -67,5 +67,5 @@ span.eyebrow {
   /* ~1.25× the text, per "Icons match text"; the tracking is not inherited into the glyph. */
   inline-size: 1.25em;
   block-size: 1.25em;
-  stroke-width: var(--strata-icon-stroke, 1.75);
+  stroke-width: var(--strata-icon-stroke, 1.5);
 }

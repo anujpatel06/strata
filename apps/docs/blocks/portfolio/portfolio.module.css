@@ -365,7 +365,7 @@
   inline-size: 1.25em;
   block-size: 1.25em;
   color: var(--strata-color-text-brand);
-  stroke-width: 1.75;
+  stroke-width: var(--strata-icon-stroke, 1.5);
 }
 
 .nextText {

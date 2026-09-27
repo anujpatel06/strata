@@ -51,7 +51,7 @@ function Spinner({ overlay }: { overlay?: boolean }): JSX.Element {
   );
 }
 
-/** An icon component (Tabler icons are forwardRef objects) or a raw <svg>. */
+/** An icon component (a function, or a forwardRef object from another icon library) or a raw <svg>. */
 function isIcon(node: ReactNode): boolean {
   if (!isValidElement(node)) return false;
   return node.type === 'svg' || typeof node.type === 'function' || (typeof node.type === 'object' && node.type !== null);
@@ -108,7 +108,7 @@ function warnOnce(key: keyof typeof warned, message: string): void {
  * A button for actions. Built on React Aria's Button, so it handles press events across mouse, touch and keyboard,
  * and `isPending` keeps it focusable while blocking presses.
  *
- * Icons go in `children` (Tabler icons are sized automatically). Full width: pass a className.
+ * Icons go in `children` (`@strata/icons` are sized automatically). Full width: pass a className.
  */
 export function Button({
   variant = 'primary',

@@ -246,7 +246,7 @@
   box-shadow: 0 0 0 2px color-mix(in oklab, var(--_dot) 18%, transparent);
 }
 
-/* Tabler's default stroke (2) looks heavy next to xs text. */
+/* Icons follow the theme's icon stroke (1.5 by default, ADR-014). */
 .icon > svg {
   stroke-width: var(--strata-icon-stroke, 1.5);
 }

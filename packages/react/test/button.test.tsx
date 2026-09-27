@@ -64,7 +64,7 @@ describe('Button', () => {
     expect(button).toHaveFocus();
     await user.keyboard('{Enter}');
     expect(onPress).not.toHaveBeenCalled();
-    expect(container.querySelector('.tabler-icon-plus')).toBeNull();
+    expect(container.querySelector('[data-strata-icon="plus"]')).toBeNull();
     expect(container.querySelector('.spinner')).not.toBeNull();
   });
 

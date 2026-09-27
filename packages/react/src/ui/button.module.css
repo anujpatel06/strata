@@ -70,8 +70,8 @@
   }
 }
 
-/* Icons in children: fixed optical size per button size, never squashed, and a 1.75 stroke so they sit
-   at the label's weight (Tabler's default 2 reads heavier than medium text). */
+/* Icons in children: fixed optical size per button size, never squashed, and the theme's icon stroke
+   (1.5 by default, ADR-014) so they sit at the label's weight. */
 .root > svg,
 .pendingContent > svg {
   flex: none;
@@ -79,13 +79,13 @@
   block-size: var(--_icon);
 }
 
-.root > :global(.tabler-icon),
-.pendingContent > :global(.tabler-icon) {
+.root > [data-strata-icon],
+.pendingContent > [data-strata-icon] {
   stroke-width: var(--strata-icon-stroke, 1.5);
 }
 
 /* Arrows and chevrons point "forward", whichever way forward is. */
-:is(.root, .pendingContent) > :is([data-directional], :global([class*='tabler-icon-arrow']), :global([class*='tabler-icon-chevron'])):dir(rtl) {
+:is(.root, .pendingContent) > :is([data-directional], [data-strata-icon^='arrow'], [data-strata-icon^='chevron']):dir(rtl) {
   scale: -1 1;
 }
 
