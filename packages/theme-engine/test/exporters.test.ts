@@ -29,7 +29,7 @@ const compactTheme: Theme = { ...theme, input: { ...theme.input, density: 'compa
 describe('CSS variable contract (parsed from types.ts)', () => {
   it('parses every non-colour contract variable', () => {
     const vars = contractFoundationVars();
-    expect(vars).toHaveLength(75);
+    expect(vars).toHaveLength(76);
     expect(vars).toContain('--strata-chart-4');
     expect(vars).toContain('--strata-chart-grid');
     expect(vars).toContain('--strata-space-16');
@@ -51,6 +51,26 @@ describe('toCssVariables', () => {
     const vars = toCssVariables(theme, scheme);
     const refs = Object.values(vars).flatMap((v) => [...v.matchAll(/var\((--[\w-]+)/g)].map((m) => m[1]!));
     expect(refs.filter((r) => !(r in vars))).toEqual([]);
+  });
+
+  it('sheen keeps text.subtle ≥ 4.5:1 at its brightest pixel (dark), across tenants-like fuzz brands', async () => {
+    const { fuzzInputs } = await import('../scripts/fuzz');
+    const { generateTheme } = await import('../src/theme');
+    const { contrastRatio, hexToRgb8, rgb8ToHex } = await import('../src/color');
+    const peak = Number(/(\d+)%, transparent\) 20%/.exec(toCssVariables(generateTheme(fuzzInputs()[0]!), 'dark')['--strata-sheen']!)![1]) / 100;
+    const mix = (a: string, b: string) => {
+      const A = hexToRgb8(a);
+      const B = hexToRgb8(b);
+      return rgb8ToHex([0, 1, 2].map((i) => A[i]! * (1 - peak) + B[i]! * peak) as [number, number, number]);
+    };
+    let worst = Infinity;
+    for (const input of fuzzInputs()) {
+      const r = generateTheme(input).schemes.dark.roles;
+      for (const s of ['surface.raised', 'surface.default'] as const) {
+        worst = Math.min(worst, contrastRatio(r['text.subtle'].hex, mix(r[s].hex, r['text.default'].hex)));
+      }
+    }
+    expect(worst).toBeGreaterThanOrEqual(4.5);
   });
 
   it('formats values CSS-ready', () => {

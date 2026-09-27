@@ -34,7 +34,7 @@ Every number comes from a script. Run the command to reproduce it.
 | Metric | Value | Reproduce |
 |---|---|---|
 | Themes fuzzed (random brands × light/dark) | 1,000 | `pnpm test:themes` |
-| Contrast checks passed | 98,000 / 98,000 (100%) | `pnpm test:themes` |
+| Contrast checks passed | 102,000 / 102,000 (100%) | `pnpm test:themes` |
 | Solver adjustments per brand | median 4, max 6 (all brand-driven) | `pnpm test:themes` |
 | Median theme generation time | 0.45 ms (this machine) | `pnpm test:themes` |
 | Components / blocks | 41 / 5 | `pnpm check:meta`; blocks listed in `apps/docs/blocks/blocks.json` |

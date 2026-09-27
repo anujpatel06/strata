@@ -7,7 +7,7 @@
   "pairs": [
     { "fg": "text.default", "kind": "text", "against": ["surface.canvas", "surface.default", "surface.raised", "surface.sunken", "surface.selected"] },
     { "fg": "text.subtle", "kind": "text", "against": ["surface.canvas", "surface.default", "surface.raised", "surface.sunken", "surface.selected"] },
-    { "fg": "text.brand", "kind": "text", "against": ["surface.canvas", "surface.default", "surface.raised", "surface.sunken"] },
+    { "fg": "text.brand", "kind": "text", "against": ["surface.canvas", "surface.default", "surface.raised", "surface.sunken", "surface.selected"] },
     { "fg": "text.inverse", "kind": "text", "against": ["surface.inverse"] },
     { "fg": "action.primary.fg", "kind": "text", "against": ["action.primary.bg", "action.primary.hover", "action.primary.pressed"] },
     { "fg": "action.secondary.fg", "kind": "text", "against": ["action.secondary.bg", "action.secondary.hover", "action.secondary.pressed"] },
@@ -21,7 +21,7 @@
     { "fg": "feedback.warning.onSolid", "kind": "text", "against": ["feedback.warning.solid"] },
     { "fg": "feedback.danger.onSolid", "kind": "text", "against": ["feedback.danger.solid"] },
     { "fg": "feedback.info.onSolid", "kind": "text", "against": ["feedback.info.solid"] },
-    { "fg": "focus.ring", "kind": "non-text", "against": ["surface.canvas", "surface.default", "surface.raised"] },
+    { "fg": "focus.ring", "kind": "non-text", "against": ["surface.canvas", "surface.default", "surface.raised", "surface.selected"] },
     { "fg": "border.strong", "kind": "non-text", "against": ["surface.canvas", "surface.default"] }
   ]
 }

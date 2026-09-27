@@ -7,31 +7,31 @@
   },
   "seed": 2026,
   "themes": 1000,
-  "checksPerTheme": 98,
-  "totalChecks": 98000,
-  "passed": 98000,
+  "checksPerTheme": 102,
+  "totalChecks": 102000,
+  "passed": 102000,
   "failed": 0,
   "passRatePercent": 100,
   "failures": [],
   "invariantViolations": [],
   "generationMs": {
-    "median": 0.5738330000000076,
-    "p95": 0.8828339999999884,
-    "max": 4.738125000000004
+    "median": 0.5703540000000089,
+    "p95": 0.8599159999999983,
+    "max": 4.967750000000002
   },
   "minMargin": {
     "3": {
       "required": 3,
-      "minRatio": 3.0004589508851773,
-      "margin": 0.00045895088517733384,
-      "theme": 874,
-      "primary": "#ed6fde",
-      "accent": "#64b5b4",
+      "minRatio": 3.0030261652399437,
+      "margin": 0.003026165239943701,
+      "theme": 121,
+      "primary": "#41a7b5",
+      "accent": "#67cb8c",
       "scheme": "light",
       "fg": "focus.ring",
-      "bg": "surface.canvas",
-      "fgHex": "#dc5fcd",
-      "bgHex": "#f9f7f8"
+      "bg": "surface.selected",
+      "fgHex": "#2e97a5",
+      "bgHex": "#daf4f8"
     },
     "4.5": {
       "required": 4.5,
@@ -89,16 +89,16 @@
       "scheme": "light",
       "role": "focus.ring",
       "kind": "contrast",
-      "brands": 485,
-      "percent": 48.5,
+      "brands": 536,
+      "percent": 53.6,
       "offRamp": 0
     },
     {
       "scheme": "dark",
       "role": "focus.ring",
       "kind": "contrast",
-      "brands": 232,
-      "percent": 23.2,
+      "brands": 296,
+      "percent": 29.6,
       "offRamp": 0
     },
     {

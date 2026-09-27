@@ -61,6 +61,12 @@ export function writeShadowVars(out: CssVars, theme: Theme, scheme: Scheme): Css
   out['--strata-rim'] = `color-mix(in srgb, var(${roleToCssVar('text.default')}) ${dark ? 18 : 10}%, transparent)`;
   // Brand glow: a soft halo in the primary colour for one hero element per view (active nav, hero card, chart line).
   // Decorative only; never the sole carrier of state.
+  // Sheen: a soft diagonal band of light across a raised surface (dark only; on light surfaces white-on-white is
+  // invisible, so light gets its depth from shadow). Peak 8% of text.default: text.subtle stays ≥ 6.86:1 on the
+  // brightest pixel across the 5 tenants and 1,000 fuzz brands (measured 2026-09-27; see test/exporters.test.ts).
+  out['--strata-sheen'] = dark
+    ? `linear-gradient(115deg, transparent 6%, color-mix(in srgb, var(${roleToCssVar('text.default')}) 8%, transparent) 20%, transparent 40%)`
+    : 'none';
   out['--strata-glow'] = `0 0 0 1px color-mix(in srgb, var(${roleToCssVar('action.primary.bg')}) ${dark ? 40 : 22}%, transparent), 0 12px 40px -12px color-mix(in srgb, var(${roleToCssVar('action.primary.bg')}) ${dark ? 60 : 35}%, transparent)`;
   const { glass } = theme.schemes[scheme];
   out['--strata-glass-opacity'] = String(glass.opacity);

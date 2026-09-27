@@ -244,7 +244,7 @@ export interface Theme {
  * Icons:         --strata-icon-stroke  (unitless SVG stroke width)
  *                --strata-line-height-{tight,snug,normal}         (unitless)
  *                --strata-font-weight-{regular,medium,semibold,bold}
- * Elevation:     --strata-shadow-raised | --strata-shadow-overlay | --strata-shadow-highlight | --strata-hairline | --strata-rim | --strata-glow
+ * Elevation:     --strata-shadow-raised | --strata-shadow-overlay | --strata-shadow-highlight | --strata-hairline | --strata-rim | --strata-glow | --strata-sheen
  * Glass:         --strata-glass-bg | --strata-glass-blur | --strata-glass-opacity
  * Chart:         --strata-chart-{1,2,3,4}  (series hexes, fixed order; per scheme)
  *                --strata-chart-grid | --strata-chart-axis   (var() aliases of border.subtle / text.subtle)
