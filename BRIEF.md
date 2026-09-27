@@ -47,6 +47,7 @@ Content comes from `tenants/<name>/content.json`. Realistic copy and data — no
 - Not a 60-component library. ~20 components, done properly.
 - No backend, auth or real data. Mock JSON only.
 - Don't rebuild accessibility primitives (focus traps, roving tabindex, etc.) — use a headless library; decide which in ADR-002.
+- No native iOS or Android components. The mobile story is a server-driven UI schema plus native token files (§10a, ADR-019).
 - No healthcare framing. This must read as domain-agnostic.
 - **No invented metrics.** Every number shown anywhere must be reproducible from a script in this repo, with the command written next to it.
 
@@ -113,6 +114,7 @@ strata/
 3. **Contrast solver:** check every pair listed in `contrast-pairs.json` — text on each surface (4.5:1), large text (3:1), fg on action bg (4.5:1), focus ring and input borders against adjacent surfaces (3:1 non-text). If a pair fails, move along the ramp until it passes.
 4. **Explain every adjustment in plain English**, e.g. *"#FFD400 is too light for white labels → button text switched to ink; hover darkened to L 0.62."*
 5. Export DTCG JSON, CSS variables, Figma-variables JSON and a contrast report.
+6. **Brand fidelity (ADR-018):** for each brand input, report the colour distance between what the brand asked for and what the solver shipped, per scheme. It appears in the contrast report, and as a distribution in the fuzz report.
 
 **UI:** inputs on the left; live preview of all three reference screens on the right (tabs); contrast report with every adjustment; export buttons; generation time in ms. Fully client-side. Paste any hex → everything re-skins in under a second.
 
@@ -186,6 +188,7 @@ Expose `AGENTS.md` as a resource. Runnable via `npx`. Setup docs for Claude Code
 **Checks:** raw colours (hex / rgb / hsl / oklch) in TSX/CSS · off-scale spacing, radius and font sizes · font-family literals · native elements where a Strata component exists (`<button>`, `<input>`, `<select>`, `<table>`) · physical CSS properties → logical · missing accessible names (basic).
 
 **Score:** 0–100, severity-weighted; formula documented in the README. Every finding carries a suggested fix (reuse `find_token`). HTML report is styled with Strata itself.
+**Autofix (ADR-018):** `strata audit --fix` applies a fix only where there's one safe answer (exact token match, physical → logical property). Everything else stays a suggestion. The MCP `audit_snippet` tool runs the same engine. Raw-colour linting alone overlaps with `@shadcn/lint`; the native-element, logical-property and accessible-name checks are what set this apart.
 **CI gate:** `apps/reference` must score ≥95. Publish a badge.
 
 ---
@@ -200,6 +203,25 @@ Expose `AGENTS.md` as a resource. Runnable via `npx`. Setup docs for Claude Code
 - Score each output: `strata audit` score · axe violations (render via Playwright) · renders without error.
 - Output `evals/results.md` + a chart for `/story`: median audit score A vs B, % of runs fully on-system, a11y violations per screen.
 - **Report whatever the numbers are.** If B doesn't beat A, that's a finding: improve meta/AGENTS.md, re-run, and show the delta across iterations. Cap at 25 × 2 runs per iteration.
+
+**Widened by ADR-018** (the run cap above rises; the new cap is set in the Phase 5 plan):
+
+- **Per model:** scores are reported for each model, never pooled. The harness, prompts and run command are public.
+- **Tagged prompts:** every prompt is tagged accessibility, RTL or multi-brand where it applies, and each tag gets its own score. Multi-brand prompts run the same task across tenants and check for hard-coded brand values.
+- **Variance:** each condition runs more than once; report the spread, and show failures as well as passes.
+- **Context ablation:** none / AGENTS.md only / llms.txt / MCP, on the same prompts.
+
+---
+
+## 10a. Mobile reach — schema, native tokens, Hindi tenant
+
+Added 2026-09-27 (ADR-019, ADR-020). Research: `docs/research/2026-09-27-differentiation.md`.
+
+- **Server-driven UI schema:** a JSON Schema per component, generated from `meta.json`. Rules for versioning, unknown components and props, and required accessible names. One web renderer demo in the docs draws a screen from JSON across tenants.
+- **Native token export:** Compose and SwiftUI token files per tenant, light and dark. Contrast is re-checked on the converted values.
+- **Hindi tenant (hi-IN):** a Devanagari type pair and per-script type tokens (line height, minimum size, truncation). Tokens and copy only; no component forks.
+
+**Acceptance:** a test that validates every docs example's props against the generated schema · contrast checks on native token output with the command beside the result · a clipping check on Hindi strings · the Hindi tenant passes the same axe sweep and screenshots as the others.
 
 ---
 
@@ -241,7 +263,8 @@ Max ~600 words of prose on the page. Everything else is interactive or visual.
 | **3 · Reference product** (weeks 2–3) | 3 screens × 3 tenants, content files, Qamar in Arabic RTL. | Deployed reference app |
 | **4 · Governance** (week 3) | GOVERNANCE, CONTRIBUTING, ≥8 ADRs, Changesets, the real deprecation + codemod. | Changelog entry + codemod diff |
 | **5 · MCP + audit + eval** (weeks 3–4) | MCP server, auditor, CI gate, eval runs and results. | `evals/results.md` + chart |
-| **6 · Publish** (week 4) | npm publish (scoped), deploy docs (Vercel or Cloudflare Pages), README with a 30-sec GIF, `/story` page. | Everything live |
+| **5a · Mobile reach** (after 5) | §10a: server-driven UI schema + renderer demo, native token export, Hindi tenant. | Schema docs page + token files + 5th tenant screenshots |
+| **6 · Publish** (week 4) | npm publish (scoped), deploy docs (Vercel or Cloudflare Pages), README with a 30-sec GIF, `/story` page. Re-run the differentiation research first. | Everything live |
 
 ---
 
