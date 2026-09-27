@@ -1,0 +1,274 @@
+{
+  "name": "sidebar",
+  "title": "Sidebar",
+  "description": "App navigation: a brand block, labelled sections of links with icons, counts and badges, a footer, and an icon-only collapsed mode.",
+  "category": "navigation",
+  "maturity": "alpha",
+  "exports": [
+    "Sidebar",
+    "SidebarHeader",
+    "SidebarSection",
+    "SidebarItem",
+    "SidebarFooter",
+    "useSidebar"
+  ],
+  "files": [
+    "sidebar.tsx",
+    "sidebar.module.css"
+  ],
+  "dependencies": [
+    "react-aria-components",
+    "@strata/icons"
+  ],
+  "registryDependencies": [
+    "badge",
+    "button",
+    "tooltip"
+  ],
+  "reactAria": "https://react-spectrum.adobe.com/react-aria/Link.html",
+  "usage": "import { IconTile, Sidebar, SidebarHeader, SidebarItem, SidebarSection } from '@strata/react';\nimport { IconLayoutDashboard, IconReceipt, IconSparkles } from '@strata/icons';\n\nexport function AppNav({ collapsed, onCollapsedChange }) {\n  return (\n    <Sidebar aria-label=\"Main\" variant=\"floating\" collapsed={collapsed} onCollapsedChange={onCollapsedChange}>\n      <SidebarHeader logo={<IconTile tint=\"solid\" size=\"sm\"><IconSparkles /></IconTile>} title=\"Ledger\" subtitle=\"Wealth dashboard\" />\n      <SidebarSection title=\"Overview\">\n        <SidebarItem href=\"/\" icon={<IconLayoutDashboard />} isCurrent>Dashboard</SidebarItem>\n        <SidebarItem href=\"/statements\" icon={<IconReceipt />} count={3}>Statements</SidebarItem>\n      </SidebarSection>\n    </Sidebar>\n  );\n}",
+  "examples": [
+    {
+      "name": "sidebar-demo",
+      "title": "Sidebar",
+      "description": "Floating panel with a brand block, three sections, counts, New/Beta badges, a user row in the footer and the collapse toggle."
+    },
+    {
+      "name": "sidebar-collapsed",
+      "title": "Collapsed",
+      "description": "Icon-only mode (controlled). Labels show in tooltips on hover and focus; counts become a dot; names stay."
+    },
+    {
+      "name": "sidebar-flush",
+      "title": "Flush",
+      "description": "Full-height app chrome with a hairline at the inline end, and a button item (onPress)."
+    },
+    {
+      "name": "sidebar-upgrade",
+      "title": "Upgrade card",
+      "description": "A feature Card in SidebarFooter as the upgrade prompt."
+    },
+    {
+      "name": "sidebar-mobile",
+      "title": "Narrow screens",
+      "description": "The same Sidebar inside a start-side Sheet, opened from a menu button."
+    }
+  ],
+  "props": [
+    {
+      "component": "Sidebar",
+      "name": "aria-label",
+      "type": "string",
+      "required": true,
+      "description": "Names the nav landmark (e.g. \"Main\"). Required because a page can have several navs."
+    },
+    {
+      "component": "Sidebar",
+      "name": "variant",
+      "type": "'flush' | 'floating'",
+      "default": "'flush'",
+      "description": "flush = full-height chrome with a hairline at the inline end; floating = an inset panel with container radius, raised surface, rim light and shadow."
+    },
+    {
+      "component": "Sidebar",
+      "name": "collapsed",
+      "type": "boolean",
+      "description": "Icon-only mode (controlled). Labels, section titles and counts are visually hidden but stay in the accessible names; labels show in tooltips."
+    },
+    {
+      "component": "Sidebar",
+      "name": "defaultCollapsed",
+      "type": "boolean",
+      "description": "Initial icon-only mode (uncontrolled). Setting it shows the toggle."
+    },
+    {
+      "component": "Sidebar",
+      "name": "onCollapsedChange",
+      "type": "(collapsed: boolean) => void",
+      "description": "Called by the collapse toggle. Setting it shows the toggle."
+    },
+    {
+      "component": "Sidebar",
+      "name": "collapsible",
+      "type": "boolean",
+      "description": "Force the collapse toggle on or off. Defaults to true when onCollapsedChange or defaultCollapsed is set."
+    },
+    {
+      "component": "Sidebar",
+      "name": "collapseLabel",
+      "type": "string",
+      "default": "'Collapse sidebar'",
+      "description": "Toggle label while expanded. Localise it."
+    },
+    {
+      "component": "Sidebar",
+      "name": "expandLabel",
+      "type": "string",
+      "default": "'Expand sidebar'",
+      "description": "Toggle label while collapsed. Localise it."
+    },
+    {
+      "component": "SidebarHeader",
+      "name": "logo",
+      "type": "ReactNode",
+      "description": "Brand mark, e.g. an IconTile. Stays visible when collapsed."
+    },
+    {
+      "component": "SidebarHeader",
+      "name": "title",
+      "type": "ReactNode",
+      "description": "Product name."
+    },
+    {
+      "component": "SidebarHeader",
+      "name": "subtitle",
+      "type": "ReactNode",
+      "description": "A small line under the title (workspace, plan)."
+    },
+    {
+      "component": "SidebarSection",
+      "name": "title",
+      "type": "ReactNode",
+      "description": "Quiet label above the items; names the list (aria-labelledby). Visually hidden when collapsed, where a hairline separates sections."
+    },
+    {
+      "component": "SidebarItem",
+      "name": "href",
+      "type": "string",
+      "description": "Makes the item a link (React Aria Link; client routers via RouterProvider). Without it the item is a button: pass onPress."
+    },
+    {
+      "component": "SidebarItem",
+      "name": "onPress",
+      "type": "(e: PressEvent) => void",
+      "description": "For button items (no href), e.g. \"Invite people\"."
+    },
+    {
+      "component": "SidebarItem",
+      "name": "icon",
+      "type": "ReactNode",
+      "description": "Leading icon from @strata/icons. Needed for the collapsed mode."
+    },
+    {
+      "component": "SidebarItem",
+      "name": "isCurrent",
+      "type": "boolean",
+      "default": "false",
+      "description": "The current page: aria-current=\"page\", the surface.selected pill, the brand indicator bar at the inline start."
+    },
+    {
+      "component": "SidebarItem",
+      "name": "count",
+      "type": "number",
+      "description": "Trailing count, formatted for the locale, part of the accessible name (\"Statements 3\"). A dot on the icon when collapsed."
+    },
+    {
+      "component": "SidebarItem",
+      "name": "badge",
+      "type": "ReactNode",
+      "description": "Trailing badge. A string becomes a soft brand Badge (\"New\", \"Beta\"); pass a Badge for another tone."
+    },
+    {
+      "component": "SidebarItem",
+      "name": "isDisabled",
+      "type": "boolean",
+      "default": "false",
+      "description": "Not focusable or pressable; text.disabled."
+    },
+    {
+      "component": "SidebarFooter",
+      "name": "children",
+      "type": "ReactNode",
+      "description": "Pinned to the bottom, outside the nav landmark: a user row or an upgrade card. Use useSidebar().collapsed to render a compact version."
+    }
+  ],
+  "accessibility": {
+    "keyboard": [
+      {
+        "keys": "Tab / Shift+Tab",
+        "action": "Moves through the toggle, then every item in order, then the footer."
+      },
+      {
+        "keys": "Enter",
+        "action": "Follows a link item; activates a button item."
+      },
+      {
+        "keys": "Space",
+        "action": "Activates a button item (and the collapse toggle)."
+      },
+      {
+        "keys": "Escape",
+        "action": "Closes an open tooltip (collapsed mode)."
+      }
+    ],
+    "notes": [
+      "The sections render in a <nav> landmark named by aria-label; each section is a <ul role=\"list\"> named by its title. SidebarHeader and SidebarFooter sit outside the landmark.",
+      "No roving focus, on purpose: this is site navigation, a list of links, not a menu or a tree (WAI-ARIA's navigation pattern uses the Tab sequence; role=\"menu\" would make screen readers announce application-style menus and hide the links from the links list).",
+      "The current page is aria-current=\"page\" on the link, shown by the selected pill, the medium weight and the brand bar together — never colour alone.",
+      "Collapsed mode visually hides labels, counts, badges and section titles, but they stay in the DOM, so names and list labels don't change. Each item gets a Tooltip on hover and keyboard focus.",
+      "The collapse toggle is an icon button whose label says what it will do (\"Collapse sidebar\" / \"Expand sidebar\") and has aria-controls pointing at the nav. It doesn't also set aria-expanded, so the state isn't announced twice.",
+      "Narrow screens: put the Sidebar (without its header) inside <Sheet side=\"start\"> opened from a menu button; the Sheet gives the modal focus trap, Escape and the title. See the sidebar-mobile example."
+    ]
+  },
+  "guidelines": {
+    "do": [
+      "Give every item an icon, so the collapsed mode works.",
+      "Keep section titles to one or two words (\"Overview\", \"Account\").",
+      "Use counts for things that need attention and badges for status (\"New\", \"Beta\") — sparingly.",
+      "Mark exactly one item isCurrent."
+    ],
+    "dont": [
+      "Don't nest sections or put menus inside items; link to a page instead.",
+      "Don't rely on the brand bar alone for the current page: it comes with the pill and aria-current.",
+      "Don't hide the Sidebar on narrow screens without offering it in a Sheet."
+    ]
+  },
+  "tokens": [
+    "color.action.primary.bg",
+    "color.border.subtle",
+    "color.focus.ring",
+    "color.surface.default",
+    "color.surface.raised",
+    "color.surface.selected",
+    "color.text.default",
+    "color.text.disabled",
+    "color.text.subtle",
+    "control-height",
+    "font.body",
+    "font.heading",
+    "font.size.md",
+    "font.size.sm",
+    "font.size.xs",
+    "font.tracking.md",
+    "font.tracking.sm",
+    "font.tracking.xs",
+    "font.weight.medium",
+    "font.weight.regular",
+    "font.weight.semibold",
+    "glow",
+    "hairline",
+    "icon-stroke",
+    "line-height.normal",
+    "line-height.snug",
+    "line-height.tight",
+    "motion.duration.fast",
+    "motion.duration.normal",
+    "motion.duration.spring",
+    "motion.easing",
+    "motion.easingOut",
+    "motion.spring",
+    "radius.badge",
+    "radius.button",
+    "radius.container",
+    "radius.pill",
+    "rim",
+    "shadow.highlight",
+    "shadow.raised",
+    "space.1",
+    "space.16",
+    "space.2",
+    "space.3",
+    "space.4",
+    "space.5"
+  ]
+}

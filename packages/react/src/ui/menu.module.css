@@ -3,6 +3,25 @@
   display: flex;
   flex-direction: column;
 }
+/* Finesse: the glass edge is decoration (the overlay shadow carries the shape), so it's a hairline ring: a
+   box-shadow, since Chromium rounds sub-pixel borders up to 1px. The Popover's border turns transparent (it keeps
+   the size and is the edge in forced-colours mode). Doubled class so it outranks the Popover's own rule whatever
+   order the stylesheets load in. */
+.popover.popover {
+  border-color: transparent;
+  box-shadow:
+    0 0 0 var(--strata-hairline) var(--strata-color-border-default),
+    var(--strata-shadow-highlight),
+    var(--strata-shadow-overlay);
+  letter-spacing: var(--strata-font-tracking-md);
+}
+@supports (corner-shape: squircle) {
+  .popover.popover,
+  .item {
+    corner-shape: squircle;
+  }
+}
+
 
 .menu {
   box-sizing: border-box;
@@ -18,9 +37,21 @@
   outline: none;
 }
 
+/*
+ * Items sit on glass (the Popover), so at rest they only use text.default and text.subtle — the two roles the
+ * engine guarantees on glass. The highlighted row gets an opaque role background (surface.selected, or
+ * feedback.danger.bg for a danger item) drawn by ::before; it blooms in (fade + spring from 0.96) and fades out
+ * as focus leaves, so the highlight visibly follows the pointer or arrow keys instead of blinking row to row.
+ */
 .item {
-  --menu-item-radius: min(var(--strata-radius-button), var(--strata-space-2));
+  /* Concentric with the popover: its radius minus the popover's padding (floored at a small key-like corner). */
+  --menu-item-radius: max(
+    min(var(--strata-radius-badge), var(--strata-space-1)),
+    calc(var(--strata-radius-container) - var(--popover-padding, var(--strata-space-1)))
+  );
+  --_highlight: var(--strata-color-surface-selected);
   position: relative;
+  isolation: isolate;
   display: flex;
   align-items: center;
   gap: var(--strata-space-2);
@@ -29,19 +60,28 @@
   border-radius: var(--menu-item-radius);
   color: var(--strata-color-text-default);
   font-size: var(--strata-font-size-md);
+  letter-spacing: var(--strata-font-tracking-md);
   line-height: var(--strata-line-height-snug);
   text-decoration: none;
   cursor: default;
   user-select: none;
   outline: none;
   -webkit-tap-highlight-color: transparent;
+  transition: color var(--strata-motion-duration-fast) var(--strata-motion-easing);
 }
-.item[data-focused],
-.item[data-open] {
-  background: color-mix(in oklab, var(--strata-color-text-default) 6%, transparent);
+.item::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  background: var(--_highlight);
+  opacity: 0;
+  transition: opacity var(--strata-motion-duration-fast) var(--strata-motion-easing);
 }
-.item[data-pressed] {
-  background: color-mix(in oklab, var(--strata-color-text-default) 10%, transparent);
+.item[data-focused]::before,
+.item[data-open]::before {
+  opacity: 1;
 }
 /* Neutralise page-level `[tabindex]:focus-visible` rules; the ring below is the item's focus indicator. */
 .item:focus-visible {
@@ -52,18 +92,71 @@
   outline: 2px solid var(--strata-color-focus-ring);
   outline-offset: -2px;
 }
+/* Danger: at rest the label stays text.default (feedback colours aren't solved on glass) and the icon carries the
+   red; highlighted, the row turns to feedback.danger.bg with feedback.danger.fg, a pair the engine solves. */
 .item[data-tone='danger'] {
-  color: var(--strata-color-feedback-danger-fg);
+  --_highlight: var(--strata-color-feedback-danger-bg);
 }
 .item[data-tone='danger'][data-focused] {
-  background: color-mix(in oklab, var(--strata-color-feedback-danger-solid) 10%, transparent);
+  color: var(--strata-color-feedback-danger-fg);
 }
 .item[data-disabled] {
+  /* text.disabled is exempt from contrast (WCAG 1.4.3) and not solved on any surface, glass included. */
   color: var(--strata-color-text-disabled);
   pointer-events: none;
 }
 .item[href] {
   cursor: pointer;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .item {
+    transition:
+      color var(--strata-motion-duration-fast) var(--strata-motion-easing),
+      scale var(--strata-motion-duration-spring) var(--strata-motion-spring);
+  }
+  .item::before {
+    scale: 0.96;
+    transition:
+      opacity var(--strata-motion-duration-fast) var(--strata-motion-easing),
+      scale var(--strata-motion-duration-spring) var(--strata-motion-spring);
+  }
+  .item[data-focused]::before,
+  .item[data-open]::before {
+    scale: 1;
+  }
+  /* Press: the row gives under the finger quickly and springs back on release. */
+  .item[data-pressed] {
+    scale: 0.96;
+    transition:
+      color var(--strata-motion-duration-fast) var(--strata-motion-easing),
+      scale var(--strata-motion-duration-fast) var(--strata-motion-easing);
+  }
+  /* Rows step in as the menu opens: a fade and the popover's 4px nudge from the trigger, 30ms apart (a quarter of
+     duration-fast), so the cascade finishes with the panel's spring. Items mount when the menu opens, so this runs
+     once per open. Rows are interactive the whole time. */
+  .item,
+  .sectionTitle {
+    animation: menu-item-in var(--strata-motion-duration-normal) var(--strata-motion-easing-out)
+      calc(var(--_i, 0) * var(--strata-motion-duration-fast) / 4) backwards;
+  }
+}
+
+/* Stagger slot: the first 8 rows step in one after another; the rest arrive with the 8th, so a long menu is
+   never slower to fill than a short one. */
+:is(.item, .sectionTitle):nth-child(2) { --_i: 1; }
+:is(.item, .sectionTitle):nth-child(3) { --_i: 2; }
+:is(.item, .sectionTitle):nth-child(4) { --_i: 3; }
+:is(.item, .sectionTitle):nth-child(5) { --_i: 4; }
+:is(.item, .sectionTitle):nth-child(6) { --_i: 5; }
+:is(.item, .sectionTitle):nth-child(7) { --_i: 6; }
+:is(.item, .sectionTitle):nth-child(n + 8) { --_i: 7; }
+
+@keyframes menu-item-in {
+  from {
+    opacity: 0;
+    translate: var(--popover-shift, 0 0);
+  }
 }
 
 .check,
@@ -81,12 +174,22 @@
 .icon {
   color: var(--strata-color-text-subtle);
 }
+.icon svg,
+.check svg,
+.chevron {
+  stroke-width: var(--strata-icon-stroke, 1.5);
+}
 .icon svg {
   inline-size: 100%;
   block-size: 100%;
 }
+.item[data-focused] .icon,
+.item[data-open] .icon {
+  color: var(--strata-color-text-default);
+}
+/* The icon is decorative (aria-hidden); the label says what the item does. */
 .item[data-tone='danger'] .icon {
-  color: currentColor;
+  color: var(--strata-color-feedback-danger-fg);
 }
 .item[data-disabled] .icon,
 .item[data-disabled] .check {
@@ -105,8 +208,15 @@
 }
 .description {
   font-size: var(--strata-font-size-xs);
+  letter-spacing: var(--strata-font-tracking-xs);
   line-height: var(--strata-line-height-normal);
   color: var(--strata-color-text-subtle);
+}
+/* text.subtle isn't solved against surface.selected, so on the highlighted row secondary text steps up to the
+   label's colour (default, or danger fg on a danger row). */
+.item[data-focused] :is(.description, .shortcut, .chevron),
+.item[data-open] :is(.description, .shortcut, .chevron) {
+  color: inherit;
 }
 .item[data-disabled] .description {
   color: var(--strata-color-text-disabled);
@@ -119,6 +229,7 @@
   font-family: var(--strata-font-body);
   font-size: var(--strata-font-size-xs);
   font-variant-numeric: tabular-nums;
+  letter-spacing: var(--strata-font-tracking-xs);
   color: var(--strata-color-text-subtle);
 }
 .item[data-disabled] .shortcut {
@@ -145,12 +256,13 @@
   padding: var(--strata-space-1) var(--strata-space-2);
   font-size: var(--strata-font-size-xs);
   font-weight: var(--strata-font-weight-medium);
+  letter-spacing: var(--strata-font-tracking-xs);
   line-height: var(--strata-line-height-normal);
   color: var(--strata-color-text-subtle);
 }
 
 .separator {
-  block-size: 1px;
+  block-size: var(--strata-hairline);
   margin-block: var(--strata-space-1);
   margin-inline: calc(var(--strata-space-1) * -1);
   border: 0;

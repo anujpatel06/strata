@@ -125,3 +125,20 @@ describe('Select', () => {
     expect(root).toContainElement(screen.getByRole('button', { name: /Plan/ }));
   });
 });
+
+describe('Select size', () => {
+  it('marks the root with its size (md by default), shared with the other fields and Button', () => {
+    const { container } = render(
+      <>
+        <Select label="Plan">
+          <SelectItem id="a">A</SelectItem>
+        </Select>
+        <Select label="Small plan" size="sm">
+          <SelectItem id="a">A</SelectItem>
+        </Select>
+      </>,
+    );
+    const roots = container.querySelectorAll('[data-field-size]');
+    expect([...roots].map((r) => r.getAttribute('data-field-size'))).toEqual(['md', 'sm']);
+  });
+});

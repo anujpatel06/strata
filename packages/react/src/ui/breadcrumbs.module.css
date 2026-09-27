@@ -23,11 +23,15 @@
 }
 
 .link {
+  box-sizing: border-box;
   display: inline-flex;
   align-items: center;
   gap: var(--strata-space-1);
   /* 24px hit target (WCAG 2.5.8) at any density. */
   min-block-size: var(--strata-space-6);
+  /* A chip that lights up on hover; the negative margin keeps the text where it was. */
+  padding-inline: var(--strata-space-1);
+  margin-inline: calc(var(--strata-space-1) * -1);
   border-radius: var(--strata-radius-badge);
   color: var(--strata-color-text-subtle);
   text-decoration: none;
@@ -35,7 +39,8 @@
   outline: none;
 }
 
-.link[data-hovered]:not([data-current]) {
+.link[data-hovered]:not([data-current], [data-disabled]) {
+  background-color: color-mix(in oklab, var(--strata-color-text-default) 6%, transparent);
   color: var(--strata-color-text-default);
 }
 
@@ -98,11 +103,58 @@
   outline-offset: 2px;
 }
 
+.link,
+.ellipsis {
+  transition-property: background-color, color;
+  transition-duration: var(--strata-motion-duration-fast);
+  transition-timing-function: var(--strata-motion-easing);
+}
+
+/* Items revealed by the ellipsis fade in (opacity is allowed with reduced motion; the slide is not). */
+.revealed {
+  animation: strata-breadcrumbs-fade var(--strata-motion-duration-normal) var(--strata-motion-easing-out) both;
+}
+
 @media (prefers-reduced-motion: no-preference) {
+  /* Press: dip to 0.97 fast, spring back. */
   .link,
   .ellipsis {
-    transition-property: background-color, color;
+    transition-property: background-color, color, scale;
+    transition-duration: var(--strata-motion-duration-fast), var(--strata-motion-duration-fast),
+      var(--strata-motion-duration-spring);
+    transition-timing-function: var(--strata-motion-easing), var(--strata-motion-easing), var(--strata-motion-spring);
+  }
+
+  .link[data-pressed]:not([data-current]),
+  .ellipsis[data-pressed] {
+    scale: 0.97;
     transition-duration: var(--strata-motion-duration-fast);
     transition-timing-function: var(--strata-motion-easing);
   }
+
+  .ellipsis[data-pressed] {
+    scale: 0.9;
+  }
+
+  .revealed {
+    animation-name: strata-breadcrumbs-reveal;
+  }
+}
+
+@keyframes strata-breadcrumbs-fade {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes strata-breadcrumbs-reveal {
+  from {
+    opacity: 0;
+    translate: calc(var(--strata-space-1) * var(--_reveal-dir, -1)) 0;
+  }
+}
+
+/* Revealed items slide in from the inline start, whichever side that is. */
+.revealed:dir(rtl) {
+  --_reveal-dir: 1;
 }

@@ -1,0 +1,75 @@
+/*
+ * BarChart marks. The frame (axes, grid, tooltip, hit layer) is chart.module.css.
+ * Bars: ≤ 24px, a 4px rounded data end (the tenant's field radius when it's smaller, so sharp brands stay
+ * sharp), square at the baseline (the rect runs past it under a clip), a 2px surface gap between grouped bars.
+ */
+
+.root {
+  min-inline-size: 0;
+}
+
+.bar {
+  fill: var(--_c);
+  rx: min(var(--strata-radius-field), var(--strata-space-1));
+  /* Dark only: the bars glow softly in their own colour (muted bars don't: they're not the story). Decoration;
+     the fill itself is unchanged, so the 3:1 mark contrast holds. */
+  filter: drop-shadow(0 0 var(--strata-space-2) light-dark(transparent, color-mix(in oklab, var(--_c) 45%, transparent)));
+  transition: fill var(--strata-motion-duration-fast) var(--strata-motion-easing);
+}
+
+/* Emphasis: the rest of the bars step back to a neutral that still holds 3:1 against the surface (border.strong
+   is the input-border role, solved for WCAG 1.4.11), so they stay readable as data, just not the story. */
+.bar[data-muted] {
+  fill: var(--strata-color-border-strong);
+  filter: none;
+}
+
+/* The hovered or focused category: a quiet column behind its bars. */
+.column {
+  fill: color-mix(in oklab, var(--strata-color-text-default) 5%, transparent);
+  rx: min(var(--strata-radius-field), var(--strata-space-2));
+}
+
+@media (forced-colors: active) {
+  .bar {
+    fill: CanvasText;
+  }
+  .bar[data-muted] {
+    fill: GrayText;
+  }
+  .column {
+    fill: Highlight;
+    opacity: 0.3;
+  }
+}
+
+/* ---- motion: bars grow from the baseline, one after another --------------------------------- */
+
+@media (prefers-reduced-motion: no-preference) {
+  .bar {
+    transform-box: fill-box;
+    transform-origin: 50% 100%;
+    animation: chart-bar-grow calc(var(--strata-motion-duration-slow) * 2) var(--strata-motion-easing-out)
+      calc(var(--_i) * var(--strata-motion-duration-fast) / 3) backwards;
+  }
+
+  .bar[data-direction='down'] {
+    transform-origin: 50% 0;
+  }
+
+  .column {
+    animation: chart-column-in var(--strata-motion-duration-fast) var(--strata-motion-easing);
+  }
+}
+
+@keyframes chart-bar-grow {
+  from {
+    scale: 1 0;
+  }
+}
+
+@keyframes chart-column-in {
+  from {
+    opacity: 0;
+  }
+}

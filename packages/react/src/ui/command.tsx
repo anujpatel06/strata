@@ -31,7 +31,7 @@ import {
   type ListBoxItemProps,
   type ListBoxSectionProps,
 } from 'react-aria-components';
-import { IconSearch } from '@tabler/icons-react';
+import { IconSearch } from '@strata/icons';
 import styles from './command.module.css';
 
 const cx = (...c: Array<string | false | null | undefined>) => c.filter(Boolean).join(' ');
@@ -46,12 +46,29 @@ function mirrorScope(overlay: HTMLElement, source: Element | null | undefined): 
   for (const name of SCOPE_ATTRS) {
     // Look each attribute up on its own: a single-tenant app themes :root and scopes only the scheme.
     const value = source.closest(`[${name}]`)?.getAttribute(name);
-    if (value) overlay.setAttribute(name, value);
+    if (value && overlay.getAttribute(name) !== value) overlay.setAttribute(name, value);
   }
   for (const name of ['dir', 'lang']) {
     const value = source.closest(`[${name}]`)?.getAttribute(name);
-    if (value) overlay.setAttribute(name, value);
+    if (value && overlay.getAttribute(name) !== value) overlay.setAttribute(name, value);
   }
+}
+
+/**
+ * The same lookup as mirrorScope, returned as props so the overlay root is *created* inside its scope. React Aria
+ * decides whether an overlay has an entry animation in a layout effect that runs before the ref callback that calls
+ * mirrorScope; until the scope attributes land, the motion tokens are undefined, the `animation` declaration is
+ * invalid, and React Aria concludes there's nothing to animate. mirrorScope stays as the fallback for an overlay
+ * that mounts already open (its trigger or anchor isn't in the DOM yet during that first render).
+ */
+function scopeProps(source: Element | null | undefined): Record<string, string> {
+  const props: Record<string, string> = {};
+  if (!source) return props;
+  for (const name of [...SCOPE_ATTRS, 'dir', 'lang']) {
+    const value = source.closest(`[${name}]`)?.getAttribute(name);
+    if (value) props[name] = value;
+  }
+  return props;
 }
 
 export interface CommandDialogProps<T> {
@@ -115,6 +132,8 @@ export function CommandDialog<T extends object>({
     <>
       {!triggerRef && <span ref={anchorRef} hidden />}
       <ModalOverlay
+        // Scope attributes at creation, so entry animations resolve their tokens (see scopeProps).
+        {...scopeProps(triggerRef?.current ?? anchorRef.current)}
         ref={overlayRef}
         className={styles.overlay}
         isDismissable
@@ -171,7 +190,7 @@ function CommandPalette<T extends object>({
     <>
       <Autocomplete inputValue={query} onInputChange={setQuery} filter={filter ?? contains}>
         <SearchField aria-label={ariaLabel} autoFocus className={styles.search}>
-          <IconSearch aria-hidden className={styles.searchIcon} size="1.125em" stroke={1.75} />
+          <IconSearch aria-hidden className={styles.searchIcon} size="1.125em" />
           {/* The combobox pattern (APG): focus stays here and aria-activedescendant points at the active option. It
               also tells assistive tech — and axe — that the scrolling results list is operated from this input. */}
           <Input placeholder={placeholder} role="combobox" aria-expanded className={styles.input} />

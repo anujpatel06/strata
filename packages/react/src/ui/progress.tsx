@@ -1,6 +1,6 @@
 'use client';
 
-import type { JSX, ReactNode, Ref } from 'react';
+import type { CSSProperties, JSX, ReactNode, Ref } from 'react';
 import {
   Label,
   ProgressBar as AriaProgressBar,
@@ -55,7 +55,7 @@ export function ProgressBar({
             <div
               className={styles.fill}
               data-indeterminate={isIndeterminate || undefined}
-              style={isIndeterminate ? undefined : { inlineSize: `${percentage ?? 0}%` }}
+              style={isIndeterminate ? undefined : ({ '--_pct': `${percentage ?? 0}%` } as CSSProperties)}
             />
           </div>
         </>

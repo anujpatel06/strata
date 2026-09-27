@@ -37,6 +37,14 @@ describe('FileUpload', () => {
     expect(items[1]).toHaveTextContent('800 kB');
   });
 
+  it('staggers row entrances within each batch, not across the whole list', () => {
+    const { container } = render(<FileUpload label="Receipts" allowsMultiple />);
+    choose(container, [file('a.pdf', 10, 'application/pdf'), file('b.pdf', 10, 'application/pdf')]);
+    choose(container, [file('c.pdf', 10, 'application/pdf')]);
+    const rows = within(screen.getByRole('list', { name: 'Receipts' })).getAllByRole('listitem');
+    expect(rows.map((r) => r.style.getPropertyValue('--row-stagger'))).toEqual(['0', '1', '0']);
+  });
+
   it('removes a file with its remove button', async () => {
     const user = userEvent.setup();
     const onChange = vi.fn();
@@ -105,6 +113,8 @@ describe('FileUpload', () => {
     render(<Controlled />);
     const bar = screen.getByRole('progressbar', { name: 'Uploading half.pdf' });
     expect(bar).toHaveAttribute('aria-valuenow', '40');
+    // The fill reads its level from --progress (0–1): width with reduced motion, a translate glide otherwise.
+    expect((bar.querySelector('[style*="--progress"]') as HTMLElement).style.getPropertyValue('--progress')).toBe('0.4');
     expect(screen.getByText('Uploaded')).toBeInTheDocument();
     expect(screen.getByText('Upload failed.')).toBeInTheDocument();
   });

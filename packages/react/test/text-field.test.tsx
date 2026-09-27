@@ -1,6 +1,21 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { TextField as RACTextField } from 'react-aria-components';
+import { generateTheme, type BrandInput, type Theme } from '@strata/theme-engine';
+import {
+  contrastRatio,
+  hexToRgb8,
+  linearRgbToOklab,
+  linearToSrgb,
+  oklabToLinearRgb,
+  rgb8ToHex,
+  srgbToLinear,
+} from '../../theme-engine/src/color';
+import vela from '../../../tenants/vela/brand.json';
+import harbor from '../../../tenants/harbor/brand.json';
+import qamar from '../../../tenants/qamar/brand.json';
+import care from '../../../tenants/care/brand.json';
+import house from '../../../tenants/house/brand.json';
 import { Description, FieldError, FieldGroup, Input, Label, TextField } from '../src/ui/text-field';
 
 describe('TextField', () => {
@@ -97,4 +112,84 @@ describe('field primitives', () => {
     );
     expect(container.querySelector('.error')).toBeNull();
   });
+});
+
+describe('TextField size', () => {
+  it('marks the field root with its size (md by default) for the box styles', () => {
+    render(
+      <>
+        <TextField label="Default" />
+        <TextField label="Small" size="sm" />
+        <TextField label="Large" size="lg" prefix="$" />
+      </>,
+    );
+    const root = (name: string) => screen.getByRole('textbox', { name }).closest('[data-field-size]');
+    expect(root('Default')).toHaveAttribute('data-field-size', 'md');
+    expect(root('Small')).toHaveAttribute('data-field-size', 'sm');
+    expect(root('Large')).toHaveAttribute('data-field-size', 'lg');
+  });
+});
+
+/*
+ * Field boundary contrast (WCAG 1.4.11, "Soft outline, still AA", Anuj 2026-09-27). The field edge must reach 3:1
+ * against every surface a field sits on (canvas, default, raised, sunken). It reads the dark mix straight from
+ * text-field.module.css, so changing it re-runs the proof:
+ *   light: border.strong;   dark: color-mix(in oklab, border.strong N%, border.default)
+ * over the 5 tenants and the 1,000 seeded fuzz brands (fuzzInputs from theme-engine/scripts/fuzz.ts).
+ */
+describe('field boundary contrast', () => {
+  const node = (
+    globalThis as unknown as {
+      process: {
+        cwd(): string;
+        getBuiltinModule(id: 'node:fs'): { readFileSync(file: string, encoding: 'utf8'): string };
+      };
+    }
+  ).process;
+  const css = node.getBuiltinModule('node:fs').readFileSync(`${node.cwd()}/src/ui/text-field.module.css`, 'utf8');
+  const edge = /--_edge: light-dark\(\s*var\(--strata-color-border-strong\),\s*color-mix\(in oklab, var\(--strata-color-border-strong\) (\d+)%, var\(--strata-color-border-default\)\)\s*\);/.exec(css);
+  const DARK = Number(edge?.[1]);
+
+  type Rgb = [number, number, number];
+  const toLab = (hex: string) => linearRgbToOklab(hexToRgb8(hex).map((v) => srgbToLinear(v / 255)) as Rgb);
+  const mix = (a: string, b: string, p: number): string => {
+    const A = toLab(a);
+    const B = toLab(b);
+    const t = p / 100;
+    const lab = { l: A.l * t + B.l * (1 - t), a: A.a * t + B.a * (1 - t), b: A.b * t + B.b * (1 - t) };
+    return rgb8ToHex(oklabToLinearRgb(lab).map((v) => Math.max(0, Math.min(1, linearToSrgb(v))) * 255) as Rgb);
+  };
+  const SURFACES = ['surface.canvas', 'surface.default', 'surface.raised', 'surface.sunken'] as const;
+  const worst = (themes: Theme[]) => {
+    const out = { light: Infinity, dark: Infinity };
+    for (const theme of themes) {
+      for (const scheme of ['light', 'dark'] as const) {
+        const hex = (role: keyof Theme['schemes']['light']['roles']) => theme.schemes[scheme].roles[role].hex;
+        const line = scheme === 'light' ? hex('border.strong') : mix(hex('border.strong'), hex('border.default'), DARK);
+        for (const s of SURFACES) out[scheme] = Math.min(out[scheme], contrastRatio(line, hex(s)));
+      }
+    }
+    return out;
+  };
+
+  it('reads the dark edge mix from the CSS', () => {
+    expect(DARK).toBe(80);
+  });
+
+  it('tenants: the edge is ≥ 3:1 on every surface, light and dark', () => {
+    const w = worst([vela, harbor, qamar, care, house].map((b) => generateTheme(b as BrandInput)));
+    expect(w.light).toBeGreaterThanOrEqual(3);
+    expect(w.dark).toBeGreaterThanOrEqual(3);
+  });
+
+  it('1,000 fuzz brands: the edge is ≥ 3:1 on every surface, light and dark', async () => {
+    // A computed path keeps tsc out of the Node-typed fuzz script; Vitest resolves it at run time.
+    const path = `${node.cwd()}/../theme-engine/scripts/fuzz.ts`;
+    const { fuzzInputs } = (await import(/* @vite-ignore */ path)) as { fuzzInputs: () => BrandInput[] };
+    const inputs = fuzzInputs();
+    expect(inputs).toHaveLength(1000);
+    const w = worst(inputs.map((b) => generateTheme(b)));
+    expect(w.light).toBeGreaterThanOrEqual(3);
+    expect(w.dark).toBeGreaterThanOrEqual(3);
+  }, 60_000);
 });

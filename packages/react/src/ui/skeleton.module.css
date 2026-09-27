@@ -33,27 +33,32 @@
   aspect-ratio: 1;
 }
 
-/* Shimmer: a soft highlight sweeps in the reading direction. */
+/*
+ * Shimmer: a soft band of slightly more ink glides across in the reading direction, then rests before
+ * the next pass (the keyframes hold still for the last third). More ink rather than a white gleam, so it
+ * reads the same on light and dark surfaces. Reduced motion: the static tint only.
+ */
 @media (prefers-reduced-motion: no-preference) {
   .skeleton {
     background-image: linear-gradient(
       90deg,
-      transparent 25%,
-      color-mix(in oklab, var(--strata-color-surface-sunken) 50%, var(--strata-color-surface-default)) 50%,
-      transparent 75%
+      transparent 0%,
+      color-mix(in oklab, var(--strata-color-text-default) 6%, transparent) 50%,
+      transparent 100%
     );
     background-repeat: no-repeat;
-    background-size: 200% 100%;
-    animation: strata-skeleton-shimmer calc(var(--strata-motion-duration-normal) * 8) var(--strata-motion-easing) infinite;
+    background-size: 50% 100%;
+    animation: strata-skeleton-shimmer calc(var(--strata-motion-duration-normal) * 9) ease-in-out infinite;
   }
 }
 
 @keyframes strata-skeleton-shimmer {
-  from {
-    background-position-x: calc(50% + 100% * var(--_dir));
+  0% {
+    background-position-x: calc(50% - 150% * var(--_dir));
   }
-  to {
-    background-position-x: calc(50% - 100% * var(--_dir));
+  66%,
+  100% {
+    background-position-x: calc(50% + 150% * var(--_dir));
   }
 }
 

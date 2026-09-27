@@ -1,0 +1,71 @@
+/*
+ * Eyebrow — a kicker label: xs, uppercase, wide tracking, text.subtle.
+ *
+ * Tracking: --strata-font-tracking-caps (0.08em for Latin type pairs, 0 for Arabic-capable pairs, because letter
+ * spacing breaks joined script). Arabic text gets no uppercase either (the script has no case).
+ */
+.eyebrow {
+  --_mark: var(--strata-color-text-subtle);
+
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  gap: var(--strata-space-2);
+  min-inline-size: 0;
+  margin: 0;
+  color: var(--strata-color-text-subtle);
+  font-family: var(--strata-font-body);
+  font-size: var(--strata-font-size-xs);
+  font-weight: var(--strata-font-weight-medium);
+  letter-spacing: var(--strata-font-tracking-caps);
+  line-height: var(--strata-line-height-snug);
+  text-transform: uppercase;
+}
+
+span.eyebrow {
+  display: inline-flex;
+  vertical-align: baseline;
+}
+
+.eyebrow[data-tone='brand'] {
+  --_mark: var(--strata-color-text-brand);
+}
+.eyebrow[data-tone='accent'] {
+  --_mark: var(--strata-color-accent-text);
+}
+.eyebrow[data-tone='info'] {
+  --_mark: var(--strata-color-feedback-info-fg);
+}
+.eyebrow[data-tone='success'] {
+  --_mark: var(--strata-color-feedback-success-fg);
+}
+.eyebrow[data-tone='warning'] {
+  --_mark: var(--strata-color-feedback-warning-fg);
+}
+.eyebrow[data-tone='danger'] {
+  --_mark: var(--strata-color-feedback-danger-fg);
+}
+
+.text {
+  min-inline-size: 0;
+}
+
+/* A hairline dash, one space-4 long, centred on the capitals. Drawn as a border so forced-colours mode keeps it. */
+.rule {
+  flex: none;
+  inline-size: var(--strata-space-4);
+  border-block-start: 1px solid var(--_mark);
+}
+
+.icon {
+  display: inline-flex;
+  flex: none;
+  color: var(--_mark);
+}
+
+.icon > svg {
+  /* ~1.25× the text, per "Icons match text"; the tracking is not inherited into the glyph. */
+  inline-size: 1.25em;
+  block-size: 1.25em;
+  stroke-width: var(--strata-icon-stroke, 1.75);
+}

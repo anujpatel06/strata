@@ -1,6 +1,6 @@
 'use client';
 
-import { IconChevronRight, IconDots } from '@tabler/icons-react';
+import { IconChevronRight, IconDots } from '@strata/icons';
 import { Children, cloneElement, isValidElement, useState, type JSX, type ReactElement, type ReactNode } from 'react';
 import {
   Breadcrumb as RACBreadcrumb,
@@ -61,7 +61,7 @@ export function Breadcrumbs<T extends object>({
           aria-label={expandLabel}
           onPress={() => setState('expanded-by-user')}
         >
-          <IconDots aria-hidden="true" size="1.15em" stroke={1.75} />
+          <IconDots aria-hidden="true" size="1.15em" />
         </RACButton>
         <Separator />
       </RACBreadcrumb>,
@@ -69,7 +69,17 @@ export function Breadcrumbs<T extends object>({
     ];
   } else if (items && collapsible) {
     // The ellipsis button unmounted when pressed; the first item it revealed takes focus as it mounts.
-    content = items.map((item, i) => (i === 1 ? cloneElement(item as ReactElement<BreadcrumbProps>, { autoFocus: true }) : item));
+    // Items the ellipsis revealed get a class that fades them in (see .revealed).
+    const revealedEnd = items.length - (maxItems - 1);
+    content = items.map((item, i) => {
+      if (i < 1 || i >= revealedEnd) return item;
+      const el = item as ReactElement<BreadcrumbProps>;
+      const own = el.props.className;
+      return cloneElement(el, {
+        autoFocus: i === 1 || undefined,
+        className: typeof own === 'function' ? (rp) => cx(styles.revealed, own(rp)) : cx(styles.revealed, own),
+      });
+    });
   }
 
   return (
@@ -85,7 +95,7 @@ export function Breadcrumbs<T extends object>({
 function Separator(): JSX.Element {
   return (
     <span className={styles.separator} aria-hidden="true">
-      <IconChevronRight size="1em" stroke={1.75} />
+      <IconChevronRight size="1em" />
     </span>
   );
 }

@@ -1,0 +1,206 @@
+/*
+ * Meter — label and readout on one line, a slim track underneath.
+ *
+ * Contrast (WCAG 1.4.11): the fill is the only thing that shows the value, so it must reach 3:1 against the track.
+ * action.primary.bg does not (the engine only tunes it for its label, and a dark-scheme primary can sit at 2.2–2.8:1
+ * on surface.sunken). Every fill here is a *text* role instead, which the engine already pushes to 4.5:1 on the
+ * surfaces the track uses:
+ *   brand   → text.brand            (≥ 4.5 on canvas/default/raised, guaranteed; on sunken ≥ 4.46 across the fuzz)
+ *   accent  → accent.text           (≥ 4.5 on default, guaranteed; on sunken ≥ 4.46 across the fuzz)
+ *   neutral → text.subtle           (≥ 4.5 on sunken, guaranteed)
+ *   info/success/warning/danger → feedback.*.fg (≥ 4.5 on default, guaranteed; on sunken ≥ 5.41 across the fuzz)
+ * "Across the fuzz" = the 1,000 brands × 2 schemes of `pnpm test:themes`, all well above the 3:1 non-text bar.
+ * The solid feedback roles were rejected: feedback.warning.solid is 1.85:1 on light sunken tracks.
+ */
+.meter {
+  --_fill: var(--strata-color-text-brand);
+  --_track: var(--strata-color-surface-sunken);
+  --_track-size: calc(var(--strata-space-1) * 1.5);
+  --_dir: 1;
+
+  box-sizing: border-box;
+  display: grid;
+  gap: var(--strata-space-2);
+  inline-size: 100%;
+  min-inline-size: 0;
+  color: var(--strata-color-text-default);
+  font-family: var(--strata-font-body);
+  font-size: var(--strata-font-size-sm);
+  letter-spacing: var(--strata-font-tracking-sm);
+  line-height: var(--strata-line-height-snug);
+}
+
+.meter:dir(rtl) {
+  --_dir: -1;
+}
+
+.meter[data-tone='accent'] {
+  --_fill: var(--strata-color-accent-text);
+}
+.meter[data-tone='neutral'] {
+  --_fill: var(--strata-color-text-subtle);
+}
+.meter[data-tone='info'] {
+  --_fill: var(--strata-color-feedback-info-fg);
+}
+.meter[data-tone='success'] {
+  --_fill: var(--strata-color-feedback-success-fg);
+}
+.meter[data-tone='warning'] {
+  --_fill: var(--strata-color-feedback-warning-fg);
+}
+.meter[data-tone='danger'] {
+  --_fill: var(--strata-color-feedback-danger-fg);
+}
+
+/* ---- header ------------------------------------------------------------ */
+
+.header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  column-gap: var(--strata-space-3);
+  row-gap: var(--strata-space-1);
+  min-inline-size: 0;
+}
+
+.label {
+  min-inline-size: 0;
+  color: var(--strata-color-text-default);
+  font-size: var(--strata-font-size-sm);
+  font-weight: var(--strata-font-weight-medium);
+  letter-spacing: var(--strata-font-tracking-sm);
+}
+
+/* With a label: value and caption sit together at the inline end ("₹7,400 used  of ₹18,000"). */
+.readout {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  column-gap: var(--strata-space-1);
+  min-inline-size: 0;
+  margin-inline-start: auto;
+}
+
+/* Without a label (or in a card): the value leads and the caption answers it from the far end. */
+.meter:not([data-labelled]) .readout,
+.meter[data-variant='card'] .readout {
+  flex: 1 1 auto;
+  justify-content: space-between;
+  column-gap: var(--strata-space-3);
+  margin-inline-start: 0;
+}
+
+.value {
+  color: var(--strata-color-text-default);
+  font-size: var(--strata-font-size-sm);
+  font-variant-numeric: tabular-nums;
+  font-weight: var(--strata-font-weight-medium);
+  letter-spacing: var(--strata-font-tracking-sm);
+  /* Isolated: its direction is set in the markup (the locale's, or its own text's for authored labels). */
+  unicode-bidi: isolate;
+}
+
+.caption {
+  color: var(--strata-color-text-subtle);
+  font-size: var(--strata-font-size-xs);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: var(--strata-font-tracking-xs);
+  unicode-bidi: isolate;
+}
+
+/* ---- track and fill ------------------------------------------------------ */
+
+.track {
+  position: relative;
+  block-size: var(--_track-size);
+  overflow: hidden;
+  border-radius: var(--strata-radius-pill);
+  background-color: var(--_track);
+  /* A recessed channel: a faint inner shade along the top edge. */
+  box-shadow: inset 0 var(--strata-hairline) 1px color-mix(in oklab, var(--strata-color-text-default) 8%, transparent);
+}
+
+/* Forced colours drop backgrounds: keep the channel and the fill visible. */
+@media (forced-colors: active) {
+  .track {
+    border: 1px solid;
+  }
+  .fill {
+    forced-color-adjust: none;
+  }
+}
+
+/* Reduced motion: the fill simply has its width. */
+.fill {
+  inline-size: var(--_pct, 0%);
+  block-size: 100%;
+  max-inline-size: 100%;
+  border-radius: inherit;
+  background-color: var(--_fill);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  /*
+   * A full-width fill slid back by the remaining amount, so only transform animates and the leading edge keeps
+   * its round cap. On mount it slides in from the start edge; later values glide with the same curve.
+   */
+  .fill {
+    inline-size: 100%;
+    translate: calc((var(--_pct, 0%) - 100%) * var(--_dir)) 0;
+    transition: translate var(--strata-motion-duration-slow) var(--strata-motion-easing-out);
+    animation: strata-meter-fill calc(var(--strata-motion-duration-slow) * 2) var(--strata-motion-easing-out)
+      var(--strata-motion-duration-fast) backwards;
+  }
+}
+
+@keyframes strata-meter-fill {
+  from {
+    translate: calc(-100% * var(--_dir)) 0;
+  }
+}
+
+/* ---- card variant: the usage row inside a card ---------------------------- */
+
+/*
+ * An inset panel in surface.sunken, with the same corner radius as CardContent variant="inset" so the two read as
+ * one family inside a card (never larger than the card's own radius). The
+ * track steps back up to surface.default so it still reads as a channel inside the panel; text.brand and the
+ * feedback fg roles are guaranteed 4.5:1 on surface.default, so the fill keeps its contrast.
+ */
+.meter[data-variant='card'] {
+  --_track: var(--strata-color-surface-default);
+  --_track-size: calc(var(--strata-space-1) * 1.25);
+
+  gap: var(--strata-space-3);
+  padding-block: var(--strata-space-3) var(--strata-space-4);
+  padding-inline: var(--strata-space-4);
+  border-radius: max(
+    min(var(--strata-radius-badge), var(--strata-space-2)),
+    calc(var(--strata-radius-container) - var(--strata-card-inset) / 2)
+  );
+  background-color: var(--strata-color-surface-sunken);
+}
+
+@supports (corner-shape: squircle) {
+  .meter[data-variant='card'] {
+    corner-shape: squircle;
+  }
+}
+
+.meter[data-variant='card'] .label {
+  flex-basis: 100%;
+  color: var(--strata-color-text-subtle);
+  font-weight: var(--strata-font-weight-regular);
+}
+
+.meter[data-variant='card'] .value {
+  font-size: var(--strata-font-size-md);
+  font-weight: var(--strata-font-weight-semibold);
+  letter-spacing: var(--strata-font-tracking-md);
+}
+
+.meter[data-variant='card'] .track {
+  box-shadow: inset 0 0 0 var(--strata-hairline) var(--strata-color-border-subtle);
+}

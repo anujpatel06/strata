@@ -18,7 +18,7 @@
   ],
   "dependencies": [
     "react-aria-components",
-    "@tabler/icons-react"
+    "@strata/icons"
   ],
   "registryDependencies": [],
   "reactAria": "https://react-spectrum.adobe.com/react-aria/TextField.html",
@@ -42,6 +42,11 @@
       "name": "text-field-validation",
       "title": "Validation",
       "description": "Native required checks plus a validate() function, shown after submit."
+    },
+    {
+      "name": "text-field-sizes",
+      "title": "Sizes",
+      "description": "sm, md and lg, each next to a Button of the same size: same height, same corner."
     }
   ],
   "props": [
@@ -134,6 +139,13 @@
       "description": "Ref to the underlying input."
     },
     {
+      "component": "TextField",
+      "name": "size",
+      "type": "'sm' | 'md' | 'lg'",
+      "default": "'md'",
+      "description": "Height of the box: md is the density's control height, sm one 8px step shorter, lg two steps taller. Height, corner radius and inline inset match a Button of the same size, so a field and a button in one row line up."
+    },
+    {
       "component": "Label",
       "name": "isRequired",
       "type": "boolean",
@@ -180,14 +192,16 @@
       "Label, description and error message are linked to the input with aria-labelledby and aria-describedby.",
       "Errors show an icon and text, never colour alone.",
       "The required asterisk is aria-hidden: the input is announced as required through the native required attribute.",
-      "Text inputs show the focus ring whenever focused, as browsers do for text inputs."
+      "Text inputs show the focus ring whenever focused, as browsers do for text inputs.",
+      "The field edge is a 1px boundary of at least 3:1 against canvas, default, raised and sunken surfaces in every brand and scheme (WCAG 1.4.11): border.strong in light, a mix of 80% border.strong and 20% border.default in dark. The test \"field boundary contrast\" proves it over the 5 tenants and 1,000 fuzz brands."
     ]
   },
   "guidelines": {
     "do": [
       "Always give a visible label; put format hints in description.",
       "Use the right type and inputMode so mobile keyboards match the data.",
-      "Validate on submit and explain how to fix the error."
+      "Validate on submit and explain how to fix the error.",
+      "In a row with a Button, give both the same size: they share height and corner radius."
     ],
     "dont": [
       "Don't use the placeholder as the label.",
@@ -195,24 +209,37 @@
     ]
   },
   "tokens": [
+    "color.border.default",
+    "color.border.strong",
+    "color.feedback.danger.fg",
+    "color.feedback.danger.solid",
+    "color.focus.ring",
     "color.surface.default",
     "color.surface.sunken",
-    "color.border.strong",
-    "color.border.default",
     "color.text.default",
-    "color.text.subtle",
     "color.text.disabled",
-    "color.feedback.danger.solid",
-    "color.feedback.danger.fg",
-    "color.focus.ring",
-    "radius.field",
+    "color.text.subtle",
     "control-height",
     "control-padding-inline",
     "font.size.md",
     "font.size.sm",
     "font.size.xs",
     "font.weight.medium",
+    "line-height.normal",
+    "line-height.snug",
+    "motion.duration.fast",
+    "motion.duration.normal",
+    "motion.easing",
+    "motion.easingOut",
+    "radius.field",
     "space.1",
-    "space.2"
+    "space.2",
+    "space.4",
+    "font.tracking.md",
+    "font.tracking.sm",
+    "font.tracking.xs",
+    "motion.duration.spring",
+    "motion.spring",
+    "color.surface.canvas"
   ]
 }

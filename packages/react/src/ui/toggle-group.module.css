@@ -8,8 +8,11 @@
  * ------------------------------------------------------------------ */
 
 .group {
+  /* Height and corner match a field or Button of the same size (same formula as text-field.module.css). The track
+     is concentric with the pill: track radius = pill radius + the 4px (sm: 3px) inner padding. */
   --_h: var(--strata-control-height);
-  --_pad: 2px;
+  --_r: calc(var(--strata-radius-field) + var(--strata-space-1) / 2);
+  --_pad: var(--strata-space-1);
 
   box-sizing: border-box;
   display: inline-flex;
@@ -21,13 +24,30 @@
   background-color: var(--strata-color-surface-sunken);
   /* Hairline edge so the track still reads on dark canvases, where sunken sits close to the surface. */
   box-shadow: inset 0 0 0 1px var(--strata-color-border-subtle);
-  border-radius: var(--strata-radius-button);
+  border-radius: min(var(--_r), var(--_h) / 2);
   vertical-align: middle;
+  /* The selection pill sits at z-index -1 inside each segment; isolate so it paints above the track, below the label. */
+  isolation: isolate;
 }
 
 .group[data-size='sm'] {
   /* One 8px step below md, but never so small that a segment drops under a 24px target (WCAG 2.5.8). */
+  --_pad: calc(var(--strata-space-1) * 0.75);
+  --_r: calc((var(--strata-radius-field) + var(--strata-space-1) / 2) * 0.8);
   --_h: max(calc(var(--strata-control-height) - var(--strata-space-2)), calc(var(--strata-space-6) + 2 * var(--_pad)));
+}
+
+@supports (corner-shape: squircle) {
+  .group,
+  .segment {
+    corner-shape: squircle;
+  }
+}
+@container style(--strata-radius-button: var(--strata-radius-pill)) {
+  .group,
+  .segment {
+    corner-shape: round;
+  }
 }
 
 .group[data-orientation='vertical'] {
@@ -90,6 +110,10 @@
   scale: -1 1;
 }
 
+.item {
+  outline-offset: 0;
+}
+
 .item[data-focus-visible] {
   z-index: 1;
   outline: 2px solid var(--strata-color-focus-ring);
@@ -109,8 +133,28 @@
   /* Share any extra width when the group is stretched (e.g. full-width on mobile). */
   flex: 1 0 auto;
   padding-inline: calc(var(--strata-control-padding-inline) - var(--strata-space-1));
-  border-radius: max(0px, calc(var(--strata-radius-button) - var(--_pad)));
+  /* Concentric: the track's corner minus its inner padding. */
+  border-radius: max(var(--strata-space-1), calc(min(var(--_r), var(--_h) / 2) - var(--_pad)));
+  /* Unselected: quiet colour and regular weight. Selected differs by colour, weight AND elevation (the pill). */
   color: var(--strata-color-text-subtle);
+  font-weight: var(--strata-font-weight-regular);
+}
+
+/* String labels reserve the width of their medium-weight form (an invisible, zero-height copy from data-label), so
+   the segment doesn't twitch when the weight changes. Hidden content is outside the accessibility tree. */
+.label {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+}
+.label::after {
+  content: attr(data-label);
+  block-size: 0;
+  overflow: hidden;
+  font-weight: var(--strata-font-weight-medium);
+  visibility: hidden;
+  pointer-events: none;
+  user-select: none;
 }
 
 .segment[data-size='sm'] {
@@ -121,18 +165,63 @@
   color: var(--strata-color-text-default);
 }
 
+/* An unselected segment gets a quiet tint under the pointer, so the lift below has a shape to carry. */
+.segment[data-hovered]:not([data-selected], [data-disabled]) {
+  background-color: color-mix(in oklab, var(--strata-color-text-default) 6%, transparent);
+}
+
 .segment[data-selected] {
-  background-color: var(--strata-color-surface-raised);
-  box-shadow: var(--strata-shadow-raised);
   color: var(--strata-color-text-default);
+  font-weight: var(--strata-font-weight-medium);
+}
+
+/*
+ * The selection pill (React Aria SelectionIndicator). It covers the segment including its 1px transparent border
+ * and slides between segments. The label never sits on a tint: the pill is an opaque surface, raised off the sunken
+ * track so selection reads by elevation, not colour alone:
+ * - light: surface.default (white) + a border.subtle hairline + the raised shadow;
+ * - dark:  surface.raised lifted 8% (lighter than the track, which is sunken) + the rim light + top sheen + the raised
+ *          shadow. text.default is engine-checked on surface.default; the dark face is measured below.
+ * The rim is drawn with the background-clip trick (CONVENTIONS, Depth: "Rim light"), so it follows the radius.
+ */
+.indicator {
+  /* Dark lifts surface.raised 8% toward text.default so the pill clearly clears the track. Not an engine role, so it was
+     measured: text.default on it is ≥ 12.38:1 across the 5 tenants + 1,000 fuzz brands (fuzzInputs, oklab mix). */
+  --_face: light-dark(
+    var(--strata-color-surface-default),
+    color-mix(in oklab, var(--strata-color-text-default) 8%, var(--strata-color-surface-raised))
+  );
+  position: absolute;
+  z-index: -1;
+  box-sizing: border-box;
+  /* Explicit size (not inset: -1px on both sides) so the width stays interpolable during the slide. */
+  inset-block-start: -1px;
+  inset-inline-start: -1px;
+  inline-size: calc(100% + 2px);
+  block-size: calc(100% + 2px);
+  border: 1px solid transparent;
+  border-radius: inherit;
+  background:
+    linear-gradient(var(--_face), var(--_face)) padding-box,
+    linear-gradient(135deg, var(--strata-rim), transparent 60%) border-box var(--_face);
+  box-shadow:
+    0 0 0 var(--strata-hairline) light-dark(var(--strata-color-border-subtle), transparent),
+    var(--strata-shadow-highlight),
+    var(--strata-shadow-raised);
+}
+
+@media (forced-colors: active) {
+  .indicator {
+    border-color: CanvasText;
+  }
 }
 
 .segment[data-disabled] {
   color: var(--strata-color-text-disabled);
 }
 
-.segment[data-selected][data-disabled] {
-  box-shadow: none;
+.segment[data-disabled] > .indicator {
+  box-shadow: 0 0 0 var(--strata-hairline) var(--strata-color-border-subtle);
 }
 
 /* Icon-only segments (named with aria-label) are square. */
@@ -147,17 +236,21 @@
  * ------------------------------------------------------------------ */
 
 .standalone {
+  /* Same height, corner and inline padding as a Button of the same size. */
   --_h: var(--strata-control-height);
+  --_r: calc(var(--strata-radius-field) + var(--strata-space-1) / 2);
   block-size: var(--_h);
-  padding-inline: var(--strata-control-padding-inline);
+  padding-inline: calc(var(--_h) * 0.625);
   border-color: var(--strata-color-border-default);
-  border-radius: var(--strata-radius-button);
+  border-radius: min(var(--_r), var(--_h) / 2);
+  background-color: var(--strata-color-surface-default);
+  box-shadow: var(--strata-shadow-raised);
   vertical-align: middle;
 }
 
 .standalone[data-size='sm'] {
   --_h: calc(var(--strata-control-height) - var(--strata-space-2));
-  padding-inline: calc(var(--strata-control-padding-inline) - var(--strata-space-1));
+  --_r: calc((var(--strata-radius-field) + var(--strata-space-1) / 2) * 0.8);
 }
 
 .standalone[aria-label] {
@@ -166,27 +259,98 @@
 }
 
 .standalone[data-hovered] {
-  background-color: color-mix(in oklab, var(--strata-color-text-default) 6%, transparent);
+  border-color: var(--strata-color-border-strong);
+  background-color: color-mix(in oklab, var(--strata-color-text-default) 4%, var(--strata-color-surface-default));
 }
 
 .standalone[data-selected] {
   background-color: var(--strata-color-surface-selected);
   border-color: color-mix(in oklab, var(--strata-color-text-brand) 40%, transparent);
+  /* On = pressed in: no lift, a faint inner edge instead. */
+  box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--strata-color-text-brand) 16%, transparent);
 }
 
 .standalone[data-disabled] {
   background-color: transparent;
   border-color: var(--strata-color-border-subtle);
+  box-shadow: none;
+}
+
+.item {
+  transition-property: background-color, border-color, box-shadow, color, outline-offset;
+  transition-duration: var(--strata-motion-duration-fast);
+  transition-timing-function: var(--strata-motion-easing);
+}
+
+/*
+ * The pill fades in when it first appears (opacity is allowed with reduced motion). This is a keyframe animation
+ * that ends at the pill's own, visible state, never a static `opacity: 0` on [data-entering]: under React StrictMode
+ * (next dev) SharedElement's double mount can leave data-entering set for good, and a static rule would hide the
+ * pill forever. An animation plays once and lets go.
+ */
+.indicator[data-entering] {
+  animation: toggle-pill-in var(--strata-motion-duration-fast) var(--strata-motion-easing-out);
+}
+
+@keyframes toggle-pill-in {
+  from {
+    opacity: 0;
+  }
 }
 
 @media (prefers-reduced-motion: no-preference) {
   .item {
-    transition-property: background-color, border-color, box-shadow, color, scale;
-    transition-duration: var(--strata-motion-duration-fast);
-    transition-timing-function: var(--strata-motion-easing);
+    transition-property: background-color, border-color, box-shadow, color, outline-offset, translate, scale;
+    transition-duration:
+      var(--strata-motion-duration-fast), var(--strata-motion-duration-fast), var(--strata-motion-duration-normal),
+      var(--strata-motion-duration-fast), var(--strata-motion-duration-spring), var(--strata-motion-duration-spring),
+      var(--strata-motion-duration-spring);
+    transition-timing-function:
+      var(--strata-motion-easing), var(--strata-motion-easing), var(--strata-motion-easing), var(--strata-motion-easing),
+      var(--strata-motion-spring), var(--strata-motion-spring), var(--strata-motion-spring);
   }
 
-  .standalone[data-pressed] {
-    scale: 0.98;
+  /* Hover lift: segments and the standalone toggle rise 1px (the selected pill rides with its segment and its
+     shadow deepens one step). Not while pressed: the press sinks it back. */
+  .item[data-hovered]:not([data-pressed], [data-disabled]) {
+    translate: 0 -1px;
+  }
+  .segment[data-hovered]:not([data-pressed], [data-disabled]) > .indicator {
+    box-shadow: var(--strata-shadow-highlight), var(--strata-shadow-raised), var(--strata-shadow-raised);
+  }
+  .standalone[data-hovered]:not([data-selected], [data-pressed], [data-disabled]) {
+    box-shadow: var(--strata-shadow-raised), var(--strata-shadow-raised);
+  }
+
+  /* Press: in fast to 0.96, out on the spring (the base list applies on release). */
+  .item[data-pressed]:not([data-disabled]) {
+    scale: 0.96;
+    transition-duration:
+      var(--strata-motion-duration-fast), var(--strata-motion-duration-fast), var(--strata-motion-duration-fast),
+      var(--strata-motion-duration-fast), var(--strata-motion-duration-spring), var(--strata-motion-duration-fast),
+      var(--strata-motion-duration-fast);
+    transition-timing-function:
+      var(--strata-motion-easing), var(--strata-motion-easing), var(--strata-motion-easing), var(--strata-motion-easing),
+      var(--strata-motion-spring), var(--strata-motion-easing), var(--strata-motion-easing);
+  }
+
+  /*
+   * React Aria moves the pill with a FLIP: it snapshots the listed transition properties on the old segment and
+   * transitions them on the new one. translate carries the slide on the spring. width is listed so a pill moving
+   * between segments of different widths resizes with it; it is an absolutely positioned, empty element, so this
+   * never reflows anything else.
+   */
+  .indicator {
+    transition:
+      translate var(--strata-motion-duration-spring) var(--strata-motion-spring),
+      width var(--strata-motion-duration-spring) var(--strata-motion-spring),
+      opacity var(--strata-motion-duration-fast) var(--strata-motion-easing),
+      box-shadow var(--strata-motion-duration-normal) var(--strata-motion-easing);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .indicator {
+    transition: opacity var(--strata-motion-duration-fast) var(--strata-motion-easing);
   }
 }

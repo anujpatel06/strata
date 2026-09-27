@@ -25,12 +25,18 @@
     },
     {
       "name": "button-variants",
-      "title": "Variants"
+      "title": "Variants",
+      "description": "Every variant, including the monochrome contrast action."
+    },
+    {
+      "name": "button-contrast",
+      "title": "Contrast",
+      "description": "The monochrome strong action: near-black in light schemes, near-white in dark, at the lg hero size."
     },
     {
       "name": "button-sizes",
       "title": "Sizes",
-      "description": "sm, md (the control height), lg and a square icon button."
+      "description": "sm, md (the control height), lg (the hero size) and a square icon button, which requires an aria-label."
     },
     {
       "name": "button-with-icon",
@@ -41,27 +47,22 @@
       "name": "button-loading",
       "title": "Pending",
       "description": "The spinner replaces the leading icon and the width never changes."
-    },
-    {
-      "name": "button-icon-only",
-      "title": "Icon only",
-      "description": "size=\"icon\" requires an aria-label."
     }
   ],
   "props": [
     {
       "component": "Button",
       "name": "variant",
-      "type": "'primary' | 'secondary' | 'outline' | 'ghost' | 'danger' | 'link'",
+      "type": "'primary' | 'secondary' | 'outline' | 'ghost' | 'danger' | 'link' | 'contrast'",
       "default": "'primary'",
-      "description": "Visual emphasis. Use one primary per view; danger for destructive actions."
+      "description": "Visual emphasis. Use one primary per view; danger for destructive actions. contrast is the monochrome strong action (surface.inverse + text.inverse), for when brand colour should stay rare."
     },
     {
       "component": "Button",
       "name": "size",
       "type": "'sm' | 'md' | 'lg' | 'icon'",
       "default": "'md'",
-      "description": "md is the density's control height; sm and lg are 8px smaller and larger. icon is a square md button and requires aria-label."
+      "description": "md is the density's control height; sm is 8px shorter, lg 16px taller (the hero size). Height and corner radius match a field (TextField, Select, SearchField, Combobox) of the same size: the corner is radius.field plus half a space step, scaled 0.8 for sm and 1.25 for lg (round brands stay pills). Inline padding is ~1.25 × half the height. icon is a square button of the size's height and requires aria-label."
     },
     {
       "component": "Button",
@@ -132,32 +133,59 @@
     "do": [
       "Use one primary button per view for the main action.",
       "Use a verb for the label: \"Save changes\", not \"OK\".",
-      "Use isPending for async actions instead of disabling the button."
+      "Use isPending for async actions instead of disabling the button.",
+      "Use variant=\"contrast\" for strong actions when the page's one hero action already carries the brand colour."
     ],
     "dont": [
       "Don't use danger for anything that isn't destructive.",
-      "Don't use the link variant for navigation; use Link, which renders an anchor."
+      "Don't use the link variant for navigation; use Link, which renders an anchor.",
+      "Don't put a contrast and a primary button side by side: that's two loud actions. Pair either with outline or ghost."
     ]
   },
   "tokens": [
-    "color.action.primary.*",
-    "color.action.secondary.*",
-    "color.feedback.danger.solid",
-    "color.feedback.danger.onSolid",
-    "color.surface.default",
+    "color.action.primary.bg",
+    "color.action.primary.border",
+    "color.action.primary.fg",
+    "color.action.primary.hover",
+    "color.action.primary.pressed",
+    "color.action.secondary.bg",
+    "color.action.secondary.fg",
+    "color.action.secondary.hover",
+    "color.action.secondary.pressed",
+    "color.border.default",
     "color.border.strong",
-    "color.text.default",
-    "color.text.brand",
-    "color.text.disabled",
+    "color.feedback.danger.onSolid",
+    "color.feedback.danger.solid",
     "color.focus.ring",
-    "radius.button",
+    "color.surface.default",
+    "color.text.brand",
+    "color.text.default",
+    "color.text.disabled",
     "control-height",
     "control-padding-inline",
     "font.size.md",
     "font.size.sm",
     "font.weight.medium",
-    "space.2",
+    "line-height.tight",
     "motion.duration.fast",
-    "motion.easing"
+    "motion.duration.normal",
+    "motion.duration.spring",
+    "motion.easing",
+    "motion.spring",
+    "radius.button",
+    "shadow.highlight",
+    "shadow.raised",
+    "space.1",
+    "space.2",
+    "space.4",
+    "space.6",
+    "font.tracking.md",
+    "font.tracking.sm",
+    "radius.pill",
+    "color.surface.inverse",
+    "color.text.inverse",
+    "color.text.subtle",
+    "space.3",
+    "radius.field"
   ]
 }

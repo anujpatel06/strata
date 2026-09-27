@@ -54,10 +54,12 @@
 }
 
 .thumb {
+  --_t: calc(var(--_h) - 2 * var(--_pad));
+
   box-sizing: border-box;
   display: block;
-  inline-size: calc(var(--_h) - 2 * var(--_pad));
-  block-size: calc(var(--_h) - 2 * var(--_pad));
+  inline-size: var(--_t);
+  block-size: var(--_t);
   border-radius: var(--strata-radius-pill);
   background-color: var(--strata-color-action-primary-fg);
   box-shadow: var(--strata-shadow-raised);
@@ -79,15 +81,19 @@
 }
 
 .button[data-selected] .track {
+  /* Without motion the thumb is placed by alignment; with motion it's translated (below) so it can spring. */
+  justify-content: flex-end;
   background-color: var(--strata-color-action-primary-bg);
+  /* Solid fill: sheen + raised shadow. */
+  box-shadow: var(--strata-shadow-highlight), var(--strata-shadow-raised);
 }
 
 .button[data-selected][data-hovered] .track {
   background-color: var(--strata-color-action-primary-hover);
 }
 
-.button[data-selected] .thumb {
-  translate: calc(var(--_dir) * (var(--_w) - var(--_h))) 0;
+.track {
+  outline-offset: 0;
 }
 
 .button[data-focus-visible] .track {
@@ -105,6 +111,7 @@
 
 .button[data-disabled][data-selected] .track {
   background-color: color-mix(in oklab, var(--strata-color-action-primary-bg) 40%, transparent);
+  box-shadow: none;
 }
 
 /* Muted, but the same thumb in both schemes (a solid surface thumb reads as a hole on dark canvases). */
@@ -117,12 +124,61 @@
   color: var(--strata-color-text-disabled);
 }
 
+.track {
+  transition:
+    background-color var(--strata-motion-duration-fast) var(--strata-motion-easing),
+    box-shadow var(--strata-motion-duration-fast) var(--strata-motion-easing),
+    outline-offset var(--strata-motion-duration-fast) var(--strata-motion-easing);
+}
+
 @media (prefers-reduced-motion: no-preference) {
-  .track {
-    transition: background-color var(--strata-motion-duration-fast) var(--strata-motion-easing);
+  /*
+   * --_x is the thumb's travel; --_s the extra length it gains while pressed (Apple-style stretch).
+   * The stretch is a horizontal scale, compensated with half of it in translate so the thumb grows only
+   * towards the side it's about to travel to. Both translate and scale ride the spring.
+   */
+  .thumb {
+    --_x: 0px;
+    --_s: 1;
+    translate: calc(var(--_dir) * var(--_x)) 0;
+    scale: var(--_s) 1;
+    transition:
+      translate var(--strata-motion-duration-spring) var(--strata-motion-spring),
+      scale var(--strata-motion-duration-spring) var(--strata-motion-spring),
+      background-color var(--strata-motion-duration-fast) var(--strata-motion-easing);
   }
 
-  .thumb {
-    transition: translate var(--strata-motion-duration-normal) var(--strata-motion-easing);
+  .button[data-selected] .track {
+    justify-content: flex-start;
+  }
+
+  .button[data-selected] .thumb {
+    --_x: calc(var(--_w) - var(--_h));
+  }
+
+  .button[data-pressed]:not([data-disabled]) .thumb {
+    --_s: 1.2;
+    --_x: calc(var(--_t) * 0.1);
+  }
+
+  .button[data-pressed][data-selected]:not([data-disabled]) .thumb {
+    --_x: calc(var(--_w) - var(--_h) - var(--_t) * 0.1);
+  }
+
+  /* The stretch goes in fast, so even a quick tap shows it; the release (when the value flips) is the spring
+     above, which carries the thumb across with a small overshoot. */
+  .button[data-pressed]:not([data-disabled]) .thumb {
+    transition:
+      translate var(--strata-motion-duration-fast) var(--strata-motion-easing),
+      scale var(--strata-motion-duration-fast) var(--strata-motion-easing),
+      background-color var(--strata-motion-duration-fast) var(--strata-motion-easing);
+  }
+
+  /* Focus arrives: the ring's offset grows 0 → 2px on the spring. */
+  .track {
+    transition:
+      background-color var(--strata-motion-duration-fast) var(--strata-motion-easing),
+      box-shadow var(--strata-motion-duration-fast) var(--strata-motion-easing),
+      outline-offset var(--strata-motion-duration-spring) var(--strata-motion-spring);
   }
 }

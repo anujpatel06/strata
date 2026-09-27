@@ -16,3 +16,8 @@
 .scope *::after {
   box-sizing: border-box;
 }
+
+/* Icons from @strata/icons follow the theme's icon stroke. Zero specificity, so any component rule wins. */
+:where(.scope [data-strata-icon]) {
+  stroke-width: var(--strata-icon-stroke, 1.5);
+}

@@ -1,11 +1,22 @@
 'use client';
 
-import { IconCheck } from '@tabler/icons-react';
 import { useMemo, type HTMLAttributes, type JSX, type ReactNode } from 'react';
 import { Button as RACButton, useLocale } from 'react-aria-components';
 import styles from './steps.module.css';
 
 const cx = (...c: Array<string | false | null | undefined>) => c.filter(Boolean).join(' ');
+
+/**
+ * Tabler's check path, drawn inline so it can carry pathLength=1: the CSS then "draws" the tick in with
+ * stroke-dashoffset 1 → 0 when a step completes.
+ */
+function CheckMark(): JSX.Element {
+  return (
+    <svg className={styles.check} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.25} strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <path d="M5 12l5 5l10 -10" pathLength={1} />
+    </svg>
+  );
+}
 
 export interface StepItem {
   id: string;
@@ -67,7 +78,7 @@ export function Steps({
           const body = (
             <>
               <span className={styles.marker} aria-hidden="true">
-                {s === 'complete' ? <IconCheck size="1.15em" stroke={2.25} /> : nf.format(i + 1)}
+                {s === 'complete' ? <CheckMark /> : nf.format(i + 1)}
               </span>
               <span className={styles.label}>
                 {step.label}

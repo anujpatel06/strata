@@ -13,7 +13,7 @@
   ],
   "dependencies": [
     "react-aria-components",
-    "@tabler/icons-react"
+    "@strata/icons"
   ],
   "registryDependencies": [
     "text-field"
@@ -109,6 +109,13 @@
       "name": "inputRef",
       "type": "Ref<HTMLInputElement>",
       "description": "Ref to the underlying input."
+    },
+    {
+      "component": "SearchField",
+      "name": "size",
+      "type": "'sm' | 'md' | 'lg'",
+      "default": "'md'",
+      "description": "Height of the box: md is the density's control height, sm one 8px step shorter, lg two steps taller. Height, corner radius and inline inset match a Button of the same size, so a field and a button in one row line up."
     }
   ],
   "accessibility": {
@@ -143,16 +150,27 @@
     ]
   },
   "tokens": [
-    "color.surface.default",
-    "color.border.strong",
-    "color.text.subtle",
-    "color.text.default",
     "color.focus.ring",
-    "radius.field",
+    "color.text.default",
+    "color.text.disabled",
+    "color.text.subtle",
     "control-height",
-    "control-padding-inline",
+    "motion.duration.fast",
+    "motion.duration.spring",
+    "motion.easing",
+    "motion.spring",
+    "radius.field",
+    "space.1",
     "space.2",
     "space.4",
-    "space.6"
+    "space.6",
+    "color.border.default",
+    "color.border.strong",
+    "color.surface.default",
+    "color.surface.sunken",
+    "color.surface.canvas",
+    "control-padding-inline",
+    "font.size.sm",
+    "font.tracking.sm"
   ]
 }

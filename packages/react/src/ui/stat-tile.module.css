@@ -20,15 +20,28 @@
   min-inline-size: 0;
   margin: 0;
   padding: var(--strata-card-inset);
-  border: 1px solid var(--strata-color-border-default);
+  /* Finesse: the soft shadow carries the depth; the edge is a hairline ring (0.5px on 2× screens). It's a
+     box-shadow, not a border, because Chromium rounds sub-pixel border widths up to 1px. The 1px transparent
+     border keeps the box size and becomes the visible edge in forced-colours mode. */
+  border: 1px solid transparent;
   border-radius: var(--strata-radius-container);
   background-color: var(--strata-color-surface-raised);
-  box-shadow: var(--strata-shadow-raised);
+  box-shadow:
+    0 0 0 var(--strata-hairline) var(--strata-color-border-subtle),
+    var(--strata-shadow-highlight),
+    var(--strata-shadow-raised);
   color: var(--strata-color-text-default);
   font-family: var(--strata-font-body);
   font-size: var(--strata-font-size-md);
+  letter-spacing: var(--strata-font-tracking-md);
   line-height: var(--strata-line-height-normal);
   text-align: start;
+}
+
+@supports (corner-shape: squircle) {
+  .tile {
+    corner-shape: squircle;
+  }
 }
 
 .tile[data-sparkline] {
@@ -40,11 +53,10 @@
 }
 
 .tile[data-variant='outline'] {
-  box-shadow: none;
+  box-shadow: 0 0 0 var(--strata-hairline) var(--strata-color-border-default);
 }
 
 .tile[data-variant='ghost'] {
-  border-color: transparent;
   background-color: transparent;
   box-shadow: none;
 }
@@ -59,7 +71,8 @@
   margin: 0;
   color: var(--strata-color-text-subtle);
   font-size: var(--strata-font-size-sm);
-  font-weight: var(--strata-font-weight-medium);
+  font-weight: var(--strata-font-weight-regular);
+  letter-spacing: var(--strata-font-tracking-sm);
   line-height: var(--strata-line-height-snug);
 }
 
@@ -77,6 +90,7 @@
 .icon > svg {
   inline-size: var(--strata-space-4);
   block-size: var(--strata-space-4);
+  stroke-width: var(--strata-icon-stroke, 1.5);
 }
 
 .value {
@@ -85,19 +99,23 @@
   margin: 0;
   color: var(--strata-color-text-default);
   font-family: var(--strata-font-heading);
-  font-size: var(--strata-font-size-2xl);
+  /* The number is the hero: a display size, set medium rather than bold (large type reads heavy on its own),
+     tabular figures and the tight tracking of its size. The label above stays small and quiet. */
+  font-size: var(--strata-font-size-3xl);
   font-variant-numeric: tabular-nums;
-  font-weight: var(--strata-font-weight-semibold);
-  letter-spacing: var(--strata-font-heading-tracking);
+  font-weight: var(--strata-font-weight-medium);
+  letter-spacing: var(--strata-font-tracking-3xl);
   line-height: var(--strata-line-height-tight);
 }
 
 .tile[data-size='sm'] .value {
-  font-size: var(--strata-font-size-xl);
+  font-size: var(--strata-font-size-2xl);
+  letter-spacing: var(--strata-font-tracking-2xl);
 }
 
 .tile[data-size='lg'] .value {
-  font-size: var(--strata-font-size-3xl);
+  font-size: var(--strata-font-size-4xl);
+  letter-spacing: var(--strata-font-tracking-4xl);
 }
 
 .meta {
@@ -111,6 +129,7 @@
   align-self: end;
   margin: 0;
   font-size: var(--strata-font-size-sm);
+  letter-spacing: var(--strata-font-tracking-sm);
   line-height: var(--strata-line-height-snug);
 }
 
@@ -118,6 +137,7 @@
 .caption {
   color: var(--strata-color-text-subtle);
   font-size: var(--strata-font-size-sm);
+  letter-spacing: var(--strata-font-tracking-sm);
 }
 
 .caption:empty {
@@ -161,7 +181,8 @@
   stroke: currentColor;
   stroke-linecap: round;
   stroke-linejoin: round;
-  stroke-width: 2;
+  /* Matches the icon stroke (1.75): a fine line reads as data, a heavy one as decoration. */
+  stroke-width: var(--strata-icon-stroke, 1.5);
 }
 
 .sparkDot {
@@ -172,6 +193,82 @@
 
 .tile[data-variant='ghost'] .sparkDot {
   stroke: var(--strata-color-surface-default);
+}
+
+/* ---- motion ------------------------------------------------------------ */
+
+/*
+ * Content enters (only with motion allowed): label, value and meta fade up 4px one after another; the sparkline
+ * draws itself from the start (pathLength="1"), its area fades in and the end dot pops as the line reaches it. In a group each tile
+ * starts one step after the previous one (the first 6 tiles; the rest start with the 6th), so a row of figures
+ * reads left to right (or right to left). Fill mode is backwards only: nothing stays applied afterwards.
+ */
+.tile {
+  --_t: 0;
+}
+.group > .tile:nth-child(2) { --_t: 1; }
+.group > .tile:nth-child(3) { --_t: 2; }
+.group > .tile:nth-child(4) { --_t: 3; }
+.group > .tile:nth-child(5) { --_t: 4; }
+.group > .tile:nth-child(n + 6) { --_t: 5; }
+
+.label { --_p: 0; }
+.value { --_p: 1; }
+.meta { --_p: 2; }
+.spark { --_p: 2; }
+
+@media (prefers-reduced-motion: no-preference) {
+  .label,
+  .value,
+  .meta,
+  .spark {
+    --_delay: calc((var(--_t) + var(--_p)) * var(--strata-motion-duration-fast) / 3);
+    animation: stat-part-in var(--strata-motion-duration-slow) var(--strata-motion-easing-out) var(--_delay) backwards;
+  }
+
+  .sparkLine {
+    stroke-dasharray: 1 1;
+    animation: stat-spark-draw calc(var(--strata-motion-duration-slow) * 1.5) var(--strata-motion-easing-out) var(--_delay)
+      backwards;
+  }
+
+  .sparkArea {
+    animation: stat-part-fade calc(var(--strata-motion-duration-slow) * 1.5) var(--strata-motion-easing-out) var(--_delay)
+      backwards;
+  }
+
+  .sparkDot {
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: stat-dot-pop var(--strata-motion-duration-spring) var(--strata-motion-spring)
+      calc(var(--_delay) + var(--strata-motion-duration-slow)) backwards;
+  }
+}
+
+@keyframes stat-part-in {
+  from {
+    opacity: 0;
+    translate: 0 4px;
+  }
+}
+
+@keyframes stat-part-fade {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes stat-spark-draw {
+  from {
+    stroke-dashoffset: 1;
+  }
+}
+
+@keyframes stat-dot-pop {
+  from {
+    opacity: 0;
+    scale: 0;
+  }
 }
 
 /* ---- group ------------------------------------------------------------- */

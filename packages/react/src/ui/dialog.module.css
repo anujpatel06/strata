@@ -7,10 +7,11 @@
   flex-direction: column;
   box-sizing: border-box;
   container-type: inline-size;
-  /* Dim what's behind by a fixed amount. A colour tint can't do this in both schemes: every surface token is
-     already near the page colour in dark schemes, and light-dark() gets mangled by Lightning CSS pipelines. */
-  -webkit-backdrop-filter: brightness(0.55);
-  backdrop-filter: brightness(0.55);
+  /* Underlay: a light blur (a quarter of the glass blur) so the page recedes, and a fixed dim. Deliberately not
+     the surface.inverse tint from CONVENTIONS: in dark schemes surface.inverse is near-white, so the tint turns the
+     page into a grey fog and the dialog stops reading as "above" it. brightness() dims both schemes alike. */
+  -webkit-backdrop-filter: blur(calc(var(--strata-glass-blur) / 4)) brightness(0.6);
+  backdrop-filter: blur(calc(var(--strata-glass-blur) / 4)) brightness(0.6);
   font-family: var(--strata-font-body);
   font-size: var(--strata-font-size-md);
   line-height: var(--strata-line-height-normal);
@@ -33,11 +34,21 @@
   max-inline-size: var(--dialog-inline-size);
   max-block-size: min(85dvh, calc(100% - var(--strata-space-4) * 2));
   margin: auto;
-  background: var(--strata-color-surface-raised);
+  /* Glass: the engine solves --strata-glass-bg's opacity so text.default and text.subtle keep 4.5:1 over any
+     backdrop. Only those two text roles sit directly on it; anything else needs an opaque role background. */
+  background: var(--strata-glass-bg);
+  -webkit-backdrop-filter: blur(var(--strata-glass-blur)) saturate(1.6);
+  backdrop-filter: blur(var(--strata-glass-blur)) saturate(1.6);
   border: 1px solid var(--strata-color-border-default);
   border-radius: var(--strata-radius-container);
-  box-shadow: var(--strata-shadow-overlay);
+  /* Top-edge sheen + the overlay's layered shadow: depth from light, not colour. */
+  box-shadow: var(--strata-shadow-highlight), var(--strata-shadow-overlay);
   outline: none;
+}
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .panel {
+    background: var(--strata-color-surface-raised);
+  }
 }
 .panel[data-size='sm'] {
   --dialog-inline-size: calc(var(--strata-space-16) * 6);
@@ -78,6 +89,12 @@
   line-height: var(--strata-line-height-snug);
   letter-spacing: var(--strata-font-heading-tracking);
   color: var(--strata-color-text-default);
+}
+/* Editorial emphasis: an <em> in the title is the heading face's real italic. It stays text.default: the dialog is
+   glass, and only text.default and text.subtle are solved to 4.5:1 over any backdrop (text.brand is not). */
+.title em {
+  color: inherit;
+  font-style: italic;
 }
 .description {
   margin: 0;
@@ -133,42 +150,73 @@
   }
 }
 
+/* Motion (Tactile style + "Visible motion"). The underlay fades; the panel fades with easing-out and scales up from
+   0.94 while rising 8px, both on the spring, from its own centre. Header, body and footer then fade up 4px one
+   after another (fill mode backwards only, so nothing stays applied). Exits are quicker and never spring. On narrow
+   screens the panel is a bottom sheet and rises instead (easing-out, not the spring: an overshoot would lift it
+   off the bottom edge). Everything lives in the no-preference block, so with reduced motion the dialog simply
+   appears. Focus moves into the dialog at once; nothing waits for the animation. */
 @media (prefers-reduced-motion: no-preference) {
   .overlay[data-entering] {
-    animation: fade var(--strata-motion-duration-normal) var(--strata-motion-easing);
+    animation: fade var(--strata-motion-duration-normal) var(--strata-motion-easing-out);
   }
   .overlay[data-exiting] {
     animation: fade var(--strata-motion-duration-fast) var(--strata-motion-easing) reverse;
   }
   .panel[data-entering] {
-    animation: zoom var(--strata-motion-duration-normal) var(--strata-motion-easing);
+    animation:
+      fade var(--strata-motion-duration-normal) var(--strata-motion-easing-out),
+      grow var(--strata-motion-duration-spring) var(--strata-motion-spring);
   }
   .panel[data-exiting] {
-    animation: zoom var(--strata-motion-duration-fast) var(--strata-motion-easing) reverse;
+    animation:
+      fade var(--strata-motion-duration-fast) var(--strata-motion-easing) reverse,
+      shrink var(--strata-motion-duration-fast) var(--strata-motion-easing) reverse;
+  }
+  .dialog > :is(.header, .body, .footer) {
+    animation: part-in var(--strata-motion-duration-slow) var(--strata-motion-easing-out)
+      calc(var(--_i, 0) * var(--strata-motion-duration-fast) / 3) backwards;
+  }
+  .dialog > .body {
+    --_i: 1;
+  }
+  .dialog > .footer {
+    --_i: 2;
   }
   @container (inline-size < 480px) {
     .panel[data-entering] {
-      animation-name: rise;
+      animation: rise var(--strata-motion-duration-slow) var(--strata-motion-easing-out);
     }
     .panel[data-exiting] {
-      animation-name: rise;
+      animation: rise var(--strata-motion-duration-normal) var(--strata-motion-easing) reverse;
     }
   }
-}
 
-@keyframes fade {
-  from {
-    opacity: 0;
+  @keyframes fade {
+    from {
+      opacity: 0;
+    }
   }
-}
-@keyframes zoom {
-  from {
-    opacity: 0;
-    scale: 0.97;
+  @keyframes grow {
+    from {
+      scale: 0.94;
+      translate: 0 var(--strata-space-2);
+    }
   }
-}
-@keyframes rise {
-  from {
-    translate: 0 100%;
+  @keyframes part-in {
+    from {
+      opacity: 0;
+      translate: 0 4px;
+    }
+  }
+  @keyframes shrink {
+    from {
+      scale: 0.98;
+    }
+  }
+  @keyframes rise {
+    from {
+      translate: 0 100%;
+    }
   }
 }

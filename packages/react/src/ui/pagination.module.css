@@ -75,14 +75,48 @@
   outline-offset: 2px;
 }
 
+.page {
+  position: relative;
+  isolation: isolate;
+}
+
+.pageNum {
+  position: relative;
+}
+
 .page[aria-current='page'] {
-  border-color: var(--strata-color-border-strong);
-  background-color: var(--strata-color-surface-default);
   cursor: default;
 }
 
-.page[aria-current='page'][data-hovered] {
-  background-color: color-mix(in oklab, var(--strata-color-text-default) 6%, var(--strata-color-surface-default));
+/* The current page sits on a raised key (surface.raised + hairline + sheen + raised shadow). Text stays
+   text.default on an opaque surface. Every page button carries the key; only the current one shows it. */
+.page[aria-current='page'],
+.page[aria-current='page'][data-hovered],
+.page[aria-current='page'][data-pressed] {
+  background-color: transparent;
+  font-weight: var(--strata-font-weight-semibold);
+}
+
+.currentPill {
+  box-sizing: border-box;
+  position: absolute;
+  inset: -1px;
+  z-index: -1;
+  border: 1px solid var(--strata-color-border-default);
+  border-radius: var(--strata-radius-button);
+  background-color: var(--strata-color-surface-raised);
+  box-shadow: var(--strata-shadow-highlight), var(--strata-shadow-raised);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--strata-motion-duration-fast) var(--strata-motion-easing);
+}
+
+.page[aria-current='page'] > .currentPill {
+  opacity: 1;
+}
+
+.page[data-disabled] > .currentPill {
+  box-shadow: none;
 }
 
 .step {
@@ -101,12 +135,14 @@
   cursor: default;
 }
 
-.page[data-disabled][aria-current='page'] {
-  border-color: var(--strata-color-border-default);
+.dirIcon {
+  --_nudge: -1;
+
+  flex: none;
 }
 
-.dirIcon {
-  flex: none;
+.stepItem:last-child .dirIcon {
+  --_nudge: 1;
 }
 
 .dirIcon:dir(rtl) {
@@ -123,11 +159,50 @@
   user-select: none;
 }
 
+.button {
+  transition-property: background-color, border-color, color;
+  transition-duration: var(--strata-motion-duration-fast);
+  transition-timing-function: var(--strata-motion-easing);
+}
+
 @media (prefers-reduced-motion: no-preference) {
+  /* Press: dip to 0.97 fast, spring back on release. */
   .button {
-    transition-property: background-color, border-color, color;
+    transition-property: background-color, border-color, color, scale;
+    transition-duration: var(--strata-motion-duration-fast), var(--strata-motion-duration-fast),
+      var(--strata-motion-duration-fast), var(--strata-motion-duration-spring);
+    transition-timing-function: var(--strata-motion-easing), var(--strata-motion-easing), var(--strata-motion-easing),
+      var(--strata-motion-spring);
+  }
+
+  .button[data-pressed]:not([aria-disabled='true'], [aria-current='page']) {
+    scale: 0.97;
     transition-duration: var(--strata-motion-duration-fast);
     transition-timing-function: var(--strata-motion-easing);
+  }
+
+  /* The new current page's key pops in with the spring (the animation restarts whenever a button becomes current). */
+  .page[aria-current='page'] > .currentPill {
+    animation: strata-pagination-key var(--strata-motion-duration-spring) var(--strata-motion-spring);
+  }
+
+  /* Previous/next chevrons lean 2px the way they go on hover (mirrored in RTL). */
+  .dirIcon {
+    transition: translate var(--strata-motion-duration-spring) var(--strata-motion-spring);
+  }
+
+  .dirIcon:dir(rtl) {
+    --_nudge-dir: -1;
+  }
+
+  .step[data-hovered]:not([aria-disabled='true']) .dirIcon {
+    translate: calc(var(--_nudge) * var(--_nudge-dir, 1) * var(--strata-space-1) / 2) 0;
+  }
+}
+
+@keyframes strata-pagination-key {
+  from {
+    scale: 0.8;
   }
 }
 

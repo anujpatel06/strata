@@ -1,6 +1,10 @@
 /*
  * Badge — tone × variant are resolved into three private custom properties
  * (--_bg, --_fg, --_border) plus the dot colour, so each variant rule stays one line per tone.
+ *
+ * Finesse (ADR-013): a quiet chip. A soft pill, tinted fill, no visible border, medium weight, xs text with
+ * its own tracking. Only the outline variant draws a real edge, since the edge is its whole look.
+ * No corner-shape: squircle is for rounded rectangles; on a pill it flattens the round ends.
  */
 
 .badge {
@@ -19,17 +23,21 @@
   padding-block: 0;
   padding-inline: var(--strata-space-2);
   border: 1px solid var(--_border);
-  border-radius: var(--strata-radius-badge);
+  border-radius: var(--strata-radius-pill);
   background-color: var(--_bg);
   color: var(--_fg);
   font-family: var(--strata-font-body);
   font-size: var(--strata-font-size-xs);
   font-variant-numeric: tabular-nums;
-  font-weight: var(--strata-font-weight-semibold);
-  letter-spacing: 0;
+  font-weight: var(--strata-font-weight-medium);
+  letter-spacing: var(--strata-font-tracking-xs);
   line-height: 1;
   vertical-align: middle;
   white-space: nowrap;
+  transition:
+    background-color var(--strata-motion-duration-fast) var(--strata-motion-easing),
+    color var(--strata-motion-duration-fast) var(--strata-motion-easing),
+    border-color var(--strata-motion-duration-fast) var(--strata-motion-easing);
 }
 
 .badge[data-size='sm'] {
@@ -41,43 +49,38 @@
 /* ---- soft (default) --------------------------------------------------- */
 
 /*
- * Soft fills can match the surface they sit on (e.g. a warning badge in a selected table row, where
- * surface.selected ≈ the warning bg). A faint same-hue edge in the reserved 1px border keeps the
- * shape readable there and stays quiet on ordinary surfaces.
+ * No visible border: the 1px stays reserved (so the outline variant is the same size) but transparent.
+ * A soft fill can match the surface it sits on (a warning badge in a selected table row, where
+ * surface.selected ≈ the warning bg). The container that knows about that surface draws a faint
+ * same-hue edge there (data-table does, for selected rows); on ordinary surfaces the tint alone reads.
  */
 .badge[data-variant='soft'][data-tone='neutral'] {
   --_bg: var(--strata-color-surface-sunken);
   --_fg: var(--strata-color-text-default);
-  --_border: color-mix(in oklab, var(--strata-color-border-default) 55%, transparent);
 }
 .badge[data-variant='soft'][data-tone='brand'] {
   --_bg: var(--strata-color-action-secondary-bg);
   --_fg: var(--strata-color-action-secondary-fg);
-  --_border: color-mix(in oklab, var(--strata-color-action-secondary-fg) 28%, transparent);
   --_dot: var(--strata-color-action-primary-bg);
 }
 .badge[data-variant='soft'][data-tone='info'] {
   --_bg: var(--strata-color-feedback-info-bg);
   --_fg: var(--strata-color-feedback-info-fg);
-  --_border: color-mix(in oklab, var(--strata-color-feedback-info-border) 55%, transparent);
   --_dot: var(--strata-color-feedback-info-solid);
 }
 .badge[data-variant='soft'][data-tone='success'] {
   --_bg: var(--strata-color-feedback-success-bg);
   --_fg: var(--strata-color-feedback-success-fg);
-  --_border: color-mix(in oklab, var(--strata-color-feedback-success-border) 55%, transparent);
   --_dot: var(--strata-color-feedback-success-solid);
 }
 .badge[data-variant='soft'][data-tone='warning'] {
   --_bg: var(--strata-color-feedback-warning-bg);
   --_fg: var(--strata-color-feedback-warning-fg);
-  --_border: color-mix(in oklab, var(--strata-color-feedback-warning-border) 55%, transparent);
   --_dot: var(--strata-color-feedback-warning-solid);
 }
 .badge[data-variant='soft'][data-tone='danger'] {
   --_bg: var(--strata-color-feedback-danger-bg);
   --_fg: var(--strata-color-feedback-danger-fg);
-  --_border: color-mix(in oklab, var(--strata-color-feedback-danger-border) 55%, transparent);
   --_dot: var(--strata-color-feedback-danger-solid);
 }
 
@@ -85,6 +88,9 @@
 
 .badge[data-variant='solid'] {
   --_dot: currentColor;
+
+  /* Solid fills get the tactile sheen + a hairline lift. Never a gradient: the solver tunes fill + label to 4.5:1. */
+  box-shadow: var(--strata-shadow-highlight), var(--strata-shadow-raised);
 }
 .badge[data-variant='solid'][data-tone='neutral'] {
   --_bg: var(--strata-color-surface-inverse);
@@ -146,12 +152,56 @@
   --_dot: var(--strata-color-feedback-danger-solid);
 }
 
+/* ---- status ------------------------------------------------------------ */
+
+/*
+ * Status: no fill, no border, just a tone dot and the label. The label stays in text.default (text.subtle for
+ * neutral), which the engine checks on every surface a badge sits on (canvas, default, raised, sunken), so no
+ * text-on-tint pair is involved. Sized to sit in running text and table cells: sm text, no inline padding, so the
+ * dot lines up with the column or paragraph edge.
+ */
+.badge[data-variant='status'] {
+  --_bg: transparent;
+  --_fg: var(--strata-color-text-default);
+  gap: var(--strata-space-2);
+  padding-inline: 0;
+  font-size: var(--strata-font-size-sm);
+  letter-spacing: var(--strata-font-tracking-sm);
+}
+.badge[data-variant='status'][data-size='sm'] {
+  gap: calc(var(--strata-space-2) * 0.75);
+  padding-inline: 0;
+  font-size: var(--strata-font-size-xs);
+  letter-spacing: var(--strata-font-tracking-xs);
+}
+.badge[data-variant='status'][data-tone='neutral'] {
+  --_fg: var(--strata-color-text-subtle);
+  --_dot: var(--strata-color-border-strong);
+}
+.badge[data-variant='status'][data-tone='brand'] {
+  --_dot: var(--strata-color-action-primary-bg);
+}
+.badge[data-variant='status'][data-tone='info'] {
+  --_dot: var(--strata-color-feedback-info-solid);
+}
+.badge[data-variant='status'][data-tone='success'] {
+  --_dot: var(--strata-color-feedback-success-solid);
+}
+.badge[data-variant='status'][data-tone='warning'] {
+  --_dot: var(--strata-color-feedback-warning-solid);
+}
+.badge[data-variant='status'][data-tone='danger'] {
+  --_dot: var(--strata-color-feedback-danger-solid);
+}
+
 /* ---- parts ------------------------------------------------------------- */
 
 .dot {
+  position: relative;
   flex: none;
-  inline-size: calc(var(--strata-space-2) * 0.75);
-  block-size: calc(var(--strata-space-2) * 0.75);
+  /* 6px: a small light, never shouting. */
+  inline-size: calc(var(--strata-space-1) * 1.5);
+  block-size: calc(var(--strata-space-1) * 1.5);
   border-radius: var(--strata-radius-pill);
   background-color: var(--_dot);
 }
@@ -165,4 +215,92 @@
 .icon > svg {
   inline-size: 1.1667em;
   block-size: 1.1667em;
+}
+
+/* The status dot gets a soft same-hue halo, so "● Active" reads as a light, not a bullet. */
+.badge:not([data-variant='solid']) .dot {
+  box-shadow: 0 0 0 2px color-mix(in oklab, var(--_dot) 18%, transparent);
+}
+
+/* Tabler's default stroke (2) looks heavy next to xs text. */
+.icon > svg {
+  stroke-width: var(--strata-icon-stroke, 1.5);
+}
+
+/* ---- motion ------------------------------------------------------------ */
+
+/*
+ * A badge pops when it appears and again when its tone changes ("Pending" → "Paid"): scale 0.8 → 1 on the spring.
+ * Each tone names its own (identical) pop keyframes, so a tone change swaps the animation name and the browser
+ * restarts it, no JS needed. The fade-in uses one fixed name, so it only runs on mount. With reduced motion the
+ * badge simply appears and its colours fade.
+ */
+@media (prefers-reduced-motion: no-preference) {
+  /* (Written out per tone: CSS Modules renames keyframes inside `animation`, but not inside custom properties.) */
+  .badge {
+    animation:
+      badge-fade-in var(--strata-motion-duration-fast) var(--strata-motion-easing-out),
+      badge-pop-neutral var(--strata-motion-duration-spring) var(--strata-motion-spring);
+  }
+  .badge[data-tone='brand'] {
+    animation:
+      badge-fade-in var(--strata-motion-duration-fast) var(--strata-motion-easing-out),
+      badge-pop-brand var(--strata-motion-duration-spring) var(--strata-motion-spring);
+  }
+  .badge[data-tone='info'] {
+    animation:
+      badge-fade-in var(--strata-motion-duration-fast) var(--strata-motion-easing-out),
+      badge-pop-info var(--strata-motion-duration-spring) var(--strata-motion-spring);
+  }
+  .badge[data-tone='success'] {
+    animation:
+      badge-fade-in var(--strata-motion-duration-fast) var(--strata-motion-easing-out),
+      badge-pop-success var(--strata-motion-duration-spring) var(--strata-motion-spring);
+  }
+  .badge[data-tone='warning'] {
+    animation:
+      badge-fade-in var(--strata-motion-duration-fast) var(--strata-motion-easing-out),
+      badge-pop-warning var(--strata-motion-duration-spring) var(--strata-motion-spring);
+  }
+  .badge[data-tone='danger'] {
+    animation:
+      badge-fade-in var(--strata-motion-duration-fast) var(--strata-motion-easing-out),
+      badge-pop-danger var(--strata-motion-duration-spring) var(--strata-motion-spring);
+  }
+}
+
+@keyframes badge-fade-in {
+  from {
+    opacity: 0;
+  }
+}
+@keyframes badge-pop-neutral {
+  from {
+    scale: 0.8;
+  }
+}
+@keyframes badge-pop-brand {
+  from {
+    scale: 0.8;
+  }
+}
+@keyframes badge-pop-info {
+  from {
+    scale: 0.8;
+  }
+}
+@keyframes badge-pop-success {
+  from {
+    scale: 0.8;
+  }
+}
+@keyframes badge-pop-warning {
+  from {
+    scale: 0.8;
+  }
+}
+@keyframes badge-pop-danger {
+  from {
+    scale: 0.8;
+  }
 }

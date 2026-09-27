@@ -60,14 +60,18 @@
     ]
   },
   "tokens": [
-    "color.surface.sunken",
     "color.border.default",
+    "color.surface.raised",
+    "color.text.default",
     "color.text.subtle",
+    "shadow.highlight",
     "radius.badge",
     "font.mono",
     "font.size.xs",
     "font.weight.medium",
     "space.1",
-    "space.5"
+    "space.5",
+    "font.tracking.xs",
+    "hairline"
   ]
 }

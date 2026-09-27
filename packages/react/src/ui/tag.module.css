@@ -1,0 +1,194 @@
+/*
+ * Tag — a quiet, static label for an attribute or category. tone × variant resolve into private properties
+ * (--_bg, --_fg, --_edge, --_dash) so each rule stays one line per tone.
+ *
+ * Shape follows the brand's badge radius (a pill in round brands, a small rounded rectangle in sharp ones), which is
+ * also what tells a Tag apart from a Badge (always a pill). Edges are hairlines drawn as box-shadow (Finesse);
+ * the 1px transparent border underneath keeps sizes equal across variants and draws the edge in forced colours.
+ * Only `dashed` uses a real border, because a shadow can't dash.
+ */
+
+.tag {
+  --_bg: var(--strata-color-surface-sunken);
+  --_fg: var(--strata-color-text-subtle);
+  --_edge: var(--strata-color-border-subtle);
+  --_dash: color-mix(in oklab, var(--strata-color-border-strong) 70%, transparent);
+
+  box-sizing: border-box;
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  gap: var(--strata-space-1);
+  min-block-size: var(--strata-space-6);
+  max-inline-size: 100%;
+  padding-block: 0;
+  padding-inline: var(--strata-space-2);
+  border: 1px solid transparent;
+  border-radius: var(--strata-radius-badge);
+  background-color: var(--_bg);
+  box-shadow: inset 0 0 0 var(--strata-hairline) var(--_edge);
+  color: var(--_fg);
+  font-family: var(--strata-font-body);
+  font-size: var(--strata-font-size-xs);
+  font-weight: var(--strata-font-weight-medium);
+  letter-spacing: var(--strata-font-tracking-xs);
+  line-height: 1;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+@supports (corner-shape: squircle) {
+  .tag {
+    corner-shape: squircle;
+  }
+}
+/* Pill brands keep true round ends; a squircle would flatten them. */
+@container style(--strata-radius-badge: var(--strata-radius-pill)) {
+  .tag {
+    corner-shape: round;
+  }
+}
+
+.tag[data-size='sm'] {
+  gap: calc(var(--strata-space-1) * 0.75);
+  min-block-size: var(--strata-space-5);
+  padding-inline: calc(var(--strata-space-2) * 0.75);
+}
+
+.label {
+  overflow: hidden;
+  min-inline-size: 0;
+  text-overflow: ellipsis;
+}
+
+/*
+ * Small caps style. Caps read larger than mixed case, so the size steps down ~10% and the weight up one step.
+ * Tracking: --strata-font-tracking-caps (0.08em for Latin pairs, 0 for Arabic-capable pairs).
+ */
+.tag[data-uppercase] {
+  font-size: calc(var(--strata-font-size-xs) * 0.9);
+  font-weight: var(--strata-font-weight-semibold);
+  letter-spacing: var(--strata-font-tracking-caps);
+  text-transform: uppercase;
+}
+.tag[data-uppercase][data-size='sm'] {
+  font-size: calc(var(--strata-font-size-xs) * 0.8);
+}
+
+/* ---- soft (default): tinted fill, no edge except neutral ---------------- */
+
+/* Neutral keeps a hairline edge: surface.sunken can equal the page colour (it does in some dark themes). */
+.tag[data-tone='brand'] {
+  --_bg: var(--strata-color-action-secondary-bg);
+  --_fg: var(--strata-color-action-secondary-fg);
+  --_edge: transparent;
+  --_dash: color-mix(in oklab, var(--strata-color-text-brand) 55%, transparent);
+}
+.tag[data-tone='accent'] {
+  --_bg: var(--strata-color-accent-subtle);
+  --_fg: var(--strata-color-accent-text);
+  --_edge: transparent;
+  --_dash: color-mix(in oklab, var(--strata-color-accent-text) 55%, transparent);
+}
+.tag[data-tone='info'] {
+  --_bg: var(--strata-color-feedback-info-bg);
+  --_fg: var(--strata-color-feedback-info-fg);
+  --_edge: transparent;
+  --_dash: var(--strata-color-feedback-info-border);
+}
+.tag[data-tone='success'] {
+  --_bg: var(--strata-color-feedback-success-bg);
+  --_fg: var(--strata-color-feedback-success-fg);
+  --_edge: transparent;
+  --_dash: var(--strata-color-feedback-success-border);
+}
+.tag[data-tone='warning'] {
+  --_bg: var(--strata-color-feedback-warning-bg);
+  --_fg: var(--strata-color-feedback-warning-fg);
+  --_edge: transparent;
+  --_dash: var(--strata-color-feedback-warning-border);
+}
+.tag[data-tone='danger'] {
+  --_bg: var(--strata-color-feedback-danger-bg);
+  --_fg: var(--strata-color-feedback-danger-fg);
+  --_edge: transparent;
+  --_dash: var(--strata-color-feedback-danger-border);
+}
+
+/* ---- outline: no fill, a hairline edge in the tone ---------------------- */
+
+.tag[data-variant='outline'] {
+  --_bg: transparent;
+  --_edge: var(--_dash);
+}
+.tag[data-variant='outline'][data-tone='neutral'] {
+  --_fg: var(--strata-color-text-default);
+  --_edge: var(--strata-color-border-default);
+}
+.tag[data-variant='outline'][data-tone='brand'] {
+  --_fg: var(--strata-color-text-brand);
+}
+
+/* ---- dashed: a placeholder or optional attribute ------------------------ */
+
+.tag[data-variant='dashed'] {
+  --_bg: transparent;
+  border: 1px dashed var(--_dash);
+  box-shadow: none;
+}
+.tag[data-variant='dashed'][data-tone='brand'] {
+  --_fg: var(--strata-color-text-brand);
+}
+
+/* ---- leading slot ------------------------------------------------------- */
+
+.leading {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  margin-inline-start: calc(var(--strata-space-1) * -0.5);
+}
+
+/* Icons match the text: ~1.17× the size, the theme's stroke. */
+.leading > svg {
+  inline-size: 1.1667em;
+  block-size: 1.1667em;
+  stroke-width: var(--strata-icon-stroke, 1.5);
+}
+
+/*
+ * A small Avatar hugs the start edge (concentric with the tag's end). Avatar sizes itself from its private --_size;
+ * two classes here outrank its own [data-size] rule. Sized from the tag's height, not the text, so uppercase tags
+ * don't shrink it.
+ */
+.tag .leading > [data-size] {
+  --_size: calc(var(--strata-space-5) - 2px);
+  margin-inline-start: calc(var(--strata-space-1) * -1.25);
+  animation: none;
+}
+.tag[data-size='sm'] .leading > [data-size] {
+  --_size: calc(var(--strata-space-4) - 2px);
+  margin-inline-start: calc(var(--strata-space-1) * -0.75);
+}
+
+/* ---- motion ------------------------------------------------------------- */
+
+/* Pops in on mount: scale 0.8 → 1 on the spring with a quick fade. Reduced motion: it simply appears. */
+@media (prefers-reduced-motion: no-preference) {
+  .tag {
+    animation:
+      tag-fade-in var(--strata-motion-duration-fast) var(--strata-motion-easing-out) backwards,
+      tag-pop var(--strata-motion-duration-spring) var(--strata-motion-spring) backwards;
+  }
+}
+
+@keyframes tag-fade-in {
+  from {
+    opacity: 0;
+  }
+}
+@keyframes tag-pop {
+  from {
+    scale: 0.8;
+  }
+}

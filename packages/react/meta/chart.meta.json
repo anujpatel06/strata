@@ -1,0 +1,164 @@
+{
+  "name": "chart",
+  "title": "Chart",
+  "description": "Shared chart pieces: the legend, the tooltip readout, the data table and the ChartFrame shell that AreaChart and BarChart draw into.",
+  "category": "data",
+  "maturity": "alpha",
+  "exports": [
+    "ChartLegend",
+    "ChartTooltip",
+    "ChartTable",
+    "ChartFrame",
+    "chartColor",
+    "chartTicks",
+    "chartLinePath",
+    "chartAreaPath",
+    "chartAxisFormat",
+    "formatChartValue",
+    "formatChartX",
+    "useChartSize"
+  ],
+  "files": [
+    "chart.tsx",
+    "chart.module.css"
+  ],
+  "dependencies": [
+    "react-aria-components"
+  ],
+  "registryDependencies": [],
+  "reactAria": "https://react-spectrum.adobe.com/react-aria/ListBox.html",
+  "usage": "import { ChartLegend } from '@strata/react';\n\nexport function Legend() {\n  return <ChartLegend series={[{ key: 'income', label: 'Income' }, { key: 'spending', label: 'Spending' }]} />;\n}",
+  "examples": [
+    {
+      "name": "chart-demo",
+      "title": "Legend",
+      "description": "Square swatches (areas, bars) and line keys (lines)."
+    },
+    {
+      "name": "chart-tooltip",
+      "title": "Tooltip readout",
+      "description": "The single-series value pill and the multi-series readout."
+    }
+  ],
+  "props": [
+    {
+      "component": "ChartLegend",
+      "name": "series",
+      "type": "ChartSeries[]",
+      "required": true,
+      "description": "Series in palette order; each gets --strata-chart-<n> unless it sets color."
+    },
+    {
+      "component": "ChartLegend",
+      "name": "shape",
+      "type": "'square' | 'line'",
+      "default": "'square'",
+      "description": "Mirror the mark: square for areas and bars, line for lines."
+    },
+    {
+      "component": "ChartTooltip",
+      "name": "title",
+      "type": "string",
+      "required": true,
+      "description": "The x value, formatted."
+    },
+    {
+      "component": "ChartTooltip",
+      "name": "rows",
+      "type": "{ key; label; value; color }[]",
+      "required": true,
+      "description": "One row per series. One row renders a pill with the value first."
+    },
+    {
+      "component": "ChartTooltip",
+      "name": "shape",
+      "type": "'line' | 'square'",
+      "default": "'line'",
+      "description": "Key shape. Tooltips key with a short stroke."
+    },
+    {
+      "component": "ChartTable",
+      "name": "caption",
+      "type": "string",
+      "required": true,
+      "description": "The table's name (the chart's)."
+    },
+    {
+      "component": "ChartTable",
+      "name": "series / rows / xLabel",
+      "type": "ChartSeries[] / { x; values }[] / string",
+      "required": true,
+      "description": "Columns, formatted rows and the first column's header."
+    },
+    {
+      "component": "ChartTable",
+      "name": "isVisible",
+      "type": "boolean",
+      "default": "false",
+      "description": "Shows the table instead of hiding it visually."
+    },
+    {
+      "component": "ChartFrame",
+      "name": "count / mode / domain / ticks / marks / active / anchorY / tooltip",
+      "type": "see chart.tsx",
+      "required": true,
+      "description": "The low-level shell: axes, grid, SVG, ListBox hit layer, readout, legend and table. Build new chart types on it; marks() gets physical (RTL-mirrored) coordinates."
+    }
+  ],
+  "accessibility": {
+    "keyboard": [],
+    "notes": [
+      "ChartLegend is a list; swatches are aria-hidden and the names are text in text.subtle, never in the series colour.",
+      "ChartTooltip is presentational; ChartFrame renders it aria-hidden because the focused option already carries the same values.",
+      "ChartTable is a real <table> with a caption, column headers and row headers. It is visually hidden by default so every chart has a screen-reader equivalent.",
+      "ChartFrame's keyboard model (ListBox, arrows, Home/End, Escape) is documented on Area Chart and Bar Chart."
+    ]
+  },
+  "guidelines": {
+    "do": [
+      "Show a legend for two or more series; skip it for one (the title says what's plotted).",
+      "Use chartColor(i) for custom marks so they follow the brand's solved palette."
+    ],
+    "dont": [
+      "Don't colour legend or readout text with the series colour.",
+      "Don't add a fifth palette slot; chartColor repeats after 4."
+    ]
+  },
+  "tokens": [
+    "chart.1",
+    "chart.2",
+    "chart.3",
+    "chart.4",
+    "chart.grid",
+    "chart.axis",
+    "color.text.default",
+    "color.text.subtle",
+    "color.border.default",
+    "color.border.subtle",
+    "color.surface.raised",
+    "color.focus.ring",
+    "font.body",
+    "font.size.xs",
+    "font.size.sm",
+    "font.size.md",
+    "font.tracking.xs",
+    "font.tracking.sm",
+    "font.weight.semibold",
+    "font.weight.medium",
+    "hairline",
+    "shadow.overlay",
+    "shadow.highlight",
+    "radius.container",
+    "radius.field",
+    "radius.pill",
+    "space.1",
+    "space.2",
+    "space.3",
+    "space.4",
+    "space.16",
+    "motion.duration.fast",
+    "motion.duration.normal",
+    "motion.easing",
+    "motion.easingOut"
+  ]
+}

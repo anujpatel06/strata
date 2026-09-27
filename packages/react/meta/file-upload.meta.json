@@ -6,7 +6,7 @@
   "maturity": "beta",
   "exports": ["FileUpload"],
   "files": ["file-upload.tsx", "file-upload.module.css"],
-  "dependencies": ["react-aria-components", "@tabler/icons-react"],
+  "dependencies": ["react-aria-components", "@strata/icons"],
   "registryDependencies": ["button", "text-field"],
   "reactAria": "https://react-spectrum.adobe.com/react-aria/DropZone.html",
   "usage": "import { FileUpload } from '@strata/react';\n\nexport function Receipts() {\n  return (\n    <FileUpload\n      label=\"Receipts\"\n      acceptedFileTypes={['image/png', 'image/jpeg', 'application/pdf']}\n      maxSize={10 * 1024 * 1024}\n      allowsMultiple\n      onChange={(files) => console.log(files)}\n    />\n  );\n}",
@@ -44,7 +44,8 @@
       "The drop zone is labelled by the field label; the browse button is described by the hint, description and error.",
       "Rejected files are listed with their reason in a role=\"alert\" so the refusal is announced.",
       "Upload progress is a labelled progressbar (\"Uploading invoice.pdf\"); finished and failed files show an icon and text, not colour alone.",
-      "Remove buttons are named per file (\"Remove invoice.pdf\")."
+      "Remove buttons are named per file (\"Remove invoice.pdf\").",
+      "Drag-over is shown by a solid brand border, tint, halo and a filled upload badge, not motion alone. The swell, badge lift, staggered row rise and progress glide only run without prefers-reduced-motion; fades remain."
     ]
   },
   "guidelines": {
@@ -58,36 +59,5 @@
       "Don't silently drop files that fail a check — say why."
     ]
   },
-  "tokens": [
-    "color.border.strong",
-    "color.border.default",
-    "color.surface.default",
-    "color.surface.raised",
-    "color.surface.sunken",
-    "color.surface.selected",
-    "color.action.primary.bg",
-    "color.text.default",
-    "color.text.subtle",
-    "color.text.brand",
-    "color.text.disabled",
-    "color.feedback.danger.*",
-    "color.feedback.success.fg",
-    "color.focus.ring",
-    "control-height",
-    "radius.container",
-    "radius.field",
-    "radius.pill",
-    "shadow.raised",
-    "space.1",
-    "space.2",
-    "space.3",
-    "space.4",
-    "space.6",
-    "font.size.md",
-    "font.size.sm",
-    "font.size.xs",
-    "motion.duration.fast",
-    "motion.duration.normal",
-    "motion.easing"
-  ]
+  "tokens": ["space.2", "space.6", "space.4", "color.border.strong", "radius.container", "color.surface.default", "color.text.default", "color.text.subtle", "color.focus.ring", "color.action.primary.bg", "color.surface.selected", "color.feedback.danger.solid", "color.border.default", "color.surface.sunken", "color.text.disabled", "control-height", "space.1", "radius.pill", "color.surface.raised", "shadow.raised", "shadow.highlight", "shadow.overlay", "color.action.primary.fg", "font.size.md", "font.weight.medium", "line-height.snug", "font.size.sm", "space.3", "color.feedback.danger.border", "radius.field", "color.feedback.danger.bg", "color.feedback.danger.fg", "font.size.xs", "color.feedback.success.fg", "motion.duration.fast", "motion.easing", "motion.duration.slow", "motion.easing-out", "motion.duration.spring", "motion.spring"]
 }

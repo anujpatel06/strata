@@ -1,0 +1,133 @@
+{
+  "name": "sparkline",
+  "title": "Sparkline",
+  "description": "A small trend line for stat cards and table cells, decorative unless you name it.",
+  "category": "data",
+  "maturity": "alpha",
+  "exports": [
+    "Sparkline"
+  ],
+  "files": [
+    "sparkline.tsx",
+    "sparkline.module.css"
+  ],
+  "dependencies": [
+    "react-aria-components"
+  ],
+  "registryDependencies": [
+    "chart"
+  ],
+  "usage": "import { Sparkline } from '@strata/react';\n\nexport function Trend() {\n  return <Sparkline data={[31, 33, 32, 36, 35, 38, 41]} aria-label=\"Up 32% over 7 days\" />;\n}",
+  "examples": [
+    {
+      "name": "sparkline-demo",
+      "title": "In a stat card",
+      "description": "An area sparkline under a figure, named for screen readers."
+    },
+    {
+      "name": "sparkline-tones",
+      "title": "Tones",
+      "description": "brand, success, danger and neutral."
+    },
+    {
+      "name": "sparkline-line",
+      "title": "Line variant",
+      "description": "Palette slots, a linear curve and a gap for a missing value."
+    }
+  ],
+  "props": [
+    {
+      "component": "Sparkline",
+      "name": "data",
+      "type": "Array<number | null>",
+      "required": true,
+      "description": "Values, oldest first. null leaves a gap. Needs at least two values to draw."
+    },
+    {
+      "component": "Sparkline",
+      "name": "variant",
+      "type": "'area' | 'line'",
+      "default": "'area'",
+      "description": "area adds a gradient fill (24% → 0%) under the line."
+    },
+    {
+      "component": "Sparkline",
+      "name": "curve",
+      "type": "'smooth' | 'linear'",
+      "default": "'smooth'",
+      "description": "smooth is monotone cubic and never overshoots."
+    },
+    {
+      "component": "Sparkline",
+      "name": "showEndDot",
+      "type": "boolean",
+      "default": "true",
+      "description": "A dot on the latest value with a 2px ring in the surface colour."
+    },
+    {
+      "component": "Sparkline",
+      "name": "tone",
+      "type": "'brand' | 'neutral' | 'info' | 'success' | 'warning' | 'danger'",
+      "default": "'brand'",
+      "description": "Colour by meaning. Use success/danger only when the direction is good or bad news."
+    },
+    {
+      "component": "Sparkline",
+      "name": "series",
+      "type": "1 | 2 | 3 | 4",
+      "description": "Colour by chart palette slot, to match a series in a nearby chart. Wins over tone."
+    },
+    {
+      "component": "Sparkline",
+      "name": "yDomain",
+      "type": "[number, number]",
+      "description": "Fixes the y range; by default the line fills the height."
+    },
+    {
+      "component": "Sparkline",
+      "name": "aria-label",
+      "type": "string",
+      "description": "Makes it role=\"img\" with this name. Without it the sparkline is aria-hidden."
+    }
+  ],
+  "accessibility": {
+    "keyboard": [],
+    "notes": [
+      "Decorative (aria-hidden) by default: the figure and delta beside it carry the meaning.",
+      "With aria-label it becomes role=\"img\"; describe the trend in words (\"Up 18% over 12 months\"), not the raw values.",
+      "Not focusable and not interactive. For values a reader must inspect, use AreaChart.",
+      "It mirrors in right-to-left locales, like the time axis.",
+      "Draw-in and the end-dot pop sit behind prefers-reduced-motion: no-preference."
+    ]
+  },
+  "guidelines": {
+    "do": [
+      "Put the number that matters next to it as text.",
+      "Size it with CSS (inline-size, block-size); it redraws at its real pixel size.",
+      "Set --_ring when it sits on a surface other than surface.raised."
+    ],
+    "dont": [
+      "Don't use a sparkline as the only evidence of a trend.",
+      "Don't use success/danger tones for series that aren't good or bad news."
+    ]
+  },
+  "tokens": [
+    "chart.1",
+    "chart.2",
+    "chart.3",
+    "chart.4",
+    "color.text.brand",
+    "color.text.subtle",
+    "color.feedback.info.fg",
+    "color.feedback.success.fg",
+    "color.feedback.warning.fg",
+    "color.feedback.danger.fg",
+    "color.surface.raised",
+    "space.8",
+    "space.12",
+    "motion.duration.slow",
+    "motion.duration.spring",
+    "motion.easingOut",
+    "motion.spring"
+  ]
+}

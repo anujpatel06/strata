@@ -1,0 +1,228 @@
+{
+  "name": "bar-chart",
+  "title": "Bar Chart",
+  "description": "Compares magnitudes across categories with vertical bars: rounded data ends, grouped series and an optional highlighted bar.",
+  "category": "data",
+  "maturity": "alpha",
+  "exports": [
+    "BarChart"
+  ],
+  "files": [
+    "bar-chart.tsx",
+    "bar-chart.module.css"
+  ],
+  "dependencies": [
+    "react-aria-components"
+  ],
+  "registryDependencies": [
+    "chart"
+  ],
+  "reactAria": "https://react-spectrum.adobe.com/react-aria/ListBox.html",
+  "usage": "import { BarChart } from '@strata/react';\n\nexport function Spending({ data }: { data: { month: string; spend: number }[] }) {\n  return <BarChart aria-label=\"Spending by month\" data={data} x=\"month\" highlight=\"Oct\" series={[{ key: 'spend', label: 'Spending' }]} />;\n}",
+  "examples": [
+    {
+      "name": "bar-chart-demo",
+      "title": "Highlighted bar in a card",
+      "description": "One series; the current month in the series colour, the rest neutral."
+    },
+    {
+      "name": "bar-chart-grouped",
+      "title": "Grouped",
+      "description": "Two series side by side with a 2px surface gap and a legend."
+    },
+    {
+      "name": "bar-chart-negative",
+      "title": "Negative values",
+      "description": "Bars grow down from zero; the baseline stays square."
+    },
+    {
+      "name": "bar-chart-table",
+      "title": "Visible table",
+      "description": "showTable renders the data table under the chart."
+    }
+  ],
+  "props": [
+    {
+      "component": "BarChart",
+      "name": "aria-label | aria-labelledby",
+      "type": "string",
+      "required": true,
+      "description": "Names the chart. One is required; use aria-labelledby to point at a visible card title."
+    },
+    {
+      "component": "BarChart",
+      "name": "data",
+      "type": "T[]",
+      "required": true,
+      "description": "One object per x position, in order."
+    },
+    {
+      "component": "BarChart",
+      "name": "x",
+      "type": "keyof T",
+      "required": true,
+      "description": "Key of the x value in each row (a month name, a Date, a number)."
+    },
+    {
+      "component": "BarChart",
+      "name": "series",
+      "type": "{ key: string; label: string; color?: string }[]",
+      "required": true,
+      "description": "What to plot, in palette order (--strata-chart-1..4). Up to 4; past that, fold the tail into \"Other\". color overrides the palette with a token."
+    },
+    {
+      "component": "BarChart",
+      "name": "format",
+      "type": "{ value?: Intl.NumberFormatOptions | fn; axis?: …; x?: Intl.DateTimeFormatOptions | fn }",
+      "description": "Formats values (readout, table, names), y ticks (default: value in compact notation) and x values (Dates default to \"12 Mar\")."
+    },
+    {
+      "component": "BarChart",
+      "name": "height",
+      "type": "number",
+      "default": "240",
+      "description": "Height of the plot plus the x axis, in px. The legend sits above it."
+    },
+    {
+      "component": "BarChart",
+      "name": "showGrid",
+      "type": "boolean",
+      "default": "true",
+      "description": "Horizontal hairlines at each y tick."
+    },
+    {
+      "component": "BarChart",
+      "name": "showXAxis",
+      "type": "boolean",
+      "default": "true",
+      "description": "X labels, thinned to what fits (always the first and last)."
+    },
+    {
+      "component": "BarChart",
+      "name": "showYAxis",
+      "type": "boolean",
+      "default": "true",
+      "description": "Y tick labels in a gutter at the inline start."
+    },
+    {
+      "component": "BarChart",
+      "name": "highlight",
+      "type": "unknown",
+      "description": "The x value of one category to emphasise: its bars keep the series colour, the rest turn border.strong (still 3:1 on the surface)."
+    },
+    {
+      "component": "BarChart",
+      "name": "yDomain",
+      "type": "[number, number]",
+      "description": "Fixes the y range. Default: nice round numbers around the data, from 0 for bars."
+    },
+    {
+      "component": "BarChart",
+      "name": "showLegend",
+      "type": "boolean",
+      "default": "series.length > 1",
+      "description": "Legend above the plot."
+    },
+    {
+      "component": "BarChart",
+      "name": "showTable",
+      "type": "boolean",
+      "default": "false",
+      "description": "Shows the data table under the chart instead of keeping it visually hidden."
+    },
+    {
+      "component": "BarChart",
+      "name": "xLabel",
+      "type": "string",
+      "description": "Header of the table's first column, e.g. \"Month\"."
+    },
+    {
+      "component": "BarChart",
+      "name": "summary",
+      "type": "string",
+      "description": "One sentence describing the data for screen readers. Default: generated from the data."
+    }
+  ],
+  "accessibility": {
+    "keyboard": [
+      {
+        "keys": "Tab",
+        "action": "Moves focus into the chart (one tab stop), to the last point you visited or the first."
+      },
+      {
+        "keys": "ArrowRight / ArrowLeft",
+        "action": "Moves to the next / previous x position and shows its readout. Mirrored in right-to-left locales."
+      },
+      {
+        "keys": "Home / End",
+        "action": "Jumps to the first / last x position."
+      },
+      {
+        "keys": "Escape",
+        "action": "Hides the readout without moving focus (WCAG 1.4.13). The next move shows it again."
+      }
+    ],
+    "notes": [
+      "The plot's hit layer is a React Aria ListBox (horizontal): one option per x position, named with its x and every series value, e.g. \"Mar: Revenue $19,800, Costs $13,100\". Focusing an option makes the screen reader read it, so no live region is needed.",
+      "The ListBox is named by aria-label or aria-labelledby (one is required) and described by a one-sentence summary (generated from the data, or the summary prop).",
+      "Every chart also renders its data as a <table> with a caption, visually hidden unless showTable. No value is only reachable by hovering.",
+      "The SVG, axis labels and the floating readout are aria-hidden: they repeat what the options and the table say.",
+      "Pointer, pen and touch snap to the nearest x position (full-height bands), so nobody has to land on a 2px line or a thin bar.",
+      "Text never wears a series colour: labels, axes, legend and readout use text.default and text.subtle; the series colour is only on marks and swatches. Series colours come from --strata-chart-1..4, solved per brand and scheme to reach 3:1 on surfaces and stay distinguishable under colour-vision deficiency.",
+      "A 2px focus ring surrounds the plot and axes while an x position has keyboard focus.",
+      "Motion (line draw-in, area fade-up, bar growth, readout glide) sits behind prefers-reduced-motion: no-preference.",
+      "There are no disabled or invalid states: a chart is read-only.",
+      "Bars are at most 24px wide with a 4px rounded data end (the tenant's field radius when smaller) and square at the baseline; grouped bars are separated by a 2px gap, never an outline."
+    ]
+  },
+  "guidelines": {
+    "do": [
+      "Use highlight when one category is the story (this month, your plan).",
+      "Sort categories when order carries no meaning, so the comparison reads at a glance.",
+      "Use a stat tile instead when there is only one bar."
+    ],
+    "dont": [
+      "Don't use a value ramp (darker for bigger) on unordered categories.",
+      "Don't plot more than 4 series in a group.",
+      "Don't label every bar; the axis, readout and table carry the values."
+    ]
+  },
+  "tokens": [
+    "chart.1",
+    "chart.2",
+    "chart.3",
+    "chart.4",
+    "chart.grid",
+    "chart.axis",
+    "color.text.default",
+    "color.text.subtle",
+    "color.border.default",
+    "color.border.subtle",
+    "color.surface.raised",
+    "color.focus.ring",
+    "color.text.brand",
+    "color.accent.text",
+    "font.body",
+    "font.size.xs",
+    "font.size.sm",
+    "font.tracking.xs",
+    "font.tracking.sm",
+    "font.weight.semibold",
+    "hairline",
+    "shadow.overlay",
+    "shadow.highlight",
+    "radius.container",
+    "radius.field",
+    "radius.pill",
+    "space.1",
+    "space.2",
+    "space.3",
+    "space.4",
+    "motion.duration.fast",
+    "motion.duration.normal",
+    "motion.duration.slow",
+    "motion.easing",
+    "motion.easingOut",
+    "color.border.strong"
+  ]
+}

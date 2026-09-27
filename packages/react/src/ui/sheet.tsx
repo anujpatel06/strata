@@ -10,7 +10,7 @@ import {
   useSlottedContext,
   type DialogProps as RACDialogProps,
 } from 'react-aria-components';
-import { IconX } from '@tabler/icons-react';
+import { IconX } from '@strata/icons';
 import { Button } from './button';
 import styles from './sheet.module.css';
 
@@ -23,12 +23,29 @@ function mirrorScope(overlay: HTMLElement, source: Element | null | undefined): 
   for (const name of SCOPE_ATTRS) {
     // Look each attribute up on its own: a single-tenant app themes :root and scopes only the scheme.
     const value = source.closest(`[${name}]`)?.getAttribute(name);
-    if (value) overlay.setAttribute(name, value);
+    if (value && overlay.getAttribute(name) !== value) overlay.setAttribute(name, value);
   }
   for (const name of ['dir', 'lang']) {
     const value = source.closest(`[${name}]`)?.getAttribute(name);
-    if (value) overlay.setAttribute(name, value);
+    if (value && overlay.getAttribute(name) !== value) overlay.setAttribute(name, value);
   }
+}
+
+/**
+ * The same lookup as mirrorScope, returned as props so the overlay root is *created* inside its scope. React Aria
+ * decides whether an overlay has an entry animation in a layout effect that runs before the ref callback that calls
+ * mirrorScope; until the scope attributes land, the motion tokens are undefined, the `animation` declaration is
+ * invalid, and React Aria concludes there's nothing to animate. mirrorScope stays as the fallback for an overlay
+ * that mounts already open (its trigger or anchor isn't in the DOM yet during that first render).
+ */
+function scopeProps(source: Element | null | undefined): Record<string, string> {
+  const props: Record<string, string> = {};
+  if (!source) return props;
+  for (const name of [...SCOPE_ATTRS, 'dir', 'lang']) {
+    const value = source.closest(`[${name}]`)?.getAttribute(name);
+    if (value) props[name] = value;
+  }
+  return props;
 }
 
 export interface SheetRenderProps {
@@ -96,6 +113,8 @@ export function Sheet({
     <>
       {!triggerRef && <span ref={anchorRef} hidden />}
       <ModalOverlay
+        // Scope attributes at creation, so entry animations resolve their tokens (see scopeProps).
+        {...scopeProps(triggerRef?.current ?? anchorRef.current)}
         ref={overlayRef}
         className={styles.overlay}
         isDismissable={isDismissable}
@@ -127,7 +146,7 @@ export function Sheet({
                   <footer className={styles.footer}>{typeof footer === 'function' ? footer({ close }) : footer}</footer>
                 )}
                 <Button variant="ghost" size="icon" aria-label="Close" onPress={close} className={styles.close}>
-                  <IconX aria-hidden stroke={1.75} />
+                  <IconX aria-hidden />
                 </Button>
               </>
             )}

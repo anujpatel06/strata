@@ -18,13 +18,15 @@
   flex: none;
   align-items: center;
   justify-content: center;
-  inline-size: calc(var(--strata-control-height) - var(--strata-space-2));
-  block-size: calc(var(--strata-control-height) - var(--strata-space-2));
+  /* --_h / --_r are the box's height and corner from text-field's FieldGroup, so the button follows the field size
+     and its corner is concentric with the box (outer corner minus the 4px inset). */
+  inline-size: calc(var(--_h) - var(--strata-space-2));
+  block-size: calc(var(--_h) - var(--strata-space-2));
   min-inline-size: var(--strata-space-6);
   min-block-size: var(--strata-space-6);
   padding: 0;
   border: 0;
-  border-radius: min(var(--strata-radius-button), var(--strata-space-2));
+  border-radius: max(var(--strata-space-1), calc(min(var(--_r), var(--_h) / 2) - var(--strata-space-1)));
   background: transparent;
   color: var(--strata-color-text-subtle);
   cursor: default;
@@ -63,7 +65,37 @@
   text-align: center;
 }
 
+/* Hover and press answer the hand: colours fade; the button dips and springs back, the chevron flips on the spring. */
+.button {
+  transition:
+    background-color var(--strata-motion-duration-fast) var(--strata-motion-easing),
+    color var(--strata-motion-duration-fast) var(--strata-motion-easing);
+}
+.field[data-open] .button {
+  color: var(--strata-color-text-default);
+}
+@media (prefers-reduced-motion: no-preference) {
+  .button {
+    transition:
+      background-color var(--strata-motion-duration-fast) var(--strata-motion-easing),
+      color var(--strata-motion-duration-fast) var(--strata-motion-easing),
+      scale var(--strata-motion-duration-spring) var(--strata-motion-spring),
+      outline-offset var(--strata-motion-duration-spring) var(--strata-motion-spring);
+  }
+  .button:not([data-focus-visible]) {
+    outline-offset: 0;
+  }
+  .button[data-pressed][data-hovered] {
+    scale: 0.9;
+  }
+  .chevron {
+    transition: rotate var(--strata-motion-duration-spring) var(--strata-motion-spring);
+  }
+}
+
 /* ——— Popover + list (kept identical to select.module.css) ——— */
+/* Glass: a floating layer. The engine solves the glass opacity so text.default and text.subtle reach 4.5:1 over any
+   backdrop; every other text colour in here sits on an opaque role background (surface.selected rows). */
 .popover {
   box-sizing: border-box;
   display: flex;
@@ -72,13 +104,22 @@
   overflow: hidden;
   border: 1px solid var(--strata-color-border-default);
   border-radius: var(--strata-radius-container);
-  background: var(--strata-color-surface-raised);
+  background: var(--strata-glass-bg);
+  -webkit-backdrop-filter: blur(var(--strata-glass-blur)) saturate(1.6);
+  backdrop-filter: blur(var(--strata-glass-blur)) saturate(1.6);
   color: var(--strata-color-text-default);
-  box-shadow: var(--strata-shadow-overlay);
+  box-shadow: var(--strata-shadow-highlight), var(--strata-shadow-overlay);
   font-family: var(--strata-font-body);
   font-size: var(--strata-font-size-md);
   line-height: var(--strata-line-height-normal);
   outline: none;
+  /* Grow out of the point on the trigger the popover is attached to. */
+  transform-origin: var(--trigger-anchor-point, top);
+}
+@supports not (backdrop-filter: blur(1px)) {
+  .popover {
+    background: var(--strata-color-surface-raised);
+  }
 }
 
 .listbox {
@@ -123,23 +164,24 @@
   outline: none;
   forced-color-adjust: none;
 }
+/* The highlighted row is an opaque surface.selected block (not a translucent tint), so its text never depends on
+   what shows through the glass. It fades in rather than blinking from row to row. */
 .item[data-hovered],
 .item[data-focused] {
-  background: color-mix(in oklab, var(--strata-color-text-default) 6%, transparent);
-}
-.item[data-pressed] {
-  background: color-mix(in oklab, var(--strata-color-text-default) 10%, transparent);
+  background: var(--strata-color-surface-selected);
 }
 .item[data-focus-visible] {
   outline: 2px solid var(--strata-color-focus-ring);
   outline-offset: -2px;
 }
+/* On glass only text.default/text.subtle are guaranteed legible, so a disabled option is text.subtle and simply
+   never highlights (React Aria also marks it aria-disabled and skips it with the arrow keys). */
 .item[data-disabled] {
-  color: var(--strata-color-text-disabled);
+  color: var(--strata-color-text-subtle);
 }
 .item[data-disabled] .itemDescription,
 .item[data-disabled] .icon {
-  color: var(--strata-color-text-disabled);
+  color: var(--strata-color-text-subtle);
 }
 
 .icon {
@@ -152,6 +194,11 @@
 .icon > svg {
   inline-size: 1.15em;
   block-size: 1.15em;
+}
+.item[data-hovered] .icon,
+.item[data-focused] .icon,
+.item[data-selected] .icon {
+  color: var(--strata-color-text-default);
 }
 
 .itemText {
@@ -187,39 +234,108 @@
   visibility: visible;
 }
 
+/* Colour and opacity fades are fine with reduced motion; anything that moves is not. */
+.item {
+  transition: background-color var(--strata-motion-duration-fast) var(--strata-motion-easing);
+}
+/* Stagger slot for the rows' entrance: the first 8 rows step in one after another, the rest arrive with the 8th,
+   so a long list is never slower to fill than a short one. */
+.item:nth-child(2) { --_i: 1; }
+.item:nth-child(3) { --_i: 2; }
+.item:nth-child(4) { --_i: 3; }
+.item:nth-child(5) { --_i: 4; }
+.item:nth-child(6) { --_i: 5; }
+.item:nth-child(7) { --_i: 6; }
+.item:nth-child(n + 8) { --_i: 7; }
+.icon {
+  transition: color var(--strata-motion-duration-fast) var(--strata-motion-easing);
+}
+.popover[data-entering] {
+  animation: popover-fade-in var(--strata-motion-duration-normal) var(--strata-motion-easing-out);
+}
+.popover[data-exiting] {
+  animation: popover-fade-out var(--strata-motion-duration-fast) var(--strata-motion-easing) forwards;
+}
+
 @media (prefers-reduced-motion: no-preference) {
-  .chevron {
-    transition: rotate var(--strata-motion-duration-normal) var(--strata-motion-easing);
+  .item {
+    transition:
+      background-color var(--strata-motion-duration-fast) var(--strata-motion-easing),
+      scale var(--strata-motion-duration-spring) var(--strata-motion-spring);
   }
+  .item[data-pressed] {
+    scale: 0.96;
+    transition:
+      background-color var(--strata-motion-duration-fast) var(--strata-motion-easing),
+      scale var(--strata-motion-duration-fast) var(--strata-motion-easing);
+  }
+  /* Rows step in as the list opens: a fade and the popover's 4px slide, 30ms apart (a quarter of duration-fast),
+     so the cascade finishes with the panel's spring. Only while the popover is entering: rows that appear as the
+     user types show up at once, so filtering never lags. Rows are interactive the whole time. */
+  .popover[data-entering] .item {
+    animation: item-in var(--strata-motion-duration-normal) var(--strata-motion-easing-out)
+      calc(var(--_i, 0) * var(--strata-motion-duration-fast) / 4) backwards;
+  }
+  /* The tick springs in when an option becomes the value (and when the list opens on it). */
+  .check[data-visible] {
+    animation: check-in var(--strata-motion-duration-spring) var(--strata-motion-spring);
+  }
+  /* Enter from the trigger: opacity eases out, scale + a 4px slide ride the spring. Exit is quicker, no spring. */
   .popover[data-entering] {
-    animation: popover-in var(--strata-motion-duration-fast) var(--strata-motion-easing);
+    animation:
+      popover-fade-in var(--strata-motion-duration-normal) var(--strata-motion-easing-out),
+      popover-move-in var(--strata-motion-duration-spring) var(--strata-motion-spring);
   }
   .popover[data-exiting] {
-    animation: popover-out var(--strata-motion-duration-fast) var(--strata-motion-easing) forwards;
+    animation:
+      popover-fade-out var(--strata-motion-duration-fast) var(--strata-motion-easing) forwards,
+      popover-move-out var(--strata-motion-duration-fast) var(--strata-motion-easing) forwards;
   }
 }
 /* Slide from the side the popover opens towards (placement is physical, as is translate). */
 .popover[data-placement='bottom'] {
-  --popover-slide: 0 calc(var(--strata-space-1) * -1);
+  --popover-slide: 0 -4px;
 }
 .popover[data-placement='top'] {
-  --popover-slide: 0 var(--strata-space-1);
+  --popover-slide: 0 4px;
 }
 .popover[data-placement='left'] {
-  --popover-slide: var(--strata-space-1) 0;
+  --popover-slide: 4px 0;
 }
 .popover[data-placement='right'] {
-  --popover-slide: calc(var(--strata-space-1) * -1) 0;
+  --popover-slide: -4px 0;
 }
-@keyframes popover-in {
+@keyframes popover-fade-in {
+  from {
+    opacity: 0;
+  }
+}
+@keyframes popover-fade-out {
+  to {
+    opacity: 0;
+  }
+}
+@keyframes popover-move-in {
+  from {
+    scale: 0.96;
+    translate: var(--popover-slide, 0 0);
+  }
+}
+@keyframes popover-move-out {
+  to {
+    scale: 0.98;
+    translate: var(--popover-slide, 0 0);
+  }
+}
+@keyframes item-in {
   from {
     opacity: 0;
     translate: var(--popover-slide, 0 0);
   }
 }
-@keyframes popover-out {
-  to {
+@keyframes check-in {
+  from {
+    scale: 0.4;
     opacity: 0;
-    translate: var(--popover-slide, 0 0);
   }
 }

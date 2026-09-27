@@ -17,8 +17,8 @@ import {
   type ListBoxSectionProps,
   type ValidationResult,
 } from 'react-aria-components';
-import { IconCheck, IconChevronDown } from '@tabler/icons-react';
-import { Description, FieldError, FieldGroup, Input, Label } from './text-field';
+import { IconCheck, IconChevronDown } from '@strata/icons';
+import { Description, FieldError, FieldGroup, Input, Label, type FieldSize } from './text-field';
 import styles from './combobox.module.css';
 
 const cx = (...c: Array<string | false | null | undefined>) => c.filter(Boolean).join(' ');
@@ -53,6 +53,8 @@ export interface ComboboxProps<T extends object> extends Omit<RACComboBoxProps<T
   placeholder?: string;
   /** Row shown when nothing matches the typed text. */
   emptyState?: ReactNode;
+  /** Height of the input: `md` is the control height. Matches `Button` and `TextField` of the same size. */
+  size?: FieldSize;
   /** `ComboboxItem` / `ComboboxSection` elements, or a function that renders one per item. */
   children: ReactNode | ((item: T) => ReactElement);
 }
@@ -71,6 +73,7 @@ export function Combobox<T extends object>({
   children,
   className,
   allowsEmptyCollection = true,
+  size = 'md',
   ...props
 }: ComboboxProps<T>): JSX.Element {
   const groupRef = useRef<HTMLDivElement>(null);
@@ -79,6 +82,7 @@ export function Combobox<T extends object>({
       {...props}
       items={items}
       allowsEmptyCollection={allowsEmptyCollection}
+      data-field-size={size}
       className={composeRenderProps(className, (c) => cx(styles.field, c))}
     >
       {label != null && <Label isRequired={props.isRequired}>{label}</Label>}

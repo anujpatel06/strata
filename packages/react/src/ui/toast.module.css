@@ -66,21 +66,65 @@
 
 /* ---- toast ------------------------------------------------------------- */
 
+/*
+ * Glass: the engine solves --strata-glass-bg so text.default and text.subtle reach 4.5:1 over any
+ * backdrop. Only those two text roles sit directly on it; the tone colour lives on the opaque icon
+ * chip and the action sits on its own opaque fill.
+ */
 .toast {
   position: relative;
   grid-area: 1 / 1;
   align-self: end;
   inline-size: 100%;
-  border: 1px solid var(--strata-color-border-default);
+  /* Decorative edge: a hairline ring (Chromium rounds sub-pixel borders up to 1px, so it's a box-shadow; the
+     transparent 1px border keeps the size and is the edge in forced-colours mode). The overlay shadow carries the shape. */
+  border: 1px solid transparent;
   border-radius: var(--strata-radius-container);
-  background-color: var(--strata-color-surface-raised);
-  box-shadow: var(--strata-shadow-overlay);
+  background-color: var(--strata-glass-bg);
+  -webkit-backdrop-filter: blur(var(--strata-glass-blur)) saturate(1.6);
+  backdrop-filter: blur(var(--strata-glass-blur)) saturate(1.6);
+  box-shadow:
+    0 0 0 var(--strata-hairline) var(--strata-color-border-default),
+    var(--strata-shadow-highlight),
+    var(--strata-shadow-overlay);
   color: var(--strata-color-text-default);
-  outline: none;
+  outline: 2px solid transparent;
+  outline-offset: 0;
   /* Collapsed: peek out behind the newer toasts, a little smaller each step back. */
   translate: 0 calc(var(--_index) * var(--_peek) * var(--_sign));
   scale: calc(1 - var(--_index) * 0.05);
   transform-origin: 50% 0;
+  /* Reduced motion keeps a plain fade in; colour and opacity may still change. */
+  animation: strata-toast-fade-in var(--strata-motion-duration-normal) var(--strata-motion-easing-out);
+  transition:
+    outline-offset var(--strata-motion-duration-fast) var(--strata-motion-easing),
+    outline-color var(--strata-motion-duration-fast) var(--strata-motion-easing);
+}
+
+@supports (corner-shape: squircle) {
+  .toast,
+  .icon,
+  .action {
+    corner-shape: squircle;
+  }
+}
+/* Pills and circles keep true round ends (a squircle flattens them into rounded rectangles). The style query
+   compares tokens, so no radius value is hard-coded. */
+@container style(--strata-radius-badge: var(--strata-radius-pill)) {
+  .icon {
+    corner-shape: round;
+  }
+}
+@container style(--strata-radius-button: var(--strata-radius-pill)) {
+  .action {
+    corner-shape: round;
+  }
+}
+
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .toast {
+    background-color: var(--strata-color-surface-raised);
+  }
 }
 
 .region[data-placement^='top'] .toast {
@@ -89,7 +133,7 @@
 }
 
 .toast[data-focus-visible] {
-  outline: 2px solid var(--strata-color-focus-ring);
+  outline-color: var(--strata-color-focus-ring);
   outline-offset: 2px;
 }
 
@@ -130,6 +174,7 @@
 
 .inner {
   --_line: calc(var(--strata-font-size-md) * var(--strata-line-height-snug));
+  --_chip: var(--strata-space-6);
 
   display: flex;
   align-items: flex-start;
@@ -138,29 +183,57 @@
   padding-inline: var(--strata-space-4) var(--strata-space-3);
 }
 
+/* The tone chip: an opaque feedback fill, so the tone colour never sits on glass. Centred on the title's first line. */
 .icon {
-  display: inline-flex;
+  --_tone-bg: var(--strata-color-surface-sunken);
+  --_tone-fg: var(--strata-color-text-default);
+  --_tone-border: var(--strata-color-border-default);
+
+  display: grid;
   flex: none;
-  align-items: center;
-  block-size: var(--_line);
+  place-items: center;
+  inline-size: var(--_chip);
+  block-size: var(--_chip);
+  margin-block: calc((var(--_line) - var(--_chip)) / 2);
+  /* Calm tint: the tone's own bg, a same-hue hairline, and a radius concentric with the toast's corner. */
+  border: 0;
+  border-radius: min(50%, max(var(--strata-radius-badge), calc(var(--strata-radius-container) - var(--strata-space-4))));
+  background-color: var(--_tone-bg);
+  box-shadow:
+    inset 0 0 0 var(--strata-hairline) color-mix(in oklab, var(--_tone-border) 60%, transparent),
+    var(--strata-shadow-highlight);
+  color: var(--_tone-fg);
 }
 
 .icon > svg {
-  inline-size: calc(var(--strata-font-size-md) * 1.2);
-  block-size: calc(var(--strata-font-size-md) * 1.2);
+  inline-size: calc(var(--_chip) * 0.625);
+  block-size: calc(var(--_chip) * 0.625);
+  stroke-width: var(--strata-icon-stroke, 1.5);
+}
+
+.toast[data-tone='info'] .icon > svg {
+  scale: 1.5;
 }
 
 .toast[data-tone='info'] .icon {
-  color: var(--strata-color-feedback-info-fg);
+  --_tone-bg: var(--strata-color-feedback-info-bg);
+  --_tone-fg: var(--strata-color-feedback-info-fg);
+  --_tone-border: var(--strata-color-feedback-info-border);
 }
 .toast[data-tone='success'] .icon {
-  color: var(--strata-color-feedback-success-fg);
+  --_tone-bg: var(--strata-color-feedback-success-bg);
+  --_tone-fg: var(--strata-color-feedback-success-fg);
+  --_tone-border: var(--strata-color-feedback-success-border);
 }
 .toast[data-tone='warning'] .icon {
-  color: var(--strata-color-feedback-warning-fg);
+  --_tone-bg: var(--strata-color-feedback-warning-bg);
+  --_tone-fg: var(--strata-color-feedback-warning-fg);
+  --_tone-border: var(--strata-color-feedback-warning-border);
 }
 .toast[data-tone='danger'] .icon {
-  color: var(--strata-color-feedback-danger-fg);
+  --_tone-bg: var(--strata-color-feedback-danger-bg);
+  --_tone-fg: var(--strata-color-feedback-danger-fg);
+  --_tone-border: var(--strata-color-feedback-danger-border);
 }
 
 .content {
@@ -175,7 +248,7 @@
   color: var(--strata-color-text-default);
   font-size: var(--strata-font-size-md);
   font-weight: var(--strata-font-weight-semibold);
-  letter-spacing: 0;
+  letter-spacing: var(--strata-font-tracking-md);
   line-height: var(--strata-line-height-snug);
   overflow-wrap: anywhere;
 }
@@ -184,11 +257,13 @@
   display: block;
   color: var(--strata-color-text-subtle);
   font-size: var(--strata-font-size-sm);
+  letter-spacing: var(--strata-font-tracking-sm);
   line-height: var(--strata-line-height-normal);
   overflow-wrap: anywhere;
   text-wrap: pretty;
 }
 
+/* Brand-coloured label on its own opaque fill (never straight on glass). */
 .action {
   display: inline-flex;
   flex: none;
@@ -199,17 +274,19 @@
   margin: 0;
   padding-block: 0;
   padding-inline: var(--strata-space-3);
-  border: 1px solid color-mix(in oklab, var(--strata-color-action-secondary-fg) 18%, transparent);
-  border-radius: var(--strata-radius-button);
+  border: 1px solid color-mix(in oklab, var(--strata-color-action-secondary-fg) 16%, transparent);
+  /* Concentric with the toast: its radius minus the inset, capped at the brand's button radius. */
+  border-radius: min(var(--strata-radius-button), max(var(--strata-radius-badge), calc(var(--strata-radius-container) - var(--strata-space-4))));
   background-color: var(--strata-color-action-secondary-bg);
+  box-shadow: var(--strata-shadow-highlight), var(--strata-shadow-raised);
   color: var(--strata-color-action-secondary-fg);
   font-family: inherit;
   font-size: var(--strata-font-size-sm);
   font-weight: var(--strata-font-weight-semibold);
+  letter-spacing: var(--strata-font-tracking-sm);
   line-height: 1;
   white-space: nowrap;
   cursor: default;
-  outline: none;
 }
 
 .action[data-hovered] {
@@ -235,42 +312,72 @@
   background-color: transparent;
   color: var(--strata-color-text-subtle);
   cursor: default;
-  outline: none;
 }
 
 .close > svg {
   inline-size: var(--strata-space-4);
   block-size: var(--strata-space-4);
+  stroke-width: var(--strata-icon-stroke, 1.5);
 }
 
 .close[data-hovered] {
-  background-color: color-mix(in oklab, var(--strata-color-text-default) 6%, transparent);
+  background-color: color-mix(in oklab, var(--strata-color-text-default) 8%, transparent);
   color: var(--strata-color-text-default);
 }
 
 .close[data-pressed] {
-  background-color: color-mix(in oklab, var(--strata-color-text-default) 10%, transparent);
+  background-color: color-mix(in oklab, var(--strata-color-text-default) 12%, transparent);
+}
+
+.action,
+.close {
+  outline: 2px solid transparent;
+  outline-offset: 0;
+  transition:
+    background-color var(--strata-motion-duration-fast) var(--strata-motion-easing),
+    color var(--strata-motion-duration-fast) var(--strata-motion-easing),
+    outline-offset var(--strata-motion-duration-fast) var(--strata-motion-easing),
+    outline-color var(--strata-motion-duration-fast) var(--strata-motion-easing);
 }
 
 .action[data-focus-visible],
 .close[data-focus-visible] {
-  outline: 2px solid var(--strata-color-focus-ring);
+  outline-color: var(--strata-color-focus-ring);
   outline-offset: 2px;
 }
 
 /* ---- motion ------------------------------------------------------------ */
 
+/*
+ * Enter: slides in from the viewport edge and grows from 0.94 on the spring (a ~4% overshoot, then settles)
+ * while the opacity eases out. Restacking springs too. Exit is quicker and plain: fade, drop back toward the
+ * edge a little and shrink, no spring. Without motion the toast only fades in and closes at once.
+ */
 @media (prefers-reduced-motion: no-preference) {
+  .region {
+    interpolate-size: allow-keywords;
+  }
+
   .toast {
-    animation: strata-toast-in calc(var(--strata-motion-duration-normal) * 2) var(--strata-motion-easing);
+    animation:
+      strata-toast-fade-in var(--strata-motion-duration-normal) var(--strata-motion-easing-out),
+      strata-toast-slide-in var(--strata-motion-duration-spring) var(--strata-motion-spring);
     transition:
-      translate calc(var(--strata-motion-duration-normal) * 2) var(--strata-motion-easing),
-      scale calc(var(--strata-motion-duration-normal) * 2) var(--strata-motion-easing),
-      block-size calc(var(--strata-motion-duration-normal) * 2) var(--strata-motion-easing);
+      translate var(--strata-motion-duration-spring) var(--strata-motion-spring),
+      scale var(--strata-motion-duration-spring) var(--strata-motion-spring),
+      block-size var(--strata-motion-duration-slow) var(--strata-motion-easing),
+      outline-offset var(--strata-motion-duration-fast) var(--strata-motion-easing),
+      outline-color var(--strata-motion-duration-fast) var(--strata-motion-easing);
   }
 
   .toast > .inner {
     transition: opacity var(--strata-motion-duration-normal) var(--strata-motion-easing);
+  }
+
+  /* The tone chip pops (0.6 → 1 on the spring) just after the toast lands, so the status registers. */
+  .toast .icon {
+    animation: strata-toast-icon-pop var(--strata-motion-duration-spring) var(--strata-motion-spring)
+      var(--strata-motion-duration-fast) backwards;
   }
 
   .toast[data-exiting] {
@@ -278,22 +385,47 @@
     pointer-events: none;
   }
 
-  .close,
-  .action {
-    transition: background-color var(--strata-motion-duration-fast) var(--strata-motion-easing);
+  .action,
+  .close {
+    transition:
+      background-color var(--strata-motion-duration-fast) var(--strata-motion-easing),
+      color var(--strata-motion-duration-fast) var(--strata-motion-easing),
+      outline-offset var(--strata-motion-duration-fast) var(--strata-motion-easing),
+      outline-color var(--strata-motion-duration-fast) var(--strata-motion-easing),
+      scale var(--strata-motion-duration-spring) var(--strata-motion-spring);
+  }
+
+  .action[data-pressed] {
+    scale: 0.97;
+  }
+
+  .close[data-pressed] {
+    scale: 0.9;
   }
 }
 
-@keyframes strata-toast-in {
+@keyframes strata-toast-fade-in {
   from {
     opacity: 0;
-    transform: translateY(calc(var(--_enter) * (100% + var(--_edge))));
+  }
+}
+
+@keyframes strata-toast-slide-in {
+  from {
+    transform: translateY(calc(var(--_enter) * (100% + var(--_edge)))) scale(0.94);
+  }
+}
+
+@keyframes strata-toast-icon-pop {
+  from {
+    opacity: 0;
+    scale: 0.6;
   }
 }
 
 @keyframes strata-toast-out {
   to {
     opacity: 0;
-    transform: translateY(calc(var(--_enter) * 30%)) scale(0.97);
+    transform: translateY(calc(var(--_enter) * var(--strata-space-4))) scale(0.96);
   }
 }

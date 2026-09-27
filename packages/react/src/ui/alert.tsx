@@ -2,19 +2,20 @@
 
 import { useId, type HTMLAttributes, type JSX, type ReactNode, type Ref } from 'react';
 import { Button as AriaButton } from 'react-aria-components';
-import { IconAlertCircle, IconAlertTriangle, IconCircleCheck, IconInfoCircle, IconX } from '@tabler/icons-react';
+import { IconAlertTriangle, IconCheck, IconExclamationMark, IconInfoSmall, IconX } from '@strata/icons';
 import styles from './alert.module.css';
 
 const cx = (...c: Array<string | false | null | undefined>) => c.filter(Boolean).join(' ');
 
 export type AlertTone = 'neutral' | 'info' | 'success' | 'warning' | 'danger';
 
-const TONE_ICON: Record<AlertTone, typeof IconInfoCircle> = {
-  neutral: IconInfoCircle,
-  info: IconInfoCircle,
-  success: IconCircleCheck,
+/* Plain glyphs on a solid tone chip. Each tone has its own shape, so tone never relies on colour alone. */
+const TONE_ICON: Record<AlertTone, typeof IconInfoSmall> = {
+  neutral: IconInfoSmall,
+  info: IconInfoSmall,
+  success: IconCheck,
   warning: IconAlertTriangle,
-  danger: IconAlertCircle,
+  danger: IconExclamationMark,
 };
 
 export interface AlertProps extends Omit<HTMLAttributes<HTMLDivElement>, 'title'> {
@@ -67,8 +68,9 @@ export function Alert({
     >
       <div className={styles.layout}>
         {icon !== false && (
-          <span className={styles.icon} aria-hidden="true">
-            {icon ?? <ToneIcon stroke={2} />}
+          <span className={styles.icon} data-glyph={icon == null ? (ToneIcon === IconInfoSmall ? 'info' : '') : undefined} aria-hidden="true">
+            {/* IconInfoSmall is drawn small in its box; CSS scales it up 1.5×, so it gets a lighter stroke. */}
+            {icon ?? <ToneIcon stroke={ToneIcon === IconInfoSmall ? 1.5 : 2.25} />}
           </span>
         )}
         <div className={styles.main}>

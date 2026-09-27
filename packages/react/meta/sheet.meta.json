@@ -13,7 +13,7 @@
   ],
   "dependencies": [
     "react-aria-components",
-    "@tabler/icons-react"
+    "@strata/icons"
   ],
   "registryDependencies": [
     "button"
@@ -109,10 +109,10 @@
     ],
     "notes": [
       "A modal dialog (role=\"dialog\") named by its title; the page behind is inert while it is open.",
-      "The slide animation respects prefers-reduced-motion.",
       "Overlays render in a portal on <body>, outside any ThemeScope. When it opens, the overlay looks up data-strata-theme, data-strata-scheme, data-strata-density, dir and lang — each on the nearest ancestor that has it — starting from its trigger (or from where the component is rendered, when controlled), and copies them onto its own root — so it uses the same tenant tokens and direction as the page region it came from, and nested overlays inherit from their parent overlay.",
       "Right-to-left: give the ThemeScope a locale (e.g. locale=\"ar-AE\"), which sets dir and wraps React Aria's I18nProvider, so arrow keys and start/end placement flip as well as the layout.",
-      "The backdrop dims the page with backdrop-filter: brightness(0.55), so it reads in light and dark schemes alike."
+      "The backdrop blurs the page lightly and dims it with backdrop-filter: brightness(0.6), so it recedes in light and dark schemes alike. The panel is glass (--strata-glass-bg + backdrop blur); only text.default and text.subtle sit directly on it, the two roles the theme engine solves to 4.5:1 over any backdrop.",
+      "Motion: the panel slides in from its side (start/end follow the reading direction) and leaves faster than it came. With prefers-reduced-motion it appears without moving."
     ]
   },
   "guidelines": {
@@ -126,23 +126,34 @@
     ]
   },
   "tokens": [
-    "color.surface.raised",
-    "color.border.default",
-    "shadow.overlay",
-    "radius.container",
+    "glass.blur",
     "font.body",
     "font.size.md",
+    "line-height.normal",
     "color.text.default",
-    "color.text.subtle",
-    "motion.duration.fast",
-    "motion.duration.normal",
-    "motion.easing",
+    "space.2",
+    "glass.bg",
+    "color.border.default",
+    "shadow.highlight",
+    "shadow.overlay",
+    "color.surface.raised",
+    "space.16",
+    "radius.container",
+    "space.4",
+    "card-inset",
+    "space.1",
+    "control-height",
     "font.heading",
     "font.size.lg",
+    "font.weight.semibold",
+    "line-height.snug",
+    "font.heading-tracking",
     "font.size.sm",
-    "card-inset",
+    "color.text.subtle",
     "field-gap",
-    "control-height",
-    "space.16"
+    "motion.duration.normal",
+    "motion.easing-out",
+    "motion.easing",
+    "motion.duration.slow"
   ]
 }

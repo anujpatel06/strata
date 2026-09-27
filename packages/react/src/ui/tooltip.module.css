@@ -5,9 +5,13 @@
   box-sizing: border-box;
   max-inline-size: min(calc(var(--strata-space-16) * 4), calc(100vw - var(--strata-space-4) * 2));
   padding: calc(var(--strata-space-1) * 1.5) var(--strata-space-2);
+  /* Solid inverse, never glass: too small to read as glass, and text.inverse is only solved on the solid fill. */
   background: var(--strata-color-surface-inverse);
   color: var(--strata-color-text-inverse);
   border-radius: min(var(--strata-radius-button), calc(var(--strata-space-1) * 1.5));
+  /* Lifted off the page by the raised shadow; the sheen marks its top edge in dark schemes. */
+  box-shadow: var(--strata-shadow-highlight), var(--strata-shadow-raised);
+  transform-origin: var(--trigger-anchor-point, center);
   font-family: var(--strata-font-body);
   font-size: var(--strata-font-size-xs);
   font-weight: var(--strata-font-weight-medium);
@@ -46,23 +50,26 @@
   rotate: 90deg;
 }
 
+/* Motion (Tactile style). Tooltips should never feel slow: a fast fade with easing-out and a 4px slide from the
+   trigger's side (--tooltip-shift, set per placement above). No spring, no scale: it's a label, not a surface.
+   Everything lives in the no-preference block, so with reduced motion the tooltip simply appears. */
 @media (prefers-reduced-motion: no-preference) {
   .tooltip[data-entering] {
-    animation: pop var(--strata-motion-duration-fast) var(--strata-motion-easing);
+    animation: pop var(--strata-motion-duration-fast) var(--strata-motion-easing-out);
   }
   .tooltip[data-exiting] {
     animation: fade var(--strata-motion-duration-fast) var(--strata-motion-easing) reverse;
   }
-}
 
-@keyframes pop {
-  from {
-    opacity: 0;
-    translate: var(--tooltip-shift);
+  @keyframes pop {
+    from {
+      opacity: 0;
+      translate: var(--tooltip-shift);
+    }
   }
-}
-@keyframes fade {
-  from {
-    opacity: 0;
+  @keyframes fade {
+    from {
+      opacity: 0;
+    }
   }
 }

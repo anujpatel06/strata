@@ -26,13 +26,7 @@ import {
   type QueuedToast,
   type ToastRegionProps as AriaToastRegionProps,
 } from 'react-aria-components';
-import {
-  IconAlertCircleFilled,
-  IconAlertTriangleFilled,
-  IconCircleCheckFilled,
-  IconInfoCircleFilled,
-  IconX,
-} from '@tabler/icons-react';
+import { IconAlertTriangle, IconCheck, IconExclamationMark, IconInfoSmall, IconX } from '@strata/icons';
 import styles from './toast.module.css';
 
 const cx = (...c: Array<string | false | null | undefined>) => c.filter(Boolean).join(' ');
@@ -333,11 +327,12 @@ export function ToastRegion({ placement = 'bottom-end', className, ...rest }: To
  * Toast
  * ------------------------------------------------------------------ */
 
-const TONE_ICON: Record<Exclude<ToastTone, 'neutral'>, typeof IconInfoCircleFilled> = {
-  info: IconInfoCircleFilled,
-  success: IconCircleCheckFilled,
-  warning: IconAlertTriangleFilled,
-  danger: IconAlertCircleFilled,
+/* Plain glyphs on an opaque tone chip. Each tone has its own shape, so tone never relies on colour alone. */
+const TONE_ICON: Record<Exclude<ToastTone, 'neutral'>, typeof IconInfoSmall> = {
+  info: IconInfoSmall,
+  success: IconCheck,
+  warning: IconAlertTriangle,
+  danger: IconExclamationMark,
 };
 
 function ToastItem({ toast: item }: { toast: QueuedToast<ToastContent> }): JSX.Element {
@@ -394,7 +389,8 @@ function ToastItem({ toast: item }: { toast: QueuedToast<ToastContent> }): JSX.E
       <div ref={innerRef} className={styles.inner}>
         {ToneIcon && (
           <span className={styles.icon} aria-hidden="true">
-            <ToneIcon />
+            {/* IconInfoSmall is drawn small in its box; CSS scales it up 1.5×, so it gets a lighter stroke. */}
+            <ToneIcon stroke={tone === 'info' ? 1.5 : 2.25} />
           </span>
         )}
         <AriaToastContent className={styles.content}>

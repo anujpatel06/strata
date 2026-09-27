@@ -5,16 +5,19 @@
   color: var(--strata-color-text-brand);
   font: inherit;
   text-decoration-line: underline;
-  text-decoration-color: currentColor;
+  /* A quieter underline at rest (still always present, so the link never relies on colour); full on hover. */
+  text-decoration-color: color-mix(in oklab, currentColor 45%, transparent);
   text-decoration-thickness: 1px;
   text-underline-offset: 0.2em;
   border-radius: min(var(--strata-radius-field), var(--strata-space-1));
   cursor: pointer;
   outline: none;
+  outline-offset: 0;
   -webkit-tap-highlight-color: transparent;
 }
 
 .root[data-hovered] {
+  text-decoration-color: currentColor;
   text-decoration-thickness: 2px;
 }
 
@@ -28,18 +31,24 @@
   align-items: center;
   gap: var(--strata-space-1);
   font-weight: var(--strata-font-weight-medium);
-  text-decoration-line: none;
+  /* The underline is always drawn but transparent, so on hover it fades in instead of popping. */
+  text-decoration-color: transparent;
 }
 
 .root[data-variant='standalone'][data-hovered] {
-  text-decoration-line: underline;
+  text-decoration-color: currentColor;
+  text-decoration-thickness: 1px;
 }
 
-/* Trailing (or leading) icon in a standalone link. */
+/* Trailing (or leading) icon in a standalone link, at the text's weight (1.75 stroke, not Tabler's heavier 2). */
 .root[data-variant='standalone'] > svg {
   flex: none;
   inline-size: 1.15em;
   block-size: 1.15em;
+}
+
+.root > :global(.tabler-icon) {
+  stroke-width: var(--strata-icon-stroke, 1.5);
 }
 
 /* Arrows and chevrons point "forward", whichever way forward is. */
@@ -54,24 +63,42 @@
 }
 
 .root[data-variant='standalone'][data-disabled] {
-  text-decoration-line: none;
+  text-decoration-color: transparent;
+}
+
+.root {
+  transition:
+    text-decoration-color var(--strata-motion-duration-fast) var(--strata-motion-easing),
+    text-decoration-thickness var(--strata-motion-duration-fast) var(--strata-motion-easing),
+    color var(--strata-motion-duration-fast) var(--strata-motion-easing),
+    outline-offset var(--strata-motion-duration-fast) var(--strata-motion-easing);
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  .root {
-    transition: text-decoration-thickness var(--strata-motion-duration-fast) var(--strata-motion-easing),
-      color var(--strata-motion-duration-fast) var(--strata-motion-easing);
+  .root[data-variant='standalone'] {
+    transition:
+      text-decoration-color var(--strata-motion-duration-fast) var(--strata-motion-easing),
+      text-decoration-thickness var(--strata-motion-duration-fast) var(--strata-motion-easing),
+      color var(--strata-motion-duration-fast) var(--strata-motion-easing),
+      outline-offset var(--strata-motion-duration-fast) var(--strata-motion-easing),
+      scale var(--strata-motion-duration-spring) var(--strata-motion-spring);
   }
 
+  /* Standalone links are buttons-sized targets, so they press like one. Inline links in running text don't. */
+  .root[data-variant='standalone'][data-pressed]:not([data-disabled]) {
+    scale: 0.97;
+  }
+
+  /* The trailing arrow nudges forward on hover, on the spring. */
   .root[data-variant='standalone'] > svg:last-child:not(:first-child) {
-    transition: translate var(--strata-motion-duration-fast) var(--strata-motion-easing);
+    transition: translate var(--strata-motion-duration-spring) var(--strata-motion-spring);
   }
 
   .root[data-variant='standalone'][data-hovered] > svg:last-child:not(:first-child) {
-    translate: 2px 0;
+    translate: 4px 0;
   }
 
   .root[data-variant='standalone'][data-hovered] > svg:last-child:not(:first-child):dir(rtl) {
-    translate: -2px 0;
+    translate: -4px 0;
   }
 }

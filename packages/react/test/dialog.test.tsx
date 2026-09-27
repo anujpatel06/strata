@@ -101,6 +101,27 @@ describe('Dialog', () => {
     expect(overlay).toHaveAttribute('lang', 'ar');
   });
 
+  it('creates the overlay with the scope attributes already set, so entry animations can resolve motion tokens', async () => {
+    const user = userEvent.setup();
+    render(
+      <div data-strata-theme="harbor" data-strata-scheme="dark" dir="rtl" lang="ar">
+        <Example />
+      </div>,
+    );
+    const late: string[] = [];
+    const observer = new MutationObserver((records) => {
+      for (const r of records) if (r.attributeName && (r.target as Element).matches('.react-aria-ModalOverlay, [data-strata-theme]')) late.push(r.attributeName);
+    });
+    observer.observe(document.body, { subtree: true, attributes: true, attributeFilter: ['data-strata-theme', 'data-strata-scheme', 'dir', 'lang'] });
+    await user.click(screen.getByRole('button', { name: 'Edit profile' }));
+    observer.disconnect();
+    const overlay = screen.getByRole('dialog').closest('[data-strata-theme]')!;
+    expect(overlay.parentElement).toBe(document.body);
+    expect(overlay).toHaveAttribute('data-strata-theme', 'harbor');
+    // Set as props when the element is created, not patched on afterwards.
+    expect(late).toEqual([]);
+  });
+
   it('looks each scope attribute up separately (theme on :root, scheme on a nested scope)', async () => {
     const user = userEvent.setup();
     render(

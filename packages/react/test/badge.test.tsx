@@ -43,4 +43,19 @@ describe('Badge', () => {
     expect(badge).toHaveClass('badge', 'mine');
     expect(badge).toHaveAttribute('title', '3 unread');
   });
+
+  it('status variant: always shows a decorative dot, and the label alone names it', () => {
+    const { container } = render(
+      <Badge variant="status" tone="success">
+        Ready to review
+      </Badge>,
+    );
+    const badge = screen.getByText('Ready to review');
+    expect(badge).toHaveAttribute('data-variant', 'status');
+    expect(badge).toHaveAttribute('data-tone', 'success');
+    const dots = container.querySelectorAll('.dot');
+    expect(dots).toHaveLength(1);
+    expect(dots[0]).toHaveAttribute('aria-hidden', 'true');
+    expect(badge).toHaveTextContent(/^Ready to review$/);
+  });
 });

@@ -10,7 +10,6 @@ import {
   type CheckboxGroupProps as RACCheckboxGroupProps,
   type ValidationResult,
 } from 'react-aria-components';
-import { IconCheck, IconMinus } from '@tabler/icons-react';
 import { Description, FieldError, Label } from './text-field';
 import styles from './checkbox.module.css';
 
@@ -34,18 +33,18 @@ export function Checkbox({ children, description, errorMessage, className, ...re
   return (
     <RACCheckboxField {...rest} className={composeRenderProps(className, (c) => cx(styles.checkbox, c))}>
       <RACCheckboxButton className={styles.button}>
-        {({ isSelected, isIndeterminate }) => (
-          <>
-            <span className={styles.box} aria-hidden="true">
-              {isIndeterminate ? (
-                <IconMinus strokeWidth={3} focusable="false" />
-              ) : isSelected ? (
-                <IconCheck strokeWidth={3} focusable="false" />
-              ) : null}
-            </span>
-            {children != null && <span className={styles.label}>{children}</span>}
-          </>
-        )}
+        <span className={styles.box} aria-hidden="true">
+          {/*
+           * Both marks are always in the DOM (Tabler's check and minus geometry, stroke 3) so CSS can draw them in
+           * and out: pathLength="1" lets stroke-dashoffset run 1 → 0 whatever the box size. The button's
+           * data-selected / data-indeterminate pick which one shows.
+           */}
+          <svg className={styles.mark} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" focusable="false">
+            <path className={styles.check} d="M5 12l5 5l10 -10" pathLength="1" />
+            <path className={styles.dash} d="M5 12l14 0" pathLength="1" />
+          </svg>
+        </span>
+        {children != null && <span className={styles.label}>{children}</span>}
       </RACCheckboxButton>
       {description != null && <Description className={styles.help}>{description}</Description>}
       <FieldError className={styles.help}>{errorMessage}</FieldError>

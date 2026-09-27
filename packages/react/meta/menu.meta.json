@@ -18,7 +18,7 @@
   ],
   "dependencies": [
     "react-aria-components",
-    "@tabler/icons-react"
+    "@strata/icons"
   ],
   "registryDependencies": [
     "popover"
@@ -122,7 +122,7 @@
       "name": "tone",
       "type": "'neutral' | 'danger'",
       "default": "'neutral'",
-      "description": "danger colours the item for destructive actions."
+      "description": "danger marks a destructive action: a red icon at rest, and a red row (feedback.danger.bg + feedback.danger.fg) while highlighted. The label stays text.default at rest because feedback colours aren't solved against glass."
     },
     {
       "component": "MenuItem",
@@ -194,7 +194,8 @@
       "Shortcut hints are rendered in <kbd> and announced as part of the item’s description (aria-describedby).",
       "Danger items are marked by colour and should also say what they do (\"Delete claim\").",
       "Overlays render in a portal on <body>, outside any ThemeScope. When it opens, the overlay looks up data-strata-theme, data-strata-scheme, data-strata-density, dir and lang — each on the nearest ancestor that has it — starting from its trigger (or from where the component is rendered, when controlled), and copies them onto its own root — so it uses the same tenant tokens and direction as the page region it came from, and nested overlays inherit from their parent overlay.",
-      "Right-to-left: give the ThemeScope a locale (e.g. locale=\"ar-AE\"), which sets dir and wraps React Aria's I18nProvider, so arrow keys and start/end placement flip as well as the layout."
+      "Right-to-left: give the ThemeScope a locale (e.g. locale=\"ar-AE\"), which sets dir and wraps React Aria's I18nProvider, so arrow keys and start/end placement flip as well as the layout.",
+      "The menu is glass. The highlighted item gets an opaque surface.selected background (feedback.danger.bg for danger items) that fades and springs in, so every coloured text sits on a solved pair; descriptions and shortcuts switch to the label colour on that row, because text.subtle isn't solved against surface.selected. Items step in one after another as the menu opens (first 8, 30ms apart); pressed items scale to 0.96 and spring back; none of this moves with prefers-reduced-motion."
     ]
   },
   "guidelines": {
@@ -210,25 +211,44 @@
     ]
   },
   "tokens": [
-    "color.surface.raised",
-    "color.border.default",
-    "color.border.subtle",
-    "shadow.overlay",
-    "radius.container",
-    "radius.button",
+    "space.1",
+    "space.0",
+    "space.16",
+    "space.2",
+    "color.surface.selected",
     "control-height",
     "color.text.default",
-    "color.text.subtle",
-    "color.text.disabled",
-    "color.feedback.danger.fg",
-    "color.feedback.danger.solid",
-    "color.focus.ring",
     "font.size.md",
+    "line-height.snug",
+    "motion.duration.fast",
+    "motion.easing",
+    "color.focus.ring",
+    "color.feedback.danger.bg",
+    "color.feedback.danger.fg",
+    "color.text.disabled",
+    "motion.duration.spring",
+    "motion.spring",
+    "color.text.subtle",
     "font.size.xs",
-    "font.weight.medium",
-    "space.1",
-    "space.2",
+    "line-height.normal",
     "space.4",
-    "space.16"
+    "font.body",
+    "font.weight.medium",
+    "color.border.subtle",
+    "card-inset",
+    "glass.bg",
+    "glass.blur",
+    "color.border.default",
+    "radius.container",
+    "shadow.highlight",
+    "shadow.overlay",
+    "color.surface.raised",
+    "space.3",
+    "motion.duration.normal",
+    "motion.easing-out",
+    "font.tracking.md",
+    "font.tracking.xs",
+    "hairline",
+    "radius.badge"
   ]
 }

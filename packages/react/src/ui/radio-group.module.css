@@ -89,7 +89,8 @@
   block-size: 40%;
   border-radius: 50%;
   background-color: var(--strata-color-action-primary-fg);
-  scale: 0;
+  /* Hidden by opacity (not scale) so the state holds without motion; the spring scale is added below. */
+  opacity: 0;
 }
 
 .label {
@@ -110,15 +111,21 @@
 .button[data-selected] .circle {
   border-color: var(--strata-color-action-primary-bg);
   background-color: var(--strata-color-action-primary-bg);
+  /* Solid fill: sheen + raised shadow. */
+  box-shadow: var(--strata-shadow-highlight), var(--strata-shadow-raised);
 }
 
 .button[data-selected] .circle::after {
-  scale: 1;
+  opacity: 1;
 }
 
 .button[data-selected][data-hovered] .circle {
   border-color: var(--strata-color-action-primary-hover);
   background-color: var(--strata-color-action-primary-hover);
+}
+
+.circle {
+  outline-offset: 0;
 }
 
 .button[data-focus-visible] .circle {
@@ -150,6 +157,7 @@
 .button[data-disabled][data-selected] .circle {
   border-color: var(--strata-color-text-disabled);
   background-color: var(--strata-color-text-disabled);
+  box-shadow: none;
 }
 
 .button[data-disabled][data-selected] .circle::after {
@@ -171,6 +179,7 @@
   border: 1px solid var(--strata-color-border-default);
   border-radius: var(--strata-radius-field);
   background-color: var(--strata-color-surface-default);
+  box-shadow: var(--strata-shadow-raised);
 }
 
 .card > .button {
@@ -197,6 +206,10 @@
   outline: none;
 }
 
+.card > .button::after {
+  outline-offset: 0;
+}
+
 .card > .button[data-focus-visible]::after {
   outline: 2px solid var(--strata-color-focus-ring);
   outline-offset: 2px;
@@ -209,8 +222,8 @@
 .card[data-selected] {
   border-color: var(--strata-color-action-primary-bg);
   background-color: var(--strata-color-surface-selected);
-  /* A second hairline inside so selection reads by weight, not only colour. */
-  box-shadow: inset 0 0 0 1px var(--strata-color-action-primary-bg);
+  /* A second hairline inside so selection reads by weight, not only colour; the raised shadow stays. */
+  box-shadow: inset 0 0 0 1px var(--strata-color-action-primary-bg), var(--strata-shadow-raised);
 }
 
 .card[data-invalid] {
@@ -218,7 +231,7 @@
 }
 
 .card[data-invalid][data-selected] {
-  box-shadow: inset 0 0 0 1px var(--strata-color-feedback-danger-solid);
+  box-shadow: inset 0 0 0 1px var(--strata-color-feedback-danger-solid), var(--strata-shadow-raised);
 }
 
 .card[data-disabled] {
@@ -231,21 +244,99 @@
   color: var(--strata-color-text-disabled);
 }
 
+/* Colour, shadow and opacity fades hold with reduced motion; the dot then fades instead of springing. */
+.circle {
+  transition:
+    background-color var(--strata-motion-duration-fast) var(--strata-motion-easing),
+    border-color var(--strata-motion-duration-fast) var(--strata-motion-easing),
+    box-shadow var(--strata-motion-duration-fast) var(--strata-motion-easing),
+    outline-offset var(--strata-motion-duration-fast) var(--strata-motion-easing);
+}
+
+.circle::after {
+  transition: opacity var(--strata-motion-duration-fast) var(--strata-motion-easing);
+}
+
+.card {
+  transition:
+    background-color var(--strata-motion-duration-fast) var(--strata-motion-easing),
+    border-color var(--strata-motion-duration-fast) var(--strata-motion-easing),
+    box-shadow var(--strata-motion-duration-fast) var(--strata-motion-easing);
+}
+
 @media (prefers-reduced-motion: no-preference) {
+  /* State changes pop: press squeezes the circle to 0.85 quickly, the release (when the value flips) springs it
+     back past 1 while the dot springs out of the centre. A transition, so radios that mount selected stay still. */
   .circle {
     transition:
       background-color var(--strata-motion-duration-fast) var(--strata-motion-easing),
-      border-color var(--strata-motion-duration-fast) var(--strata-motion-easing);
+      border-color var(--strata-motion-duration-fast) var(--strata-motion-easing),
+      box-shadow var(--strata-motion-duration-fast) var(--strata-motion-easing),
+      outline-offset var(--strata-motion-duration-spring) var(--strata-motion-spring),
+      scale var(--strata-motion-duration-spring) var(--strata-motion-spring);
   }
 
+  .button[data-pressed]:not([data-disabled]) .circle {
+    scale: 0.85;
+    transition-duration:
+      var(--strata-motion-duration-fast), var(--strata-motion-duration-fast), var(--strata-motion-duration-fast),
+      var(--strata-motion-duration-spring), var(--strata-motion-duration-fast);
+    transition-timing-function:
+      var(--strata-motion-easing), var(--strata-motion-easing), var(--strata-motion-easing), var(--strata-motion-spring),
+      var(--strata-motion-easing);
+  }
+
+  /* The dot springs out from the centre (slight overshoot) and shrinks back quickly when deselected. */
   .circle::after {
-    transition: scale var(--strata-motion-duration-fast) var(--strata-motion-easing);
+    scale: 0;
+    transition:
+      opacity var(--strata-motion-duration-fast) var(--strata-motion-easing),
+      scale var(--strata-motion-duration-fast) var(--strata-motion-easing);
   }
 
+  .button[data-selected] .circle::after {
+    scale: 1;
+    transition:
+      opacity var(--strata-motion-duration-fast) var(--strata-motion-easing),
+      scale var(--strata-motion-duration-spring) var(--strata-motion-spring);
+  }
+
+  /* Card variant: an interactive card, so it lifts 1px with one shadow step deeper on hover, and presses to 0.98
+     (a big target gives less than a button). */
   .card {
     transition:
       background-color var(--strata-motion-duration-fast) var(--strata-motion-easing),
       border-color var(--strata-motion-duration-fast) var(--strata-motion-easing),
-      box-shadow var(--strata-motion-duration-fast) var(--strata-motion-easing);
+      box-shadow var(--strata-motion-duration-normal) var(--strata-motion-easing),
+      translate var(--strata-motion-duration-spring) var(--strata-motion-spring),
+      scale var(--strata-motion-duration-spring) var(--strata-motion-spring);
+  }
+
+  .card:has(> .button[data-hovered]):not([data-disabled], :has(> .button[data-pressed])) {
+    translate: 0 -1px;
+    box-shadow: var(--strata-shadow-raised), var(--strata-shadow-raised);
+  }
+
+  .card[data-selected]:has(> .button[data-hovered]):not([data-disabled], :has(> .button[data-pressed])) {
+    box-shadow: inset 0 0 0 1px var(--strata-color-action-primary-bg), var(--strata-shadow-raised), var(--strata-shadow-raised);
+  }
+
+  .card[data-invalid][data-selected]:has(> .button[data-hovered]):not([data-disabled], :has(> .button[data-pressed])) {
+    box-shadow: inset 0 0 0 1px var(--strata-color-feedback-danger-solid), var(--strata-shadow-raised), var(--strata-shadow-raised);
+  }
+
+  .card:has(> .button[data-pressed]):not([data-disabled]) {
+    scale: 0.98;
+    transition-duration:
+      var(--strata-motion-duration-fast), var(--strata-motion-duration-fast), var(--strata-motion-duration-fast),
+      var(--strata-motion-duration-fast), var(--strata-motion-duration-fast);
+    transition-timing-function:
+      var(--strata-motion-easing), var(--strata-motion-easing), var(--strata-motion-easing), var(--strata-motion-easing),
+      var(--strata-motion-easing);
+  }
+
+  /* When the card is pressed, the circle rides along with it rather than pressing on its own. */
+  .card > .button[data-pressed] .circle {
+    scale: 1;
   }
 }

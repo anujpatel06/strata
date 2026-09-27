@@ -33,6 +33,7 @@
   color: var(--strata-color-text-default);
 }
 
+/* Secondary-control look: surface + border + a raised shadow. Hover deepens the border, not the shadow. */
 .navButton {
   box-sizing: border-box;
   display: inline-flex;
@@ -46,17 +47,18 @@
   padding: 0;
   border: 1px solid var(--strata-color-border-default);
   border-radius: min(var(--strata-radius-button), var(--strata-space-2));
-  background: transparent;
+  background: var(--strata-color-surface-default);
   color: var(--strata-color-text-subtle);
+  box-shadow: var(--strata-shadow-raised);
   cursor: default;
   outline: none;
 }
 .navButton[data-hovered] {
-  background: color-mix(in oklab, var(--strata-color-text-default) 6%, transparent);
+  border-color: var(--strata-color-border-strong);
   color: var(--strata-color-text-default);
 }
 .navButton[data-pressed] {
-  background: color-mix(in oklab, var(--strata-color-text-default) 10%, transparent);
+  background: var(--strata-color-surface-selected);
 }
 .navButton[data-focus-visible] {
   outline: 2px solid var(--strata-color-focus-ring);
@@ -66,6 +68,7 @@
   color: var(--strata-color-text-disabled);
   border-color: var(--strata-color-border-subtle);
   background: transparent;
+  box-shadow: none;
 }
 .navIcon {
   inline-size: 1.15em;
@@ -233,11 +236,113 @@
   line-height: var(--strata-line-height-snug);
 }
 
+/* ——— Glass (inside a DatePicker popover) ———
+   Only text.default and text.subtle are guaranteed legible on glass. Days from neighbouring months are hidden
+   (they repeat what the next/previous page shows, and would need text.disabled), and days outside min/max read as
+   text.subtle + struck through — the same "can't pick this" treatment as unavailable days. */
+.calendar[data-in-picker] .cell[data-outside-month] {
+  visibility: hidden;
+}
+.calendar[data-in-picker] .cell[data-disabled]:not([data-outside-month]) {
+  color: var(--strata-color-text-subtle);
+  text-decoration: line-through;
+}
+.calendar[data-in-picker][data-disabled] .heading {
+  color: var(--strata-color-text-subtle);
+}
+
+/* ——— Motion ———
+   Colour fades stay with reduced motion; every scale, slide and keyframe that moves is inside the media query. */
+.cell,
+.navButton {
+  transition:
+    background-color var(--strata-motion-duration-fast) var(--strata-motion-easing),
+    border-color var(--strata-motion-duration-fast) var(--strata-motion-easing),
+    color var(--strata-motion-duration-fast) var(--strata-motion-easing);
+}
+/* A page turn fades the new month in (the slide is added below when motion is allowed). */
+.months[data-direction][data-page='0'] > .grid {
+  animation: month-fade-a var(--strata-motion-duration-normal) var(--strata-motion-easing-out);
+}
+.months[data-direction][data-page='1'] > .grid {
+  animation: month-fade-b var(--strata-motion-duration-normal) var(--strata-motion-easing-out);
+}
+
 @media (prefers-reduced-motion: no-preference) {
   .cell,
   .navButton {
     transition:
       background-color var(--strata-motion-duration-fast) var(--strata-motion-easing),
-      color var(--strata-motion-duration-fast) var(--strata-motion-easing);
+      border-color var(--strata-motion-duration-fast) var(--strata-motion-easing),
+      color var(--strata-motion-duration-fast) var(--strata-motion-easing),
+      scale var(--strata-motion-duration-spring) var(--strata-motion-spring),
+      outline-offset var(--strata-motion-duration-fast) var(--strata-motion-easing);
+  }
+  .cell:not([data-focus-visible]),
+  .navButton:not([data-focus-visible]) {
+    outline-offset: 0;
+  }
+  /* Press: the day (or arrow) dips and springs back on release. */
+  .cell[data-pressed],
+  .navButton[data-pressed] {
+    scale: 0.9;
+  }
+  /* A day that becomes selected — or the moving end of a range while you drag or hover — pops in on the spring.
+     The quiet middle of a range doesn't, so the band stays one continuous shape. */
+  .cell[data-selected] {
+    animation: day-select var(--strata-motion-duration-spring) var(--strata-motion-spring);
+  }
+  .range .cell[data-selected]:not([data-selection-start]):not([data-selection-end]) {
+    animation: none;
+  }
+  /* Page turns: the new month slides in from the side you paged towards (mirrored in RTL). */
+  .months {
+    --month-slide: var(--strata-space-4);
+  }
+  .months[data-direction='prev'] {
+    --month-slide: calc(var(--strata-space-4) * -1);
+  }
+  .months:dir(rtl) {
+    --month-slide: calc(var(--strata-space-4) * -1);
+  }
+  .months[data-direction='prev']:dir(rtl) {
+    --month-slide: var(--strata-space-4);
+  }
+  .months[data-direction][data-page='0'] > .grid {
+    animation:
+      month-fade-a var(--strata-motion-duration-normal) var(--strata-motion-easing-out),
+      month-slide-a var(--strata-motion-duration-spring) var(--strata-motion-spring);
+  }
+  .months[data-direction][data-page='1'] > .grid {
+    animation:
+      month-fade-b var(--strata-motion-duration-normal) var(--strata-motion-easing-out),
+      month-slide-b var(--strata-motion-duration-spring) var(--strata-motion-spring);
+  }
+}
+
+@keyframes day-select {
+  from {
+    scale: 0.8;
+  }
+}
+/* Two copies of each page-turn keyframe: swapping the name restarts the animation on every turn. */
+@keyframes month-fade-a {
+  from {
+    opacity: 0;
+  }
+}
+@keyframes month-fade-b {
+  from {
+    opacity: 0;
+  }
+}
+@keyframes month-slide-a {
+  from {
+    translate: var(--month-slide) 0;
+  }
+}
+@keyframes month-slide-b {
+  from {
+    translate: var(--month-slide) 0;
   }
 }

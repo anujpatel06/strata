@@ -6,11 +6,15 @@ import styles from './button.module.css';
 
 const cx = (...c: Array<string | false | null | undefined>) => c.filter(Boolean).join(' ');
 
-export type ButtonVariant = 'primary' | 'secondary' | 'outline' | 'ghost' | 'danger' | 'link';
+export type ButtonVariant = 'primary' | 'secondary' | 'outline' | 'ghost' | 'danger' | 'link' | 'contrast';
 export type ButtonSize = 'sm' | 'md' | 'lg' | 'icon';
 
 interface ButtonBaseProps extends Omit<RACButtonProps, 'aria-label' | 'aria-labelledby'> {
-  /** Visual style. `primary` for the one main action in a view; `danger` for destructive actions. */
+  /**
+   * Visual style. `primary` for the one main action in a view; `danger` for destructive actions.
+   * `contrast` is the monochrome strong action (near-black in light schemes, near-white in dark): use it when
+   * brand colour should stay rare, e.g. a form's submit next to a brand-coloured page hero.
+   */
   variant?: ButtonVariant;
   ref?: Ref<HTMLButtonElement>;
 }

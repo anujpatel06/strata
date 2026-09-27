@@ -6,7 +6,7 @@
   "maturity": "beta",
   "exports": ["Accordion", "AccordionItem"],
   "files": ["accordion.tsx", "accordion.module.css"],
-  "dependencies": ["react-aria-components", "@tabler/icons-react"],
+  "dependencies": ["react-aria-components", "@strata/icons"],
   "registryDependencies": [],
   "reactAria": "https://react-spectrum.adobe.com/react-aria/DisclosureGroup.html",
   "usage": "import { Accordion, AccordionItem } from '@strata/react';\n\nexport function ClaimFaq() {\n  return (\n    <Accordion defaultExpandedKeys={['documents']}>\n      <AccordionItem id=\"documents\" title=\"Which documents do I need?\">\n        An itemised invoice and the prescription.\n      </AccordionItem>\n      <AccordionItem id=\"timeline\" title=\"How long does a review take?\">\n        Most claims are reviewed within 3 working days.\n      </AccordionItem>\n    </Accordion>\n  );\n}",
@@ -51,18 +51,28 @@
     ]
   },
   "tokens": [
-    "color.text.default",
-    "color.text.subtle",
-    "color.text.disabled",
     "color.border.subtle",
-    "color.focus.ring",
-    "radius.badge",
+    "space.4",
     "control-height",
+    "space.1",
+    "radius.badge",
+    "color.text.default",
     "font.size.md",
     "font.weight.medium",
     "line-height.snug",
+    "color.focus.ring",
+    "color.text.disabled",
+    "space.6",
+    "radius.pill",
+    "color.text.subtle",
     "line-height.normal",
+    "space.3",
+    "motion.duration.fast",
+    "motion.easing",
+    "motion.duration.slow",
+    "motion.easing-out",
     "motion.duration.normal",
-    "motion.easing"
+    "motion.duration.spring",
+    "motion.spring"
   ]
 }

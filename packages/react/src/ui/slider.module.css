@@ -41,9 +41,9 @@
 .rail {
   position: absolute;
   inset-inline: 0;
-  inset-block-start: 50%;
+  inset-block: 0;
   block-size: var(--_rail);
-  translate: 0 -50%;
+  margin-block: auto;
   border-radius: var(--strata-radius-pill);
   background-color: var(--strata-color-surface-sunken);
   /* Keeps the unfilled rail visible on dark canvases, where sunken is close to the surface. */
@@ -53,6 +53,8 @@
 .fill {
   border-radius: inherit;
   background-color: var(--strata-color-action-primary-bg);
+  /* Solid fill: the same top-edge sheen as a primary button. */
+  box-shadow: var(--strata-shadow-highlight);
 }
 
 .thumb {
@@ -63,13 +65,31 @@
   border: 1px solid var(--strata-color-border-strong);
   border-radius: 50%;
   background-color: var(--strata-color-surface-default);
-  box-shadow: var(--strata-shadow-raised);
   outline: none;
 }
 
-.thumb[data-hovered],
-.thumb[data-dragging] {
+/*
+ * Halo: a soft ring in the fill colour, outside the thumb. It's decoration (the 2px focus.ring outline stays the
+ * accessible focus indicator), and it grows with the thumb while it is hovered and dragged.
+ */
+.thumb {
+  --_halo: 0px;
+  --_halo-mix: 18%;
+  outline-offset: 0;
+  box-shadow:
+    var(--strata-shadow-raised),
+    0 0 0 var(--_halo) color-mix(in oklab, var(--strata-color-action-primary-bg) var(--_halo-mix), transparent);
+}
+
+.thumb[data-hovered] {
+  --_halo: 4px;
   border-color: var(--strata-color-text-subtle);
+}
+
+.thumb[data-dragging] {
+  --_halo: 4px;
+  --_halo-mix: 28%;
+  border-color: var(--strata-color-action-primary-bg);
 }
 
 .thumb[data-focus-visible] {
@@ -92,18 +112,41 @@
   box-shadow: none;
 }
 
+.slider[data-disabled] .fill {
+  box-shadow: none;
+}
+
 .slider[data-disabled] .output {
   color: var(--strata-color-text-disabled);
 }
 
+.thumb {
+  transition:
+    border-color var(--strata-motion-duration-fast) var(--strata-motion-easing),
+    box-shadow var(--strata-motion-duration-fast) var(--strata-motion-easing),
+    outline-offset var(--strata-motion-duration-fast) var(--strata-motion-easing);
+}
+
 @media (prefers-reduced-motion: no-preference) {
+  /* The halo and the focus ring's offset grow on the spring (they visibly arrive), like the thumb's scale. */
   .thumb {
     transition:
       border-color var(--strata-motion-duration-fast) var(--strata-motion-easing),
-      scale var(--strata-motion-duration-fast) var(--strata-motion-easing);
+      box-shadow var(--strata-motion-duration-spring) var(--strata-motion-spring),
+      outline-offset var(--strata-motion-duration-spring) var(--strata-motion-spring),
+      scale var(--strata-motion-duration-spring) var(--strata-motion-spring);
+  }
+
+  /* Grows under the pointer, a little more while held; springs back on release. */
+  .thumb[data-hovered] {
+    scale: 1.1;
   }
 
   .thumb[data-dragging] {
-    scale: 1.1;
+    scale: 1.2;
+  }
+
+  .slider[data-disabled] .thumb {
+    scale: 1;
   }
 }

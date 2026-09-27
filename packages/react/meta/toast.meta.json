@@ -14,7 +14,7 @@
   ],
   "dependencies": [
     "react-aria-components",
-    "@tabler/icons-react"
+    "@strata/icons"
   ],
   "registryDependencies": [],
   "reactAria": "https://react-spectrum.adobe.com/react-aria/Toast.html",
@@ -91,7 +91,9 @@
       "Timers pause while the pointer is over the region or focus is inside it. When a focused toast closes, focus moves to the next toast, or back to where it was before entering the region.",
       "Toasts with an action do not auto-dismiss, so keyboard and screen reader users have time to reach it (WCAG 2.2.1).",
       "At most three toasts are visible; newer ones queue older ones.",
-      "Built on React Aria's UNSTABLE Toast APIs; the maturity stays alpha until those are stable."
+      "Built on React Aria's UNSTABLE Toast APIs; the maturity stays alpha until those are stable.",
+      "Toasts are glass: only text.default and text.subtle sit on it (the engine solves the glass for 4.5:1). The tone shows as a glyph on an opaque chip, each tone with its own shape.",
+      "Toasts slide in from the edge and grow from 0.94 on the spring, and the tone chip pops as they land. With reduced motion toasts only fade in and close at once; nothing slides or springs."
     ]
   },
   "guidelines": {
@@ -107,26 +109,49 @@
     ]
   },
   "tokens": [
-    "color.surface.raised",
-    "color.border.default",
-    "shadow.overlay",
-    "radius.container",
-    "radius.button",
-    "color.text.default",
-    "color.text.subtle",
-    "color.feedback.*.fg",
     "color.action.secondary.bg",
     "color.action.secondary.fg",
     "color.action.secondary.hover",
     "color.action.secondary.pressed",
+    "color.border.default",
+    "color.feedback.*.bg",
+    "color.feedback.*.border",
+    "color.feedback.*.fg",
     "color.focus.ring",
+    "color.surface.raised",
+    "color.surface.sunken",
+    "color.text.default",
+    "color.text.subtle",
+    "glass.bg",
+    "glass.blur",
+    "shadow.highlight",
+    "shadow.overlay",
+    "shadow.raised",
+    "radius.button",
+    "radius.container",
     "font.body",
-    "font.size.sm",
     "font.size.md",
+    "font.size.sm",
     "font.weight.semibold",
-    "space.1–16",
+    "line-height.normal",
+    "line-height.snug",
+    "space.1",
+    "space.2",
+    "space.3",
+    "space.4",
+    "space.6",
+    "space.16",
     "motion.duration.fast",
     "motion.duration.normal",
-    "motion.easing"
+    "motion.duration.slow",
+    "motion.duration.spring",
+    "motion.easing",
+    "motion.easing-out",
+    "motion.spring",
+    "font.tracking.md",
+    "font.tracking.sm",
+    "hairline",
+    "radius.badge",
+    "radius.pill"
   ]
 }

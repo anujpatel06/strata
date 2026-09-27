@@ -1,0 +1,138 @@
+/*
+ * AreaChart / LineChart marks. The frame (axes, grid, tooltip, hit layer) is chart.module.css.
+ * Marks carry the series colour (--_c, set per series); text never does.
+ */
+
+.root {
+  min-inline-size: 0;
+}
+
+/* Area: the series colour fading to nothing, so the fill reads as a wash under the line, never a block. 24% at the
+   top in light; 45% in dark, where a 24% wash of a dark-tuned series colour all but disappears into the surface. The
+   alpha lives in the colour (light-dark() only takes colours), so stop-opacity stays 1. */
+.stopTop {
+  stop-color: light-dark(
+    color-mix(in oklab, var(--_c) 24%, transparent),
+    color-mix(in oklab, var(--_c) 45%, transparent)
+  );
+  stop-opacity: 1;
+}
+
+.stopBottom {
+  /* Same colour at 0 opacity, not "transparent": SVG gradients interpolate unpremultiplied, so fading to
+     transparent black would pass through grey. */
+  stop-color: var(--_c);
+  stop-opacity: 0;
+}
+
+.area {
+  stroke: none;
+}
+
+.line {
+  fill: none;
+  stroke: var(--_c);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* The glow: a soft halo in the series colour, a step below the line, plus in dark a tight bloom around it, like a
+   lit filament. Decoration only; static, so no motion guard. */
+.line[data-glow] {
+  filter: drop-shadow(
+      0 var(--strata-space-1) var(--strata-space-2)
+        light-dark(color-mix(in oklab, var(--_c) 40%, transparent), color-mix(in oklab, var(--_c) 70%, transparent))
+    )
+    drop-shadow(0 0 var(--strata-space-1) light-dark(transparent, color-mix(in oklab, var(--_c) 70%, transparent)));
+}
+
+.dot {
+  fill: var(--_c);
+  stroke: var(--chart-surface);
+  stroke-width: 2;
+}
+
+/* ---- hover / focus ------------------------------------------------------------ */
+
+.crosshair {
+  stroke: color-mix(in oklab, var(--strata-chart-axis, var(--strata-color-text-subtle)) 45%, transparent);
+  stroke-width: 1;
+}
+
+/* The active point: a dot with a 2px ring in the surface colour, inside a soft halo of its own colour. */
+.halo {
+  fill: color-mix(in oklab, var(--_c) 18%, transparent);
+}
+
+.pointDot {
+  fill: var(--_c);
+  stroke: var(--chart-surface);
+  stroke-width: 2;
+}
+
+@media (forced-colors: active) {
+  .line,
+  .pointDot {
+    stroke: CanvasText;
+  }
+  .crosshair {
+    stroke: Highlight;
+  }
+}
+
+/* ---- motion: the line draws in, the area fades up after it, the point glides ----------------- */
+
+@media (prefers-reduced-motion: no-preference) {
+  .series {
+    --_delay: calc(var(--_i) * var(--strata-motion-duration-fast));
+  }
+
+  /* pathLength="1" lets the line draw from 1 → 0 dash offset whatever its real length. */
+  .line {
+    stroke-dasharray: 1 1;
+    animation: chart-line-draw calc(var(--strata-motion-duration-slow) * 3) var(--strata-motion-easing-out) var(--_delay) backwards;
+  }
+
+  .area {
+    animation: chart-area-in calc(var(--strata-motion-duration-slow) * 2) var(--strata-motion-easing-out)
+      calc(var(--_delay) + var(--strata-motion-duration-slow)) backwards;
+  }
+
+  .dot {
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: chart-dot-pop var(--strata-motion-duration-spring) var(--strata-motion-spring)
+      calc(var(--_delay) + var(--strata-motion-duration-slow) * 2) backwards;
+  }
+
+  .crosshair,
+  .point {
+    transition: transform var(--strata-motion-duration-normal) var(--strata-motion-easing-out);
+  }
+
+  .pointDot {
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: chart-dot-pop var(--strata-motion-duration-spring) var(--strata-motion-spring) backwards;
+  }
+}
+
+@keyframes chart-line-draw {
+  from {
+    stroke-dashoffset: 1;
+  }
+}
+
+@keyframes chart-area-in {
+  from {
+    opacity: 0;
+    translate: 0 4px;
+  }
+}
+
+@keyframes chart-dot-pop {
+  from {
+    scale: 0.4;
+  }
+}

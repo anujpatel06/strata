@@ -6,7 +6,7 @@
   "maturity": "beta",
   "exports": ["DatePicker", "DateRangePicker"],
   "files": ["date-picker.tsx", "date-picker.module.css"],
-  "dependencies": ["react-aria-components", "@internationalized/date", "@tabler/icons-react"],
+  "dependencies": ["react-aria-components", "@internationalized/date", "@strata/icons"],
   "registryDependencies": ["calendar", "text-field"],
   "reactAria": "https://react-spectrum.adobe.com/react-aria/DatePicker.html",
   "usage": "import { DatePicker } from '@strata/react';\n\nexport function IncidentDate() {\n  return <DatePicker label=\"Date of incident\" onChange={(date) => console.log(date?.toString())} />;\n}",
@@ -53,7 +53,8 @@
       "Segment order, separators, digits and hour cycle follow the locale.",
       "The calendar popover is a dialog labelled by the field label; focus moves into it and back.",
       "Empty segments show the placeholder text (mm/dd/yyyy) in text.subtle; the focused segment is highlighted with surface.selected.",
-      "Every editable segment is at least 24×24px (WCAG 2.5.8) at both densities, without changing the field height."
+      "Every editable segment is at least 24×24px (WCAG 2.5.8) at both densities, without changing the field height.",
+      "The calendar popover is glass; inside it, days outside the month are hidden and days outside min/max are text.subtle and struck through, so every day number stays legible over any backdrop. Motion follows prefers-reduced-motion."
     ]
   },
   "guidelines": {
@@ -67,26 +68,5 @@
       "Don't format dates yourself — pass DateValue objects and let the locale decide."
     ]
   },
-  "tokens": [
-    "color.surface.default",
-    "color.surface.raised",
-    "color.surface.selected",
-    "color.border.strong",
-    "color.border.default",
-    "color.text.default",
-    "color.text.subtle",
-    "color.text.disabled",
-    "color.focus.ring",
-    "control-height",
-    "control-padding-inline",
-    "radius.field",
-    "radius.container",
-    "radius.button",
-    "shadow.overlay",
-    "space.1",
-    "space.2",
-    "font.size.md",
-    "motion.duration.fast",
-    "motion.easing"
-  ]
+  "tokens": ["space.2", "space.1", "space.6", "radius.field", "color.text.default", "color.text.subtle", "color.surface.selected", "color.text.disabled", "control-height", "radius.button", "color.focus.ring", "color.border.default", "radius.container", "glass.bg", "color.surface.raised", "glass.opacity", "glass.blur", "shadow.highlight", "shadow.overlay", "font.body", "font.size.md", "line-height.normal", "motion.duration.fast", "motion.easing", "motion.duration.normal", "motion.easing-out", "motion.duration.spring", "motion.spring"]
 }

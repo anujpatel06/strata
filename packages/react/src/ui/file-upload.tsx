@@ -1,6 +1,6 @@
 'use client';
 
-import { useId, useMemo, useState, type HTMLAttributes, type JSX, type ReactNode, type Ref } from 'react';
+import { useId, useMemo, useRef, useState, type CSSProperties, type HTMLAttributes, type JSX, type ReactNode, type Ref } from 'react';
 import {
   DropZone,
   FieldErrorContext,
@@ -11,7 +11,7 @@ import {
   type DropZoneProps,
   type ValidationResult,
 } from 'react-aria-components';
-import { IconAlertCircle, IconCircleCheck, IconFile, IconUpload, IconX } from '@tabler/icons-react';
+import { IconAlertCircle, IconCircleCheck, IconFile, IconUpload, IconX } from '@strata/icons';
 import { Button } from './button';
 import { Description, FieldError, Label } from './text-field';
 import styles from './file-upload.module.css';
@@ -231,6 +231,9 @@ export function FileUpload({
   const errorId = `${id}-error`;
   const [internal, setInternal] = useState<File[]>(defaultFiles ?? []);
   const [rejected, setRejected] = useState<FileRejection[]>([]);
+  // Each file's position within the batch it arrived in, so rows fade in one after another per drop/browse
+  // instead of the fifth file of a later drop waiting behind four rows that are already on screen.
+  const staggerRef = useRef(new WeakMap<File, number>());
 
   const entries: FileUploadEntry[] = useMemo(
     () => (files ?? internal).map((f) => (isEntry(f) ? f : { file: f })),
@@ -268,6 +271,8 @@ export function FileUpload({
         ok.push(file);
       }
     }
+    ok.forEach((file, i) => staggerRef.current.set(file, i));
+    bad.forEach((r, i) => staggerRef.current.set(r.file, ok.length + i));
     setRejected(bad);
     if (bad.length) onReject?.(bad);
     if (ok.length) commit(allowsMultiple ? [...current, ...ok] : ok.slice(0, 1));
@@ -337,6 +342,7 @@ export function FileUpload({
             <FileRow
               key={`${file.name}-${file.size}-${file.lastModified}-${i}`}
               file={file}
+              stagger={staggerRef.current.get(file) ?? 0}
               progress={progress}
               error={error}
               locale={locale}
@@ -349,6 +355,7 @@ export function FileUpload({
             <FileRow
               key={`rejected-${r.file.name}-${i}`}
               file={r.file}
+              stagger={staggerRef.current.get(r.file) ?? 0}
               error={r.message}
               locale={locale}
               strings={t}
@@ -365,6 +372,7 @@ export function FileUpload({
 
 function FileRow({
   file,
+  stagger,
   progress,
   error,
   locale,
@@ -374,6 +382,8 @@ function FileRow({
   onRemove,
 }: {
   file: File;
+  /** Position in the batch this file arrived with; delays its entrance a beat per step. */
+  stagger: number;
   progress?: number;
   error?: string;
   locale: string;
@@ -388,7 +398,11 @@ function FileRow({
     ? new Intl.NumberFormat(locale, { style: 'percent', maximumFractionDigits: 0 }).format(Math.max(0, progress) / 100)
     : undefined;
   return (
-    <li className={styles.row} data-error={error ? true : undefined}>
+    <li
+      className={styles.row}
+      data-error={error ? true : undefined}
+      style={{ '--row-stagger': Math.min(stagger, 8) } as CSSProperties}
+    >
       <span className={styles.fileIcon} aria-hidden>
         {error ? <IconAlertCircle /> : <IconFile />}
       </span>
@@ -411,7 +425,8 @@ function FileRow({
             {({ percentage }) => (
               <>
                 <span className={styles.track}>
-                  <span className={styles.fill} style={{ inlineSize: `${percentage ?? 0}%` }} />
+                  {/* Full-width fill slid along the track (translate, not width, so it animates off the layout path). */}
+                  <span className={styles.fill} style={{ '--progress': (percentage ?? 0) / 100 } as CSSProperties} />
                 </span>
                 <span className={styles.percent}>{percentText}</span>
               </>

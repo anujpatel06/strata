@@ -87,15 +87,12 @@
     ]
   },
   "tokens": [
-    "color.text.default (8% tint)",
-    "color.surface.sunken",
-    "color.surface.default",
-    "radius.field",
-    "radius.container",
-    "radius.pill",
+    "color.text.default",
     "radius.badge",
+    "radius.container",
+    "radius.field",
+    "radius.pill",
     "space.10",
-    "motion.duration.normal",
-    "motion.easing"
+    "motion.duration.normal"
   ]
 }

@@ -111,3 +111,14 @@ describe('Combobox', () => {
     expect(container.querySelector('.custom')).toContainElement(screen.getByRole('combobox'));
   });
 });
+
+describe('Combobox size', () => {
+  it('marks the root with its size (md by default)', () => {
+    render(
+      <Combobox label="Country" size="lg">
+        <ComboboxItem id="in">India</ComboboxItem>
+      </Combobox>,
+    );
+    expect(screen.getByRole('combobox', { name: 'Country' }).closest('[data-field-size]')).toHaveAttribute('data-field-size', 'lg');
+  });
+});

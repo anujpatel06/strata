@@ -18,8 +18,8 @@ import {
   type SelectProps as RACSelectProps,
   type ValidationResult,
 } from 'react-aria-components';
-import { IconCheck, IconChevronDown } from '@tabler/icons-react';
-import { Description, FieldError, Label } from './text-field';
+import { IconCheck, IconChevronDown } from '@strata/icons';
+import { Description, FieldError, Label, type FieldSize } from './text-field';
 import styles from './select.module.css';
 
 const cx = (...c: Array<string | false | null | undefined>) => c.filter(Boolean).join(' ');
@@ -55,6 +55,8 @@ export interface SelectProps<T extends object> extends Omit<RACSelectProps<T>, '
   errorMessage?: string | ((validation: ValidationResult) => string);
   /** Items for dynamic collections; pair with a render function as `children`. */
   items?: Iterable<T>;
+  /** Height of the trigger: `md` is the control height. Matches `Button` and `TextField` of the same size. */
+  size?: FieldSize;
   /** `SelectItem` / `SelectSection` elements, or a function that renders one per item. */
   children: ReactNode | ((item: T) => ReactElement);
 }
@@ -69,12 +71,13 @@ export function Select<T extends object>({
   errorMessage,
   items,
   children,
+  size = 'md',
   className,
   ...props
 }: SelectProps<T>): JSX.Element {
   const triggerRef = useRef<HTMLButtonElement>(null);
   return (
-    <RACSelect<T> {...props} className={composeRenderProps(className, (c) => cx(styles.field, c))}>
+    <RACSelect<T> {...props} data-field-size={size} className={composeRenderProps(className, (c) => cx(styles.field, c))}>
       {label != null && <Label isRequired={props.isRequired}>{label}</Label>}
       <RACButton ref={triggerRef} className={styles.trigger}>
         <InTriggerContext.Provider value>

@@ -1,0 +1,220 @@
+/*
+ * PersonChip — a pill with a small avatar hugging its start edge and the name. The avatar is inset evenly on the
+ * block and start sides, so the pill's round end is concentric with the avatar circle.
+ *
+ * Quiet at rest: surface.default and a hairline edge (box-shadow, Finesse), no shadow. The placeholder is the
+ * "empty seat": a sunken, dashed pill with a "?" avatar and the name in italic text.subtle.
+ */
+
+.group {
+  box-sizing: border-box;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--strata-space-2);
+  margin: 0;
+  padding: 0;
+}
+.group[data-size='sm'] {
+  gap: calc(var(--strata-space-1) * 1.5);
+}
+
+.root {
+  display: block;
+}
+
+.chip {
+  --_h: var(--strata-space-8);
+  --_face: var(--strata-space-6);
+  --_inset: calc((var(--_h) - var(--_face)) / 2 - 1px);
+
+  box-sizing: border-box;
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  gap: var(--strata-space-2);
+  min-block-size: var(--_h);
+  max-inline-size: 100%;
+  padding-block: 0;
+  padding-inline: var(--_inset) var(--strata-space-3);
+  border: 1px solid transparent;
+  border-radius: var(--strata-radius-pill);
+  outline: none;
+  background-color: var(--strata-color-surface-default);
+  box-shadow: inset 0 0 0 var(--strata-hairline) var(--strata-color-border-default);
+  color: var(--strata-color-text-default);
+  font-family: var(--strata-font-body);
+  font-size: var(--strata-font-size-sm);
+  font-weight: var(--strata-font-weight-medium);
+  letter-spacing: var(--strata-font-tracking-sm);
+  line-height: 1;
+  vertical-align: middle;
+  white-space: nowrap;
+  transition:
+    background-color var(--strata-motion-duration-fast) var(--strata-motion-easing),
+    box-shadow var(--strata-motion-duration-fast) var(--strata-motion-easing),
+    outline-offset var(--strata-motion-duration-fast) var(--strata-motion-easing);
+}
+
+.chip[data-size='sm'] {
+  --_h: var(--strata-space-6);
+  --_face: calc(var(--strata-space-5) - 2px);
+
+  gap: calc(var(--strata-space-1) * 1.5);
+  padding-inline-end: var(--strata-space-2);
+  font-size: var(--strata-font-size-xs);
+  letter-spacing: var(--strata-font-tracking-xs);
+}
+
+/* The avatar: sized by the chip (three classes outrank Avatar's own [data-size] rule), no pop of its own. */
+.chip > .face.face {
+  --_size: var(--_face);
+
+  animation: none;
+}
+
+.name {
+  overflow: hidden;
+  min-inline-size: 0;
+  text-overflow: ellipsis;
+}
+
+/* ---- placeholder -------------------------------------------------------- */
+
+.chip[data-placeholder] {
+  border: 1px dashed color-mix(in oklab, var(--strata-color-border-strong) 70%, transparent);
+  background-color: var(--strata-color-surface-sunken);
+  box-shadow: none;
+  color: var(--strata-color-text-subtle);
+}
+
+/* The name reads as "not yet": italic in the heading face (a real italic in editorial brands), regular weight. */
+.chip[data-placeholder] .name {
+  /* The italic's last letter leans past its box; give it room so the ellipsis clip doesn't shave it. */
+  margin-inline-end: -2px;
+  padding-inline-end: 2px;
+  font-family: var(--strata-font-heading);
+  font-style: italic;
+  font-weight: var(--strata-font-weight-regular);
+}
+
+/* A dashed avatar inside a dashed pill: the face's dash steps back a little so the two lines don't compete. */
+.chip[data-placeholder] > .face.face {
+  border-color: color-mix(in oklab, var(--strata-color-border-strong) 55%, transparent);
+}
+
+/* ---- removable (inside a TagGroup) -------------------------------------- */
+
+.chip[data-allows-removing] {
+  padding-inline-end: var(--_inset);
+  gap: var(--strata-space-1);
+}
+.chip[data-allows-removing] > .name {
+  margin-inline-end: calc(var(--strata-space-1) * 0.5);
+}
+
+.chip[data-focus-visible] {
+  outline: 2px solid var(--strata-color-focus-ring);
+  outline-offset: 2px;
+}
+
+.chip[data-disabled] {
+  color: var(--strata-color-text-disabled);
+}
+
+.remove {
+  position: relative;
+  box-sizing: border-box;
+  display: inline-grid;
+  flex: none;
+  place-items: center;
+  inline-size: var(--_face);
+  block-size: var(--_face);
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: var(--strata-radius-pill);
+  outline: none;
+  background: transparent;
+  color: var(--strata-color-text-subtle);
+  cursor: default;
+  transition:
+    background-color var(--strata-motion-duration-fast) var(--strata-motion-easing),
+    color var(--strata-motion-duration-fast) var(--strata-motion-easing);
+}
+
+/* Keep the hit area at 24px or more (WCAG 2.5.8) even when the sm button is drawn smaller. */
+.remove::before {
+  position: absolute;
+  inset: min(0px, (var(--_face) - var(--strata-space-6)) / 2);
+  content: '';
+}
+
+.remove > svg {
+  inline-size: 60%;
+  block-size: 60%;
+  stroke-width: var(--strata-icon-stroke, 1.5);
+}
+
+.remove[data-hovered] {
+  background-color: color-mix(in oklab, var(--strata-color-text-default) 8%, transparent);
+  color: var(--strata-color-text-default);
+}
+
+.remove[data-focus-visible] {
+  outline: 2px solid var(--strata-color-focus-ring);
+  outline-offset: 1px;
+}
+
+.remove[data-disabled] {
+  color: var(--strata-color-text-disabled);
+}
+
+/* ---- motion ------------------------------------------------------------- */
+
+/*
+ * Chips pop in on mount (scale 0.8 → 1 on the spring, quick fade); in a group they follow each other in reading
+ * order. The remove button springs on press. With reduced motion chips simply appear.
+ */
+@media (prefers-reduced-motion: no-preference) {
+  .chip {
+    animation:
+      chip-fade-in var(--strata-motion-duration-fast) var(--strata-motion-easing-out) backwards,
+      chip-pop var(--strata-motion-duration-spring) var(--strata-motion-spring) backwards;
+  }
+  .group > .chip:nth-child(2) {
+    animation-delay: calc(var(--strata-motion-duration-fast) / 3);
+  }
+  .group > .chip:nth-child(3) {
+    animation-delay: calc(var(--strata-motion-duration-fast) / 3 * 2);
+  }
+  .group > .chip:nth-child(4) {
+    animation-delay: var(--strata-motion-duration-fast);
+  }
+  .group > .chip:nth-child(n + 5) {
+    animation-delay: calc(var(--strata-motion-duration-fast) / 3 * 4);
+  }
+  .chip[data-focus-visible] {
+    outline-offset: 2px;
+  }
+  .remove {
+    transition:
+      background-color var(--strata-motion-duration-fast) var(--strata-motion-easing),
+      color var(--strata-motion-duration-fast) var(--strata-motion-easing),
+      scale var(--strata-motion-duration-spring) var(--strata-motion-spring);
+  }
+  .remove[data-pressed] {
+    scale: 0.9;
+  }
+}
+
+@keyframes chip-fade-in {
+  from {
+    opacity: 0;
+  }
+}
+@keyframes chip-pop {
+  from {
+    scale: 0.8;
+  }
+}

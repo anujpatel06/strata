@@ -74,6 +74,8 @@ describe('StatTile', () => {
     const spark = container.querySelector('.spark')!;
     expect(spark).toHaveAttribute('aria-hidden', 'true');
     expect(spark.querySelector('polyline')!.getAttribute('points')!.split(' ')).toHaveLength(4);
+    // Normalised length, so CSS can draw the line in (stroke-dashoffset 1 → 0) whatever its real length.
+    expect(spark.querySelector('polyline')).toHaveAttribute('pathLength', '1');
     expect(container.firstElementChild).toHaveAttribute('data-sparkline');
   });
 

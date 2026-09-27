@@ -1,0 +1,188 @@
+{
+  "name": "person-chip",
+  "title": "Person Chip",
+  "description": "A person as a small avatar and their name in a pill, with a placeholder for someone not added yet.",
+  "category": "display",
+  "maturity": "alpha",
+  "exports": [
+    "PersonChip",
+    "PersonChipGroup"
+  ],
+  "files": [
+    "person-chip.tsx",
+    "person-chip.module.css"
+  ],
+  "dependencies": [
+    "react-aria-components",
+    "@strata/icons"
+  ],
+  "registryDependencies": [
+    "avatar"
+  ],
+  "reactAria": "https://react-spectrum.adobe.com/react-aria/TagGroup.html",
+  "usage": "import { PersonChip, PersonChipGroup } from '@strata/react';\n\nexport function Covered() {\n  return (\n    <PersonChipGroup aria-label=\"Covered members\">\n      <PersonChip name=\"Arjun Shah\" />\n      <PersonChip name=\"Priya Shah\" />\n      <PersonChip name=\"Father\" placeholder />\n    </PersonChipGroup>\n  );\n}",
+  "examples": [
+    {
+      "name": "person-chip-demo",
+      "title": "Person Chip",
+      "description": "Covered members and a placeholder for one not added yet, explained in text."
+    },
+    {
+      "name": "person-chip-inline",
+      "title": "In a sentence",
+      "description": "sm chips in running text."
+    },
+    {
+      "name": "person-chip-removable",
+      "title": "Removable",
+      "description": "onRemove turns the group into a React Aria TagGroup: arrow keys, Delete/Backspace, remove buttons."
+    },
+    {
+      "name": "person-chip-sizes",
+      "title": "Sizes",
+      "description": "md (32px) and sm (24px), including the placeholder."
+    }
+  ],
+  "props": [
+    {
+      "component": "PersonChip",
+      "name": "name",
+      "type": "string",
+      "required": true,
+      "description": "Shown in the chip; drives the avatar's initials and tint."
+    },
+    {
+      "component": "PersonChip",
+      "name": "src",
+      "type": "string",
+      "description": "Avatar photo. Initials show while it loads and if it fails."
+    },
+    {
+      "component": "PersonChip",
+      "name": "tint",
+      "type": "'auto' | 'none' | 'brand' | 'accent' | 'info' | 'success' | 'warning' | 'danger'",
+      "default": "'auto'",
+      "description": "Avatar tint. auto hashes the name, matching the same person's Avatar elsewhere."
+    },
+    {
+      "component": "PersonChip",
+      "name": "size",
+      "type": "'sm' | 'md'",
+      "default": "'md'",
+      "description": "md is 32px tall, sm 24px. Inherits from PersonChipGroup."
+    },
+    {
+      "component": "PersonChip",
+      "name": "placeholder",
+      "type": "boolean",
+      "default": "false",
+      "description": "Someone not added yet: a dashed sunken pill, a \"?\" avatar and the name in italic text.subtle."
+    },
+    {
+      "component": "PersonChip",
+      "name": "id",
+      "type": "Key",
+      "description": "Key passed to PersonChipGroup's onRemove. Defaults to name."
+    },
+    {
+      "component": "PersonChipGroup",
+      "name": "size",
+      "type": "'sm' | 'md'",
+      "default": "'md'",
+      "description": "Size of every chip; sets the gap too."
+    },
+    {
+      "component": "PersonChipGroup",
+      "name": "onRemove",
+      "type": "(keys: Set<Key>) => void",
+      "description": "Makes chips removable: the group becomes a React Aria TagGroup (grid) and each chip gets a remove button. Needs aria-label or aria-labelledby."
+    },
+    {
+      "component": "PersonChipGroup",
+      "name": "disabledKeys",
+      "type": "Iterable<Key>",
+      "description": "With onRemove: chips that can't be removed."
+    },
+    {
+      "component": "PersonChipGroup",
+      "name": "children",
+      "type": "ReactNode",
+      "required": true,
+      "description": "PersonChip elements."
+    }
+  ],
+  "accessibility": {
+    "keyboard": [
+      {
+        "keys": "Tab",
+        "action": "Removable group: moves focus into the group (last focused chip), then to that chip's remove button, then out."
+      },
+      {
+        "keys": "ArrowLeft / ArrowRight",
+        "action": "Removable group: moves between chips (flipped in RTL)."
+      },
+      {
+        "keys": "Home / End",
+        "action": "Removable group: first / last chip."
+      },
+      {
+        "keys": "Delete / Backspace",
+        "action": "Removable group: removes the focused chip."
+      },
+      {
+        "keys": "Enter / Space",
+        "action": "On a remove button: removes that chip."
+      }
+    ],
+    "notes": [
+      "Static chips are plain text; the avatar is decorative (alt=\"\") so the name is read once.",
+      "Without onRemove, PersonChipGroup is role=\"list\" and each chip a listitem. Give it an aria-label that says who they are.",
+      "With onRemove it's a React Aria TagGroup (role=\"grid\"); remove buttons are named \"Remove <name>\" in the user's language and keep a 24px target at sm size.",
+      "A placeholder chip only looks optional; put the reason in visible text nearby (\"Father isn't added yet\").",
+      "Chips pop in on mount, staggered in a group; with reduced motion they simply appear."
+    ]
+  },
+  "guidelines": {
+    "do": [
+      "Use for people attached to an item: who's covered, who a claim is for, who's reviewing.",
+      "Keep the placeholder's name as the relationship (\"Father\") and explain it in text."
+    ],
+    "dont": [
+      "Don't use PersonChip as a button or link on its own; wrap it or use a Button.",
+      "Don't mix removable and static chips in one group.",
+      "Don't show more than about six chips; summarise the rest (\"+3 more\")."
+    ]
+  },
+  "tokens": [
+    "color.surface.default",
+    "color.surface.sunken",
+    "color.text.default",
+    "color.text.subtle",
+    "color.text.disabled",
+    "color.border.default",
+    "color.border.strong",
+    "color.focus.ring",
+    "radius.pill",
+    "font.body",
+    "font.heading",
+    "font.size.sm",
+    "font.size.xs",
+    "font.tracking.sm",
+    "font.tracking.xs",
+    "font.weight.medium",
+    "font.weight.regular",
+    "space.1",
+    "space.2",
+    "space.3",
+    "space.5",
+    "space.6",
+    "space.8",
+    "hairline",
+    "icon.stroke",
+    "motion.duration.fast",
+    "motion.duration.spring",
+    "motion.spring",
+    "motion.easing",
+    "motion.easingOut"
+  ]
+}

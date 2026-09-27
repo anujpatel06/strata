@@ -18,7 +18,7 @@ import {
   type MenuSectionProps as RACMenuSectionProps,
   type SeparatorProps,
 } from 'react-aria-components';
-import { IconCheck, IconChevronRight } from '@tabler/icons-react';
+import { IconCheck, IconChevronRight } from '@strata/icons';
 import { Popover, type PopoverProps } from './popover';
 import styles from './menu.module.css';
 
@@ -115,7 +115,7 @@ export function MenuItem<T extends object>({
             )}
           </span>
           {shortcut && <Keyboard className={styles.shortcut}>{shortcut}</Keyboard>}
-          {hasSubmenu && <IconChevronRight className={styles.chevron} aria-hidden size="1em" stroke={1.75} />}
+          {hasSubmenu && <IconChevronRight className={styles.chevron} aria-hidden size="1em" />}
         </>
       )}
     </RACMenuItem>

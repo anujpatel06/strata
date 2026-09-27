@@ -14,7 +14,7 @@
   ],
   "dependencies": [
     "react-aria-components",
-    "@tabler/icons-react"
+    "@strata/icons"
   ],
   "registryDependencies": [
     "text-field"
@@ -171,23 +171,34 @@
     ]
   },
   "tokens": [
+    "color.action.primary.bg",
+    "color.action.primary.fg",
+    "color.action.primary.hover",
+    "color.border.default",
+    "color.border.strong",
+    "color.feedback.danger.onSolid",
+    "color.feedback.danger.solid",
+    "color.focus.ring",
     "color.surface.default",
     "color.surface.sunken",
-    "color.border.strong",
-    "color.border.default",
-    "color.action.primary.bg",
-    "color.action.primary.hover",
-    "color.action.primary.fg",
-    "color.feedback.danger.solid",
-    "color.feedback.danger.onSolid",
     "color.text.default",
-    "color.text.subtle",
     "color.text.disabled",
-    "color.focus.ring",
+    "color.text.subtle",
     "control-height",
-    "space.2",
-    "space.6",
     "font.size.md",
-    "radius.field"
+    "line-height.normal",
+    "motion.duration.fast",
+    "motion.duration.normal",
+    "motion.duration.spring",
+    "motion.easing",
+    "motion.easingOut",
+    "motion.spring",
+    "radius.field",
+    "shadow.highlight",
+    "shadow.raised",
+    "space.1",
+    "space.2",
+    "space.5",
+    "space.6"
   ]
 }

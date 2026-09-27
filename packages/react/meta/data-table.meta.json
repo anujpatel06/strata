@@ -4,60 +4,280 @@
   "description": "A table for records people scan, compare, sort and select, with loading and empty states.",
   "category": "data",
   "maturity": "beta",
-  "exports": ["DataTable", "useSortedRows", "DataTableToolbar", "DataTablePagination"],
-  "files": ["data-table.tsx", "data-table.module.css"],
-  "dependencies": ["react-aria-components", "@tabler/icons-react"],
-  "registryDependencies": ["checkbox", "pagination", "skeleton"],
+  "exports": [
+    "DataTable",
+    "useSortedRows",
+    "DataTableToolbar",
+    "DataTablePagination"
+  ],
+  "files": [
+    "data-table.tsx",
+    "data-table.module.css"
+  ],
+  "dependencies": [
+    "react-aria-components",
+    "@strata/icons"
+  ],
+  "registryDependencies": [
+    "checkbox",
+    "pagination",
+    "skeleton"
+  ],
   "reactAria": "https://react-spectrum.adobe.com/react-aria/Table.html",
   "usage": "import { useState } from 'react';\nimport { DataTable, useSortedRows, type DataTableColumn, type DataTableSortDescriptor } from '@strata/react';\n\ntype Payment = { id: string; payee: string; amount: number };\n\nconst columns: DataTableColumn<Payment>[] = [\n  { id: 'id', header: 'Reference', isRowHeader: true, cell: (r) => r.id },\n  { id: 'payee', header: 'Payee', allowsSorting: true, cell: (r) => r.payee },\n  { id: 'amount', header: 'Amount', align: 'end', allowsSorting: true, cell: (r) => r.amount.toFixed(2) },\n];\nconst accessors = { payee: (r: Payment) => r.payee, amount: (r: Payment) => r.amount };\n\nexport function Payments({ rows }: { rows: Payment[] }) {\n  const [sort, setSort] = useState<DataTableSortDescriptor>();\n  const sorted = useSortedRows(rows, sort, accessors);\n  return (\n    <DataTable aria-label=\"Payments\" columns={columns} rows={sorted} getRowId={(r) => r.id}\n      sortDescriptor={sort} onSortChange={setSort} selectionMode=\"multiple\" />\n  );\n}",
   "examples": [
-    { "name": "data-table-demo", "title": "Data table", "description": "Sortable columns, status badges, end-aligned amounts and a pagination footer." },
-    { "name": "data-table-sortable", "title": "Sorting and sticky header", "description": "Every column sorts; the header stays put while the body scrolls inside maxBlockSize." },
-    { "name": "data-table-selection", "title": "Selection with a toolbar", "description": "Checkbox selection, search and a bulk action that reflects the selection." },
-    { "name": "data-table-empty", "title": "Empty", "description": "An EmptyState in place of rows." },
-    { "name": "data-table-loading", "title": "Loading", "description": "Skeleton rows while data loads; the grid is aria-busy." }
+    {
+      "name": "data-table-demo",
+      "title": "Data table",
+      "description": "Sortable columns, status badges, end-aligned amounts and a pagination footer."
+    },
+    {
+      "name": "data-table-sortable",
+      "title": "Sorting and sticky header",
+      "description": "Every column sorts; the header stays put while the body scrolls inside maxBlockSize."
+    },
+    {
+      "name": "data-table-selection",
+      "title": "Selection with a toolbar",
+      "description": "Checkbox selection, search and a bulk action that reflects the selection."
+    },
+    {
+      "name": "data-table-empty",
+      "title": "Empty",
+      "description": "An EmptyState in place of rows."
+    },
+    {
+      "name": "data-table-loading",
+      "title": "Loading",
+      "description": "Skeleton rows while data loads; the grid is aria-busy."
+    }
   ],
   "props": [
-    { "component": "DataTable", "name": "aria-label", "type": "string", "required": true, "description": "Names the table. Or pass aria-labelledby pointing at a visible heading." },
-    { "component": "DataTable", "name": "columns", "type": "DataTableColumn<T>[]", "required": true, "description": "{ id, header, cell: (row) => ReactNode, isRowHeader?, allowsSorting?, align?: 'start' | 'end' | 'center', width?, minWidth?, textValue? }. Mark the column that names each row isRowHeader. Without an isRowHeader column, the first column becomes the row header." },
-    { "component": "DataTable", "name": "rows", "type": "readonly T[]", "required": true, "description": "The rows to show, already sorted and paged." },
-    { "component": "DataTable", "name": "getRowId", "type": "(row: T) => string", "required": true, "description": "A stable, unique id per row. Used for selection keys and onRowAction." },
-    { "component": "DataTable", "name": "selectionMode", "type": "'none' | 'single' | 'multiple'", "default": "'none'", "description": "Adds a checkbox column; multiple also adds select-all in the header." },
-    { "component": "DataTable", "name": "selectedKeys", "type": "'all' | Iterable<Key>", "description": "Selected row ids (controlled)." },
-    { "component": "DataTable", "name": "defaultSelectedKeys", "type": "'all' | Iterable<Key>", "description": "Initially selected row ids (uncontrolled)." },
-    { "component": "DataTable", "name": "onSelectionChange", "type": "(keys: DataTableSelection) => void", "description": "Called with 'all' or a Set of row ids." },
-    { "component": "DataTable", "name": "disabledKeys", "type": "Iterable<Key>", "description": "Row ids that can't be selected or actioned." },
-    { "component": "DataTable", "name": "sortDescriptor", "type": "DataTableSortDescriptor", "description": "{ column, direction } of the current sort (controlled). Sort rows yourself — see useSortedRows." },
-    { "component": "DataTable", "name": "onSortChange", "type": "(descriptor: DataTableSortDescriptor) => void", "description": "Called when a sortable header is pressed." },
-    { "component": "DataTable", "name": "onRowAction", "type": "(id: string) => void", "description": "Called when a row is activated (click or Enter), e.g. to open its detail page." },
-    { "component": "DataTable", "name": "isLoading", "type": "boolean", "default": "false", "description": "Shows skeleton rows and sets aria-busy on the grid." },
-    { "component": "DataTable", "name": "loadingRowCount", "type": "number", "default": "5", "description": "Skeleton rows while loading; match your page size to avoid a jump." },
-    { "component": "DataTable", "name": "loadingLabel", "type": "string", "default": "'Loading'", "description": "Visually hidden row-header text of each skeleton row, so rows are never announced with empty headers." },
-    { "component": "DataTable", "name": "emptyState", "type": "ReactNode", "default": "'No results.'", "description": "Shown when rows is empty. Pass <EmptyState size=\"sm\" …/> for a richer message." },
-    { "component": "DataTable", "name": "density", "type": "'comfortable' | 'compact'", "description": "Overrides the theme density for this table (row 48/36px)." },
-    { "component": "DataTable", "name": "stickyHeader", "type": "boolean", "default": "true", "description": "Keeps the header visible while the body scrolls inside maxBlockSize." },
-    { "component": "DataTable", "name": "maxBlockSize", "type": "number | string", "description": "Maximum height of the table's own scroll container." },
-    { "component": "DataTable", "name": "className", "type": "string", "description": "Class for the outer scroll container." },
-    { "component": "useSortedRows", "name": "rows, sortDescriptor, accessors", "type": "(rows: readonly T[], sort: DataTableSortDescriptor | undefined, accessors: Record<string, (row: T) => string | number | bigint | boolean | Date | null | undefined>) => T[]", "description": "Client-side sort. Locale-aware numeric string collation, dates and numbers by value, empty values last, stable ties. Define accessors outside the component." },
-    { "component": "DataTableToolbar", "name": "children", "type": "ReactNode", "description": "Search, filters and actions. First child sits at the start, last at the end; wraps when narrow." },
-    { "component": "DataTablePagination", "name": "page", "type": "number", "required": true, "description": "Current page, 1-based." },
-    { "component": "DataTablePagination", "name": "pageSize", "type": "number", "required": true, "description": "Rows per page." },
-    { "component": "DataTablePagination", "name": "totalCount", "type": "number", "required": true, "description": "Total rows across all pages." },
-    { "component": "DataTablePagination", "name": "onPageChange", "type": "(page: number) => void", "description": "Called with the new page." },
-    { "component": "DataTablePagination", "name": "formatSummary", "type": "(range: { start: number; end: number; total: number }) => ReactNode", "default": "\"Showing 1–10 of 48\"", "description": "Builds the range text (a polite live region)." },
-    { "component": "DataTablePagination", "name": "landmark", "type": "boolean", "default": "false", "description": "Render the pager as a <nav> landmark. Off by default: table paging belongs to the table, so it is a labelled group and several tables can share a page. Turn on with a unique label." },
-    { "component": "DataTablePagination", "name": "label", "type": "string", "default": "'Pagination'", "description": "Accessible name of the pager, e.g. \"Payments pages\"." }
+    {
+      "component": "DataTable",
+      "name": "aria-label",
+      "type": "string",
+      "required": true,
+      "description": "Names the table. Or pass aria-labelledby pointing at a visible heading."
+    },
+    {
+      "component": "DataTable",
+      "name": "columns",
+      "type": "DataTableColumn<T>[]",
+      "required": true,
+      "description": "{ id, header, cell: (row) => ReactNode, isRowHeader?, allowsSorting?, align?: 'start' | 'end' | 'center', width?, minWidth?, textValue? }. Mark the column that names each row isRowHeader. Without an isRowHeader column, the first column becomes the row header."
+    },
+    {
+      "component": "DataTable",
+      "name": "rows",
+      "type": "readonly T[]",
+      "required": true,
+      "description": "The rows to show, already sorted and paged."
+    },
+    {
+      "component": "DataTable",
+      "name": "getRowId",
+      "type": "(row: T) => string",
+      "required": true,
+      "description": "A stable, unique id per row. Used for selection keys and onRowAction."
+    },
+    {
+      "component": "DataTable",
+      "name": "selectionMode",
+      "type": "'none' | 'single' | 'multiple'",
+      "default": "'none'",
+      "description": "Adds a checkbox column; multiple also adds select-all in the header."
+    },
+    {
+      "component": "DataTable",
+      "name": "selectedKeys",
+      "type": "'all' | Iterable<Key>",
+      "description": "Selected row ids (controlled)."
+    },
+    {
+      "component": "DataTable",
+      "name": "defaultSelectedKeys",
+      "type": "'all' | Iterable<Key>",
+      "description": "Initially selected row ids (uncontrolled)."
+    },
+    {
+      "component": "DataTable",
+      "name": "onSelectionChange",
+      "type": "(keys: DataTableSelection) => void",
+      "description": "Called with 'all' or a Set of row ids."
+    },
+    {
+      "component": "DataTable",
+      "name": "disabledKeys",
+      "type": "Iterable<Key>",
+      "description": "Row ids that can't be selected or actioned."
+    },
+    {
+      "component": "DataTable",
+      "name": "sortDescriptor",
+      "type": "DataTableSortDescriptor",
+      "description": "{ column, direction } of the current sort (controlled). Sort rows yourself — see useSortedRows."
+    },
+    {
+      "component": "DataTable",
+      "name": "onSortChange",
+      "type": "(descriptor: DataTableSortDescriptor) => void",
+      "description": "Called when a sortable header is pressed."
+    },
+    {
+      "component": "DataTable",
+      "name": "onRowAction",
+      "type": "(id: string) => void",
+      "description": "Called when a row is activated (click or Enter), e.g. to open its detail page."
+    },
+    {
+      "component": "DataTable",
+      "name": "isLoading",
+      "type": "boolean",
+      "default": "false",
+      "description": "Shows skeleton rows and sets aria-busy on the grid."
+    },
+    {
+      "component": "DataTable",
+      "name": "loadingRowCount",
+      "type": "number",
+      "default": "5",
+      "description": "Skeleton rows while loading; match your page size to avoid a jump."
+    },
+    {
+      "component": "DataTable",
+      "name": "loadingLabel",
+      "type": "string",
+      "default": "'Loading'",
+      "description": "Visually hidden row-header text of each skeleton row, so rows are never announced with empty headers."
+    },
+    {
+      "component": "DataTable",
+      "name": "emptyState",
+      "type": "ReactNode",
+      "default": "'No results.'",
+      "description": "Shown when rows is empty. Pass <EmptyState size=\"sm\" …/> for a richer message."
+    },
+    {
+      "component": "DataTable",
+      "name": "density",
+      "type": "'comfortable' | 'compact'",
+      "description": "Overrides the theme density for this table (row 48/36px)."
+    },
+    {
+      "component": "DataTable",
+      "name": "stickyHeader",
+      "type": "boolean",
+      "default": "true",
+      "description": "Keeps the header visible while the body scrolls inside maxBlockSize."
+    },
+    {
+      "component": "DataTable",
+      "name": "maxBlockSize",
+      "type": "number | string",
+      "description": "Maximum height of the table's own scroll container."
+    },
+    {
+      "component": "DataTable",
+      "name": "className",
+      "type": "string",
+      "description": "Class for the outer scroll container."
+    },
+    {
+      "component": "useSortedRows",
+      "name": "rows, sortDescriptor, accessors",
+      "type": "(rows: readonly T[], sort: DataTableSortDescriptor | undefined, accessors: Record<string, (row: T) => string | number | bigint | boolean | Date | null | undefined>) => T[]",
+      "description": "Client-side sort. Locale-aware numeric string collation, dates and numbers by value, empty values last, stable ties. Define accessors outside the component."
+    },
+    {
+      "component": "DataTableToolbar",
+      "name": "children",
+      "type": "ReactNode",
+      "description": "Search, filters and actions. First child sits at the start, last at the end; wraps when narrow."
+    },
+    {
+      "component": "DataTablePagination",
+      "name": "page",
+      "type": "number",
+      "required": true,
+      "description": "Current page, 1-based."
+    },
+    {
+      "component": "DataTablePagination",
+      "name": "pageSize",
+      "type": "number",
+      "required": true,
+      "description": "Rows per page."
+    },
+    {
+      "component": "DataTablePagination",
+      "name": "totalCount",
+      "type": "number",
+      "required": true,
+      "description": "Total rows across all pages."
+    },
+    {
+      "component": "DataTablePagination",
+      "name": "onPageChange",
+      "type": "(page: number) => void",
+      "description": "Called with the new page."
+    },
+    {
+      "component": "DataTablePagination",
+      "name": "formatSummary",
+      "type": "(range: { start: number; end: number; total: number }) => ReactNode",
+      "default": "\"Showing 1–10 of 48\"",
+      "description": "Builds the range text (a polite live region)."
+    },
+    {
+      "component": "DataTablePagination",
+      "name": "landmark",
+      "type": "boolean",
+      "default": "false",
+      "description": "Render the pager as a <nav> landmark. Off by default: table paging belongs to the table, so it is a labelled group and several tables can share a page. Turn on with a unique label."
+    },
+    {
+      "component": "DataTablePagination",
+      "name": "label",
+      "type": "string",
+      "default": "'Pagination'",
+      "description": "Accessible name of the pager, e.g. \"Payments pages\"."
+    }
   ],
   "accessibility": {
     "keyboard": [
-      { "keys": "Tab", "action": "Moves focus into the table (to the last focused cell or row), then out of it." },
-      { "keys": "↑ / ↓", "action": "Moves between rows, including up into the header row." },
-      { "keys": "← / →", "action": "Moves between cells and column headers (mirrored in right-to-left)." },
-      { "keys": "Home / End, Page Up / Page Down", "action": "Moves to the first / last cell in the row, or by a page of rows." },
-      { "keys": "Enter / Space on a sortable header", "action": "Sorts by that column; press again to reverse." },
-      { "keys": "Space", "action": "Toggles selection of the focused row (selectionMode single or multiple)." },
-      { "keys": "Enter", "action": "Performs onRowAction on the focused row." },
-      { "keys": "Ctrl/⌘ + A", "action": "Selects all rows (selectionMode multiple)." }
+      {
+        "keys": "Tab",
+        "action": "Moves focus into the table (to the last focused cell or row), then out of it."
+      },
+      {
+        "keys": "↑ / ↓",
+        "action": "Moves between rows, including up into the header row."
+      },
+      {
+        "keys": "← / →",
+        "action": "Moves between cells and column headers (mirrored in right-to-left)."
+      },
+      {
+        "keys": "Home / End, Page Up / Page Down",
+        "action": "Moves to the first / last cell in the row, or by a page of rows."
+      },
+      {
+        "keys": "Enter / Space on a sortable header",
+        "action": "Sorts by that column; press again to reverse."
+      },
+      {
+        "keys": "Space",
+        "action": "Toggles selection of the focused row (selectionMode single or multiple)."
+      },
+      {
+        "keys": "Enter",
+        "action": "Performs onRowAction on the focused row."
+      },
+      {
+        "keys": "Ctrl/⌘ + A",
+        "action": "Selects all rows (selectionMode multiple)."
+      }
     ],
     "notes": [
       "Renders role=\"grid\" (a native <table>) named by aria-label or aria-labelledby; sortable headers expose aria-sort.",
@@ -84,25 +304,42 @@
     ]
   },
   "tokens": [
-    "color.surface.default",
-    "color.surface.selected",
-    "color.text.default",
-    "color.text.subtle",
-    "color.text.disabled",
-    "color.border.default",
-    "color.border.subtle",
-    "color.focus.ring",
-    "radius.container",
     "table-row-height",
     "control-height",
+    "color.surface.default",
+    "color.border.default",
+    "radius.container",
+    "shadow.raised",
+    "color.text.default",
+    "space.8",
+    "space.1",
+    "space.12",
+    "space.10",
+    "space.2",
     "font.size.md",
-    "font.size.sm",
-    "font.size.xs",
-    "font.weight.medium",
     "line-height.snug",
+    "color.focus.ring",
     "space.3",
+    "color.text.subtle",
+    "font.weight.medium",
+    "glass.bg",
+    "glass.blur",
+    "color.border.subtle",
     "space.4",
+    "color.surface.selected",
+    "color.action.primary.bg",
+    "color.text.disabled",
+    "space.6",
+    "font.size.sm",
+    "space.16",
     "motion.duration.fast",
-    "motion.easing"
+    "motion.easing",
+    "motion.duration.normal",
+    "motion.duration.spring",
+    "motion.spring",
+    "card-inset",
+    "font.tracking.md",
+    "font.tracking.sm",
+    "hairline"
   ]
 }

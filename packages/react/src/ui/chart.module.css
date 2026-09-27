@@ -1,0 +1,413 @@
+/*
+ * Chart shell (ChartFrame) + legend, tooltip readout and table. Marks are styled by each chart's own module.
+ *
+ *   legend
+ *   [y ticks] [plot        ]
+ *             [x ticks     ]
+ *
+ * The frame's height (--_h, from the `height` prop) includes the x-axis band, so a card never gets a nested scroll.
+ */
+
+.chart {
+  --chart-surface: var(--strata-color-surface-raised);
+  box-sizing: border-box;
+  display: grid;
+  gap: var(--strata-space-4);
+  inline-size: 100%;
+  min-inline-size: 0;
+  color: var(--strata-color-text-default);
+  font-family: var(--strata-font-body);
+  font-size: var(--strata-font-size-md);
+  letter-spacing: var(--strata-font-tracking-md);
+  line-height: var(--strata-line-height-normal);
+}
+
+.frame {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: minmax(0, 1fr);
+  column-gap: var(--strata-space-3);
+  row-gap: var(--strata-space-2);
+  block-size: var(--_h);
+  min-inline-size: 0;
+}
+
+.frame[data-y-axis] {
+  grid-template-columns: auto minmax(0, 1fr);
+}
+
+.frame[data-x-axis] {
+  grid-template-rows: minmax(0, 1fr) auto;
+}
+
+/* ---- axes: text in text tokens, tabular so ticks line up ---------------- */
+
+.yAxis,
+.xAxis {
+  color: var(--strata-chart-axis, var(--strata-color-text-subtle));
+  font-size: var(--strata-font-size-xs);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: var(--strata-font-tracking-xs);
+  line-height: var(--strata-line-height-snug);
+  white-space: nowrap;
+  user-select: none;
+}
+
+.yAxis {
+  display: grid;
+  grid-row: 1;
+  grid-column: 1;
+  min-block-size: 0;
+}
+
+/* Every tick shares one grid cell, so the gutter is exactly as wide as the longest label. */
+.yTick {
+  grid-area: 1 / 1;
+  align-self: start;
+  text-align: end;
+  translate: 0 calc(var(--_y) - 50%);
+}
+
+.yTick[data-hidden] {
+  visibility: hidden;
+}
+
+.xAxis {
+  position: relative;
+  grid-row: 2;
+  grid-column: -2 / -1;
+  min-block-size: calc(var(--strata-font-size-xs) * var(--strata-line-height-snug));
+}
+
+.xTick {
+  --_dir: 1;
+  position: absolute;
+  inset-block-start: 0;
+  inset-inline-start: var(--_x);
+  translate: calc(-50% * var(--_dir)) 0;
+}
+
+.xTick:dir(rtl) {
+  --_dir: -1;
+}
+
+.xTick[data-edge='start'] {
+  translate: 0 0;
+}
+
+.xTick[data-edge='end'] {
+  translate: calc(-100% * var(--_dir)) 0;
+}
+
+/* ---- plot ---------------------------------------------------------------- */
+
+.plot {
+  position: relative;
+  grid-row: 1;
+  grid-column: -2 / -1;
+  min-inline-size: 0;
+  min-block-size: 0;
+  /* Horizontal drags scrub the chart on touch; vertical ones still scroll the page. */
+  touch-action: pan-y;
+}
+
+/* The chart's focus ring, around plot and axes: the 2px ring arrives (offset settles 0 → 2px) when an x position
+   has keyboard focus. */
+.frame {
+  position: relative;
+}
+
+.frame::after {
+  content: '';
+  position: absolute;
+  inset: calc(var(--strata-space-2) * -1);
+  border-radius: var(--strata-radius-field);
+  outline: 2px solid transparent;
+  outline-offset: 0;
+  pointer-events: none;
+  transition:
+    outline-color var(--strata-motion-duration-fast) var(--strata-motion-easing),
+    outline-offset var(--strata-motion-duration-fast) var(--strata-motion-easing);
+}
+
+.frame:has(.hit[data-focus-visible])::after {
+  outline-color: var(--strata-color-focus-ring);
+  outline-offset: 2px;
+}
+
+.svg {
+  position: absolute;
+  inset-block-start: 0;
+  inset-inline-start: 0;
+  display: block;
+  overflow: visible;
+}
+
+.grid line {
+  stroke: var(--strata-chart-grid, var(--strata-color-border-subtle));
+  stroke-width: 1;
+  shape-rendering: crispEdges;
+}
+
+.grid line[data-zero] {
+  stroke: var(--strata-color-border-default);
+}
+
+/* Hover/focus layer (crosshair, active points): fades, then glides between positions. */
+.activeLayer {
+  opacity: 0;
+  transition: opacity var(--strata-motion-duration-fast) var(--strata-motion-easing);
+}
+
+.activeLayer[data-visible] {
+  opacity: 1;
+}
+
+/* ---- hit layer: a React Aria ListBox of full-height bands ----------------- */
+
+.hitLayer {
+  position: absolute;
+  inset: 0;
+  outline: none;
+}
+
+.hit {
+  position: absolute;
+  inset-block: 0;
+  outline: none;
+  cursor: default;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* ---- tooltip ------------------------------------------------------------- */
+
+.tooltip {
+  position: absolute;
+  inset-block-start: 0;
+  inset-inline-start: 0;
+  z-index: 2;
+  inline-size: max-content;
+  max-inline-size: min(calc(var(--strata-space-16) * 4), 100%);
+  translate: var(--_tx, 0) var(--_ty, 0);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--strata-motion-duration-fast) var(--strata-motion-easing);
+}
+
+.tooltip[data-visible] {
+  opacity: 1;
+}
+
+.tooltip:empty {
+  display: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  /* The readout glides with the crosshair instead of jumping point to point. */
+  .tooltip[data-visible] {
+    transition:
+      opacity var(--strata-motion-duration-fast) var(--strata-motion-easing),
+      translate var(--strata-motion-duration-normal) var(--strata-motion-easing-out);
+  }
+}
+
+/* ---- readout (ChartTooltip) ------------------------------------------------ */
+
+.readout {
+  box-sizing: border-box;
+  display: grid;
+  gap: var(--strata-space-1);
+  min-inline-size: calc(var(--strata-space-16) * 2);
+  padding: var(--strata-space-2) var(--strata-space-3);
+  border: 1px solid transparent;
+  border-radius: min(var(--strata-radius-container), var(--strata-space-3));
+  /* Solid raised surface: text.default and text.subtle are solved on it, and the series keys keep their 3:1. */
+  background: var(--strata-color-surface-raised);
+  box-shadow:
+    0 0 0 var(--strata-hairline) var(--strata-color-border-default),
+    var(--strata-shadow-highlight),
+    var(--strata-shadow-overlay);
+  color: var(--strata-color-text-default);
+  font-family: var(--strata-font-body);
+  font-size: var(--strata-font-size-xs);
+  letter-spacing: var(--strata-font-tracking-xs);
+  line-height: var(--strata-line-height-snug);
+  text-align: start;
+  white-space: nowrap;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+@supports (corner-shape: squircle) {
+  .readout {
+    corner-shape: squircle;
+  }
+}
+
+/* One series: a pill with the value leading and the x value after it. */
+.readout[data-single] {
+  display: flex;
+  align-items: baseline;
+  gap: var(--strata-space-2);
+  min-inline-size: 0;
+  padding: calc(var(--strata-space-1) * 1.5) var(--strata-space-3);
+  border-radius: var(--strata-radius-pill);
+}
+
+@supports (corner-shape: squircle) {
+  .readout[data-single] {
+    corner-shape: round;
+  }
+}
+
+.readoutTitle {
+  color: var(--strata-color-text-subtle);
+  font-size: var(--strata-font-size-xs);
+  letter-spacing: var(--strata-font-tracking-xs);
+}
+
+.readoutRows {
+  display: grid;
+  gap: var(--strata-space-1);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.readoutRow {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  column-gap: var(--strata-space-2);
+}
+
+.readoutLabel {
+  color: var(--strata-color-text-subtle);
+}
+
+.readoutValue {
+  color: var(--strata-color-text-default);
+  font-variant-numeric: tabular-nums;
+  font-weight: var(--strata-font-weight-semibold);
+  text-align: end;
+}
+
+.readout[data-single] .readoutValue {
+  font-size: var(--strata-font-size-sm);
+  letter-spacing: var(--strata-font-tracking-sm);
+}
+
+/* Tooltip keys are a short stroke (a line key), not a box: at this density a box is ink doing a label's job. */
+.key {
+  inline-size: var(--strata-space-3);
+  block-size: 2px;
+  border-radius: var(--strata-radius-pill);
+  background: var(--_c);
+}
+
+.readout[data-shape='square'] .key {
+  inline-size: var(--strata-space-2);
+  block-size: var(--strata-space-2);
+  border-radius: calc(var(--strata-space-1) / 2);
+}
+
+/* ---- legend ---------------------------------------------------------------- */
+
+.legend {
+  box-sizing: border-box;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  column-gap: var(--strata-space-4);
+  row-gap: var(--strata-space-1);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  color: var(--strata-color-text-subtle);
+  font-family: var(--strata-font-body);
+  font-size: var(--strata-font-size-sm);
+  letter-spacing: var(--strata-font-tracking-sm);
+  line-height: var(--strata-line-height-snug);
+}
+
+.legendItem {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--strata-space-2);
+}
+
+.swatch {
+  flex: none;
+  inline-size: var(--strata-space-2);
+  block-size: var(--strata-space-2);
+  border-radius: calc(var(--strata-space-1) / 2);
+  background: var(--_c);
+}
+
+.legend[data-shape='line'] .swatch {
+  inline-size: var(--strata-space-3);
+  block-size: 2px;
+  border-radius: var(--strata-radius-pill);
+}
+
+/* Forced colours drop backgrounds; keep the swatches visible as outlines. */
+@media (forced-colors: active) {
+  .swatch,
+  .key {
+    outline: 1px solid CanvasText;
+  }
+}
+
+/* ---- table ------------------------------------------------------------------ */
+
+.srOnly {
+  position: absolute;
+  inline-size: 1px;
+  block-size: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+.table {
+  box-sizing: border-box;
+  inline-size: 100%;
+  border-collapse: collapse;
+  color: var(--strata-color-text-default);
+  font-family: var(--strata-font-body);
+  font-size: var(--strata-font-size-sm);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: var(--strata-font-tracking-sm);
+  line-height: var(--strata-line-height-snug);
+}
+
+.table th,
+.table td {
+  padding-block: var(--strata-space-2);
+  padding-inline: var(--strata-space-3);
+  box-shadow: inset 0 calc(var(--strata-hairline) * -1) 0 var(--strata-color-border-subtle);
+  text-align: end;
+}
+
+.table th:first-child,
+.table td:first-child {
+  padding-inline-start: 0;
+  text-align: start;
+}
+
+.table th:last-child,
+.table td:last-child {
+  padding-inline-end: 0;
+}
+
+.table thead th {
+  color: var(--strata-color-text-subtle);
+  font-weight: var(--strata-font-weight-medium);
+}
+
+.table tbody th {
+  font-weight: var(--strata-font-weight-regular);
+}

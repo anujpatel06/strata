@@ -1,6 +1,6 @@
 import { render, screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { IconPencil } from '@tabler/icons-react';
+import { IconPencil } from '@strata/icons';
 import { I18nProvider } from 'react-aria-components';
 import { Button } from '../src/ui/button';
 import { Menu, MenuItem, MenuSection, MenuSeparator, MenuTrigger, SubmenuTrigger } from '../src/ui/menu';

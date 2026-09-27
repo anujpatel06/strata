@@ -8,12 +8,14 @@
   align-items: center;
   box-sizing: border-box;
   padding: min(12dvh, calc(var(--strata-space-16) * 2)) var(--strata-space-4) var(--strata-space-4);
-  /* Dim what's behind by a fixed amount. A colour tint can't do this in both schemes: every surface token is
-     already near the page colour in dark schemes, and light-dark() gets mangled by Lightning CSS pipelines. */
-  -webkit-backdrop-filter: brightness(0.55);
-  backdrop-filter: brightness(0.55);
+  /* Underlay: a light blur (a quarter of the glass blur) so the page recedes, and a fixed dim. Deliberately not
+     the surface.inverse tint from CONVENTIONS: in dark schemes surface.inverse is near-white, so the tint turns the
+     page into a grey fog and the dialog stops reading as "above" it. brightness() dims both schemes alike. */
+  -webkit-backdrop-filter: blur(calc(var(--strata-glass-blur) / 4)) brightness(0.6);
+  backdrop-filter: blur(calc(var(--strata-glass-blur) / 4)) brightness(0.6);
   font-family: var(--strata-font-body);
   font-size: var(--strata-font-size-md);
+  letter-spacing: var(--strata-font-tracking-md);
   line-height: var(--strata-line-height-normal);
   color: var(--strata-color-text-default);
   -webkit-font-smoothing: antialiased;
@@ -32,11 +34,34 @@
   max-inline-size: calc(var(--strata-space-16) * 9);
   max-block-size: 100%;
   overflow: hidden;
-  background: var(--strata-color-surface-raised);
-  border: 1px solid var(--strata-color-border-default);
+  /* Raycast-style glass panel. The engine solves --strata-glass-bg's opacity so text.default and text.subtle keep
+     4.5:1 over any backdrop; only those two text roles sit directly on it. */
+  background: var(--strata-glass-bg);
+  -webkit-backdrop-filter: blur(var(--strata-glass-blur)) saturate(1.6);
+  backdrop-filter: blur(var(--strata-glass-blur)) saturate(1.6);
+  /* Decorative edge: a hairline ring (Chromium rounds sub-pixel borders up to 1px, so it's a box-shadow; the
+     transparent 1px border keeps the size and is the edge in forced-colours mode). The overlay shadow carries the shape. */
+  border: 1px solid transparent;
   border-radius: var(--strata-radius-container);
-  box-shadow: var(--strata-shadow-overlay);
+  box-shadow:
+    0 0 0 var(--strata-hairline) var(--strata-color-border-default),
+    var(--strata-shadow-highlight),
+    var(--strata-shadow-overlay);
   outline: none;
+  /* It grows from just above its middle: close to where the eye lands (the search field). */
+  transform-origin: 50% 30%;
+}
+@supports (corner-shape: squircle) {
+  .panel,
+  .item {
+    corner-shape: squircle;
+  }
+}
+
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .panel {
+    background: var(--strata-color-surface-raised);
+  }
 }
 
 .dialog {
@@ -58,17 +83,19 @@
   gap: var(--strata-space-2);
   min-block-size: calc(var(--strata-control-height) + var(--strata-space-2));
   padding-inline: var(--strata-space-4);
-  border-block-end: 1px solid var(--strata-color-border-subtle);
+  /* Hairline divider (inset shadow; see .panel). */
+  box-shadow: inset 0 calc(var(--strata-hairline) * -1) 0 var(--strata-color-border-subtle);
 }
 /* Focus indicator: the input is flat, so the hairline under it thickens to a 2px focus-ring line while the input has
    focus (it always does while the palette is open; it goes away if focus moves to the panel). */
 .search:focus-within {
-  border-block-end-color: var(--strata-color-focus-ring);
-  box-shadow: inset 0 -1px 0 var(--strata-color-focus-ring);
+  /* The focus indicator is a full 2px line, independent of the hairline. */
+  box-shadow: inset 0 -2px 0 var(--strata-color-focus-ring);
 }
 .searchIcon {
   flex: none;
   color: var(--strata-color-text-subtle);
+  stroke-width: var(--strata-icon-stroke, 1.5);
 }
 .input {
   flex: 1 1 auto;
@@ -81,6 +108,7 @@
   color: var(--strata-color-text-default);
   font: inherit;
   font-size: var(--strata-font-size-md);
+  caret-color: var(--strata-color-focus-ring);
   outline: none;
   appearance: none;
 }
@@ -115,17 +143,32 @@
   padding: var(--strata-space-2) var(--strata-space-2) var(--strata-space-1);
   font-size: var(--strata-font-size-xs);
   font-weight: var(--strata-font-weight-medium);
+  letter-spacing: var(--strata-font-tracking-xs);
   line-height: var(--strata-line-height-normal);
   color: var(--strata-color-text-subtle);
 }
 
+/*
+ * Rows sit on glass, so at rest they only use text.default and text.subtle. The highlighted row gets an opaque
+ * surface.selected background drawn by ::before: it blooms in (fade + spring from 0.96) and the row it leaves fades
+ * out, so the highlight glides with the arrow keys instead of blinking. A 2px focus-ring bar at the inline start
+ * springs up with it, marking the active row by shape as well as fill.
+ */
 .item {
+  position: relative;
+  isolation: isolate;
   display: flex;
   align-items: center;
   gap: var(--strata-space-3);
   min-block-size: var(--strata-control-height);
   padding: var(--strata-space-1) var(--strata-space-2);
-  border-radius: min(var(--strata-radius-button), var(--strata-space-2));
+  /* Concentric with the panel: its radius minus the list's inset (floored at a small key-like corner). */
+  --_radius: max(min(var(--strata-radius-badge), var(--strata-space-1)), calc(var(--strata-radius-container) - var(--strata-space-1)));
+  /* The active-row bar's inset (it moves in on rounder brands, see ::after). */
+  --_bar-inset: max(var(--strata-space-1), calc(var(--_radius) * 0.4));
+  /* Room for the bar at the inline start: its inset plus a space-2 gap (= space-3 on sharp brands). */
+  padding-inline-start: calc(var(--_bar-inset) + var(--strata-space-2));
+  border-radius: var(--_radius);
   color: var(--strata-color-text-default);
   line-height: var(--strata-line-height-snug);
   text-decoration: none;
@@ -133,15 +176,59 @@
   user-select: none;
   outline: none;
 }
-.item[data-focused] {
-  background: color-mix(in oklab, var(--strata-color-text-default) 7%, transparent);
+.item::before,
+.item::after {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  opacity: 0;
+  transition: opacity var(--strata-motion-duration-fast) var(--strata-motion-easing);
 }
-.item[data-pressed] {
-  background: color-mix(in oklab, var(--strata-color-text-default) 10%, transparent);
+.item::before {
+  inset: 0;
+  border-radius: inherit;
+  background: var(--strata-color-surface-selected);
+}
+.item::after {
+  /* The bar sits inside the row's corner curve, however round the brand is. */
+  inset-block: max(var(--strata-space-2), calc(var(--_radius) * 0.5));
+  inset-inline-start: var(--_bar-inset);
+  inline-size: 2px;
+  border-radius: 2px;
+  background: var(--strata-color-focus-ring);
+}
+.item[data-focused]::before,
+.item[data-focused]::after {
+  opacity: 1;
 }
 .item[data-disabled] {
   color: var(--strata-color-text-disabled);
   pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .item {
+    transition: scale var(--strata-motion-duration-spring) var(--strata-motion-spring);
+  }
+  .item::before {
+    scale: 0.96;
+  }
+  .item::after {
+    scale: 1 0;
+  }
+  .item::before,
+  .item::after {
+    transition:
+      opacity var(--strata-motion-duration-fast) var(--strata-motion-easing),
+      scale var(--strata-motion-duration-spring) var(--strata-motion-spring);
+  }
+  .item[data-focused]::before,
+  .item[data-focused]::after {
+    scale: 1;
+  }
+  .item[data-pressed] {
+    scale: 0.98;
+  }
 }
 .icon {
   display: inline-flex;
@@ -155,8 +242,13 @@
 .icon svg {
   inline-size: 100%;
   block-size: 100%;
+  stroke-width: var(--strata-icon-stroke, 1.5);
 }
 .item[data-focused] .icon {
+  color: var(--strata-color-text-default);
+}
+/* text.subtle isn't solved against surface.selected, so on the highlighted row secondary text steps up. */
+.item[data-focused] :is(.description, .meta) {
   color: var(--strata-color-text-default);
 }
 .text {
@@ -174,6 +266,7 @@
   text-overflow: ellipsis;
   white-space: nowrap;
   font-size: var(--strata-font-size-xs);
+  letter-spacing: var(--strata-font-tracking-xs);
   line-height: var(--strata-line-height-normal);
   color: var(--strata-color-text-subtle);
 }
@@ -181,6 +274,7 @@
   flex: none;
   margin-inline-start: auto;
   font-size: var(--strata-font-size-xs);
+  letter-spacing: var(--strata-font-tracking-xs);
   color: var(--strata-color-text-subtle);
   font-variant-numeric: tabular-nums;
 }
@@ -204,8 +298,9 @@
   align-items: center;
   gap: var(--strata-space-2) var(--strata-space-4);
   padding: var(--strata-space-2) var(--strata-space-4);
-  border-block-start: 1px solid var(--strata-color-border-subtle);
+  box-shadow: inset 0 var(--strata-hairline) 0 var(--strata-color-border-subtle);
   font-size: var(--strata-font-size-xs);
+  letter-spacing: var(--strata-font-tracking-xs);
   line-height: var(--strata-line-height-normal);
   color: var(--strata-color-text-subtle);
 }
@@ -221,10 +316,12 @@
   min-inline-size: var(--strata-space-5);
   block-size: var(--strata-space-5);
   padding-inline: var(--strata-space-1);
-  border: 1px solid var(--strata-color-border-default);
+  border: 0;
   border-radius: min(var(--strata-radius-badge), var(--strata-space-1));
   background: var(--strata-color-surface-sunken);
-  box-shadow: inset 0 -1px 0 var(--strata-color-border-default);
+  box-shadow:
+    inset 0 0 0 var(--strata-hairline) var(--strata-color-border-default),
+    inset 0 -1px 0 color-mix(in oklab, var(--strata-color-border-default) 80%, transparent);
   color: var(--strata-color-text-subtle);
   font-family: var(--strata-font-mono);
   font-size: var(--strata-font-size-xs);
@@ -232,29 +329,39 @@
   line-height: 1;
 }
 
+/* Motion (Tactile style). The underlay fades; the panel fades with easing-out and scales up from 0.96 on the
+   spring. Exits are quicker and never spring. With reduced motion the palette simply appears. */
 @media (prefers-reduced-motion: no-preference) {
   .overlay[data-entering] {
-    animation: fade var(--strata-motion-duration-normal) var(--strata-motion-easing);
+    animation: fade var(--strata-motion-duration-normal) var(--strata-motion-easing-out);
   }
   .overlay[data-exiting] {
     animation: fade var(--strata-motion-duration-fast) var(--strata-motion-easing) reverse;
   }
   .panel[data-entering] {
-    animation: zoom var(--strata-motion-duration-normal) var(--strata-motion-easing);
+    animation:
+      fade var(--strata-motion-duration-normal) var(--strata-motion-easing-out),
+      grow var(--strata-motion-duration-spring) var(--strata-motion-spring);
   }
   .panel[data-exiting] {
-    animation: zoom var(--strata-motion-duration-fast) var(--strata-motion-easing) reverse;
+    animation:
+      fade var(--strata-motion-duration-fast) var(--strata-motion-easing) reverse,
+      shrink var(--strata-motion-duration-fast) var(--strata-motion-easing) reverse;
   }
-}
 
-@keyframes fade {
-  from {
-    opacity: 0;
+  @keyframes fade {
+    from {
+      opacity: 0;
+    }
   }
-}
-@keyframes zoom {
-  from {
-    opacity: 0;
-    scale: 0.97;
+  @keyframes grow {
+    from {
+      scale: 0.96;
+    }
+  }
+  @keyframes shrink {
+    from {
+      scale: 0.98;
+    }
   }
 }

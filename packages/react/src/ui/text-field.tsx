@@ -17,10 +17,16 @@ import {
   type TextProps as RACTextProps,
   type ValidationResult,
 } from 'react-aria-components';
-import { IconAlertCircle } from '@tabler/icons-react';
+import { IconAlertCircle } from '@strata/icons';
 import styles from './text-field.module.css';
 
 const cx = (...c: Array<string | false | null | undefined>) => c.filter(Boolean).join(' ');
+
+/**
+ * Field height: `md` is the control height; `sm` one 8px step smaller, `lg` two steps taller. A field and a Button of
+ * the same size share height and corner radius, so they line up in a row.
+ */
+export type FieldSize = 'sm' | 'md' | 'lg';
 
 /* ------------------------------------------------------------------ *
  * TextField
@@ -38,6 +44,8 @@ export interface TextFieldProps extends Omit<RACTextFieldProps, 'children' | 'pr
   suffix?: ReactNode;
   /** Ref to the underlying `<input>`. */
   inputRef?: Ref<HTMLInputElement>;
+  /** Height of the box. Matches `Button` of the same size. */
+  size?: FieldSize;
   ref?: Ref<HTMLDivElement>;
 }
 
@@ -53,13 +61,14 @@ export function TextField({
   prefix,
   suffix,
   inputRef,
+  size = 'md',
   className,
   ...rest
 }: TextFieldProps): JSX.Element {
   const hasAdornment = prefix != null || suffix != null;
   const input = <Input placeholder={placeholder} ref={inputRef} />;
   return (
-    <RACTextField {...rest} className={composeRenderProps(className, (c) => cx(styles.field, c))}>
+    <RACTextField {...rest} data-field-size={size} className={composeRenderProps(className, (c) => cx(styles.field, c))}>
       {label != null && <Label isRequired={rest.isRequired}>{label}</Label>}
       {hasAdornment ? (
         <FieldGroup>

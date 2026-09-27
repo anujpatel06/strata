@@ -12,12 +12,41 @@ import {
   type Ref,
 } from 'react';
 import { useLocale } from 'react-aria-components';
+import { IconPlus } from '@strata/icons';
 import styles from './avatar.module.css';
 
 const cx = (...c: Array<string | false | null | undefined>) => c.filter(Boolean).join(' ');
 
 export type AvatarSize = 'sm' | 'md' | 'lg';
 export type AvatarShape = 'circle' | 'square';
+
+/**
+ * Initials tints. Each is a background/foreground pair the theme engine contrast-checks (4.5:1, text) in both
+ * schemes; see packages/theme-engine/src/contrast-pairs.json. Nothing else is allowed here, so every tenant's
+ * initials pass AA without a per-brand check:
+ *
+ *   tint      background                 foreground                  contrast-pairs.json entry
+ *   brand     action.secondary.bg        action.secondary.fg         action.secondary.fg against action.secondary.bg
+ *   accent    accent.subtle              accent.text                 accent.text against accent.subtle
+ *   info      feedback.info.bg           feedback.info.fg            feedback.info.fg against feedback.info.bg
+ *   success   feedback.success.bg        feedback.success.fg         feedback.success.fg against feedback.success.bg
+ *   warning   feedback.warning.bg        feedback.warning.fg         feedback.warning.fg against feedback.warning.bg
+ *   danger    feedback.danger.bg         feedback.danger.fg          feedback.danger.fg against feedback.danger.bg
+ *   none      surface.sunken             text.default                text.default against surface.sunken
+ *   (placeholder) surface.default        text.subtle                 text.subtle against surface.default
+ *
+ * Not used: text.brand on surface.selected. It looks like a natural "brand" pair but the engine doesn't check it
+ * (text.brand is only checked on canvas/default/raised), so the brand tint uses the action.secondary pair instead.
+ */
+export type AvatarTone = 'brand' | 'accent' | 'info' | 'success' | 'warning' | 'danger';
+export type AvatarTint = 'auto' | 'none' | AvatarTone;
+export type AvatarPlaceholder = 'add' | 'unknown';
+
+/**
+ * The pool `tint="auto"` draws from. Order is part of the hash contract: reordering recolours everyone.
+ * `danger` is left out on purpose: red initials on a person read as an error. It's still available as `tint="danger"`.
+ */
+const AUTO_TINTS: readonly AvatarTone[] = ['brand', 'accent', 'info', 'warning', 'success'];
 
 const GroupContext = createContext<{ size?: AvatarSize; shape?: AvatarShape } | null>(null);
 
@@ -53,14 +82,17 @@ export function getInitials(name: string, locale = 'en'): string {
   return b && JOINING.test(a + b) ? `${a}‌${b}` : a + b;
 }
 
-/** Stable 0–3 bucket from a name, so a person keeps their colour across renders and pages. */
-function tintOf(name: string): number {
+/**
+ * Stable tint from a name (FNV-1a over the trimmed, lower-cased code points), so a person keeps their colour
+ * across renders, pages and sessions. Case and outer spaces don't matter: "priya raman " = "Priya Raman".
+ */
+export function getAvatarTint(name: string): AvatarTone {
   let hash = 0x811c9dc5;
   for (const ch of name.trim().toLowerCase()) {
     hash ^= ch.codePointAt(0) ?? 0;
     hash = Math.imul(hash, 0x01000193);
   }
-  return (hash >>> 0) % 4;
+  return AUTO_TINTS[(hash >>> 0) % AUTO_TINTS.length]!;
 }
 
 export interface AvatarProps extends HTMLAttributes<HTMLSpanElement> {
@@ -72,15 +104,39 @@ export interface AvatarProps extends HTMLAttributes<HTMLSpanElement> {
   alt?: string;
   size?: AvatarSize;
   shape?: AvatarShape;
+  /**
+   * Initials colour. `auto` (default) picks a tint from a hash of `name`, so the same person is always the same
+   * colour; `none` is an untinted neutral; a tone fixes it. Only contrast-checked pairs are used.
+   */
+  tint?: AvatarTint;
+  /**
+   * An empty slot instead of a person: a dashed circle with "+" (`add`, e.g. "Add member") or "?" (`unknown`,
+   * e.g. a member not added yet). Ignores `src` and `tint`. Still named by `alt ?? name`.
+   */
+  placeholder?: AvatarPlaceholder;
   ref?: Ref<HTMLSpanElement>;
 }
 
 /** A person or entity shown as a photo, or as coloured initials when there is no photo. */
-export function Avatar({ name = '', src, alt, size, shape, className, children, ...rest }: AvatarProps): JSX.Element {
+export function Avatar({
+  name = '',
+  src,
+  alt,
+  size,
+  shape,
+  tint = 'auto',
+  placeholder,
+  className,
+  children,
+  ...rest
+}: AvatarProps): JSX.Element {
   const group = useContext(GroupContext);
   const { locale } = useLocale();
   const label = alt ?? name;
   const decorative = label === '';
+  // children replace whatever would show: initials, or the placeholder's "+" / "?".
+  const glyph =
+    children ?? (placeholder === 'add' ? <IconPlus /> : placeholder === 'unknown' ? '?' : getInitials(name, locale));
 
   return (
     <span
@@ -90,13 +146,14 @@ export function Avatar({ name = '', src, alt, size, shape, className, children, 
       {...rest}
       data-size={size ?? group?.size ?? 'md'}
       data-shape={shape ?? group?.shape ?? 'circle'}
-      data-tint={tintOf(name)}
+      data-tint={placeholder ? undefined : tint === 'auto' ? getAvatarTint(name) : tint}
+      data-placeholder={placeholder}
       className={cx(styles.avatar, className)}
     >
       <span className={styles.fallback} aria-hidden="true">
-        {children ?? getInitials(name, locale)}
+        {glyph}
       </span>
-      {src ? <AvatarImage key={src} src={src} /> : null}
+      {src && !placeholder ? <AvatarImage key={src} src={src} /> : null}
     </span>
   );
 }

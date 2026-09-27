@@ -21,6 +21,8 @@
 
 /* "— or —" divider: two hairlines around a small, quiet label. */
 .labelled {
+  --_toward-label: 90deg;
+
   box-sizing: border-box;
   display: flex;
   align-items: center;
@@ -32,10 +34,19 @@
   line-height: var(--strata-line-height-snug);
 }
 
+/* The hairlines fade in from the edges toward the label, so the divider feels light rather than ruled. */
+.labelled:dir(rtl) {
+  --_toward-label: 270deg;
+}
+
 .line {
   flex: 1 1 0;
   block-size: 1px;
-  background-color: var(--strata-color-border-subtle);
+  background-image: linear-gradient(var(--_toward-label), transparent, var(--strata-color-border-default));
+}
+
+.line:last-child {
+  background-image: linear-gradient(var(--_toward-label), var(--strata-color-border-default), transparent);
 }
 
 .label {

@@ -1,6 +1,6 @@
 'use client';
 
-import { IconChevronDown } from '@tabler/icons-react';
+import { IconChevronDown } from '@strata/icons';
 import type { JSX, ReactNode } from 'react';
 import {
   Button as RACButton,
@@ -40,11 +40,17 @@ export function AccordionItem({ title, children, headingLevel = 3, className, ..
       <Heading level={headingLevel} className={styles.heading}>
         <RACButton slot="trigger" className={styles.trigger}>
           <span className={styles.title}>{title}</span>
-          <IconChevronDown className={styles.chevron} aria-hidden="true" size="1.15em" stroke={1.75} />
+          {/* The chevron sits in a small chip that lights up on hover, so the whole row reads as pressable. */}
+          <span className={styles.chevronChip} aria-hidden="true">
+            <IconChevronDown className={styles.chevron} size="1.15em" />
+          </span>
         </RACButton>
       </Heading>
+      {/* Panel is a one-row grid: 0fr → 1fr animates the height; the clip wrapper lets the row shrink to 0. */}
       <DisclosurePanel className={styles.panel}>
-        <div className={styles.content}>{children}</div>
+        <div className={styles.clip}>
+          <div className={styles.content}>{children}</div>
+        </div>
       </DisclosurePanel>
     </Disclosure>
   );

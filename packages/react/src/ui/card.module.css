@@ -11,25 +11,271 @@
   gap: var(--strata-card-inset);
   min-inline-size: 0;
   padding-block: var(--strata-card-inset);
-  border: 1px solid var(--strata-color-border-default);
+  --_edge: var(--strata-color-border-subtle);
+  /* Finesse: the soft shadow carries the depth; the edge is a hairline ring (0.5px on 2× screens). It's a
+     box-shadow, not a border, because Chromium rounds sub-pixel border widths up to 1px. The 1px transparent
+     border keeps the box size and becomes the visible edge in forced-colours mode. */
+  border: 1px solid transparent;
   border-radius: var(--strata-radius-container);
   background-color: var(--strata-color-surface-raised);
-  box-shadow: var(--strata-shadow-raised);
+  box-shadow: 0 0 0 var(--strata-hairline) var(--_edge), var(--strata-shadow-highlight), var(--strata-shadow-raised);
   color: var(--strata-color-text-default);
   font-family: var(--strata-font-body);
   font-size: var(--strata-font-size-md);
+  letter-spacing: var(--strata-font-tracking-md);
   line-height: var(--strata-line-height-normal);
   text-align: start;
 }
 
+/* Continuous (squircle) corners where the browser supports them; radii stay the same. */
+@supports (corner-shape: squircle) {
+  .card {
+    corner-shape: squircle;
+  }
+}
+
 .card[data-variant='outline'] {
-  box-shadow: none;
+  --_edge: var(--strata-color-border-default);
+  box-shadow: 0 0 0 var(--strata-hairline) var(--_edge);
 }
 
 .card[data-variant='ghost'] {
-  border-color: transparent;
   background-color: transparent;
   box-shadow: none;
+}
+
+/* ---- rim light ----------------------------------------------------------- */
+
+/*
+ * The edge catches light at the top-left and fades (CONVENTIONS, Depth: "Rim light"). The border is already a
+ * transparent 1px; the background is painted in layers so the gradient only shows in that 1px ring and follows the
+ * radius: the face (padding box) on top, the rim gradient (border box) under it, and the face colour under the rim,
+ * so where the rim fades out the edge is the card, not the page. The light is physical (top-left in RTL too), like
+ * the shadows. --_face is the private hook the feature variant layers its glow onto.
+ */
+.card[data-rim] {
+  --_face: linear-gradient(var(--strata-color-surface-raised), var(--strata-color-surface-raised));
+  background:
+    var(--_face) padding-box,
+    linear-gradient(135deg, var(--strata-rim), transparent 60%) border-box var(--strata-color-surface-raised);
+}
+
+.card[data-rim][data-variant='outline'] {
+  --_face: linear-gradient(var(--strata-color-surface-raised), var(--strata-color-surface-raised));
+}
+
+.card[data-rim][data-variant='ghost'] {
+  --_face: linear-gradient(transparent, transparent);
+  background:
+    var(--_face) padding-box,
+    linear-gradient(135deg, var(--strata-rim), transparent 60%) border-box;
+}
+
+/* ---- feature ------------------------------------------------------------- */
+
+/*
+ * A promo / hero card: a brand glow from the top-start corner over surface.raised, the rim light and an optional star
+ * field. The scheme decides how loud it is (Anuj, 2026-09-27: glow is for dark mode and one hero element only):
+ * - light: the raised shadow and a very faint gradient (6%). No coloured halo; on a pale page it reads as a smudge.
+ * - dark:  a deep gradient (30%) and the brand halo.
+ * Both switch with light-dark(), so a light scope nested in a dark page (or the reverse) still gets its own look.
+ *
+ * Contrast (text.default, text.subtle and text.brand on the glow's worst pixel, all ≥ 4.5:1). The glow colour at the
+ * corner is color-mix(in oklab, action.primary.bg S%, surface.raised), fading to surface.raised at 70% of the radius.
+ * S is set per scheme with light-dark(): 6% in light, 30% in dark. The proof samples every pixel along the radius
+ * for vela, harbor, qamar, care and house in both schemes, interpolating both ways a browser may (sRGB and OKLab), with
+ * a star dot composited on top at its maximum alpha (8-bit sRGB, like glass.ts). Worst pixels:
+ *
+ *                 light              dark
+ *   text.default  14.07 (house)      8.14 (house)
+ *   text.subtle    5.88 (house)      4.71 (house)
+ *   text.brand     5.26 (care)       4.68 (vela)
+ *
+ * The binding constraint is text.subtle: at 17% light (house) or 34% dark (qamar) it drops below 4.5. Light now sits
+ * far inside that at 6%.
+ * The proof runs as a test, so a change to the mix, the stars or the engine fails CI:
+ *   pnpm --filter @strata/react exec vitest run test/card.test.tsx   ("feature card contrast")
+ */
+.card[data-variant='feature'] {
+  --_glow-at: 0% 0%;
+  --_glow: light-dark(
+    color-mix(in oklab, var(--strata-color-action-primary-bg) 6%, var(--strata-color-surface-raised)),
+    color-mix(in oklab, var(--strata-color-action-primary-bg) 30%, var(--strata-color-surface-raised))
+  );
+  --_face:
+    radial-gradient(farthest-corner at var(--_glow-at), var(--_glow) 0%, var(--strata-color-surface-raised) 70%);
+  /*
+   * The brand halo, dark only. It mirrors --strata-glow's geometry and mix (a 1px ring at 40%, a 0 12px 40px -12px
+   * bloom at 60%) with light-dark() colours, because a token shadow can't be switched per scheme. In light both
+   * layers are transparent, leaving the hairline edge, the sheen and the raised shadow.
+   */
+  --_halo-ring: light-dark(transparent, color-mix(in srgb, var(--strata-color-action-primary-bg) 40%, transparent));
+  --_halo: light-dark(transparent, color-mix(in srgb, var(--strata-color-action-primary-bg) 60%, transparent));
+  position: relative;
+  isolation: isolate;
+  box-shadow:
+    0 0 0 var(--strata-hairline) var(--_edge),
+    var(--strata-shadow-highlight),
+    var(--strata-shadow-raised),
+    0 0 0 1px var(--_halo-ring),
+    0 var(--strata-space-3) var(--strata-space-10) calc(var(--strata-space-3) * -1) var(--_halo);
+}
+
+/* The glow sits behind the headline, so it starts at the inline start. */
+.card[data-variant='feature']:dir(rtl) {
+  --_glow-at: 100% 0%;
+}
+
+/*
+ * Star field: five tiled layers of 1px dots at co-prime tile sizes, so the pattern doesn't visibly repeat. Masked (only the
+ * mask's alpha matters; text.default is just an opaque colour) by the same radial as the glow, so the two never stack at full strength:
+ * - dark: text.default dots at ≤ 20%, clear at the glow, full at the far edge (stars in the dark part);
+ * - light: surface.raised dots at ≤ 60%, strongest in the glow (sparkle). They move a pixel toward the base surface,
+ *   so they can only raise contrast.
+ * Both are in the contrast numbers above. Decoration only: it's a pseudo-element, so assistive tech never sees it.
+ */
+.card[data-stars]::before {
+  --_star: light-dark(
+    color-mix(in srgb, var(--strata-color-surface-raised) 60%, transparent),
+    color-mix(in srgb, var(--strata-color-text-default) 20%, transparent)
+  );
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  border-radius: inherit;
+  background-image:
+    radial-gradient(circle at 23% 31%, var(--_star) 0 1px, transparent 2px),
+    radial-gradient(circle at 71% 64%, var(--_star) 0 1px, transparent 2px),
+    radial-gradient(circle at 47% 12%, var(--_star) 0 1px, transparent 2px),
+    radial-gradient(circle at 88% 83%, var(--_star) 0 1px, transparent 2px),
+    radial-gradient(circle at 9% 76%, var(--_star) 0 1px, transparent 2px);
+  /* Tile sizes are co-prime multiples of space-1 (21, 33, 15, 43, 25 × 4px and so on), so the layers never line up
+     into a visible grid. */
+  background-size:
+    calc(var(--strata-space-1) * 21) calc(var(--strata-space-1) * 17),
+    calc(var(--strata-space-1) * 33) calc(var(--strata-space-1) * 29),
+    calc(var(--strata-space-1) * 15) calc(var(--strata-space-1) * 26),
+    calc(var(--strata-space-1) * 43) calc(var(--strata-space-1) * 37),
+    calc(var(--strata-space-1) * 25) calc(var(--strata-space-1) * 19);
+  content: '';
+  mask-image: radial-gradient(
+    farthest-corner at var(--_glow-at),
+    light-dark(var(--strata-color-text-default), transparent) 0%,
+    light-dark(transparent, var(--strata-color-text-default)) 100%
+  );
+  pointer-events: none;
+}
+
+@media (forced-colors: active) {
+  .card[data-stars]::before {
+    content: none;
+  }
+}
+
+/* ---- interactive ------------------------------------------------------- */
+
+/*
+ * The "stretched link" card: the title's link grows an invisible layer over the whole card, so the
+ * card is one target with one tab stop and one accessible name. Other controls sit above that layer
+ * and stay separately clickable. Hover deepens the border and shadow; with motion allowed the card
+ * also rises 1px, and settles back a hair while pressed.
+ */
+.card[data-interactive] {
+  position: relative;
+  outline: 0 solid transparent;
+  outline-offset: 0;
+  transition:
+    box-shadow var(--strata-motion-duration-normal) var(--strata-motion-easing),
+    outline-offset var(--strata-motion-duration-fast) var(--strata-motion-easing);
+}
+
+.card[data-interactive] .title :where(a[href]) {
+  color: inherit;
+  text-decoration: none;
+  outline: none;
+}
+
+.card[data-interactive] .title :where(a[href])::after {
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  border-radius: inherit;
+  content: '';
+}
+
+.card[data-interactive] :where(a[href], button, input, select, textarea, [role='button'], [tabindex]):not(.title a) {
+  position: relative;
+  z-index: 1;
+}
+
+/* No lift while the pointer is on a nested control: that control is the target, not the card. */
+.card[data-interactive]:hover:not(:has(:where(a[href], button, input, select, textarea, [role='button']):not(.title a):hover)) {
+  --_edge: var(--strata-color-border-default);
+  box-shadow: 0 0 0 var(--strata-hairline) var(--_edge), var(--strata-shadow-highlight), var(--strata-shadow-overlay);
+}
+
+.card[data-interactive]:has(.title a:hover) .title :where(a[href]) {
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 2px;
+}
+
+/* The accessible indicator: the 2px ring round the whole card, settling out from 0 to 2px. */
+.card[data-interactive]:has(.title a:focus-visible) {
+  outline: 2px solid var(--strata-color-focus-ring);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .card[data-interactive] {
+    transition:
+      box-shadow var(--strata-motion-duration-normal) var(--strata-motion-easing),
+      outline-offset var(--strata-motion-duration-spring) var(--strata-motion-spring),
+      translate var(--strata-motion-duration-spring) var(--strata-motion-spring),
+      scale var(--strata-motion-duration-spring) var(--strata-motion-spring);
+  }
+
+  .card[data-interactive]:hover:not(:has(:where(a[href], button, input, select, textarea, [role='button']):not(.title a):hover)) {
+    translate: 0 -1px;
+  }
+
+  /* Press: sinks back and gives a little (a whole card is a big target, so 0.98, not a button's 0.96), quickly;
+     the release rides the spring. */
+  .card[data-interactive]:has(.title a:active) {
+    translate: 0 0;
+    scale: 0.98;
+    transition:
+      box-shadow var(--strata-motion-duration-fast) var(--strata-motion-easing),
+      outline-offset var(--strata-motion-duration-fast) var(--strata-motion-easing),
+      translate var(--strata-motion-duration-fast) var(--strata-motion-easing),
+      scale var(--strata-motion-duration-fast) var(--strata-motion-easing);
+  }
+
+  /*
+   * Content enters: each part (header, content, footer) fades up 4px on mount, one after another. Fill mode is
+   * backwards only, so once a part has arrived nothing is left applied (no lingering transform to trap the
+   * stretched link's layer). It never blocks anything: the parts are clickable while they settle.
+   */
+  .card > * {
+    animation: card-part-in var(--strata-motion-duration-slow) var(--strata-motion-easing-out)
+      calc(var(--_i, 0) * var(--strata-motion-duration-fast) / 3) backwards;
+  }
+  .card > :nth-child(2) {
+    --_i: 1;
+  }
+  .card > :nth-child(3) {
+    --_i: 2;
+  }
+  .card > :nth-child(n + 4) {
+    --_i: 3;
+  }
+}
+
+@keyframes card-part-in {
+  from {
+    opacity: 0;
+    translate: 0 4px;
+  }
 }
 
 /* ---- header ------------------------------------------------------------ */
@@ -48,9 +294,10 @@
   grid-template-columns: minmax(0, 1fr) auto;
 }
 
+/* Section dividers: a hairline (box-shadow, since Chromium rounds sub-pixel borders up to 1px). */
 .header[data-divider] {
   padding-block-end: var(--strata-card-inset);
-  border-block-end: 1px solid var(--strata-color-border-subtle);
+  box-shadow: inset 0 calc(var(--strata-hairline) * -1) 0 var(--strata-color-border-subtle);
 }
 
 .title {
@@ -58,19 +305,43 @@
   color: var(--strata-color-text-default);
   font-family: var(--strata-font-heading);
   font-size: var(--strata-font-size-lg);
+  /* Semibold, not bold (Anuj, 2026-09-27: 700 titles read heavy). Hierarchy comes from size and colour. */
   font-weight: var(--strata-font-weight-semibold);
-  /* Heading tracking is tuned for display sizes; at lg (16px) and below it closes up word spaces. */
-  letter-spacing: 0;
+  /* Size-matched tracking (the brand's display tracking is tuned for large headings and closes up word spaces here). */
+  letter-spacing: var(--strata-font-tracking-lg);
   line-height: var(--strata-line-height-tight);
   text-wrap: balance;
+}
+
+/* Editorial emphasis: an <em> in the title is the heading face's real italic, in the brand's text colour
+   (text.brand is contrast-checked at 4.5:1 on surface.raised, canvas and default, the surfaces a card sits on). */
+.title em {
+  color: var(--strata-color-text-brand);
+  font-style: italic;
 }
 
 .description {
   margin: 0;
   color: var(--strata-color-text-subtle);
+  font-weight: var(--strata-font-weight-regular);
   font-size: var(--strata-font-size-sm);
+  letter-spacing: var(--strata-font-tracking-sm);
   line-height: var(--strata-line-height-normal);
   text-wrap: pretty;
+}
+
+/* The quiet meta line: an icon at the start aligns with the text and follows its colour. */
+.description:has(> svg) {
+  display: flex;
+  align-items: center;
+  gap: calc(var(--strata-space-1) * 1.5);
+}
+
+.description > svg {
+  flex: none;
+  inline-size: 1.15em;
+  block-size: 1.15em;
+  stroke-width: var(--strata-icon-stroke, 1.5);
 }
 
 .action {
@@ -90,6 +361,52 @@
   padding-inline: var(--strata-card-inset);
 }
 
+/*
+ * Inset content: a pale inner surface, like a code block in a card. surface.sunken + a hairline ring, and a
+ * concentric corner: the card radius minus half the inset (the inner box is optically closer to the edge than
+ * the full inset), never below a small badge-sized corner. The badge radius is capped at space-2 first, because a
+ * pill badge radius would turn a whole table into a capsule.
+ * Inside, the card inset token is halved (via a private alias; a property can't reference itself), so parts
+ * that align to it (DataTable's edge cells) tighten with the nested surface.
+ */
+.content[data-variant='inset'] {
+  --_inner-inset: calc(var(--strata-card-inset) / 2);
+  box-sizing: border-box;
+  margin-inline: var(--strata-card-inset);
+  padding: var(--_inner-inset);
+  overflow: hidden;
+  border: 1px solid transparent;
+  border-radius: max(
+    min(var(--strata-radius-badge), var(--strata-space-2)),
+    calc(var(--strata-radius-container) - var(--strata-card-inset) / 2)
+  );
+  background-color: var(--strata-color-surface-sunken);
+  box-shadow: 0 0 0 var(--strata-hairline) var(--strata-color-border-subtle);
+}
+
+.content[data-variant='inset'] > * {
+  --strata-card-inset: var(--_inner-inset);
+}
+
+/* A table fills the surface edge to edge (its cells bring their own padding), and a framed table (DataTable)
+   drops its frame: the inset surface is the frame. */
+.content[data-variant='inset']:has(> :is(table, [role='grid']), > * > :is(table, [role='grid'])) {
+  padding: 0;
+}
+
+.content[data-variant='inset'] > :has(> :is(table, [role='grid'])) {
+  border-color: transparent;
+  border-radius: 0;
+  background-color: transparent;
+  box-shadow: none;
+}
+
+@supports (corner-shape: squircle) {
+  .content[data-variant='inset'] {
+    corner-shape: squircle;
+  }
+}
+
 .footer {
   display: flex;
   flex-wrap: wrap;
@@ -100,5 +417,5 @@
 
 .footer[data-divider] {
   padding-block-start: var(--strata-card-inset);
-  border-block-start: 1px solid var(--strata-color-border-subtle);
+  box-shadow: inset 0 var(--strata-hairline) 0 var(--strata-color-border-subtle);
 }

@@ -2,7 +2,7 @@
 
 import { createContext, useContext, type HTMLAttributes, type JSX, type ReactNode, type Ref } from 'react';
 import { useLocale } from 'react-aria-components';
-import { IconTrendingDown, IconTrendingUp } from '@tabler/icons-react';
+import { IconTrendingDown, IconTrendingUp } from '@strata/icons';
 import { Badge } from './badge';
 import styles from './stat-tile.module.css';
 
@@ -110,7 +110,7 @@ export function StatTile({
               tone={tone}
               variant="soft"
               className={styles.delta}
-              icon={TrendIcon ? <TrendIcon stroke={2} className={styles.trend} /> : undefined}
+              icon={TrendIcon ? <TrendIcon className={styles.trend} /> : undefined}
             >
               {/* Isolated in the locale's own direction, so "+6.4%" never flips to "6.4%+" in RTL pages. */}
               <span dir={direction}>{formatDelta(delta, locale, deltaFormatOptions)}</span>
@@ -152,7 +152,8 @@ function Sparkline({ values }: { values: number[] }): JSX.Element {
   return (
     <svg className={styles.sparkSvg} viewBox={`0 0 ${W} ${H}`} focusable="false">
       <path className={styles.sparkArea} d={area} />
-      <polyline className={styles.sparkLine} points={line} />
+      {/* pathLength="1" lets CSS draw the line in (stroke-dashoffset 1 → 0) whatever its real length. */}
+      <polyline className={styles.sparkLine} points={line} pathLength="1" />
       <circle className={styles.sparkDot} cx={last[0]} cy={last[1]} r="2.5" />
     </svg>
   );

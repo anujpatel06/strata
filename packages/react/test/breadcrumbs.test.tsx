@@ -54,6 +54,9 @@ describe('Breadcrumbs', () => {
     expect(screen.queryByRole('button', { name: 'Show all breadcrumbs' })).not.toBeInTheDocument();
     expect(screen.getByRole('link', { name: 'Settings' })).toHaveFocus();
     expect(screen.getAllByRole('listitem')).toHaveLength(5);
+    // Only the items the ellipsis revealed animate in; the ones that were already visible don't.
+    const items = screen.getAllByRole('listitem');
+    expect(items.map((li) => li.classList.contains('revealed'))).toEqual([false, true, true, false, false]);
   });
 
   it('accepts a custom landmark label and className', () => {

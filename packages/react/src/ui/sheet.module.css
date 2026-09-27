@@ -4,10 +4,11 @@
   inset: 0;
   z-index: 50;
   box-sizing: border-box;
-  /* Dim what's behind by a fixed amount. A colour tint can't do this in both schemes: every surface token is
-     already near the page colour in dark schemes, and light-dark() gets mangled by Lightning CSS pipelines. */
-  -webkit-backdrop-filter: brightness(0.55);
-  backdrop-filter: brightness(0.55);
+  /* Underlay: a light blur (a quarter of the glass blur) so the page recedes, and a fixed dim. Deliberately not
+     the surface.inverse tint from CONVENTIONS: in dark schemes surface.inverse is near-white, so the tint turns the
+     page into a grey fog and the dialog stops reading as "above" it. brightness() dims both schemes alike. */
+  -webkit-backdrop-filter: blur(calc(var(--strata-glass-blur) / 4)) brightness(0.6);
+  backdrop-filter: blur(calc(var(--strata-glass-blur) / 4)) brightness(0.6);
   font-family: var(--strata-font-body);
   font-size: var(--strata-font-size-md);
   line-height: var(--strata-line-height-normal);
@@ -22,58 +23,73 @@
 }
 
 .panel {
+  /* Gap between a start/end sheet and the viewport edges: the panel floats, like the rest of the glass layers. */
+  --sheet-gap: var(--strata-space-2);
   position: fixed;
   display: flex;
   flex-direction: column;
-  background: var(--strata-color-surface-raised);
-  box-shadow: var(--strata-shadow-overlay);
+  /* Glass: the engine solves --strata-glass-bg's opacity so text.default and text.subtle keep 4.5:1 over any
+     backdrop. Only those two text roles sit directly on it; anything else needs an opaque role background. */
+  background: var(--strata-glass-bg);
+  -webkit-backdrop-filter: blur(var(--strata-glass-blur)) saturate(1.6);
+  backdrop-filter: blur(var(--strata-glass-blur)) saturate(1.6);
+  border: 1px solid var(--strata-color-border-default);
+  box-shadow: var(--strata-shadow-highlight), var(--strata-shadow-overlay);
   outline: none;
 }
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .panel {
+    background: var(--strata-color-surface-raised);
+  }
+}
+/* Start/end sheets float a small gap off the edge with rounded corners. --sheet-from is where the slide starts:
+   one panel width plus the gap, towards the panel's own side. */
 .panel[data-side='start'],
 .panel[data-side='end'] {
-  --sheet-from: 100% 0;
-  inset-block: 0;
-  inline-size: min(calc(var(--strata-space-16) * 6.5), 90%);
+  --sheet-from: calc(100% + var(--sheet-gap)) 0;
+  inset-block: var(--sheet-gap);
+  inline-size: min(calc(var(--strata-space-16) * 6.5), calc(100% - var(--sheet-gap) * 2), 90%);
+  border-radius: var(--strata-radius-container);
 }
 .panel[data-side='end'] {
-  inset-inline-end: 0;
-  border-inline-start: 1px solid var(--strata-color-border-default);
+  inset-inline-end: var(--sheet-gap);
 }
 .panel[data-side='start'] {
-  --sheet-from: -100% 0;
-  inset-inline-start: 0;
-  border-inline-end: 1px solid var(--strata-color-border-default);
+  --sheet-from: calc(-100% - var(--sheet-gap)) 0;
+  inset-inline-start: var(--sheet-gap);
 }
 /* The overlay root always carries the copied dir. Kept apart from the :dir() rules (which some CSS pipelines
    rewrite to :lang()) so an unsupported selector can't drop them. */
 .overlay[dir='rtl'] .panel[data-side='end'] {
-  --sheet-from: -100% 0;
+  --sheet-from: calc(-100% - var(--sheet-gap)) 0;
 }
 .overlay[dir='rtl'] .panel[data-side='start'] {
-  --sheet-from: 100% 0;
+  --sheet-from: calc(100% + var(--sheet-gap)) 0;
 }
 .panel[data-side='end']:dir(rtl) {
-  --sheet-from: -100% 0;
+  --sheet-from: calc(-100% - var(--sheet-gap)) 0;
 }
 .panel[data-side='start']:dir(rtl) {
-  --sheet-from: 100% 0;
+  --sheet-from: calc(100% + var(--sheet-gap)) 0;
 }
+/* Top/bottom sheets stay attached to their edge (a bottom sheet is the phone pattern), rounded on the open side. */
 .panel[data-side='top'],
 .panel[data-side='bottom'] {
   inset-inline: 0;
   max-block-size: 85dvh;
+  border-inline: 0;
 }
 .panel[data-side='top'] {
   --sheet-from: 0 -100%;
   inset-block-start: 0;
-  border-block-end: 1px solid var(--strata-color-border-default);
+  border-block-start: 0;
   border-end-start-radius: var(--strata-radius-container);
   border-end-end-radius: var(--strata-radius-container);
 }
 .panel[data-side='bottom'] {
   --sheet-from: 0 100%;
   inset-block-end: 0;
-  border-block-start: 1px solid var(--strata-color-border-default);
+  border-block-end: 0;
   border-start-start-radius: var(--strata-radius-container);
   border-start-end-radius: var(--strata-radius-container);
   padding-block-end: env(safe-area-inset-bottom, 0);
@@ -142,28 +158,31 @@
   color: var(--strata-color-text-subtle);
 }
 
+/* Motion (Tactile style). The underlay fades; the panel slides in from its own side with easing-out (not the
+   spring: an overshoot would pull it past its edge and show a gap) and leaves quicker than it came.
+   Everything lives in the no-preference block, so with reduced motion the sheet simply appears. */
 @media (prefers-reduced-motion: no-preference) {
   .overlay[data-entering] {
-    animation: fade var(--strata-motion-duration-normal) var(--strata-motion-easing);
+    animation: fade var(--strata-motion-duration-normal) var(--strata-motion-easing-out);
   }
   .overlay[data-exiting] {
-    animation: fade var(--strata-motion-duration-fast) var(--strata-motion-easing) reverse;
+    animation: fade var(--strata-motion-duration-normal) var(--strata-motion-easing) reverse;
   }
   .panel[data-entering] {
-    animation: slide var(--strata-motion-duration-normal) var(--strata-motion-easing);
+    animation: slide var(--strata-motion-duration-slow) var(--strata-motion-easing-out);
   }
   .panel[data-exiting] {
-    animation: slide var(--strata-motion-duration-fast) var(--strata-motion-easing) reverse;
+    animation: slide var(--strata-motion-duration-normal) var(--strata-motion-easing) reverse;
   }
-}
 
-@keyframes fade {
-  from {
-    opacity: 0;
+  @keyframes fade {
+    from {
+      opacity: 0;
+    }
   }
-}
-@keyframes slide {
-  from {
-    translate: var(--sheet-from);
+  @keyframes slide {
+    from {
+      translate: var(--sheet-from);
+    }
   }
 }

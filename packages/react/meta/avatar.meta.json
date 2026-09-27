@@ -1,20 +1,22 @@
 {
   "name": "avatar",
   "title": "Avatar",
-  "description": "A person or entity shown as a photo, or as coloured initials when there is no photo.",
+  "description": "A person or entity shown as a photo, or as initials on a soft tint when there is no photo. Also an empty seat: \"+\" to add someone, \"?\" for someone not added yet.",
   "category": "display",
   "maturity": "beta",
   "exports": [
     "Avatar",
     "AvatarGroup",
-    "getInitials"
+    "getInitials",
+    "getAvatarTint"
   ],
   "files": [
     "avatar.tsx",
     "avatar.module.css"
   ],
   "dependencies": [
-    "react-aria-components"
+    "react-aria-components",
+    "@strata/icons"
   ],
   "registryDependencies": [],
   "usage": "import { Avatar, AvatarGroup } from '@strata/react';\n\nexport function Members() {\n  return (\n    <AvatarGroup aria-label=\"Members on this plan\" max={3}>\n      <Avatar name=\"Priya Raman\" src=\"/avatars/priya.jpg\" />\n      <Avatar name=\"Daniel Okafor\" />\n      <Avatar name=\"Mei Lin\" />\n      <Avatar name=\"Omar Haddad\" />\n    </AvatarGroup>\n  );\n}",
@@ -22,7 +24,7 @@
     {
       "name": "avatar-demo",
       "title": "Avatar",
-      "description": "A photo, initials in deterministic tints, a square avatar, and a broken image falling back to initials."
+      "description": "A photo, serif initials in their name-hashed tints, a square avatar, and a broken image falling back to initials."
     },
     {
       "name": "avatar-group",
@@ -30,9 +32,19 @@
       "description": "Overlapping avatars with a +N overflow tile."
     },
     {
+      "name": "avatar-placeholder",
+      "title": "Placeholders",
+      "description": "A family row: four members, a \"?\" for one not added yet, and a \"+\" to add someone."
+    },
+    {
       "name": "avatar-sizes",
       "title": "Sizes and decorative use",
       "description": "sm, md, lg and square; alt=\"\" next to a visible name."
+    },
+    {
+      "name": "avatar-tints",
+      "title": "Tints",
+      "description": "Every fixed tint plus none. Each is a contrast-checked token pair."
     }
   ],
   "props": [
@@ -70,9 +82,22 @@
     },
     {
       "component": "Avatar",
+      "name": "tint",
+      "type": "'auto' | 'none' | 'brand' | 'accent' | 'info' | 'success' | 'warning' | 'danger'",
+      "default": "'auto'",
+      "description": "Initials colour. auto hashes name (case- and space-insensitive) into brand, accent, info, warning or success, so a person keeps their colour everywhere; danger is never auto-picked. none is an untinted neutral. Every option is a background/foreground pair the theme engine contrast-checks."
+    },
+    {
+      "component": "Avatar",
+      "name": "placeholder",
+      "type": "'add' | 'unknown'",
+      "description": "An empty seat: a dashed circle with \"+\" (add) or \"?\" (unknown, e.g. not added yet) in text.subtle. Ignores src and tint; still named by alt ?? name."
+    },
+    {
+      "component": "Avatar",
       "name": "children",
       "type": "ReactNode",
-      "description": "Replaces the initials, e.g. an icon for a team or bot."
+      "description": "Replaces the initials (or the placeholder's + / ?), e.g. an icon for a team or bot."
     },
     {
       "component": "AvatarGroup",
@@ -109,37 +134,62 @@
       "alt=\"\" makes it decorative (aria-hidden) — use it when the name is printed beside it.",
       "AvatarGroup is role=\"group\"; give it an aria-label that says who the people are.",
       "Initials are grapheme-safe (accents, emoji) and use a zero-width non-joiner for joining scripts such as Arabic, so two letters never fuse.",
-      "The \"+N\" count is formatted and direction-isolated in the current locale."
+      "The \"+N\" count is formatted and direction-isolated in the current locale.",
+      "The ring (a hairline inner edge and top sheen) is decoration; the name carries the meaning.",
+      "Initials use the heading face (serif in editorial brands) and each tint is a pair from packages/theme-engine/src/contrast-pairs.json: action.secondary.fg/bg, accent.text/accent.subtle, feedback.{info,success,warning,danger}.fg/bg, text.default/surface.sunken; placeholders use text.subtle on surface.default. text.brand on surface.selected is deliberately not used: the engine doesn't check it.",
+      "A placeholder carries no meaning by its dashes alone. Name it (\"Father, not added yet\") or, for \"add\", put it inside a Button with a label.",
+      "Avatars pop in on mount (scale 0.8 to 1 on the spring), staggered in a group; with reduced motion they simply appear."
     ]
   },
   "guidelines": {
     "do": [
       "Pass the full name even when you have a photo; it is the fallback and the accessible name.",
-      "Use square avatars for organisations and teams, circles for people."
+      "Use square avatars for organisations and teams, circles for people.",
+      "Leave tint on auto for people, so the same person is the same colour in every list.",
+      "Use placeholder=\"unknown\" for a known slot that's empty (a family member not added yet), and placeholder=\"add\" inside the button that adds one."
     ],
     "dont": [
       "Don't make an avatar a button by itself; wrap it in a Button or Link with a label.",
-      "Don't show more than about five avatars in a group."
+      "Don't show more than about five avatars in a group.",
+      "Don't use tint to mean status; a red avatar isn't an error. Use a Badge for status."
     ]
   },
   "tokens": [
     "color.accent.subtle",
     "color.accent.text",
-    "color.surface.selected",
+    "color.action.secondary.bg",
+    "color.action.secondary.fg",
+    "color.border.strong",
+    "color.feedback.danger.bg",
+    "color.feedback.danger.fg",
     "color.feedback.info.bg",
     "color.feedback.info.fg",
     "color.feedback.success.bg",
     "color.feedback.success.fg",
-    "color.surface.sunken",
+    "color.feedback.warning.bg",
+    "color.feedback.warning.fg",
     "color.surface.default",
+    "color.surface.selected",
+    "color.surface.sunken",
     "color.text.default",
     "color.text.subtle",
-    "radius.pill",
-    "radius.button",
-    "space.6",
-    "space.8",
-    "space.10",
+    "font.body",
+    "font.heading",
+    "font.tracking.xs",
+    "font.weight.medium",
     "font.weight.semibold",
-    "motion.duration.normal"
+    "hairline",
+    "motion.duration.fast",
+    "motion.duration.normal",
+    "motion.duration.spring",
+    "motion.easing",
+    "motion.easingOut",
+    "motion.spring",
+    "radius.button",
+    "radius.pill",
+    "shadow.highlight",
+    "space.10",
+    "space.6",
+    "space.8"
   ]
 }

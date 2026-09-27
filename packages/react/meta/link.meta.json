@@ -102,12 +102,15 @@
     ]
   },
   "tokens": [
+    "color.focus.ring",
     "color.text.brand",
     "color.text.disabled",
-    "color.focus.ring",
     "font.weight.medium",
+    "motion.duration.fast",
+    "motion.duration.spring",
+    "motion.easing",
+    "motion.spring",
     "radius.field",
-    "space.1",
-    "motion.duration.fast"
+    "space.1"
   ]
 }

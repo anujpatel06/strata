@@ -7,7 +7,13 @@
   --_bg: transparent;
   --_fg: var(--strata-color-text-default);
   --_border: transparent;
+  /* Depth hook: solid fills get the top-edge sheen + raised shadow; flat variants (ghost, link) keep none. */
+  --_shadow: none;
   --_icon: var(--strata-space-4);
+  /* Height and corner: the same formula as the fields (text-field.module.css) at every size, so a Button next to a
+     TextField, Select or SearchField of the same size matches it in height and radius. */
+  --_h: var(--strata-control-height);
+  --_r: calc(var(--strata-radius-field) + var(--strata-space-1) / 2);
 
   position: relative;
   box-sizing: border-box;
@@ -16,20 +22,22 @@
   align-items: center;
   justify-content: center;
   gap: var(--strata-space-2);
-  block-size: var(--strata-control-height);
+  block-size: var(--_h);
   min-inline-size: 0;
   margin: 0;
   padding-block: 0;
-  padding-inline: var(--strata-control-padding-inline);
+  /* Generous inline padding, ~1.25 × half the height (25px at 40px), so a label never feels squeezed. */
+  padding-inline: calc(var(--_h) * 0.625);
   border: 1px solid var(--_border);
-  border-radius: var(--strata-radius-button);
+  border-radius: min(var(--_r), var(--_h) / 2);
   background-color: var(--_bg);
+  box-shadow: var(--_shadow);
   color: var(--_fg);
   font-family: inherit;
   font-size: var(--strata-font-size-md);
   font-weight: var(--strata-font-weight-medium);
   line-height: var(--strata-line-height-tight);
-  letter-spacing: inherit;
+  letter-spacing: var(--strata-font-tracking-md);
   text-align: center;
   text-decoration: none;
   white-space: nowrap;
@@ -38,6 +46,8 @@
   user-select: none;
   -webkit-tap-highlight-color: transparent;
   outline: none;
+  /* The offset settles 0 → 2px on focus (see the motion block), so the ring visibly "arrives". */
+  outline-offset: 0;
 }
 
 .root[data-focus-visible] {
@@ -45,12 +55,33 @@
   outline-offset: 2px;
 }
 
-/* Icons in children: fixed optical size per button size, never squashed. */
+/* Continuous corners where supported (radii unchanged). */
+@supports (corner-shape: squircle) {
+  .root {
+    corner-shape: squircle;
+  }
+}
+/* Round-shape brands (button token = pill) get true round ends: their field corner plus half a step reaches half
+   the height, and a squircle would flatten it into a rounded rectangle. The style query compares tokens, so no
+   radius value is hard-coded. */
+@container style(--strata-radius-button: var(--strata-radius-pill)) {
+  .root {
+    corner-shape: round;
+  }
+}
+
+/* Icons in children: fixed optical size per button size, never squashed, and a 1.75 stroke so they sit
+   at the label's weight (Tabler's default 2 reads heavier than medium text). */
 .root > svg,
 .pendingContent > svg {
   flex: none;
   inline-size: var(--_icon);
   block-size: var(--_icon);
+}
+
+.root > :global(.tabler-icon),
+.pendingContent > :global(.tabler-icon) {
+  stroke-width: var(--strata-icon-stroke, 1.5);
 }
 
 /* Arrows and chevrons point "forward", whichever way forward is. */
@@ -66,6 +97,8 @@
   --_bg: var(--strata-color-action-primary-bg);
   --_fg: var(--strata-color-action-primary-fg);
   --_border: var(--strata-color-action-primary-border);
+  /* Solid fill: sheen on the top edge + a soft raised shadow. Never a gradient behind the label (contrast is solved flat). */
+  --_shadow: var(--strata-shadow-highlight), var(--strata-shadow-raised);
 }
 .root[data-variant='primary'][data-hovered] {
   --_bg: var(--strata-color-action-primary-hover);
@@ -74,16 +107,20 @@
 .root[data-variant='primary'][data-pressed] {
   --_bg: var(--strata-color-action-primary-pressed);
   --_border: var(--strata-color-action-primary-pressed);
+  /* Pushed in: the sheen goes, the shadow stays tight. */
+  --_shadow: var(--strata-shadow-raised);
 }
 
 .root[data-variant='secondary'] {
   --_bg: var(--strata-color-action-secondary-bg);
   --_fg: var(--strata-color-action-secondary-fg);
-  /* Secondary fills sit close to the canvas; a same-hue hairline gives the shape an edge. */
-  --_border: color-mix(in oklab, var(--strata-color-action-secondary-fg) 16%, transparent);
+  /* Secondary fills sit close to the canvas; a same-hue edge gives the shape its outline. */
+  --_border: color-mix(in oklab, var(--strata-color-action-secondary-fg) 14%, transparent);
+  --_shadow: var(--strata-shadow-raised);
 }
 .root[data-variant='secondary'][data-hovered] {
   --_bg: var(--strata-color-action-secondary-hover);
+  --_border: color-mix(in oklab, var(--strata-color-action-secondary-fg) 28%, transparent);
 }
 .root[data-variant='secondary'][data-pressed] {
   --_bg: var(--strata-color-action-secondary-pressed);
@@ -91,10 +128,14 @@
 
 .root[data-variant='outline'] {
   --_bg: var(--strata-color-surface-default);
-  --_border: var(--strata-color-border-strong);
+  /* Quiet edge + raised shadow at rest; hover deepens the border, not the shadow. The edge stays a full 1px
+     (it's a control boundary), so the shadow is the only thing that softens it. */
+  --_border: var(--strata-color-border-default);
+  --_shadow: var(--strata-shadow-raised);
 }
 .root[data-variant='outline'][data-hovered] {
-  --_bg: color-mix(in oklab, var(--strata-color-text-default) 6%, var(--strata-color-surface-default));
+  --_bg: color-mix(in oklab, var(--strata-color-text-default) 4%, var(--strata-color-surface-default));
+  --_border: var(--strata-color-border-strong);
 }
 .root[data-variant='outline'][data-pressed] {
   --_bg: color-mix(in oklab, var(--strata-color-text-default) 10%, var(--strata-color-surface-default));
@@ -111,21 +152,19 @@
   --_bg: var(--strata-color-feedback-danger-solid);
   --_fg: var(--strata-color-feedback-danger-on-solid);
   --_border: var(--strata-color-feedback-danger-solid);
+  --_shadow: var(--strata-shadow-highlight), var(--strata-shadow-raised);
 }
-.root[data-variant='danger'][data-hovered],
-.root[data-variant='danger'][data-pressed] {
-  /*
-   * Darker in both schemes, fill only. color-mix toward text.default darkens in light but lightens in dark
-   * (3.9:1 with the white label, below AA) and no role is dark in both schemes, so the fill is multiplied
-   * with a translucent layer of itself. Measured ≥ 5.4:1 in every tenant × scheme.
-   * Proper fix: a feedback.danger.hover role in the theme engine (like action.primary.hover).
-   */
-  background-image: linear-gradient(var(--_shade), var(--_shade));
-  background-blend-mode: multiply;
-  --_shade: color-mix(in oklab, var(--_bg) 35%, transparent);
+/*
+ * Hover: the fill never changes. There is no feedback.danger.hover role, and any tint or overlay on the fill can
+ * drop the solved label contrast below 4.5:1 (pure red is exactly 4.50). So hover adds a soft danger halo *outside*
+ * the shape instead. Proper fix: a feedback.danger.hover/pressed role in the theme engine.
+ */
+.root[data-variant='danger'][data-hovered] {
+  --_shadow: var(--strata-shadow-highlight), var(--strata-shadow-raised),
+    0 0 0 4px color-mix(in oklab, var(--strata-color-feedback-danger-solid) 22%, transparent);
 }
 .root[data-variant='danger'][data-pressed] {
-  --_shade: color-mix(in oklab, var(--_bg) 60%, transparent);
+  --_shadow: var(--strata-shadow-raised), 0 0 0 4px color-mix(in oklab, var(--strata-color-feedback-danger-solid) 30%, transparent);
 }
 
 .root[data-variant='link'] {
@@ -142,29 +181,60 @@
 }
 .root[data-variant='link'][data-focus-visible] {
   outline-offset: 2px;
-  border-radius: min(var(--strata-radius-button), var(--strata-space-1));
+  border-radius: min(var(--_r), var(--strata-space-1));
+}
+
+/*
+ * Contrast: the monochrome strong action. surface.inverse + text.inverse is an engine-checked text pair (4.5:1 in
+ * every brand and scheme). Hover/press nudge the fill toward text.subtle. That mix isn't an engine role, so it was
+ * measured: text.inverse over color-mix(surface.inverse, text.subtle 20%) is ≥ 14.03:1 across the 1,000 fuzz brands
+ * × light/dark (seeded fuzzInputs() from theme-engine/scripts/fuzz.ts, pass 21). 12% / 20% stay well inside that.
+ */
+.root[data-variant='contrast'] {
+  --_bg: var(--strata-color-surface-inverse);
+  --_fg: var(--strata-color-text-inverse);
+  --_border: var(--strata-color-surface-inverse);
+  --_shadow: var(--strata-shadow-highlight), var(--strata-shadow-raised);
+}
+.root[data-variant='contrast'][data-hovered] {
+  --_bg: color-mix(in oklab, var(--strata-color-surface-inverse) 88%, var(--strata-color-text-subtle));
+  --_border: var(--_bg);
+}
+.root[data-variant='contrast'][data-pressed] {
+  --_bg: color-mix(in oklab, var(--strata-color-surface-inverse) 80%, var(--strata-color-text-subtle));
+  --_border: var(--_bg);
+  --_shadow: var(--strata-shadow-raised);
 }
 
 /* ------------------------------------------------------------------ *
- * Sizes — md is the control height; sm/lg step by one 8px unit.
+ * Sizes — md is the control height; sm steps down one 8px unit, lg up two (a hero action).
  * ------------------------------------------------------------------ */
 
 .root[data-size='sm'] {
   --_icon: calc(var(--strata-space-4) - 2px);
-  block-size: calc(var(--strata-control-height) - var(--strata-space-2));
-  padding-inline: calc(var(--strata-control-padding-inline) - var(--strata-space-1));
+  --_h: calc(var(--strata-control-height) - var(--strata-space-2));
+  --_r: calc((var(--strata-radius-field) + var(--strata-space-1) / 2) * 0.8);
   gap: calc(var(--strata-space-2) - 2px);
   font-size: var(--strata-font-size-sm);
+  letter-spacing: var(--strata-font-tracking-sm);
 }
 
 .root[data-size='lg'] {
   --_icon: calc(var(--strata-space-4) + 2px);
-  block-size: calc(var(--strata-control-height) + var(--strata-space-2));
-  padding-inline: calc(var(--strata-control-padding-inline) + var(--strata-space-1));
+  /* A hero action: two steps taller, wider-set label, and the corner grows with the height so it reads as the
+     same shape, only bigger (a pill brand stays a pill; the pill style query above still matches the token). */
+  --_h: calc(var(--strata-control-height) + var(--strata-space-4));
+  --_r: calc((var(--strata-radius-field) + var(--strata-space-1) / 2) * 1.25);
+  gap: calc(var(--strata-space-2) + 2px);
+}
+
+/* A leading icon is optically heavier than a letter, so its side gets one step less padding. */
+.root:not([data-size='icon'], [data-variant='link']):has(> svg:first-child:not(.spinnerOverlay)) {
+  padding-inline-start: calc(var(--_h) * 0.625 - var(--strata-space-1));
 }
 
 .root[data-size='icon'] {
-  inline-size: var(--strata-control-height);
+  inline-size: var(--_h);
   padding-inline: 0;
 }
 
@@ -181,6 +251,7 @@
   --_bg: color-mix(in oklab, var(--strata-color-text-default) 6%, transparent);
   --_fg: var(--strata-color-text-disabled);
   --_border: transparent;
+  --_shadow: none;
   cursor: default;
 }
 .root[data-variant='outline'][data-disabled] {
@@ -213,15 +284,59 @@
   color: transparent;
 }
 
+/*
+ * Motion (Tactile style + "Visible motion"). Colours, borders, shadow and the focus offset fade with duration-fast;
+ * that list alone holds with reduced motion. With motion allowed:
+ * - Hover lifts solid, secondary and outline buttons 1px and deepens their shadow one step (the raised shadow,
+ *   doubled). Ghost and link stay flat: their hover is a tint / underline, since there's no surface to lift.
+ * - Press sinks back to the surface and scales to 0.96 quickly (duration-fast), then the release rides the spring,
+ *   overshooting a hair past 1. Press-in is fast so even a short click shows the dip.
+ * - Focus: the ring's offset grows 0 → 2px on the spring, so it visibly arrives.
+ * Nothing waits on these: the button is interactive throughout.
+ */
+.root {
+  transition-property: background-color, border-color, color, box-shadow, outline-offset;
+  transition-duration: var(--strata-motion-duration-fast);
+  transition-timing-function: var(--strata-motion-easing);
+}
+
 @media (prefers-reduced-motion: no-preference) {
   .root {
-    transition-property: background-color, border-color, color, scale;
-    transition-duration: var(--strata-motion-duration-fast);
-    transition-timing-function: var(--strata-motion-easing);
+    transition-property: background-color, border-color, color, box-shadow, outline-offset, translate, scale;
+    transition-duration:
+      var(--strata-motion-duration-fast), var(--strata-motion-duration-fast), var(--strata-motion-duration-fast),
+      var(--strata-motion-duration-normal), var(--strata-motion-duration-spring), var(--strata-motion-duration-spring),
+      var(--strata-motion-duration-spring);
+    transition-timing-function:
+      var(--strata-motion-easing), var(--strata-motion-easing), var(--strata-motion-easing), var(--strata-motion-easing),
+      var(--strata-motion-spring), var(--strata-motion-spring), var(--strata-motion-spring);
   }
 
-  .root[data-pressed]:not([data-variant='link']) {
-    scale: 0.98;
+  /* Hover lift: up 1px, one shadow step deeper. Not while pressed (the press sinks it back down). */
+  .root[data-hovered]:not([data-pressed], [data-variant='ghost'], [data-variant='link'], [data-disabled], [data-pending]) {
+    translate: 0 -1px;
+  }
+  .root:is([data-variant='primary'], [data-variant='contrast'])[data-hovered]:not([data-pressed], [data-disabled]) {
+    --_shadow: var(--strata-shadow-highlight), var(--strata-shadow-raised), var(--strata-shadow-raised);
+  }
+  .root:is([data-variant='secondary'], [data-variant='outline'])[data-hovered]:not([data-pressed], [data-disabled]) {
+    --_shadow: var(--strata-shadow-raised), var(--strata-shadow-raised);
+  }
+  .root[data-variant='danger'][data-hovered]:not([data-pressed], [data-disabled]) {
+    --_shadow: var(--strata-shadow-highlight), var(--strata-shadow-raised), var(--strata-shadow-raised),
+      0 0 0 4px color-mix(in oklab, var(--strata-color-feedback-danger-solid) 22%, transparent);
+  }
+
+  /* Press: in fast, out on the spring (the base list above applies on release). */
+  .root[data-pressed]:not([data-variant='link'], [data-disabled], [data-pending]) {
+    scale: 0.96;
+    transition-duration:
+      var(--strata-motion-duration-fast), var(--strata-motion-duration-fast), var(--strata-motion-duration-fast),
+      var(--strata-motion-duration-fast), var(--strata-motion-duration-spring), var(--strata-motion-duration-fast),
+      var(--strata-motion-duration-fast);
+    transition-timing-function:
+      var(--strata-motion-easing), var(--strata-motion-easing), var(--strata-motion-easing), var(--strata-motion-easing),
+      var(--strata-motion-spring), var(--strata-motion-easing), var(--strata-motion-easing);
   }
 
   .spinner {

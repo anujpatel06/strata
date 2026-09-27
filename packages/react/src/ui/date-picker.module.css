@@ -110,52 +110,110 @@
   stroke-width: 2;
 }
 
+/* Glass, like every floating layer (same recipe as select.module.css). The engine solves the glass opacity so
+   text.default and text.subtle reach 4.5:1 over any backdrop; the calendar inside keeps every other text colour on
+   an opaque fill (selected days) or swaps it for text.subtle (see the .popover rules at the end of calendar.module.css). */
 .popover {
   box-sizing: border-box;
   overflow: auto;
   border: 1px solid var(--strata-color-border-default);
   border-radius: var(--strata-radius-container);
-  background: var(--strata-color-surface-raised);
+  background: var(--strata-glass-bg);
+  -webkit-backdrop-filter: blur(var(--strata-glass-blur)) saturate(1.6);
+  backdrop-filter: blur(var(--strata-glass-blur)) saturate(1.6);
   color: var(--strata-color-text-default);
-  box-shadow: var(--strata-shadow-overlay);
+  box-shadow: var(--strata-shadow-highlight), var(--strata-shadow-overlay);
   font-family: var(--strata-font-body);
   font-size: var(--strata-font-size-md);
   line-height: var(--strata-line-height-normal);
   outline: none;
+  transform-origin: var(--trigger-anchor-point, top);
+}
+@supports not (backdrop-filter: blur(1px)) {
+  .popover {
+    background: var(--strata-color-surface-raised);
+  }
 }
 .dialog {
   outline: none;
 }
 
+/* Colour and opacity fades are fine with reduced motion; anything that moves is not. */
+.segment,
+.button {
+  transition:
+    background-color var(--strata-motion-duration-fast) var(--strata-motion-easing),
+    color var(--strata-motion-duration-fast) var(--strata-motion-easing);
+}
+.field[data-open] .button {
+  background: color-mix(in oklab, var(--strata-color-text-default) 6%, transparent);
+  color: var(--strata-color-text-default);
+}
+.popover[data-entering] {
+  animation: popover-fade-in var(--strata-motion-duration-normal) var(--strata-motion-easing-out);
+}
+.popover[data-exiting] {
+  animation: popover-fade-out var(--strata-motion-duration-fast) var(--strata-motion-easing) forwards;
+}
+
 @media (prefers-reduced-motion: no-preference) {
+  .button {
+    transition:
+      background-color var(--strata-motion-duration-fast) var(--strata-motion-easing),
+      color var(--strata-motion-duration-fast) var(--strata-motion-easing),
+      scale var(--strata-motion-duration-spring) var(--strata-motion-spring),
+      outline-offset var(--strata-motion-duration-fast) var(--strata-motion-easing);
+  }
+  .button:not([data-focus-visible]) {
+    outline-offset: 0;
+  }
+  .button[data-pressed][data-hovered] {
+    scale: 0.9;
+  }
+  /* Enter from the field: opacity eases out, scale + a 4px slide ride the spring. Exit is quicker, no spring. */
   .popover[data-entering] {
-    animation: popover-in var(--strata-motion-duration-fast) var(--strata-motion-easing);
+    animation:
+      popover-fade-in var(--strata-motion-duration-normal) var(--strata-motion-easing-out),
+      popover-move-in var(--strata-motion-duration-spring) var(--strata-motion-spring);
   }
   .popover[data-exiting] {
-    animation: popover-out var(--strata-motion-duration-fast) var(--strata-motion-easing) forwards;
+    animation:
+      popover-fade-out var(--strata-motion-duration-fast) var(--strata-motion-easing) forwards,
+      popover-move-out var(--strata-motion-duration-fast) var(--strata-motion-easing) forwards;
   }
 }
+/* Slide from the side the popover opens towards (placement is physical, as is translate). */
 .popover[data-placement='bottom'] {
-  --popover-slide: 0 calc(var(--strata-space-1) * -1);
+  --popover-slide: 0 -4px;
 }
 .popover[data-placement='top'] {
-  --popover-slide: 0 var(--strata-space-1);
+  --popover-slide: 0 4px;
 }
 .popover[data-placement='left'] {
-  --popover-slide: var(--strata-space-1) 0;
+  --popover-slide: 4px 0;
 }
 .popover[data-placement='right'] {
-  --popover-slide: calc(var(--strata-space-1) * -1) 0;
+  --popover-slide: -4px 0;
 }
-@keyframes popover-in {
+@keyframes popover-fade-in {
   from {
     opacity: 0;
+  }
+}
+@keyframes popover-fade-out {
+  to {
+    opacity: 0;
+  }
+}
+@keyframes popover-move-in {
+  from {
+    scale: 0.96;
     translate: var(--popover-slide, 0 0);
   }
 }
-@keyframes popover-out {
+@keyframes popover-move-out {
   to {
-    opacity: 0;
+    scale: 0.98;
     translate: var(--popover-slide, 0 0);
   }
 }

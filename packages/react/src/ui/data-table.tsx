@@ -1,6 +1,6 @@
 'use client';
 
-import { IconArrowDown, IconArrowUp, IconSelector } from '@tabler/icons-react';
+import { IconArrowUp, IconSelector } from '@strata/icons';
 import {
   useLayoutEffect,
   useMemo,
@@ -111,11 +111,18 @@ function SelectionCheckbox({ isDisabled }: { isDisabled?: boolean }): JSX.Elemen
   return <Checkbox slot="selection" className={styles.checkbox} isDisabled={isDisabled || undefined} />;
 }
 
+/**
+ * One arrow for both directions: descending rotates it 180° (with the spring when motion is allowed), so flipping
+ * the sort visibly turns the arrow instead of swapping glyphs. Unsorted columns show a faint up/down selector.
+ */
 function SortIcon({ direction }: { direction: SortDescriptor['direction'] | undefined }): JSX.Element {
-  const Icon = direction === 'ascending' ? IconArrowUp : direction === 'descending' ? IconArrowDown : IconSelector;
   return (
     <span className={styles.sortIcon} data-direction={direction} aria-hidden="true">
-      <Icon size="1.15em" stroke={1.75} />
+      {direction ? (
+        <IconArrowUp className={styles.sortArrow} size="1.15em" />
+      ) : (
+        <IconSelector size="1.15em" />
+      )}
     </span>
   );
 }

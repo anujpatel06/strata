@@ -125,16 +125,24 @@
   },
   "tokens": [
     "color.accent.bg",
-    "color.feedback.*.solid",
+    "color.feedback.danger.solid",
+    "color.feedback.success.solid",
+    "color.feedback.warning.solid",
     "color.surface.sunken",
     "color.text.default",
     "color.text.subtle",
+    "shadow.highlight",
     "radius.pill",
-    "space.1",
-    "space.2",
+    "font.body",
     "font.size.sm",
     "font.weight.medium",
-    "motion.duration.normal",
-    "motion.easing"
+    "line-height.snug",
+    "space.1",
+    "space.2",
+    "space.3",
+    "motion.duration.slow",
+    "motion.easing-out",
+    "font.tracking.sm",
+    "hairline"
   ]
 }

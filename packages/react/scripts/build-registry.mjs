@@ -7,7 +7,8 @@
  *
  * Reads  packages/react/meta/*.meta.json + packages/react/src/ui/*   and   tenants/<id>/brand.json
  *        apps/docs/blocks/blocks.json + apps/docs/blocks/<block>/*
- * Writes apps/docs/public/r/
+ * Writes packages/react/registry/ (gitignored). Not published on the docs site: Anuj removed the
+ * shadcn install route from everything users see (ADR-011, 2026-09-27). Kept so it can come back.
  *   registry.json                 index of every item (shadcn registry schema, files without content)
  *   <component>.json              registry:ui — .tsx + .module.css inlined, side by side in the user's ui folder
  *   strata-tokens-<id>.json       registry:file — styles/strata-<id>.css (the --strata-* variables components read)
@@ -20,7 +21,7 @@
  * Install:  npx shadcn@latest add <base>/r/button.json
  *      or   components.json → "registries": { "@strata": "<base>/r/{name}.json" }, then  npx shadcn@latest add @strata/button
  *
- * Options: --out <dir> (default apps/docs/public/r) · --pkg <dir> (default packages/react; for fixtures)
+ * Options: --out <dir> (default packages/react/registry) · --pkg <dir> (default packages/react; for fixtures)
  *          --tenants <dir> (default tenants) · --blocks <dir> (default apps/docs/blocks) · --base <url> (overrides STRATA_REGISTRY_URL)
  * Re-runnable; wipes --out first. Components with errors are skipped and reported; exit 1 if any.
  */
@@ -113,7 +114,8 @@ export function importProblems(meta, uiDir) {
         problems.push(`${file}: import '${spec}' breaks registry installs — use a sibling './<name>' import`);
         continue;
       }
-      if (spec.startsWith('@strata/')) {
+      // @strata/icons is a standalone package (ADR-014), like any npm dependency; the rule is about the barrel.
+      if (spec.startsWith('@strata/') && spec !== '@strata/icons') {
         problems.push(`${file}: import '${spec}' — components must not import the barrel or other Strata packages`);
         continue;
       }
@@ -347,7 +349,7 @@ function table(rows) {
 
 export async function buildRegistry({
   pkgDir = DEFAULT_PKG,
-  outDir = path.join(REPO_ROOT, 'apps/docs/public/r'),
+  outDir = path.join(REPO_ROOT, 'packages/react/registry'),
   tenantsDir = path.join(REPO_ROOT, 'tenants'),
   blocksDir = path.join(REPO_ROOT, 'apps/docs/blocks'),
   base = process.env.STRATA_REGISTRY_URL || 'http://localhost:3000',
@@ -528,7 +530,7 @@ async function main() {
   const pkgDir = path.resolve(flag('pkg') ?? DEFAULT_PKG);
   const result = await buildRegistry({
     pkgDir,
-    outDir: path.resolve(flag('out') ?? path.join(REPO_ROOT, 'apps/docs/public/r')),
+    outDir: path.resolve(flag('out') ?? path.join(REPO_ROOT, 'packages/react/registry')),
     tenantsDir: path.resolve(flag('tenants') ?? path.join(REPO_ROOT, 'tenants')),
     blocksDir: path.resolve(flag('blocks') ?? path.join(REPO_ROOT, 'apps/docs/blocks')),
     base: flag('base') ?? process.env.STRATA_REGISTRY_URL ?? 'http://localhost:3000',

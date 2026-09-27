@@ -1,0 +1,258 @@
+{
+  "name": "area-chart",
+  "title": "Area Chart",
+  "description": "A trend over time: a smooth line with a gradient fill, plus LineChart for comparing series without fills.",
+  "category": "data",
+  "maturity": "alpha",
+  "exports": [
+    "AreaChart",
+    "LineChart"
+  ],
+  "files": [
+    "area-chart.tsx",
+    "area-chart.module.css"
+  ],
+  "dependencies": [
+    "react-aria-components"
+  ],
+  "registryDependencies": [
+    "chart"
+  ],
+  "reactAria": "https://react-spectrum.adobe.com/react-aria/ListBox.html",
+  "usage": "import { AreaChart } from '@strata/react';\n\nexport function Revenue({ data }: { data: { month: string; revenue: number }[] }) {\n  return (\n    <AreaChart\n      aria-label=\"Revenue by month\"\n      data={data}\n      x=\"month\"\n      series={[{ key: 'revenue', label: 'Revenue' }]}\n      format={{ value: { style: 'currency', currency: 'USD', maximumFractionDigits: 0 } }}\n    />\n  );\n}",
+  "examples": [
+    {
+      "name": "area-chart-demo",
+      "title": "Area chart in a card",
+      "description": "One series with a gradient fill; hover, touch or arrow keys show the value pill."
+    },
+    {
+      "name": "area-chart-multiple",
+      "title": "Two series",
+      "description": "Overlapping areas with a legend; the readout lists every series at that x."
+    },
+    {
+      "name": "area-chart-line",
+      "title": "Line chart",
+      "description": "LineChart with three series and dots on each point."
+    },
+    {
+      "name": "area-chart-minimal",
+      "title": "Minimal",
+      "description": "Linear curve, no grid and no y axis, for a compact trend."
+    },
+    {
+      "name": "area-chart-table",
+      "title": "Table view",
+      "description": "A switch that shows the chart's data table."
+    }
+  ],
+  "props": [
+    {
+      "component": "AreaChart",
+      "name": "aria-label | aria-labelledby",
+      "type": "string",
+      "required": true,
+      "description": "Names the chart. One is required; use aria-labelledby to point at a visible card title."
+    },
+    {
+      "component": "AreaChart",
+      "name": "data",
+      "type": "T[]",
+      "required": true,
+      "description": "One object per x position, in order."
+    },
+    {
+      "component": "AreaChart",
+      "name": "x",
+      "type": "keyof T",
+      "required": true,
+      "description": "Key of the x value in each row (a month name, a Date, a number)."
+    },
+    {
+      "component": "AreaChart",
+      "name": "series",
+      "type": "{ key: string; label: string; color?: string }[]",
+      "required": true,
+      "description": "What to plot, in palette order (--strata-chart-1..4). Up to 4; past that, fold the tail into \"Other\". color overrides the palette with a token."
+    },
+    {
+      "component": "AreaChart",
+      "name": "format",
+      "type": "{ value?: Intl.NumberFormatOptions | fn; axis?: …; x?: Intl.DateTimeFormatOptions | fn }",
+      "description": "Formats values (readout, table, names), y ticks (default: value in compact notation) and x values (Dates default to \"12 Mar\")."
+    },
+    {
+      "component": "AreaChart",
+      "name": "height",
+      "type": "number",
+      "default": "240",
+      "description": "Height of the plot plus the x axis, in px. The legend sits above it."
+    },
+    {
+      "component": "AreaChart",
+      "name": "curve",
+      "type": "'smooth' | 'linear'",
+      "default": "'smooth'",
+      "description": "smooth is monotone cubic: it never overshoots the data, so a peak is never drawn higher than it was."
+    },
+    {
+      "component": "AreaChart",
+      "name": "showGrid",
+      "type": "boolean",
+      "default": "true",
+      "description": "Horizontal hairlines at each y tick."
+    },
+    {
+      "component": "AreaChart",
+      "name": "showXAxis",
+      "type": "boolean",
+      "default": "true",
+      "description": "X labels, thinned to what fits (always the first and last)."
+    },
+    {
+      "component": "AreaChart",
+      "name": "showYAxis",
+      "type": "boolean",
+      "default": "true",
+      "description": "Y tick labels in a gutter at the inline start."
+    },
+    {
+      "component": "AreaChart",
+      "name": "yDomain",
+      "type": "[number, number]",
+      "description": "Fixes the y range. Default: nice round numbers around the data, from 0 for areas; fitted for LineChart."
+    },
+    {
+      "component": "AreaChart",
+      "name": "showLegend",
+      "type": "boolean",
+      "default": "series.length > 1",
+      "description": "Legend above the plot."
+    },
+    {
+      "component": "AreaChart",
+      "name": "showTable",
+      "type": "boolean",
+      "default": "false",
+      "description": "Shows the data table under the chart instead of keeping it visually hidden."
+    },
+    {
+      "component": "AreaChart",
+      "name": "xLabel",
+      "type": "string",
+      "description": "Header of the table's first column, e.g. \"Month\"."
+    },
+    {
+      "component": "AreaChart",
+      "name": "summary",
+      "type": "string",
+      "description": "One sentence describing the data for screen readers. Default: generated from the data."
+    },
+    {
+      "component": "AreaChart",
+      "name": "glow",
+      "type": "boolean",
+      "default": "true",
+      "description": "A soft halo in the series colour under each line. Decorative."
+    },
+    {
+      "component": "AreaChart",
+      "name": "showDots",
+      "type": "boolean",
+      "default": "false",
+      "description": "Ringed dots on every data point."
+    },
+    {
+      "component": "LineChart",
+      "name": "…",
+      "type": "AreaChartProps",
+      "description": "Same props as AreaChart. No fill, and the y range is fitted to the data instead of starting at 0."
+    }
+  ],
+  "accessibility": {
+    "keyboard": [
+      {
+        "keys": "Tab",
+        "action": "Moves focus into the chart (one tab stop), to the last point you visited or the first."
+      },
+      {
+        "keys": "ArrowRight / ArrowLeft",
+        "action": "Moves to the next / previous x position and shows its readout. Mirrored in right-to-left locales."
+      },
+      {
+        "keys": "Home / End",
+        "action": "Jumps to the first / last x position."
+      },
+      {
+        "keys": "Escape",
+        "action": "Hides the readout without moving focus (WCAG 1.4.13). The next move shows it again."
+      }
+    ],
+    "notes": [
+      "The plot's hit layer is a React Aria ListBox (horizontal): one option per x position, named with its x and every series value, e.g. \"Mar: Revenue $19,800, Costs $13,100\". Focusing an option makes the screen reader read it, so no live region is needed.",
+      "The ListBox is named by aria-label or aria-labelledby (one is required) and described by a one-sentence summary (generated from the data, or the summary prop).",
+      "Every chart also renders its data as a <table> with a caption, visually hidden unless showTable. No value is only reachable by hovering.",
+      "The SVG, axis labels and the floating readout are aria-hidden: they repeat what the options and the table say.",
+      "Pointer, pen and touch snap to the nearest x position (full-height bands), so nobody has to land on a 2px line or a thin bar.",
+      "Text never wears a series colour: labels, axes, legend and readout use text.default and text.subtle; the series colour is only on marks and swatches. Series colours come from --strata-chart-1..4, solved per brand and scheme to reach 3:1 on surfaces and stay distinguishable under colour-vision deficiency.",
+      "A 2px focus ring surrounds the plot and axes while an x position has keyboard focus.",
+      "Motion (line draw-in, area fade-up, bar growth, readout glide) sits behind prefers-reduced-motion: no-preference.",
+      "There are no disabled or invalid states: a chart is read-only."
+    ]
+  },
+  "guidelines": {
+    "do": [
+      "Name the chart with aria-labelledby when a card title already says what it shows.",
+      "Use AreaChart for one or two series over time; LineChart when comparing three or four.",
+      "Format values with Intl options so the readout, table and names read naturally in every locale.",
+      "Pass null for a missing value: the line breaks instead of dropping to zero."
+    ],
+    "dont": [
+      "Don't plot more than 4 series; fold the tail into \"Other\" or use small multiples.",
+      "Don't put two y scales on one chart; index both series to a common base or use two charts.",
+      "Don't colour text with series colours; the legend and readout already key each series.",
+      "Don't rely on the chart alone for a number that matters; state it in a heading or stat."
+    ]
+  },
+  "tokens": [
+    "chart.1",
+    "chart.2",
+    "chart.3",
+    "chart.4",
+    "chart.grid",
+    "chart.axis",
+    "color.text.default",
+    "color.text.subtle",
+    "color.border.default",
+    "color.border.subtle",
+    "color.surface.raised",
+    "color.focus.ring",
+    "color.text.brand",
+    "color.accent.text",
+    "font.body",
+    "font.size.xs",
+    "font.size.sm",
+    "font.tracking.xs",
+    "font.tracking.sm",
+    "font.weight.semibold",
+    "hairline",
+    "shadow.overlay",
+    "shadow.highlight",
+    "radius.container",
+    "radius.field",
+    "radius.pill",
+    "space.1",
+    "space.2",
+    "space.3",
+    "space.4",
+    "motion.duration.fast",
+    "motion.duration.normal",
+    "motion.duration.slow",
+    "motion.easing",
+    "motion.easingOut",
+    "shadow.raised",
+    "motion.spring",
+    "motion.duration.spring"
+  ]
+}

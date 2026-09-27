@@ -143,13 +143,35 @@
   outline-offset: 2px;
 }
 
+/* Selected pill label: the raised surface sits under it, so it gets the default text colour at full weight. */
+.tabPill[data-selected] {
+  color: var(--strata-color-text-default);
+}
+
 .listPill[data-orientation='vertical'] > .tabPill {
   justify-content: flex-start;
 }
 
+/* Hover: a soft chip fades in behind the label (inset from the underline so the two never touch). */
+.tab::before {
+  content: '';
+  position: absolute;
+  inset-block: var(--strata-space-1);
+  inset-inline: 0;
+  z-index: -2;
+  border-radius: var(--strata-radius-button);
+  background-color: color-mix(in oklab, var(--strata-color-text-default) 6%, transparent);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.tabPill::before {
+  inset-block: 0;
+}
+
 @media (hover: hover) {
-  .tabPill[data-hovered]:not([data-selected]) {
-    background-color: color-mix(in oklab, var(--strata-color-text-default) 6%, transparent);
+  .tab[data-hovered]:not([data-selected], [data-disabled])::before {
+    opacity: 1;
   }
 }
 
@@ -216,19 +238,63 @@
   block-size: 100%;
   background-color: var(--strata-color-surface-raised);
   border-radius: var(--strata-radius-button);
-  box-shadow: var(--strata-shadow-raised);
+  /* Raised pill: a hairline + top sheen + soft shadow, like a key sitting on the sunken track. */
+  box-shadow: 0 0 0 1px var(--strata-color-border-subtle), var(--strata-shadow-highlight), var(--strata-shadow-raised);
+}
+
+/* Hover and focus fades are colour/opacity only, so they stay on with reduced motion. */
+.tab {
+  transition: color var(--strata-motion-duration-fast) var(--strata-motion-easing);
+}
+
+.tab::before {
+  transition: opacity var(--strata-motion-duration-fast) var(--strata-motion-easing);
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  .tab {
-    transition: color var(--strata-motion-duration-fast) var(--strata-motion-easing);
-  }
-
+  /* The indicator slides with the spring (a ~4% overshoot), so selection "lands" on the new tab. */
   .indicator {
     /* width/height first: RAC measures the rect after applying them, which keeps RTL slides aligned. */
     transition-property: width, height, translate;
-    transition-duration: var(--strata-motion-duration-normal);
+    transition-duration: var(--strata-motion-duration-spring);
+    transition-timing-function: var(--strata-motion-spring);
+  }
+
+  /* Press: the label (not the tab box) dips to 0.96 and springs back. Scaling the tab itself would skew the
+     rect RAC measures for the indicator slide, because tabs select on press start. */
+  .label,
+  .count {
+    transition: scale var(--strata-motion-duration-spring) var(--strata-motion-spring);
+  }
+
+  .tab[data-pressed] > .label,
+  .tab[data-pressed] > .count {
+    scale: 0.96;
+    transition-duration: var(--strata-motion-duration-fast);
     transition-timing-function: var(--strata-motion-easing);
+  }
+
+  .tabPill[data-focus-visible] {
+    animation: strata-tabs-ring var(--strata-motion-duration-fast) var(--strata-motion-easing);
+  }
+
+  /* The new panel settles in: fade + a 4px rise. */
+  .panel:not([inert], [data-inert]) {
+    animation: strata-tabs-panel var(--strata-motion-duration-normal) var(--strata-motion-easing-out);
+  }
+}
+
+/* Focus "arrives": the ring's offset settles from 0 to 2px. */
+@keyframes strata-tabs-ring {
+  from {
+    outline-offset: 0;
+  }
+}
+
+@keyframes strata-tabs-panel {
+  from {
+    opacity: 0;
+    translate: 0 4px;
   }
 }
 

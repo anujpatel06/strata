@@ -6,7 +6,7 @@
   "maturity": "beta",
   "exports": ["Calendar", "RangeCalendar"],
   "files": ["calendar.tsx", "calendar.module.css"],
-  "dependencies": ["react-aria-components", "@internationalized/date", "@tabler/icons-react"],
+  "dependencies": ["react-aria-components", "@internationalized/date", "@strata/icons"],
   "registryDependencies": [],
   "reactAria": "https://react-spectrum.adobe.com/react-aria/Calendar.html",
   "usage": "import { getLocalTimeZone, today } from '@internationalized/date';\nimport { Calendar } from '@strata/react';\n\nexport function AppointmentDate() {\n  return <Calendar aria-label=\"Appointment date\" minValue={today(getLocalTimeZone())} onChange={(date) => console.log(date.toString())} />;\n}",
@@ -47,7 +47,8 @@
       "The grid is role=\"grid\"; each date has a full label (e.g. \"Monday, September 14, 2026\") so the weekday header is hidden from assistive tech.",
       "The visible month is announced when it changes.",
       "Today is marked with a dot and bold weight; unavailable dates are struck through and stay readable (text.subtle); disabled dates are muted and not focusable.",
-      "Previous/next buttons have localised names and flip direction in right-to-left layouts."
+      "Previous/next buttons have localised names and flip direction in right-to-left layouts.",
+      "Motion follows prefers-reduced-motion: colour fades remain; the press dip, selected-day spring and month slide only run when motion is allowed."
     ]
   },
   "guidelines": {
@@ -61,30 +62,5 @@
       "Don't use a calendar for dates far from today, like a date of birth — type it in a DatePicker."
     ]
   },
-  "tokens": [
-    "color.action.primary.bg",
-    "color.action.primary.fg",
-    "color.action.primary.hover",
-    "color.surface.selected",
-    "color.text.default",
-    "color.text.subtle",
-    "color.text.disabled",
-    "color.border.default",
-    "color.focus.ring",
-    "color.feedback.danger.*",
-    "control-height",
-    "radius.button",
-    "radius.pill",
-    "font.heading",
-    "font.heading-tracking",
-    "font.size.md",
-    "font.size.sm",
-    "space.1",
-    "space.2",
-    "space.3",
-    "space.6",
-    "space.8",
-    "motion.duration.fast",
-    "motion.easing"
-  ]
+  "tokens": ["control-height", "space.1", "space.8", "radius.button", "space.3", "color.text.default", "font.body", "font.size.md", "line-height.normal", "space.2", "font.heading", "font.weight.semibold", "font.heading-tracking", "line-height.tight", "space.6", "color.border.default", "color.surface.default", "color.text.subtle", "shadow.raised", "color.border.strong", "color.surface.selected", "color.focus.ring", "color.text.disabled", "color.border.subtle", "font.size.sm", "font.weight.regular", "radius.pill", "color.action.primary.bg", "color.action.primary.fg", "font.weight.medium", "color.action.primary.hover", "color.feedback.danger.solid", "color.feedback.danger.onSolid", "color.feedback.danger.bg", "color.feedback.danger.fg", "line-height.snug", "motion.duration.fast", "motion.easing", "motion.duration.normal", "motion.easing-out", "motion.duration.spring", "motion.spring", "space.4"]
 }

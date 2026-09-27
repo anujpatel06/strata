@@ -153,19 +153,27 @@
     ]
   },
   "tokens": [
-    "color.surface.sunken",
-    "color.surface.default",
+    "color.action.primary.bg",
     "color.border.default",
     "color.border.strong",
-    "color.action.primary.bg",
-    "color.text.subtle",
-    "color.text.disabled",
     "color.focus.ring",
-    "shadow.raised",
-    "radius.pill",
+    "color.surface.default",
+    "color.surface.sunken",
+    "color.text.disabled",
+    "color.text.subtle",
     "control-height",
+    "font.size.sm",
+    "line-height.snug",
+    "motion.duration.fast",
+    "motion.duration.spring",
+    "motion.easing",
+    "motion.spring",
+    "radius.pill",
+    "shadow.highlight",
+    "shadow.raised",
     "space.1",
-    "space.6",
-    "font.size.sm"
+    "space.2",
+    "space.3",
+    "space.6"
   ]
 }

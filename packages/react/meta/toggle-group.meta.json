@@ -73,7 +73,7 @@
       "name": "size",
       "type": "'sm' | 'md'",
       "default": "'md'",
-      "description": "md matches the control height; sm is 8px smaller."
+      "description": "md matches the control height (and a field or Button of the same size); sm is one 8px step smaller, never letting a segment drop under 24px. The track pads the pill by 4px (sm: 3px) and its corner is the pill's corner plus that padding."
     },
     {
       "component": "ToggleButtonGroup",
@@ -145,7 +145,8 @@
     "notes": [
       "Single selection renders a radiogroup of radios; multiple selection renders a toolbar of pressed buttons.",
       "The selected item is raised and bold-coloured, not colour-only.",
-      "A standalone ToggleButton exposes aria-pressed."
+      "A standalone ToggleButton exposes aria-pressed.",
+      "The selected segment differs by colour (text.default vs text.subtle), weight (medium vs regular) and elevation (a raised pill with shadow and rim), not colour alone."
     ]
   },
   "guidelines": {
@@ -160,20 +161,38 @@
     ]
   },
   "tokens": [
-    "color.surface.sunken",
+    "color.border.default",
+    "color.border.strong",
+    "color.border.subtle",
+    "color.focus.ring",
+    "color.surface.default",
     "color.surface.raised",
     "color.surface.selected",
-    "shadow.raised",
-    "color.text.default",
-    "color.text.subtle",
-    "color.text.disabled",
-    "color.border.default",
-    "color.border.subtle",
+    "color.surface.sunken",
     "color.text.brand",
-    "color.focus.ring",
-    "radius.button",
+    "color.text.default",
+    "color.text.disabled",
+    "color.text.subtle",
     "control-height",
     "control-padding-inline",
-    "font.weight.medium"
+    "font.size.md",
+    "font.size.sm",
+    "font.weight.medium",
+    "line-height.tight",
+    "motion.duration.fast",
+    "motion.duration.spring",
+    "motion.easing",
+    "motion.spring",
+    "shadow.highlight",
+    "shadow.raised",
+    "space.1",
+    "space.2",
+    "space.4",
+    "space.6",
+    "motion.duration.normal",
+    "radius.field",
+    "rim",
+    "hairline",
+    "font.weight.regular"
   ]
 }

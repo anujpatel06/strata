@@ -1,5 +1,5 @@
 import { fireEvent, render, screen, within } from '@testing-library/react';
-import { Avatar, AvatarGroup, getInitials } from '../src/ui/avatar';
+import { Avatar, AvatarGroup, getAvatarTint, getInitials } from '../src/ui/avatar';
 
 describe('getInitials', () => {
   it('skips the Arabic definite article', () => {
@@ -43,8 +43,45 @@ describe('Avatar', () => {
       </>,
     );
     const tint = screen.getByTestId('a').getAttribute('data-tint');
-    expect(tint).toMatch(/^[0-3]$/);
+    expect(tint).toMatch(/^(brand|accent|info|warning|success)$/);
     expect(screen.getByTestId('b')).toHaveAttribute('data-tint', tint!);
+  });
+
+  it('auto tint ignores case and outer spaces, and never picks danger', () => {
+    expect(getAvatarTint('  priya raman ')).toBe(getAvatarTint('Priya Raman'));
+    const names = Array.from({ length: 200 }, (_, i) => `Person ${i}`);
+    const seen = new Set(names.map(getAvatarTint));
+    expect(seen.has('danger')).toBe(false);
+    expect(seen.size).toBe(5);
+  });
+
+  it('takes a fixed tint or none', () => {
+    render(
+      <>
+        <Avatar name="Mei Lin" tint="danger" data-testid="a" />
+        <Avatar name="Mei Lin" tint="none" data-testid="b" />
+      </>,
+    );
+    expect(screen.getByTestId('a')).toHaveAttribute('data-tint', 'danger');
+    expect(screen.getByTestId('b')).toHaveAttribute('data-tint', 'none');
+  });
+
+  it('placeholder "unknown" shows "?", keeps its name and ignores src and tint', () => {
+    const { container } = render(<Avatar name="Father, not added yet" placeholder="unknown" src="/x.jpg" tint="info" />);
+    const avatar = screen.getByRole('img', { name: 'Father, not added yet' });
+    expect(avatar).toHaveAttribute('data-placeholder', 'unknown');
+    expect(avatar).not.toHaveAttribute('data-tint');
+    expect(avatar).toHaveTextContent(/^\?$/);
+    expect(container.querySelector('img')).toBeNull();
+  });
+
+  it('placeholder "add" shows a decorative plus and is decorative without a name', () => {
+    const { container } = render(<Avatar placeholder="add" />);
+    expect(screen.queryByRole('img')).not.toBeInTheDocument();
+    const root = container.firstElementChild!;
+    expect(root).toHaveAttribute('data-placeholder', 'add');
+    expect(root).toHaveAttribute('aria-hidden', 'true');
+    expect(root.querySelector('svg')).not.toBeNull();
   });
 
   it('shows the image once it loads and falls back to initials if it fails', () => {

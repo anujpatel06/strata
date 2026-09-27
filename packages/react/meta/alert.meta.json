@@ -13,7 +13,7 @@
   ],
   "dependencies": [
     "react-aria-components",
-    "@tabler/icons-react"
+    "@strata/icons"
   ],
   "registryDependencies": [],
   "usage": "import { Alert } from '@strata/react';\n\nexport function CardNotice() {\n  return (\n    <Alert tone=\"warning\" title=\"Card expiring\">\n      Your card ending 4821 expires next month. Order a replacement.\n    </Alert>\n  );\n}",
@@ -58,7 +58,7 @@
       "component": "Alert",
       "name": "icon",
       "type": "ReactNode | false",
-      "description": "Replaces the tone icon. `false` shows no icon."
+      "description": "Replaces the tone glyph inside the tone chip. `false` shows no icon."
     },
     {
       "component": "Alert",
@@ -120,18 +120,36 @@
     "color.feedback.*.bg",
     "color.feedback.*.border",
     "color.feedback.*.fg",
-    "color.surface.sunken",
-    "color.border.default",
+    "color.focus.ring",
+    "color.surface.raised",
     "color.text.default",
     "color.text.subtle",
-    "color.focus.ring",
-    "radius.container",
+    "shadow.raised",
+    "radius.badge",
     "radius.button",
-    "space.1–4",
-    "font.size.sm",
+    "radius.container",
+    "font.body",
     "font.size.md",
+    "font.size.sm",
+    "font.weight.medium",
     "font.weight.semibold",
+    "line-height.normal",
     "line-height.snug",
-    "motion.duration.fast"
+    "space.1",
+    "space.2",
+    "space.3",
+    "space.4",
+    "space.6",
+    "space.16",
+    "motion.duration.fast",
+    "motion.duration.spring",
+    "motion.easing",
+    "motion.spring",
+    "color.border.subtle",
+    "font.tracking.md",
+    "font.tracking.sm",
+    "hairline",
+    "radius.pill",
+    "color.surface.sunken"
   ]
 }

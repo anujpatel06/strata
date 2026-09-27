@@ -1,0 +1,145 @@
+{
+  "name": "tag",
+  "title": "Tag",
+  "description": "A quiet, static label for an attribute or category, such as \"Cashless\" or \"Home collection\".",
+  "category": "display",
+  "maturity": "alpha",
+  "exports": [
+    "Tag"
+  ],
+  "files": [
+    "tag.tsx",
+    "tag.module.css"
+  ],
+  "dependencies": [],
+  "registryDependencies": [],
+  "usage": "import { Tag } from '@strata/react';\n\nexport function Benefit() {\n  return (\n    <div style={{ display: 'flex', gap: 'var(--strata-space-2)' }}>\n      <Tag tone=\"success\" uppercase>Cashless</Tag>\n      <Tag>Home collection</Tag>\n    </div>\n  );\n}",
+  "examples": [
+    {
+      "name": "tag-demo",
+      "title": "Tag",
+      "description": "Small-caps attributes and plain category tags."
+    },
+    {
+      "name": "tag-sizes",
+      "title": "Sizes",
+      "description": "md (24px) and sm (20px), soft, uppercase and dashed."
+    },
+    {
+      "name": "tag-variants",
+      "title": "Variants and tones",
+      "description": "soft, outline and dashed across all seven tones."
+    },
+    {
+      "name": "tag-vs-badge",
+      "title": "Tag or Badge",
+      "description": "Tags say what something is; a Badge says what state it's in."
+    },
+    {
+      "name": "tag-with-leading",
+      "title": "Leading icon or avatar",
+      "description": "An icon or a small Avatar before the label."
+    }
+  ],
+  "props": [
+    {
+      "component": "Tag",
+      "name": "tone",
+      "type": "'neutral' | 'brand' | 'accent' | 'info' | 'success' | 'warning' | 'danger'",
+      "default": "'neutral'",
+      "description": "Colour. Soft tags use contrast-checked pairs: text.subtle/surface.sunken (neutral), action.secondary.fg/bg (brand), accent.text/accent.subtle (accent), feedback.*.fg/bg."
+    },
+    {
+      "component": "Tag",
+      "name": "variant",
+      "type": "'soft' | 'outline' | 'dashed'",
+      "default": "'soft'",
+      "description": "soft = tinted fill (neutral adds a hairline edge), outline = hairline edge only, dashed = a placeholder or optional attribute."
+    },
+    {
+      "component": "Tag",
+      "name": "size",
+      "type": "'sm' | 'md'",
+      "default": "'md'",
+      "description": "md is 24px tall, sm is 20px."
+    },
+    {
+      "component": "Tag",
+      "name": "uppercase",
+      "type": "boolean",
+      "default": "false",
+      "description": "Small-caps style: uppercase, ~10% smaller, semibold, tracked open (0 tracking for Arabic-capable type pairs). Visual only: the DOM text keeps its case."
+    },
+    {
+      "component": "Tag",
+      "name": "leading",
+      "type": "ReactNode",
+      "description": "Leading icon or small Avatar, sized to the tag. Decorative (aria-hidden)."
+    },
+    {
+      "component": "Tag",
+      "name": "children",
+      "type": "ReactNode",
+      "required": true,
+      "description": "The label: one to three words. Long labels truncate with an ellipsis."
+    }
+  ],
+  "accessibility": {
+    "keyboard": [],
+    "notes": [
+      "A tag is plain text in a span: no role, not focusable, not interactive.",
+      "The leading slot is aria-hidden; the label must carry the meaning.",
+      "uppercase is CSS text-transform, so screen readers read the words, not letters.",
+      "Outline and dashed text sits on the page: text.default/text.subtle, text.brand, accent.text and feedback.*.fg are each checked against surface.default (not every surface; keep them on default or raised surfaces).",
+      "Pops in on mount (scale 0.8 to 1 on the spring); with reduced motion it simply appears."
+    ]
+  },
+  "guidelines": {
+    "do": [
+      "Use Tag for attributes and categories: what something is or includes (\"Cashless\", \"Home collection\").",
+      "Keep most tags neutral; tint the one attribute that matters most.",
+      "Use uppercase for one- or two-word attributes, sentence case for longer ones.",
+      "Use dashed for an optional or not-yet-added attribute."
+    ],
+    "dont": [
+      "Don't use a Tag for status or counts (\"Paid\", \"3 new\"). That's a Badge: Badge = status or count, Tag = attribute or category.",
+      "Don't make tags clickable. For filters, use ToggleButtonGroup.",
+      "Don't rely on tone alone: the words must say it."
+    ]
+  },
+  "tokens": [
+    "color.surface.sunken",
+    "color.text.subtle",
+    "color.text.default",
+    "color.text.brand",
+    "color.border.subtle",
+    "color.border.default",
+    "color.border.strong",
+    "color.action.secondary.bg",
+    "color.action.secondary.fg",
+    "color.accent.subtle",
+    "color.accent.text",
+    "color.feedback.*.bg",
+    "color.feedback.*.fg",
+    "color.feedback.*.border",
+    "radius.badge",
+    "radius.pill",
+    "font.body",
+    "font.size.xs",
+    "font.tracking.xs",
+    "font.heading.tracking",
+    "font.weight.medium",
+    "font.weight.semibold",
+    "space.1",
+    "space.2",
+    "space.4",
+    "space.5",
+    "space.6",
+    "hairline",
+    "icon.stroke",
+    "motion.duration.fast",
+    "motion.duration.spring",
+    "motion.spring",
+    "motion.easingOut"
+  ]
+}

@@ -6,14 +6,47 @@ import styles from './card.module.css';
 const cx = (...c: Array<string | false | null | undefined>) => c.filter(Boolean).join(' ');
 
 export interface CardProps extends HTMLAttributes<HTMLDivElement> {
-  /** `default` = raised surface with border and shadow, `outline` = border only, `ghost` = no chrome. */
-  variant?: 'default' | 'outline' | 'ghost';
+  /**
+   * `default` = raised surface with border and shadow, `outline` = border only, `ghost` = no chrome.
+   * `feature` = a promo/hero card: a deep brand glow from the top-start corner, a rim-light edge and the brand halo.
+   * Its text stays on checked pairs (see card.module.css for the numbers). Use one per view.
+   */
+  variant?: 'default' | 'outline' | 'ghost' | 'feature';
+  /**
+   * Rim light: the 1px edge catches light at the top-left and fades, like glass. Off by default, so existing screens
+   * don't change. Always on for `variant="feature"`.
+   */
+  rim?: boolean;
+  /** A faint, decorative star field (CSS dots, hidden from assistive tech). Only drawn on `variant="feature"`. */
+  stars?: boolean;
+  /**
+   * For cards that open something. Put one link in the CardTitle: it stretches over the whole card, so
+   * the card lifts under the pointer, the whole surface is clickable and the focus ring goes round the card.
+   * Other buttons and links inside stay separately clickable above it.
+   */
+  interactive?: boolean;
   ref?: Ref<HTMLDivElement>;
 }
 
 /** A surface that groups related content and actions. Compose with CardHeader, CardContent and CardFooter. */
-export function Card({ variant = 'default', className, ...rest }: CardProps): JSX.Element {
-  return <div {...rest} data-variant={variant} className={cx(styles.card, className)} />;
+export function Card({
+  variant = 'default',
+  interactive = false,
+  rim = false,
+  stars = false,
+  className,
+  ...rest
+}: CardProps): JSX.Element {
+  return (
+    <div
+      {...rest}
+      data-variant={variant}
+      data-interactive={interactive || undefined}
+      data-rim={rim || variant === 'feature' || undefined}
+      data-stars={(stars && variant === 'feature') || undefined}
+      className={cx(styles.card, className)}
+    />
+  );
 }
 
 export interface CardHeaderProps extends HTMLAttributes<HTMLDivElement> {
@@ -56,11 +89,20 @@ export function CardAction({ className, ...rest }: CardActionProps): JSX.Element
 }
 
 export interface CardContentProps extends HTMLAttributes<HTMLDivElement> {
+  /**
+   * `default` = content sits on the card. `inset` = a pale inner surface (sunken fill, hairline edge, a corner
+   * concentric with the card) for a table, list or code block that should read as one object inside the card.
+   * Inside it, `--strata-card-inset` is halved, so nested parts that align to the card inset (DataTable edge
+   * cells, for one) tighten to fit.
+   */
+  variant?: 'default' | 'inset';
   ref?: Ref<HTMLDivElement>;
 }
 
-export function CardContent({ className, ...rest }: CardContentProps): JSX.Element {
-  return <div {...rest} className={cx(styles.content, className)} />;
+export function CardContent({ variant = 'default', className, ...rest }: CardContentProps): JSX.Element {
+  return (
+    <div {...rest} data-variant={variant === 'default' ? undefined : variant} className={cx(styles.content, className)} />
+  );
 }
 
 export interface CardFooterProps extends HTMLAttributes<HTMLDivElement> {

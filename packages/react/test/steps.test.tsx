@@ -65,4 +65,13 @@ describe('Steps', () => {
     expect(container.firstElementChild).toHaveClass('root', 'custom');
     expect(container.querySelector('.summary')).toBeNull();
   });
+
+  it('draws completed steps with a tick whose path can animate in (pathLength=1), and numbers the rest', () => {
+    const { container } = render(<Steps current="review" steps={steps} />);
+    const [first, second, third] = Array.from(container.querySelectorAll('li'));
+    expect(first!.querySelector('svg path')).toHaveAttribute('pathLength', '1');
+    expect(second!.querySelector('svg path')).toHaveAttribute('pathLength', '1');
+    expect(third!.querySelector('svg')).toBeNull();
+    expect(third).toHaveTextContent('3');
+  });
 });

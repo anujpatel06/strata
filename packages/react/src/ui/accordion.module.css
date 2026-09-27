@@ -48,13 +48,6 @@
 
 .title {
   min-inline-size: 0;
-  text-decoration-line: none;
-  text-decoration-thickness: 1px;
-  text-underline-offset: 0.2em;
-}
-
-.trigger[data-hovered] .title {
-  text-decoration-line: underline;
 }
 
 .trigger[data-focus-visible] {
@@ -67,31 +60,58 @@
   cursor: default;
 }
 
-.trigger[data-disabled] .title {
-  text-decoration-line: none;
-}
-
-.chevron {
+/* 24px chip (WCAG target size is met by the whole row; this is the visual affordance). */
+.chevronChip {
+  box-sizing: border-box;
+  display: inline-grid;
   flex: none;
+  place-items: center;
+  inline-size: var(--strata-space-6);
+  block-size: var(--strata-space-6);
   /* Centred on the first line of a title that wraps. */
-  margin-block: calc((1lh - 1.15em) / 2);
+  margin-block: calc((1lh - var(--strata-space-6)) / 2);
+  border-radius: var(--strata-radius-pill);
   color: var(--strata-color-text-subtle);
 }
 
-.item[data-expanded] .chevron {
+.trigger[data-hovered] .chevronChip {
+  background-color: color-mix(in oklab, var(--strata-color-text-default) 8%, transparent);
+  color: var(--strata-color-text-default);
+}
+
+.item[data-expanded] > .heading .chevronChip {
+  color: var(--strata-color-text-default);
+}
+
+.chevron {
+  display: block;
+}
+
+.item[data-expanded] > .heading .chevron {
   rotate: 180deg;
 }
 
-.trigger[data-disabled] .chevron {
+.trigger[data-disabled] .chevronChip {
+  background-color: transparent;
   color: var(--strata-color-text-disabled);
 }
 
 /*
- * RAC measures the panel and exposes --disclosure-panel-height (0px → content px → auto) so it can
- * animate height and apply hidden="until-found" (find-in-page opens a closed item) after the transition ends.
+ * Height: the panel is a one-row grid that animates grid-template-rows 0fr → 1fr (no measuring, no max-height).
+ * React Aria waits for the panel's own transitions to finish before it sets hidden="until-found" on close,
+ * so find-in-page still opens a closed item.
  */
 .panel {
-  block-size: var(--disclosure-panel-height);
+  display: grid;
+  grid-template-rows: 0fr;
+}
+
+.item[data-expanded] > .panel {
+  grid-template-rows: 1fr;
+}
+
+.clip {
+  min-block-size: 0;
   overflow: clip;
   /* Room for focus rings on links inside the panel. */
   overflow-clip-margin: var(--strata-space-1);
@@ -103,6 +123,11 @@
   font-size: var(--strata-font-size-md);
   line-height: var(--strata-line-height-normal);
   text-wrap: pretty;
+  opacity: 0;
+}
+
+.item[data-expanded] > .panel > .clip > .content {
+  opacity: 1;
 }
 
 .content > :where(p, ul, ol) {
@@ -113,12 +138,57 @@
   margin-block-start: var(--strata-space-3);
 }
 
+/* Colour and opacity fades stay on with reduced motion; they don't move anything. */
+.chevronChip {
+  transition-property: background-color, color;
+  transition-duration: var(--strata-motion-duration-fast);
+  transition-timing-function: var(--strata-motion-easing);
+}
+
+.content {
+  transition: opacity var(--strata-motion-duration-fast) var(--strata-motion-easing);
+}
+
+.item[data-expanded] > .panel > .clip > .content {
+  transition-duration: var(--strata-motion-duration-slow);
+  transition-timing-function: var(--strata-motion-easing-out);
+}
+
 @media (prefers-reduced-motion: no-preference) {
   .panel {
-    transition: block-size var(--strata-motion-duration-normal) var(--strata-motion-easing);
+    transition: grid-template-rows var(--strata-motion-duration-normal) var(--strata-motion-easing);
   }
 
+  .item[data-expanded] > .panel {
+    transition-duration: var(--strata-motion-duration-slow);
+    transition-timing-function: var(--strata-motion-easing-out);
+  }
+
+  /* The chevron flips with the spring: a small overshoot past 180° that settles. */
   .chevron {
-    transition: rotate var(--strata-motion-duration-normal) var(--strata-motion-easing);
+    transition: rotate var(--strata-motion-duration-spring) var(--strata-motion-spring);
+  }
+
+  /* Content drops 4px into place as it opens. */
+  .content {
+    translate: 0 calc(var(--strata-space-1) * -1);
+    transition-property: opacity, translate;
+  }
+
+  .item[data-expanded] > .panel > .clip > .content {
+    translate: none;
+  }
+
+  .chevronChip {
+    transition-property: background-color, color, scale;
+  }
+
+  .trigger[data-pressed] .chevronChip {
+    scale: 0.9;
+  }
+
+  .trigger:not([data-pressed]) .chevronChip {
+    transition-duration: var(--strata-motion-duration-fast), var(--strata-motion-duration-fast), var(--strata-motion-duration-spring);
+    transition-timing-function: var(--strata-motion-easing), var(--strata-motion-easing), var(--strata-motion-spring);
   }
 }

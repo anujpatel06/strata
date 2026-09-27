@@ -8,42 +8,97 @@
 }
 
 .trigger {
+  /* The same well as text-field's Input/FieldGroup (see the "Soft outline, still AA" note and the boundary proof
+     there): half-sunken fill, a faint inset top shadow, and an edge that is border.strong in light and
+     color-mix(border.strong 80%, border.default) in dark, ≥ 3:1 against every surface a field sits on.
+     Height, corner and inset follow data-field-size exactly like the other fields and Button. */
+  --_h: var(--strata-control-height);
+  --_r: calc(var(--strata-radius-field) + var(--strata-space-1) / 2);
+  --_pad: var(--strata-control-padding-inline);
+  --_edge: light-dark(
+    var(--strata-color-border-strong),
+    color-mix(in oklab, var(--strata-color-border-strong) 80%, var(--strata-color-border-default))
+  );
+  --_fill: color-mix(in oklab, var(--strata-color-surface-sunken) 40%, var(--strata-color-surface-default));
+  --_inset: light-dark(
+    color-mix(in oklab, var(--strata-color-text-default) 6%, transparent),
+    color-mix(in oklab, var(--strata-color-surface-canvas) 70%, transparent)
+  );
+  --_halo: var(--strata-color-focus-ring);
   box-sizing: border-box;
   display: flex;
   align-items: center;
   gap: var(--strata-space-2);
   inline-size: 100%;
   min-inline-size: 0;
-  block-size: var(--strata-control-height);
+  block-size: var(--_h);
   margin: 0;
   padding-block: 0;
   /* The end side matches Combobox/DatePicker: a control-sized icon slot inset by one space step. */
-  padding-inline: var(--strata-control-padding-inline) var(--strata-space-1);
-  border: 1px solid var(--strata-color-border-strong);
-  border-radius: var(--strata-radius-field);
-  background-color: var(--strata-color-surface-default);
+  padding-inline: var(--_pad) var(--strata-space-1);
+  border: 1px solid var(--_edge);
+  border-radius: min(var(--_r), var(--_h) / 2);
+  background-color: var(--_fill);
   color: var(--strata-color-text-default);
   font-family: inherit;
   font-size: var(--strata-font-size-md);
   line-height: var(--strata-line-height-normal);
-  letter-spacing: inherit;
+  letter-spacing: var(--strata-font-tracking-md);
   text-align: start;
   cursor: default;
   outline: none;
 }
-.trigger[data-hovered] {
-  border-color: var(--strata-color-text-subtle);
+.field[data-field-size='sm'] .trigger {
+  --_h: calc(var(--strata-control-height) - var(--strata-space-2));
+  --_r: calc((var(--strata-radius-field) + var(--strata-space-1) / 2) * 0.8);
+  --_pad: calc(var(--strata-control-padding-inline) - var(--strata-space-1));
+  font-size: var(--strata-font-size-sm);
+  letter-spacing: var(--strata-font-tracking-sm);
 }
+.field[data-field-size='lg'] .trigger {
+  --_h: calc(var(--strata-control-height) + var(--strata-space-4));
+  --_r: calc((var(--strata-radius-field) + var(--strata-space-1) / 2) * 1.25);
+  --_pad: calc(var(--strata-control-padding-inline) + var(--strata-space-1));
+}
+/* Continuous corners where supported, on the trigger and the list (radii unchanged). */
+@supports (corner-shape: squircle) {
+  .trigger,
+  .popover,
+  .item {
+    corner-shape: squircle;
+  }
+}
+/* Round-shape brands: true round ends, like Button and the other fields at the same radius. */
+@container style(--strata-radius-button: var(--strata-radius-pill)) {
+  .trigger {
+    corner-shape: round;
+  }
+}
+
+.trigger[data-hovered] {
+  --_edge: var(--strata-color-text-subtle);
+}
+/* Focus = the 2px ring (the accessible indicator) plus a soft halo; the ring "arrives" by settling its offset. */
 .trigger[data-focus-visible] {
+  --_edge: var(--strata-color-focus-ring);
   outline: 2px solid var(--strata-color-focus-ring);
   outline-offset: 2px;
 }
+/* While the list is open the trigger keeps the halo and opens up (surface.default, no inset), so it reads as the
+   thing the popover belongs to. */
+.field[data-open] .trigger {
+  --_edge: var(--strata-color-focus-ring);
+  --_fill: var(--strata-color-surface-default);
+  --_inset: transparent;
+}
 .field[data-invalid] .trigger {
-  border-color: var(--strata-color-feedback-danger-solid);
+  --_edge: var(--strata-color-feedback-danger-solid);
+  --_halo: var(--strata-color-feedback-danger-solid);
 }
 .trigger[data-disabled] {
-  border-color: var(--strata-color-border-default);
-  background-color: var(--strata-color-surface-sunken);
+  --_edge: var(--strata-color-border-default);
+  --_fill: var(--strata-color-surface-sunken);
+  --_inset: transparent;
   color: var(--strata-color-text-disabled);
 }
 
@@ -73,37 +128,60 @@
   flex: none;
   align-items: center;
   justify-content: center;
-  inline-size: calc(var(--strata-control-height) - var(--strata-space-2));
+  inline-size: calc(var(--_h) - var(--strata-space-2));
   color: var(--strata-color-text-subtle);
 }
 .chevron {
   inline-size: 1.15em;
   block-size: 1.15em;
-  stroke-width: 2;
+  stroke-width: var(--strata-icon-stroke, 1.5);
 }
 .field[data-open] .chevron {
   rotate: 180deg;
+}
+.field[data-open] .chevronBox {
+  color: var(--strata-color-text-default);
+}
+.value .icon {
+  color: inherit;
 }
 .trigger[data-disabled] .chevronBox {
   color: var(--strata-color-text-disabled);
 }
 
 /* ——— Popover + list (kept identical to combobox.module.css) ——— */
+/* Glass: a floating layer. The engine solves the glass opacity so text.default and text.subtle reach 4.5:1 over any
+   backdrop; every other text colour in here sits on an opaque role background (surface.selected rows). */
 .popover {
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
   min-inline-size: var(--trigger-width);
   overflow: hidden;
-  border: 1px solid var(--strata-color-border-default);
+  /* Decorative edge: a hairline ring (Chromium rounds sub-pixel borders up to 1px, so it's a box-shadow; the
+     transparent 1px border keeps the size and is the edge in forced-colours mode). The overlay shadow carries the shape. */
+  border: 1px solid transparent;
   border-radius: var(--strata-radius-container);
-  background: var(--strata-color-surface-raised);
+  background: var(--strata-glass-bg);
+  -webkit-backdrop-filter: blur(var(--strata-glass-blur)) saturate(1.6);
+  backdrop-filter: blur(var(--strata-glass-blur)) saturate(1.6);
   color: var(--strata-color-text-default);
-  box-shadow: var(--strata-shadow-overlay);
+  box-shadow:
+    0 0 0 var(--strata-hairline) var(--strata-color-border-default),
+    var(--strata-shadow-highlight),
+    var(--strata-shadow-overlay);
   font-family: var(--strata-font-body);
   font-size: var(--strata-font-size-md);
+  letter-spacing: var(--strata-font-tracking-md);
   line-height: var(--strata-line-height-normal);
   outline: none;
+  /* Grow out of the point on the trigger the popover is attached to. */
+  transform-origin: var(--trigger-anchor-point, top);
+}
+@supports not (backdrop-filter: blur(1px)) {
+  .popover {
+    background: var(--strata-color-surface-raised);
+  }
 }
 
 .listbox {
@@ -121,7 +199,7 @@
 .section + .section {
   margin-block-start: var(--strata-space-1);
   padding-block-start: var(--strata-space-1);
-  border-block-start: 1px solid var(--strata-color-border-subtle);
+  box-shadow: inset 0 var(--strata-hairline) 0 var(--strata-color-border-subtle);
 }
 .sectionHeader {
   padding-block: var(--strata-space-1);
@@ -129,11 +207,13 @@
   color: var(--strata-color-text-subtle);
   font-size: var(--strata-font-size-xs);
   font-weight: var(--strata-font-weight-medium);
+  letter-spacing: var(--strata-font-tracking-xs);
   line-height: var(--strata-line-height-snug);
 }
 
 .item {
-  --item-radius: min(var(--strata-radius-button), var(--strata-space-2));
+  /* Concentric with the list: the container radius minus the listbox inset (floored at a small key-like corner). */
+  --item-radius: max(min(var(--strata-radius-badge), var(--strata-space-1)), calc(var(--strata-radius-container) - var(--strata-space-1)));
   box-sizing: border-box;
   display: flex;
   align-items: center;
@@ -148,23 +228,24 @@
   outline: none;
   forced-color-adjust: none;
 }
+/* The highlighted row is an opaque surface.selected block (not a translucent tint), so its text never depends on
+   what shows through the glass. It fades in rather than blinking from row to row. */
 .item[data-hovered],
 .item[data-focused] {
-  background: color-mix(in oklab, var(--strata-color-text-default) 6%, transparent);
-}
-.item[data-pressed] {
-  background: color-mix(in oklab, var(--strata-color-text-default) 10%, transparent);
+  background: var(--strata-color-surface-selected);
 }
 .item[data-focus-visible] {
   outline: 2px solid var(--strata-color-focus-ring);
   outline-offset: -2px;
 }
+/* On glass only text.default/text.subtle are guaranteed legible, so a disabled option is text.subtle and simply
+   never highlights (React Aria also marks it aria-disabled and skips it with the arrow keys). */
 .item[data-disabled] {
-  color: var(--strata-color-text-disabled);
+  color: var(--strata-color-text-subtle);
 }
 .item[data-disabled] .itemDescription,
 .item[data-disabled] .icon {
-  color: var(--strata-color-text-disabled);
+  color: var(--strata-color-text-subtle);
 }
 
 .icon {
@@ -177,9 +258,12 @@
 .icon > svg {
   inline-size: 1.15em;
   block-size: 1.15em;
+  stroke-width: var(--strata-icon-stroke, 1.5);
 }
-.value .icon {
-  color: inherit;
+.item[data-hovered] .icon,
+.item[data-focused] .icon,
+.item[data-selected] .icon {
+  color: var(--strata-color-text-default);
 }
 
 .itemText {
@@ -199,6 +283,7 @@
 .itemDescription {
   color: var(--strata-color-text-subtle);
   font-size: var(--strata-font-size-sm);
+  letter-spacing: var(--strata-font-tracking-sm);
   line-height: var(--strata-line-height-snug);
 }
 
@@ -208,49 +293,162 @@
   block-size: 1.15em;
   margin-inline-start: auto;
   color: var(--strata-color-text-default);
-  stroke-width: 2;
+  stroke-width: var(--strata-icon-stroke, 1.5);
   visibility: hidden;
 }
 .check[data-visible] {
   visibility: visible;
 }
 
+/* Colour and opacity fades are fine with reduced motion; anything that moves is not. With reduced motion the
+   trigger's halo is always 4px and only its colour fades in; with motion it grows from 0 (below). */
+.trigger {
+  box-shadow:
+    inset 0 1px 2px var(--_inset),
+    0 0 0 4px color-mix(in oklab, var(--_halo) 0%, transparent);
+  transition:
+    border-color var(--strata-motion-duration-fast) var(--strata-motion-easing),
+    background-color var(--strata-motion-duration-fast) var(--strata-motion-easing),
+    box-shadow var(--strata-motion-duration-fast) var(--strata-motion-easing);
+}
+.trigger[data-focus-visible],
+.field[data-open] .trigger {
+  box-shadow:
+    inset 0 1px 2px var(--_inset),
+    0 0 0 4px color-mix(in oklab, var(--_halo) 18%, transparent);
+}
+/* Stagger slot for the rows' entrance: the first 8 rows step in one after another, the rest arrive with the 8th,
+   so a long list is never slower to fill than a short one. */
+.item:nth-child(2) { --_i: 1; }
+.item:nth-child(3) { --_i: 2; }
+.item:nth-child(4) { --_i: 3; }
+.item:nth-child(5) { --_i: 4; }
+.item:nth-child(6) { --_i: 5; }
+.item:nth-child(7) { --_i: 6; }
+.item:nth-child(n + 8) { --_i: 7; }
+.chevronBox {
+  transition: color var(--strata-motion-duration-fast) var(--strata-motion-easing);
+}
+.item {
+  transition: background-color var(--strata-motion-duration-fast) var(--strata-motion-easing);
+}
+.icon {
+  transition: color var(--strata-motion-duration-fast) var(--strata-motion-easing);
+}
+.popover[data-entering] {
+  animation: popover-fade-in var(--strata-motion-duration-normal) var(--strata-motion-easing-out);
+}
+.popover[data-exiting] {
+  animation: popover-fade-out var(--strata-motion-duration-fast) var(--strata-motion-easing) forwards;
+}
+
 @media (prefers-reduced-motion: no-preference) {
+  /* Focus arrives: the halo grows 0 → 4px and the ring's offset 0 → 2px on the spring; both leave quickly. */
   .trigger {
-    transition: border-color var(--strata-motion-duration-fast) var(--strata-motion-easing);
+    box-shadow:
+      inset 0 1px 2px var(--_inset),
+      0 0 0 0 color-mix(in oklab, var(--_halo) 18%, transparent);
+    transition:
+      border-color var(--strata-motion-duration-fast) var(--strata-motion-easing),
+      background-color var(--strata-motion-duration-fast) var(--strata-motion-easing),
+      box-shadow var(--strata-motion-duration-fast) var(--strata-motion-easing),
+      outline-offset var(--strata-motion-duration-fast) var(--strata-motion-easing);
   }
+  .trigger[data-focus-visible],
+  .field[data-open] .trigger {
+    box-shadow:
+      inset 0 1px 2px var(--_inset),
+      0 0 0 4px color-mix(in oklab, var(--_halo) 18%, transparent);
+    transition:
+      background-color var(--strata-motion-duration-fast) var(--strata-motion-easing),
+      border-color var(--strata-motion-duration-fast) var(--strata-motion-easing),
+      box-shadow var(--strata-motion-duration-spring) var(--strata-motion-spring),
+      outline-offset var(--strata-motion-duration-spring) var(--strata-motion-spring);
+  }
+  .trigger:not([data-focus-visible]) {
+    outline-offset: 0;
+  }
+  /* Rows step in as the list opens: a fade and the popover's 4px slide, 30ms apart (a quarter of duration-fast),
+     so the cascade finishes with the panel's spring. Rows are interactive the whole time. */
+  .item {
+    animation: item-in var(--strata-motion-duration-normal) var(--strata-motion-easing-out)
+      calc(var(--_i, 0) * var(--strata-motion-duration-fast) / 4) backwards;
+  }
+  /* The chevron flips with the spring (a hint of overshoot, then settles). */
   .chevron {
-    transition: rotate var(--strata-motion-duration-normal) var(--strata-motion-easing);
+    transition: rotate var(--strata-motion-duration-spring) var(--strata-motion-spring);
   }
+  .item {
+    transition:
+      background-color var(--strata-motion-duration-fast) var(--strata-motion-easing),
+      scale var(--strata-motion-duration-spring) var(--strata-motion-spring);
+  }
+  .item[data-pressed] {
+    scale: 0.96;
+    transition:
+      background-color var(--strata-motion-duration-fast) var(--strata-motion-easing),
+      scale var(--strata-motion-duration-fast) var(--strata-motion-easing);
+  }
+  /* The tick springs in when an option becomes the value (and when the list opens on it). */
+  .check[data-visible] {
+    animation: check-in var(--strata-motion-duration-spring) var(--strata-motion-spring);
+  }
+  /* Enter from the trigger: opacity eases out, scale + a 4px slide ride the spring. Exit is quicker, no spring. */
   .popover[data-entering] {
-    animation: popover-in var(--strata-motion-duration-fast) var(--strata-motion-easing);
+    animation:
+      popover-fade-in var(--strata-motion-duration-normal) var(--strata-motion-easing-out),
+      popover-move-in var(--strata-motion-duration-spring) var(--strata-motion-spring);
   }
   .popover[data-exiting] {
-    animation: popover-out var(--strata-motion-duration-fast) var(--strata-motion-easing) forwards;
+    animation:
+      popover-fade-out var(--strata-motion-duration-fast) var(--strata-motion-easing) forwards,
+      popover-move-out var(--strata-motion-duration-fast) var(--strata-motion-easing) forwards;
   }
 }
 /* Slide from the side the popover opens towards (placement is physical, as is translate). */
 .popover[data-placement='bottom'] {
-  --popover-slide: 0 calc(var(--strata-space-1) * -1);
+  --popover-slide: 0 -4px;
 }
 .popover[data-placement='top'] {
-  --popover-slide: 0 var(--strata-space-1);
+  --popover-slide: 0 4px;
 }
 .popover[data-placement='left'] {
-  --popover-slide: var(--strata-space-1) 0;
+  --popover-slide: 4px 0;
 }
 .popover[data-placement='right'] {
-  --popover-slide: calc(var(--strata-space-1) * -1) 0;
+  --popover-slide: -4px 0;
 }
-@keyframes popover-in {
+@keyframes popover-fade-in {
+  from {
+    opacity: 0;
+  }
+}
+@keyframes popover-fade-out {
+  to {
+    opacity: 0;
+  }
+}
+@keyframes popover-move-in {
+  from {
+    scale: 0.96;
+    translate: var(--popover-slide, 0 0);
+  }
+}
+@keyframes popover-move-out {
+  to {
+    scale: 0.98;
+    translate: var(--popover-slide, 0 0);
+  }
+}
+@keyframes item-in {
   from {
     opacity: 0;
     translate: var(--popover-slide, 0 0);
   }
 }
-@keyframes popover-out {
-  to {
+@keyframes check-in {
+  from {
+    scale: 0.4;
     opacity: 0;
-    translate: var(--popover-slide, 0 0);
   }
 }

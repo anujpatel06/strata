@@ -6,7 +6,7 @@
   "maturity": "beta",
   "exports": ["Pagination"],
   "files": ["pagination.tsx", "pagination.module.css"],
-  "dependencies": ["react-aria-components", "@tabler/icons-react"],
+  "dependencies": ["react-aria-components", "@strata/icons"],
   "registryDependencies": [],
   "usage": "import { useState } from 'react';\nimport { Pagination } from '@strata/react';\n\nexport function Results() {\n  const [page, setPage] = useState(1);\n  return <Pagination page={page} pageCount={12} onPageChange={setPage} />;\n}",
   "examples": [
@@ -36,7 +36,7 @@
     ],
     "notes": [
       "Renders <nav aria-label=\"Pagination\"> around a list of buttons (a labelled group with landmark={false}). Give each instance a unique label when a page has more than one.",
-      "The current page has aria-current=\"page\" and an outline, not only a colour change.",
+      "The current page has aria-current=\"page\", a raised bordered key and semibold figures, not only a colour change.",
       "Page buttons are named \"Page 3\"; ellipses are hidden from assistive technology.",
       "At the first or last page, previous/next keep focus and are marked aria-disabled instead of being removed from the tab order.",
       "The compact summary is a polite live region, so page changes are announced.",
@@ -57,19 +57,27 @@
     ]
   },
   "tokens": [
-    "color.text.default",
-    "color.text.subtle",
-    "color.text.disabled",
-    "color.surface.default",
-    "color.border.strong",
-    "color.border.default",
-    "color.focus.ring",
-    "radius.button",
+    "space.1",
     "control-height",
+    "space.2",
+    "radius.button",
+    "color.text.default",
     "font.size.md",
-    "font.size.sm",
     "font.weight.medium",
+    "line-height.tight",
+    "color.focus.ring",
+    "font.weight.semibold",
+    "color.border.default",
+    "color.surface.raised",
+    "shadow.highlight",
+    "shadow.raised",
     "motion.duration.fast",
-    "motion.easing"
+    "motion.easing",
+    "space.3",
+    "color.text.disabled",
+    "color.text.subtle",
+    "motion.duration.spring",
+    "motion.spring",
+    "font.size.sm"
   ]
 }

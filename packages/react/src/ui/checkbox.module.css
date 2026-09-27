@@ -47,9 +47,25 @@
   color: var(--strata-color-action-primary-fg);
 }
 
-.box > svg {
+.mark {
   inline-size: 80%;
   block-size: 80%;
+  overflow: visible;
+}
+
+/*
+ * Undrawn at rest: each path is one dash (pathLength 1) pushed just past its start. The gap is 2 and the offset 1.1
+ * so no round cap from a neighbouring dash peeks in at either end.
+ */
+.check,
+.dash {
+  stroke-dasharray: 1 2;
+  stroke-dashoffset: 1.1;
+}
+
+.button[data-selected]:not([data-indeterminate]) .check,
+.button[data-indeterminate] .dash {
+  stroke-dashoffset: 0;
 }
 
 .label {
@@ -71,11 +87,17 @@
 .button:is([data-selected], [data-indeterminate]) .box {
   border-color: var(--strata-color-action-primary-bg);
   background-color: var(--strata-color-action-primary-bg);
+  /* Solid fill: sheen + raised shadow, like a primary button. */
+  box-shadow: var(--strata-shadow-highlight), var(--strata-shadow-raised);
 }
 
 .button:is([data-selected], [data-indeterminate])[data-hovered] .box {
   border-color: var(--strata-color-action-primary-hover);
   background-color: var(--strata-color-action-primary-hover);
+}
+
+.box {
+  outline-offset: 0;
 }
 
 .button[data-focus-visible] .box {
@@ -105,28 +127,69 @@
   border-color: var(--strata-color-text-disabled);
   background-color: var(--strata-color-text-disabled);
   color: var(--strata-color-surface-default);
+  box-shadow: none;
 }
 
 .button[data-disabled] .label {
   color: var(--strata-color-text-disabled);
 }
 
+/* Colour and shadow fades are fine with reduced motion; the mark then simply appears. */
+.box {
+  transition:
+    background-color var(--strata-motion-duration-fast) var(--strata-motion-easing),
+    border-color var(--strata-motion-duration-fast) var(--strata-motion-easing),
+    box-shadow var(--strata-motion-duration-fast) var(--strata-motion-easing),
+    outline-offset var(--strata-motion-duration-fast) var(--strata-motion-easing);
+}
+
 @media (prefers-reduced-motion: no-preference) {
+  /*
+   * State changes pop. Press squeezes the box to 0.85 quickly; the release (which is when the value flips) springs
+   * it back past 1. Keyboard Space presses the same way. The pop is a transition, not a keyframe, so boxes that
+   * mount already checked stay still on page load.
+   */
   .box {
     transition:
       background-color var(--strata-motion-duration-fast) var(--strata-motion-easing),
-      border-color var(--strata-motion-duration-fast) var(--strata-motion-easing);
+      border-color var(--strata-motion-duration-fast) var(--strata-motion-easing),
+      box-shadow var(--strata-motion-duration-fast) var(--strata-motion-easing),
+      outline-offset var(--strata-motion-duration-spring) var(--strata-motion-spring),
+      scale var(--strata-motion-duration-spring) var(--strata-motion-spring);
   }
 
-  .box > svg {
-    animation: strata-checkbox-in var(--strata-motion-duration-fast) var(--strata-motion-easing);
+  .button[data-pressed]:not([data-disabled]) .box {
+    scale: 0.85;
+    transition-duration:
+      var(--strata-motion-duration-fast), var(--strata-motion-duration-fast), var(--strata-motion-duration-fast),
+      var(--strata-motion-duration-spring), var(--strata-motion-duration-fast);
+    transition-timing-function:
+      var(--strata-motion-easing), var(--strata-motion-easing), var(--strata-motion-easing), var(--strata-motion-spring),
+      var(--strata-motion-easing);
   }
-}
 
-@keyframes strata-checkbox-in {
-  from {
-    scale: 0.6;
-    opacity: 0;
+  /* The mark grows from 0.5 on the spring while it draws in (also when a "select all" row sets it), and shrinks
+     back quickly when it clears. */
+  .mark {
+    scale: 0.5;
+    transition: scale var(--strata-motion-duration-fast) var(--strata-motion-easing);
+  }
+
+  .button:is([data-selected], [data-indeterminate]) .mark {
+    scale: 1;
+    transition: scale var(--strata-motion-duration-spring) var(--strata-motion-spring);
+  }
+
+  /* The check draws in (after the fill has started), and retracts quickly. */
+  .check,
+  .dash {
+    transition: stroke-dashoffset var(--strata-motion-duration-fast) var(--strata-motion-easing);
+  }
+
+  .button[data-selected]:not([data-indeterminate]) .check,
+  .button[data-indeterminate] .dash {
+    transition: stroke-dashoffset var(--strata-motion-duration-normal) var(--strata-motion-easing-out)
+      calc(var(--strata-motion-duration-fast) / 2);
   }
 }
 

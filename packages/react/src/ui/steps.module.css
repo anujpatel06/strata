@@ -71,6 +71,12 @@
   text-underline-offset: 0.2em;
 }
 
+/* Completed steps you can go back to: the marker brightens on hover (colour only). */
+.button[data-hovered] .marker {
+  border-color: var(--strata-color-action-primary-hover);
+  background-color: var(--strata-color-action-primary-hover);
+}
+
 .marker {
   box-sizing: border-box;
   grid-area: marker;
@@ -104,14 +110,27 @@
   line-height: var(--strata-line-height-snug);
 }
 
+.check {
+  inline-size: 1.15em;
+  block-size: 1.15em;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 0;
+}
+
+/* Solid fill: sheen + raised shadow, never an overlay behind the tick. */
 .step[data-status='complete'] .marker {
   border-color: var(--strata-color-action-primary-bg);
   background-color: var(--strata-color-action-primary-bg);
+  box-shadow: var(--strata-shadow-highlight), var(--strata-shadow-raised);
   color: var(--strata-color-action-primary-fg);
 }
 
+/* Current: a 2px brand ring plus a soft 4px halo so "you are here" reads at a glance (the ring alone
+   carries the state; the halo is decoration). */
 .step[data-status='current'] .marker {
   border: 2px solid var(--strata-color-action-primary-bg);
+  background-color: var(--strata-color-surface-default);
+  box-shadow: 0 0 0 4px color-mix(in oklab, var(--strata-color-action-primary-bg) 16%, transparent);
   color: var(--strata-color-text-default);
   font-weight: var(--strata-font-weight-semibold);
 }
@@ -121,13 +140,96 @@
 }
 
 .connector {
+  position: relative;
   display: block;
+  overflow: hidden;
   border-radius: var(--strata-radius-pill);
   background-color: var(--strata-color-border-default);
 }
 
-.step[data-status='complete'] > .connector {
+/* The brand fill is its own layer, so it can fade in (reduced motion) or sweep along the line (motion on). */
+.connector::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
   background-color: var(--strata-color-action-primary-bg);
+  opacity: 0;
+}
+
+.step[data-status='complete'] > .connector::after {
+  opacity: 1;
+}
+
+.marker,
+.label {
+  transition-property: background-color, border-color, color, box-shadow;
+  transition-duration: var(--strata-motion-duration-normal);
+  transition-timing-function: var(--strata-motion-easing);
+}
+
+.connector::after {
+  transition: opacity var(--strata-motion-duration-slow) var(--strata-motion-easing);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  /* Completing a step: the connector sweeps from this step toward the next (start → end, so RTL runs right to left)… */
+  .connector::after {
+    scale: 0 1;
+    transform-origin: left center;
+    transition-property: opacity, scale;
+    transition-duration: var(--strata-motion-duration-fast), var(--strata-motion-duration-slow);
+    transition-timing-function: var(--strata-motion-easing), var(--strata-motion-easing-out);
+  }
+
+  .connector:dir(rtl)::after {
+    transform-origin: right center;
+  }
+
+  .root[data-orientation='vertical'] .connector::after {
+    scale: 1 0;
+    transform-origin: center top;
+  }
+
+  .step[data-status='complete'] > .connector::after {
+    scale: 1;
+  }
+
+  /* …and the tick draws itself in, after a beat. */
+  .check path {
+    animation: strata-steps-check var(--strata-motion-duration-slow) var(--strata-motion-easing-out) var(--strata-motion-duration-fast) both;
+  }
+
+  /* The marker that just became current or complete pops with the spring. */
+  .step:is([data-status='current'], [data-status='complete']) .marker {
+    animation: strata-steps-pop var(--strata-motion-duration-spring) var(--strata-motion-spring);
+  }
+
+  .button {
+    transition: scale var(--strata-motion-duration-spring) var(--strata-motion-spring);
+  }
+
+  .button[data-pressed] {
+    scale: 0.97;
+    transition-duration: var(--strata-motion-duration-fast);
+    transition-timing-function: var(--strata-motion-easing);
+  }
+
+  .segment {
+    transition: background-color var(--strata-motion-duration-slow) var(--strata-motion-easing);
+  }
+}
+
+@keyframes strata-steps-check {
+  from {
+    stroke-dashoffset: 1;
+  }
+}
+
+@keyframes strata-steps-pop {
+  from {
+    scale: 0.9;
+  }
 }
 
 /* ------------------------------------------------------------------ *

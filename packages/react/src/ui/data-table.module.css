@@ -21,9 +21,19 @@
   overflow: auto;
   overscroll-behavior-x: contain;
   background-color: var(--strata-color-surface-default);
-  border: 1px solid var(--strata-color-border-default);
+  /* Finesse: the frame is a card (raised shadow), so its edge is a hairline ring, not a full border. A box-shadow,
+     because Chromium rounds sub-pixel borders up to 1px; the transparent border keeps the size and shows in
+     forced-colours mode. Dividers inside use the same inset-shadow hairline. */
+  border: 1px solid transparent;
   border-radius: var(--strata-radius-container);
+  box-shadow: 0 0 0 var(--strata-hairline) var(--strata-color-border-subtle), var(--strata-shadow-raised);
   color: var(--strata-color-text-default);
+}
+
+@supports (corner-shape: squircle) {
+  .root {
+    corner-shape: squircle;
+  }
 }
 
 .root[data-density='compact'] {
@@ -43,6 +53,7 @@
   border-collapse: separate;
   border-spacing: 0;
   font-size: var(--strata-font-size-md);
+  letter-spacing: var(--strata-font-tracking-md);
   line-height: var(--strata-line-height-snug);
   outline: none;
 }
@@ -60,12 +71,15 @@
   box-sizing: border-box;
   block-size: var(--_head);
   padding-block: 0;
-  padding-inline: var(--strata-space-3);
-  background-color: var(--strata-color-surface-default);
-  border-block-end: 1px solid var(--strata-color-border-default);
+  padding-inline: var(--strata-space-4);
+  /* Hierarchy through weight and colour: no fill, subtle medium text, one hairline under it (the same quiet
+     border.subtle as the rows: the header is set apart by its type, not by a heavier line). */
+  background-color: transparent;
+  box-shadow: inset 0 calc(var(--strata-hairline) * -1) 0 var(--strata-color-border-subtle);
   color: var(--strata-color-text-subtle);
-  font-size: var(--strata-font-size-xs);
+  font-size: var(--strata-font-size-sm);
   font-weight: var(--strata-font-weight-medium);
+  letter-spacing: var(--strata-font-tracking-sm);
   line-height: var(--strata-line-height-snug);
   text-align: start;
   vertical-align: middle;
@@ -77,6 +91,19 @@
   position: sticky;
   inset-block-start: 0;
   z-index: 1;
+  background-color: var(--strata-color-surface-default);
+}
+
+/*
+ * Sticky header: frosted glass, so rows blur as they scroll under it. Header text is text.subtle/default only,
+ * which the engine solves to 4.5:1 over any backdrop at this glass opacity.
+ */
+@supports (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px)) {
+  .sticky .column {
+    background-color: var(--strata-glass-bg);
+    -webkit-backdrop-filter: blur(var(--strata-glass-blur)) saturate(1.6);
+    backdrop-filter: blur(var(--strata-glass-blur)) saturate(1.6);
+  }
 }
 
 .column[data-focus-visible] {
@@ -117,11 +144,23 @@
 }
 
 .sortIcon:not([data-direction]) {
-  opacity: 0.6;
+  opacity: 0.5;
+}
+
+.column[data-hovered] .sortIcon {
+  opacity: 1;
 }
 
 .sortIcon[data-direction] {
   color: var(--strata-color-text-default);
+}
+
+.sortArrow {
+  display: block;
+}
+
+.sortIcon[data-direction='descending'] > .sortArrow {
+  rotate: 180deg;
 }
 
 /* Sort icon sits before the label in end-aligned columns, so labels line up with the numbers under them.
@@ -142,8 +181,8 @@
 .cell {
   box-sizing: border-box;
   padding-block: var(--_pad-block);
-  padding-inline: var(--strata-space-3);
-  border-block-end: 1px solid var(--strata-color-border-subtle);
+  padding-inline: var(--strata-space-4);
+  box-shadow: inset 0 calc(var(--strata-hairline) * -1) 0 var(--strata-color-border-subtle);
   text-align: start;
   vertical-align: middle;
   white-space: nowrap;
@@ -151,24 +190,30 @@
 }
 
 .row:last-child > .cell {
-  border-block-end: 0;
+  box-shadow: none;
 }
 
-/* Edge cells line up with the frame's inset. */
+/* Edge cells line up with the frame's inset (the card inset, so a table inside a card aligns with its title). */
 .column:first-child,
 .cell:first-child {
-  padding-inline-start: var(--strata-space-4);
+  padding-inline-start: max(var(--strata-space-4), var(--strata-card-inset));
 }
 
 .column:last-child,
 .cell:last-child {
-  padding-inline-end: var(--strata-space-4);
+  padding-inline-end: max(var(--strata-space-4), var(--strata-card-inset));
 }
 
 @media (hover: hover) {
   .row:not([data-skeleton]):hover {
-    background-color: color-mix(in oklab, var(--strata-color-surface-selected) 55%, transparent);
+    /* A quiet tint, not a block: the row answers the pointer without competing with selection. */
+    background-color: color-mix(in oklab, var(--strata-color-surface-selected) 45%, transparent);
   }
+}
+
+/* Pressing an actionable row answers immediately. */
+.table[data-actionable] .row[data-pressed]:not([data-disabled]) {
+  background-color: var(--strata-color-surface-selected);
 }
 
 /*
@@ -179,6 +224,32 @@
 .row[data-selected]:hover {
   --strata-color-text-subtle: var(--strata-color-text-default);
   background-color: var(--strata-color-surface-selected);
+}
+
+/* A soft badge's tint can match surface.selected; a faint same-hue edge keeps its shape readable (decorative:
+   the badge's text carries the meaning). */
+.row[data-selected] :where([data-variant='soft'][data-tone]) {
+  box-shadow: inset 0 0 0 1px color-mix(in oklab, currentColor 28%, transparent);
+}
+
+/* Selected rows also get a 2px brand bar on the inline-start edge (the checkbox carries the state; this is emphasis). */
+.cell:first-child {
+  position: relative;
+}
+
+.cell:first-child::before {
+  content: '';
+  position: absolute;
+  inset-block: 0;
+  inset-inline-start: 0;
+  inline-size: 2px;
+  background-color: var(--strata-color-action-primary-bg);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.row[data-selected] > .cell:first-child::before {
+  opacity: 1;
 }
 
 .table[data-actionable] .row:not([data-disabled]) {
@@ -304,9 +375,45 @@
   justify-content: flex-end;
 }
 
+/* Colour and opacity fades stay on with reduced motion. */
+.row {
+  transition: background-color var(--strata-motion-duration-fast) var(--strata-motion-easing);
+}
+
+.cell:first-child::before {
+  transition: opacity var(--strata-motion-duration-normal) var(--strata-motion-easing);
+}
+
+.column,
+.sortIcon {
+  transition-property: color, opacity;
+  transition-duration: var(--strata-motion-duration-fast);
+  transition-timing-function: var(--strata-motion-easing);
+}
+
 @media (prefers-reduced-motion: no-preference) {
-  .row {
-    transition: background-color var(--strata-motion-duration-fast) var(--strata-motion-easing);
+  /* Flipping the sort turns the arrow with the spring; a newly sorted column's arrow pops in. */
+  .sortArrow {
+    transition: rotate var(--strata-motion-duration-spring) var(--strata-motion-spring);
+    animation: strata-table-sort-in var(--strata-motion-duration-spring) var(--strata-motion-spring);
   }
 
+  /* The brand bar grows from the row's centre when it's selected. */
+  .cell:first-child::before {
+    scale: 1 0;
+    transition-property: opacity, scale;
+    transition-duration: var(--strata-motion-duration-fast), var(--strata-motion-duration-spring);
+    transition-timing-function: var(--strata-motion-easing), var(--strata-motion-spring);
+  }
+
+  .row[data-selected] > .cell:first-child::before {
+    scale: 1;
+  }
+}
+
+@keyframes strata-table-sort-in {
+  from {
+    opacity: 0;
+    scale: 0.6;
+  }
 }

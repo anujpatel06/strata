@@ -1,6 +1,6 @@
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { IconCopy } from '@tabler/icons-react';
+import { IconCopy } from '@strata/icons';
 import { Button } from '../src/ui/button';
 import { Tooltip, TooltipTrigger, type TooltipProps } from '../src/ui/tooltip';
 

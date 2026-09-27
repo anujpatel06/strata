@@ -15,7 +15,7 @@
   ],
   "dependencies": [
     "react-aria-components",
-    "@tabler/icons-react"
+    "@strata/icons"
   ],
   "registryDependencies": [
     "text-field"
@@ -142,6 +142,13 @@
     },
     {
       "component": "Combobox",
+      "name": "size",
+      "type": "'sm' | 'md' | 'lg'",
+      "default": "'md'",
+      "description": "Height of the box: md is the density's control height, sm one 8px step shorter, lg two steps taller. Height, corner radius and inline inset match a Button of the same size, so a field and a button in one row line up."
+    },
+    {
+      "component": "Combobox",
       "name": "isRequired / isInvalid / isDisabled",
       "type": "boolean",
       "default": "false",
@@ -212,7 +219,8 @@
     "notes": [
       "The input is role=\"combobox\" with aria-expanded, aria-controls and aria-activedescendant; the highlighted option is announced as you arrow.",
       "The chevron button is for pointer users and is excluded from the tab order.",
-      "The empty state is rendered inside the listbox so screen readers announce it."
+      "The empty state is rendered inside the listbox so screen readers announce it.",
+      "Motion follows prefers-reduced-motion: the list still fades, but the spring entrance, the rows stepping in on open (first 8, 30ms apart; not while filtering), the press dip, the field's growing halo and the chevron flip only run when motion is allowed."
     ]
   },
   "guidelines": {
@@ -228,28 +236,45 @@
     ]
   },
   "tokens": [
-    "color.surface.default",
-    "color.surface.raised",
-    "color.border.strong",
-    "color.border.default",
-    "color.border.subtle",
-    "color.text.default",
-    "color.text.subtle",
-    "color.text.disabled",
-    "color.focus.ring",
-    "control-height",
-    "control-padding-inline",
-    "radius.field",
-    "radius.container",
-    "radius.button",
-    "shadow.overlay",
-    "space.1",
     "space.2",
+    "space.1",
+    "control-height",
+    "space.6",
+    "color.text.subtle",
+    "color.text.default",
+    "color.focus.ring",
+    "color.text.disabled",
     "font.size.md",
-    "font.size.sm",
-    "font.size.xs",
     "motion.duration.fast",
+    "motion.easing",
+    "motion.duration.spring",
+    "motion.spring",
+    "glass.bg",
+    "color.border.default",
+    "radius.container",
+    "color.surface.raised",
+    "glass.opacity",
+    "glass.blur",
+    "shadow.highlight",
+    "shadow.overlay",
+    "font.body",
+    "line-height.normal",
+    "space.16",
+    "color.border.subtle",
+    "control-padding-inline",
+    "font.size.xs",
+    "font.weight.medium",
+    "line-height.snug",
+    "color.surface.selected",
+    "font.size.sm",
     "motion.duration.normal",
-    "motion.easing"
+    "motion.easing-out",
+    "color.border.strong",
+    "color.surface.default",
+    "color.surface.sunken",
+    "color.surface.canvas",
+    "radius.field",
+    "space.4",
+    "font.tracking.sm"
   ]
 }

@@ -27,6 +27,11 @@
       "description": "Header with a status in CardAction, key figures, and a footer with actions."
     },
     {
+      "name": "card-feature",
+      "title": "Feature",
+      "description": "A promo card: brand glow from the top-start corner, rim light, star field, and a primary and secondary action."
+    },
+    {
       "name": "card-with-form",
       "title": "With a form",
       "description": "Fields in CardContent and submit/cancel in CardFooter."
@@ -35,15 +40,51 @@
       "name": "card-variants",
       "title": "Variants",
       "description": "default (raised), outline and ghost."
+    },
+    {
+      "name": "card-interactive",
+      "title": "Interactive",
+      "description": "Cards that open something: one link in the title covers the card, which lifts under the pointer."
+    },
+    {
+      "name": "card-inset",
+      "title": "Inset content",
+      "description": "A pale inner surface with a concentric corner, and a meta line with an icon."
+    },
+    {
+      "name": "card-rim",
+      "title": "Rim light",
+      "description": "The opt-in rim: the edge catches light at the top-left and fades."
     }
   ],
   "props": [
     {
       "component": "Card",
       "name": "variant",
-      "type": "'default' | 'outline' | 'ghost'",
+      "type": "'default' | 'outline' | 'ghost' | 'feature'",
       "default": "'default'",
-      "description": "default = raised surface, border and shadow; outline = border only; ghost = no chrome, same spacing."
+      "description": "default = raised surface, hairline edge and soft shadow; outline = hairline edge only; ghost = no chrome, same spacing; feature = a promo/hero card with a deep brand glow from the top-start corner, the rim light and the brand halo (one per view). Its glow is capped so text.default, text.subtle and text.brand stay ≥ 4.5:1 (proved in test/card.test.tsx). feature adapts to the scheme: in light it's the raised shadow and a very faint brand gradient; in dark, a deep gradient and the brand halo."
+    },
+    {
+      "component": "Card",
+      "name": "interactive",
+      "type": "boolean",
+      "default": "false",
+      "description": "For cards that open something. One link in CardTitle stretches over the card; the card lifts on hover, springs back when pressed, and shows the focus ring round the whole card. Other controls inside stay clickable."
+    },
+    {
+      "component": "Card",
+      "name": "rim",
+      "type": "boolean",
+      "default": "false",
+      "description": "Rim light: the 1px edge is brighter at the top-left and fades, like light catching glass. Opt-in; always on for variant=\"feature\"."
+    },
+    {
+      "component": "Card",
+      "name": "stars",
+      "type": "boolean",
+      "default": "false",
+      "description": "A faint decorative star field (CSS dots in a pseudo-element, invisible to assistive tech). Only drawn on variant=\"feature\"."
     },
     {
       "component": "CardHeader",
@@ -71,6 +112,13 @@
       "type": "boolean",
       "default": "false",
       "description": "Draws a hairline above the footer."
+    },
+    {
+      "component": "CardContent",
+      "name": "variant",
+      "type": "'default' | 'inset'",
+      "default": "'default'",
+      "description": "inset = a pale inner surface (surface.sunken, hairline edge, corner concentric with the card) for a table, list or code block. A table inside fills it edge to edge and loses its own frame; the card inset token is halved inside."
     }
   ],
   "accessibility": {
@@ -78,35 +126,66 @@
     "notes": [
       "A card is a plain div; CardTitle is a real heading (h3 by default).",
       "If the whole card is a link, put the link on the title and extend its hit area with CSS rather than wrapping the card in <a>.",
-      "Give a card role=\"region\" and aria-labelledby only when it is a major page landmark."
+      "Give a card role=\"region\" and aria-labelledby only when it is a major page landmark.",
+      "Interactive cards: the title link is the only tab stop for the card and names it; its focus ring is drawn round the whole card. Keep other controls inside few — they stay separately focusable above the stretched link.",
+      "Feature cards: the glow strength (16% light, 30% dark) and star alpha are capped so text.default, text.subtle and text.brand reach 4.5:1 on the worst pixel for every tenant; test/card.test.tsx re-proves it from the CSS. Buttons on it keep their own solved fills."
     ]
   },
   "guidelines": {
     "do": [
       "Keep one primary action per card, in the footer or CardAction.",
-      "Let parts that must bleed (tables, images) drop their inline padding."
+      "Let parts that must bleed (tables, images) drop their inline padding.",
+      "Use CardContent variant=\"inset\" when the content is one object (a table, a diff, a list) that should read as a unit inside the card.",
+      "Use variant=\"feature\" for one promo or hero card per view, with one primary and one secondary action."
     ],
     "dont": [
       "Don't nest cards; use a Separator or an outline card inside.",
-      "Don't put more than one heading level inside a CardHeader."
+      "Don't put more than one heading level inside a CardHeader.",
+      "Don't nest inset surfaces, or put an inset surface in an outline or ghost card: the pale fill needs the raised card around it.",
+      "Don't put text colours other than text.default, text.subtle and text.brand on a feature card; other roles aren't proved on the glow."
     ]
   },
   "tokens": [
-    "color.surface.raised",
     "color.border.default",
     "color.border.subtle",
+    "color.focus.ring",
+    "color.surface.raised",
     "color.text.default",
     "color.text.subtle",
+    "shadow.highlight",
+    "shadow.overlay",
     "shadow.raised",
     "radius.container",
-    "card-inset",
+    "font.body",
     "font.heading",
-    "font.heading-tracking",
     "font.size.lg",
+    "font.size.md",
     "font.size.sm",
     "font.weight.semibold",
+    "line-height.normal",
+    "line-height.tight",
     "space.1",
     "space.2",
-    "space.4"
+    "space.4",
+    "card-inset",
+    "motion.duration.fast",
+    "motion.duration.normal",
+    "motion.duration.spring",
+    "motion.easing",
+    "motion.spring",
+    "font.tracking.lg",
+    "font.tracking.md",
+    "font.tracking.sm",
+    "hairline",
+    "motion.duration.slow",
+    "motion.easingOut",
+    "color.surface.sunken",
+    "radius.badge",
+    "font.weight.regular",
+    "color.action.primary.bg",
+    "color.text.brand",
+    "rim",
+    "glow",
+    "icon-stroke"
   ]
 }

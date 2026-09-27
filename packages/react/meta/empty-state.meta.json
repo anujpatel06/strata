@@ -13,7 +13,7 @@
   ],
   "dependencies": [],
   "registryDependencies": [],
-  "usage": "import { IconFileText } from '@tabler/icons-react';\nimport { Button, EmptyState } from '@strata/react';\n\nexport function NoClaims() {\n  return (\n    <EmptyState\n      icon={<IconFileText />}\n      title=\"No claims yet\"\n      description=\"When you submit a claim, you can track it here.\"\n      action={<Button>Start a claim</Button>}\n    />\n  );\n}",
+  "usage": "import { IconFileText } from '@strata/icons';\nimport { Button, EmptyState } from '@strata/react';\n\nexport function NoClaims() {\n  return (\n    <EmptyState\n      icon={<IconFileText />}\n      title=\"No claims yet\"\n      description=\"When you submit a claim, you can track it here.\"\n      action={<Button>Start a claim</Button>}\n    />\n  );\n}",
   "examples": [
     {
       "name": "empty-state-demo",
@@ -49,7 +49,7 @@
       "component": "EmptyState",
       "name": "icon",
       "type": "ReactNode",
-      "description": "Decorative icon shown in a tinted tile."
+      "description": "Decorative icon shown in a small raised tile above the title."
     },
     {
       "component": "EmptyState",
@@ -92,17 +92,29 @@
     ]
   },
   "tokens": [
-    "color.surface.sunken",
     "color.border.subtle",
+    "color.surface.raised",
     "color.text.default",
     "color.text.subtle",
+    "shadow.highlight",
+    "shadow.raised",
     "radius.container",
+    "font.body",
     "font.heading",
-    "font.heading-tracking",
     "font.size.lg",
     "font.size.md",
     "font.size.sm",
     "font.weight.semibold",
-    "space.1–12"
+    "line-height.normal",
+    "line-height.snug",
+    "space.1",
+    "space.2",
+    "space.3",
+    "space.4",
+    "space.5",
+    "space.6",
+    "space.8",
+    "space.10",
+    "space.12"
   ]
 }

@@ -6,11 +6,17 @@
   min-inline-size: 0;
   max-inline-size: calc(100vw - var(--strata-space-4) * 2);
   padding: var(--popover-padding, var(--strata-card-inset));
-  background: var(--strata-color-surface-raised);
+  /* Glass: the engine solves --strata-glass-bg's opacity so text.default and text.subtle keep 4.5:1 over any
+     backdrop. Only those two text roles sit directly on it; anything else needs an opaque role background. */
+  background: var(--strata-glass-bg);
+  -webkit-backdrop-filter: blur(var(--strata-glass-blur)) saturate(1.6);
+  backdrop-filter: blur(var(--strata-glass-blur)) saturate(1.6);
   border: 1px solid var(--strata-color-border-default);
   border-radius: var(--strata-radius-container);
-  box-shadow: var(--strata-shadow-overlay);
+  box-shadow: var(--strata-shadow-highlight), var(--strata-shadow-overlay);
   outline: none;
+  /* Grow out of the trigger: React Aria sets the anchor point relative to the popover. */
+  transform-origin: var(--trigger-anchor-point, center);
   font-family: var(--strata-font-body);
   font-size: var(--strata-font-size-md);
   line-height: var(--strata-line-height-normal);
@@ -19,6 +25,14 @@
   -moz-osx-font-smoothing: grayscale;
 }
 /* Programmatic focus on open. Pseudo-class selector so page-level `[tabindex]:focus-visible` rules can't outrank it. */
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .popover {
+    background: var(--strata-color-surface-raised);
+  }
+  .arrow path {
+    fill: var(--strata-color-surface-raised);
+  }
+}
 .popover:focus-visible {
   outline: none;
   border-radius: var(--strata-radius-container);
@@ -41,14 +55,15 @@
   --popover-shift: calc(var(--strata-space-1) * -1) 0;
 }
 
-/* Arrow: the open path's fill covers the panel border where they meet, the stroke continues it. */
+/* Arrow: the open path's fill covers the panel border where they meet, the stroke continues it. It takes the
+   same glass tint as the panel (it can't blur on its own, but it's too small for that to show). */
 .arrow svg {
   display: block;
   inline-size: var(--strata-space-3);
   block-size: var(--strata-space-3);
 }
 .arrow path {
-  fill: var(--strata-color-surface-raised);
+  fill: var(--strata-glass-bg);
   stroke: var(--strata-color-border-default);
   stroke-width: 1px;
   vector-effect: non-scaling-stroke;
@@ -63,23 +78,36 @@
   rotate: 90deg;
 }
 
+/* Motion (Tactile style). Enter: opacity with easing-out, and a spring from 0.96 plus a 4px nudge from the
+   trigger's side, growing out of the anchor point. Exit: quicker, opacity + a slight scale, no spring.
+   --popover-shift starts the panel 4px back towards its trigger (set per placement above).
+   Everything lives in the no-preference block, so with reduced motion the popover simply appears. */
 @media (prefers-reduced-motion: no-preference) {
   .popover[data-entering] {
-    animation: pop var(--strata-motion-duration-fast) var(--strata-motion-easing);
+    animation:
+      fade var(--strata-motion-duration-normal) var(--strata-motion-easing-out),
+      pop var(--strata-motion-duration-spring) var(--strata-motion-spring);
   }
   .popover[data-exiting] {
-    animation: fade var(--strata-motion-duration-fast) var(--strata-motion-easing) reverse;
+    animation:
+      fade var(--strata-motion-duration-fast) var(--strata-motion-easing) reverse,
+      settle var(--strata-motion-duration-fast) var(--strata-motion-easing) reverse;
   }
-}
 
-@keyframes pop {
-  from {
-    opacity: 0;
-    translate: var(--popover-shift);
+  @keyframes fade {
+    from {
+      opacity: 0;
+    }
   }
-}
-@keyframes fade {
-  from {
-    opacity: 0;
+  @keyframes pop {
+    from {
+      scale: 0.96;
+      translate: var(--popover-shift);
+    }
+  }
+  @keyframes settle {
+    from {
+      scale: 0.98;
+    }
   }
 }

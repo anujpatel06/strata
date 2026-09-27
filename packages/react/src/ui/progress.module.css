@@ -11,6 +11,7 @@
   color: var(--strata-color-text-default);
   font-family: var(--strata-font-body);
   font-size: var(--strata-font-size-sm);
+  letter-spacing: var(--strata-font-tracking-sm);
   line-height: var(--strata-line-height-snug);
 }
 
@@ -54,21 +55,31 @@
   color: var(--strata-color-text-subtle);
   font-size: var(--strata-font-size-sm);
   font-variant-numeric: tabular-nums;
+  font-weight: var(--strata-font-weight-medium);
+  /* Takes its direction from its own text, so "4.1 of 5 GB" doesn't reorder on RTL pages. */
+  unicode-bidi: plaintext;
 }
 
+/* A recessed channel: a hairline inner shadow along the top edge gives the track depth without a border. */
 .track {
   position: relative;
   block-size: var(--_track-size);
   overflow: hidden;
   border-radius: var(--strata-radius-pill);
   background-color: var(--strata-color-surface-sunken);
+  /* A recessed channel: a faint inner hairline shade along the top edge. */
+  box-shadow: inset 0 var(--strata-hairline) 1px color-mix(in oklab, var(--strata-color-text-default) 8%, transparent);
 }
 
+/* --_pct comes from the component. Reduced motion: the fill simply has that width. */
 .fill {
+  inline-size: var(--_pct, 0%);
   block-size: 100%;
   max-inline-size: 100%;
   border-radius: inherit;
   background-color: var(--_fill);
+  /* Solid fill: the tactile top-edge sheen (no label sits on it). */
+  box-shadow: var(--strata-shadow-highlight);
 }
 
 /* Indeterminate, reduced motion: a quiet full-width tint says "working" without moving. */
@@ -78,19 +89,25 @@
 }
 
 @media (prefers-reduced-motion: no-preference) {
+  /*
+   * A full-width fill slid back by the remaining amount: its leading edge keeps its rounded cap, and
+   * only transform animates (no layout). Glides to each new value with easing-out.
+   */
   .fill {
-    transition: inline-size var(--strata-motion-duration-normal) var(--strata-motion-easing);
+    inline-size: 100%;
+    translate: calc((var(--_pct, 0%) - 100%) * var(--_dir)) 0;
+    transition: translate var(--strata-motion-duration-slow) var(--strata-motion-easing-out);
   }
 
-  /* Indeterminate: a 40% segment slides in the reading direction. */
+  /* Indeterminate: a segment sweeps across in the reading direction, easing in and out of each pass. */
   .fill[data-indeterminate] {
     position: absolute;
     inset-block: 0;
     inset-inline-start: 0;
-    inline-size: 40%;
+    inline-size: 45%;
     background-color: var(--_fill);
     transition: none;
-    animation: strata-progress-slide calc(var(--strata-motion-duration-normal) * 7) var(--strata-motion-easing) infinite;
+    animation: strata-progress-slide calc(var(--strata-motion-duration-slow) * 5) ease-in-out infinite;
   }
 }
 
@@ -99,6 +116,6 @@
     translate: calc(-100% * var(--_dir)) 0;
   }
   to {
-    translate: calc(250% * var(--_dir)) 0;
+    translate: calc(225% * var(--_dir)) 0;
   }
 }

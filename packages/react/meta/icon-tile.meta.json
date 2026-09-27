@@ -1,0 +1,130 @@
+{
+  "name": "icon-tile",
+  "title": "Icon Tile",
+  "description": "A rounded-square tile holding an icon or logo on a contrast-checked tint or the brand fill.",
+  "category": "display",
+  "maturity": "alpha",
+  "exports": [
+    "IconTile"
+  ],
+  "files": [
+    "icon-tile.tsx",
+    "icon-tile.module.css"
+  ],
+  "dependencies": [],
+  "registryDependencies": [
+    "avatar"
+  ],
+  "usage": "import { IconTile } from '@strata/react';\nimport { IconWallet } from '@strata/icons';\n\nexport function WalletTile() {\n  return (\n    <IconTile tint=\"solid\">\n      <IconWallet />\n    </IconTile>\n  );\n}",
+  "examples": [
+    {
+      "name": "icon-tile-demo",
+      "title": "Icon Tile",
+      "description": "Solid brand and soft tints."
+    },
+    {
+      "name": "icon-tile-sizes",
+      "title": "Sizes",
+      "description": "sm, md and lg, soft and solid."
+    },
+    {
+      "name": "icon-tile-tints",
+      "title": "Tints",
+      "description": "Every tint: solid, brand, accent, info, success, warning, danger, none."
+    },
+    {
+      "name": "icon-tile-list",
+      "title": "In a list",
+      "description": "tint=\"auto\" gives each account a stable colour from its name."
+    },
+    {
+      "name": "icon-tile-image",
+      "title": "Logo image",
+      "description": "An img with alt text; neutral face by default, or on a tint."
+    }
+  ],
+  "props": [
+    {
+      "component": "IconTile",
+      "name": "children",
+      "type": "ReactNode",
+      "description": "An icon from @strata/icons. Sized to half the tile at the brand's icon stroke."
+    },
+    {
+      "component": "IconTile",
+      "name": "src",
+      "type": "string",
+      "description": "An image (asset or merchant logo) instead of an icon."
+    },
+    {
+      "component": "IconTile",
+      "name": "alt",
+      "type": "string",
+      "description": "Accessible name. With src it's the image's alt; without, the tile gets role=\"img\". Omit it (and aria-label) when a visible label sits next to the tile: the tile is then aria-hidden."
+    },
+    {
+      "component": "IconTile",
+      "name": "tint",
+      "type": "'auto' | 'none' | 'solid' | 'brand' | 'accent' | 'info' | 'success' | 'warning' | 'danger'",
+      "default": "'brand' (icons) / 'none' (images)",
+      "description": "solid = action.primary pair; tones = the same engine-checked bg/fg pairs as Avatar; auto = a stable tint from a hash of name (same hash as Avatar)."
+    },
+    {
+      "component": "IconTile",
+      "name": "name",
+      "type": "string",
+      "description": "Seed for tint=\"auto\" (falls back to alt)."
+    },
+    {
+      "component": "IconTile",
+      "name": "size",
+      "type": "'sm' | 'md' | 'lg'",
+      "default": "'md'",
+      "description": "32, 40 or 48px."
+    }
+  ],
+  "accessibility": {
+    "keyboard": [],
+    "notes": [
+      "Decorative by default (aria-hidden), because a tile usually sits next to its label. Give it alt or aria-label when it stands alone.",
+      "Every tint is a pair the engine checks at 4.5:1 in both schemes; icons only need 3:1 (WCAG 1.4.11).",
+      "Not interactive. To make it clickable, put it inside a Button or Link, which carries the name and focus ring."
+    ]
+  },
+  "guidelines": {
+    "do": [
+      "Use tint=\"auto\" with a name for lists of assets or accounts, so each keeps its colour.",
+      "Use solid for one hero mark (the brand logo, a feature card)."
+    ],
+    "dont": [
+      "Don't use tints to carry status on their own; pair them with text.",
+      "Don't put text or numbers in a tile; use Avatar for initials."
+    ]
+  },
+  "tokens": [
+    "color.accent.subtle",
+    "color.accent.text",
+    "color.action.primary.bg",
+    "color.action.primary.fg",
+    "color.action.secondary.bg",
+    "color.action.secondary.fg",
+    "color.feedback.danger.bg",
+    "color.feedback.danger.fg",
+    "color.feedback.info.bg",
+    "color.feedback.info.fg",
+    "color.feedback.success.bg",
+    "color.feedback.success.fg",
+    "color.feedback.warning.bg",
+    "color.feedback.warning.fg",
+    "color.surface.sunken",
+    "color.text.default",
+    "icon-stroke",
+    "radius.button",
+    "rim",
+    "shadow.highlight",
+    "shadow.raised",
+    "space.10",
+    "space.12",
+    "space.8"
+  ]
+}

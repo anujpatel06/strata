@@ -1,6 +1,6 @@
 'use client';
 
-import { IconChevronLeft, IconChevronRight, IconDots } from '@tabler/icons-react';
+import { IconChevronLeft, IconChevronRight, IconDots } from '@strata/icons';
 import { useMemo, type HTMLAttributes, type JSX } from 'react';
 import { Button as RACButton, useLocale } from 'react-aria-components';
 import styles from './pagination.module.css';
@@ -123,7 +123,7 @@ export function Pagination({
             isDisabled={isDisabled}
             onPress={() => !atStart && go(current - 1)}
           >
-            <IconChevronLeft className={styles.dirIcon} aria-hidden="true" size="1.15em" stroke={1.75} />
+            <IconChevronLeft className={styles.dirIcon} aria-hidden="true" size="1.15em" />
             <span className={styles.stepLabel}>{previousLabel}</span>
           </RACButton>
         </li>
@@ -138,12 +138,15 @@ export function Pagination({
                 isDisabled={isDisabled}
                 onPress={() => go(item)}
               >
-                {nf.format(item)}
+                {/* The raised key behind the current page. Every page button has one so the old key fades out
+                    while the new one pops in (CSS only; see .currentPill). */}
+                <span className={styles.currentPill} aria-hidden="true" />
+                <span className={styles.pageNum}>{nf.format(item)}</span>
               </RACButton>
             </li>
           ) : (
             <li key={item} className={cx(styles.pageItem, styles.ellipsis)} aria-hidden="true">
-              <IconDots size="1em" stroke={1.75} />
+              <IconDots size="1em" />
             </li>
           ),
         )}
@@ -160,7 +163,7 @@ export function Pagination({
             onPress={() => !atEnd && go(current + 1)}
           >
             <span className={styles.stepLabel}>{nextLabel}</span>
-            <IconChevronRight className={styles.dirIcon} aria-hidden="true" size="1.15em" stroke={1.75} />
+            <IconChevronRight className={styles.dirIcon} aria-hidden="true" size="1.15em" />
           </RACButton>
         </li>
       </ul>

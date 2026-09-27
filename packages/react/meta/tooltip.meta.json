@@ -17,7 +17,7 @@
   ],
   "registryDependencies": [],
   "reactAria": "https://react-spectrum.adobe.com/react-aria/Tooltip.html",
-  "usage": "import { Button, Tooltip, TooltipTrigger } from '@strata/react';\nimport { IconCopy } from '@tabler/icons-react';\n\nexport function CopyButton() {\n  return (\n    <TooltipTrigger>\n      <Button variant=\"ghost\" size=\"icon\" aria-label=\"Copy reference\">\n        <IconCopy aria-hidden />\n      </Button>\n      <Tooltip>Copy reference</Tooltip>\n    </TooltipTrigger>\n  );\n}",
+  "usage": "import { Button, Tooltip, TooltipTrigger } from '@strata/react';\nimport { IconCopy } from '@strata/icons';\n\nexport function CopyButton() {\n  return (\n    <TooltipTrigger>\n      <Button variant=\"ghost\" size=\"icon\" aria-label=\"Copy reference\">\n        <IconCopy aria-hidden />\n      </Button>\n      <Tooltip>Copy reference</Tooltip>\n    </TooltipTrigger>\n  );\n}",
   "examples": [
     {
       "name": "tooltip-demo",
@@ -113,7 +113,8 @@
       "role=\"tooltip\"; the trigger is described by it via aria-describedby while it is open.",
       "Hover opening starts after the user has used a pointer on the page (React Aria's interaction modality); keyboard focus always opens it.",
       "Tooltips are not reachable on touch devices: never put essential information or interactive content in them.",
-      "Overlays render in a portal on <body>, outside any ThemeScope. When it opens, the overlay looks up data-strata-theme, data-strata-scheme, data-strata-density, dir and lang — each on the nearest ancestor that has it — starting from its trigger (or from where the component is rendered, when controlled), and copies them onto its own root — so it uses the same tenant tokens and direction as the page region it came from, and nested overlays inherit from their parent overlay."
+      "Overlays render in a portal on <body>, outside any ThemeScope. When it opens, the overlay looks up data-strata-theme, data-strata-scheme, data-strata-density, dir and lang — each on the nearest ancestor that has it — starting from its trigger (or from where the component is rendered, when controlled), and copies them onto its own root — so it uses the same tenant tokens and direction as the page region it came from, and nested overlays inherit from their parent overlay.",
+      "Tooltips stay solid surface.inverse (too small to read as glass). They fade in fast with a 4px slide from the trigger's side; with prefers-reduced-motion they appear without moving."
     ]
   },
   "guidelines": {
@@ -127,15 +128,21 @@
     ]
   },
   "tokens": [
-    "color.surface.inverse",
-    "color.text.inverse",
-    "font.size.xs",
-    "font.weight.medium",
-    "radius.button",
+    "space.16",
+    "space.4",
     "space.1",
     "space.2",
-    "space.16",
+    "color.surface.inverse",
+    "color.text.inverse",
+    "radius.button",
+    "shadow.highlight",
+    "shadow.raised",
+    "font.body",
+    "font.size.xs",
+    "font.weight.medium",
+    "line-height.snug",
     "motion.duration.fast",
+    "motion.easing-out",
     "motion.easing"
   ]
 }

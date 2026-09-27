@@ -1,0 +1,108 @@
+{
+  "name": "eyebrow",
+  "title": "Eyebrow",
+  "description": "A small uppercase kicker label with wide tracking that sits above a heading, figure or section.",
+  "category": "display",
+  "maturity": "alpha",
+  "exports": [
+    "Eyebrow"
+  ],
+  "files": [
+    "eyebrow.tsx",
+    "eyebrow.module.css"
+  ],
+  "dependencies": [],
+  "registryDependencies": [],
+  "usage": "import { Eyebrow } from '@strata/react';\n\nexport function Kicker() {\n  return <Eyebrow lead=\"rule\" tone=\"accent\">First time here</Eyebrow>;\n}",
+  "examples": [
+    {
+      "name": "eyebrow-demo",
+      "title": "Eyebrow",
+      "description": "A ruled kicker above a card title with editorial emphasis."
+    },
+    {
+      "name": "eyebrow-leads",
+      "title": "Leads",
+      "description": "Plain, a hairline rule, or an icon before the text."
+    },
+    {
+      "name": "eyebrow-tones",
+      "title": "Tones",
+      "description": "Tone colours only the rule or icon; the text stays text.subtle."
+    },
+    {
+      "name": "eyebrow-inline",
+      "title": "Inline",
+      "description": "as=\"span\" inside a flex row, next to a badge."
+    }
+  ],
+  "props": [
+    {
+      "component": "Eyebrow",
+      "name": "lead",
+      "type": "'rule'",
+      "description": "A short hairline dash before the text. Ignored when `icon` is set."
+    },
+    {
+      "component": "Eyebrow",
+      "name": "icon",
+      "type": "ReactNode",
+      "description": "Decorative icon before the text, about 1.25× the text size. Hidden from assistive tech."
+    },
+    {
+      "component": "Eyebrow",
+      "name": "tone",
+      "type": "'neutral' | 'brand' | 'accent' | 'info' | 'success' | 'warning' | 'danger'",
+      "default": "'neutral'",
+      "description": "Colours only the rule or icon (text.brand, accent.text or the feedback fg role). The label stays text.subtle."
+    },
+    {
+      "component": "Eyebrow",
+      "name": "as",
+      "type": "'p' | 'span'",
+      "default": "'p'",
+      "description": "p above a heading or section; span inside other text or flex rows."
+    },
+    {
+      "component": "Eyebrow",
+      "name": "children",
+      "type": "ReactNode",
+      "required": true,
+      "description": "Two to four words. Write it in sentence case; CSS sets the capitals."
+    }
+  ],
+  "accessibility": {
+    "keyboard": [],
+    "notes": [
+      "Not interactive and not a heading: it names a group without adding to the document outline. Put the real heading after it.",
+      "Capitals come from text-transform, so screen readers read the words, not letters. Write the source in sentence case.",
+      "The rule and icon are aria-hidden decoration; tone never carries meaning on its own.",
+      "Tracking is --strata-font-tracking-caps: 0.08em for Latin pairs and 0 for Arabic-capable pairs, so joined scripts are never letter-spaced."
+    ]
+  },
+  "guidelines": {
+    "do": [
+      "Use one eyebrow per block, directly above the heading or figure it introduces.",
+      "Keep it to a few words: a category, a date, a status.",
+      "Use tone on the rule or icon to hint at the kind of note (accent for onboarding, warning for a caveat)."
+    ],
+    "dont": [
+      "Don't use it as a heading or as the only label for a section: screen readers skip it in the outline.",
+      "Don't write the text in capitals in the source.",
+      "Don't stack several eyebrows or put one above every line: it stops reading as a kicker."
+    ]
+  },
+  "tokens": [
+    "font-size.xs",
+    "font-weight.medium",
+    "font.tracking.caps",
+    "line-height.snug",
+    "color.text.subtle",
+    "color.text.brand",
+    "color.accent.text",
+    "color.feedback.*.fg",
+    "space.2",
+    "space.4",
+    "icon-stroke"
+  ]
+}

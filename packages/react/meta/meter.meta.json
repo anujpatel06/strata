@@ -1,0 +1,153 @@
+{
+  "name": "meter",
+  "title": "Meter",
+  "description": "A quantity within a known range, such as wallet usage, storage or a limit, with a label, a readout and a slim track.",
+  "category": "feedback",
+  "maturity": "alpha",
+  "exports": [
+    "Meter"
+  ],
+  "files": [
+    "meter.tsx",
+    "meter.module.css"
+  ],
+  "dependencies": [
+    "react-aria-components"
+  ],
+  "registryDependencies": [],
+  "reactAria": "https://react-spectrum.adobe.com/react-aria/Meter.html",
+  "usage": "import { Meter } from '@strata/react';\n\nexport function WalletUsage() {\n  return <Meter label=\"Consultations\" value={7400} maxValue={18000} valueLabel=\"₹7,400 used\" caption=\"of ₹18,000\" />;\n}",
+  "examples": [
+    {
+      "name": "meter-demo",
+      "title": "Meter",
+      "description": "Label, value and limit caption over a slim track."
+    },
+    {
+      "name": "meter-card",
+      "title": "Card variant",
+      "description": "variant=\"card\": the usage row inside a card, in an inset panel."
+    },
+    {
+      "name": "meter-tones",
+      "title": "Tones",
+      "description": "brand (default), accent, warning and neutral fills."
+    },
+    {
+      "name": "meter-formats",
+      "title": "Formats",
+      "description": "Percent by default, currency via formatOptions, and an aria-label-only meter."
+    }
+  ],
+  "props": [
+    {
+      "component": "Meter",
+      "name": "label",
+      "type": "ReactNode",
+      "description": "Visible label. Without one, pass aria-label or aria-labelledby (required by the types)."
+    },
+    {
+      "component": "Meter",
+      "name": "value",
+      "type": "number",
+      "default": "0",
+      "description": "Current value, clamped to minValue–maxValue."
+    },
+    {
+      "component": "Meter",
+      "name": "minValue",
+      "type": "number",
+      "default": "0",
+      "description": "Start of the range."
+    },
+    {
+      "component": "Meter",
+      "name": "maxValue",
+      "type": "number",
+      "default": "100",
+      "description": "End of the range."
+    },
+    {
+      "component": "Meter",
+      "name": "valueLabel",
+      "type": "string",
+      "description": "The value as shown and announced (aria-valuetext), e.g. \"₹7,400 used\"."
+    },
+    {
+      "component": "Meter",
+      "name": "formatOptions",
+      "type": "Intl.NumberFormatOptions",
+      "default": "{ style: 'percent' }",
+      "description": "How the value is formatted when there's no valueLabel, in the React Aria locale."
+    },
+    {
+      "component": "Meter",
+      "name": "showValue",
+      "type": "boolean",
+      "default": "true",
+      "description": "Shows the value in the label row."
+    },
+    {
+      "component": "Meter",
+      "name": "caption",
+      "type": "ReactNode",
+      "description": "Quiet context after the value: the limit or the pool (\"of ₹18,000\", \"from ₹18K wallet\"). Announced as the meter's description."
+    },
+    {
+      "component": "Meter",
+      "name": "tone",
+      "type": "'brand' | 'accent' | 'neutral' | 'info' | 'success' | 'warning' | 'danger'",
+      "default": "'brand'",
+      "description": "Fill colour: text.brand, accent.text, text.subtle or the feedback fg role. Every tone reaches 3:1 against the track."
+    },
+    {
+      "component": "Meter",
+      "name": "variant",
+      "type": "'default' | 'card'",
+      "default": "'default'",
+      "description": "card sets the meter in an inset surface.sunken panel: the value leads, the caption answers from the far end, the label (if any) sits above in text.subtle."
+    }
+  ],
+  "accessibility": {
+    "keyboard": [],
+    "notes": [
+      "Rendered by React Aria as role=\"meter progressbar\" with aria-valuenow/min/max and aria-valuetext; it is read-only and takes no focus.",
+      "The caption is linked with aria-describedby (merged with any you pass), so \"of ₹18,000\" is read after the value.",
+      "Fill contrast (WCAG 1.4.11): fills use text roles, not action.primary.bg. action.primary.bg fell to 2.64:1 on surface.sunken in Care dark and below 3:1 in 709 of 2,000 fuzz schemes; text.brand stays ≥ 4.46:1 on sunken across the same fuzz and is guaranteed 4.5:1 on surface.default (the card variant's track).",
+      "The fill slides in from the start edge with easing-out only when reduced motion is off; otherwise it is simply drawn at its width.",
+      "Value text takes the locale's direction (formatted) or its own (authored strings), so readouts don't reorder in RTL."
+    ]
+  },
+  "guidelines": {
+    "do": [
+      "Use Meter for amounts against a limit (money used, seats taken, storage).",
+      "Say what the number means in valueLabel (\"₹7,400 used\"), and give the limit in caption.",
+      "Use variant=\"card\" for the usage row at the bottom of a benefit or plan card."
+    ],
+    "dont": [
+      "Don't use Meter for task progress; use ProgressBar.",
+      "Don't rely on tone alone to signal \"nearly used up\"; say it in the caption.",
+      "Don't put more than a few meters in one card: summarise instead."
+    ]
+  },
+  "tokens": [
+    "color.text.brand",
+    "color.accent.text",
+    "color.text.subtle",
+    "color.feedback.*.fg",
+    "color.surface.sunken",
+    "color.surface.default",
+    "color.border.subtle",
+    "color.text.default",
+    "radius.pill",
+    "radius.container",
+    "radius.badge",
+    "card-inset",
+    "space.1–4",
+    "font-size.xs–md",
+    "motion.duration-slow",
+    "motion.duration-fast",
+    "motion.easing-out",
+    "hairline"
+  ]
+}

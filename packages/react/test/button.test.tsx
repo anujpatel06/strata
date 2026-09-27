@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { IconPlus } from '@tabler/icons-react';
+import { IconPlus } from '@strata/icons';
 import { Button } from '../src/ui/button';
 
 describe('Button', () => {
@@ -89,5 +89,29 @@ describe('Button', () => {
     );
     expect(screen.getByRole('button', { name: 'One' })).toHaveClass('root', 'w-full');
     expect(screen.getByRole('button', { name: 'Two' })).toHaveClass('root', 'idle');
+  });
+
+  it('renders the contrast variant as a named, pressable button that respects isDisabled', async () => {
+    const user = userEvent.setup();
+    const onPress = vi.fn();
+    const { rerender } = render(
+      <Button variant="contrast" size="lg" onPress={onPress}>
+        Review transfer
+      </Button>,
+    );
+    const button = screen.getByRole('button', { name: 'Review transfer' });
+    expect(button).toHaveAttribute('data-variant', 'contrast');
+    expect(button).toHaveAttribute('data-size', 'lg');
+    await user.tab();
+    expect(button).toHaveFocus();
+    await user.keyboard('{Enter}');
+    await user.keyboard(' ');
+    expect(onPress).toHaveBeenCalledTimes(2);
+    rerender(
+      <Button variant="contrast" size="lg" onPress={onPress} isDisabled>
+        Review transfer
+      </Button>,
+    );
+    expect(screen.getByRole('button', { name: 'Review transfer' })).toBeDisabled();
   });
 });

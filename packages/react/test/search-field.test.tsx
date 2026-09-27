@@ -63,3 +63,16 @@ describe('SearchField', () => {
     expect(container.firstElementChild).toHaveClass('field', 'extra');
   });
 });
+
+describe('SearchField size', () => {
+  it('marks the root with its size (md by default)', () => {
+    render(
+      <>
+        <SearchField aria-label="Search" />
+        <SearchField aria-label="Filter" size="sm" />
+      </>,
+    );
+    expect(screen.getByRole('searchbox', { name: 'Search' }).closest('[data-field-size]')).toHaveAttribute('data-field-size', 'md');
+    expect(screen.getByRole('searchbox', { name: 'Filter' }).closest('[data-field-size]')).toHaveAttribute('data-field-size', 'sm');
+  });
+});

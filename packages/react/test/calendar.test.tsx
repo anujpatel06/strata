@@ -39,6 +39,26 @@ describe('Calendar', () => {
     expect(screen.getByRole('heading', { level: 2 })).toHaveTextContent('October 2026');
   });
 
+  it('marks the page-turn direction for the month slide, and keeps focus on a day when paging by keyboard', async () => {
+    const user = userEvent.setup();
+    const { container } = render(<Calendar aria-label="Date" defaultFocusedValue={day(15)} />);
+    const months = container.querySelector('[data-page]')!;
+    expect(months).not.toHaveAttribute('data-direction');
+    await user.click(screen.getAllByRole('button', { name: 'Next' })[0]!);
+    expect(months).toHaveAttribute('data-direction', 'next');
+    const page = months.getAttribute('data-page');
+    await user.click(screen.getByRole('button', { name: 'Previous' }));
+    expect(months).toHaveAttribute('data-direction', 'prev');
+    // The page flips on every turn so the CSS can restart the animation without remounting the grid.
+    expect(months.getAttribute('data-page')).not.toBe(page);
+    await user.tab(); // next
+    await user.tab(); // grid: focused date
+    expect(document.activeElement).toHaveTextContent('15');
+    await user.keyboard('{PageDown}');
+    expect(screen.getByRole('heading', { level: 2 })).toHaveTextContent('October 2026');
+    expect(document.activeElement).toHaveTextContent('15');
+  });
+
   it('disables dates outside min/max and marks unavailable dates', () => {
     render(
       <Calendar

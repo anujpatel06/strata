@@ -95,7 +95,8 @@
     "notes": [
       "Inside a DialogTrigger the popover is a dialog labelled by its trigger; pass aria-labelledby to point at a heading inside instead.",
       "Clicking outside closes it.",
-      "Overlays render in a portal on <body>, outside any ThemeScope. When it opens, the overlay looks up data-strata-theme, data-strata-scheme, data-strata-density, dir and lang — each on the nearest ancestor that has it — starting from its trigger (or from where the component is rendered, when controlled), and copies them onto its own root — so it uses the same tenant tokens and direction as the page region it came from, and nested overlays inherit from their parent overlay."
+      "Overlays render in a portal on <body>, outside any ThemeScope. When it opens, the overlay looks up data-strata-theme, data-strata-scheme, data-strata-density, dir and lang — each on the nearest ancestor that has it — starting from its trigger (or from where the component is rendered, when controlled), and copies them onto its own root — so it uses the same tenant tokens and direction as the page region it came from, and nested overlays inherit from their parent overlay.",
+      "The panel is glass: only text.default and text.subtle sit directly on it (the roles the theme engine solves to 4.5:1 over any backdrop); put other colours on an opaque role background. It grows out of its trigger (spring from 0.96 plus a 4px nudge, from --trigger-anchor-point); with prefers-reduced-motion it appears without moving."
     ]
   },
   "guidelines": {
@@ -109,20 +110,26 @@
     ]
   },
   "tokens": [
-    "color.surface.raised",
+    "space.4",
+    "card-inset",
+    "glass.bg",
+    "glass.blur",
     "color.border.default",
-    "shadow.overlay",
     "radius.container",
+    "shadow.highlight",
+    "shadow.overlay",
     "font.body",
     "font.size.md",
+    "line-height.normal",
     "color.text.default",
-    "color.text.subtle",
-    "motion.duration.fast",
-    "motion.duration.normal",
-    "motion.easing",
-    "card-inset",
+    "color.surface.raised",
     "space.1",
     "space.3",
-    "space.4"
+    "motion.duration.normal",
+    "motion.easing-out",
+    "motion.duration.spring",
+    "motion.spring",
+    "motion.duration.fast",
+    "motion.easing"
   ]
 }

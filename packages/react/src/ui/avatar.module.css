@@ -1,7 +1,15 @@
+/*
+ * Avatar — a photo, or initials on a soft tint. The tint is a (--_bg, --_fg) pair; every pair is one the engine
+ * contrast-checks (the table is in avatar.tsx). Initials are set in the heading face, so editorial brands get
+ * serif monograms; body-face brands get a crisp sans one.
+ */
+
 .avatar {
   --_size: var(--strata-space-8);
-  --_bg: var(--strata-color-accent-subtle);
-  --_fg: var(--strata-color-accent-text);
+  --_bg: var(--strata-color-surface-sunken);
+  --_fg: var(--strata-color-text-default);
+  /* The ring is the tint's own hue, so a pastel circle doesn't get a grey outline. Photos switch it to neutral. */
+  --_ring: color-mix(in oklab, var(--_fg) 14%, transparent);
 
   position: relative;
   box-sizing: border-box;
@@ -14,14 +22,35 @@
   border-radius: var(--strata-radius-pill);
   background-color: var(--_bg);
   color: var(--_fg);
-  font-family: var(--strata-font-body);
-  /* Initials at ~40% of the avatar: 24 → 9.6px, 32 → 12.8px, 40 → 16px. */
-  font-size: calc(var(--_size) * 0.4);
+  font-family: var(--strata-font-heading);
+  /* Initials at ~38% of the avatar: 24 → 9px, 32 → 12px, 40 → 15px. */
+  font-size: calc(var(--_size) * 0.38);
+  /* A monogram: semibold in the heading face (serif brands read like a letterpress mark). */
   font-weight: var(--strata-font-weight-semibold);
-  letter-spacing: 0;
+  letter-spacing: var(--strata-font-tracking-xs);
   line-height: 1;
   vertical-align: middle;
   user-select: none;
+}
+
+/*
+ * The ring: a hairline inner edge plus the top-edge sheen, drawn above the photo so light photos
+ * don't bleed into the page and initials read as a lit tile. Decoration only.
+ */
+.avatar::after {
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  border-radius: inherit;
+  box-shadow:
+    var(--strata-shadow-highlight),
+    inset 0 0 0 var(--strata-hairline) var(--_ring);
+  content: '';
+  pointer-events: none;
+}
+
+.avatar:has(> .image[data-loaded]) {
+  --_ring: color-mix(in oklab, var(--strata-color-text-default) 14%, transparent);
 }
 
 .avatar[data-size='sm'] {
@@ -36,21 +65,67 @@
   border-radius: min(var(--strata-radius-button), 30%);
 }
 
-/* Deterministic tints — every pair is a guaranteed-contrast token pair. */
-.avatar[data-tint='1'] {
-  --_bg: var(--strata-color-surface-selected);
-  --_fg: var(--strata-color-text-default);
+@supports (corner-shape: squircle) {
+  .avatar[data-shape='square'],
+  .avatar[data-shape='square']::after {
+    corner-shape: squircle;
+  }
 }
-.avatar[data-tint='2'] {
+
+/* ---- tints (contrast-checked pairs only; see avatar.tsx) ---------------- */
+
+.avatar[data-tint='none'] {
+  --_bg: var(--strata-color-surface-sunken);
+  --_fg: var(--strata-color-text-default);
+  --_ring: color-mix(in oklab, var(--strata-color-text-default) 10%, transparent);
+}
+.avatar[data-tint='brand'] {
+  --_bg: var(--strata-color-action-secondary-bg);
+  --_fg: var(--strata-color-action-secondary-fg);
+}
+.avatar[data-tint='accent'] {
+  --_bg: var(--strata-color-accent-subtle);
+  --_fg: var(--strata-color-accent-text);
+}
+.avatar[data-tint='info'] {
   --_bg: var(--strata-color-feedback-info-bg);
   --_fg: var(--strata-color-feedback-info-fg);
 }
-.avatar[data-tint='3'] {
+.avatar[data-tint='success'] {
   --_bg: var(--strata-color-feedback-success-bg);
   --_fg: var(--strata-color-feedback-success-fg);
 }
+.avatar[data-tint='warning'] {
+  --_bg: var(--strata-color-feedback-warning-bg);
+  --_fg: var(--strata-color-feedback-warning-fg);
+}
+.avatar[data-tint='danger'] {
+  --_bg: var(--strata-color-feedback-danger-bg);
+  --_fg: var(--strata-color-feedback-danger-fg);
+}
+
+/* ---- placeholder -------------------------------------------------------- */
+
+/*
+ * An empty seat: a dashed hairline circle, "+" or "?" in text.subtle. Opaque (surface.default) so it still
+ * covers what's behind it in a group. A dashed line needs a real border (box-shadow can't dash).
+ */
+.avatar[data-placeholder] {
+  --_bg: var(--strata-color-surface-default);
+  --_fg: var(--strata-color-text-subtle);
+
+  /* border.strong, softened: the "+" / "?" and the label carry the meaning; the dashes only suggest the seat. */
+  border: 1px dashed color-mix(in oklab, var(--strata-color-border-strong) 70%, transparent);
+}
+.avatar[data-placeholder]::after {
+  content: none;
+}
+.avatar[data-placeholder='unknown'] {
+  font-size: calc(var(--_size) * 0.44);
+}
 
 .fallback {
+  position: relative;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -58,8 +133,15 @@
 }
 
 .fallback > svg {
-  inline-size: 55%;
-  block-size: 55%;
+  /* Sized from the avatar, not the fallback span (which shrink-wraps, so a % would resolve against nothing). */
+  inline-size: calc(var(--_size) * 0.55);
+  block-size: calc(var(--_size) * 0.55);
+  stroke-width: var(--strata-icon-stroke, 1.5);
+}
+
+.avatar[data-placeholder='add'] > .fallback > svg {
+  inline-size: calc(var(--_size) * 0.45);
+  block-size: calc(var(--_size) * 0.45);
 }
 
 .image {
@@ -73,12 +155,6 @@
 
 .image[data-loaded] {
   opacity: 1;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .image {
-    transition: opacity var(--strata-motion-duration-normal) var(--strata-motion-easing);
-  }
 }
 
 /* ---- group ------------------------------------------------------------- */
@@ -111,6 +187,53 @@
   --_bg: var(--strata-color-surface-sunken);
   --_fg: var(--strata-color-text-subtle);
 
+  font-family: var(--strata-font-body);
   font-size: calc(var(--_size) * 0.34);
+  font-weight: var(--strata-font-weight-medium);
   font-variant-numeric: tabular-nums;
+}
+
+/* Each avatar but the last is covered 25% at its inline end: centre the initials in the part that shows. */
+.group > .avatar:not(:last-child) > .fallback {
+  margin-inline-end: 25%;
+}
+
+/* ---- motion ------------------------------------------------------------ */
+
+/*
+ * Avatars pop in on mount (scale 0.8 → 1 on the spring, with a quick fade); in a group they follow each other
+ * in reading order. With reduced motion they simply appear and only the photo's fade remains.
+ */
+@media (prefers-reduced-motion: no-preference) {
+  .avatar {
+    animation:
+      avatar-fade-in var(--strata-motion-duration-fast) var(--strata-motion-easing-out) backwards,
+      avatar-pop var(--strata-motion-duration-spring) var(--strata-motion-spring) backwards;
+  }
+  .group > .avatar:nth-child(2) {
+    animation-delay: calc(var(--strata-motion-duration-fast) / 3);
+  }
+  .group > .avatar:nth-child(3) {
+    animation-delay: calc(var(--strata-motion-duration-fast) / 3 * 2);
+  }
+  .group > .avatar:nth-child(4) {
+    animation-delay: var(--strata-motion-duration-fast);
+  }
+  .group > .avatar:nth-child(n + 5) {
+    animation-delay: calc(var(--strata-motion-duration-fast) / 3 * 4);
+  }
+  .image {
+    transition: opacity var(--strata-motion-duration-normal) var(--strata-motion-easing);
+  }
+}
+
+@keyframes avatar-fade-in {
+  from {
+    opacity: 0;
+  }
+}
+@keyframes avatar-pop {
+  from {
+    scale: 0.8;
+  }
 }

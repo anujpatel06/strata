@@ -25,14 +25,21 @@
   text-align: center;
   outline: none;
 }
+/* Hovering the zone deepens its border and lifts the upload badge a touch — it's an invitation, not a button. */
+.zone[data-hovered] {
+  border-color: var(--strata-color-text-subtle);
+}
 .zone[data-focus-visible] {
   outline: 2px solid var(--strata-color-focus-ring);
   outline-offset: 2px;
 }
+/* Something is being dragged over: solid brand border, the selected tint, a ring of halo, and (with motion) the
+   whole zone swells slightly towards the file. */
 .zone[data-drop-target] {
   border-style: solid;
   border-color: var(--strata-color-action-primary-bg);
   background: var(--strata-color-surface-selected);
+  box-shadow: 0 0 0 4px color-mix(in oklab, var(--strata-color-focus-ring) 18%, transparent);
 }
 .field[data-invalid] .zone {
   border-color: var(--strata-color-feedback-danger-solid);
@@ -60,11 +67,18 @@
 .zoneIcon > svg {
   inline-size: 1.25em;
   block-size: 1.25em;
-  stroke-width: 1.75;
+  stroke-width: var(--strata-icon-stroke, 1.5);
 }
+.zone[data-hovered] .zoneIcon {
+  color: var(--strata-color-text-default);
+  box-shadow: var(--strata-shadow-highlight), var(--strata-shadow-overlay);
+}
+/* The badge becomes a solid brand fill while a drop is possible (fill + label pair, so the arrow keeps 3:1+). */
 .zone[data-drop-target] .zoneIcon {
   border-color: var(--strata-color-action-primary-bg);
-  color: var(--strata-color-text-brand);
+  background: var(--strata-color-action-primary-bg);
+  color: var(--strata-color-action-primary-fg);
+  box-shadow: var(--strata-shadow-highlight), var(--strata-shadow-overlay);
 }
 .zone[data-disabled] .zoneIcon {
   color: var(--strata-color-text-disabled);
@@ -109,6 +123,7 @@
   border: 1px solid var(--strata-color-border-default);
   border-radius: min(var(--strata-radius-container), var(--strata-space-3));
   background: var(--strata-color-surface-default);
+  box-shadow: var(--strata-shadow-raised);
 }
 .row[data-error] {
   border-color: var(--strata-color-feedback-danger-border);
@@ -129,7 +144,7 @@
 .fileIcon > svg {
   inline-size: 1.15em;
   block-size: 1.15em;
-  stroke-width: 1.75;
+  stroke-width: var(--strata-icon-stroke, 1.5);
 }
 .row[data-error] .fileIcon {
   background: var(--strata-color-feedback-danger-bg);
@@ -181,10 +196,13 @@
   border-radius: var(--strata-radius-pill);
   background: color-mix(in oklab, var(--strata-color-text-default) 10%, transparent);
 }
+/* --progress is 0–1. With reduced motion the fill is simply that wide; with motion it's the full track and glides
+   along it on translate (below), so progress animates without animating a layout property. */
 .fill {
   position: absolute;
   inset-block: 0;
   inset-inline-start: 0;
+  inline-size: calc(var(--progress, 0) * 100%);
   border-radius: inherit;
   background: var(--strata-color-action-primary-bg);
 }
@@ -219,13 +237,92 @@
   flex: none;
 }
 
+/* ——— Motion ———
+   Colour, border and shadow fades stay with reduced motion; the swell, lifts, slides and pops only run without it. */
+.zone {
+  transition:
+    background-color var(--strata-motion-duration-fast) var(--strata-motion-easing),
+    border-color var(--strata-motion-duration-fast) var(--strata-motion-easing),
+    box-shadow var(--strata-motion-duration-fast) var(--strata-motion-easing);
+}
+.zoneIcon {
+  transition:
+    background-color var(--strata-motion-duration-fast) var(--strata-motion-easing),
+    border-color var(--strata-motion-duration-fast) var(--strata-motion-easing),
+    color var(--strata-motion-duration-fast) var(--strata-motion-easing),
+    box-shadow var(--strata-motion-duration-fast) var(--strata-motion-easing);
+}
+/* New rows fade in one after another within the batch they arrived in (a third of duration-fast apart). */
+.row {
+  animation: row-fade-in var(--strata-motion-duration-slow) var(--strata-motion-easing-out) backwards;
+  animation-delay: calc(var(--row-stagger, 0) * var(--strata-motion-duration-fast) / 3);
+}
+
 @media (prefers-reduced-motion: no-preference) {
   .zone {
     transition:
       background-color var(--strata-motion-duration-fast) var(--strata-motion-easing),
-      border-color var(--strata-motion-duration-fast) var(--strata-motion-easing);
+      border-color var(--strata-motion-duration-fast) var(--strata-motion-easing),
+      box-shadow var(--strata-motion-duration-fast) var(--strata-motion-easing),
+      scale var(--strata-motion-duration-spring) var(--strata-motion-spring),
+      outline-offset var(--strata-motion-duration-fast) var(--strata-motion-easing);
   }
+  .zone:not([data-focus-visible]) {
+    outline-offset: 0;
+  }
+  .zone[data-drop-target] {
+    scale: 1.015;
+  }
+  .zoneIcon {
+    transition:
+      background-color var(--strata-motion-duration-fast) var(--strata-motion-easing),
+      border-color var(--strata-motion-duration-fast) var(--strata-motion-easing),
+      color var(--strata-motion-duration-fast) var(--strata-motion-easing),
+      box-shadow var(--strata-motion-duration-fast) var(--strata-motion-easing),
+      translate var(--strata-motion-duration-spring) var(--strata-motion-spring),
+      scale var(--strata-motion-duration-spring) var(--strata-motion-spring);
+  }
+  .zone[data-hovered] .zoneIcon {
+    translate: 0 -1px;
+  }
+  /* The badge rises to meet the file. */
+  .zone[data-drop-target] .zoneIcon {
+    translate: 0 -4px;
+    scale: 1.1;
+  }
+  .row {
+    animation:
+      row-fade-in var(--strata-motion-duration-slow) var(--strata-motion-easing-out) backwards,
+      row-rise-in var(--strata-motion-duration-spring) var(--strata-motion-spring) backwards;
+    animation-delay: calc(var(--row-stagger, 0) * var(--strata-motion-duration-fast) / 3);
+  }
+  /* Progress glides forward; "Uploaded" arrives with a small pop of its tick. */
   .fill {
-    transition: inline-size var(--strata-motion-duration-normal) var(--strata-motion-easing);
+    inline-size: 100%;
+    translate: calc((1 - var(--progress, 0)) * -100%) 0;
+    transition: translate var(--strata-motion-duration-slow) var(--strata-motion-easing-out);
+  }
+  .fill:dir(rtl) {
+    translate: calc((1 - var(--progress, 0)) * 100%) 0;
+  }
+  .status > svg {
+    animation: status-pop var(--strata-motion-duration-spring) var(--strata-motion-spring);
+  }
+}
+
+@keyframes row-fade-in {
+  from {
+    opacity: 0;
+  }
+}
+@keyframes row-rise-in {
+  from {
+    translate: 0 4px;
+    scale: 0.98;
+  }
+}
+@keyframes status-pop {
+  from {
+    scale: 0.4;
   }
 }

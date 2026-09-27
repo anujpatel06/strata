@@ -36,6 +36,8 @@ describe('DatePicker', () => {
     await user.click(screen.getByRole('button', { name: /Calendar/ }));
     const dialog = await screen.findByRole('dialog');
     expect(within(dialog).getByRole('grid')).toBeInTheDocument();
+    // The calendar knows it sits on the glass popover (its CSS swaps text.disabled days for text.subtle there).
+    expect(dialog.querySelector('[data-in-picker]')).not.toBeNull();
     await user.click(within(dialog).getByRole('button', { name: /September 20, 2026/ }));
     expect(onChange).toHaveBeenCalledWith(day(20));
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument();

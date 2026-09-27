@@ -15,7 +15,7 @@ import {
   type DateValue,
   type ValidationResult,
 } from 'react-aria-components';
-import { IconCalendar } from '@tabler/icons-react';
+import { IconCalendar } from '@strata/icons';
 import { Calendar, RangeCalendar } from './calendar';
 import { Description, FieldError, FieldGroup, Label } from './text-field';
 import styles from './date-picker.module.css';

@@ -1,0 +1,97 @@
+/*
+ * IconTile — a rounded square with an icon or logo on a tint. The tint is a (--_bg, --_fg) pair; every pair is
+ * contrast-checked by the engine (table in icon-tile.tsx).
+ *
+ * Rim light (CONVENTIONS, Depth): the 1px border is transparent and the background is painted in three layers, so the
+ * edge catches light at the top-left and fades, and it follows any radius:
+ *   1. the fill, clipped to the padding box (the face of the tile);
+ *   2. the rim gradient, border box (only its 1px edge shows, because layer 1 covers the rest);
+ *   3. the fill colour again under the rim, border box, so the faded part of the edge is the tile, not the page.
+ */
+
+.tile {
+  --_size: var(--strata-space-10);
+  --_bg: var(--strata-color-action-secondary-bg);
+  --_fg: var(--strata-color-action-secondary-fg);
+  /* The rim: the engine's rim colour (a whisper of text.default) on tints; on the solid fill, the label colour. */
+  --_rim: var(--strata-rim);
+
+  position: relative;
+  box-sizing: border-box;
+  display: inline-grid;
+  flex: none;
+  place-items: center;
+  inline-size: var(--_size);
+  block-size: var(--_size);
+  overflow: hidden;
+  /* Transparent so the rim shows through; it also becomes the visible edge in forced-colours mode. */
+  border: 1px solid transparent;
+  /* Follows the brand's button shape, capped so round brands still get a rounded square, not a circle. */
+  border-radius: min(var(--strata-radius-button), 30%);
+  background:
+    linear-gradient(var(--_bg), var(--_bg)) padding-box,
+    linear-gradient(135deg, var(--_rim), transparent 60%) border-box var(--_bg);
+  box-shadow: var(--strata-shadow-highlight);
+  color: var(--_fg);
+  line-height: 1;
+  vertical-align: middle;
+}
+
+@supports (corner-shape: squircle) {
+  .tile {
+    corner-shape: squircle;
+  }
+}
+
+.tile[data-size='sm'] {
+  --_size: var(--strata-space-8);
+}
+.tile[data-size='lg'] {
+  --_size: var(--strata-space-12);
+}
+
+/* Icons at half the tile, at the brand's icon stroke. */
+.tile > svg {
+  inline-size: calc(var(--_size) * 0.5);
+  block-size: calc(var(--_size) * 0.5);
+  stroke-width: var(--strata-icon-stroke, 1.5);
+}
+
+.image {
+  inline-size: 62%;
+  block-size: 62%;
+  object-fit: contain;
+}
+
+/* ---- tints (contrast-checked pairs only; see icon-tile.tsx) -------------- */
+
+.tile[data-tint='solid'] {
+  --_bg: var(--strata-color-action-primary-bg);
+  --_fg: var(--strata-color-action-primary-fg);
+  --_rim: color-mix(in oklab, var(--strata-color-action-primary-fg) 45%, transparent);
+  box-shadow: var(--strata-shadow-highlight), var(--strata-shadow-raised);
+}
+.tile[data-tint='none'] {
+  --_bg: var(--strata-color-surface-sunken);
+  --_fg: var(--strata-color-text-default);
+}
+.tile[data-tint='accent'] {
+  --_bg: var(--strata-color-accent-subtle);
+  --_fg: var(--strata-color-accent-text);
+}
+.tile[data-tint='info'] {
+  --_bg: var(--strata-color-feedback-info-bg);
+  --_fg: var(--strata-color-feedback-info-fg);
+}
+.tile[data-tint='success'] {
+  --_bg: var(--strata-color-feedback-success-bg);
+  --_fg: var(--strata-color-feedback-success-fg);
+}
+.tile[data-tint='warning'] {
+  --_bg: var(--strata-color-feedback-warning-bg);
+  --_fg: var(--strata-color-feedback-warning-fg);
+}
+.tile[data-tint='danger'] {
+  --_bg: var(--strata-color-feedback-danger-bg);
+  --_fg: var(--strata-color-feedback-danger-fg);
+}

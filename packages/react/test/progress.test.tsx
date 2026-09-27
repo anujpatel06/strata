@@ -13,7 +13,7 @@ describe('ProgressBar', () => {
   it('shows the formatted value when asked, and sizes the fill', () => {
     const { container } = render(<ProgressBar label="Upload" value={64} showValue />);
     expect(screen.getByText('64%')).toBeInTheDocument();
-    expect(container.querySelector('.fill')).toHaveStyle({ inlineSize: '64%' });
+    expect((container.querySelector('.fill') as HTMLElement).style.getPropertyValue('--_pct')).toBe('64%');
   });
 
   it('supports custom ranges and value labels', () => {

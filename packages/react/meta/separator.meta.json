@@ -66,10 +66,12 @@
     ]
   },
   "tokens": [
+    "color.border.default",
     "color.border.subtle",
     "color.text.subtle",
     "font.size.xs",
     "font.weight.medium",
+    "line-height.snug",
     "space.3"
   ]
 }

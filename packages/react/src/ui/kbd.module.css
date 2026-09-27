@@ -1,3 +1,9 @@
+/*
+ * A keycap: a lit face (surface.raised + top-edge sheen) sitting on a slightly deeper bottom edge, so it
+ * reads as a key rather than a grey chip. Finesse: the outline is a hairline and the bottom edge is 1px,
+ * so a pair of keys inside a button stays quieter than the button's own edge. The edge is an inset
+ * shadow, so the box size (and line height around inline keys) doesn't change.
+ */
 .kbd {
   box-sizing: border-box;
   display: inline-flex;
@@ -6,28 +12,40 @@
   gap: var(--strata-space-1);
   min-inline-size: var(--strata-space-5);
   block-size: var(--strata-space-5);
-  padding-block: 0;
+  padding-block: 0 1px;
   padding-inline: var(--strata-space-1);
-  border: 1px solid var(--strata-color-border-default);
+  /* Hairline outline as an inset ring (Chromium rounds sub-pixel borders up to 1px). */
+  border: 0;
   /* Keys stay key-shaped even in round brands. */
   border-radius: min(var(--strata-radius-badge), var(--strata-space-1));
-  background-color: var(--strata-color-surface-sunken);
-  box-shadow: inset 0 -1px 0 var(--strata-color-border-default);
+  background-color: var(--strata-color-surface-raised);
+  box-shadow:
+    inset 0 0 0 var(--strata-hairline) var(--strata-color-border-default),
+    inset 0 -1px 0 color-mix(in oklab, var(--strata-color-border-default) 80%, transparent),
+    var(--strata-shadow-highlight),
+    0 0.5px 0 color-mix(in oklab, var(--strata-color-text-default) 5%, transparent);
   color: var(--strata-color-text-subtle);
   font-family: var(--strata-font-mono);
   font-size: var(--strata-font-size-xs);
   font-variant-numeric: tabular-nums;
   font-weight: var(--strata-font-weight-medium);
-  letter-spacing: 0;
+  letter-spacing: var(--strata-font-tracking-xs);
   line-height: 1;
   vertical-align: middle;
   white-space: nowrap;
   user-select: none;
 }
 
+@supports (corner-shape: squircle) {
+  .kbd {
+    corner-shape: squircle;
+  }
+}
+
 .kbd > svg {
   inline-size: 1em;
   block-size: 1em;
+  stroke-width: var(--strata-icon-stroke, 1.5);
 }
 
 /* Keys read in the order they are pressed, like their printed legends — also on RTL pages. */
@@ -40,6 +58,7 @@
   color: var(--strata-color-text-subtle);
   font-family: inherit;
   font-size: var(--strata-font-size-xs);
+  letter-spacing: var(--strata-font-tracking-xs);
   vertical-align: middle;
   white-space: nowrap;
 }
