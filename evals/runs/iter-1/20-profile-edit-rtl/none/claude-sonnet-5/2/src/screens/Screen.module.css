@@ -1,0 +1,225 @@
+.screen {
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-6, 24px);
+  max-inline-size: 720px;
+  margin-inline: auto;
+  padding: var(--strata-space-6, 24px);
+  border-radius: var(--strata-radius-lg, 16px);
+  background: var(--strata-color-surface-raised, var(--strata-color-surface-canvas, #fff));
+  border: 1px solid var(--strata-color-border, #e2e2e2);
+  box-shadow: var(--strata-shadow-sm, 0 1px 2px rgba(0, 0, 0, 0.06));
+  color: var(--strata-color-text-default, #1a1a1a);
+  font-family: var(--strata-font-body, system-ui, sans-serif);
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-1, 4px);
+}
+
+.title {
+  margin: 0;
+  font-size: var(--strata-font-size-xl, 1.5rem);
+  font-weight: var(--strata-font-weight-bold, 700);
+  font-family: var(--strata-font-heading, inherit);
+}
+
+.subtitle {
+  margin: 0;
+  color: var(--strata-color-text-muted, #666);
+  font-size: var(--strata-font-size-sm, 0.875rem);
+}
+
+.photoSection {
+  display: flex;
+  align-items: center;
+  gap: var(--strata-space-4, 16px);
+  flex-wrap: wrap;
+}
+
+.avatar {
+  inline-size: 88px;
+  block-size: 88px;
+  border-radius: var(--strata-radius-full, 999px);
+  overflow: hidden;
+  background: var(--strata-color-surface-sunken, #eef0f3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  border: 1px solid var(--strata-color-border, #e2e2e2);
+}
+
+.avatarImage {
+  inline-size: 100%;
+  block-size: 100%;
+  object-fit: cover;
+}
+
+.avatarInitials {
+  font-size: var(--strata-font-size-lg, 1.25rem);
+  font-weight: var(--strata-font-weight-bold, 700);
+  color: var(--strata-color-text-muted, #666);
+}
+
+.photoActions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-2, 8px);
+}
+
+.photoActionsRow {
+  display: flex;
+  align-items: center;
+  gap: var(--strata-space-3, 12px);
+  flex-wrap: wrap;
+}
+
+.photoHint {
+  margin: 0;
+  font-size: var(--strata-font-size-xs, 0.75rem);
+  color: var(--strata-color-text-muted, #666);
+}
+
+.hiddenInput {
+  position: absolute;
+  inline-size: 1px;
+  block-size: 1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+}
+
+.fields {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: var(--strata-space-4, 16px);
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-1, 4px);
+}
+
+.fieldWide {
+  grid-column: 1 / -1;
+}
+
+.label {
+  display: flex;
+  align-items: center;
+  gap: var(--strata-space-2, 8px);
+  font-size: var(--strata-font-size-sm, 0.875rem);
+  font-weight: var(--strata-font-weight-medium, 600);
+}
+
+.changedBadge {
+  font-size: var(--strata-font-size-xs, 0.6875rem);
+  font-weight: var(--strata-font-weight-medium, 600);
+  color: var(--strata-color-warning-text, #8a5300);
+  background: var(--strata-color-warning-surface, #fdf0dd);
+  border-radius: var(--strata-radius-full, 999px);
+  padding-block: 2px;
+  padding-inline: var(--strata-space-2, 8px);
+  line-height: 1.4;
+}
+
+.input,
+.select {
+  box-sizing: border-box;
+  inline-size: 100%;
+  padding-block: var(--strata-space-2, 8px);
+  padding-inline: var(--strata-space-3, 12px);
+  border-radius: var(--strata-radius-md, 8px);
+  border: 1px solid var(--strata-color-border, #d6d6d6);
+  background: var(--strata-color-surface-canvas, #fff);
+  color: var(--strata-color-text-default, #1a1a1a);
+  font-family: inherit;
+  font-size: var(--strata-font-size-md, 1rem);
+}
+
+.input:focus,
+.select:focus {
+  outline: 2px solid var(--strata-color-primary, #2563eb);
+  outline-offset: 1px;
+}
+
+.statusRow {
+  min-block-size: 1.25em;
+  font-size: var(--strata-font-size-sm, 0.875rem);
+}
+
+.statusPending {
+  color: var(--strata-color-text-muted, #666);
+}
+
+.statusSaving {
+  color: var(--strata-color-text-muted, #666);
+}
+
+.statusSaved {
+  color: var(--strata-color-success-text, #1a7f37);
+  font-weight: var(--strata-font-weight-medium, 600);
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--strata-space-3, 12px);
+}
+
+.saveButton,
+.cancelButton,
+.secondaryButton,
+.textButton {
+  font-family: inherit;
+  font-size: var(--strata-font-size-sm, 0.875rem);
+  font-weight: var(--strata-font-weight-medium, 600);
+  border-radius: var(--strata-radius-md, 8px);
+  cursor: pointer;
+}
+
+.saveButton {
+  padding-block: var(--strata-space-2, 8px);
+  padding-inline: var(--strata-space-5, 20px);
+  border: 1px solid var(--strata-color-primary, #2563eb);
+  background: var(--strata-color-primary, #2563eb);
+  color: var(--strata-color-primary-text, #fff);
+}
+
+.saveButton:disabled {
+  background: var(--strata-color-surface-sunken, #e5e7eb);
+  border-color: var(--strata-color-surface-sunken, #e5e7eb);
+  color: var(--strata-color-text-muted, #9ca3af);
+  cursor: not-allowed;
+}
+
+.cancelButton,
+.secondaryButton {
+  padding-block: var(--strata-space-2, 8px);
+  padding-inline: var(--strata-space-5, 20px);
+  border: 1px solid var(--strata-color-border, #d6d6d6);
+  background: var(--strata-color-surface-canvas, #fff);
+  color: var(--strata-color-text-default, #1a1a1a);
+}
+
+.secondaryButton {
+  padding-inline: var(--strata-space-4, 16px);
+}
+
+.cancelButton:disabled,
+.secondaryButton:disabled {
+  color: var(--strata-color-text-muted, #9ca3af);
+  cursor: not-allowed;
+}
+
+.textButton {
+  padding: 0;
+  border: none;
+  background: none;
+  color: var(--strata-color-primary, #2563eb);
+  text-decoration: underline;
+}

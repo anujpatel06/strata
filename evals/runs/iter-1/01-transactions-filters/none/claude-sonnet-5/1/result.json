@@ -1,0 +1,84 @@
+{
+  "prompt": "01-transactions-filters",
+  "tags": [
+    "a11y"
+  ],
+  "condition": "none",
+  "model": "claude-sonnet-5",
+  "repeat": 1,
+  "iteration": "1",
+  "source": {
+    "commit": "320a45c63ccf410e91943590bcd6202615d23ebc",
+    "dirty": []
+  },
+  "startedAt": "2026-09-27T14:00:17.723Z",
+  "wallMs": 112494,
+  "exitCode": 0,
+  "timedOut": false,
+  "editedProtectedFiles": [],
+  "toolCalls": {
+    "Read": 7,
+    "Glob": 8,
+    "Write": 2
+  },
+  "pathsOutsideWorkspace": [],
+  "touchedRepo": false,
+  "usedMemory": false,
+  "cli": {
+    "isError": false,
+    "subtype": "success",
+    "turns": 18,
+    "durationMs": 110289,
+    "costUsd": 0.19384059999999997,
+    "usage": {
+      "input_tokens": 18,
+      "cache_creation_input_tokens": 15049,
+      "cache_read_input_tokens": 110743,
+      "output_tokens": 11146,
+      "output_tokens_details": {
+        "thinking_tokens": 4237
+      },
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 15049,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 2,
+          "output_tokens": 141,
+          "cache_read_input_tokens": 20984,
+          "cache_creation_input_tokens": 2531,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 2531
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-sonnet-5": {
+        "inputTokens": 18,
+        "outputTokens": 11146,
+        "cacheReadInputTokens": 110743,
+        "cacheCreationInputTokens": 15049,
+        "webSearchRequests": 0,
+        "costUSD": 0.19384059999999997,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 64000,
+        "thinkingTokens": 4237,
+        "canonicalModel": "claude-sonnet-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "finalMessage": "Screen built at `src/screens/Screen.tsx` with mock data for 12 transactions, search/category/date-range filters, an Export CSV action (disabled when no rows match), and an empty state with a \"Clear filters\" button. Styling in `src/screens/Screen.module.css` uses Strata token variables (with safe fallbacks) and logical CSS properties so it adapts across brands, light/dark, and RTL locales."
+  }
+}

@@ -1,0 +1,356 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-6, 24px);
+}
+
+.header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--strata-space-4, 16px);
+  flex-wrap: wrap;
+}
+
+.headerText {
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-1, 4px);
+}
+
+.title {
+  margin: 0;
+  font-family: var(--strata-font-heading, var(--strata-font-body, inherit));
+  font-size: var(--strata-font-size-xl, 1.5rem);
+  font-weight: 600;
+  color: var(--strata-color-text-default, #1a1a1a);
+}
+
+.subtitle {
+  margin: 0;
+  font-size: var(--strata-font-size-sm, 0.875rem);
+  color: var(--strata-color-text-muted, #5f5f5f);
+}
+
+.scheduleButton {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--strata-space-2, 8px);
+  border: none;
+  border-radius: var(--strata-radius-md, 8px);
+  padding-block: var(--strata-space-3, 12px);
+  padding-inline: var(--strata-space-4, 16px);
+  background: var(--strata-color-accent-default, var(--strata-color-brand-default, #2955d6));
+  color: var(--strata-color-text-on-accent, #ffffff);
+  font-family: var(--strata-font-body, inherit);
+  font-size: var(--strata-font-size-sm, 0.9375rem);
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.scheduleButton:hover {
+  filter: brightness(1.08);
+}
+
+.scheduleButton:focus-visible,
+.actionButton:focus-visible,
+.actionButtonDanger:focus-visible,
+.buttonPrimary:focus-visible,
+.buttonSecondary:focus-visible,
+.buttonDanger:focus-visible,
+.closeButton:focus-visible,
+.input:focus-visible {
+  outline: 2px solid var(--strata-color-focus-ring, #2955d6);
+  outline-offset: 2px;
+}
+
+.empty {
+  color: var(--strata-color-text-muted, #5f5f5f);
+  padding-block: var(--strata-space-6, 24px);
+  text-align: center;
+}
+
+.list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-3, 12px);
+}
+
+.card {
+  display: grid;
+  grid-template-columns: minmax(180px, 1.6fr) minmax(110px, 0.8fr) minmax(130px, 0.9fr) auto;
+  align-items: center;
+  gap: var(--strata-space-4, 16px);
+  background: var(--strata-color-surface-raised, var(--strata-color-surface-canvas, #ffffff));
+  border: 1px solid var(--strata-color-border-default, #e2e2e2);
+  border-radius: var(--strata-radius-lg, 12px);
+  padding: var(--strata-space-4, 16px);
+}
+
+.payeeCell {
+  display: flex;
+  align-items: center;
+  gap: var(--strata-space-3, 12px);
+  min-inline-size: 0;
+}
+
+.avatar {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: 40px;
+  block-size: 40px;
+  border-radius: var(--strata-radius-full, 999px);
+  background: var(--strata-color-surface-sunken, #eef0f4);
+  color: var(--strata-color-text-default, #1a1a1a);
+  font-size: var(--strata-font-size-sm, 0.8125rem);
+  font-weight: 700;
+}
+
+.payeeNameRow {
+  display: flex;
+  align-items: center;
+  gap: var(--strata-space-2, 8px);
+  flex-wrap: wrap;
+}
+
+.payeeName {
+  font-weight: 600;
+  color: var(--strata-color-text-default, #1a1a1a);
+  overflow-wrap: anywhere;
+}
+
+.badgePaused {
+  display: inline-block;
+  font-size: var(--strata-font-size-xs, 0.6875rem);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: var(--strata-color-warning-text, #7a4a00);
+  background: var(--strata-color-warning-surface, #fdecd0);
+  border-radius: var(--strata-radius-sm, 4px);
+  padding-block: 2px;
+  padding-inline: var(--strata-space-2, 8px);
+}
+
+.freqPill {
+  display: inline-block;
+  margin-block-start: var(--strata-space-1, 4px);
+  font-size: var(--strata-font-size-xs, 0.75rem);
+  color: var(--strata-color-text-muted, #5f5f5f);
+}
+
+.amountCell,
+.dateCell {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-inline-size: 0;
+}
+
+.cellLabel {
+  font-size: var(--strata-font-size-xs, 0.6875rem);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: var(--strata-color-text-subtle, #8a8a8a);
+}
+
+.amountValue {
+  font-weight: 600;
+  color: var(--strata-color-text-default, #1a1a1a);
+}
+
+.cellValue {
+  color: var(--strata-color-text-default, #1a1a1a);
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: var(--strata-space-2, 8px);
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.actionButton,
+.actionButtonDanger {
+  border-radius: var(--strata-radius-md, 8px);
+  border: 1px solid var(--strata-color-border-default, #d8d8d8);
+  background: transparent;
+  padding-block: var(--strata-space-2, 8px);
+  padding-inline: var(--strata-space-3, 12px);
+  font-family: var(--strata-font-body, inherit);
+  font-size: var(--strata-font-size-sm, 0.8125rem);
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  color: var(--strata-color-text-default, #1a1a1a);
+}
+
+.actionButton:hover {
+  background: var(--strata-color-surface-sunken, #f2f2f2);
+}
+
+.actionButtonDanger {
+  color: var(--strata-color-danger-text, #b3261e);
+  border-color: var(--strata-color-danger-border, #eab7b2);
+}
+
+.actionButtonDanger:hover {
+  background: var(--strata-color-danger-surface, #fdecea);
+}
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: var(--strata-color-overlay, rgba(0, 0, 0, 0.5));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--strata-space-4, 16px);
+  z-index: 100;
+}
+
+.modal {
+  width: 100%;
+  max-inline-size: 440px;
+  max-block-size: 90vh;
+  overflow-y: auto;
+  background: var(--strata-color-surface-raised, #ffffff);
+  border-radius: var(--strata-radius-lg, 12px);
+  padding: var(--strata-space-5, 20px);
+  box-shadow: var(--strata-shadow-lg, 0 12px 32px rgba(0, 0, 0, 0.2));
+}
+
+.modalHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--strata-space-3, 12px);
+  margin-block-end: var(--strata-space-4, 16px);
+}
+
+.modalTitle {
+  margin: 0;
+  font-family: var(--strata-font-heading, var(--strata-font-body, inherit));
+  font-size: var(--strata-font-size-lg, 1.125rem);
+  font-weight: 600;
+  color: var(--strata-color-text-default, #1a1a1a);
+}
+
+.closeButton {
+  border: none;
+  background: transparent;
+  color: var(--strata-color-text-muted, #5f5f5f);
+  cursor: pointer;
+  padding: var(--strata-space-1, 4px);
+  border-radius: var(--strata-radius-sm, 4px);
+  flex-shrink: 0;
+}
+
+.closeButton:hover {
+  background: var(--strata-color-surface-sunken, #f2f2f2);
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-4, 16px);
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-1, 4px);
+}
+
+.fieldLabel {
+  font-size: var(--strata-font-size-sm, 0.8125rem);
+  font-weight: 600;
+  color: var(--strata-color-text-default, #1a1a1a);
+}
+
+.input {
+  font-family: var(--strata-font-body, inherit);
+  font-size: var(--strata-font-size-sm, 0.9375rem);
+  color: var(--strata-color-text-default, #1a1a1a);
+  background: var(--strata-color-surface-canvas, #ffffff);
+  border: 1px solid var(--strata-color-border-default, #d8d8d8);
+  border-radius: var(--strata-radius-md, 8px);
+  padding-block: var(--strata-space-2, 8px);
+  padding-inline: var(--strata-space-3, 12px);
+}
+
+.confirmBody {
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-3, 12px);
+  color: var(--strata-color-text-default, #1a1a1a);
+  margin-block-end: var(--strata-space-5, 20px);
+}
+
+.confirmWarning {
+  color: var(--strata-color-text-muted, #5f5f5f);
+  font-size: var(--strata-font-size-sm, 0.875rem);
+}
+
+.formActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--strata-space-3, 12px);
+  flex-wrap: wrap;
+}
+
+.buttonPrimary,
+.buttonSecondary,
+.buttonDanger {
+  border-radius: var(--strata-radius-md, 8px);
+  padding-block: var(--strata-space-2, 8px);
+  padding-inline: var(--strata-space-4, 16px);
+  font-family: var(--strata-font-body, inherit);
+  font-size: var(--strata-font-size-sm, 0.9375rem);
+  font-weight: 600;
+  cursor: pointer;
+  border: 1px solid transparent;
+}
+
+.buttonPrimary {
+  background: var(--strata-color-accent-default, var(--strata-color-brand-default, #2955d6));
+  color: var(--strata-color-text-on-accent, #ffffff);
+}
+
+.buttonPrimary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.buttonSecondary {
+  background: transparent;
+  border-color: var(--strata-color-border-default, #d8d8d8);
+  color: var(--strata-color-text-default, #1a1a1a);
+}
+
+.buttonSecondary:hover {
+  background: var(--strata-color-surface-sunken, #f2f2f2);
+}
+
+.buttonDanger {
+  background: var(--strata-color-danger-default, #b3261e);
+  color: var(--strata-color-text-on-accent, #ffffff);
+}
+
+@media (max-width: 640px) {
+  .card {
+    grid-template-columns: 1fr;
+    align-items: stretch;
+  }
+
+  .actions {
+    justify-content: flex-start;
+  }
+}

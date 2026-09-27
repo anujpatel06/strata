@@ -1,0 +1,91 @@
+{
+  "prompt": "06-order-return-rtl",
+  "tags": [
+    "rtl"
+  ],
+  "condition": "mcp",
+  "model": "claude-sonnet-5",
+  "repeat": 1,
+  "iteration": "1",
+  "source": {
+    "commit": "320a45c63ccf410e91943590bcd6202615d23ebc",
+    "dirty": []
+  },
+  "startedAt": "2026-09-27T14:20:36.142Z",
+  "wallMs": 152052,
+  "exitCode": 0,
+  "timedOut": false,
+  "editedProtectedFiles": [],
+  "toolCalls": {
+    "Read": 5,
+    "Glob": 1,
+    "mcp__strata__list_components": 1,
+    "mcp__strata__get_pattern": 1,
+    "mcp__strata__get_component": 8,
+    "mcp__strata__get_example": 7,
+    "mcp__strata__get_tokens": 4,
+    "Write": 2,
+    "Edit": 5,
+    "mcp__strata__audit_snippet": 2
+  },
+  "pathsOutsideWorkspace": [],
+  "touchedRepo": false,
+  "usedMemory": false,
+  "cli": {
+    "isError": false,
+    "subtype": "success",
+    "turns": 37,
+    "durationMs": 150602,
+    "costUsd": 0.4753031999999999,
+    "usage": {
+      "input_tokens": 34,
+      "cache_creation_input_tokens": 49198,
+      "cache_read_input_tokens": 608116,
+      "output_tokens": 15682,
+      "output_tokens_details": {
+        "thinking_tokens": 5687
+      },
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 49198,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 2,
+          "output_tokens": 379,
+          "cache_read_input_tokens": 56556,
+          "cache_creation_input_tokens": 3127,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 3127
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-sonnet-5": {
+        "inputTokens": 34,
+        "outputTokens": 15682,
+        "cacheReadInputTokens": 608116,
+        "cacheCreationInputTokens": 49198,
+        "webSearchRequests": 0,
+        "costUSD": 0.4753031999999999,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 64000,
+        "thinkingTokens": 5687,
+        "canonicalModel": "claude-sonnet-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "finalMessage": "This looks complete and correct. The screen is built at `src/screens/Screen.tsx` with styles in `src/screens/Screen.module.css`, using only Strata components (`Link`, `Card`, `Checkbox`, `Select`, `Amount`, `Button`, `Alert`) and tokens (audit score 100 on both files, no raw colors/pixels, logical properties throughout).\n\nSummary of what it does:\n- **Back link** with an arrow icon (`IconArrowLeft`) back to the order.\n- **Order items list**: each row shows a checkbox with the item name, quantity, and line price (`Amount`); selecting an item reveals a **Reason** `Select` (5 grocery-relevant reasons).\n- **Refund total** recalculates live via `useMemo` over selected items' price × quantity, shown as a hero `Amount`.\n- **Submit** button is disabled until at least one item is selected and every selected item has a reason; submitting shows a success `Alert`.\n- All copy is in English but uses no hardcoded direction/brand logic, so it will render correctly in the Arabic/RTL locale via `ThemeScope`."
+  }
+}

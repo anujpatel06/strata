@@ -1,0 +1,49 @@
+.page {
+  display: grid;
+  gap: var(--strata-space-6);
+  max-inline-size: 960px;
+  margin-inline: auto;
+  padding: var(--strata-space-8) var(--strata-space-6);
+}
+
+.header {
+  display: grid;
+  gap: var(--strata-space-1);
+}
+
+.title {
+  margin: 0;
+  font: var(--strata-font-heading);
+  font-size: var(--strata-font-size-lg);
+  font-weight: var(--strata-font-weight-semibold);
+  color: var(--strata-color-text-default);
+}
+
+.description {
+  margin: 0;
+  font-size: var(--strata-font-size-sm);
+  color: var(--strata-color-text-subtle);
+}
+
+.selectionCount {
+  font-size: var(--strata-font-size-sm);
+  font-weight: var(--strata-font-weight-medium);
+  color: var(--strata-color-text-default);
+}
+
+.nameCell {
+  display: flex;
+  align-items: center;
+  gap: var(--strata-space-2);
+}
+
+.account {
+  font-variant-numeric: tabular-nums;
+  letter-spacing: var(--strata-font-tracking-sm);
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--strata-space-1);
+}

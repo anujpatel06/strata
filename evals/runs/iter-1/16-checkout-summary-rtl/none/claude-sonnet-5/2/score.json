@@ -1,0 +1,92 @@
+{
+  "prompt": "16-checkout-summary-rtl",
+  "condition": "none",
+  "model": "claude-sonnet-5",
+  "repeat": 2,
+  "tags": [
+    "rtl"
+  ],
+  "scoredAt": "2026-09-27T15:52:04.649Z",
+  "built": true,
+  "agentFailed": false,
+  "editedProtectedFiles": [],
+  "contaminated": false,
+  "touchedRepo": false,
+  "toolCalls": {
+    "Read": 6,
+    "Glob": 6,
+    "Write": 2
+  },
+  "files": 2,
+  "lines": 677,
+  "brandNames": 0,
+  "typeErrors": 0,
+  "audit": {
+    "score": 68,
+    "findings": 70,
+    "opportunities": 241,
+    "byRule": {
+      "raw-font-weight": 14,
+      "raw-color": 43,
+      "off-scale-font-size": 2,
+      "native-element": 11
+    }
+  },
+  "views": [
+    {
+      "name": "light",
+      "query": "tenant=qamar&locale=en-IN",
+      "scheme": "light",
+      "width": 1280,
+      "pageErrors": [],
+      "mounted": true,
+      "textLength": 463,
+      "overflowPx": 0,
+      "axeNodes": 0,
+      "axeRules": {}
+    },
+    {
+      "name": "dark",
+      "query": "tenant=qamar&locale=en-IN",
+      "scheme": "dark",
+      "width": 1280,
+      "pageErrors": [],
+      "mounted": true,
+      "textLength": 463,
+      "overflowPx": 0,
+      "axeNodes": 10,
+      "axeRules": {
+        "color-contrast": 10
+      }
+    },
+    {
+      "name": "narrow",
+      "query": "tenant=qamar&locale=en-IN",
+      "scheme": "light",
+      "width": 390,
+      "pageErrors": [],
+      "mounted": true,
+      "textLength": 463,
+      "overflowPx": 0,
+      "axeNodes": 0,
+      "axeRules": {}
+    },
+    {
+      "name": "rtl",
+      "query": "tenant=qamar&locale=ar-AE",
+      "scheme": "light",
+      "width": 1280,
+      "pageErrors": [],
+      "mounted": true,
+      "textLength": 463,
+      "overflowPx": 0,
+      "axeNodes": 0,
+      "axeRules": {}
+    }
+  ],
+  "builds": true,
+  "renders": true,
+  "axeNodes": 10,
+  "overflowPx": 0,
+  "onSystem": false
+}

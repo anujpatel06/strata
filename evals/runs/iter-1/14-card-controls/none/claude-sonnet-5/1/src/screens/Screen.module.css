@@ -1,0 +1,180 @@
+.screen {
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-6, 24px);
+  max-inline-size: 480px;
+}
+
+.cardVisual {
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-2, 8px);
+  padding: var(--strata-space-6, 24px);
+  border-radius: var(--strata-radius-lg, 16px);
+  background: linear-gradient(
+    135deg,
+    var(--strata-color-brand-solid, #1e293b),
+    var(--strata-color-brand-solid-hover, #0f172a)
+  );
+  color: var(--strata-color-text-on-brand, #ffffff);
+  box-shadow: var(--strata-shadow-md, 0 8px 24px rgba(15, 23, 42, 0.2));
+}
+
+.cardNetwork {
+  font-size: var(--strata-font-size-sm, 0.8rem);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  opacity: 0.75;
+}
+
+.cardName {
+  font-size: var(--strata-font-size-lg, 1.15rem);
+  font-weight: 600;
+}
+
+.cardNumber {
+  font-size: var(--strata-font-size-md, 1rem);
+  letter-spacing: 0.08em;
+  font-variant-numeric: tabular-nums;
+  opacity: 0.9;
+}
+
+.freezeSection,
+.controlsSection {
+  display: flex;
+  gap: var(--strata-space-4, 16px);
+  padding: var(--strata-space-4, 16px);
+  border: 1px solid var(--strata-color-border-default, #e2e8f0);
+  border-radius: var(--strata-radius-md, 12px);
+  background: var(--strata-color-surface-raised, #ffffff);
+}
+
+.freezeSection {
+  align-items: center;
+  justify-content: space-between;
+}
+
+.controlsSection {
+  flex-direction: column;
+  transition: opacity 0.2s ease;
+}
+
+.controlsSection[aria-disabled='true'] {
+  opacity: 0.55;
+}
+
+.sectionHeading {
+  margin: 0 0 var(--strata-space-1, 4px);
+  font-size: var(--strata-font-size-md, 1rem);
+  font-weight: 600;
+}
+
+.frozenNotice {
+  margin: 0;
+  padding: var(--strata-space-3, 12px) var(--strata-space-4, 16px);
+  border-radius: var(--strata-radius-md, 12px);
+  background: var(--strata-color-surface-warning, #fef3c7);
+  color: var(--strata-color-text-warning, #92400e);
+  font-size: var(--strata-font-size-sm, 0.875rem);
+}
+
+.controlRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--strata-space-4, 16px);
+  padding-block: var(--strata-space-3, 12px);
+  border-block-end: 1px solid var(--strata-color-border-subtle, #f1f5f9);
+}
+
+.controlRow:last-of-type {
+  border-block-end: none;
+}
+
+.controlText {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  text-align: start;
+}
+
+.controlLabel {
+  font-weight: 500;
+  color: var(--strata-color-text-default, #0f172a);
+}
+
+.controlDescription {
+  font-size: var(--strata-font-size-sm, 0.875rem);
+  color: var(--strata-color-text-subtle, #64748b);
+}
+
+.switch {
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+  inline-size: 44px;
+  block-size: 24px;
+  padding: 2px;
+  border: none;
+  border-radius: 999px;
+  background: var(--strata-color-border-default, #cbd5e1);
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.switch[aria-checked='true'] {
+  background: var(--strata-color-brand-solid, #2563eb);
+}
+
+.switch:disabled {
+  cursor: not-allowed;
+}
+
+.switchThumb {
+  inline-size: 20px;
+  block-size: 20px;
+  border-radius: 50%;
+  background: #ffffff;
+  margin-inline-start: 0;
+  transition: margin-inline-start 0.15s ease;
+}
+
+.switch[aria-checked='true'] .switchThumb {
+  margin-inline-start: 20px;
+}
+
+.limitRow {
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-2, 8px);
+  padding-block-start: var(--strata-space-3, 12px);
+}
+
+.limitLabelRow {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--strata-space-2, 8px);
+}
+
+.limitValue {
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  color: var(--strata-color-text-default, #0f172a);
+}
+
+.slider {
+  inline-size: 100%;
+  accent-color: var(--strata-color-brand-solid, #2563eb);
+}
+
+.slider:disabled {
+  cursor: not-allowed;
+}
+
+.limitBounds {
+  display: flex;
+  justify-content: space-between;
+  font-size: var(--strata-font-size-sm, 0.875rem);
+  color: var(--strata-color-text-subtle, #64748b);
+}

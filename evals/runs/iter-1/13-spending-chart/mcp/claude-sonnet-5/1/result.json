@@ -1,0 +1,89 @@
+{
+  "prompt": "13-spending-chart",
+  "tags": [
+    "multi-brand"
+  ],
+  "condition": "mcp",
+  "model": "claude-sonnet-5",
+  "repeat": 1,
+  "iteration": "1",
+  "source": {
+    "commit": "320a45c63ccf410e91943590bcd6202615d23ebc",
+    "dirty": []
+  },
+  "startedAt": "2026-09-27T14:46:28.138Z",
+  "wallMs": 159001,
+  "exitCode": 0,
+  "timedOut": false,
+  "editedProtectedFiles": [],
+  "toolCalls": {
+    "Read": 3,
+    "mcp__strata__list_components": 1,
+    "Glob": 1,
+    "mcp__strata__get_component": 7,
+    "mcp__strata__get_example": 5,
+    "mcp__strata__get_tokens": 2,
+    "Write": 2,
+    "mcp__strata__audit_snippet": 2
+  },
+  "pathsOutsideWorkspace": [],
+  "touchedRepo": false,
+  "usedMemory": false,
+  "cli": {
+    "isError": false,
+    "subtype": "success",
+    "turns": 24,
+    "durationMs": 156563,
+    "costUsd": 0.39533119999999994,
+    "usage": {
+      "input_tokens": 24,
+      "cache_creation_input_tokens": 39122,
+      "cache_read_input_tokens": 338576,
+      "output_tokens": 17108,
+      "output_tokens_details": {
+        "thinking_tokens": 9805
+      },
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 39122,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 2,
+          "output_tokens": 247,
+          "cache_read_input_tokens": 47429,
+          "cache_creation_input_tokens": 2178,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 2178
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-sonnet-5": {
+        "inputTokens": 24,
+        "outputTokens": 17108,
+        "cacheReadInputTokens": 338576,
+        "cacheCreationInputTokens": 39122,
+        "webSearchRequests": 0,
+        "costUSD": 0.39533119999999994,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 64000,
+        "thinkingTokens": 9805,
+        "canonicalModel": "claude-sonnet-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "finalMessage": "Both files pass the audit with a clean score. The screen is complete:\n\n- **Header**: Eyebrow + heading, with a `ToggleButtonGroup` to switch between 3/6/12 months.\n- **Chart card**: total spend as an `Amount` headline, then a `BarChart` of monthly spending for the selected range, with the latest month highlighted.\n- **Categories card**: the five largest categories for that range, each as a `Meter` showing the amount and share of total (`$X · Y%`), with the fill width itself reflecting the share.\n\nEverything is built from `@strata/react` components and tokens only, with mock data (12 months × 10 categories) defined directly in `Screen.tsx`, and no brand names or native form/table elements anywhere."
+  }
+}

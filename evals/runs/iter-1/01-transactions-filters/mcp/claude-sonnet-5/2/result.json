@@ -1,0 +1,91 @@
+{
+  "prompt": "01-transactions-filters",
+  "tags": [
+    "a11y"
+  ],
+  "condition": "mcp",
+  "model": "claude-sonnet-5",
+  "repeat": 2,
+  "iteration": "1",
+  "source": {
+    "commit": "320a45c63ccf410e91943590bcd6202615d23ebc",
+    "dirty": []
+  },
+  "startedAt": "2026-09-27T14:02:10.222Z",
+  "wallMs": 216753,
+  "exitCode": 0,
+  "timedOut": false,
+  "editedProtectedFiles": [],
+  "toolCalls": {
+    "Read": 4,
+    "Glob": 5,
+    "mcp__strata__list_components": 1,
+    "mcp__strata__get_pattern": 2,
+    "mcp__strata__get_component": 11,
+    "mcp__strata__get_example": 2,
+    "Grep": 1,
+    "mcp__strata__get_tokens": 3,
+    "Write": 2,
+    "mcp__strata__audit_snippet": 1
+  },
+  "pathsOutsideWorkspace": [],
+  "touchedRepo": false,
+  "usedMemory": false,
+  "cli": {
+    "isError": false,
+    "subtype": "success",
+    "turns": 33,
+    "durationMs": 214854,
+    "costUsd": 0.6346272,
+    "usage": {
+      "input_tokens": 42,
+      "cache_creation_input_tokens": 61813,
+      "cache_read_input_tokens": 939256,
+      "output_tokens": 19944,
+      "output_tokens_details": {
+        "thinking_tokens": 12304
+      },
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 61813,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 2,
+          "output_tokens": 195,
+          "cache_read_input_tokens": 71184,
+          "cache_creation_input_tokens": 1114,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 1114
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-sonnet-5": {
+        "inputTokens": 42,
+        "outputTokens": 19944,
+        "cacheReadInputTokens": 939256,
+        "cacheCreationInputTokens": 61813,
+        "webSearchRequests": 0,
+        "costUSD": 0.6346272,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 64000,
+        "thinkingTokens": 12304,
+        "canonicalModel": "claude-sonnet-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "finalMessage": "Clean audit, score 100. The transactions screen is complete: `src/screens/Screen.tsx` builds the page with 12 mock transactions, a search field, category `Select`, `DateRangePicker`, an \"Export CSV\" button (generates and downloads a CSV client-side), a sortable `DataTable` with date/description/category (`Tag`)/status (`Badge`)/amount (`Amount`) columns, and an `EmptyState` with a \"Clear filters\" action when no rows match. Styles are in `src/screens/Screen.module.css`, using only tokens and logical properties."
+  }
+}

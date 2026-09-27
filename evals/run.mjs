@@ -17,8 +17,8 @@
  * `--dry` creates the workspaces and prints the commands without calling the model.
  * This script calls a paid model once per run. It prints the number of runs first.
  */
-import { spawn } from 'node:child_process';
-import { cpSync, existsSync, mkdirSync, readFileSync, readdirSync, realpathSync, rmSync, symlinkSync, writeFileSync } from 'node:fs';
+import { execFileSync, spawn } from 'node:child_process';
+import { cpSync, existsSync, mkdirSync, readFileSync, readdirSync, realpathSync, rmSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 import os from 'node:os';
 import { CACHE, CONDITIONS, INSTALLED, PREPARED, REPO, RUNS, TOOLS, flag, list, newWorkspace, readJson, readPrompts } from './lib/common.mjs';
@@ -64,7 +64,13 @@ function makeWorkspace(job) {
     if (f === 'node_modules' || f === 'pnpm-lock.yaml') continue;
     cpSync(path.join(INSTALLED, f), path.join(ws, f), { recursive: true });
   }
-  symlinkSync(path.join(INSTALLED, 'node_modules'), path.join(ws, 'node_modules'), 'dir');
+  // A real copy, not a link. Iteration 1 linked node_modules, and file search doesn't follow links: 31 of its 50
+  // runs without context reported that the packages weren't installed. On APFS `cp -c` clones, so this is quick.
+  try {
+    execFileSync('cp', ['-Rc', path.join(INSTALLED, 'node_modules'), path.join(ws, 'node_modules')]);
+  } catch {
+    cpSync(path.join(INSTALLED, 'node_modules'), path.join(ws, 'node_modules'), { recursive: true, verbatimSymlinks: true });
+  }
   const c = CONDITIONS[job.condition];
   if (c.agentsMd) {
     cpSync(path.join(source.root, 'AGENTS.md'), path.join(ws, 'AGENTS.md'));
@@ -94,7 +100,8 @@ function commandFor(job, mcpConfig) {
     '--tools', TOOLS.join(','),
     '--allowedTools', allowed.join(','),
     // A real consumer doesn't have this repo. Deny it, then check the record to prove nothing got through.
-    '--disallowedTools', `Read(/${REPO}/**)`, `Read(/${path.join(PREPARED, 'source')}/**)`,
+    // Both spellings of the checkout's path: on macOS the temp folder is a link into /private.
+    '--disallowedTools', `Read(/${REPO}/**)`, `Read(/${path.join(PREPARED, 'source')}/**)`, `Read(/${path.join(realpathSync(PREPARED), 'source')}/**)`,
     '--permission-mode', 'acceptEdits',
     '--setting-sources', 'project',
     '--disable-slash-commands',
@@ -151,9 +158,8 @@ function runOne(job) {
         }
       };
       const wsReal = realpathSync(ws);
-      // The installed packages are fair to read. The fresh checkout beside them is not: it has the docs and examples.
-      const installed = realpathSync(INSTALLED);
-      const outside = [...paths].map(real).filter((p) => !p.startsWith(wsReal) && !p.startsWith(installed));
+      // Everything a run may read is inside its workspace, the installed packages included.
+      const outside = [...paths].map(real).filter((p) => !p.startsWith(wsReal));
       mkdirSync(job.dir, { recursive: true });
       const screens = path.join(ws, 'src/screens');
       rmSync(path.join(job.dir, 'src'), { recursive: true, force: true });
@@ -180,6 +186,8 @@ function runOne(job) {
         pathsOutsideWorkspace: outside,
         touchedRepo: outside.some((p) => p.startsWith(REPO) || p.includes(`${path.sep}strata-evals-prepared${path.sep}source`)),
         usedMemory: outside.some((p) => p.includes(`${path.sep}.claude${path.sep}`)),
+        // Did the run look inside the installed packages at all? Iteration 1's defect would show up here as false.
+        readPackages: [...paths].some((p) => p.includes('node_modules')),
         cli: cli
           ? { isError: cli.is_error, subtype: cli.subtype, turns: cli.num_turns, durationMs: cli.duration_ms, costUsd: cli.total_cost_usd, usage: cli.usage, modelUsage: cli.modelUsage, finalMessage: typeof cli.result === 'string' ? cli.result.slice(0, 2000) : undefined }
           : { isError: true, subtype: 'no result event' },

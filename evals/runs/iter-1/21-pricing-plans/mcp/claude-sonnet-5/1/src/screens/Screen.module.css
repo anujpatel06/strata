@@ -1,0 +1,102 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-8);
+  padding-block: var(--strata-space-8);
+  padding-inline: var(--strata-space-6);
+  max-inline-size: 1080px;
+  margin-inline: auto;
+}
+
+.intro {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--strata-space-4);
+  text-align: center;
+}
+
+.title {
+  font: var(--strata-font-heading);
+  font-size: var(--strata-font-size-3xl);
+  font-weight: var(--strata-font-weight-semibold);
+  color: var(--strata-color-text-default);
+  margin: 0;
+}
+
+.subtitle {
+  font: var(--strata-font-body);
+  font-size: var(--strata-font-size-md);
+  color: var(--strata-color-text-subtle);
+  max-inline-size: 480px;
+  margin: 0;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: var(--strata-space-6);
+  align-items: stretch;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+}
+
+.priceBlock {
+  display: flex;
+  align-items: baseline;
+  gap: var(--strata-space-2);
+}
+
+.pricePeriod {
+  font: var(--strata-font-body);
+  font-size: var(--strata-font-size-sm);
+  color: var(--strata-color-text-subtle);
+}
+
+.featureList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-3);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.featureRow {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--strata-space-4);
+  font: var(--strata-font-body);
+  font-size: var(--strata-font-size-sm);
+}
+
+.featureName {
+  color: var(--strata-color-text-default);
+}
+
+.included {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--strata-space-1);
+  color: var(--strata-color-feedback-success-fg);
+  font-weight: var(--strata-font-weight-medium);
+  white-space: nowrap;
+}
+
+.checkIcon {
+  inline-size: var(--strata-space-4);
+  block-size: var(--strata-space-4);
+}
+
+.notIncluded {
+  color: var(--strata-color-text-disabled);
+  white-space: nowrap;
+}
+
+.cta {
+  inline-size: 100%;
+}

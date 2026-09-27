@@ -1,0 +1,28 @@
+.page {
+  display: flex;
+  justify-content: center;
+  padding-block: var(--strata-space-12);
+  padding-inline: var(--strata-space-4);
+}
+
+.card {
+  inline-size: 100%;
+  max-inline-size: 560px;
+}
+
+.form {
+  display: contents;
+}
+
+.content {
+  display: grid;
+  gap: var(--strata-space-6);
+}
+
+.footer {
+  justify-content: flex-end;
+}
+
+.reference {
+  font-weight: var(--strata-font-weight-semibold);
+}

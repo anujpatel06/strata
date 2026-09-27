@@ -1,0 +1,98 @@
+{
+  "prompt": "16-checkout-summary-rtl",
+  "condition": "none",
+  "model": "claude-sonnet-5",
+  "repeat": 1,
+  "tags": [
+    "rtl"
+  ],
+  "scoredAt": "2026-09-27T15:51:59.070Z",
+  "built": true,
+  "agentFailed": false,
+  "editedProtectedFiles": [],
+  "contaminated": false,
+  "touchedRepo": false,
+  "toolCalls": {
+    "Read": 8,
+    "Glob": 7,
+    "Write": 2,
+    "Edit": 2
+  },
+  "files": 2,
+  "lines": 666,
+  "brandNames": 0,
+  "typeErrors": 0,
+  "audit": {
+    "score": 75.7,
+    "findings": 40,
+    "opportunities": 225,
+    "byRule": {
+      "raw-color": 31,
+      "off-scale-font-size": 1,
+      "native-element": 8
+    }
+  },
+  "views": [
+    {
+      "name": "light",
+      "query": "tenant=qamar&locale=en-IN",
+      "scheme": "light",
+      "width": 1280,
+      "pageErrors": [],
+      "mounted": true,
+      "textLength": 547,
+      "overflowPx": 0,
+      "axeNodes": 1,
+      "axeRules": {
+        "color-contrast": 1
+      }
+    },
+    {
+      "name": "dark",
+      "query": "tenant=qamar&locale=en-IN",
+      "scheme": "dark",
+      "width": 1280,
+      "pageErrors": [],
+      "mounted": true,
+      "textLength": 547,
+      "overflowPx": 0,
+      "axeNodes": 15,
+      "axeRules": {
+        "color-contrast": 15
+      }
+    },
+    {
+      "name": "narrow",
+      "query": "tenant=qamar&locale=en-IN",
+      "scheme": "light",
+      "width": 390,
+      "pageErrors": [],
+      "mounted": true,
+      "textLength": 547,
+      "overflowPx": 0,
+      "axeNodes": 1,
+      "axeRules": {
+        "color-contrast": 1
+      }
+    },
+    {
+      "name": "rtl",
+      "query": "tenant=qamar&locale=ar-AE",
+      "scheme": "light",
+      "width": 1280,
+      "pageErrors": [],
+      "mounted": true,
+      "textLength": 547,
+      "overflowPx": 0,
+      "axeNodes": 1,
+      "axeRules": {
+        "color-contrast": 1
+      }
+    }
+  ],
+  "builds": true,
+  "renders": true,
+  "axeNodes": 15,
+  "overflowPx": 0,
+  "onSystem": false
+}

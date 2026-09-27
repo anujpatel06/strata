@@ -1,0 +1,66 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-6);
+  padding: var(--strata-space-8);
+  max-inline-size: 1100px;
+  margin-inline: auto;
+}
+
+.header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--strata-space-4);
+  flex-wrap: wrap;
+}
+
+.title {
+  margin: 0;
+  font-family: var(--strata-font-heading);
+  font-size: var(--strata-font-size-3xl);
+  font-weight: var(--strata-font-weight-semibold);
+  letter-spacing: var(--strata-font-tracking-3xl);
+  color: var(--strata-color-text-default);
+}
+
+.subtitle {
+  margin: var(--strata-space-1) 0 0;
+  font-size: var(--strata-font-size-md);
+  color: var(--strata-color-text-subtle);
+}
+
+.toolbar {
+  align-items: flex-start;
+}
+
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--strata-space-3);
+}
+
+.search {
+  min-inline-size: 240px;
+  flex-grow: 1;
+}
+
+.category {
+  min-inline-size: 200px;
+}
+
+.dateRange {
+  min-inline-size: 240px;
+}
+
+.count {
+  margin: 0;
+  padding-inline: var(--strata-space-6);
+  font-size: var(--strata-font-size-sm);
+  color: var(--strata-color-text-subtle);
+}
+
+.tableWell {
+  padding: 0;
+}

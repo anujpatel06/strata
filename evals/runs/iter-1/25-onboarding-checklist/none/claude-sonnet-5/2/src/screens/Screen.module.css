@@ -1,0 +1,217 @@
+.screen {
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-6, 1.5rem);
+  color: var(--strata-color-text-default, #1a1a1a);
+  font-family: var(--strata-font-body, system-ui, sans-serif);
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-2, 0.5rem);
+}
+
+.title {
+  margin: 0;
+  font-family: var(--strata-font-heading, var(--strata-font-body, system-ui, sans-serif));
+  font-size: var(--strata-font-size-xl, 1.5rem);
+  font-weight: 600;
+}
+
+.subtitle {
+  margin: 0;
+  color: var(--strata-color-text-muted, #5f6368);
+  font-size: var(--strata-font-size-md, 0.95rem);
+}
+
+.progressSection {
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-2, 0.5rem);
+  padding: var(--strata-space-4, 1rem);
+  border-radius: var(--strata-radius-lg, 12px);
+  background: var(--strata-color-surface-raised, #f5f6f8);
+  border: 1px solid var(--strata-color-border, #e2e4e8);
+}
+
+.progressLabelRow {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--strata-space-2, 0.5rem);
+}
+
+.progressLabel {
+  font-weight: 600;
+  font-size: var(--strata-font-size-md, 0.95rem);
+}
+
+.progressPercent {
+  color: var(--strata-color-text-muted, #5f6368);
+  font-size: var(--strata-font-size-sm, 0.85rem);
+}
+
+.progressTrack {
+  block-size: 8px;
+  inline-size: 100%;
+  border-radius: var(--strata-radius-full, 999px);
+  background: var(--strata-color-surface-sunken, #e6e8eb);
+  overflow: hidden;
+}
+
+.progressFill {
+  block-size: 100%;
+  background: var(--strata-color-accent, var(--strata-color-brand, #3b5bfd));
+  border-radius: inherit;
+  transition: inline-size 0.2s ease;
+}
+
+.list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-3, 0.75rem);
+}
+
+.step {
+  border: 1px solid var(--strata-color-border, #e2e4e8);
+  border-radius: var(--strata-radius-lg, 12px);
+  background: var(--strata-color-surface-raised, #ffffff);
+  overflow: hidden;
+}
+
+.step[data-status='locked'] {
+  opacity: 0.85;
+}
+
+.stepHeading {
+  margin: 0;
+}
+
+.stepHeader {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: var(--strata-space-3, 0.75rem);
+  padding: var(--strata-space-4, 1rem);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font: inherit;
+  color: inherit;
+  text-align: start;
+}
+
+.stepHeader:focus-visible {
+  outline: 2px solid var(--strata-color-accent, #3b5bfd);
+  outline-offset: -2px;
+}
+
+.stepIcon {
+  flex-shrink: 0;
+  inline-size: 28px;
+  block-size: 28px;
+  border-radius: var(--strata-radius-full, 999px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--strata-font-size-sm, 0.85rem);
+  font-weight: 600;
+  background: var(--strata-color-surface-sunken, #eceef1);
+  color: var(--strata-color-text-muted, #5f6368);
+}
+
+.step[data-status='done'] .stepIcon {
+  background: var(--strata-color-success-surface, #d9f2e3);
+  color: var(--strata-color-success, #1a7f45);
+}
+
+.step[data-status='locked'] .stepIcon {
+  background: var(--strata-color-surface-sunken, #eceef1);
+  color: var(--strata-color-text-muted, #8a8f98);
+}
+
+.stepTitleGroup {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-inline-size: 0;
+}
+
+.stepTitle {
+  font-weight: 600;
+  font-size: var(--strata-font-size-md, 1rem);
+}
+
+.stepStatusText {
+  font-size: var(--strata-font-size-sm, 0.8rem);
+  color: var(--strata-color-text-muted, #5f6368);
+}
+
+.step[data-status='done'] .stepStatusText {
+  color: var(--strata-color-success, #1a7f45);
+}
+
+.chevron {
+  flex-shrink: 0;
+  color: var(--strata-color-text-muted, #5f6368);
+}
+
+.stepBody {
+  padding-inline: var(--strata-space-4, 1rem);
+  padding-block-end: var(--strata-space-4, 1rem);
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-3, 0.75rem);
+}
+
+.stepDescription {
+  margin: 0;
+  color: var(--strata-color-text-muted, #43474e);
+  font-size: var(--strata-font-size-md, 0.9rem);
+  line-height: 1.5;
+}
+
+.lockedNote {
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: var(--strata-space-2, 0.5rem);
+  padding: var(--strata-space-2, 0.5rem) var(--strata-space-3, 0.75rem);
+  border-radius: var(--strata-radius-md, 8px);
+  background: var(--strata-color-surface-sunken, #f1f2f4);
+  color: var(--strata-color-text-muted, #5f6368);
+  font-size: var(--strata-font-size-sm, 0.85rem);
+}
+
+.button {
+  align-self: flex-start;
+  padding: var(--strata-space-2, 0.5rem) var(--strata-space-4, 1rem);
+  border-radius: var(--strata-radius-md, 8px);
+  font: inherit;
+  font-weight: 600;
+  font-size: var(--strata-font-size-sm, 0.9rem);
+  cursor: pointer;
+  border: 1px solid transparent;
+}
+
+.buttonPrimary {
+  background: var(--strata-color-accent, var(--strata-color-brand, #3b5bfd));
+  color: var(--strata-color-text-on-accent, #ffffff);
+}
+
+.buttonSecondary {
+  background: transparent;
+  border-color: var(--strata-color-border, #d7dae0);
+  color: var(--strata-color-text-default, #1a1a1a);
+}
+
+.buttonDisabled {
+  background: var(--strata-color-surface-sunken, #e6e8eb);
+  color: var(--strata-color-text-muted, #9aa0a8);
+  cursor: not-allowed;
+}

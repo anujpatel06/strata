@@ -1,0 +1,263 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-6, 24px);
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-2, 8px);
+}
+
+.heading {
+  margin: 0;
+  font-family: var(--strata-font-heading, var(--strata-font-body, inherit));
+  font-size: var(--strata-font-size-xl, 1.5rem);
+  font-weight: 700;
+  color: var(--strata-color-text-default, #1a1a1f);
+}
+
+.subheading {
+  margin: 0;
+  max-inline-size: 60ch;
+  font-size: var(--strata-font-size-md, 0.95rem);
+  line-height: 1.5;
+  color: var(--strata-color-text-muted, #5b5b66);
+}
+
+/* Progress card */
+
+.progressCard {
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-3, 12px);
+  padding: var(--strata-space-5, 20px);
+  border-radius: var(--strata-radius-lg, 12px);
+  border: 1px solid var(--strata-color-border-subtle, #e2e2e8);
+  background: var(--strata-color-surface-raised, #fff);
+}
+
+.progressTop {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--strata-space-2, 8px);
+}
+
+.progressLabel {
+  font-size: var(--strata-font-size-md, 0.95rem);
+  font-weight: 600;
+  color: var(--strata-color-text-default, #1a1a1f);
+}
+
+.progressPercent {
+  font-size: var(--strata-font-size-lg, 1.1rem);
+  font-weight: 700;
+  color: var(--strata-color-accent, #2f6fed);
+  font-variant-numeric: tabular-nums;
+}
+
+.progressTrack {
+  block-size: 8px;
+  inline-size: 100%;
+  border-radius: 999px;
+  background: var(--strata-color-surface-sunken, #eceef2);
+  overflow: hidden;
+}
+
+.progressFill {
+  block-size: 100%;
+  background: var(--strata-color-success, #1f9254);
+  border-radius: 999px;
+  transition: inline-size 0.3s ease;
+}
+
+.progressStats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--strata-space-2, 8px);
+}
+
+.statChip {
+  display: inline-flex;
+  align-items: center;
+  padding-block: 4px;
+  padding-inline: 10px;
+  border-radius: 999px;
+  font-size: var(--strata-font-size-sm, 0.8rem);
+  font-weight: 600;
+}
+
+/* Document list */
+
+.list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-4, 16px);
+}
+
+.card {
+  display: flex;
+  gap: var(--strata-space-4, 16px);
+  padding: var(--strata-space-5, 20px);
+  border-radius: var(--strata-radius-lg, 12px);
+  border: 1px solid var(--strata-color-border-subtle, #e2e2e8);
+  background: var(--strata-color-surface-raised, #fff);
+}
+
+.cardIcon {
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: 44px;
+  block-size: 44px;
+  border-radius: var(--strata-radius-md, 10px);
+  background: var(--strata-color-surface-sunken, #eceef2);
+  color: var(--strata-color-text-muted, #5b5b66);
+}
+
+.cardBody {
+  flex: 1;
+  min-inline-size: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-2, 8px);
+}
+
+.cardTop {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--strata-space-2, 8px);
+}
+
+.cardTitle {
+  margin: 0;
+  font-size: var(--strata-font-size-lg, 1.05rem);
+  font-weight: 700;
+  color: var(--strata-color-text-default, #1a1a1f);
+}
+
+.cardDescription {
+  margin: 0;
+  font-size: var(--strata-font-size-sm, 0.85rem);
+  line-height: 1.5;
+  color: var(--strata-color-text-muted, #5b5b66);
+}
+
+.fileMeta {
+  margin: 0;
+  font-size: var(--strata-font-size-sm, 0.85rem);
+  color: var(--strata-color-text-muted, #5b5b66);
+}
+
+.fileName {
+  font-weight: 600;
+  color: var(--strata-color-text-default, #1a1a1f);
+}
+
+.fileUpdated {
+  color: var(--strata-color-text-muted, #5b5b66);
+}
+
+.reason {
+  margin: 0;
+  padding: var(--strata-space-3, 12px);
+  border-radius: var(--strata-radius-md, 8px);
+  background: var(--strata-color-danger-subtle, #fdeceb);
+  color: var(--strata-color-danger-strong, #9a2a1f);
+  font-size: var(--strata-font-size-sm, 0.85rem);
+  line-height: 1.5;
+}
+
+.reasonLabel {
+  font-weight: 700;
+}
+
+.cardActions {
+  margin-block-start: var(--strata-space-1, 4px);
+}
+
+.uploadButton {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--strata-space-2, 8px);
+  padding-block: 8px;
+  padding-inline: 16px;
+  border-radius: var(--strata-radius-md, 8px);
+  border: 1px solid var(--strata-color-border-default, #c7c7d1);
+  background: var(--strata-color-surface-raised, #fff);
+  color: var(--strata-color-text-default, #1a1a1f);
+  font-size: var(--strata-font-size-sm, 0.85rem);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.uploadButton:hover {
+  background: var(--strata-color-surface-sunken, #eceef2);
+}
+
+.uploadButton:focus-visible {
+  outline: 2px solid var(--strata-color-accent, #2f6fed);
+  outline-offset: 2px;
+}
+
+.hiddenInput {
+  position: absolute;
+  inline-size: 1px;
+  block-size: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/* Status tones — shared by badges and chips */
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding-block: 4px;
+  padding-inline: 10px;
+  border-radius: 999px;
+  font-size: var(--strata-font-size-sm, 0.78rem);
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.toneNeutral {
+  background: var(--strata-color-surface-sunken, #eceef2);
+  color: var(--strata-color-text-muted, #5b5b66);
+}
+
+.toneReview {
+  background: var(--strata-color-warning-subtle, #fff3d6);
+  color: var(--strata-color-warning-strong, #8a5a00);
+}
+
+.toneApproved {
+  background: var(--strata-color-success-subtle, #e3f6ea);
+  color: var(--strata-color-success-strong, #16733f);
+}
+
+.toneRejected {
+  background: var(--strata-color-danger-subtle, #fdeceb);
+  color: var(--strata-color-danger-strong, #9a2a1f);
+}
+
+@media (max-width: 560px) {
+  .card {
+    flex-direction: column;
+  }
+
+  .cardIcon {
+    inline-size: 36px;
+    block-size: 36px;
+  }
+}

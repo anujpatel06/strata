@@ -1,0 +1,95 @@
+{
+  "prompt": "20-profile-edit-rtl",
+  "tags": [
+    "rtl",
+    "a11y"
+  ],
+  "condition": "mcp",
+  "model": "claude-sonnet-5",
+  "repeat": 2,
+  "iteration": "1",
+  "source": {
+    "commit": "320a45c63ccf410e91943590bcd6202615d23ebc",
+    "dirty": []
+  },
+  "startedAt": "2026-09-27T15:24:40.092Z",
+  "wallMs": 243954,
+  "exitCode": 0,
+  "timedOut": false,
+  "editedProtectedFiles": [],
+  "toolCalls": {
+    "Read": 6,
+    "mcp__strata__list_components": 1,
+    "mcp__strata__get_component": 9,
+    "mcp__strata__get_pattern": 2,
+    "mcp__strata__get_example": 5,
+    "Glob": 3,
+    "Grep": 1,
+    "mcp__strata__get_tokens": 2,
+    "Write": 2,
+    "mcp__strata__audit_snippet": 3,
+    "Edit": 4
+  },
+  "pathsOutsideWorkspace": [
+    "/private/var/folders/fq/fsw2rcjs6y3frnjl7zs9sf8h0000gn/T/se-ce2f73117866"
+  ],
+  "touchedRepo": false,
+  "usedMemory": false,
+  "cli": {
+    "isError": false,
+    "subtype": "success",
+    "turns": 39,
+    "durationMs": 242660,
+    "costUsd": 0.7620328000000001,
+    "usage": {
+      "input_tokens": 44,
+      "cache_creation_input_tokens": 72205,
+      "cache_read_input_tokens": 1177174,
+      "output_tokens": 23769,
+      "output_tokens_details": {
+        "thinking_tokens": 10301
+      },
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 72205,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 2,
+          "output_tokens": 471,
+          "cache_read_input_tokens": 82165,
+          "cache_creation_input_tokens": 525,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 525
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-sonnet-5": {
+        "inputTokens": 44,
+        "outputTokens": 23769,
+        "cacheReadInputTokens": 1177174,
+        "cacheCreationInputTokens": 72205,
+        "webSearchRequests": 0,
+        "costUSD": 0.7620328000000001,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 64000,
+        "thinkingTokens": 10301,
+        "canonicalModel": "claude-sonnet-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "finalMessage": "The screen is complete: `src/screens/Screen.tsx` and `src/screens/Screen.module.css` (score 100 on `audit_snippet`, no other files touched).\n\nWhat it does:\n- **Photo**: an `Avatar` plus a drop zone/`Change photo` button (mirrors the official Strata settings pattern using `DropZone`/`FileTrigger`), accepting PNG/JPEG up to 5 MB.\n- **Fields**: Full name, Email, Phone, Date of birth (`DatePicker`, capped at today), Preferred language (`Select`: English, Arabic, French, Hindi, Spanish) — all with mock starting data.\n- **Change tracking**: a `saved` vs `draft` state pair; each changed field shows an inline \"Changed\" `Badge` next to its label, and the footer reports a live count (\"2 fields changed since last save\" / \"No changes since last save\").\n- **Cancel/Save**: Cancel reverts the draft to the last save; Save commits it and fires a success `toast` (\"Profile updated\"). Both are disabled when there's nothing to save.\n- Brand-agnostic (tokens/components only), logical CSS properties, RTL-safe (email/phone forced LTR via `direction`, not `left`/`right`), and every control is named.\n\nI can't run the dev server per your instructions, so this hasn't been visually verified in a browser — only checked against the design-system linter."
+  }
+}

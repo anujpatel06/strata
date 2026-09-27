@@ -1,0 +1,214 @@
+.screen {
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-6, 24px);
+  font-family: var(--strata-font-body, inherit);
+  color: var(--strata-color-text-default, inherit);
+}
+
+.header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--strata-space-4, 16px);
+  flex-wrap: wrap;
+}
+
+.title {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+.subtitle {
+  margin: 4px 0 0;
+  font-size: 0.9rem;
+  color: color-mix(in srgb, var(--strata-color-text-default, #111) 65%, var(--strata-color-surface-canvas, #fff));
+}
+
+.markAllButton {
+  border: 1px solid color-mix(in srgb, var(--strata-color-text-default, #111) 20%, transparent);
+  background: var(--strata-color-surface-canvas, transparent);
+  color: var(--strata-color-text-default, inherit);
+  border-radius: var(--strata-radius-md, 8px);
+  padding: var(--strata-space-2, 8px) var(--strata-space-4, 16px);
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.markAllButton:hover:not(:disabled) {
+  background: color-mix(in srgb, var(--strata-color-text-default, #111) 6%, var(--strata-color-surface-canvas, transparent));
+}
+
+.markAllButton:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+
+.filters {
+  display: flex;
+  gap: var(--strata-space-2, 8px);
+  flex-wrap: wrap;
+}
+
+.filterButton {
+  border: 1px solid color-mix(in srgb, var(--strata-color-text-default, #111) 16%, transparent);
+  background: transparent;
+  color: var(--strata-color-text-default, inherit);
+  border-radius: var(--strata-radius-full, 999px);
+  padding: var(--strata-space-1, 6px) var(--strata-space-3, 12px);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.filterButtonActive {
+  background: var(--strata-color-text-default, #111);
+  color: var(--strata-color-surface-canvas, #fff);
+  border-color: transparent;
+}
+
+.groups {
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-6, 24px);
+}
+
+.groupTitle {
+  margin: 0 0 var(--strata-space-2, 8px);
+  font-size: 0.8125rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: color-mix(in srgb, var(--strata-color-text-default, #111) 55%, var(--strata-color-surface-canvas, #fff));
+}
+
+.list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid color-mix(in srgb, var(--strata-color-text-default, #111) 12%, transparent);
+  border-radius: var(--strata-radius-md, 10px);
+  overflow: hidden;
+}
+
+.item {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--strata-space-3, 12px);
+  padding: var(--strata-space-4, 16px);
+  background: var(--strata-color-surface-canvas, transparent);
+}
+
+.item + .item {
+  border-block-start: 1px solid color-mix(in srgb, var(--strata-color-text-default, #111) 10%, transparent);
+}
+
+.item.unread {
+  background: color-mix(in srgb, var(--strata-color-text-default, #111) 4%, var(--strata-color-surface-canvas, transparent));
+}
+
+.icon {
+  flex: none;
+  inline-size: 36px;
+  block-size: 36px;
+  border-radius: var(--strata-radius-md, 8px);
+  display: grid;
+  place-items: center;
+}
+
+.icon svg {
+  inline-size: 18px;
+  block-size: 18px;
+}
+
+.icon-payment {
+  color: #2563eb;
+  background: color-mix(in srgb, #2563eb 16%, var(--strata-color-surface-canvas, #fff));
+}
+
+.icon-security {
+  color: #dc2626;
+  background: color-mix(in srgb, #dc2626 16%, var(--strata-color-surface-canvas, #fff));
+}
+
+.icon-policy {
+  color: #7c3aed;
+  background: color-mix(in srgb, #7c3aed 16%, var(--strata-color-surface-canvas, #fff));
+}
+
+.icon-reminder {
+  color: #059669;
+  background: color-mix(in srgb, #059669 16%, var(--strata-color-surface-canvas, #fff));
+}
+
+.content {
+  flex: 1 1 auto;
+  min-inline-size: 0;
+}
+
+.itemHeader {
+  display: flex;
+  align-items: center;
+  gap: var(--strata-space-2, 8px);
+}
+
+.itemTitle {
+  font-weight: 600;
+  font-size: 0.9375rem;
+}
+
+.dot {
+  inline-size: 8px;
+  block-size: 8px;
+  border-radius: 50%;
+  background: #2563eb;
+  flex: none;
+}
+
+.detail {
+  margin: 2px 0 0;
+  font-size: 0.875rem;
+  color: color-mix(in srgb, var(--strata-color-text-default, #111) 68%, var(--strata-color-surface-canvas, #fff));
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.meta {
+  flex: none;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: var(--strata-space-2, 8px);
+}
+
+.time {
+  font-size: 0.8125rem;
+  color: color-mix(in srgb, var(--strata-color-text-default, #111) 55%, var(--strata-color-surface-canvas, #fff));
+  white-space: nowrap;
+}
+
+.markButton {
+  border: none;
+  background: none;
+  color: #2563eb;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0;
+}
+
+.markButton:hover {
+  text-decoration: underline;
+}
+
+.empty {
+  color: color-mix(in srgb, var(--strata-color-text-default, #111) 60%, var(--strata-color-surface-canvas, #fff));
+  font-size: 0.9rem;
+}

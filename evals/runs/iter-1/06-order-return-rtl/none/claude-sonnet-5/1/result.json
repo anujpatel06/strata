@@ -1,0 +1,84 @@
+{
+  "prompt": "06-order-return-rtl",
+  "tags": [
+    "rtl"
+  ],
+  "condition": "none",
+  "model": "claude-sonnet-5",
+  "repeat": 1,
+  "iteration": "1",
+  "source": {
+    "commit": "320a45c63ccf410e91943590bcd6202615d23ebc",
+    "dirty": []
+  },
+  "startedAt": "2026-09-27T14:18:45.700Z",
+  "wallMs": 743130,
+  "exitCode": 0,
+  "timedOut": false,
+  "editedProtectedFiles": [],
+  "toolCalls": {
+    "Read": 6,
+    "Glob": 8,
+    "Write": 2
+  },
+  "pathsOutsideWorkspace": [],
+  "touchedRepo": false,
+  "usedMemory": false,
+  "cli": {
+    "isError": false,
+    "subtype": "success",
+    "turns": 17,
+    "durationMs": 741355,
+    "costUsd": 0.284795,
+    "usage": {
+      "input_tokens": 24,
+      "cache_creation_input_tokens": 20676,
+      "cache_read_input_tokens": 168965,
+      "output_tokens": 16825,
+      "output_tokens_details": {
+        "thinking_tokens": 10397
+      },
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 20676,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 2,
+          "output_tokens": 135,
+          "cache_read_input_tokens": 28717,
+          "cache_creation_input_tokens": 425,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 425
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-sonnet-5": {
+        "inputTokens": 24,
+        "outputTokens": 16825,
+        "cacheReadInputTokens": 168965,
+        "cacheCreationInputTokens": 20676,
+        "webSearchRequests": 0,
+        "costUSD": 0.284795,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 64000,
+        "thinkingTokens": 10397,
+        "canonicalModel": "claude-sonnet-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "finalMessage": "vite/client types cover CSS module imports, so this is fine. The screen is complete: a Return an Order flow with item selection, per-item reason dropdowns, a live-updating refund total, a Back link with a directional arrow (mirrors correctly in RTL), a Submit action with validation, and a confirmation state — all styled with Strata design tokens (with safe fallbacks) for light/dark and RTL support."
+  }
+}

@@ -1,0 +1,85 @@
+{
+  "prompt": "07-sign-in",
+  "tags": [
+    "a11y"
+  ],
+  "condition": "none",
+  "model": "claude-sonnet-5",
+  "repeat": 1,
+  "iteration": "1",
+  "source": {
+    "commit": "320a45c63ccf410e91943590bcd6202615d23ebc",
+    "dirty": []
+  },
+  "startedAt": "2026-09-27T14:23:08.204Z",
+  "wallMs": 108349,
+  "exitCode": 0,
+  "timedOut": false,
+  "editedProtectedFiles": [],
+  "toolCalls": {
+    "Read": 8,
+    "Glob": 11,
+    "Grep": 1,
+    "Write": 2
+  },
+  "pathsOutsideWorkspace": [],
+  "touchedRepo": false,
+  "usedMemory": false,
+  "cli": {
+    "isError": false,
+    "subtype": "success",
+    "turns": 23,
+    "durationMs": 106946,
+    "costUsd": 0.2214562,
+    "usage": {
+      "input_tokens": 24,
+      "cache_creation_input_tokens": 18051,
+      "cache_read_input_tokens": 165871,
+      "output_tokens": 11603,
+      "output_tokens_details": {
+        "thinking_tokens": 4697
+      },
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 18051,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 2,
+          "output_tokens": 441,
+          "cache_read_input_tokens": 23621,
+          "cache_creation_input_tokens": 2896,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 2896
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-sonnet-5": {
+        "inputTokens": 24,
+        "outputTokens": 11603,
+        "cacheReadInputTokens": 165871,
+        "cacheCreationInputTokens": 18051,
+        "webSearchRequests": 0,
+        "costUSD": 0.2214562,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 64000,
+        "thinkingTokens": 4697,
+        "canonicalModel": "claude-sonnet-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "finalMessage": "This looks complete and correct.\n\nBuilt the sign-in screen in `src/screens/Screen.tsx` with styles in `src/screens/Screen.module.css`:\n\n- **Email/password fields** with a show/hide toggle (eye icon button) on the password field\n- **\"Remember this device\"** checkbox and a **\"Forgot password?\"** link\n- **Mock state**: loads with a wrong-password error banner already shown (`role=\"alert\"`, wired via `aria-describedby`/`aria-invalid` on the password field)\n- **Loading state**: submitting the form disables inputs, shows a spinner + \"Signing in…\" on the button, then (since there's no backend) re-shows the same error after a short delay, so both states are demonstrable\n- Styled using Strata CSS tokens (`--strata-color-*`, `--strata-space-*`, etc.) with sensible fallbacks, and logical CSS properties (`inline-start/end`, `margin-inline`, etc.) so it adapts across brands, light/dark, and RTL locales\n\nNote: `@strata/react`/`@strata/icons` aren't present in this sandbox (no `node_modules`), so I couldn't inspect their real component APIs — I used plain accessible HTML elements plus inline SVG icons instead of guessing at unverifiable component imports, to keep the build reliable."
+  }
+}

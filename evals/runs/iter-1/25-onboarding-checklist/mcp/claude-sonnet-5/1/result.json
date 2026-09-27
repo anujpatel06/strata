@@ -1,0 +1,90 @@
+{
+  "prompt": "25-onboarding-checklist",
+  "tags": [
+    "multi-brand"
+  ],
+  "condition": "mcp",
+  "model": "claude-sonnet-5",
+  "repeat": 1,
+  "iteration": "1",
+  "source": {
+    "commit": "320a45c63ccf410e91943590bcd6202615d23ebc",
+    "dirty": []
+  },
+  "startedAt": "2026-09-27T15:43:27.023Z",
+  "wallMs": 190110,
+  "exitCode": 0,
+  "timedOut": false,
+  "editedProtectedFiles": [],
+  "toolCalls": {
+    "Read": 5,
+    "mcp__strata__list_components": 1,
+    "mcp__strata__get_component": 9,
+    "mcp__strata__get_pattern": 2,
+    "mcp__strata__get_example": 3,
+    "mcp__strata__get_tokens": 3,
+    "Glob": 1,
+    "Write": 2,
+    "mcp__strata__audit_snippet": 2
+  },
+  "pathsOutsideWorkspace": [],
+  "touchedRepo": false,
+  "usedMemory": false,
+  "cli": {
+    "isError": false,
+    "subtype": "success",
+    "turns": 29,
+    "durationMs": 188726,
+    "costUsd": 0.5672608,
+    "usage": {
+      "input_tokens": 32,
+      "cache_creation_input_tokens": 57949,
+      "cache_read_input_tokens": 628704,
+      "output_tokens": 20966,
+      "output_tokens_details": {
+        "thinking_tokens": 11242
+      },
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 57949,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 2,
+          "output_tokens": 1415,
+          "cache_read_input_tokens": 66868,
+          "cache_creation_input_tokens": 1566,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 1566
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-sonnet-5": {
+        "inputTokens": 32,
+        "outputTokens": 20966,
+        "cacheReadInputTokens": 628704,
+        "cacheCreationInputTokens": 57949,
+        "webSearchRequests": 0,
+        "costUSD": 0.5672608,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 64000,
+        "thinkingTokens": 11242,
+        "canonicalModel": "claude-sonnet-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "finalMessage": "Built the onboarding checklist screen with mock data for 5 steps (email and phone verification already done), an overall `ProgressBar` inside a feature `Card`, and each step as an `Accordion` item showing what it involves and a `Button` to start it. The \"Invite your team\" step is locked until \"Add a payment method\" is done — shown via a status badge, a disabled button, and an inline note naming the required step. Starting/undoing a step updates progress and unlocking live. Both TSX and CSS pass `audit_snippet` at 100/0 findings.\n\nFiles written:\n- `src/screens/Screen.tsx`\n- `src/screens/Screen.module.css`\n\nI can't run the app to visually verify, so please check it in-browser across brands/schemes/locales before shipping."
+  }
+}

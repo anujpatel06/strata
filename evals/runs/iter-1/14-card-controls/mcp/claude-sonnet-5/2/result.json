@@ -1,0 +1,91 @@
+{
+  "prompt": "14-card-controls",
+  "tags": [
+    "a11y"
+  ],
+  "condition": "mcp",
+  "model": "claude-sonnet-5",
+  "repeat": 2,
+  "iteration": "1",
+  "source": {
+    "commit": "320a45c63ccf410e91943590bcd6202615d23ebc",
+    "dirty": []
+  },
+  "startedAt": "2026-09-27T14:52:12.685Z",
+  "wallMs": 136497,
+  "exitCode": 0,
+  "timedOut": false,
+  "editedProtectedFiles": [],
+  "toolCalls": {
+    "Read": 5,
+    "Glob": 5,
+    "mcp__strata__list_components": 1,
+    "mcp__strata__get_component": 9,
+    "mcp__strata__get_example": 7,
+    "mcp__strata__get_pattern": 2,
+    "mcp__strata__get_tokens": 2,
+    "Write": 2,
+    "mcp__strata__audit_snippet": 2,
+    "Edit": 5
+  },
+  "pathsOutsideWorkspace": [],
+  "touchedRepo": false,
+  "usedMemory": false,
+  "cli": {
+    "isError": false,
+    "subtype": "success",
+    "turns": 41,
+    "durationMs": 135053,
+    "costUsd": 0.4708726,
+    "usage": {
+      "input_tokens": 40,
+      "cache_creation_input_tokens": 50328,
+      "cache_read_input_tokens": 778153,
+      "output_tokens": 11385,
+      "output_tokens_details": {
+        "thinking_tokens": 3259
+      },
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 50328,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 2,
+          "output_tokens": 149,
+          "cache_read_input_tokens": 60381,
+          "cache_creation_input_tokens": 432,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 432
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-sonnet-5": {
+        "inputTokens": 40,
+        "outputTokens": 11385,
+        "cacheReadInputTokens": 778153,
+        "cacheCreationInputTokens": 50328,
+        "webSearchRequests": 0,
+        "costUSD": 0.4708726,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 64000,
+        "thinkingTokens": 3259,
+        "canonicalModel": "claude-sonnet-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "finalMessage": "The screen is complete: `src/screens/Screen.tsx` builds the card controls with a freeze switch, a warning alert when frozen, online/contactless/international switches (disabled while frozen), and a daily spending limit slider (also disabled while frozen), all styled via `Screen.module.css` with Strata tokens. Both files pass `audit_snippet` with a score of 100. I can't run the app, so this hasn't been visually verified in a browser."
+  }
+}

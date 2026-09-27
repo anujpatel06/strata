@@ -1,0 +1,85 @@
+{
+  "prompt": "09-loyalty-points-rtl",
+  "tags": [
+    "rtl",
+    "multi-brand"
+  ],
+  "condition": "none",
+  "model": "claude-sonnet-5",
+  "repeat": 2,
+  "iteration": "1",
+  "source": {
+    "commit": "320a45c63ccf410e91943590bcd6202615d23ebc",
+    "dirty": []
+  },
+  "startedAt": "2026-09-27T14:32:43.506Z",
+  "wallMs": 115352,
+  "exitCode": 0,
+  "timedOut": false,
+  "editedProtectedFiles": [],
+  "toolCalls": {
+    "Read": 6,
+    "Glob": 7,
+    "Write": 2
+  },
+  "pathsOutsideWorkspace": [],
+  "touchedRepo": false,
+  "usedMemory": false,
+  "cli": {
+    "isError": false,
+    "subtype": "success",
+    "turns": 16,
+    "durationMs": 113669,
+    "costUsd": 0.1767188,
+    "usage": {
+      "input_tokens": 18,
+      "cache_creation_input_tokens": 13528,
+      "cache_read_input_tokens": 106654,
+      "output_tokens": 10124,
+      "output_tokens_details": {
+        "thinking_tokens": 4542
+      },
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 13528,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 2,
+          "output_tokens": 438,
+          "cache_read_input_tokens": 19819,
+          "cache_creation_input_tokens": 2175,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 2175
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-sonnet-5": {
+        "inputTokens": 18,
+        "outputTokens": 10124,
+        "cacheReadInputTokens": 106654,
+        "cacheCreationInputTokens": 13528,
+        "webSearchRequests": 0,
+        "costUSD": 0.1767188,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 64000,
+        "thinkingTokens": 4542,
+        "canonicalModel": "claude-sonnet-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "finalMessage": "Built the loyalty points screen in `src/screens/Screen.tsx` with styles in `src/screens/Screen.module.css`.\n\n- **Balance**: points total shown prominently in the header.\n- **Tier progress**: current tier, next tier, a progress bar (`role=\"progressbar\"` with proper ARIA), and points remaining to the next tier.\n- **Redeem action**: a button that shows an inline confirmation on click (no backend, so it's a local state toggle).\n- **Recent activity**: six mock transactions mixing earned/spent, each with a date and signed amount, spent shown neutral and earned shown in a success tint.\n\nStyling uses `@strata` CSS custom properties (`--strata-color-*`, `--strata-space-*`, `--strata-font-*`, `--strata-radius-*`) with sensible fallbacks, so it should pick up whatever brand theme `ThemeScope` applies; since `node_modules` isn't installed in this environment I couldn't verify the exact `@strata/react` component API, so I built this with semantic HTML/CSS Modules rather than importing unverified component props. Layout uses logical CSS properties (`inline`/`block`, `text-align: end`, etc.) so it mirrors correctly for the Arabic/RTL locale, and all copy stays in English per your instructions."
+  }
+}

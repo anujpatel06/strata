@@ -1,0 +1,36 @@
+.page {
+  display: flex;
+  justify-content: center;
+  padding-block: var(--strata-space-12);
+  padding-inline: var(--strata-space-4);
+}
+
+.card {
+  inline-size: 100%;
+  max-inline-size: 640px;
+}
+
+.form {
+  display: contents;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--strata-space-4);
+}
+
+@media (max-width: 560px) {
+  .row {
+    grid-template-columns: 1fr;
+  }
+}
+
+.fields {
+  display: grid;
+  gap: var(--strata-space-5);
+}
+
+.footer {
+  justify-content: flex-end;
+}

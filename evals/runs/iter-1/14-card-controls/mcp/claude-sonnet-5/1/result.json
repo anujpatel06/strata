@@ -1,0 +1,92 @@
+{
+  "prompt": "14-card-controls",
+  "tags": [
+    "a11y"
+  ],
+  "condition": "mcp",
+  "model": "claude-sonnet-5",
+  "repeat": 1,
+  "iteration": "1",
+  "source": {
+    "commit": "320a45c63ccf410e91943590bcd6202615d23ebc",
+    "dirty": []
+  },
+  "startedAt": "2026-09-27T14:50:58.035Z",
+  "wallMs": 151169,
+  "exitCode": 0,
+  "timedOut": false,
+  "editedProtectedFiles": [],
+  "toolCalls": {
+    "Read": 6,
+    "Glob": 1,
+    "mcp__strata__list_components": 1,
+    "mcp__strata__get_component": 10,
+    "mcp__strata__get_example": 3,
+    "mcp__strata__get_pattern": 1,
+    "Grep": 4,
+    "mcp__strata__get_tokens": 1,
+    "Write": 2,
+    "Edit": 9,
+    "mcp__strata__audit_snippet": 2
+  },
+  "pathsOutsideWorkspace": [],
+  "touchedRepo": false,
+  "usedMemory": false,
+  "cli": {
+    "isError": false,
+    "subtype": "success",
+    "turns": 41,
+    "durationMs": 149623,
+    "costUsd": 0.4684448000000001,
+    "usage": {
+      "input_tokens": 44,
+      "cache_creation_input_tokens": 43044,
+      "cache_read_input_tokens": 801654,
+      "output_tokens": 13585,
+      "output_tokens_details": {
+        "thinking_tokens": 4560
+      },
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 43044,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 2,
+          "output_tokens": 313,
+          "cache_read_input_tokens": 53126,
+          "cache_creation_input_tokens": 403,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 403
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-sonnet-5": {
+        "inputTokens": 44,
+        "outputTokens": 13585,
+        "cacheReadInputTokens": 801654,
+        "cacheCreationInputTokens": 43044,
+        "webSearchRequests": 0,
+        "costUSD": 0.4684448000000001,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 64000,
+        "thinkingTokens": 4560,
+        "canonicalModel": "claude-sonnet-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "finalMessage": "Both files pass the audit cleanly (score 100, no findings).\n\n**Summary:** Built the card controls screen at `src/screens/Screen.tsx` with styles in `src/screens/Screen.module.css`:\n\n- A `Card` header shows the card name, masked last four digits, and an Active/Frozen status badge.\n- A \"Freeze card\" `Switch` sits at the top; when on, a `warning` `Alert` explains that the other controls don't apply until it's unfrozen.\n- Three `Switch` rows (online payments, contactless, international use) each with an icon, all `isDisabled` while frozen.\n- A `Slider` for the daily spending limit, formatted as currency, also disabled while frozen.\n\nAll colors, spacing and logical properties use Strata tokens; state is mock `useState` data in the file. I can't run the dev server per the task constraints, so this hasn't been visually verified in a browser — only checked via the Strata audit tool."
+  }
+}

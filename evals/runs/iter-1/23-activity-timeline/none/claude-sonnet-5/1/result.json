@@ -1,0 +1,85 @@
+{
+  "prompt": "23-activity-timeline",
+  "tags": [
+    "multi-brand",
+    "rtl"
+  ],
+  "condition": "none",
+  "model": "claude-sonnet-5",
+  "repeat": 1,
+  "iteration": "1",
+  "source": {
+    "commit": "320a45c63ccf410e91943590bcd6202615d23ebc",
+    "dirty": []
+  },
+  "startedAt": "2026-09-27T15:36:07.737Z",
+  "wallMs": 130378,
+  "exitCode": 0,
+  "timedOut": false,
+  "editedProtectedFiles": [],
+  "toolCalls": {
+    "Read": 8,
+    "Glob": 7,
+    "Write": 2
+  },
+  "pathsOutsideWorkspace": [],
+  "touchedRepo": false,
+  "usedMemory": false,
+  "cli": {
+    "isError": false,
+    "subtype": "success",
+    "turns": 18,
+    "durationMs": 128957,
+    "costUsd": 0.24770419999999999,
+    "usage": {
+      "input_tokens": 20,
+      "cache_creation_input_tokens": 18783,
+      "cache_read_input_tokens": 125211,
+      "output_tokens": 14749,
+      "output_tokens_details": {
+        "thinking_tokens": 9243
+      },
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 18783,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 2,
+          "output_tokens": 230,
+          "cache_read_input_tokens": 25044,
+          "cache_creation_input_tokens": 2205,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 2205
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-sonnet-5": {
+        "inputTokens": 20,
+        "outputTokens": 14749,
+        "cacheReadInputTokens": 125211,
+        "cacheCreationInputTokens": 18783,
+        "webSearchRequests": 0,
+        "costUSD": 0.24770419999999999,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 64000,
+        "thinkingTokens": 9243,
+        "canonicalModel": "claude-sonnet-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "finalMessage": "Built the claim activity timeline in `src/screens/Screen.tsx` with styles in `src/screens/Screen.module.css`.\n\n- 7 mock events, newest to oldest, each showing time, actor + role, and what happened\n- The newest event is marked \"Current stage\" with a highlighted card and accent marker\n- That same event needs action from the policyholder (adjuster requesting clearer damage photos), with an \"Upload photos\" button that updates to a completed/confirmed state on click\n- Uses Strata's CSS variable tokens (with sensible fallbacks) and logical CSS properties throughout so it adapts across brands, light/dark, and RTL (Arabic) without layout mirroring issues"
+  }
+}

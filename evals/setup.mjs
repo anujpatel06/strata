@@ -16,7 +16,7 @@
  *   node evals/setup.mjs --clean     build from a fresh checkout of HEAD (see below)
  */
 import { execFileSync } from 'node:child_process';
-import { cpSync, existsSync, mkdirSync, readFileSync, readdirSync, rmSync, writeFileSync } from 'node:fs';
+import { cpSync, existsSync, lstatSync, mkdirSync, readFileSync, readdirSync, rmSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 import { CACHE, EVALS, INSTALLED, PACKS, PREPARED, REPO, flag, git, sourceState } from './lib/common.mjs';
 
@@ -64,6 +64,8 @@ writeFileSync(
 );
 // --ignore-workspace: the template must install like an app outside this monorepo.
 sh('pnpm', ['install', '--ignore-workspace', '--no-frozen-lockfile'], INSTALLED);
+// template/.npmrc sets node-linker=hoisted: plain folders, as npm installs them, with no links for a file search to miss.
+if (lstatSync(path.join(INSTALLED, 'node_modules/@strata/react')).isSymbolicLink()) throw new Error('node_modules/@strata/react is a link; the install must be hoisted');
 for (const dep of ['@strata/react', '@strata/icons', '@strata/tokens']) {
   if (!existsSync(path.join(INSTALLED, 'node_modules', dep, 'package.json'))) throw new Error(`${dep} did not install`);
 }

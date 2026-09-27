@@ -1,0 +1,85 @@
+{
+  "prompt": "10-notifications-inbox",
+  "tags": [
+    "a11y"
+  ],
+  "condition": "none",
+  "model": "claude-sonnet-5",
+  "repeat": 1,
+  "iteration": "1",
+  "source": {
+    "commit": "320a45c63ccf410e91943590bcd6202615d23ebc",
+    "dirty": []
+  },
+  "startedAt": "2026-09-27T14:34:38.865Z",
+  "wallMs": 197872,
+  "exitCode": 0,
+  "timedOut": false,
+  "editedProtectedFiles": [],
+  "toolCalls": {
+    "Read": 7,
+    "Glob": 9,
+    "Write": 2,
+    "Edit": 2
+  },
+  "pathsOutsideWorkspace": [],
+  "touchedRepo": false,
+  "usedMemory": false,
+  "cli": {
+    "isError": false,
+    "subtype": "success",
+    "turns": 21,
+    "durationMs": 196554,
+    "costUsd": 0.3308768,
+    "usage": {
+      "input_tokens": 24,
+      "cache_creation_input_tokens": 23619,
+      "cache_read_input_tokens": 211164,
+      "output_tokens": 19412,
+      "output_tokens_details": {
+        "thinking_tokens": 10810
+      },
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 23619,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 2,
+          "output_tokens": 224,
+          "cache_read_input_tokens": 31491,
+          "cache_creation_input_tokens": 594,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 594
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-sonnet-5": {
+        "inputTokens": 24,
+        "outputTokens": 19412,
+        "cacheReadInputTokens": 211164,
+        "cacheCreationInputTokens": 23619,
+        "webSearchRequests": 0,
+        "costUSD": 0.3308768,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 64000,
+        "thinkingTokens": 10810,
+        "canonicalModel": "claude-sonnet-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "finalMessage": "The notifications inbox is complete: `src/screens/Screen.tsx` renders 8 mock notifications grouped into \"Today\" and \"Earlier\", each showing a type icon (payment/security/policy/reminder), title, one-line detail, time, and an unread dot. Users can mark a single notification as read, mark all as read (disabled when none unread), and filter by type via pill buttons with counts. Styling in `Screen.module.css` uses `@strata/tokens` CSS variables (matching the naming pattern seen in `app.css`) with `light-dark()` fallbacks for theme/dark-mode robustness, and logical CSS properties for RTL support — no other files were touched."
+  }
+}

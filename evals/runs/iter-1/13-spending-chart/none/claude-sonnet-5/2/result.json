@@ -1,0 +1,84 @@
+{
+  "prompt": "13-spending-chart",
+  "tags": [
+    "multi-brand"
+  ],
+  "condition": "none",
+  "model": "claude-sonnet-5",
+  "repeat": 2,
+  "iteration": "1",
+  "source": {
+    "commit": "320a45c63ccf410e91943590bcd6202615d23ebc",
+    "dirty": []
+  },
+  "startedAt": "2026-09-27T14:45:33.939Z",
+  "wallMs": 209285,
+  "exitCode": 0,
+  "timedOut": false,
+  "editedProtectedFiles": [],
+  "toolCalls": {
+    "Read": 6,
+    "Glob": 7,
+    "Write": 2
+  },
+  "pathsOutsideWorkspace": [],
+  "touchedRepo": false,
+  "usedMemory": false,
+  "cli": {
+    "isError": false,
+    "subtype": "success",
+    "turns": 16,
+    "durationMs": 207608,
+    "costUsd": 0.3645706,
+    "usage": {
+      "input_tokens": 20,
+      "cache_creation_input_tokens": 29731,
+      "cache_read_input_tokens": 152633,
+      "output_tokens": 21508,
+      "output_tokens_details": {
+        "thinking_tokens": 13207
+      },
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 29731,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 2,
+          "output_tokens": 258,
+          "cache_read_input_tokens": 32959,
+          "cache_creation_input_tokens": 5238,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 5238
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-sonnet-5": {
+        "inputTokens": 20,
+        "outputTokens": 21508,
+        "cacheReadInputTokens": 152633,
+        "cacheCreationInputTokens": 29731,
+        "webSearchRequests": 0,
+        "costUSD": 0.3645706,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 64000,
+        "thinkingTokens": 13207,
+        "canonicalModel": "claude-sonnet-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "finalMessage": "This looks correct. The screen is complete: a header with title, date range, and a 3M/6M/12M segmented switch (default 6M); a chart panel with total spend and a bar chart of monthly totals (plus a screen-reader text alternative); and a top-5-categories panel with color swatch, share bar, amount, and percentage — all sized off mock data for the trailing 12 months so any of the three ranges works. Styling uses Strata CSS variables with sensible fallbacks and logical properties (`inline-size`, `block-size`, `padding-block-end`, `text-align: end`, etc.) so it should adapt across brands, light/dark, and the RTL locale without extra JS, and currency formatting is derived from the ancestor's `lang` attribute set by `ThemeScope`."
+  }
+}

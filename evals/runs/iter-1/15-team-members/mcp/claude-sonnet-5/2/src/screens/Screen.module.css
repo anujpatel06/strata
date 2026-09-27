@@ -1,0 +1,34 @@
+.page {
+  max-inline-size: 960px;
+  margin-inline: auto;
+  padding-block: var(--strata-space-8);
+  padding-inline: var(--strata-space-4);
+}
+
+.person {
+  display: flex;
+  align-items: center;
+  gap: var(--strata-space-2);
+}
+
+.personText {
+  display: flex;
+  flex-direction: column;
+  min-inline-size: 0;
+}
+
+.personName {
+  font-size: var(--strata-font-size-md);
+  font-weight: var(--strata-font-weight-medium);
+  color: var(--strata-color-text-default);
+}
+
+.personEmail {
+  font-size: var(--strata-font-size-sm);
+  color: var(--strata-color-text-subtle);
+}
+
+.lastActive {
+  color: var(--strata-color-text-subtle);
+  font-size: var(--strata-font-size-sm);
+}

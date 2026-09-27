@@ -1,0 +1,338 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-6, 24px);
+}
+
+.header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--strata-space-4, 16px);
+}
+
+.title {
+  margin: 0;
+  font-family: var(--strata-font-heading, var(--strata-font-body, system-ui, sans-serif));
+  font-size: var(--strata-font-size-xl, 24px);
+  font-weight: var(--strata-font-weight-bold, 700);
+  color: var(--strata-color-text-default, #111827);
+}
+
+.subtitle {
+  margin: var(--strata-space-1, 4px) 0 0;
+  color: var(--strata-color-text-muted, #6b7280);
+  font-size: var(--strata-font-size-sm, 14px);
+}
+
+.card {
+  background: var(--strata-color-surface-raised, #ffffff);
+  border: 1px solid var(--strata-color-border-default, #e5e7eb);
+  border-radius: var(--strata-radius-lg, 12px);
+  overflow: visible;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.th {
+  text-align: start;
+  padding: var(--strata-space-3, 12px) var(--strata-space-4, 16px);
+  font-size: var(--strata-font-size-xs, 12px);
+  font-weight: var(--strata-font-weight-semibold, 600);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--strata-color-text-muted, #6b7280);
+  border-bottom: 1px solid var(--strata-color-border-default, #e5e7eb);
+}
+
+.thActions {
+  width: 48px;
+}
+
+.tr:not(:last-child) .td {
+  border-bottom: 1px solid var(--strata-color-border-subtle, #f0f1f3);
+}
+
+.td {
+  padding: var(--strata-space-3, 12px) var(--strata-space-4, 16px);
+  vertical-align: middle;
+  font-size: var(--strata-font-size-sm, 14px);
+  color: var(--strata-color-text-default, #111827);
+}
+
+.memberCell {
+  display: flex;
+  align-items: center;
+  gap: var(--strata-space-3, 12px);
+}
+
+.avatar {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: 36px;
+  block-size: 36px;
+  border-radius: 999px;
+  background: var(--strata-color-accent-soft, #e0e7ff);
+  color: var(--strata-color-accent, #4338ca);
+  font-size: var(--strata-font-size-xs, 12px);
+  font-weight: var(--strata-font-weight-semibold, 600);
+}
+
+.memberInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-inline-size: 0;
+}
+
+.name {
+  font-weight: var(--strata-font-weight-semibold, 600);
+  color: var(--strata-color-text-default, #111827);
+}
+
+.youTag {
+  font-weight: var(--strata-font-weight-regular, 400);
+  color: var(--strata-color-text-muted, #6b7280);
+}
+
+.email {
+  color: var(--strata-color-text-muted, #6b7280);
+  font-size: var(--strata-font-size-xs, 12px);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.roleBadge {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px var(--strata-space-2, 8px);
+  border-radius: var(--strata-radius-full, 999px);
+  font-size: var(--strata-font-size-xs, 12px);
+  font-weight: var(--strata-font-weight-semibold, 600);
+  border: 1px solid transparent;
+}
+
+.role-owner {
+  background: var(--strata-color-accent-soft, #ede9fe);
+  color: var(--strata-color-accent, #6d28d9);
+}
+
+.role-admin {
+  background: var(--strata-color-surface-sunken, #eef2ff);
+  color: var(--strata-color-text-default, #3730a3);
+}
+
+.role-member {
+  background: var(--strata-color-surface-sunken, #f3f4f6);
+  color: var(--strata-color-text-muted, #4b5563);
+}
+
+.lastActive {
+  color: var(--strata-color-text-muted, #6b7280);
+}
+
+.actionsCell {
+  position: relative;
+  text-align: end;
+}
+
+.kebabButton {
+  inline-size: 32px;
+  block-size: 32px;
+  border-radius: var(--strata-radius-md, 8px);
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--strata-color-text-muted, #6b7280);
+  font-size: 18px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.kebabButton:hover:not(:disabled) {
+  background: var(--strata-color-surface-sunken, #f3f4f6);
+  border-color: var(--strata-color-border-default, #e5e7eb);
+}
+
+.kebabButton:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.menu {
+  position: absolute;
+  inset-inline-end: var(--strata-space-4, 16px);
+  top: calc(100% + 4px);
+  z-index: 20;
+  min-inline-size: 200px;
+  background: var(--strata-color-surface-raised, #ffffff);
+  border: 1px solid var(--strata-color-border-default, #e5e7eb);
+  border-radius: var(--strata-radius-md, 8px);
+  box-shadow: var(--strata-shadow-lg, 0 10px 25px rgba(0, 0, 0, 0.12));
+  padding: var(--strata-space-1, 4px);
+  text-align: start;
+}
+
+.menuSection {
+  display: flex;
+  flex-direction: column;
+}
+
+.menuDivider {
+  block-size: 1px;
+  margin: var(--strata-space-1, 4px) 0;
+  background: var(--strata-color-border-default, #e5e7eb);
+}
+
+.menuItem {
+  display: flex;
+  align-items: center;
+  gap: var(--strata-space-2, 8px);
+  width: 100%;
+  padding: var(--strata-space-2, 8px) var(--strata-space-2, 8px);
+  border: none;
+  background: transparent;
+  border-radius: var(--strata-radius-sm, 6px);
+  font-size: var(--strata-font-size-sm, 14px);
+  color: var(--strata-color-text-default, #111827);
+  text-align: start;
+  cursor: pointer;
+}
+
+.menuItem:hover:not(:disabled) {
+  background: var(--strata-color-surface-sunken, #f3f4f6);
+}
+
+.menuItem:disabled {
+  color: var(--strata-color-text-muted, #9ca3af);
+  cursor: default;
+}
+
+.menuItemCheck {
+  display: inline-flex;
+  inline-size: 14px;
+  justify-content: center;
+  font-size: 12px;
+}
+
+.menuItemDanger {
+  color: var(--strata-color-danger, #dc2626);
+}
+
+.menuItemDanger:hover:not(:disabled) {
+  background: var(--strata-color-danger-soft, #fee2e2);
+}
+
+.visuallyHidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.btnPrimary,
+.btnSecondary {
+  padding: var(--strata-space-2, 8px) var(--strata-space-4, 16px);
+  border-radius: var(--strata-radius-md, 8px);
+  font-size: var(--strata-font-size-sm, 14px);
+  font-weight: var(--strata-font-weight-semibold, 600);
+  cursor: pointer;
+  border: 1px solid transparent;
+}
+
+.btnPrimary {
+  background: var(--strata-color-accent, #4f46e5);
+  color: var(--strata-color-on-accent, #ffffff);
+}
+
+.btnPrimary:hover:not(:disabled) {
+  background: var(--strata-color-accent-strong, #4338ca);
+}
+
+.btnPrimary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btnSecondary {
+  background: transparent;
+  color: var(--strata-color-text-default, #111827);
+  border-color: var(--strata-color-border-default, #e5e7eb);
+}
+
+.btnSecondary:hover {
+  background: var(--strata-color-surface-sunken, #f3f4f6);
+}
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 15, 20, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--strata-space-4, 16px);
+  z-index: 100;
+}
+
+.dialog {
+  width: 100%;
+  max-inline-size: 400px;
+  background: var(--strata-color-surface-raised, #ffffff);
+  border-radius: var(--strata-radius-lg, 12px);
+  box-shadow: var(--strata-shadow-xl, 0 20px 40px rgba(0, 0, 0, 0.2));
+  padding: var(--strata-space-6, 24px);
+}
+
+.dialogTitle {
+  margin: 0 0 var(--strata-space-4, 16px);
+  font-size: var(--strata-font-size-lg, 18px);
+  font-weight: var(--strata-font-weight-bold, 700);
+  color: var(--strata-color-text-default, #111827);
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-1, 4px);
+  margin-bottom: var(--strata-space-4, 16px);
+}
+
+.label {
+  font-size: var(--strata-font-size-sm, 14px);
+  font-weight: var(--strata-font-weight-semibold, 600);
+  color: var(--strata-color-text-default, #111827);
+}
+
+.input,
+.select {
+  padding: var(--strata-space-2, 8px) var(--strata-space-3, 12px);
+  border-radius: var(--strata-radius-md, 8px);
+  border: 1px solid var(--strata-color-border-default, #d1d5db);
+  background: var(--strata-color-surface-canvas, #ffffff);
+  color: var(--strata-color-text-default, #111827);
+  font-size: var(--strata-font-size-sm, 14px);
+}
+
+.input:focus,
+.select:focus {
+  outline: 2px solid var(--strata-color-accent, #4f46e5);
+  outline-offset: 1px;
+}
+
+.dialogActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--strata-space-2, 8px);
+  margin-top: var(--strata-space-6, 24px);
+}

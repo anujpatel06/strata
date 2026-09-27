@@ -1,0 +1,49 @@
+{
+  "prompt": "25-onboarding-checklist",
+  "condition": "mcp",
+  "model": "claude-sonnet-5",
+  "repeat": 2,
+  "tags": [
+    "multi-brand"
+  ],
+  "scoredAt": "2026-09-27T15:54:51.970Z",
+  "built": true,
+  "agentFailed": false,
+  "editedProtectedFiles": [],
+  "contaminated": false,
+  "touchedRepo": false,
+  "toolCalls": {
+    "Read": 4,
+    "Glob": 5,
+    "mcp__strata__list_components": 1,
+    "mcp__strata__get_component": 8,
+    "mcp__strata__get_pattern": 1,
+    "mcp__strata__get_example": 7,
+    "Grep": 2,
+    "mcp__strata__get_tokens": 4,
+    "Write": 2,
+    "Edit": 1,
+    "mcp__strata__audit_snippet": 2
+  },
+  "files": 2,
+  "lines": 300,
+  "brandNames": 0,
+  "typeErrors": 2,
+  "typeErrorSample": [
+    "src/screens/Screen.tsx(15,3): error TS2305: Module '\"@strata/icons\"' has no exported member 'IconMailOpened'.",
+    "src/screens/Screen.tsx(18,3): error TS2724: '\"@strata/icons\"' has no exported member named 'IconUserCircle'. Did you mean 'IconCircleX'?"
+  ],
+  "audit": {
+    "score": 100,
+    "findings": 0,
+    "opportunities": 49,
+    "byRule": {}
+  },
+  "views": [],
+  "builds": false,
+  "buildError": "✗ Build failed in 126ms\nerror during build:\nBuild failed with 2 errors:\n\n\u001b[31m[MISSING_EXPORT] \u001b[0m\"IconMailOpened\" is not exported by \"../../strata-evals-prepared/app/node_modules/.pnpm/@strata+icons@file+..+..+..+..+..+..+..+..+var+folders+fq+fsw2rcjs6y3frnjl7zs9sf8h0000g_ad8d12cfb5af2d20909c0dafd61bfed2/node_modules/@strata/icons/src/index.ts\".\n   \u001b[38;5;246m╭\u001b[0m\u001b[38;5;246m─\u001b[0m\u001b[38;5;246m[\u001b[0m src/screens/Screen.tsx:3:47 \u001b[38;5;246m]\u001b[0m\n   \u001b[38;5;246m│\u001b[0m\n \u001b[38;5;246m3 │\u001b[0m \u001b[38;5;249mi\u001b[0m\u001b[38;5;249mm\u001b[0m\u001b[38;5;249mp\u001b[0m\u001b[38;5;249mo\u001b[0m\u001b[38;5;249mr\u001b[0m\u001b[38;5;249mt\u001b[0m\u001b[38;5;249m \u001b[0m\u001b",
+  "renders": false,
+  "axeNodes": null,
+  "overflowPx": null,
+  "onSystem": false
+}

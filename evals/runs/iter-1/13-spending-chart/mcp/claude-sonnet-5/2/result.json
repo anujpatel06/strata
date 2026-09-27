@@ -1,0 +1,92 @@
+{
+  "prompt": "13-spending-chart",
+  "tags": [
+    "multi-brand"
+  ],
+  "condition": "mcp",
+  "model": "claude-sonnet-5",
+  "repeat": 2,
+  "iteration": "1",
+  "source": {
+    "commit": "320a45c63ccf410e91943590bcd6202615d23ebc",
+    "dirty": []
+  },
+  "startedAt": "2026-09-27T14:48:23.901Z",
+  "wallMs": 278958,
+  "exitCode": 0,
+  "timedOut": false,
+  "editedProtectedFiles": [],
+  "toolCalls": {
+    "Read": 5,
+    "Glob": 4,
+    "mcp__strata__list_components": 1,
+    "mcp__strata__get_component": 7,
+    "mcp__strata__get_example": 5,
+    "mcp__strata__get_pattern": 2,
+    "mcp__strata__get_tokens": 4,
+    "Grep": 1,
+    "Write": 2,
+    "Edit": 2,
+    "mcp__strata__audit_snippet": 2
+  },
+  "pathsOutsideWorkspace": [],
+  "touchedRepo": false,
+  "usedMemory": false,
+  "cli": {
+    "isError": false,
+    "subtype": "success",
+    "turns": 36,
+    "durationMs": 277483,
+    "costUsd": 0.7461046000000001,
+    "usage": {
+      "input_tokens": 44,
+      "cache_creation_input_tokens": 69913,
+      "cache_read_input_tokens": 1078173,
+      "output_tokens": 25073,
+      "output_tokens_details": {
+        "thinking_tokens": 15157
+      },
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 69913,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 2,
+          "output_tokens": 397,
+          "cache_read_input_tokens": 79712,
+          "cache_creation_input_tokens": 686,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 686
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-sonnet-5": {
+        "inputTokens": 44,
+        "outputTokens": 25073,
+        "cacheReadInputTokens": 1078173,
+        "cacheCreationInputTokens": 69913,
+        "webSearchRequests": 0,
+        "costUSD": 0.7461046000000001,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 64000,
+        "thinkingTokens": 15157,
+        "canonicalModel": "claude-sonnet-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "finalMessage": "Both files score 100 with no findings. The screen is complete.\n\n**What I built:** `src/screens/Screen.tsx` — a spending summary screen using only Strata components (`Card`, `BarChart`, `ToggleButtonGroup`, `Meter`, `Amount`, `IconTile`, `Eyebrow`). It has:\n- A `ToggleButtonGroup` to switch between 3/6/12 months, defaulting to 6.\n- A `BarChart` of monthly spending for the selected range, with the period's total shown via `Amount`.\n- Below it, the five largest categories (from 10 mock categories), each as an `IconTile` + `Meter`, showing the amount (`valueLabel`) and share of the total (`caption`).\n- 12 months of deterministic mock data (seeded, not random per render) generated in-file, sliced per selected period.\n\nStyling is in `Screen.module.css`, using only logical properties and `var(--strata-*)` tokens — confirmed by `audit_snippet` (score 100, no findings) for both files. Since I can't run the app, I haven't visually verified rendering — worth a quick look in the browser across brands/schemes/RTL when you get a chance."
+  }
+}

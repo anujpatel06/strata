@@ -1,0 +1,92 @@
+{
+  "prompt": "18-payment-schedule",
+  "tags": [
+    "multi-brand"
+  ],
+  "condition": "mcp",
+  "model": "claude-sonnet-5",
+  "repeat": 2,
+  "iteration": "1",
+  "source": {
+    "commit": "320a45c63ccf410e91943590bcd6202615d23ebc",
+    "dirty": []
+  },
+  "startedAt": "2026-09-27T15:14:58.995Z",
+  "wallMs": 404945,
+  "exitCode": 0,
+  "timedOut": false,
+  "editedProtectedFiles": [],
+  "toolCalls": {
+    "Read": 7,
+    "Glob": 9,
+    "mcp__strata__list_components": 1,
+    "mcp__strata__get_pattern": 1,
+    "mcp__strata__get_component": 14,
+    "mcp__strata__get_example": 10,
+    "Grep": 13,
+    "mcp__strata__get_tokens": 3,
+    "Write": 2,
+    "Edit": 3,
+    "mcp__strata__audit_snippet": 2
+  },
+  "pathsOutsideWorkspace": [],
+  "touchedRepo": false,
+  "usedMemory": false,
+  "cli": {
+    "isError": false,
+    "subtype": "success",
+    "turns": 66,
+    "durationMs": 403520,
+    "costUsd": 1.2263792,
+    "usage": {
+      "input_tokens": 76,
+      "cache_creation_input_tokens": 91044,
+      "cache_read_input_tokens": 2301506,
+      "output_tokens": 40175,
+      "output_tokens_details": {
+        "thinking_tokens": 23387
+      },
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 91044,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 2,
+          "output_tokens": 2357,
+          "cache_read_input_tokens": 100396,
+          "cache_creation_input_tokens": 1133,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 1133
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-sonnet-5": {
+        "inputTokens": 76,
+        "outputTokens": 40175,
+        "cacheReadInputTokens": 2301506,
+        "cacheCreationInputTokens": 91044,
+        "webSearchRequests": 0,
+        "costUSD": 1.2263792,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 64000,
+        "thinkingTokens": 23387,
+        "canonicalModel": "claude-sonnet-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "finalMessage": "Both files pass the Strata audit with a score of 100 (no findings). Summary of what was built in `src/screens/Screen.tsx` (+ `Screen.module.css`):\n\n- **List of 6 mock scheduled payments** (Card with an inset list), each showing payee (Avatar), amount (Amount), next date, repeat frequency, and status (Badge, paired with a text label, never colour alone).\n- **Pause/Resume** — immediate toggle from a per-row action Menu, confirmed via a toast.\n- **Edit** — opens a Dialog (payee, amount, date, frequency fields) pre-filled from the row; Save updates the mock state.\n- **Cancel** — opens an `AlertDialog` (danger tone) warning it can't be restored; once cancelled, the row loses its action menu entirely (badge shows \"Cancelled\", no way to resume/edit/re-cancel).\n- **Schedule a payment** — header button opens a Dialog with the same field set, appending a new active payment on submit.\n\nAll UI comes from `@strata/react`/`@strata/icons`, styled only with `var(--strata-*)` tokens and logical CSS properties, with accessible names on every icon-only control. I avoided the `DatePicker`/`@internationalized/date` component since that package isn't a declared dependency in this app (would fail to resolve under pnpm's strict linking), using labelled `TextField`s for dates instead.\n\nI can't run the dev server in this environment, so I wasn't able to visually verify it in a browser — flagging that per the instructions rather than claiming it's been tested live."
+  }
+}

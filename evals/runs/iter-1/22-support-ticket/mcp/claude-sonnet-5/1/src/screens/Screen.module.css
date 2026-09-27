@@ -1,0 +1,56 @@
+.page {
+  display: flex;
+  justify-content: center;
+  padding-block: var(--strata-space-12);
+  padding-inline: var(--strata-space-6);
+}
+
+.card {
+  inline-size: 100%;
+  max-inline-size: 640px;
+}
+
+.form {
+  display: contents;
+}
+
+.formContent {
+  display: grid;
+  gap: var(--strata-space-5);
+}
+
+.confirmationContent {
+  display: grid;
+  gap: var(--strata-space-5);
+}
+
+.footer {
+  justify-content: flex-end;
+}
+
+.summary {
+  display: grid;
+  gap: var(--strata-space-2);
+  margin: 0;
+}
+
+.summaryRow {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--strata-space-4);
+}
+
+.summaryLabel {
+  margin: 0;
+  font-size: var(--strata-font-size-sm);
+  color: var(--strata-color-text-subtle);
+}
+
+.summaryValue {
+  margin: 0;
+  font-size: var(--strata-font-size-sm);
+  font-weight: var(--strata-font-weight-medium);
+  color: var(--strata-color-text-default);
+  text-align: end;
+}

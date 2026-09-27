@@ -1,0 +1,201 @@
+.page {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding-block-start: var(--strata-space-8, 48px);
+}
+
+.card {
+  width: 100%;
+  max-inline-size: 400px;
+  box-sizing: border-box;
+  background: var(--strata-color-surface-raised, var(--strata-color-surface, #ffffff));
+  border: 1px solid var(--strata-color-border-default, #dcdce3);
+  border-radius: var(--strata-radius-lg, 12px);
+  padding: var(--strata-space-6, 32px);
+  box-shadow: var(--strata-shadow-md, 0 4px 16px rgba(20, 20, 30, 0.08));
+}
+
+.title {
+  margin: 0;
+  font-family: var(--strata-font-heading, var(--strata-font-body, system-ui, sans-serif));
+  font-size: var(--strata-font-size-xl, 1.5rem);
+  font-weight: var(--strata-font-weight-bold, 700);
+  color: var(--strata-color-text-default, #17171f);
+}
+
+.subtitle {
+  margin: var(--strata-space-2, 8px) 0 var(--strata-space-5, 24px);
+  font-family: var(--strata-font-body, system-ui, sans-serif);
+  font-size: var(--strata-font-size-sm, 0.875rem);
+  color: var(--strata-color-text-muted, #64646f);
+}
+
+.error {
+  margin: 0 0 var(--strata-space-4, 16px);
+  padding: var(--strata-space-3, 12px) var(--strata-space-4, 16px);
+  border-radius: var(--strata-radius-md, 8px);
+  background: var(--strata-color-danger-surface, #fdecec);
+  color: var(--strata-color-danger-text, var(--strata-color-danger, #b3261e));
+  font-family: var(--strata-font-body, system-ui, sans-serif);
+  font-size: var(--strata-font-size-sm, 0.875rem);
+  border: 1px solid var(--strata-color-danger-border, #f3b9b6);
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-4, 16px);
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-2, 6px);
+}
+
+.label {
+  font-family: var(--strata-font-body, system-ui, sans-serif);
+  font-size: var(--strata-font-size-sm, 0.875rem);
+  font-weight: var(--strata-font-weight-medium, 600);
+  color: var(--strata-color-text-default, #17171f);
+}
+
+.input {
+  box-sizing: border-box;
+  inline-size: 100%;
+  padding: var(--strata-space-3, 10px) var(--strata-space-3, 12px);
+  border-radius: var(--strata-radius-md, 8px);
+  border: 1px solid var(--strata-color-border-default, #d0d0d9);
+  background: var(--strata-color-surface, #ffffff);
+  color: var(--strata-color-text-default, #17171f);
+  font-family: var(--strata-font-body, system-ui, sans-serif);
+  font-size: var(--strata-font-size-md, 1rem);
+}
+
+.input:focus-visible {
+  outline: 2px solid var(--strata-color-focus-ring, var(--strata-color-accent, #3355ee));
+  outline-offset: 1px;
+}
+
+.input:disabled {
+  opacity: 0.6;
+}
+
+.passwordWrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.passwordWrapper .input {
+  padding-inline-end: var(--strata-space-8, 40px);
+}
+
+.togglePassword {
+  position: absolute;
+  inset-inline-end: var(--strata-space-2, 8px);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  padding: var(--strata-space-1, 4px);
+  border-radius: var(--strata-radius-sm, 6px);
+  color: var(--strata-color-text-muted, #64646f);
+  cursor: pointer;
+}
+
+.togglePassword:hover {
+  color: var(--strata-color-text-default, #17171f);
+}
+
+.togglePassword:focus-visible {
+  outline: 2px solid var(--strata-color-focus-ring, var(--strata-color-accent, #3355ee));
+  outline-offset: 1px;
+}
+
+.togglePassword:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--strata-space-3, 12px);
+}
+
+.checkboxLabel {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--strata-space-2, 8px);
+  font-family: var(--strata-font-body, system-ui, sans-serif);
+  font-size: var(--strata-font-size-sm, 0.875rem);
+  color: var(--strata-color-text-default, #17171f);
+}
+
+.checkbox {
+  inline-size: 16px;
+  block-size: 16px;
+  accent-color: var(--strata-color-accent, #3355ee);
+}
+
+.link {
+  background: none;
+  border: none;
+  padding: 0;
+  font-family: var(--strata-font-body, system-ui, sans-serif);
+  font-size: var(--strata-font-size-sm, 0.875rem);
+  color: var(--strata-color-accent, #3355ee);
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.link:focus-visible {
+  outline: 2px solid var(--strata-color-focus-ring, var(--strata-color-accent, #3355ee));
+  outline-offset: 2px;
+}
+
+.submit {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--strata-space-2, 8px);
+  inline-size: 100%;
+  padding: var(--strata-space-3, 12px);
+  margin-block-start: var(--strata-space-2, 8px);
+  border: none;
+  border-radius: var(--strata-radius-md, 8px);
+  background: var(--strata-color-accent, #3355ee);
+  color: var(--strata-color-on-accent, #ffffff);
+  font-family: var(--strata-font-body, system-ui, sans-serif);
+  font-size: var(--strata-font-size-md, 1rem);
+  font-weight: var(--strata-font-weight-medium, 600);
+  cursor: pointer;
+}
+
+.submit:hover:not(:disabled) {
+  background: var(--strata-color-accent-hover, #2a47c9);
+}
+
+.submit:focus-visible {
+  outline: 2px solid var(--strata-color-focus-ring, var(--strata-color-accent, #3355ee));
+  outline-offset: 2px;
+}
+
+.submit:disabled {
+  cursor: not-allowed;
+  opacity: 0.8;
+}
+
+.spinner {
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

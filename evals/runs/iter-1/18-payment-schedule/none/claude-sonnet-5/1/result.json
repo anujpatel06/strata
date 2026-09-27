@@ -1,0 +1,86 @@
+{
+  "prompt": "18-payment-schedule",
+  "tags": [
+    "multi-brand"
+  ],
+  "condition": "none",
+  "model": "claude-sonnet-5",
+  "repeat": 1,
+  "iteration": "1",
+  "source": {
+    "commit": "320a45c63ccf410e91943590bcd6202615d23ebc",
+    "dirty": []
+  },
+  "startedAt": "2026-09-27T15:06:11.448Z",
+  "wallMs": 612136,
+  "exitCode": 0,
+  "timedOut": false,
+  "editedProtectedFiles": [],
+  "toolCalls": {
+    "Read": 38,
+    "Glob": 12,
+    "Grep": 14,
+    "Write": 2,
+    "Edit": 2
+  },
+  "pathsOutsideWorkspace": [],
+  "touchedRepo": false,
+  "usedMemory": false,
+  "cli": {
+    "isError": false,
+    "subtype": "success",
+    "turns": 69,
+    "durationMs": 610560,
+    "costUsd": 1.3625006,
+    "usage": {
+      "input_tokens": 76,
+      "cache_creation_input_tokens": 108978,
+      "cache_read_input_tokens": 1773883,
+      "output_tokens": 57166,
+      "output_tokens_details": {
+        "thinking_tokens": 40478
+      },
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 108978,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 2,
+          "output_tokens": 285,
+          "cache_read_input_tokens": 116989,
+          "cache_creation_input_tokens": 455,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 455
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-sonnet-5": {
+        "inputTokens": 76,
+        "outputTokens": 57166,
+        "cacheReadInputTokens": 1773883,
+        "cacheCreationInputTokens": 108978,
+        "webSearchRequests": 0,
+        "costUSD": 1.3625006,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 64000,
+        "thinkingTokens": 40478,
+        "canonicalModel": "claude-sonnet-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "finalMessage": "These are now safe, plain object literals with no inference risk. The implementation is complete.\n\n**Summary:** Built `src/screens/Screen.tsx` (+ `Screen.module.css`) using Strata's `Card`/`CardHeader`/`CardAction` for the layout, a row per payment (icon tile, payee, frequency `Tag`, next date, `Amount`, status `Badge`, and a kebab `Menu` with Pause/Resume, Edit, Cancel), a \"Schedule a payment\" `Dialog` form, a shared Edit `Dialog`, and an irreversible-cancel `AlertDialog`; toasts confirm each action, dates respect the active brand locale, and layout uses logical CSS properties for RTL. Six mock payments are seeded in the file; cancelled payments lose all actions and can't be restored, matching the spec."
+  }
+}

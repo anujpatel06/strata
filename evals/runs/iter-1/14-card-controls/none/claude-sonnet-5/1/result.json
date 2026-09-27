@@ -1,0 +1,86 @@
+{
+  "prompt": "14-card-controls",
+  "tags": [
+    "a11y"
+  ],
+  "condition": "none",
+  "model": "claude-sonnet-5",
+  "repeat": 1,
+  "iteration": "1",
+  "source": {
+    "commit": "320a45c63ccf410e91943590bcd6202615d23ebc",
+    "dirty": []
+  },
+  "startedAt": "2026-09-27T14:49:03.232Z",
+  "wallMs": 114793,
+  "exitCode": 0,
+  "timedOut": false,
+  "editedProtectedFiles": [],
+  "toolCalls": {
+    "Read": 7,
+    "Glob": 8,
+    "Write": 2
+  },
+  "pathsOutsideWorkspace": [
+    "/private/var/folders/fq/fsw2rcjs6y3frnjl7zs9sf8h0000gn/T/strata-evals-prepared"
+  ],
+  "touchedRepo": false,
+  "usedMemory": false,
+  "cli": {
+    "isError": false,
+    "subtype": "success",
+    "turns": 18,
+    "durationMs": 113477,
+    "costUsd": 0.2702712,
+    "usage": {
+      "input_tokens": 22,
+      "cache_creation_input_tokens": 26813,
+      "cache_read_input_tokens": 180326,
+      "output_tokens": 12691,
+      "output_tokens_details": {
+        "thinking_tokens": 7159
+      },
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 26813,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 2,
+          "output_tokens": 337,
+          "cache_read_input_tokens": 33150,
+          "cache_creation_input_tokens": 2129,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 2129
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-sonnet-5": {
+        "inputTokens": 22,
+        "outputTokens": 12691,
+        "cacheReadInputTokens": 180326,
+        "cacheCreationInputTokens": 26813,
+        "webSearchRequests": 0,
+        "costUSD": 0.2702712,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 64000,
+        "thinkingTokens": 7159,
+        "canonicalModel": "claude-sonnet-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "finalMessage": "The card controls screen is built in `src/screens/Screen.tsx` and `src/screens/Screen.module.css`.\n\nIt shows the card name and last four digits, a freeze switch, three toggle rows (online payments, contactless, international use), and a daily spending limit slider. When frozen, a notice appears and the controls section is visually dimmed and disabled (`aria-disabled`, `disabled` on inputs) until unfrozen. Styling uses Strata's CSS token variables (with sensible fallbacks since `@strata/react`/`@strata/tokens` aren't installed in this sandbox to inspect) and logical CSS properties (`margin-inline-start`, `border-block-end`, etc.) so it adapts correctly to RTL locales, dark scheme, and density.\n\nNote: since `@strata/react` component exports weren't available locally to verify, I used semantic HTML (buttons with `role=\"switch\"`, native `<input type=\"range\">`) rather than guessing at Strata component APIs, to keep the build reliable."
+  }
+}

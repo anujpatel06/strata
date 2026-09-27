@@ -1,0 +1,99 @@
+{
+  "prompt": "06-order-return-rtl",
+  "condition": "none",
+  "model": "claude-sonnet-5",
+  "repeat": 1,
+  "tags": [
+    "rtl"
+  ],
+  "scoredAt": "2026-09-27T15:48:51.836Z",
+  "built": true,
+  "agentFailed": false,
+  "editedProtectedFiles": [],
+  "contaminated": false,
+  "touchedRepo": false,
+  "toolCalls": {
+    "Read": 6,
+    "Glob": 8,
+    "Write": 2
+  },
+  "files": 2,
+  "lines": 439,
+  "brandNames": 0,
+  "typeErrors": 0,
+  "audit": {
+    "score": 84.5,
+    "findings": 36,
+    "opportunities": 157,
+    "byRule": {
+      "raw-color": 3,
+      "off-scale-font-size": 12,
+      "raw-font-weight": 6,
+      "off-scale-space": 9,
+      "physical-property": 1,
+      "off-scale-radius": 1,
+      "native-element": 4
+    }
+  },
+  "views": [
+    {
+      "name": "light",
+      "query": "tenant=qamar&locale=en-IN",
+      "scheme": "light",
+      "width": 1280,
+      "pageErrors": [],
+      "mounted": true,
+      "textLength": 363,
+      "overflowPx": 0,
+      "axeNodes": 5,
+      "axeRules": {
+        "color-contrast": 5
+      }
+    },
+    {
+      "name": "dark",
+      "query": "tenant=qamar&locale=en-IN",
+      "scheme": "dark",
+      "width": 1280,
+      "pageErrors": [],
+      "mounted": true,
+      "textLength": 363,
+      "overflowPx": 0,
+      "axeNodes": 0,
+      "axeRules": {}
+    },
+    {
+      "name": "narrow",
+      "query": "tenant=qamar&locale=en-IN",
+      "scheme": "light",
+      "width": 390,
+      "pageErrors": [],
+      "mounted": true,
+      "textLength": 363,
+      "overflowPx": 0,
+      "axeNodes": 5,
+      "axeRules": {
+        "color-contrast": 5
+      }
+    },
+    {
+      "name": "rtl",
+      "query": "tenant=qamar&locale=ar-AE",
+      "scheme": "light",
+      "width": 1280,
+      "pageErrors": [],
+      "mounted": true,
+      "textLength": 363,
+      "overflowPx": 0,
+      "axeNodes": 5,
+      "axeRules": {
+        "color-contrast": 5
+      }
+    }
+  ],
+  "builds": true,
+  "renders": true,
+  "axeNodes": 5,
+  "overflowPx": 0,
+  "onSystem": false
+}

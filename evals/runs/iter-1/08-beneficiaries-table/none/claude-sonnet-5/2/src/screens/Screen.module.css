@@ -1,0 +1,195 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-5, 20px);
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-1, 4px);
+}
+
+.title {
+  margin: 0;
+  font-family: var(--strata-font-heading, var(--strata-font-body, inherit));
+  font-size: var(--strata-font-size-xl, 24px);
+  font-weight: var(--strata-font-weight-bold, 700);
+  color: var(--strata-color-text-default, #1a1a1a);
+}
+
+.subtitle {
+  margin: 0;
+  font-size: var(--strata-font-size-sm, 14px);
+  color: var(--strata-color-text-muted, #6b6b6b);
+}
+
+.selectionBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--strata-space-3, 12px);
+  padding: var(--strata-space-3, 12px) var(--strata-space-4, 16px);
+  border-radius: var(--strata-radius-md, 8px);
+  background: var(--strata-color-surface-accent, #eef2ff);
+  border: 1px solid var(--strata-color-border-accent, #c7d2fe);
+}
+
+.selectionText {
+  font-size: var(--strata-font-size-sm, 14px);
+  font-weight: var(--strata-font-weight-medium, 500);
+  color: var(--strata-color-text-default, #1a1a1a);
+}
+
+.removeSelectedButton {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--strata-space-2, 8px);
+  border: 1px solid var(--strata-color-border-danger, #dc2626);
+  background: var(--strata-color-surface-canvas, #fff);
+  color: var(--strata-color-text-danger, #dc2626);
+  border-radius: var(--strata-radius-sm, 6px);
+  padding: var(--strata-space-2, 8px) var(--strata-space-3, 12px);
+  font-size: var(--strata-font-size-sm, 14px);
+  font-weight: var(--strata-font-weight-medium, 500);
+  cursor: pointer;
+}
+
+.removeSelectedButton:hover {
+  background: var(--strata-color-surface-danger, #fef2f2);
+}
+
+.tableWrapper {
+  overflow-x: auto;
+  border: 1px solid var(--strata-color-border-default, #e2e2e2);
+  border-radius: var(--strata-radius-md, 8px);
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--strata-font-size-sm, 14px);
+}
+
+.table th,
+.table td {
+  text-align: start;
+  padding: var(--strata-space-3, 12px) var(--strata-space-4, 16px);
+  border-block-end: 1px solid var(--strata-color-border-subtle, #ededed);
+}
+
+.table thead th {
+  font-weight: var(--strata-font-weight-medium, 500);
+  color: var(--strata-color-text-muted, #6b6b6b);
+  background: var(--strata-color-surface-subtle, #fafafa);
+  white-space: nowrap;
+}
+
+.table tbody tr:last-child td {
+  border-block-end: none;
+}
+
+.rowSelected {
+  background: var(--strata-color-surface-selected, #f5f7ff);
+}
+
+.checkboxCell {
+  inline-size: 1%;
+  white-space: nowrap;
+}
+
+.actionsHeader {
+  inline-size: 1%;
+}
+
+.nameCell {
+  font-weight: var(--strata-font-weight-medium, 500);
+  color: var(--strata-color-text-default, #1a1a1a);
+}
+
+.accountCell,
+.dateCell {
+  color: var(--strata-color-text-muted, #6b6b6b);
+  white-space: nowrap;
+}
+
+.sortButton {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--strata-space-1, 4px);
+  border: none;
+  background: none;
+  padding: 0;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+}
+
+.sortButton:hover {
+  color: var(--strata-color-text-default, #1a1a1a);
+}
+
+.sortIcon {
+  flex: none;
+}
+
+.actionsCell {
+  display: flex;
+  align-items: center;
+  gap: var(--strata-space-1, 4px);
+  white-space: nowrap;
+}
+
+.iconButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: 32px;
+  block-size: 32px;
+  border: none;
+  border-radius: var(--strata-radius-sm, 6px);
+  background: transparent;
+  color: var(--strata-color-text-muted, #6b6b6b);
+  cursor: pointer;
+}
+
+.iconButton:hover {
+  background: var(--strata-color-surface-hover, #f0f0f0);
+  color: var(--strata-color-text-default, #1a1a1a);
+}
+
+.iconButtonDanger:hover {
+  background: var(--strata-color-surface-danger, #fef2f2);
+  color: var(--strata-color-text-danger, #dc2626);
+}
+
+.editInput {
+  inline-size: 100%;
+  box-sizing: border-box;
+  padding: var(--strata-space-1, 4px) var(--strata-space-2, 8px);
+  border: 1px solid var(--strata-color-border-default, #d4d4d4);
+  border-radius: var(--strata-radius-sm, 6px);
+  font: inherit;
+  color: var(--strata-color-text-default, #1a1a1a);
+  background: var(--strata-color-surface-canvas, #fff);
+}
+
+.editInputSmall {
+  max-inline-size: 6em;
+}
+
+.emptyState {
+  margin: 0;
+  padding: var(--strata-space-5, 20px);
+  text-align: center;
+  color: var(--strata-color-text-muted, #6b6b6b);
+}
+
+.visuallyHidden {
+  position: absolute;
+  inline-size: 1px;
+  block-size: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}

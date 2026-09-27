@@ -1,0 +1,85 @@
+{
+  "prompt": "02-two-factor-settings",
+  "tags": [
+    "a11y"
+  ],
+  "condition": "none",
+  "model": "claude-sonnet-5",
+  "repeat": 1,
+  "iteration": "1",
+  "source": {
+    "commit": "320a45c63ccf410e91943590bcd6202615d23ebc",
+    "dirty": []
+  },
+  "startedAt": "2026-09-27T14:02:52.753Z",
+  "wallMs": 175863,
+  "exitCode": 0,
+  "timedOut": false,
+  "editedProtectedFiles": [],
+  "toolCalls": {
+    "Read": 8,
+    "Glob": 8,
+    "Write": 2,
+    "Edit": 2
+  },
+  "pathsOutsideWorkspace": [],
+  "touchedRepo": false,
+  "usedMemory": false,
+  "cli": {
+    "isError": false,
+    "subtype": "success",
+    "turns": 21,
+    "durationMs": 174221,
+    "costUsd": 0.3169756,
+    "usage": {
+      "input_tokens": 24,
+      "cache_creation_input_tokens": 24718,
+      "cache_read_input_tokens": 199178,
+      "output_tokens": 17822,
+      "output_tokens_details": {
+        "thinking_tokens": 8220
+      },
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 24718,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 2,
+          "output_tokens": 1684,
+          "cache_read_input_tokens": 28809,
+          "cache_creation_input_tokens": 4375,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 4375
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-sonnet-5": {
+        "inputTokens": 24,
+        "outputTokens": 17822,
+        "cacheReadInputTokens": 199178,
+        "cacheCreationInputTokens": 24718,
+        "webSearchRequests": 0,
+        "costUSD": 0.3169756,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 64000,
+        "thinkingTokens": 8220,
+        "canonicalModel": "claude-sonnet-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "finalMessage": "Added a two-factor authentication section to the security settings page.\n\n**`src/screens/Screen.tsx`** — a security settings page with:\n- An On/Off switch (`role=\"switch\"`) for 2FA.\n- A method choice (radio group: Authenticator app vs. Text message), shown only when enabled, with a masked phone number hint for SMS.\n- A backup codes panel with show/hide, regenerate, and copy actions, plus a used/remaining indicator.\n- Turning 2FA **off** opens a confirmation dialog (\"This makes your account less secure...\") with Cancel/Turn off actions, focus trapping, Escape-to-cancel, and focus restoration. Turning it **on** applies immediately, no confirmation needed.\n- A visually-hidden `aria-live` region announces state changes for screen readers.\n\n**`src/screens/Screen.module.css`** — styled entirely with Strata design tokens (`var(--strata-*, fallback)`) and logical CSS properties, so it adapts across brands, light/dark, density, and RTL locales automatically, with safe fallback values in case a token name differs.\n\nMock data (backup codes, phone number) lives directly in `Screen.tsx`. I didn't touch `main.tsx`, `app.css`, `package.json`, or config files, and since `@strata/react`/`@strata/icons` aren't installed in this environment (no `node_modules`), I built the UI with plain semantic HTML/ARIA rather than guessing at unverifiable component APIs, to keep it type-safe and buildable."
+  }
+}

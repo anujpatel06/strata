@@ -1,0 +1,85 @@
+{
+  "prompt": "22-support-ticket",
+  "tags": [
+    "a11y"
+  ],
+  "condition": "none",
+  "model": "claude-sonnet-5",
+  "repeat": 1,
+  "iteration": "1",
+  "source": {
+    "commit": "320a45c63ccf410e91943590bcd6202615d23ebc",
+    "dirty": []
+  },
+  "startedAt": "2026-09-27T15:32:46.888Z",
+  "wallMs": 200841,
+  "exitCode": 0,
+  "timedOut": false,
+  "editedProtectedFiles": [],
+  "toolCalls": {
+    "Read": 8,
+    "Glob": 6,
+    "Grep": 1,
+    "Write": 2
+  },
+  "pathsOutsideWorkspace": [],
+  "touchedRepo": false,
+  "usedMemory": false,
+  "cli": {
+    "isError": false,
+    "subtype": "success",
+    "turns": 18,
+    "durationMs": 199298,
+    "costUsd": 0.305371,
+    "usage": {
+      "input_tokens": 22,
+      "cache_creation_input_tokens": 22369,
+      "cache_read_input_tokens": 145605,
+      "output_tokens": 18673,
+      "output_tokens_details": {
+        "thinking_tokens": 9530
+      },
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 22369,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 2,
+          "output_tokens": 558,
+          "cache_read_input_tokens": 27034,
+          "cache_creation_input_tokens": 3801,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 3801
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-sonnet-5": {
+        "inputTokens": 22,
+        "outputTokens": 18673,
+        "cacheReadInputTokens": 145605,
+        "cacheCreationInputTokens": 22369,
+        "webSearchRequests": 0,
+        "costUSD": 0.305371,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 64000,
+        "thinkingTokens": 9530,
+        "canonicalModel": "claude-sonnet-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "finalMessage": "Built the support request form in `src/screens/Screen.tsx` with styles in `src/screens/Screen.module.css`:\n\n- **Topic**: dropdown from a mock list of 5 topics\n- **Subject**: required text input\n- **Description**: required textarea, 500-char limit enforced via `maxLength`, with a live \"N characters left\" counter that turns red near the limit\n- **Attachment**: optional file input with filename/size preview and a remove action\n- **Contact preference**: radio group (Email / Phone / No preference, defaulting to \"No preference\")\n- On submit, validation runs for topic/subject/description; once valid, it generates a mock reference number (e.g. `SR-20260927-4821`) and swaps the form for a confirmation screen showing that reference plus a summary, with a \"Submit another request\" action to reset.\n\nSince `@strata/react` isn't installed in this environment (no `node_modules`) and I couldn't inspect its component API without reading outside the app folder, I used semantic HTML styled with Strata's CSS design tokens (the ones confirmed in `app.css`, like `--strata-color-surface-canvas`/`--strata-color-text-default`/`--strata-font-body`/`--strata-space-6`) plus `light-dark()` fallbacks and logical CSS properties, so it should still adapt reasonably across brands, dark mode, and RTL. I can't run the app to visually verify, so please have it checked against a live/dev preview."
+  }
+}

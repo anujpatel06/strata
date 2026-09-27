@@ -1,0 +1,105 @@
+.page {
+  display: grid;
+  gap: var(--strata-space-6);
+  max-inline-size: 640px;
+  margin-inline: auto;
+  padding: var(--strata-space-8) var(--strata-space-4);
+}
+
+.header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--strata-space-4);
+}
+
+.title {
+  margin: 0;
+  font-family: var(--strata-font-heading);
+  font-size: var(--strata-font-size-lg);
+  font-weight: var(--strata-font-weight-semibold);
+  color: var(--strata-color-text-default);
+}
+
+.subtitle {
+  margin: var(--strata-space-1) 0 0;
+  font-size: var(--strata-font-size-sm);
+  color: var(--strata-color-text-subtle);
+}
+
+.filters {
+  align-self: start;
+}
+
+.group {
+  display: grid;
+  gap: var(--strata-space-3);
+}
+
+.groupTitle {
+  margin: 0;
+  font-size: var(--strata-font-size-sm);
+  font-weight: var(--strata-font-weight-medium);
+  color: var(--strata-color-text-subtle);
+}
+
+.list {
+  display: grid;
+  gap: var(--strata-space-1);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.row {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--strata-space-3);
+  padding: var(--strata-space-3);
+  border-radius: var(--strata-radius-badge);
+  border-block-end: 1px solid var(--strata-color-border-subtle);
+}
+
+.row:last-child {
+  border-block-end: none;
+}
+
+.row[data-unread] {
+  background: var(--strata-color-surface-sunken);
+}
+
+.rowBody {
+  display: grid;
+  gap: var(--strata-space-1);
+  flex: 1;
+  min-inline-size: 0;
+}
+
+.rowHeading {
+  display: flex;
+  align-items: center;
+  gap: var(--strata-space-2);
+}
+
+.rowTitle {
+  font-size: var(--strata-font-size-sm);
+  font-weight: var(--strata-font-weight-medium);
+  color: var(--strata-color-text-default);
+}
+
+.rowDetail {
+  margin: 0;
+  font-size: var(--strata-font-size-sm);
+  color: var(--strata-color-text-subtle);
+}
+
+.rowMeta {
+  font-size: var(--strata-font-size-xs);
+  color: var(--strata-color-text-subtle);
+}
+
+.empty {
+  text-align: center;
+  color: var(--strata-color-text-subtle);
+  font-size: var(--strata-font-size-sm);
+}

@@ -1,0 +1,93 @@
+{
+  "prompt": "19-document-upload-status",
+  "condition": "none",
+  "model": "claude-sonnet-5",
+  "repeat": 1,
+  "tags": [
+    "a11y"
+  ],
+  "scoredAt": "2026-09-27T15:52:55.807Z",
+  "built": true,
+  "agentFailed": false,
+  "editedProtectedFiles": [],
+  "contaminated": false,
+  "touchedRepo": false,
+  "toolCalls": {
+    "Read": 8,
+    "Glob": 6,
+    "Grep": 1,
+    "Write": 2
+  },
+  "files": 2,
+  "lines": 526,
+  "brandNames": 0,
+  "typeErrors": 0,
+  "audit": {
+    "score": 67.7,
+    "findings": 66,
+    "opportunities": 209,
+    "byRule": {
+      "raw-color": 44,
+      "raw-font-weight": 6,
+      "off-scale-space": 12,
+      "physical-property": 1,
+      "missing-accessible-name": 1,
+      "native-element": 2
+    }
+  },
+  "views": [
+    {
+      "name": "light",
+      "query": "tenant=care&locale=en-IN",
+      "scheme": "light",
+      "width": 1280,
+      "pageErrors": [],
+      "mounted": true,
+      "textLength": 676,
+      "overflowPx": 0,
+      "axeNodes": 13,
+      "axeRules": {
+        "aria-progressbar-name": 1,
+        "color-contrast": 8,
+        "label": 4
+      }
+    },
+    {
+      "name": "dark",
+      "query": "tenant=care&locale=en-IN",
+      "scheme": "dark",
+      "width": 1280,
+      "pageErrors": [],
+      "mounted": true,
+      "textLength": 676,
+      "overflowPx": 0,
+      "axeNodes": 22,
+      "axeRules": {
+        "aria-progressbar-name": 1,
+        "color-contrast": 17,
+        "label": 4
+      }
+    },
+    {
+      "name": "narrow",
+      "query": "tenant=care&locale=en-IN",
+      "scheme": "light",
+      "width": 390,
+      "pageErrors": [],
+      "mounted": true,
+      "textLength": 676,
+      "overflowPx": 0,
+      "axeNodes": 13,
+      "axeRules": {
+        "aria-progressbar-name": 1,
+        "color-contrast": 8,
+        "label": 4
+      }
+    }
+  ],
+  "builds": true,
+  "renders": true,
+  "axeNodes": 22,
+  "overflowPx": 0,
+  "onSystem": false
+}

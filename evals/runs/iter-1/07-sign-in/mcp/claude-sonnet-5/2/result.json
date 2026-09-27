@@ -1,0 +1,89 @@
+{
+  "prompt": "07-sign-in",
+  "tags": [
+    "a11y"
+  ],
+  "condition": "mcp",
+  "model": "claude-sonnet-5",
+  "repeat": 2,
+  "iteration": "1",
+  "source": {
+    "commit": "320a45c63ccf410e91943590bcd6202615d23ebc",
+    "dirty": []
+  },
+  "startedAt": "2026-09-27T14:26:08.533Z",
+  "wallMs": 136053,
+  "exitCode": 0,
+  "timedOut": false,
+  "editedProtectedFiles": [],
+  "toolCalls": {
+    "Read": 4,
+    "Glob": 1,
+    "mcp__strata__list_components": 1,
+    "mcp__strata__get_pattern": 2,
+    "mcp__strata__get_component": 6,
+    "mcp__strata__get_tokens": 2,
+    "Write": 2,
+    "mcp__strata__audit_snippet": 2
+  },
+  "pathsOutsideWorkspace": [],
+  "touchedRepo": false,
+  "usedMemory": false,
+  "cli": {
+    "isError": false,
+    "subtype": "success",
+    "turns": 21,
+    "durationMs": 134551,
+    "costUsd": 0.30463999999999997,
+    "usage": {
+      "input_tokens": 20,
+      "cache_creation_input_tokens": 35514,
+      "cache_read_input_tokens": 284620,
+      "output_tokens": 10562,
+      "output_tokens_details": {
+        "thinking_tokens": 6319
+      },
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 35514,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 2,
+          "output_tokens": 176,
+          "cache_read_input_tokens": 44463,
+          "cache_creation_input_tokens": 1536,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 1536
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-sonnet-5": {
+        "inputTokens": 20,
+        "outputTokens": 10562,
+        "cacheReadInputTokens": 284620,
+        "cacheCreationInputTokens": 35514,
+        "webSearchRequests": 0,
+        "costUSD": 0.30463999999999997,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 64000,
+        "thinkingTokens": 6319,
+        "canonicalModel": "claude-sonnet-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "finalMessage": "Both audits score 100 with no findings. The screen is complete: `src/screens/Screen.tsx` builds a Strata sign-in card (email, password with a show/hide toggle, \"Remember this device\" checkbox, and a \"Forgot password?\" link), mocked to open on a failed sign-in (a danger `Alert` plus an invalid password field), and submitting re-runs a mocked pending state on the `Button` before showing the same error again. Styles live in `src/screens/Screen.module.css`, using only tokens and logical properties."
+  }
+}

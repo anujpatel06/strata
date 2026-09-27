@@ -1,0 +1,262 @@
+.screen {
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-4, 16px);
+  max-inline-size: 720px;
+  margin-inline: auto;
+}
+
+.backLink {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--strata-space-2, 8px);
+  align-self: flex-start;
+  color: var(--strata-color-text-subtle, #55606b);
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.backLink:hover {
+  color: var(--strata-color-text-default, #1a2027);
+  text-decoration: underline;
+}
+
+.backArrow {
+  flex-shrink: 0;
+}
+
+:global([dir='rtl']) .backArrow {
+  transform: scaleX(-1);
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-1, 4px);
+}
+
+.title {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--strata-color-text-default, #1a2027);
+}
+
+.subtitle {
+  margin: 0;
+  color: var(--strata-color-text-subtle, #55606b);
+  font-size: 0.95rem;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-4, 16px);
+}
+
+.itemList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-3, 12px);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.itemRow {
+  display: grid;
+  grid-template-columns: auto auto 1fr auto;
+  grid-template-areas:
+    'checkbox thumb info price'
+    'checkbox thumb reason reason';
+  align-items: center;
+  column-gap: var(--strata-space-3, 12px);
+  row-gap: var(--strata-space-2, 8px);
+  padding: var(--strata-space-3, 12px);
+  border: 1px solid var(--strata-color-border-default, #d8dce1);
+  border-radius: var(--strata-radius-md, 12px);
+  background: var(--strata-color-surface-raised, #ffffff);
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+
+.itemRowSelected {
+  border-color: var(--strata-color-brand-default, #2f6feb);
+  background: var(--strata-color-brand-subtle, #eef4ff);
+}
+
+.checkbox {
+  grid-area: checkbox;
+  inline-size: 20px;
+  block-size: 20px;
+  accent-color: var(--strata-color-brand-default, #2f6feb);
+  cursor: pointer;
+}
+
+.itemThumb {
+  grid-area: thumb;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: 44px;
+  block-size: 44px;
+  border-radius: var(--strata-radius-sm, 8px);
+  background: var(--strata-color-surface-sunken, #f2f4f6);
+  font-size: 1.4rem;
+  cursor: pointer;
+}
+
+.itemInfo {
+  grid-area: info;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  cursor: pointer;
+  min-inline-size: 0;
+}
+
+.itemName {
+  font-weight: 600;
+  color: var(--strata-color-text-default, #1a2027);
+}
+
+.itemMeta {
+  font-size: 0.85rem;
+  color: var(--strata-color-text-subtle, #55606b);
+}
+
+.itemPrice {
+  grid-area: price;
+  font-weight: 600;
+  color: var(--strata-color-text-default, #1a2027);
+  white-space: nowrap;
+}
+
+.reasonField {
+  grid-area: reason;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.reasonLabel {
+  font-size: 0.8rem;
+  color: var(--strata-color-text-subtle, #55606b);
+}
+
+.reasonSelect {
+  inline-size: 100%;
+  box-sizing: border-box;
+  padding: var(--strata-space-2, 8px) var(--strata-space-3, 12px);
+  border: 1px solid var(--strata-color-border-default, #d8dce1);
+  border-radius: var(--strata-radius-sm, 8px);
+  background: var(--strata-color-surface-raised, #ffffff);
+  color: var(--strata-color-text-default, #1a2027);
+  font: inherit;
+}
+
+.reasonSelect:disabled {
+  color: var(--strata-color-text-subtle, #9aa3ad);
+  background: var(--strata-color-surface-sunken, #f2f4f6);
+  cursor: not-allowed;
+}
+
+.summary {
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-2, 8px);
+  padding: var(--strata-space-4, 16px);
+  border-radius: var(--strata-radius-md, 12px);
+  background: var(--strata-color-surface-raised, #ffffff);
+  border: 1px solid var(--strata-color-border-default, #d8dce1);
+}
+
+.summaryRow {
+  display: flex;
+  justify-content: space-between;
+  color: var(--strata-color-text-subtle, #55606b);
+  font-size: 0.9rem;
+}
+
+.summaryRowTotal {
+  display: flex;
+  justify-content: space-between;
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--strata-color-text-default, #1a2027);
+}
+
+.summaryHint {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--strata-color-text-subtle, #55606b);
+}
+
+.primaryButton {
+  margin-block-start: var(--strata-space-2, 8px);
+  padding: var(--strata-space-3, 12px) var(--strata-space-5, 20px);
+  border: none;
+  border-radius: var(--strata-radius-sm, 8px);
+  background: var(--strata-color-brand-default, #2f6feb);
+  color: var(--strata-color-text-on-brand, #ffffff);
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.15s ease;
+}
+
+.primaryButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.primaryButton:not(:disabled):hover {
+  opacity: 0.92;
+}
+
+.confirmation {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--strata-space-3, 12px);
+  padding: var(--strata-space-6, 24px);
+  border: 1px solid var(--strata-color-border-default, #d8dce1);
+  border-radius: var(--strata-radius-md, 12px);
+  background: var(--strata-color-surface-raised, #ffffff);
+}
+
+.confirmationIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: 40px;
+  block-size: 40px;
+  border-radius: 999px;
+  background: var(--strata-color-brand-subtle, #eef4ff);
+  color: var(--strata-color-brand-default, #2f6feb);
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
+.confirmationTitle {
+  margin: 0;
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--strata-color-text-default, #1a2027);
+}
+
+.confirmationBody {
+  margin: 0;
+  color: var(--strata-color-text-subtle, #55606b);
+  line-height: 1.5;
+}
+
+@media (max-width: 560px) {
+  .itemRow {
+    grid-template-columns: auto auto 1fr;
+    grid-template-areas:
+      'checkbox thumb info'
+      'checkbox thumb price'
+      'reason reason reason';
+  }
+}

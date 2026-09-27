@@ -1,0 +1,90 @@
+{
+  "prompt": "02-two-factor-settings",
+  "tags": [
+    "a11y"
+  ],
+  "condition": "mcp",
+  "model": "claude-sonnet-5",
+  "repeat": 1,
+  "iteration": "1",
+  "source": {
+    "commit": "320a45c63ccf410e91943590bcd6202615d23ebc",
+    "dirty": []
+  },
+  "startedAt": "2026-09-27T14:05:46.979Z",
+  "wallMs": 657838,
+  "exitCode": 0,
+  "timedOut": false,
+  "editedProtectedFiles": [],
+  "toolCalls": {
+    "Read": 4,
+    "Glob": 4,
+    "mcp__strata__list_components": 1,
+    "mcp__strata__get_component": 9,
+    "mcp__strata__get_example": 15,
+    "mcp__strata__get_tokens": 5,
+    "Grep": 1,
+    "Write": 2,
+    "mcp__strata__audit_snippet": 2
+  },
+  "pathsOutsideWorkspace": [],
+  "touchedRepo": false,
+  "usedMemory": false,
+  "cli": {
+    "isError": false,
+    "subtype": "success",
+    "turns": 44,
+    "durationMs": 655807,
+    "costUsd": 0.6561377999999999,
+    "usage": {
+      "input_tokens": 46,
+      "cache_creation_input_tokens": 56607,
+      "cache_read_input_tokens": 922339,
+      "output_tokens": 24515,
+      "output_tokens_details": {
+        "thinking_tokens": 14232
+      },
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 56607,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 2,
+          "output_tokens": 114,
+          "cache_read_input_tokens": 65924,
+          "cache_creation_input_tokens": 1168,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 1168
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-sonnet-5": {
+        "inputTokens": 46,
+        "outputTokens": 24515,
+        "cacheReadInputTokens": 922339,
+        "cacheCreationInputTokens": 56607,
+        "webSearchRequests": 0,
+        "costUSD": 0.6561377999999999,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 64000,
+        "thinkingTokens": 14232,
+        "canonicalModel": "claude-sonnet-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "finalMessage": "Both files score 100 with no findings. The screen is complete: a \"Security\" page with a Two-factor authentication card that lets the person toggle 2FA (with an `AlertDialog` confirmation before turning it off), choose between an authenticator app or text message via a card `RadioGroup`, and reveal, copy or regenerate mock backup codes."
+  }
+}

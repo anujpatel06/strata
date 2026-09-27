@@ -1,0 +1,108 @@
+.page {
+  display: grid;
+  gap: var(--strata-space-8);
+  max-inline-size: 960px;
+  margin-inline: auto;
+  padding: var(--strata-space-8) var(--strata-space-6);
+}
+
+.header {
+  display: grid;
+  gap: var(--strata-space-2);
+}
+
+.title {
+  margin: 0;
+  font-family: var(--strata-font-heading);
+  font-size: var(--strata-font-size-3xl);
+  font-weight: var(--strata-font-weight-semibold);
+  color: var(--strata-color-text-default);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--strata-space-6);
+}
+
+@media (min-width: 760px) {
+  .grid {
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    align-items: start;
+  }
+}
+
+.balanceContent {
+  display: grid;
+  gap: var(--strata-space-6);
+}
+
+.balanceFigure {
+  display: flex;
+  align-items: baseline;
+  gap: var(--strata-space-2);
+  margin: 0;
+}
+
+.balanceNumber {
+  font-family: var(--strata-font-heading);
+  font-size: var(--strata-font-size-5xl);
+  font-weight: var(--strata-font-weight-regular);
+  color: var(--strata-color-text-brand);
+  font-variant-numeric: tabular-nums;
+}
+
+.balanceUnit {
+  font-size: var(--strata-font-size-lg);
+  color: var(--strata-color-text-subtle);
+}
+
+.list {
+  display: grid;
+  gap: var(--strata-space-4);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: var(--strata-space-3);
+}
+
+.rowText {
+  display: grid;
+  gap: var(--strata-space-1);
+  flex: 1;
+  min-inline-size: 0;
+}
+
+.rowTitle {
+  font-size: var(--strata-font-size-sm);
+  font-weight: var(--strata-font-weight-medium);
+  color: var(--strata-color-text-default);
+}
+
+.rowMeta {
+  font-size: var(--strata-font-size-xs);
+  color: var(--strata-color-text-subtle);
+}
+
+.rowAmount {
+  font-variant-numeric: tabular-nums;
+  font-weight: var(--strata-font-weight-semibold);
+  font-size: var(--strata-font-size-sm);
+  color: var(--strata-color-text-subtle);
+  white-space: nowrap;
+}
+
+.rowAmount.positive {
+  color: var(--strata-color-feedback-success-fg);
+}
+
+.footnote {
+  margin: 0;
+  font-size: var(--strata-font-size-xs);
+  color: var(--strata-color-text-subtle);
+}

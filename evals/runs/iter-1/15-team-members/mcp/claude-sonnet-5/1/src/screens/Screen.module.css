@@ -1,0 +1,77 @@
+.root {
+  inline-size: 100%;
+}
+
+.page {
+  display: grid;
+  gap: var(--strata-space-6);
+  max-inline-size: 960px;
+  margin-inline: auto;
+  padding: var(--strata-space-8) var(--strata-space-6);
+}
+
+.header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--strata-space-4);
+  flex-wrap: wrap;
+}
+
+.titleBlock {
+  display: grid;
+  gap: var(--strata-space-1);
+}
+
+.title {
+  font-family: var(--strata-font-heading);
+  font-size: var(--strata-font-size-xl);
+  letter-spacing: var(--strata-font-heading-tracking);
+  font-weight: var(--strata-font-weight-semibold);
+  color: var(--strata-color-text-default);
+  margin: 0;
+}
+
+.description {
+  font-size: var(--strata-font-size-sm);
+  color: var(--strata-color-text-subtle);
+  margin: 0;
+}
+
+.card {
+  overflow: hidden;
+}
+
+.tableWell {
+  padding: 0;
+}
+
+.table {
+  inline-size: 100%;
+}
+
+.person {
+  display: flex;
+  align-items: center;
+  gap: var(--strata-space-3);
+}
+
+.personText {
+  display: grid;
+  gap: var(--strata-space-1);
+  min-inline-size: 0;
+}
+
+.personName {
+  font-weight: var(--strata-font-weight-medium);
+  color: var(--strata-color-text-default);
+}
+
+.personEmail {
+  font-size: var(--strata-font-size-sm);
+  color: var(--strata-color-text-subtle);
+}
+
+.quiet {
+  color: var(--strata-color-text-subtle);
+}

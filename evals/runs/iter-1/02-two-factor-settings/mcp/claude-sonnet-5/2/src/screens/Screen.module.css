@@ -1,0 +1,104 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-6);
+  max-inline-size: 640px;
+  margin-inline: auto;
+  padding-block: var(--strata-space-10);
+  padding-inline: var(--strata-space-6);
+}
+
+.pageTitle {
+  font-family: var(--strata-font-heading);
+  font-size: var(--strata-font-size-2xl);
+  font-weight: var(--strata-font-weight-semibold);
+  letter-spacing: var(--strata-font-heading-tracking);
+  color: var(--strata-color-text-default);
+  margin: 0;
+}
+
+.pageDescription {
+  font-family: var(--strata-font-body);
+  font-size: var(--strata-font-size-md);
+  color: var(--strata-color-text-subtle);
+  margin: 0;
+}
+
+.stack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-4);
+}
+
+.switch {
+  inline-size: 100%;
+}
+
+.methods {
+  inline-size: 100%;
+}
+
+.backupCodesHeader {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--strata-space-4);
+}
+
+.backupCodesActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--strata-space-2);
+}
+
+.rowLabel {
+  font-family: var(--strata-font-body);
+  font-size: var(--strata-font-size-md);
+  font-weight: var(--strata-font-weight-medium);
+  color: var(--strata-color-text-default);
+  margin: 0;
+}
+
+.rowDescription {
+  font-family: var(--strata-font-body);
+  font-size: var(--strata-font-size-sm);
+  color: var(--strata-color-text-subtle);
+  margin: var(--strata-space-1) 0 0;
+}
+
+.codesList {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--strata-space-2) var(--strata-space-4);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  inline-size: 100%;
+}
+
+.codeItem {
+  display: flex;
+  align-items: center;
+  gap: var(--strata-space-2);
+}
+
+.codeIcon {
+  color: var(--strata-color-text-subtle);
+  inline-size: var(--strata-font-size-md);
+  block-size: var(--strata-font-size-md);
+  flex-shrink: 0;
+}
+
+.code {
+  font-family: var(--strata-font-mono);
+  font-size: var(--strata-font-size-sm);
+  color: var(--strata-color-text-default);
+}
+
+.codeUsed {
+  font-family: var(--strata-font-mono);
+  font-size: var(--strata-font-size-sm);
+  color: var(--strata-color-text-disabled);
+  text-decoration: line-through;
+}

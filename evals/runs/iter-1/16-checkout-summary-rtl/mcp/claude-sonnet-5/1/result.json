@@ -1,0 +1,92 @@
+{
+  "prompt": "16-checkout-summary-rtl",
+  "tags": [
+    "rtl"
+  ],
+  "condition": "mcp",
+  "model": "claude-sonnet-5",
+  "repeat": 1,
+  "iteration": "1",
+  "source": {
+    "commit": "320a45c63ccf410e91943590bcd6202615d23ebc",
+    "dirty": []
+  },
+  "startedAt": "2026-09-27T14:58:26.063Z",
+  "wallMs": 269743,
+  "exitCode": 0,
+  "timedOut": false,
+  "editedProtectedFiles": [],
+  "toolCalls": {
+    "Read": 7,
+    "Glob": 2,
+    "mcp__strata__list_components": 1,
+    "mcp__strata__get_pattern": 1,
+    "mcp__strata__get_component": 8,
+    "mcp__strata__get_example": 6,
+    "Grep": 10,
+    "mcp__strata__get_tokens": 4,
+    "Write": 2,
+    "mcp__strata__audit_snippet": 3,
+    "Edit": 2
+  },
+  "pathsOutsideWorkspace": [],
+  "touchedRepo": false,
+  "usedMemory": false,
+  "cli": {
+    "isError": false,
+    "subtype": "success",
+    "turns": 47,
+    "durationMs": 268217,
+    "costUsd": 0.7301776000000002,
+    "usage": {
+      "input_tokens": 54,
+      "cache_creation_input_tokens": 63436,
+      "cache_read_input_tokens": 1237628,
+      "output_tokens": 22880,
+      "output_tokens_details": {
+        "thinking_tokens": 7917
+      },
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 63436,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 2,
+          "output_tokens": 236,
+          "cache_read_input_tokens": 73602,
+          "cache_creation_input_tokens": 319,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 319
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-sonnet-5": {
+        "inputTokens": 54,
+        "outputTokens": 22880,
+        "cacheReadInputTokens": 1237628,
+        "cacheCreationInputTokens": 63436,
+        "webSearchRequests": 0,
+        "costUSD": 0.7301776000000002,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 64000,
+        "thinkingTokens": 7917,
+        "canonicalModel": "claude-sonnet-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "finalMessage": "Both files score 100 on the Strata audit with no findings. The screen is complete: `src/screens/Screen.tsx` builds the checkout summary with a Card-based layout (delivery address with a \"Change\" link, a three-option delivery slot `RadioGroup`, an items list with a quantity stepper per row, a promo code `TextField` + Apply flow, and a price breakdown ending in a \"Place order\" `Button`), styled via `Screen.module.css` using only logical properties and `--strata-*` tokens. All copy is in English and everything is built from `@strata/react`/`@strata/icons` components with proper accessible names, so it should render correctly across brands, schemes and the `ar-AE` RTL locale."
+  }
+}

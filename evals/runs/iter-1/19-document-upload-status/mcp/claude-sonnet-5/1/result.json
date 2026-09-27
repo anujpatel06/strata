@@ -1,0 +1,90 @@
+{
+  "prompt": "19-document-upload-status",
+  "tags": [
+    "a11y"
+  ],
+  "condition": "mcp",
+  "model": "claude-sonnet-5",
+  "repeat": 1,
+  "iteration": "1",
+  "source": {
+    "commit": "320a45c63ccf410e91943590bcd6202615d23ebc",
+    "dirty": []
+  },
+  "startedAt": "2026-09-27T15:20:06.757Z",
+  "wallMs": 112560,
+  "exitCode": 0,
+  "timedOut": false,
+  "editedProtectedFiles": [],
+  "toolCalls": {
+    "Read": 3,
+    "mcp__strata__list_components": 1,
+    "mcp__strata__get_component": 7,
+    "mcp__strata__get_example": 8,
+    "Glob": 7,
+    "mcp__strata__get_pattern": 2,
+    "mcp__strata__get_tokens": 2,
+    "Write": 2,
+    "mcp__strata__audit_snippet": 1
+  },
+  "pathsOutsideWorkspace": [],
+  "touchedRepo": false,
+  "usedMemory": false,
+  "cli": {
+    "isError": false,
+    "subtype": "success",
+    "turns": 34,
+    "durationMs": 110813,
+    "costUsd": 0.3589434000000001,
+    "usage": {
+      "input_tokens": 34,
+      "cache_creation_input_tokens": 35625,
+      "cache_read_input_tokens": 511527,
+      "output_tokens": 11407,
+      "output_tokens_details": {
+        "thinking_tokens": 4686
+      },
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 35625,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 2,
+          "output_tokens": 152,
+          "cache_read_input_tokens": 44718,
+          "cache_creation_input_tokens": 1392,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 1392
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-sonnet-5": {
+        "inputTokens": 34,
+        "outputTokens": 11407,
+        "cacheReadInputTokens": 511527,
+        "cacheCreationInputTokens": 35625,
+        "webSearchRequests": 0,
+        "costUSD": 0.3589434000000001,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 64000,
+        "thinkingTokens": 4686,
+        "canonicalModel": "claude-sonnet-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "finalMessage": "Score 100, no findings. The screen is complete: `src/screens/Screen.tsx` renders four document cards (ID proof, address proof, bank statement, photo) each showing status via `Badge`/`Alert` (not uploaded, under review, approved, or rejected with reason), an overall `ProgressBar` summarizing approved count, and `FileUpload`/\"Replace document\" controls for uploading or replacing each document, all built from Strata components and tokens."
+  }
+}

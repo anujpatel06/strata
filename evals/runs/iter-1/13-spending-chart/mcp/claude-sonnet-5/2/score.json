@@ -1,0 +1,50 @@
+{
+  "prompt": "13-spending-chart",
+  "condition": "mcp",
+  "model": "claude-sonnet-5",
+  "repeat": 2,
+  "tags": [
+    "multi-brand"
+  ],
+  "scoredAt": "2026-09-27T15:51:05.437Z",
+  "built": true,
+  "agentFailed": false,
+  "editedProtectedFiles": [],
+  "contaminated": false,
+  "touchedRepo": false,
+  "toolCalls": {
+    "Read": 5,
+    "Glob": 4,
+    "mcp__strata__list_components": 1,
+    "mcp__strata__get_component": 7,
+    "mcp__strata__get_example": 5,
+    "mcp__strata__get_pattern": 2,
+    "mcp__strata__get_tokens": 4,
+    "Grep": 1,
+    "Write": 2,
+    "Edit": 2,
+    "mcp__strata__audit_snippet": 2
+  },
+  "files": 2,
+  "lines": 262,
+  "brandNames": 0,
+  "typeErrors": 3,
+  "typeErrorSample": [
+    "src/screens/Screen.tsx(21,3): error TS2305: Module '\"@strata/icons\"' has no exported member 'IconDeviceTv'.",
+    "src/screens/Screen.tsx(23,3): error TS2724: '\"@strata/icons\"' has no exported member named 'IconHeartbeat'. Did you mean 'IconHeart'?",
+    "src/screens/Screen.tsx(28,3): error TS2305: Module '\"@strata/icons\"' has no exported member 'IconToolsKitchen2'."
+  ],
+  "audit": {
+    "score": 100,
+    "findings": 0,
+    "opportunities": 25,
+    "byRule": {}
+  },
+  "views": [],
+  "builds": false,
+  "buildError": "✗ Build failed in 130ms\nerror during build:\nBuild failed with 3 errors:\n\n\u001b[31m[MISSING_EXPORT] \u001b[0m\"IconDeviceTv\" is not exported by \"../../strata-evals-prepared/app/node_modules/.pnpm/@strata+icons@file+..+..+..+..+..+..+..+..+var+folders+fq+fsw2rcjs6y3frnjl7zs9sf8h0000g_ad8d12cfb5af2d20909c0dafd61bfed2/node_modules/@strata/icons/src/index.ts\".\n   \u001b[38;5;246m╭\u001b[0m\u001b[38;5;246m─\u001b[0m\u001b[38;5;246m[\u001b[0m src/screens/Screen.tsx:3:29 \u001b[38;5;246m]\u001b[0m\n   \u001b[38;5;246m│\u001b[0m\n \u001b[38;5;246m3 │\u001b[0m \u001b[38;5;249mi\u001b[0m\u001b[38;5;249mm\u001b[0m\u001b[38;5;249mp\u001b[0m\u001b[38;5;249mo\u001b[0m\u001b[38;5;249mr\u001b[0m\u001b[38;5;249mt\u001b[0m\u001b[38;5;249m \u001b[0m\u001b[3",
+  "renders": false,
+  "axeNodes": null,
+  "overflowPx": null,
+  "onSystem": false
+}

@@ -1,0 +1,87 @@
+{
+  "prompt": "20-profile-edit-rtl",
+  "tags": [
+    "rtl",
+    "a11y"
+  ],
+  "condition": "none",
+  "model": "claude-sonnet-5",
+  "repeat": 1,
+  "iteration": "1",
+  "source": {
+    "commit": "320a45c63ccf410e91943590bcd6202615d23ebc",
+    "dirty": []
+  },
+  "startedAt": "2026-09-27T15:21:43.946Z",
+  "wallMs": 662933,
+  "exitCode": 0,
+  "timedOut": false,
+  "editedProtectedFiles": [],
+  "toolCalls": {
+    "Read": 34,
+    "Glob": 10,
+    "Grep": 35,
+    "Write": 2,
+    "Edit": 2
+  },
+  "pathsOutsideWorkspace": [],
+  "touchedRepo": false,
+  "usedMemory": false,
+  "cli": {
+    "isError": false,
+    "subtype": "success",
+    "turns": 84,
+    "durationMs": 661574,
+    "costUsd": 1.8132795999999998,
+    "usage": {
+      "input_tokens": 128,
+      "cache_creation_input_tokens": 119403,
+      "cache_read_input_tokens": 4185608,
+      "output_tokens": 49829,
+      "output_tokens_details": {
+        "thinking_tokens": 31547
+      },
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 119403,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 2,
+          "output_tokens": 410,
+          "cache_read_input_tokens": 125698,
+          "cache_creation_input_tokens": 2171,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 2171
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-sonnet-5": {
+        "inputTokens": 128,
+        "outputTokens": 49829,
+        "cacheReadInputTokens": 4185608,
+        "cacheCreationInputTokens": 119403,
+        "webSearchRequests": 0,
+        "costUSD": 1.8132795999999998,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 64000,
+        "thinkingTokens": 31547,
+        "canonicalModel": "claude-sonnet-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "finalMessage": "The edit profile screen is complete: `src/screens/Screen.tsx` and `src/screens/Screen.module.css`.\n\nIt includes:\n- A changeable profile photo (Avatar + \"Change photo\"/\"Remove\" using a hidden file input, previewed via a local object URL that's cleaned up on replace/cancel/unmount)\n- Full name, email, phone, date of birth (native date field via Strata's `TextField type=\"date\"`), and preferred language (`Select`, with English/Arabic among the options)\n- Per-field \"Changed\" badges plus a summary line (\"N fields changed since your last save\") that update live against the last-saved baseline\n- Cancel (reverts to the saved baseline) and Save (simulates a save, then shows a success toast \"Profile updated\")\n- Built entirely from `@strata/react`/`@strata/icons` components and public `@strata/tokens` CSS variables, using logical CSS properties throughout so it holds up in the Arabic RTL locale and across brands/light/dark.\n\nI verified all component APIs directly against the installed `@strata/react` type declarations rather than guessing, since no docs existed in the README. I can't run or typecheck the app per the task constraints, so please build/typecheck it on your end to confirm."
+  }
+}

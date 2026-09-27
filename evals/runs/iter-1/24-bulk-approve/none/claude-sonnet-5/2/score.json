@@ -1,0 +1,80 @@
+{
+  "prompt": "24-bulk-approve",
+  "condition": "none",
+  "model": "claude-sonnet-5",
+  "repeat": 2,
+  "tags": [
+    "a11y"
+  ],
+  "scoredAt": "2026-09-27T15:54:41.030Z",
+  "built": true,
+  "agentFailed": false,
+  "editedProtectedFiles": [],
+  "contaminated": false,
+  "touchedRepo": false,
+  "toolCalls": {
+    "Read": 8,
+    "Glob": 5,
+    "Write": 2
+  },
+  "files": 2,
+  "lines": 576,
+  "brandNames": 0,
+  "typeErrors": 0,
+  "audit": {
+    "score": 65,
+    "findings": 51,
+    "opportunities": 182,
+    "byRule": {
+      "raw-color": 37,
+      "off-scale-font-size": 1,
+      "physical-property": 3,
+      "native-element": 10
+    }
+  },
+  "views": [
+    {
+      "name": "light",
+      "query": "tenant=care&locale=en-IN",
+      "scheme": "light",
+      "width": 1280,
+      "pageErrors": [],
+      "mounted": true,
+      "textLength": 902,
+      "overflowPx": 0,
+      "axeNodes": 0,
+      "axeRules": {}
+    },
+    {
+      "name": "dark",
+      "query": "tenant=care&locale=en-IN",
+      "scheme": "dark",
+      "width": 1280,
+      "pageErrors": [],
+      "mounted": true,
+      "textLength": 902,
+      "overflowPx": 0,
+      "axeNodes": 18,
+      "axeRules": {
+        "color-contrast": 18
+      }
+    },
+    {
+      "name": "narrow",
+      "query": "tenant=care&locale=en-IN",
+      "scheme": "light",
+      "width": 390,
+      "pageErrors": [],
+      "mounted": true,
+      "textLength": 902,
+      "overflowPx": 0,
+      "axeNodes": 0,
+      "axeRules": {}
+    }
+  ],
+  "builds": true,
+  "renders": true,
+  "axeNodes": 18,
+  "overflowPx": 0,
+  "onSystem": false
+}

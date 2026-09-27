@@ -1,0 +1,271 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-5, 20px);
+  font-family: var(--strata-font-body, system-ui, sans-serif);
+  color: var(--strata-color-text-default, #1a1a1a);
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-1, 4px);
+}
+
+.title {
+  margin: 0;
+  font-size: var(--strata-font-size-xl, 1.5rem);
+  font-weight: var(--strata-font-weight-strong, 700);
+}
+
+.subtitle {
+  margin: 0;
+  color: var(--strata-color-text-muted, #5f5f5f);
+  font-size: var(--strata-font-size-sm, 0.875rem);
+}
+
+.bannerApproved,
+.bannerRejected {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--strata-space-3, 12px);
+  padding: var(--strata-space-3, 12px) var(--strata-space-4, 16px);
+  border-radius: var(--strata-radius-md, 8px);
+  font-size: var(--strata-font-size-sm, 0.875rem);
+}
+
+.bannerApproved {
+  background: var(--strata-color-success-subtle, #e3f6e8);
+  color: var(--strata-color-success-strong, #146c2e);
+}
+
+.bannerRejected {
+  background: var(--strata-color-danger-subtle, #fbe6e6);
+  color: var(--strata-color-danger-strong, #a1231f);
+}
+
+.bannerClose {
+  border: none;
+  background: transparent;
+  color: inherit;
+  font-size: 1.1rem;
+  line-height: 1;
+  cursor: pointer;
+  padding: var(--strata-space-1, 4px);
+}
+
+.toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--strata-space-3, 12px);
+  padding: var(--strata-space-3, 12px) var(--strata-space-4, 16px);
+  background: var(--strata-color-surface-raised, #f5f5f7);
+  border-radius: var(--strata-radius-md, 8px);
+  position: sticky;
+  top: 0;
+}
+
+.toolbarInfo {
+  font-size: var(--strata-font-size-sm, 0.875rem);
+  color: var(--strata-color-text-muted, #5f5f5f);
+}
+
+.toolbarActions {
+  display: flex;
+  gap: var(--strata-space-2, 8px);
+}
+
+.btnPrimary,
+.btnDanger,
+.btnGhost {
+  border-radius: var(--strata-radius-sm, 6px);
+  padding: var(--strata-space-2, 8px) var(--strata-space-4, 16px);
+  font-size: var(--strata-font-size-sm, 0.875rem);
+  font-weight: var(--strata-font-weight-medium, 600);
+  cursor: pointer;
+  border: 1px solid transparent;
+}
+
+.btnPrimary:disabled,
+.btnDanger:disabled,
+.btnGhost:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.btnPrimary {
+  background: var(--strata-color-brand-default, #1657d1);
+  color: var(--strata-color-text-on-brand, #ffffff);
+}
+
+.btnPrimary:not(:disabled):hover {
+  background: var(--strata-color-brand-strong, #0f3f9e);
+}
+
+.btnDanger {
+  background: var(--strata-color-danger-default, #c53030);
+  color: var(--strata-color-text-on-danger, #ffffff);
+}
+
+.btnDanger:not(:disabled):hover {
+  background: var(--strata-color-danger-strong, #a1231f);
+}
+
+.btnGhost {
+  background: transparent;
+  border-color: var(--strata-color-border-default, #d6d6db);
+  color: var(--strata-color-text-default, #1a1a1a);
+}
+
+.btnGhost:not(:disabled):hover {
+  background: var(--strata-color-surface-raised, #f5f5f7);
+}
+
+.tableWrap {
+  overflow-x: auto;
+  border: 1px solid var(--strata-color-border-default, #d6d6db);
+  border-radius: var(--strata-radius-md, 8px);
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--strata-font-size-sm, 0.875rem);
+}
+
+.table th,
+.table td {
+  padding: var(--strata-space-3, 12px) var(--strata-space-4, 16px);
+  text-align: start;
+  border-bottom: 1px solid var(--strata-color-border-subtle, #e7e7ea);
+  white-space: nowrap;
+}
+
+.table thead th {
+  background: var(--strata-color-surface-raised, #f5f5f7);
+  color: var(--strata-color-text-muted, #5f5f5f);
+  font-weight: var(--strata-font-weight-medium, 600);
+}
+
+.table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.rowSelected {
+  background: var(--strata-color-brand-subtle, #eaf1fd);
+}
+
+.checkboxCell {
+  width: 1%;
+}
+
+.amountCell {
+  text-align: end;
+}
+
+.employeeCell {
+  display: flex;
+  align-items: center;
+  gap: var(--strata-space-2, 8px);
+}
+
+.avatar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: 28px;
+  block-size: 28px;
+  border-radius: 50%;
+  background: var(--strata-color-brand-subtle, #dce8fb);
+  color: var(--strata-color-brand-strong, #0f3f9e);
+  font-size: var(--strata-font-size-xs, 0.75rem);
+  font-weight: var(--strata-font-weight-medium, 600);
+  flex-shrink: 0;
+}
+
+.receiptLink {
+  color: var(--strata-color-brand-default, #1657d1);
+  text-decoration: underline;
+}
+
+.statusPending,
+.statusApproved,
+.statusRejected {
+  display: inline-block;
+  padding: var(--strata-space-1, 4px) var(--strata-space-2, 8px);
+  border-radius: var(--strata-radius-pill, 999px);
+  font-size: var(--strata-font-size-xs, 0.75rem);
+  font-weight: var(--strata-font-weight-medium, 600);
+}
+
+.statusPending {
+  background: var(--strata-color-neutral-subtle, #eeeeee);
+  color: var(--strata-color-text-muted, #5f5f5f);
+}
+
+.statusApproved {
+  background: var(--strata-color-success-subtle, #e3f6e8);
+  color: var(--strata-color-success-strong, #146c2e);
+}
+
+.statusRejected {
+  background: var(--strata-color-danger-subtle, #fbe6e6);
+  color: var(--strata-color-danger-strong, #a1231f);
+}
+
+.dialogOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--strata-space-4, 16px);
+  z-index: 100;
+}
+
+.dialog {
+  background: var(--strata-color-surface-canvas, #ffffff);
+  color: var(--strata-color-text-default, #1a1a1a);
+  border-radius: var(--strata-radius-lg, 12px);
+  padding: var(--strata-space-5, 20px);
+  max-inline-size: 420px;
+  inline-size: 100%;
+  box-shadow: var(--strata-shadow-lg, 0 8px 30px rgba(0, 0, 0, 0.2));
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-3, 12px);
+}
+
+.dialogTitle {
+  margin: 0;
+  font-size: var(--strata-font-size-lg, 1.125rem);
+}
+
+.dialogLabel {
+  font-size: var(--strata-font-size-sm, 0.875rem);
+  font-weight: var(--strata-font-weight-medium, 600);
+}
+
+.textarea {
+  font-family: inherit;
+  font-size: var(--strata-font-size-sm, 0.875rem);
+  padding: var(--strata-space-2, 8px);
+  border-radius: var(--strata-radius-sm, 6px);
+  border: 1px solid var(--strata-color-border-default, #d6d6db);
+  resize: vertical;
+}
+
+.errorText {
+  margin: 0;
+  color: var(--strata-color-danger-strong, #a1231f);
+  font-size: var(--strata-font-size-xs, 0.75rem);
+}
+
+.dialogActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--strata-space-2, 8px);
+}

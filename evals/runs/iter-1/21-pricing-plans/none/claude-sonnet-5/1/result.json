@@ -1,0 +1,84 @@
+{
+  "prompt": "21-pricing-plans",
+  "tags": [
+    "multi-brand"
+  ],
+  "condition": "none",
+  "model": "claude-sonnet-5",
+  "repeat": 1,
+  "iteration": "1",
+  "source": {
+    "commit": "320a45c63ccf410e91943590bcd6202615d23ebc",
+    "dirty": []
+  },
+  "startedAt": "2026-09-27T15:28:37.207Z",
+  "wallMs": 117010,
+  "exitCode": 0,
+  "timedOut": false,
+  "editedProtectedFiles": [],
+  "toolCalls": {
+    "Read": 8,
+    "Glob": 6,
+    "Write": 2
+  },
+  "pathsOutsideWorkspace": [],
+  "touchedRepo": false,
+  "usedMemory": false,
+  "cli": {
+    "isError": false,
+    "subtype": "success",
+    "turns": 17,
+    "durationMs": 115669,
+    "costUsd": 0.2002836,
+    "usage": {
+      "input_tokens": 18,
+      "cache_creation_input_tokens": 15411,
+      "cache_read_input_tokens": 118118,
+      "output_tokens": 11498,
+      "output_tokens_details": {
+        "thinking_tokens": 5650
+      },
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 15411,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 2,
+          "output_tokens": 193,
+          "cache_read_input_tokens": 21401,
+          "cache_creation_input_tokens": 2476,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 2476
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-sonnet-5": {
+        "inputTokens": 18,
+        "outputTokens": 11498,
+        "cacheReadInputTokens": 118118,
+        "cacheCreationInputTokens": 15411,
+        "webSearchRequests": 0,
+        "costUSD": 0.2002836,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 64000,
+        "thinkingTokens": 5650,
+        "canonicalModel": "claude-sonnet-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "finalMessage": "The plan comparison screen is complete: `src/screens/Screen.tsx` (default export) with mock data for three plans (Starter, Growth — recommended, Scale), each with a name, price, one-line summary, and six included/excluded features, plus a monthly/yearly billing toggle. Styles are in `src/screens/Screen.module.css`, using Strata CSS variables (with safe fallbacks since `node_modules` isn't installed in this sandbox to verify `@strata/react` component props) and logical CSS properties so it adapts across brands, light/dark, and RTL locales."
+  }
+}

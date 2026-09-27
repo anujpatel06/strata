@@ -1,0 +1,84 @@
+{
+  "prompt": "25-onboarding-checklist",
+  "tags": [
+    "multi-brand"
+  ],
+  "condition": "none",
+  "model": "claude-sonnet-5",
+  "repeat": 2,
+  "iteration": "1",
+  "source": {
+    "commit": "320a45c63ccf410e91943590bcd6202615d23ebc",
+    "dirty": []
+  },
+  "startedAt": "2026-09-27T15:43:08.244Z",
+  "wallMs": 122644,
+  "exitCode": 0,
+  "timedOut": false,
+  "editedProtectedFiles": [],
+  "toolCalls": {
+    "Read": 7,
+    "Glob": 5,
+    "Write": 2
+  },
+  "pathsOutsideWorkspace": [],
+  "touchedRepo": false,
+  "usedMemory": false,
+  "cli": {
+    "isError": false,
+    "subtype": "success",
+    "turns": 15,
+    "durationMs": 121281,
+    "costUsd": 0.1982486,
+    "usage": {
+      "input_tokens": 16,
+      "cache_creation_input_tokens": 15195,
+      "cache_read_input_tokens": 96983,
+      "output_tokens": 11804,
+      "output_tokens_details": {
+        "thinking_tokens": 5432
+      },
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 15195,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 2,
+          "output_tokens": 398,
+          "cache_read_input_tokens": 21024,
+          "cache_creation_input_tokens": 2637,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 2637
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-sonnet-5": {
+        "inputTokens": 16,
+        "outputTokens": 11804,
+        "cacheReadInputTokens": 96983,
+        "cacheCreationInputTokens": 15195,
+        "webSearchRequests": 0,
+        "costUSD": 0.1982486,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 64000,
+        "thinkingTokens": 5432,
+        "canonicalModel": "claude-sonnet-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "finalMessage": "The onboarding checklist screen is complete: `src/screens/Screen.tsx` and `src/screens/Screen.module.css`.\n\n- **5 mock steps**, 2 marked `done` (verify email, secure account).\n- Each step is an accordion (`<button>` toggling `aria-expanded`) showing a description and a \"Start step\"/\"Review step\" button when opened.\n- **\"Invite your team\"** is locked because it `requires` the not-yet-done \"Create your first project\" step; when opened it shows a note explaining what to complete first, and its action button is disabled.\n- Overall progress bar + \"2 of 5 steps complete (40%)\" text at the top.\n- Styling uses `@strata/tokens` CSS variables (with sensible fallbacks) and logical CSS properties (`inline-size`, `padding-inline`, `text-align: start`, etc.) so it adapts across brands, light/dark, density, and RTL locales.\n\nNote: since `node_modules` isn't installed in this workspace, I couldn't inspect the actual `@strata/react` component API, so I built the UI with plain HTML elements styled via CSS Modules + Strata design tokens rather than guessing component names/props that might not compile."
+  }
+}

@@ -1,0 +1,109 @@
+{
+  "prompt": "04-overview-dashboard",
+  "condition": "none",
+  "model": "claude-sonnet-5",
+  "repeat": 2,
+  "tags": [
+    "multi-brand"
+  ],
+  "scoredAt": "2026-09-27T15:48:17.826Z",
+  "built": true,
+  "agentFailed": false,
+  "editedProtectedFiles": [],
+  "contaminated": false,
+  "touchedRepo": false,
+  "toolCalls": {
+    "Read": 5,
+    "Glob": 8,
+    "Write": 2
+  },
+  "files": 2,
+  "lines": 342,
+  "brandNames": 0,
+  "typeErrors": 0,
+  "audit": {
+    "score": 80.5,
+    "findings": 14,
+    "opportunities": 104,
+    "byRule": {
+      "raw-color": 14
+    }
+  },
+  "views": [
+    {
+      "name": "light",
+      "query": "tenant=vela&locale=en-IN",
+      "scheme": "light",
+      "width": 1280,
+      "pageErrors": [],
+      "mounted": true,
+      "textLength": 587,
+      "overflowPx": 0,
+      "axeNodes": 3,
+      "axeRules": {
+        "color-contrast": 3
+      }
+    },
+    {
+      "name": "dark",
+      "query": "tenant=vela&locale=en-IN",
+      "scheme": "dark",
+      "width": 1280,
+      "pageErrors": [],
+      "mounted": true,
+      "textLength": 587,
+      "overflowPx": 0,
+      "axeNodes": 17,
+      "axeRules": {
+        "color-contrast": 17
+      }
+    },
+    {
+      "name": "narrow",
+      "query": "tenant=vela&locale=en-IN",
+      "scheme": "light",
+      "width": 390,
+      "pageErrors": [],
+      "mounted": true,
+      "textLength": 587,
+      "overflowPx": 0,
+      "axeNodes": 3,
+      "axeRules": {
+        "color-contrast": 3
+      }
+    },
+    {
+      "name": "brand:harbor",
+      "query": "tenant=harbor&locale=en-IN",
+      "scheme": "light",
+      "width": 1280,
+      "pageErrors": [],
+      "mounted": true,
+      "textLength": 587,
+      "overflowPx": 0,
+      "axeNodes": 3,
+      "axeRules": {
+        "color-contrast": 3
+      }
+    },
+    {
+      "name": "brand:care",
+      "query": "tenant=care&locale=en-IN",
+      "scheme": "light",
+      "width": 1280,
+      "pageErrors": [],
+      "mounted": true,
+      "textLength": 587,
+      "overflowPx": 0,
+      "axeNodes": 3,
+      "axeRules": {
+        "color-contrast": 3
+      }
+    }
+  ],
+  "builds": true,
+  "renders": true,
+  "axeNodes": 17,
+  "overflowPx": 0,
+  "onSystem": false
+}

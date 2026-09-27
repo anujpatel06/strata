@@ -1,0 +1,92 @@
+{
+  "prompt": "10-notifications-inbox",
+  "condition": "none",
+  "model": "claude-sonnet-5",
+  "repeat": 1,
+  "tags": [
+    "a11y"
+  ],
+  "scoredAt": "2026-09-27T15:50:07.660Z",
+  "built": true,
+  "agentFailed": false,
+  "editedProtectedFiles": [],
+  "contaminated": false,
+  "touchedRepo": false,
+  "toolCalls": {
+    "Read": 7,
+    "Glob": 9,
+    "Write": 2,
+    "Edit": 2
+  },
+  "files": 2,
+  "lines": 559,
+  "brandNames": 0,
+  "typeErrors": 1,
+  "typeErrorSample": [
+    "src/screens/Screen.tsx(92,72): error TS2503: Cannot find namespace 'JSX'."
+  ],
+  "audit": {
+    "score": 75.8,
+    "findings": 52,
+    "opportunities": 196,
+    "byRule": {
+      "raw-color": 28,
+      "off-scale-font-size": 10,
+      "raw-font-weight": 7,
+      "off-scale-space": 3,
+      "off-scale-radius": 1,
+      "native-element": 3
+    }
+  },
+  "views": [
+    {
+      "name": "light",
+      "query": "tenant=harbor&locale=en-GB",
+      "scheme": "light",
+      "width": 1280,
+      "pageErrors": [],
+      "mounted": true,
+      "textLength": 825,
+      "overflowPx": 0,
+      "axeNodes": 10,
+      "axeRules": {
+        "aria-prohibited-attr": 4,
+        "color-contrast": 6
+      }
+    },
+    {
+      "name": "dark",
+      "query": "tenant=harbor&locale=en-GB",
+      "scheme": "dark",
+      "width": 1280,
+      "pageErrors": [],
+      "mounted": true,
+      "textLength": 825,
+      "overflowPx": 0,
+      "axeNodes": 4,
+      "axeRules": {
+        "aria-prohibited-attr": 4
+      }
+    },
+    {
+      "name": "narrow",
+      "query": "tenant=harbor&locale=en-GB",
+      "scheme": "light",
+      "width": 390,
+      "pageErrors": [],
+      "mounted": true,
+      "textLength": 825,
+      "overflowPx": 0,
+      "axeNodes": 10,
+      "axeRules": {
+        "aria-prohibited-attr": 4,
+        "color-contrast": 6
+      }
+    }
+  ],
+  "builds": true,
+  "renders": true,
+  "axeNodes": 10,
+  "overflowPx": 0,
+  "onSystem": false
+}

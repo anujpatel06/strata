@@ -1,0 +1,183 @@
+.screen {
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-6, 24px);
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-1, 4px);
+}
+
+.title {
+  margin: 0;
+  font-family: var(--strata-font-heading, var(--strata-font-body));
+  font-size: var(--strata-font-size-xl, 28px);
+  font-weight: var(--strata-font-weight-bold, 700);
+  color: var(--strata-color-text-default);
+}
+
+.subtitle {
+  margin: 0;
+  font-size: var(--strata-font-size-md, 15px);
+  color: var(--strata-color-text-secondary, #6b7280);
+}
+
+.metrics {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--strata-space-4, 16px);
+}
+
+.metricCard {
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-2, 8px);
+  padding: var(--strata-space-5, 20px);
+  background: var(--strata-color-surface-raised, #fff);
+  border: 1px solid var(--strata-color-border-default, #e5e7eb);
+  border-radius: var(--strata-radius-lg, 12px);
+}
+
+.metricLabel {
+  margin: 0;
+  font-size: var(--strata-font-size-sm, 13px);
+  color: var(--strata-color-text-secondary, #6b7280);
+}
+
+.metricValue {
+  margin: 0;
+  font-size: var(--strata-font-size-lg, 22px);
+  font-weight: var(--strata-font-weight-bold, 700);
+  color: var(--strata-color-text-default);
+}
+
+.change {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--strata-space-1, 4px);
+  font-size: var(--strata-font-size-sm, 13px);
+  font-weight: var(--strata-font-weight-medium, 500);
+  width: fit-content;
+}
+
+.changeArrow {
+  font-size: 0.9em;
+  line-height: 1;
+}
+
+.changeUp {
+  color: var(--strata-color-feedback-positive, #16a34a);
+}
+
+.changeDown {
+  color: var(--strata-color-feedback-negative, #dc2626);
+}
+
+.banner {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--strata-space-3, 12px);
+  padding: var(--strata-space-4, 16px);
+  background: var(--strata-color-feedback-warning-subtle, #fef3c7);
+  border: 1px solid var(--strata-color-feedback-warning, #d97706);
+  border-radius: var(--strata-radius-lg, 12px);
+}
+
+.bannerIcon {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: var(--strata-space-6, 24px);
+  block-size: var(--strata-space-6, 24px);
+  border-radius: var(--strata-radius-full, 50%);
+  background: var(--strata-color-feedback-warning, #d97706);
+  color: var(--strata-color-text-inverse, #fff);
+  font-size: var(--strata-font-size-sm, 13px);
+  font-weight: var(--strata-font-weight-bold, 700);
+}
+
+.bannerText {
+  margin: 0;
+  font-size: var(--strata-font-size-md, 15px);
+  color: var(--strata-color-text-default);
+}
+
+.activitySection {
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-3, 12px);
+}
+
+.sectionTitle {
+  margin: 0;
+  font-size: var(--strata-font-size-lg, 18px);
+  font-weight: var(--strata-font-weight-bold, 700);
+  color: var(--strata-color-text-default);
+}
+
+.activityList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  background: var(--strata-color-surface-raised, #fff);
+  border: 1px solid var(--strata-color-border-default, #e5e7eb);
+  border-radius: var(--strata-radius-lg, 12px);
+  overflow: hidden;
+}
+
+.activityItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--strata-space-4, 16px);
+  padding: var(--strata-space-4, 16px);
+}
+
+.activityItem + .activityItem {
+  border-block-start: 1px solid var(--strata-color-border-default, #e5e7eb);
+}
+
+.activityDetails {
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-1, 4px);
+}
+
+.activityDescription {
+  margin: 0;
+  font-size: var(--strata-font-size-md, 15px);
+  font-weight: var(--strata-font-weight-medium, 500);
+  color: var(--strata-color-text-default);
+}
+
+.activityDate {
+  margin: 0;
+  font-size: var(--strata-font-size-sm, 13px);
+  color: var(--strata-color-text-secondary, #6b7280);
+}
+
+.activityAmount {
+  flex: none;
+  font-size: var(--strata-font-size-md, 15px);
+  font-weight: var(--strata-font-weight-medium, 500);
+}
+
+@media (max-width: 720px) {
+  .metrics {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 420px) {
+  .metrics {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

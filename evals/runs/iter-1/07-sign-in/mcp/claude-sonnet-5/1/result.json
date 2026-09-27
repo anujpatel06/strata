@@ -1,0 +1,90 @@
+{
+  "prompt": "07-sign-in",
+  "tags": [
+    "a11y"
+  ],
+  "condition": "mcp",
+  "model": "claude-sonnet-5",
+  "repeat": 1,
+  "iteration": "1",
+  "source": {
+    "commit": "320a45c63ccf410e91943590bcd6202615d23ebc",
+    "dirty": []
+  },
+  "startedAt": "2026-09-27T14:24:56.561Z",
+  "wallMs": 93322,
+  "exitCode": 0,
+  "timedOut": false,
+  "editedProtectedFiles": [],
+  "toolCalls": {
+    "Read": 3,
+    "Glob": 1,
+    "mcp__strata__list_components": 1,
+    "mcp__strata__get_pattern": 2,
+    "mcp__strata__get_component": 6,
+    "mcp__strata__get_example": 2,
+    "mcp__strata__get_tokens": 1,
+    "Write": 2,
+    "mcp__strata__audit_snippet": 2
+  },
+  "pathsOutsideWorkspace": [],
+  "touchedRepo": false,
+  "usedMemory": false,
+  "cli": {
+    "isError": false,
+    "subtype": "success",
+    "turns": 21,
+    "durationMs": 91943,
+    "costUsd": 0.25094879999999997,
+    "usage": {
+      "input_tokens": 18,
+      "cache_creation_input_tokens": 31002,
+      "cache_read_input_tokens": 236124,
+      "output_tokens": 7968,
+      "output_tokens_details": {
+        "thinking_tokens": 3568
+      },
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 31002,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 2,
+          "output_tokens": 308,
+          "cache_read_input_tokens": 39941,
+          "cache_creation_input_tokens": 1546,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 1546
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-sonnet-5": {
+        "inputTokens": 18,
+        "outputTokens": 7968,
+        "cacheReadInputTokens": 236124,
+        "cacheCreationInputTokens": 31002,
+        "webSearchRequests": 0,
+        "costUSD": 0.25094879999999997,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 64000,
+        "thinkingTokens": 3568,
+        "canonicalModel": "claude-sonnet-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "finalMessage": "Both files pass the audit clean (score 100, no findings). I can't run the app to visually verify, so I'll stop here.\n\n**Summary:** Built the sign-in screen in `src/screens/Screen.tsx` with styles in `src/screens/Screen.module.css`, using only Strata components (`Card`, `TextField`, `Checkbox`, `Link`, `Button`, `Alert`). Mock state loads with a wrong-password error shown via a danger `Alert` plus an invalid password field; the password field has a show/hide toggle (`IconEye`/`IconEyeOff` icon button with `aria-label`), there's a \"Remember this device\" checkbox and a \"Forgot password?\" link, and submitting the form drives the sign-in button's `isPending` state before reverting to the same mock failure. Both files audit clean at 100 with no findings. I did not run the app since I can't — worth a manual check in a browser before shipping."
+  }
+}

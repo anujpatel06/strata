@@ -1,0 +1,86 @@
+{
+  "prompt": "20-profile-edit-rtl",
+  "tags": [
+    "rtl",
+    "a11y"
+  ],
+  "condition": "none",
+  "model": "claude-sonnet-5",
+  "repeat": 2,
+  "iteration": "1",
+  "source": {
+    "commit": "320a45c63ccf410e91943590bcd6202615d23ebc",
+    "dirty": []
+  },
+  "startedAt": "2026-09-27T15:21:59.325Z",
+  "wallMs": 155453,
+  "exitCode": 0,
+  "timedOut": false,
+  "editedProtectedFiles": [],
+  "toolCalls": {
+    "Read": 7,
+    "Glob": 7,
+    "Grep": 1,
+    "Write": 2
+  },
+  "pathsOutsideWorkspace": [],
+  "touchedRepo": false,
+  "usedMemory": false,
+  "cli": {
+    "isError": false,
+    "subtype": "success",
+    "turns": 18,
+    "durationMs": 154036,
+    "costUsd": 0.2945782,
+    "usage": {
+      "input_tokens": 24,
+      "cache_creation_input_tokens": 21364,
+      "cache_read_input_tokens": 163721,
+      "output_tokens": 17633,
+      "output_tokens_details": {
+        "thinking_tokens": 9796
+      },
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 21364,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 2,
+          "output_tokens": 360,
+          "cache_read_input_tokens": 27018,
+          "cache_creation_input_tokens": 2812,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 2812
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-sonnet-5": {
+        "inputTokens": 24,
+        "outputTokens": 17633,
+        "cacheReadInputTokens": 163721,
+        "cacheCreationInputTokens": 21364,
+        "webSearchRequests": 0,
+        "costUSD": 0.2945782,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 64000,
+        "thinkingTokens": 9796,
+        "canonicalModel": "claude-sonnet-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "finalMessage": "The screen is complete: `src/screens/Screen.tsx` (default export) with `src/screens/Screen.module.css`.\n\n- **Photo**: circular avatar with initials fallback, \"Change photo\" (file picker → local preview) and \"Remove photo\".\n- **Fields**: full name, email, phone, date of birth, preferred language (select), each showing an \"Edited\" badge when it differs from the last-saved mock data.\n- **Change tracking**: draft state is diffed against the saved snapshot; unsaved-changes text appears above the actions, and Save/Cancel are disabled when nothing changed.\n- **Save flow**: Save simulates an async save, then shows \"Profile saved.\" (via `aria-live=\"polite\"`); Cancel reverts the draft to the last saved values.\n- Styled with logical CSS properties and Strata token `var()`s with sensible fallbacks (no `@strata/react` component imports, since `node_modules` isn't installed in this snapshot and I couldn't verify its API), so it should theme correctly across brands, light/dark, and the Arabic RTL locale."
+  }
+}

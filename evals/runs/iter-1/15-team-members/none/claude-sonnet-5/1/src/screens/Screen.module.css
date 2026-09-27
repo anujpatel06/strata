@@ -1,0 +1,352 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-6, 24px);
+}
+
+.header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--strata-space-4, 16px);
+}
+
+.title {
+  margin: 0 0 var(--strata-space-1, 4px);
+  font-family: var(--strata-font-heading, inherit);
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.subtitle {
+  margin: 0;
+  color: color-mix(in srgb, currentColor 65%, transparent);
+  font-size: 0.9rem;
+}
+
+.inviteButton {
+  flex-shrink: 0;
+  border: none;
+  border-radius: var(--strata-radius-md, 8px);
+  background: var(--strata-color-accent, #4f46e5);
+  color: var(--strata-color-on-accent, #fff);
+  font: inherit;
+  font-weight: 600;
+  font-size: 0.9rem;
+  padding: var(--strata-space-3, 10px) var(--strata-space-5, 20px);
+  cursor: pointer;
+}
+
+.inviteButton:hover {
+  filter: brightness(1.08);
+}
+
+.inviteButton:focus-visible {
+  outline: 2px solid var(--strata-color-accent, #4f46e5);
+  outline-offset: 2px;
+}
+
+.secondaryButton {
+  border: 1px solid color-mix(in srgb, currentColor 22%, transparent);
+  border-radius: var(--strata-radius-md, 8px);
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  font-weight: 600;
+  font-size: 0.9rem;
+  padding: var(--strata-space-3, 10px) var(--strata-space-5, 20px);
+  cursor: pointer;
+}
+
+.secondaryButton:hover {
+  background: color-mix(in srgb, currentColor 6%, transparent);
+}
+
+.tableWrap {
+  border: 1px solid color-mix(in srgb, currentColor 12%, transparent);
+  border-radius: var(--strata-radius-lg, 12px);
+  background: color-mix(in srgb, currentColor 3%, transparent);
+  overflow: visible;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: start;
+}
+
+.table th {
+  text-align: start;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: color-mix(in srgb, currentColor 60%, transparent);
+  padding: var(--strata-space-3, 12px) var(--strata-space-4, 16px);
+  border-bottom: 1px solid color-mix(in srgb, currentColor 12%, transparent);
+}
+
+.table td {
+  padding: var(--strata-space-3, 12px) var(--strata-space-4, 16px);
+  border-bottom: 1px solid color-mix(in srgb, currentColor 8%, transparent);
+  vertical-align: middle;
+}
+
+.table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.actionsHeader {
+  width: 48px;
+}
+
+.person {
+  display: flex;
+  align-items: center;
+  gap: var(--strata-space-3, 12px);
+}
+
+.avatar {
+  flex-shrink: 0;
+  inline-size: 36px;
+  block-size: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: color-mix(in srgb, var(--strata-color-accent, #4f46e5) 18%, transparent);
+  color: var(--strata-color-accent, #4f46e5);
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.personInfo {
+  min-inline-size: 0;
+}
+
+.name {
+  display: flex;
+  align-items: center;
+  gap: var(--strata-space-2, 8px);
+  font-weight: 600;
+}
+
+.youTag {
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 1px var(--strata-space-2, 8px);
+  border-radius: var(--strata-radius-sm, 999px);
+  background: color-mix(in srgb, currentColor 12%, transparent);
+  color: inherit;
+}
+
+.email {
+  font-size: 0.85rem;
+  color: color-mix(in srgb, currentColor 60%, transparent);
+}
+
+.roleBadge {
+  display: inline-flex;
+  align-items: center;
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: var(--strata-space-1, 4px) var(--strata-space-3, 10px);
+  border-radius: var(--strata-radius-sm, 999px);
+  border: 1px solid color-mix(in srgb, currentColor 16%, transparent);
+  text-transform: capitalize;
+}
+
+.roleBadge[data-role='owner'] {
+  background: color-mix(in srgb, var(--strata-color-accent, #4f46e5) 16%, transparent);
+  color: var(--strata-color-accent, #4f46e5);
+  border-color: transparent;
+}
+
+.roleBadge[data-role='admin'] {
+  background: color-mix(in srgb, currentColor 10%, transparent);
+}
+
+.roleBadge[data-role='member'] {
+  background: transparent;
+}
+
+.lastActive {
+  font-size: 0.85rem;
+  color: color-mix(in srgb, currentColor 65%, transparent);
+  white-space: nowrap;
+}
+
+.actionsCell {
+  text-align: end;
+  position: relative;
+}
+
+.menuWrap {
+  position: relative;
+  display: inline-flex;
+}
+
+.menuButton {
+  border: none;
+  background: transparent;
+  color: inherit;
+  border-radius: var(--strata-radius-sm, 6px);
+  inline-size: 32px;
+  block-size: 32px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  cursor: pointer;
+}
+
+.menuButton:hover {
+  background: color-mix(in srgb, currentColor 10%, transparent);
+}
+
+.menu {
+  position: absolute;
+  z-index: 20;
+  inset-inline-end: 0;
+  top: calc(100% + 4px);
+  min-inline-size: 190px;
+  background: var(--strata-color-surface-raised, canvas);
+  border: 1px solid color-mix(in srgb, currentColor 14%, transparent);
+  border-radius: var(--strata-radius-md, 8px);
+  box-shadow: 0 8px 24px color-mix(in srgb, black 18%, transparent);
+  padding: var(--strata-space-2, 6px);
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.menuLabel {
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: color-mix(in srgb, currentColor 55%, transparent);
+  padding: var(--strata-space-2, 6px) var(--strata-space-3, 10px) 2px;
+}
+
+.menuItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--strata-space-2, 8px);
+  border: none;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  font-size: 0.88rem;
+  text-align: start;
+  padding: var(--strata-space-2, 8px) var(--strata-space-3, 10px);
+  border-radius: var(--strata-radius-sm, 6px);
+  cursor: pointer;
+}
+
+.menuItem:hover {
+  background: color-mix(in srgb, currentColor 8%, transparent);
+}
+
+.menuCheck {
+  color: var(--strata-color-accent, #4f46e5);
+  font-weight: 700;
+}
+
+.menuDivider {
+  block-size: 1px;
+  margin: var(--strata-space-1, 4px) 0;
+  background: color-mix(in srgb, currentColor 12%, transparent);
+}
+
+.menuItemDanger {
+  color: var(--strata-color-danger, #dc2626);
+}
+
+.menuItemDanger:hover {
+  background: color-mix(in srgb, var(--strata-color-danger, #dc2626) 12%, transparent);
+}
+
+.srOnly {
+  position: absolute;
+  inline-size: 1px;
+  block-size: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+.dialog {
+  border: none;
+  border-radius: var(--strata-radius-lg, 12px);
+  padding: 0;
+  inline-size: min(420px, calc(100vw - 32px));
+  color: inherit;
+  background: var(--strata-color-surface-raised, var(--strata-color-surface-canvas, canvas));
+  box-shadow: 0 20px 60px color-mix(in srgb, black 30%, transparent);
+}
+
+.dialog::backdrop {
+  background: color-mix(in srgb, black 45%, transparent);
+}
+
+.dialogForm {
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-4, 16px);
+  padding: var(--strata-space-6, 24px);
+}
+
+.dialogTitle {
+  margin: 0;
+  font-size: 1.15rem;
+  font-weight: 700;
+}
+
+.dialogSubtitle {
+  margin: calc(var(--strata-space-1, 4px) * -1) 0 0;
+  font-size: 0.85rem;
+  color: color-mix(in srgb, currentColor 60%, transparent);
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-1, 6px);
+}
+
+.fieldLabel {
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.input,
+.select {
+  font: inherit;
+  font-size: 0.9rem;
+  padding: var(--strata-space-2, 10px) var(--strata-space-3, 12px);
+  border-radius: var(--strata-radius-sm, 6px);
+  border: 1px solid color-mix(in srgb, currentColor 22%, transparent);
+  background: color-mix(in srgb, currentColor 3%, transparent);
+  color: inherit;
+}
+
+.input:focus,
+.select:focus {
+  outline: 2px solid var(--strata-color-accent, #4f46e5);
+  outline-offset: 1px;
+}
+
+.errorText {
+  margin: 0;
+  font-size: 0.82rem;
+  color: var(--strata-color-danger, #dc2626);
+}
+
+.dialogActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--strata-space-3, 10px);
+  margin-top: var(--strata-space-2, 8px);
+}

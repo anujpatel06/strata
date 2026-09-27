@@ -1,0 +1,85 @@
+{
+  "prompt": "22-support-ticket",
+  "tags": [
+    "a11y"
+  ],
+  "condition": "none",
+  "model": "claude-sonnet-5",
+  "repeat": 2,
+  "iteration": "1",
+  "source": {
+    "commit": "320a45c63ccf410e91943590bcd6202615d23ebc",
+    "dirty": []
+  },
+  "startedAt": "2026-09-27T15:33:19.896Z",
+  "wallMs": 120160,
+  "exitCode": 0,
+  "timedOut": false,
+  "editedProtectedFiles": [],
+  "toolCalls": {
+    "Read": 8,
+    "Glob": 7,
+    "Grep": 1,
+    "Write": 2
+  },
+  "pathsOutsideWorkspace": [],
+  "touchedRepo": false,
+  "usedMemory": false,
+  "cli": {
+    "isError": false,
+    "subtype": "success",
+    "turns": 19,
+    "durationMs": 118670,
+    "costUsd": 0.2124868,
+    "usage": {
+      "input_tokens": 18,
+      "cache_creation_input_tokens": 16201,
+      "cache_read_input_tokens": 114934,
+      "output_tokens": 12466,
+      "output_tokens_details": {
+        "thinking_tokens": 4682
+      },
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 16201,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 2,
+          "output_tokens": 551,
+          "cache_read_input_tokens": 22064,
+          "cache_creation_input_tokens": 2603,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 2603
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-sonnet-5": {
+        "inputTokens": 18,
+        "outputTokens": 12466,
+        "cacheReadInputTokens": 114934,
+        "cacheCreationInputTokens": 16201,
+        "webSearchRequests": 0,
+        "costUSD": 0.2124868,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 64000,
+        "thinkingTokens": 4682,
+        "canonicalModel": "claude-sonnet-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "finalMessage": "I've built the support request form in `src/screens/Screen.tsx` with styles in `src/screens/Screen.module.css`.\n\nNotes on the approach:\n- No `node_modules`/`@strata/react` API is present in the project (only `package.json` references it), so I couldn't safely guess its component props. I used plain semantic HTML (`select`, `input`, `textarea`, `fieldset`) styled to match the theme via the Strata CSS custom properties (`--strata-color-*`, `--strata-space-*`, `--strata-font-*`, `--strata-radius-*`) that are already loaded globally in `main.tsx`, each with a sensible fallback so it still looks correct if a particular token name doesn't exist.\n- All spacing uses logical properties (`margin-inline`, `padding-inline`, `inset`-agnostic layout) so it works correctly in the RTL locale too.\n\nForm behavior:\n- Topic: mock list of 5 topics in a `select`.\n- Subject: required text input.\n- Description: textarea capped at 500 chars, showing \"N characters left\" (turns to an error color under 20 remaining).\n- Attachment: optional file input with a remove option.\n- Contact preference: radio group (Email / Phone / No preference).\n- Validation on submit for all required fields; on success, the form is replaced by a confirmation view showing a mock-generated reference number (e.g. `SR-XXXXXX`) and a button to submit another request.\n\nI can't run or typecheck the app per the instructions, so I'd recommend running `pnpm install && pnpm typecheck`/`pnpm dev` once dependencies are available to confirm everything compiles cleanly."
+  }
+}

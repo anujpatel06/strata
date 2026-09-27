@@ -1,0 +1,84 @@
+{
+  "prompt": "05-danger-zone",
+  "tags": [
+    "a11y"
+  ],
+  "condition": "none",
+  "model": "claude-sonnet-5",
+  "repeat": 1,
+  "iteration": "1",
+  "source": {
+    "commit": "320a45c63ccf410e91943590bcd6202615d23ebc",
+    "dirty": []
+  },
+  "startedAt": "2026-09-27T14:16:05.610Z",
+  "wallMs": 109216,
+  "exitCode": 0,
+  "timedOut": false,
+  "editedProtectedFiles": [],
+  "toolCalls": {
+    "Read": 5,
+    "Glob": 6,
+    "Write": 2
+  },
+  "pathsOutsideWorkspace": [],
+  "touchedRepo": false,
+  "usedMemory": false,
+  "cli": {
+    "isError": false,
+    "subtype": "success",
+    "turns": 14,
+    "durationMs": 107214,
+    "costUsd": 0.1907724,
+    "usage": {
+      "input_tokens": 18,
+      "cache_creation_input_tokens": 14462,
+      "cache_read_input_tokens": 106192,
+      "output_tokens": 11165,
+      "output_tokens_details": {
+        "thinking_tokens": 3370
+      },
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 14462,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 2,
+          "output_tokens": 375,
+          "cache_read_input_tokens": 19872,
+          "cache_creation_input_tokens": 3056,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 3056
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-sonnet-5": {
+        "inputTokens": 18,
+        "outputTokens": 11165,
+        "cacheReadInputTokens": 106192,
+        "cacheCreationInputTokens": 14462,
+        "webSearchRequests": 0,
+        "costUSD": 0.1907724,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 64000,
+        "thinkingTokens": 3370,
+        "canonicalModel": "claude-sonnet-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "finalMessage": "Screen built at `src/screens/Screen.tsx` with styles in `src/screens/Screen.module.css`.\n\n- **Profile details**: editable name/email/phone fields (mock data pre-filled), Save button enabled only on change, with a transient \"Saved\" confirmation.\n- **Notification preferences**: four accessible on/off switches (role=\"switch\") with labels and descriptions, mock defaults.\n- **Close account**: danger-zone button opens an `alertdialog` confirmation listing exactly what will be lost, requires checking \"I understand this action is permanent\" before the final destructive button is enabled; Escape/overlay click/Cancel dismiss it; confirming shows a closed-account state.\n\nSince `node_modules` isn't installed and the `@strata/*` packages live outside this folder (so I couldn't inspect their API without reading outside the working directory), I used plain semantic HTML/React state instead of guessing at `@strata/react` component props, and styled everything with Strata's CSS custom properties (with sensible fallbacks) plus logical properties so it should adapt correctly across brands, light/dark, density, and RTL locales."
+  }
+}

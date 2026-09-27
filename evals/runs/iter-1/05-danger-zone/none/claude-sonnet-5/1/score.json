@@ -1,0 +1,79 @@
+{
+  "prompt": "05-danger-zone",
+  "condition": "none",
+  "model": "claude-sonnet-5",
+  "repeat": 1,
+  "tags": [
+    "a11y"
+  ],
+  "scoredAt": "2026-09-27T15:48:32.415Z",
+  "built": true,
+  "agentFailed": false,
+  "editedProtectedFiles": [],
+  "contaminated": false,
+  "touchedRepo": false,
+  "toolCalls": {
+    "Read": 5,
+    "Glob": 6,
+    "Write": 2
+  },
+  "files": 2,
+  "lines": 590,
+  "brandNames": 0,
+  "typeErrors": 0,
+  "audit": {
+    "score": 71.4,
+    "findings": 37,
+    "opportunities": 166,
+    "byRule": {
+      "raw-color": 27,
+      "off-scale-radius": 1,
+      "native-element": 9
+    }
+  },
+  "views": [
+    {
+      "name": "light",
+      "query": "tenant=harbor&locale=en-GB",
+      "scheme": "light",
+      "width": 1280,
+      "pageErrors": [],
+      "mounted": true,
+      "textLength": 562,
+      "overflowPx": 0,
+      "axeNodes": 0,
+      "axeRules": {}
+    },
+    {
+      "name": "dark",
+      "query": "tenant=harbor&locale=en-GB",
+      "scheme": "dark",
+      "width": 1280,
+      "pageErrors": [],
+      "mounted": true,
+      "textLength": 562,
+      "overflowPx": 0,
+      "axeNodes": 8,
+      "axeRules": {
+        "color-contrast": 8
+      }
+    },
+    {
+      "name": "narrow",
+      "query": "tenant=harbor&locale=en-GB",
+      "scheme": "light",
+      "width": 390,
+      "pageErrors": [],
+      "mounted": true,
+      "textLength": 562,
+      "overflowPx": 0,
+      "axeNodes": 0,
+      "axeRules": {}
+    }
+  ],
+  "builds": true,
+  "renders": true,
+  "axeNodes": 8,
+  "overflowPx": 0,
+  "onSystem": false
+}

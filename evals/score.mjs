@@ -101,8 +101,9 @@ async function scoreRun(dir, browser) {
   score.contaminated = (result.pathsOutsideWorkspace ?? []).length > 0;
   score.touchedRepo = result.touchedRepo === true;
   score.toolCalls = result.toolCalls ?? {};
+  score.readPackages = result.readPackages ?? null;
   if (!score.built) {
-    Object.assign(score, { typeErrors: null, audit: null, builds: false, views: [], brandNames: 0, onSystem: false, renders: false });
+    Object.assign(score, { importsStrata: false, typeErrors: null, audit: null, builds: false, views: [], brandNames: 0, onSystem: false, renders: false });
     writeFileSync(path.join(dir, 'score.json'), JSON.stringify(score, null, 2) + '\n');
     return score;
   }
@@ -119,6 +120,7 @@ async function scoreRun(dir, browser) {
   const sources = readdirSync(screens, { recursive: true }).map(String).filter((f) => /\.(tsx?|css)$/.test(f));
   score.files = sources.length;
   score.lines = sources.reduce((n, f) => n + readFileSync(path.join(screens, f), 'utf8').split('\n').length, 0);
+  score.importsStrata = sources.some((f) => /from ['"]@strata\/react['"]/.test(readFileSync(path.join(screens, f), 'utf8')));
   score.brandNames = sources.reduce((n, f) => n + (readFileSync(path.join(screens, f), 'utf8').match(TENANT_WORDS)?.length ?? 0), 0);
 
   try {

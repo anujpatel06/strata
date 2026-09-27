@@ -1,0 +1,110 @@
+.page {
+  display: grid;
+  gap: var(--strata-space-6);
+}
+
+.pageHeader {
+  display: grid;
+  gap: var(--strata-space-1);
+}
+
+.title {
+  margin: 0;
+  font-family: var(--strata-font-heading);
+  font-size: var(--strata-font-size-2xl);
+  font-weight: var(--strata-font-weight-semibold);
+  letter-spacing: var(--strata-font-heading-tracking);
+  color: var(--strata-color-text-default);
+}
+
+.subtitle {
+  margin: 0;
+  font-family: var(--strata-font-body);
+  font-size: var(--strata-font-size-md);
+  color: var(--strata-color-text-subtle);
+}
+
+.card {
+  inline-size: 100%;
+  max-inline-size: 40rem;
+}
+
+.headerRow {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--strata-space-3);
+}
+
+.headerText {
+  display: grid;
+  gap: var(--strata-space-1);
+}
+
+.content {
+  display: grid;
+  gap: var(--strata-space-5);
+}
+
+.radioLabel {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--strata-space-2);
+}
+
+.backupSection {
+  display: grid;
+  gap: var(--strata-space-3);
+}
+
+.backupHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--strata-space-3);
+}
+
+.backupTitle {
+  margin: 0;
+  font-family: var(--strata-font-body);
+  font-size: var(--strata-font-size-md);
+  font-weight: var(--strata-font-weight-semibold);
+  color: var(--strata-color-text-default);
+}
+
+.backupHint {
+  margin: var(--strata-space-1) 0 0;
+  font-family: var(--strata-font-body);
+  font-size: var(--strata-font-size-sm);
+  color: var(--strata-color-text-subtle);
+}
+
+.codesPanel {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr));
+  gap: var(--strata-space-1) var(--strata-space-3);
+  margin: 0;
+  padding: var(--strata-space-3);
+  list-style: none;
+  background: var(--strata-color-surface-sunken);
+  border-radius: var(--strata-radius-container);
+  box-shadow: 0 0 0 var(--strata-hairline) var(--strata-color-border-subtle);
+}
+
+.codeRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--strata-space-2);
+  padding-inline: var(--strata-space-2);
+  border-radius: var(--strata-radius-badge);
+}
+
+.code {
+  font-family: var(--strata-font-mono);
+  font-size: var(--strata-font-size-sm);
+  color: var(--strata-color-text-default);
+}
+
+.regenerateButton {
+  justify-self: start;
+}

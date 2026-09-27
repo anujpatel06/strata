@@ -1,0 +1,261 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-6, 1.5rem);
+  font-family: var(--strata-font-body, inherit);
+  color: var(--strata-color-text-default, #1a1a1a);
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-2, 0.5rem);
+}
+
+.heading {
+  margin: 0;
+  font-size: var(--strata-font-size-xl, 1.5rem);
+  font-weight: var(--strata-font-weight-bold, 700);
+}
+
+.subheading {
+  margin: 0;
+  color: var(--strata-color-text-muted, #5f6368);
+  font-size: var(--strata-font-size-md, 1rem);
+}
+
+.progressCard {
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-3, 0.75rem);
+  padding: var(--strata-space-5, 1.25rem);
+  border-radius: var(--strata-radius-lg, 12px);
+  background: var(--strata-color-surface-raised, #f5f5f7);
+  border: 1px solid var(--strata-color-border-default, #e2e2e6);
+}
+
+.progressTop {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--strata-space-2, 0.5rem);
+}
+
+.progressLabel {
+  font-weight: var(--strata-font-weight-semibold, 600);
+}
+
+.progressCount {
+  color: var(--strata-color-text-muted, #5f6368);
+  font-size: var(--strata-font-size-sm, 0.875rem);
+}
+
+.progressTrack {
+  block-size: 8px;
+  inline-size: 100%;
+  border-radius: var(--strata-radius-full, 999px);
+  background: var(--strata-color-surface-sunken, #e2e2e6);
+  overflow: hidden;
+}
+
+.progressFill {
+  block-size: 100%;
+  border-radius: inherit;
+  background: var(--strata-color-accent-default, var(--strata-color-brand-default, #2f6fed));
+  transition: inline-size 0.3s ease;
+}
+
+.list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-3, 0.75rem);
+}
+
+.step {
+  border: 1px solid var(--strata-color-border-default, #e2e2e6);
+  border-radius: var(--strata-radius-lg, 12px);
+  background: var(--strata-color-surface-default, #ffffff);
+  overflow: hidden;
+}
+
+.stepLocked {
+  background: var(--strata-color-surface-sunken, #f7f7f8);
+}
+
+.stepHeader {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: var(--strata-space-4, 1rem);
+  padding: var(--strata-space-4, 1rem) var(--strata-space-5, 1.25rem);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  text-align: start;
+  font: inherit;
+  color: inherit;
+}
+
+.stepHeader:hover {
+  background: var(--strata-color-surface-hover, rgba(0, 0, 0, 0.03));
+}
+
+.stepHeader:focus-visible {
+  outline: 2px solid var(--strata-color-focus-ring, var(--strata-color-accent-default, #2f6fed));
+  outline-offset: -2px;
+}
+
+.statusBadge {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: 28px;
+  block-size: 28px;
+  border-radius: var(--strata-radius-full, 999px);
+  font-size: var(--strata-font-size-sm, 0.875rem);
+  font-weight: var(--strata-font-weight-semibold, 600);
+}
+
+.statusDone {
+  background: var(--strata-color-success-default, #1e8e3e);
+  color: var(--strata-color-on-success, #ffffff);
+}
+
+.statusPending {
+  background: var(--strata-color-surface-sunken, #e2e2e6);
+  color: var(--strata-color-text-default, #1a1a1a);
+}
+
+.statusLocked {
+  background: var(--strata-color-surface-sunken, #e2e2e6);
+  color: var(--strata-color-text-muted, #5f6368);
+}
+
+.icon {
+  inline-size: 16px;
+  block-size: 16px;
+}
+
+.stepHeaderText {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-inline-size: 0;
+}
+
+.stepTitle {
+  font-weight: var(--strata-font-weight-semibold, 600);
+}
+
+.stepSummary {
+  color: var(--strata-color-text-muted, #5f6368);
+  font-size: var(--strata-font-size-sm, 0.875rem);
+}
+
+.stepMeta {
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: var(--strata-space-3, 0.75rem);
+}
+
+.doneTag,
+.progressTag,
+.lockedTag {
+  font-size: var(--strata-font-size-xs, 0.75rem);
+  font-weight: var(--strata-font-weight-semibold, 600);
+  padding: 2px 8px;
+  border-radius: var(--strata-radius-full, 999px);
+}
+
+.doneTag {
+  background: var(--strata-color-success-subtle, #e6f4ea);
+  color: var(--strata-color-success-default, #1e8e3e);
+}
+
+.progressTag {
+  background: var(--strata-color-accent-subtle, #e8f0fe);
+  color: var(--strata-color-accent-default, #2f6fed);
+}
+
+.lockedTag {
+  background: var(--strata-color-surface-sunken, #e2e2e6);
+  color: var(--strata-color-text-muted, #5f6368);
+}
+
+.chevron {
+  inline-size: 16px;
+  block-size: 16px;
+  color: var(--strata-color-text-muted, #5f6368);
+  transition: transform 0.15s ease;
+}
+
+.chevronExpanded {
+  transform: rotate(180deg);
+}
+
+.stepBody {
+  padding: 0 var(--strata-space-5, 1.25rem) var(--strata-space-5, 1.25rem)
+    calc(28px + var(--strata-space-4, 1rem) + var(--strata-space-5, 1.25rem));
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-3, 0.75rem);
+}
+
+.stepBodyIntro {
+  margin: 0;
+  font-weight: var(--strata-font-weight-semibold, 600);
+  font-size: var(--strata-font-size-sm, 0.875rem);
+}
+
+.detailsList {
+  margin: 0;
+  padding-inline-start: 1.25em;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  color: var(--strata-color-text-muted, #5f6368);
+  font-size: var(--strata-font-size-sm, 0.875rem);
+}
+
+.startButton {
+  align-self: flex-start;
+  padding: var(--strata-space-2, 0.5rem) var(--strata-space-4, 1rem);
+  border-radius: var(--strata-radius-md, 8px);
+  border: 1px solid transparent;
+  background: var(--strata-color-accent-default, #2f6fed);
+  color: var(--strata-color-on-accent, #ffffff);
+  font: inherit;
+  font-weight: var(--strata-font-weight-semibold, 600);
+  cursor: pointer;
+}
+
+.startButton:hover:not(:disabled) {
+  background: var(--strata-color-accent-hover, #2557c4);
+}
+
+.startButton:disabled {
+  cursor: default;
+  background: var(--strata-color-surface-sunken, #e2e2e6);
+  color: var(--strata-color-text-muted, #5f6368);
+}
+
+.lockedNote {
+  display: flex;
+  align-items: center;
+  gap: var(--strata-space-2, 0.5rem);
+  margin: 0;
+  color: var(--strata-color-text-muted, #5f6368);
+  font-size: var(--strata-font-size-sm, 0.875rem);
+}
+
+.lockedNote .icon {
+  flex: none;
+  inline-size: 14px;
+  block-size: 14px;
+}

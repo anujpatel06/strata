@@ -1,0 +1,95 @@
+{
+  "prompt": "20-profile-edit-rtl",
+  "tags": [
+    "rtl",
+    "a11y"
+  ],
+  "condition": "mcp",
+  "model": "claude-sonnet-5",
+  "repeat": 1,
+  "iteration": "1",
+  "source": {
+    "commit": "320a45c63ccf410e91943590bcd6202615d23ebc",
+    "dirty": []
+  },
+  "startedAt": "2026-09-27T15:24:34.787Z",
+  "wallMs": 242412,
+  "exitCode": 0,
+  "timedOut": false,
+  "editedProtectedFiles": [],
+  "toolCalls": {
+    "Read": 5,
+    "Glob": 4,
+    "mcp__strata__list_components": 1,
+    "mcp__strata__get_pattern": 2,
+    "mcp__strata__get_component": 10,
+    "mcp__strata__get_example": 6,
+    "Grep": 1,
+    "mcp__strata__get_tokens": 1,
+    "Write": 2,
+    "mcp__strata__audit_snippet": 2,
+    "Edit": 1
+  },
+  "pathsOutsideWorkspace": [
+    "/private/var/folders/fq/fsw2rcjs6y3frnjl7zs9sf8h0000gn/T"
+  ],
+  "touchedRepo": false,
+  "usedMemory": false,
+  "cli": {
+    "isError": false,
+    "subtype": "success",
+    "turns": 36,
+    "durationMs": 241084,
+    "costUsd": 0.6424208000000001,
+    "usage": {
+      "input_tokens": 36,
+      "cache_creation_input_tokens": 65380,
+      "cache_read_input_tokens": 873294,
+      "output_tokens": 20617,
+      "output_tokens_details": {
+        "thinking_tokens": 11681
+      },
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 65380,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 2,
+          "output_tokens": 398,
+          "cache_read_input_tokens": 72204,
+          "cache_creation_input_tokens": 3661,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 3661
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-sonnet-5": {
+        "inputTokens": 36,
+        "outputTokens": 20617,
+        "cacheReadInputTokens": 873294,
+        "cacheCreationInputTokens": 65380,
+        "webSearchRequests": 0,
+        "costUSD": 0.6424208000000001,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 64000,
+        "thinkingTokens": 11681,
+        "canonicalModel": "claude-sonnet-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "finalMessage": "This looks complete. The screen at `src/screens/Screen.tsx` builds an \"Edit profile\" form entirely from Strata components (Card, Avatar, FileUpload, TextField, DatePicker, Select, Button, Badge, Toast), with mock starting data for a photo, full name, email, phone, date of birth and preferred language. Each field's label shows a \"Changed\" status badge when its draft value differs from the last-saved value; Cancel and Save are disabled until something changes, Cancel reverts the draft, and Save commits it and shows a success toast (\"Profile updated\"). Styling uses only `--strata-*` tokens and logical CSS properties, and `audit_snippet` scored both files 100 with no findings.\n\nOne thing worth flagging: I followed Strata's own docs examples (`date-picker-invalid`, `date-picker-range`) in importing `parseDate`/`today`/`getLocalTimeZone`/`CalendarDate` from `@internationalized/date`, which isn't a direct dependency in this app's `package.json` — since I couldn't run the app or a type-check (no `node_modules` present, and I was told not to touch `package.json`), I couldn't verify it resolves here."
+  }
+}

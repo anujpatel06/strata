@@ -1,0 +1,111 @@
+{
+  "prompt": "25-onboarding-checklist",
+  "condition": "none",
+  "model": "claude-sonnet-5",
+  "repeat": 2,
+  "tags": [
+    "multi-brand"
+  ],
+  "scoredAt": "2026-09-27T15:54:59.571Z",
+  "built": true,
+  "agentFailed": false,
+  "editedProtectedFiles": [],
+  "contaminated": false,
+  "touchedRepo": false,
+  "toolCalls": {
+    "Read": 7,
+    "Glob": 5,
+    "Write": 2
+  },
+  "files": 2,
+  "lines": 430,
+  "brandNames": 0,
+  "typeErrors": 0,
+  "audit": {
+    "score": 72.6,
+    "findings": 35,
+    "opportunities": 149,
+    "byRule": {
+      "raw-color": 28,
+      "raw-font-weight": 5,
+      "native-element": 2
+    }
+  },
+  "views": [
+    {
+      "name": "light",
+      "query": "tenant=care&locale=en-IN",
+      "scheme": "light",
+      "width": 1280,
+      "pageErrors": [],
+      "mounted": true,
+      "textLength": 390,
+      "overflowPx": 0,
+      "axeNodes": 1,
+      "axeRules": {
+        "color-contrast": 1
+      }
+    },
+    {
+      "name": "dark",
+      "query": "tenant=care&locale=en-IN",
+      "scheme": "dark",
+      "width": 1280,
+      "pageErrors": [],
+      "mounted": true,
+      "textLength": 390,
+      "overflowPx": 0,
+      "axeNodes": 8,
+      "axeRules": {
+        "color-contrast": 8
+      }
+    },
+    {
+      "name": "narrow",
+      "query": "tenant=care&locale=en-IN",
+      "scheme": "light",
+      "width": 390,
+      "pageErrors": [],
+      "mounted": true,
+      "textLength": 390,
+      "overflowPx": 0,
+      "axeNodes": 1,
+      "axeRules": {
+        "color-contrast": 1
+      }
+    },
+    {
+      "name": "brand:vela",
+      "query": "tenant=vela&locale=en-IN",
+      "scheme": "light",
+      "width": 1280,
+      "pageErrors": [],
+      "mounted": true,
+      "textLength": 390,
+      "overflowPx": 0,
+      "axeNodes": 1,
+      "axeRules": {
+        "color-contrast": 1
+      }
+    },
+    {
+      "name": "brand:harbor",
+      "query": "tenant=harbor&locale=en-IN",
+      "scheme": "light",
+      "width": 1280,
+      "pageErrors": [],
+      "mounted": true,
+      "textLength": 390,
+      "overflowPx": 0,
+      "axeNodes": 1,
+      "axeRules": {
+        "color-contrast": 1
+      }
+    }
+  ],
+  "builds": true,
+  "renders": true,
+  "axeNodes": 8,
+  "overflowPx": 0,
+  "onSystem": false
+}

@@ -40,6 +40,8 @@ function summarise(set) {
     runs: n,
     agentFailed: set.filter((r) => r.score.agentFailed).length,
     contaminated: set.filter((r) => r.score.contaminated).length,
+    importsStrata: set.filter((r) => r.score.importsStrata).length,
+    readPackages: set.every((r) => r.score.readPackages === null) ? null : set.filter((r) => r.score.readPackages).length,
     built: built.length,
     // Every rate below is out of ALL runs, so a screen that was never built counts against the condition.
     rendersPercent: pct(set.filter((r) => r.score.renders).length, n),
@@ -159,6 +161,8 @@ const ROWS = [
   ['Runs the agent didn’t finish (error or timeout)', 'agentFailed'],
   ['Runs that read outside their workspace (kept in the numbers, listed below)', 'contaminated'],
   ['Screens built', 'built'],
+  ['Screens that import from @strata/react', 'importsStrata'],
+  ['Runs that read the installed packages', 'readPackages'],
   ['Median audit score (0–100)', 'auditMedian'],
   ['Lowest / highest audit score', (s) => `${num(s.auditMin)} / ${num(s.auditMax)}`],
   ['Fully on-system, % of runs', 'onSystemPercent'],

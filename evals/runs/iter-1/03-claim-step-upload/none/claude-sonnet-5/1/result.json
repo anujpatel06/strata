@@ -1,0 +1,84 @@
+{
+  "prompt": "03-claim-step-upload",
+  "tags": [
+    "a11y"
+  ],
+  "condition": "none",
+  "model": "claude-sonnet-5",
+  "repeat": 1,
+  "iteration": "1",
+  "source": {
+    "commit": "320a45c63ccf410e91943590bcd6202615d23ebc",
+    "dirty": []
+  },
+  "startedAt": "2026-09-27T14:06:16.680Z",
+  "wallMs": 143238,
+  "exitCode": 0,
+  "timedOut": false,
+  "editedProtectedFiles": [],
+  "toolCalls": {
+    "Read": 8,
+    "Glob": 4,
+    "Write": 2
+  },
+  "pathsOutsideWorkspace": [],
+  "touchedRepo": false,
+  "usedMemory": false,
+  "cli": {
+    "isError": false,
+    "subtype": "success",
+    "turns": 15,
+    "durationMs": 140430,
+    "costUsd": 0.3019368,
+    "usage": {
+      "input_tokens": 16,
+      "cache_creation_input_tokens": 29568,
+      "cache_read_input_tokens": 131764,
+      "output_tokens": 15728,
+      "output_tokens_details": {
+        "thinking_tokens": 6970
+      },
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 29568,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 2,
+          "output_tokens": 436,
+          "cache_read_input_tokens": 34185,
+          "cache_creation_input_tokens": 3849,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 3849
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-sonnet-5": {
+        "inputTokens": 16,
+        "outputTokens": 15728,
+        "cacheReadInputTokens": 131764,
+        "cacheCreationInputTokens": 29568,
+        "webSearchRequests": 0,
+        "costUSD": 0.3019368,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 64000,
+        "thinkingTokens": 6970,
+        "canonicalModel": "claude-sonnet-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "finalMessage": "The step-2 evidence upload screen is complete: `src/screens/Screen.tsx` (default export) and `src/screens/Screen.module.css`.\n\n- Step indicator shows \"Step 2 of 3 — Upload evidence\" with Policy details marked done.\n- Mock data has 4 files (2 photos, 1 PDF uploaded; 1 photo failed with a shown reason: \"exceeds the 5 MB size limit\").\n- Each file row shows name, size (or the failure reason), and a remove button; adding is capped at 5 total via a file picker that reads real `name`/`size` from selected files (no network, per \"no backend\").\n- Continue is disabled until at least one file has `status: 'uploaded'`; Back is always available.\n- Styling uses the two confirmed Strata tokens (`--strata-color-surface-canvas`, `--strata-color-text-default`, `--strata-font-body`, `--strata-space-6`) plus `var(...)` fallbacks for other token names (accent, danger, radius, spacing scale) so it degrades gracefully if those exact names don't exist, and uses logical properties for RTL.\n\nI couldn't run or typecheck the app since I only had access to this folder (no `node_modules`), so please run `pnpm install && pnpm dev` (or `typecheck`) to verify."
+  }
+}

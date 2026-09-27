@@ -1,0 +1,90 @@
+{
+  "prompt": "08-beneficiaries-table",
+  "tags": [
+    "a11y"
+  ],
+  "condition": "mcp",
+  "model": "claude-sonnet-5",
+  "repeat": 1,
+  "iteration": "1",
+  "source": {
+    "commit": "320a45c63ccf410e91943590bcd6202615d23ebc",
+    "dirty": []
+  },
+  "startedAt": "2026-09-27T14:30:35.489Z",
+  "wallMs": 186426,
+  "exitCode": 0,
+  "timedOut": false,
+  "editedProtectedFiles": [],
+  "toolCalls": {
+    "Read": 3,
+    "Glob": 3,
+    "mcp__strata__list_components": 1,
+    "mcp__strata__get_component": 7,
+    "mcp__strata__get_example": 6,
+    "Grep": 10,
+    "mcp__strata__get_tokens": 3,
+    "Write": 2,
+    "mcp__strata__audit_snippet": 2
+  },
+  "pathsOutsideWorkspace": [],
+  "touchedRepo": false,
+  "usedMemory": false,
+  "cli": {
+    "isError": false,
+    "subtype": "success",
+    "turns": 38,
+    "durationMs": 185059,
+    "costUsd": 0.57086,
+    "usage": {
+      "input_tokens": 48,
+      "cache_creation_input_tokens": 54043,
+      "cache_read_input_tokens": 921010,
+      "output_tokens": 17039,
+      "output_tokens_details": {
+        "thinking_tokens": 6784
+      },
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 54043,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 2,
+          "output_tokens": 131,
+          "cache_read_input_tokens": 63368,
+          "cache_creation_input_tokens": 1160,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 1160
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-sonnet-5": {
+        "inputTokens": 48,
+        "outputTokens": 17039,
+        "cacheReadInputTokens": 921010,
+        "cacheCreationInputTokens": 54043,
+        "webSearchRequests": 0,
+        "costUSD": 0.57086,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 64000,
+        "thinkingTokens": 6784,
+        "canonicalModel": "claude-sonnet-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "finalMessage": "All exports check out. The screen is complete: a sortable, selectable beneficiaries `DataTable` (name with avatar, bank, masked account, added date) with icon-only edit/remove actions per row (each confirmed via `AlertDialog` for remove, and a `Dialog` form for edit), plus a `DataTableToolbar` \"Remove selected\" bar that appears only when rows are selected."
+  }
+}

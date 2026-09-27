@@ -1,0 +1,110 @@
+{
+  "prompt": "21-pricing-plans",
+  "condition": "none",
+  "model": "claude-sonnet-5",
+  "repeat": 2,
+  "tags": [
+    "multi-brand"
+  ],
+  "scoredAt": "2026-09-27T15:53:36.896Z",
+  "built": true,
+  "agentFailed": false,
+  "editedProtectedFiles": [],
+  "contaminated": false,
+  "touchedRepo": false,
+  "toolCalls": {
+    "Read": 7,
+    "Glob": 5,
+    "Write": 2
+  },
+  "files": 2,
+  "lines": 388,
+  "brandNames": 0,
+  "typeErrors": 0,
+  "audit": {
+    "score": 72.2,
+    "findings": 33,
+    "opportunities": 155,
+    "byRule": {
+      "raw-color": 30,
+      "native-element": 3
+    }
+  },
+  "views": [
+    {
+      "name": "light",
+      "query": "tenant=harbor&locale=en-GB",
+      "scheme": "light",
+      "width": 1280,
+      "pageErrors": [],
+      "mounted": true,
+      "textLength": 972,
+      "overflowPx": 0,
+      "axeNodes": 2,
+      "axeRules": {
+        "color-contrast": 2
+      }
+    },
+    {
+      "name": "dark",
+      "query": "tenant=harbor&locale=en-GB",
+      "scheme": "dark",
+      "width": 1280,
+      "pageErrors": [],
+      "mounted": true,
+      "textLength": 972,
+      "overflowPx": 0,
+      "axeNodes": 19,
+      "axeRules": {
+        "color-contrast": 19
+      }
+    },
+    {
+      "name": "narrow",
+      "query": "tenant=harbor&locale=en-GB",
+      "scheme": "light",
+      "width": 390,
+      "pageErrors": [],
+      "mounted": true,
+      "textLength": 972,
+      "overflowPx": 0,
+      "axeNodes": 2,
+      "axeRules": {
+        "color-contrast": 2
+      }
+    },
+    {
+      "name": "brand:vela",
+      "query": "tenant=vela&locale=en-IN",
+      "scheme": "light",
+      "width": 1280,
+      "pageErrors": [],
+      "mounted": true,
+      "textLength": 972,
+      "overflowPx": 0,
+      "axeNodes": 2,
+      "axeRules": {
+        "color-contrast": 2
+      }
+    },
+    {
+      "name": "brand:qamar",
+      "query": "tenant=qamar&locale=en-IN",
+      "scheme": "light",
+      "width": 1280,
+      "pageErrors": [],
+      "mounted": true,
+      "textLength": 972,
+      "overflowPx": 0,
+      "axeNodes": 2,
+      "axeRules": {
+        "color-contrast": 2
+      }
+    }
+  ],
+  "builds": true,
+  "renders": true,
+  "axeNodes": 19,
+  "overflowPx": 0,
+  "onSystem": false
+}

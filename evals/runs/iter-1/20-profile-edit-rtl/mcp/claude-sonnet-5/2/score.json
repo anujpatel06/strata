@@ -1,0 +1,53 @@
+{
+  "prompt": "20-profile-edit-rtl",
+  "condition": "mcp",
+  "model": "claude-sonnet-5",
+  "repeat": 2,
+  "tags": [
+    "rtl",
+    "a11y"
+  ],
+  "scoredAt": "2026-09-27T15:53:05.666Z",
+  "built": true,
+  "agentFailed": false,
+  "editedProtectedFiles": [],
+  "contaminated": true,
+  "touchedRepo": false,
+  "toolCalls": {
+    "Read": 6,
+    "mcp__strata__list_components": 1,
+    "mcp__strata__get_component": 9,
+    "mcp__strata__get_pattern": 2,
+    "mcp__strata__get_example": 5,
+    "Glob": 3,
+    "Grep": 1,
+    "mcp__strata__get_tokens": 2,
+    "Write": 2,
+    "mcp__strata__audit_snippet": 3,
+    "Edit": 4
+  },
+  "files": 2,
+  "lines": 342,
+  "brandNames": 0,
+  "typeErrors": 6,
+  "typeErrorSample": [
+    "src/screens/Screen.tsx(1,82): error TS2307: Cannot find module '@internationalized/date' or its corresponding type declarations.",
+    "src/screens/Screen.tsx(17,68): error TS2307: Cannot find module 'react-aria-components' or its corresponding type declarations.",
+    "src/screens/Screen.tsx(126,34): error TS7006: Parameter 'types' implicitly has an 'any' type.",
+    "src/screens/Screen.tsx(127,30): error TS7006: Parameter 'e' implicitly has an 'any' type.",
+    "src/screens/Screen.tsx(128,44): error TS7006: Parameter 'i' implicitly has an 'any' type."
+  ],
+  "audit": {
+    "score": 100,
+    "findings": 0,
+    "opportunities": 56,
+    "byRule": {}
+  },
+  "views": [],
+  "builds": false,
+  "buildError": "✗ Build failed in 154ms\nerror during build:\nBuild failed with 1 error:\n\nError: [vite]: Rolldown failed to resolve import \"@internationalized/date\" from \"/private/var/folders/fq/fsw2rcjs6y3frnjl7zs9sf8h0000gn/T/strata-evals-score/iter-1__20-profile-edit-rtl__mcp__claude-sonnet-5__2/src/screens/Screen.tsx\".\nThis is most likely unintended because it can break your application at runtime.\nIf you do want to externalize this module explicitly add it to\n`build.rolldownOptions.external`\n    at viteLog (file:///private/var/folders/fq/fsw2rcjs6y3frnjl7zs9sf8h0000gn/T/strata-evals-prepared/app/node_modul",
+  "renders": false,
+  "axeNodes": null,
+  "overflowPx": null,
+  "onSystem": false
+}

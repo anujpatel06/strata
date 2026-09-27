@@ -1,0 +1,58 @@
+.page {
+  display: grid;
+  gap: var(--strata-space-6);
+  padding: var(--strata-space-8);
+  max-inline-size: 960px;
+  margin-inline: auto;
+}
+
+.header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--strata-space-4);
+}
+
+.title {
+  margin: 0;
+  font: var(--strata-font-heading);
+  font-size: var(--strata-font-size-lg);
+  font-weight: var(--strata-font-weight-semibold);
+}
+
+.description {
+  margin: var(--strata-space-1) 0 0;
+  color: var(--strata-color-text-subtle);
+  font-size: var(--strata-font-size-sm);
+}
+
+.payee {
+  display: flex;
+  align-items: center;
+  gap: var(--strata-space-2);
+}
+
+.payeeText {
+  display: flex;
+  align-items: center;
+  gap: var(--strata-space-2);
+}
+
+.payeeName {
+  font-weight: var(--strata-font-weight-medium);
+}
+
+.formGrid {
+  display: grid;
+  gap: var(--strata-space-4);
+}
+
+.srOnly {
+  position: absolute;
+  inline-size: 1px;
+  block-size: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}

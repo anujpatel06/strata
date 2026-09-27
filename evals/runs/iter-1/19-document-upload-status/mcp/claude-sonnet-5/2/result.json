@@ -1,0 +1,90 @@
+{
+  "prompt": "19-document-upload-status",
+  "tags": [
+    "a11y"
+  ],
+  "condition": "mcp",
+  "model": "claude-sonnet-5",
+  "repeat": 2,
+  "iteration": "1",
+  "source": {
+    "commit": "320a45c63ccf410e91943590bcd6202615d23ebc",
+    "dirty": []
+  },
+  "startedAt": "2026-09-27T15:20:46.714Z",
+  "wallMs": 233369,
+  "exitCode": 0,
+  "timedOut": false,
+  "editedProtectedFiles": [],
+  "toolCalls": {
+    "Read": 4,
+    "Glob": 5,
+    "mcp__strata__list_components": 1,
+    "mcp__strata__get_component": 8,
+    "mcp__strata__get_pattern": 2,
+    "mcp__strata__get_example": 8,
+    "mcp__strata__get_tokens": 3,
+    "Write": 2,
+    "mcp__strata__audit_snippet": 2
+  },
+  "pathsOutsideWorkspace": [],
+  "touchedRepo": false,
+  "usedMemory": false,
+  "cli": {
+    "isError": false,
+    "subtype": "success",
+    "turns": 36,
+    "durationMs": 231947,
+    "costUsd": 0.5929311999999999,
+    "usage": {
+      "input_tokens": 34,
+      "cache_creation_input_tokens": 59214,
+      "cache_read_input_tokens": 685586,
+      "output_tokens": 21889,
+      "output_tokens_details": {
+        "thinking_tokens": 13172
+      },
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 59214,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 2,
+          "output_tokens": 284,
+          "cache_read_input_tokens": 66461,
+          "cache_creation_input_tokens": 3238,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 3238
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-sonnet-5": {
+        "inputTokens": 34,
+        "outputTokens": 21889,
+        "cacheReadInputTokens": 685586,
+        "cacheCreationInputTokens": 59214,
+        "webSearchRequests": 0,
+        "costUSD": 0.5929311999999999,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 64000,
+        "thinkingTokens": 13172,
+        "canonicalModel": "claude-sonnet-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "finalMessage": "Both files score 100 with no findings. The document verification screen is complete at `src/screens/Screen.tsx` and `src/screens/Screen.module.css`:\n\n- An overall **progress card** with a `ProgressBar` and a text summary (approved / under review / rejected / not uploaded counts).\n- Four document cards (ID proof, address proof, bank statement, photo), each with a `Badge variant=\"status\"` showing its state, a `FileUpload` for uploading/replacing the file, and a rejection reason surfaced via the file entry's error text when applicable.\n- Mock state lives in the component (`useState`), and uploading a new file transitions that document to \"under review,\" so the flow is interactive without a backend.\n\nI can't run the app to visually verify, so you'll want to check it in the browser, but the code passed the Strata compliance audit (score 100, no findings) on both files."
+  }
+}

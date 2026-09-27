@@ -1,0 +1,85 @@
+{
+  "prompt": "19-document-upload-status",
+  "tags": [
+    "a11y"
+  ],
+  "condition": "none",
+  "model": "claude-sonnet-5",
+  "repeat": 1,
+  "iteration": "1",
+  "source": {
+    "commit": "320a45c63ccf410e91943590bcd6202615d23ebc",
+    "dirty": []
+  },
+  "startedAt": "2026-09-27T15:16:23.591Z",
+  "wallMs": 223141,
+  "exitCode": 0,
+  "timedOut": false,
+  "editedProtectedFiles": [],
+  "toolCalls": {
+    "Read": 8,
+    "Glob": 6,
+    "Grep": 1,
+    "Write": 2
+  },
+  "pathsOutsideWorkspace": [],
+  "touchedRepo": false,
+  "usedMemory": false,
+  "cli": {
+    "isError": false,
+    "subtype": "success",
+    "turns": 18,
+    "durationMs": 221834,
+    "costUsd": 0.22365400000000002,
+    "usage": {
+      "input_tokens": 20,
+      "cache_creation_input_tokens": 17034,
+      "cache_read_input_tokens": 123840,
+      "output_tokens": 13071,
+      "output_tokens_details": {
+        "thinking_tokens": 4284
+      },
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 17034,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 2,
+          "output_tokens": 303,
+          "cache_read_input_tokens": 22062,
+          "cache_creation_input_tokens": 3438,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 3438
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-sonnet-5": {
+        "inputTokens": 20,
+        "outputTokens": 13071,
+        "cacheReadInputTokens": 123840,
+        "cacheCreationInputTokens": 17034,
+        "webSearchRequests": 0,
+        "costUSD": 0.22365400000000002,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 64000,
+        "thinkingTokens": 4284,
+        "canonicalModel": "claude-sonnet-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "finalMessage": "Built the document verification screen with mock data for four documents (ID proof rejected, address proof approved, bank statement under review, photo not uploaded), an overall progress bar with a status chip summary, and per-document upload/replace controls backed by a hidden file input. Selecting a file marks the document \"under review\" and after a short simulated delay resolves to approved or rejected (with a reason) — all state lives in `src/screens/Screen.tsx` with styles in `src/screens/Screen.module.css`, using Strata token CSS variables (with sensible fallbacks) and logical properties for RTL/dark-mode compatibility.\n\nNote: no `node_modules` were present in this environment, so I couldn't inspect the actual `@strata/react`/`@strata/icons` component APIs — I built the UI with plain semantic elements and inline SVG icons styled via Strata's CSS custom properties instead of importing components I couldn't verify."
+  }
+}

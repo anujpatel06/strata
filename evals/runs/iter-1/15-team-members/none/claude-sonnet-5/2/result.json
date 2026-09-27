@@ -1,0 +1,84 @@
+{
+  "prompt": "15-team-members",
+  "tags": [
+    "a11y"
+  ],
+  "condition": "none",
+  "model": "claude-sonnet-5",
+  "repeat": 2,
+  "iteration": "1",
+  "source": {
+    "commit": "320a45c63ccf410e91943590bcd6202615d23ebc",
+    "dirty": []
+  },
+  "startedAt": "2026-09-27T14:53:29.212Z",
+  "wallMs": 152718,
+  "exitCode": 0,
+  "timedOut": false,
+  "editedProtectedFiles": [],
+  "toolCalls": {
+    "Read": 8,
+    "Glob": 7,
+    "Write": 2
+  },
+  "pathsOutsideWorkspace": [],
+  "touchedRepo": false,
+  "usedMemory": false,
+  "cli": {
+    "isError": false,
+    "subtype": "success",
+    "turns": 18,
+    "durationMs": 151372,
+    "costUsd": 0.2656952,
+    "usage": {
+      "input_tokens": 20,
+      "cache_creation_input_tokens": 19929,
+      "cache_read_input_tokens": 125046,
+      "output_tokens": 16093,
+      "output_tokens_details": {
+        "thinking_tokens": 5992
+      },
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 19929,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 2,
+          "output_tokens": 395,
+          "cache_read_input_tokens": 24312,
+          "cache_creation_input_tokens": 4083,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 4083
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-sonnet-5": {
+        "inputTokens": 20,
+        "outputTokens": 16093,
+        "cacheReadInputTokens": 125046,
+        "cacheCreationInputTokens": 19929,
+        "webSearchRequests": 0,
+        "costUSD": 0.2656952,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 64000,
+        "thinkingTokens": 5992,
+        "canonicalModel": "claude-sonnet-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "finalMessage": "Built the team members page in `src/screens/Screen.tsx` with styles in `src/screens/Screen.module.css`:\n\n- **Table** of 7 mock members (name, avatar initials, email, role badge, last-active relative time), including \"Anuj Patel (you)\" as the owner.\n- **Row menu** (kebab button) lets you change role (owner/admin/member, radio-style with checkmark) or remove the member; disabled on your own row.\n- **Invite** button opens a dialog with email + role fields, validates the email, and adds a pending \"Invitation sent\" row on submit.\n- Styled with Strata design tokens (`--strata-*` CSS variables) with sensible fallbacks, and logical CSS properties (`inset-inline-end`, `margin-inline`, etc.) so it works correctly in the RTL (`ar-AE`) locale.\n\nSince `node_modules` isn't installed in this sandbox, I couldn't inspect `@strata/react`'s actual component API, so I built the UI with plain HTML elements + CSS Modules rather than guessing at unverifiable component props — it still picks up Strata's color/spacing/typography tokens for visual consistency across brands and themes."
+  }
+}

@@ -1,0 +1,84 @@
+{
+  "prompt": "10-notifications-inbox",
+  "tags": [
+    "a11y"
+  ],
+  "condition": "none",
+  "model": "claude-sonnet-5",
+  "repeat": 2,
+  "iteration": "1",
+  "source": {
+    "commit": "320a45c63ccf410e91943590bcd6202615d23ebc",
+    "dirty": []
+  },
+  "startedAt": "2026-09-27T14:37:13.766Z",
+  "wallMs": 114910,
+  "exitCode": 0,
+  "timedOut": false,
+  "editedProtectedFiles": [],
+  "toolCalls": {
+    "Read": 7,
+    "Glob": 2,
+    "Write": 2
+  },
+  "pathsOutsideWorkspace": [],
+  "touchedRepo": false,
+  "usedMemory": false,
+  "cli": {
+    "isError": false,
+    "subtype": "success",
+    "turns": 12,
+    "durationMs": 112860,
+    "costUsd": 0.21440520000000002,
+    "usage": {
+      "input_tokens": 16,
+      "cache_creation_input_tokens": 16505,
+      "cache_read_input_tokens": 99766,
+      "output_tokens": 12840,
+      "output_tokens_details": {
+        "thinking_tokens": 6168
+      },
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 16505,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 2,
+          "output_tokens": 175,
+          "cache_read_input_tokens": 22390,
+          "cache_creation_input_tokens": 2581,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 2581
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-sonnet-5": {
+        "inputTokens": 16,
+        "outputTokens": 12840,
+        "cacheReadInputTokens": 99766,
+        "cacheCreationInputTokens": 16505,
+        "webSearchRequests": 0,
+        "costUSD": 0.21440520000000002,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 64000,
+        "thinkingTokens": 6168,
+        "canonicalModel": "claude-sonnet-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "finalMessage": "Built the notifications inbox screen with 8 mock notifications grouped into Today/Earlier, unread indicators, per-item \"Mark as read\", a \"Mark all as read\" button, and type filters (All/Payment/Security/Policy/Reminder). Styled via `Screen.module.css` using the confirmed Strata tokens (with safe fallbacks) so it adapts across brands, light/dark, and RTL locales. I can't run the app, so I haven't visually verified it — worth a quick look in the browser when you get a chance."
+  }
+}

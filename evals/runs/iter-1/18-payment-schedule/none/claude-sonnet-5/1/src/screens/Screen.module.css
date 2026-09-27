@@ -1,0 +1,100 @@
+.screen {
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-6);
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--strata-space-4);
+  padding-block: var(--strata-space-4);
+}
+
+.row:not(:first-child) {
+  border-block-start: 1px solid var(--strata-color-border-subtle);
+}
+
+.details {
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-1);
+  flex: 1 1 220px;
+  min-inline-size: 0;
+}
+
+.payee {
+  font-weight: var(--strata-font-weight-semibold);
+  color: var(--strata-color-text-default);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.meta {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--strata-space-2);
+}
+
+.date {
+  font-size: var(--strata-font-size-sm);
+  color: var(--strata-color-text-subtle);
+}
+
+.trailing {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--strata-space-3);
+  margin-inline-start: auto;
+}
+
+.cancelledNote {
+  font-size: var(--strata-font-size-sm);
+  color: var(--strata-color-text-subtle);
+  padding-inline: var(--strata-space-2);
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-4);
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-1);
+}
+
+.dateInput {
+  box-sizing: border-box;
+  inline-size: 100%;
+  font: inherit;
+  color: var(--strata-color-text-default);
+  background: var(--strata-color-surface-default);
+  border: 1px solid var(--strata-color-border-default);
+  border-radius: var(--strata-radius-field);
+  padding-inline: var(--strata-space-3);
+  padding-block: var(--strata-space-2);
+}
+
+.dateInput:focus-visible {
+  outline: 2px solid var(--strata-color-focus-ring);
+  outline-offset: 2px;
+}
+
+.formActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--strata-space-3);
+  padding-block-start: var(--strata-space-2);
+}

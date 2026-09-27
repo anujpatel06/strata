@@ -1,0 +1,92 @@
+{
+  "prompt": "15-team-members",
+  "tags": [
+    "a11y"
+  ],
+  "condition": "mcp",
+  "model": "claude-sonnet-5",
+  "repeat": 2,
+  "iteration": "1",
+  "source": {
+    "commit": "320a45c63ccf410e91943590bcd6202615d23ebc",
+    "dirty": []
+  },
+  "startedAt": "2026-09-27T14:55:52.637Z",
+  "wallMs": 193927,
+  "exitCode": 0,
+  "timedOut": false,
+  "editedProtectedFiles": [],
+  "toolCalls": {
+    "Read": 5,
+    "Glob": 5,
+    "mcp__strata__list_components": 1,
+    "mcp__strata__get_pattern": 2,
+    "mcp__strata__get_component": 10,
+    "mcp__strata__get_example": 5,
+    "mcp__strata__get_tokens": 2,
+    "Write": 2,
+    "Grep": 4,
+    "Edit": 3,
+    "mcp__strata__audit_snippet": 2
+  },
+  "pathsOutsideWorkspace": [],
+  "touchedRepo": false,
+  "usedMemory": false,
+  "cli": {
+    "isError": false,
+    "subtype": "success",
+    "turns": 42,
+    "durationMs": 192423,
+    "costUsd": 0.6925754000000001,
+    "usage": {
+      "input_tokens": 54,
+      "cache_creation_input_tokens": 64383,
+      "cache_read_input_tokens": 1338177,
+      "output_tokens": 16730,
+      "output_tokens_details": {
+        "thinking_tokens": 5633
+      },
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 64383,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 2,
+          "output_tokens": 296,
+          "cache_read_input_tokens": 74417,
+          "cache_creation_input_tokens": 451,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 451
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-sonnet-5": {
+        "inputTokens": 54,
+        "outputTokens": 16730,
+        "cacheReadInputTokens": 1338177,
+        "cacheCreationInputTokens": 64383,
+        "webSearchRequests": 0,
+        "costUSD": 0.6925754000000001,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 64000,
+        "thinkingTokens": 5633,
+        "canonicalModel": "claude-sonnet-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "finalMessage": "Both files score 100 on the Strata audit with no findings. The screen is complete:\n\n- **`src/screens/Screen.tsx`** — a `Card` with a `DataTable` listing 7 mock members (name, email, role badge, last active), a per-row overflow menu (`MenuTrigger` + `Menu`) where a `MenuSection` lets an admin pick a new role (owner/admin/member) and a danger `MenuItem` opens a controlled `AlertDialog` to confirm removal, plus an \"Invite\" `Button` that opens a `Dialog` with an email `TextField` and role `Select`.\n- **`src/screens/Screen.module.css`** — layout/typography only, all via `--strata-*` tokens and logical properties.\n\nMock data and state are self-contained in the file; nothing outside `src/screens/` was touched. Stopping here as instructed since I can't run the app."
+  }
+}

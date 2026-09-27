@@ -1,0 +1,86 @@
+{
+  "prompt": "12-address-form",
+  "tags": [
+    "a11y",
+    "rtl"
+  ],
+  "condition": "none",
+  "model": "claude-sonnet-5",
+  "repeat": 2,
+  "iteration": "1",
+  "source": {
+    "commit": "320a45c63ccf410e91943590bcd6202615d23ebc",
+    "dirty": []
+  },
+  "startedAt": "2026-09-27T14:43:58.612Z",
+  "wallMs": 149516,
+  "exitCode": 0,
+  "timedOut": false,
+  "editedProtectedFiles": [],
+  "toolCalls": {
+    "Read": 7,
+    "Glob": 8,
+    "Grep": 1,
+    "Write": 2
+  },
+  "pathsOutsideWorkspace": [],
+  "touchedRepo": false,
+  "usedMemory": false,
+  "cli": {
+    "isError": false,
+    "subtype": "success",
+    "turns": 19,
+    "durationMs": 148049,
+    "costUsd": 0.2447486,
+    "usage": {
+      "input_tokens": 20,
+      "cache_creation_input_tokens": 18261,
+      "cache_read_input_tokens": 130073,
+      "output_tokens": 14565,
+      "output_tokens_details": {
+        "thinking_tokens": 7917
+      },
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 18261,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 2,
+          "output_tokens": 480,
+          "cache_read_input_tokens": 24849,
+          "cache_creation_input_tokens": 1878,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 1878
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-sonnet-5": {
+        "inputTokens": 20,
+        "outputTokens": 14565,
+        "cacheReadInputTokens": 130073,
+        "cacheCreationInputTokens": 18261,
+        "webSearchRequests": 0,
+        "costUSD": 0.2447486,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 64000,
+        "thinkingTokens": 7917,
+        "canonicalModel": "claude-sonnet-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "finalMessage": "Built the delivery address form in `src/screens/Screen.tsx` with styles in `src/screens/Screen.module.css`:\n\n- Fields: full name, phone, emirate (select from the 7 UAE emirates), area, building, flat number, delivery notes.\n- Required: name, phone, emirate, area (marked with `*`); building, flat number, delivery notes optional.\n- Mock data is pre-filled and the form starts in a \"submitted\" state, so validation errors show immediately for the missing phone number and the invalid flat number (`12/B*`, which fails the allowed letters/numbers/spaces/hyphens pattern) — other fields are valid and show no errors.\n- Used logical CSS properties (`inline-size`, `margin-block-*`, etc.) instead of left/right so it mirrors correctly for the `ar-AE` RTL locale, and relied on `--strata-*` CSS custom properties (tokens) for colors/spacing/typography, with safe fallback values, so it adapts to brand/scheme/density via `ThemeScope`.\n- Note: `@strata/react` isn't installed in this environment (no `node_modules`), so I couldn't inspect its actual component API — I built the form with plain semantic HTML (`input`/`select`/`textarea`/`label`) rather than guessing at unverified component/prop names, keeping full accessibility (labels, `aria-invalid`, `aria-describedby`, `role=\"alert\"`)."
+  }
+}

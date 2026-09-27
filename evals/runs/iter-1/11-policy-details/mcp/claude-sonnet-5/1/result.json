@@ -1,0 +1,91 @@
+{
+  "prompt": "11-policy-details",
+  "tags": [
+    "multi-brand"
+  ],
+  "condition": "mcp",
+  "model": "claude-sonnet-5",
+  "repeat": 1,
+  "iteration": "1",
+  "source": {
+    "commit": "320a45c63ccf410e91943590bcd6202615d23ebc",
+    "dirty": []
+  },
+  "startedAt": "2026-09-27T14:40:43.549Z",
+  "wallMs": 205012,
+  "exitCode": 0,
+  "timedOut": false,
+  "editedProtectedFiles": [],
+  "toolCalls": {
+    "Read": 3,
+    "Glob": 6,
+    "mcp__strata__list_components": 1,
+    "mcp__strata__get_pattern": 2,
+    "mcp__strata__get_component": 14,
+    "mcp__strata__get_example": 16,
+    "mcp__strata__get_tokens": 1,
+    "Write": 2,
+    "mcp__strata__audit_snippet": 2,
+    "Edit": 1
+  },
+  "pathsOutsideWorkspace": [],
+  "touchedRepo": false,
+  "usedMemory": false,
+  "cli": {
+    "isError": false,
+    "subtype": "success",
+    "turns": 49,
+    "durationMs": 203651,
+    "costUsd": 0.6411522000000001,
+    "usage": {
+      "input_tokens": 48,
+      "cache_creation_input_tokens": 61050,
+      "cache_read_input_tokens": 998481,
+      "output_tokens": 19716,
+      "output_tokens_details": {
+        "thinking_tokens": 8413
+      },
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 61050,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 2,
+          "output_tokens": 386,
+          "cache_read_input_tokens": 71144,
+          "cache_creation_input_tokens": 391,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 391
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-sonnet-5": {
+        "inputTokens": 48,
+        "outputTokens": 19716,
+        "cacheReadInputTokens": 998481,
+        "cacheCreationInputTokens": 61050,
+        "webSearchRequests": 0,
+        "costUSD": 0.6411522000000001,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 64000,
+        "thinkingTokens": 8413,
+        "canonicalModel": "claude-sonnet-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "finalMessage": "The policy details screen is built in `src/screens/Screen.tsx` with styles in `src/screens/Screen.module.css`:\n\n- **Header**: policy name, number, category tag, and status badge (`Badge variant=\"status\"`).\n- **Tabs** (Cover, Documents, Payments) using `Tabs`/`TabList`/`Tab`/`TabPanel`.\n- **Cover**: two outline cards, \"What's included\" (`IconCheck`, success) and \"What's not included\" (`IconX`, muted), each item paired with icon + text.\n- **Documents**: a card with an inset list of four files, each with an `IconTile`, name, metadata, and a \"Download\" button.\n- **Payments**: a \"Next payment\" card with `Amount` and due date, plus a card listing the last three payments with amount and a status badge (Paid/Failed).\n\nAll values are tokens (no hex/px beyond 0/1px/2px), logical properties only, mock data is inline, and both files scored 100 on `audit_snippet`. I couldn't run the app to visually verify since I can't launch the dev server — you'll want to eyeball it across brands/schemes/RTL before shipping."
+  }
+}

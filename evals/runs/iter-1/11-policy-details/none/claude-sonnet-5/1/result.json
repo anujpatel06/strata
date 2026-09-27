@@ -1,0 +1,85 @@
+{
+  "prompt": "11-policy-details",
+  "tags": [
+    "multi-brand"
+  ],
+  "condition": "none",
+  "model": "claude-sonnet-5",
+  "repeat": 1,
+  "iteration": "1",
+  "source": {
+    "commit": "320a45c63ccf410e91943590bcd6202615d23ebc",
+    "dirty": []
+  },
+  "startedAt": "2026-09-27T14:39:08.686Z",
+  "wallMs": 127544,
+  "exitCode": 0,
+  "timedOut": false,
+  "editedProtectedFiles": [],
+  "toolCalls": {
+    "Read": 7,
+    "Glob": 5,
+    "Grep": 1,
+    "Write": 2
+  },
+  "pathsOutsideWorkspace": [],
+  "touchedRepo": false,
+  "usedMemory": false,
+  "cli": {
+    "isError": false,
+    "subtype": "success",
+    "turns": 16,
+    "durationMs": 126180,
+    "costUsd": 0.22447280000000003,
+    "usage": {
+      "input_tokens": 18,
+      "cache_creation_input_tokens": 16990,
+      "cache_read_input_tokens": 111084,
+      "output_tokens": 13426,
+      "output_tokens_details": {
+        "thinking_tokens": 5064
+      },
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 16990,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 2,
+          "output_tokens": 468,
+          "cache_read_input_tokens": 21539,
+          "cache_creation_input_tokens": 3917,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 3917
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-sonnet-5": {
+        "inputTokens": 18,
+        "outputTokens": 13426,
+        "cacheReadInputTokens": 111084,
+        "cacheCreationInputTokens": 16990,
+        "webSearchRequests": 0,
+        "costUSD": 0.22447280000000003,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 64000,
+        "thinkingTokens": 5064,
+        "canonicalModel": "claude-sonnet-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "finalMessage": "Built the policy details screen at `src/screens/Screen.tsx` with styles in `src/screens/Screen.module.css`.\n\n- **Header**: policy name, number, and a color-coded status badge (active/renewal-due/lapsed).\n- **Tabs** (Cover, Documents, Payments): accessible `role=\"tablist\"`/`tab`/`tabpanel` with arrow-key navigation.\n- **Cover**: two columns of included/excluded items with check/cross markers.\n- **Documents**: 4 mock files with name, format, size, and a Download button each.\n- **Payments**: next payment (amount, due date, method) plus a history list of the last three payments.\n\nSince `node_modules` isn't installed in this sandbox (no `@strata/react`/`@strata/icons` types available to inspect), I built the UI from semantic HTML/CSS rather than guessing at component APIs, but wired styling to Strata design tokens (`--strata-color-*`, `--strata-space-*`, `--strata-font-*`, `--strata-radius-*`) confirmed via `app.css`, each with a sensible fallback value so it renders correctly even if a given token name doesn't exist, and adapts automatically per brand/scheme when it does. Logical CSS properties (`margin-inline`, `border-block-end`, `text-align: end`, etc.) are used throughout for correct RTL rendering in `ar-AE`."
+  }
+}

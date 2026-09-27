@@ -1,0 +1,85 @@
+{
+  "prompt": "17-search-results",
+  "tags": [
+    "a11y"
+  ],
+  "condition": "none",
+  "model": "claude-sonnet-5",
+  "repeat": 2,
+  "iteration": "1",
+  "source": {
+    "commit": "320a45c63ccf410e91943590bcd6202615d23ebc",
+    "dirty": []
+  },
+  "startedAt": "2026-09-27T15:02:40.684Z",
+  "wallMs": 330446,
+  "exitCode": 0,
+  "timedOut": false,
+  "editedProtectedFiles": [],
+  "toolCalls": {
+    "Read": 9,
+    "Glob": 7,
+    "Write": 2,
+    "Edit": 3
+  },
+  "pathsOutsideWorkspace": [],
+  "touchedRepo": false,
+  "usedMemory": false,
+  "cli": {
+    "isError": false,
+    "subtype": "success",
+    "turns": 22,
+    "durationMs": 328955,
+    "costUsd": 0.5270086,
+    "usage": {
+      "input_tokens": 28,
+      "cache_creation_input_tokens": 48620,
+      "cache_read_input_tokens": 365113,
+      "output_tokens": 25945,
+      "output_tokens_details": {
+        "thinking_tokens": 13232
+      },
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 48620,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 2,
+          "output_tokens": 464,
+          "cache_read_input_tokens": 56370,
+          "cache_creation_input_tokens": 716,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 716
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-sonnet-5": {
+        "inputTokens": 28,
+        "outputTokens": 25945,
+        "cacheReadInputTokens": 365113,
+        "cacheCreationInputTokens": 48620,
+        "webSearchRequests": 0,
+        "costUSD": 0.5270086,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 64000,
+        "thinkingTokens": 13232,
+        "canonicalModel": "claude-sonnet-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "finalMessage": "The screen is built at `src/screens/Screen.tsx` with styles in `src/screens/Screen.module.css`.\n\nSummary of what it does:\n- An accessible combobox search input (ARIA combobox/listbox pattern) with mock topic suggestions filtered as you type, matched substring bolded.\n- Arrow Up/Down moves through suggestions, Enter selects the active one (or free-types a search), Escape closes the dropdown, mouse hover/click also works without stealing input focus.\n- Selecting a suggestion shows a results section: a summary line and a grid of six benefit cards, each with name, category pill, one-line description, and an Eligible/Not eligible badge.\n- One suggestion (\"Veteran and military benefits\") intentionally has zero mock results to demonstrate the no-results empty state; any unmatched free-text search also falls into that state.\n- A \"New search\" button resets back to the empty search view.\n\nSince I couldn't inspect `@strata/react`'s actual component API (no `node_modules` installed in this sandbox and I kept work scoped to this folder), I built the UI with plain semantic HTML/CSS rather than importing unverified components, and styled it with Strata CSS variables (`var(--strata-color-*)`, `var(--strata-space-*)`, etc., all with sane fallbacks) plus logical properties so it holds up across brands, dark mode, and the RTL locale."
+  }
+}

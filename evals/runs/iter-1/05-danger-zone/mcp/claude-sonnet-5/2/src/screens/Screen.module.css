@@ -1,0 +1,108 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-8);
+  max-width: 720px;
+  margin-inline: auto;
+  padding-block: var(--strata-space-8);
+  padding-inline: var(--strata-space-4);
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-2);
+}
+
+.title {
+  font: var(--strata-font-heading);
+  font-size: var(--strata-font-size-lg);
+  font-weight: var(--strata-font-weight-semibold);
+  color: var(--strata-color-text-default);
+}
+
+.description {
+  font: var(--strata-font-body);
+  font-size: var(--strata-font-size-md);
+  color: var(--strata-color-text-subtle);
+}
+
+.section {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--strata-space-4);
+}
+
+.aside {
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-1);
+}
+
+.sectionTitle {
+  font: var(--strata-font-heading);
+  font-size: var(--strata-font-size-md);
+  font-weight: var(--strata-font-weight-semibold);
+  color: var(--strata-color-text-default);
+}
+
+.sectionDescription {
+  font: var(--strata-font-body);
+  font-size: var(--strata-font-size-sm);
+  color: var(--strata-color-text-subtle);
+}
+
+.sectionBody {
+  display: flex;
+  flex-direction: column;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+}
+
+.fieldGrid {
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-4);
+}
+
+.switches {
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-4);
+}
+
+.switch {
+  padding-block: var(--strata-space-1);
+}
+
+.footerEnd {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--strata-space-4);
+}
+
+.dangerText {
+  font: var(--strata-font-body);
+  font-size: var(--strata-font-size-sm);
+  color: var(--strata-color-text-subtle);
+}
+
+.dialogIntro {
+  margin-block-end: var(--strata-space-2);
+}
+
+.lossList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-1);
+  padding-inline-start: var(--strata-space-4);
+}

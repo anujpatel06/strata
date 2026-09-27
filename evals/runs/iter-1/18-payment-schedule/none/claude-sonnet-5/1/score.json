@@ -1,0 +1,94 @@
+{
+  "prompt": "18-payment-schedule",
+  "condition": "none",
+  "model": "claude-sonnet-5",
+  "repeat": 1,
+  "tags": [
+    "multi-brand"
+  ],
+  "scoredAt": "2026-09-27T15:52:38.980Z",
+  "built": true,
+  "agentFailed": false,
+  "editedProtectedFiles": [],
+  "contaminated": false,
+  "touchedRepo": false,
+  "toolCalls": {
+    "Read": 38,
+    "Glob": 12,
+    "Grep": 14,
+    "Write": 2,
+    "Edit": 2
+  },
+  "files": 2,
+  "lines": 669,
+  "brandNames": 0,
+  "typeErrors": 3,
+  "typeErrorSample": [
+    "src/screens/Screen.tsx(255,9): error TS2322: Type '(key: Key) => void' is not assignable to type '(key: Key | null) => void'.",
+    "src/screens/Screen.tsx(266,9): error TS2322: Type '(key: Key) => void' is not assignable to type '(key: Key | null) => void'.",
+    "src/screens/Screen.tsx(348,9): error TS2322: Type '(key: Key) => void' is not assignable to type '(key: Key | null) => void'."
+  ],
+  "audit": {
+    "score": 95.3,
+    "findings": 2,
+    "opportunities": 60,
+    "byRule": {
+      "native-element": 2
+    }
+  },
+  "views": [
+    {
+      "name": "light",
+      "query": "tenant=vela&locale=en-IN",
+      "scheme": "light",
+      "width": 1280,
+      "pageErrors": [],
+      "mounted": true,
+      "textLength": 513,
+      "overflowPx": 0,
+      "axeNodes": 0,
+      "axeRules": {}
+    },
+    {
+      "name": "dark",
+      "query": "tenant=vela&locale=en-IN",
+      "scheme": "dark",
+      "width": 1280,
+      "pageErrors": [],
+      "mounted": true,
+      "textLength": 513,
+      "overflowPx": 0,
+      "axeNodes": 0,
+      "axeRules": {}
+    },
+    {
+      "name": "narrow",
+      "query": "tenant=vela&locale=en-IN",
+      "scheme": "light",
+      "width": 390,
+      "pageErrors": [],
+      "mounted": true,
+      "textLength": 513,
+      "overflowPx": 0,
+      "axeNodes": 0,
+      "axeRules": {}
+    },
+    {
+      "name": "brand:care",
+      "query": "tenant=care&locale=en-IN",
+      "scheme": "light",
+      "width": 1280,
+      "pageErrors": [],
+      "mounted": true,
+      "textLength": 513,
+      "overflowPx": 0,
+      "axeNodes": 0,
+      "axeRules": {}
+    }
+  ],
+  "builds": true,
+  "renders": true,
+  "axeNodes": 0,
+  "overflowPx": 0,
+  "onSystem": false
+}

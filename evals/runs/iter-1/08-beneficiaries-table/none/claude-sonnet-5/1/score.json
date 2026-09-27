@@ -1,0 +1,80 @@
+{
+  "prompt": "08-beneficiaries-table",
+  "condition": "none",
+  "model": "claude-sonnet-5",
+  "repeat": 1,
+  "tags": [
+    "a11y"
+  ],
+  "scoredAt": "2026-09-27T15:49:29.671Z",
+  "built": true,
+  "agentFailed": false,
+  "editedProtectedFiles": [],
+  "contaminated": false,
+  "touchedRepo": false,
+  "toolCalls": {
+    "Read": 7,
+    "Glob": 8,
+    "Write": 2
+  },
+  "files": 2,
+  "lines": 579,
+  "brandNames": 0,
+  "typeErrors": 0,
+  "audit": {
+    "score": 67.4,
+    "findings": 48,
+    "opportunities": 166,
+    "byRule": {
+      "raw-color": 31,
+      "raw-font-weight": 4,
+      "physical-property": 1,
+      "native-element": 12
+    }
+  },
+  "views": [
+    {
+      "name": "light",
+      "query": "tenant=vela&locale=en-IN",
+      "scheme": "light",
+      "width": 1280,
+      "pageErrors": [],
+      "mounted": true,
+      "textLength": 386,
+      "overflowPx": 0,
+      "axeNodes": 0,
+      "axeRules": {}
+    },
+    {
+      "name": "dark",
+      "query": "tenant=vela&locale=en-IN",
+      "scheme": "dark",
+      "width": 1280,
+      "pageErrors": [],
+      "mounted": true,
+      "textLength": 386,
+      "overflowPx": 0,
+      "axeNodes": 17,
+      "axeRules": {
+        "color-contrast": 17
+      }
+    },
+    {
+      "name": "narrow",
+      "query": "tenant=vela&locale=en-IN",
+      "scheme": "light",
+      "width": 390,
+      "pageErrors": [],
+      "mounted": true,
+      "textLength": 386,
+      "overflowPx": 118,
+      "axeNodes": 0,
+      "axeRules": {}
+    }
+  ],
+  "builds": true,
+  "renders": true,
+  "axeNodes": 17,
+  "overflowPx": 118,
+  "onSystem": false
+}

@@ -1,0 +1,241 @@
+.screen {
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-4, 20px);
+  font-family: var(--strata-font-body, system-ui, sans-serif);
+  color: var(--strata-color-text-default, #1a1a1a);
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-1, 4px);
+}
+
+.title {
+  margin: 0;
+  font-size: var(--strata-font-size-xl, 1.5rem);
+  font-family: var(--strata-font-heading, inherit);
+  font-weight: 600;
+}
+
+.subtitle {
+  margin: 0;
+  color: var(--strata-color-text-muted, #6b6b6b);
+  font-size: var(--strata-font-size-sm, 0.875rem);
+}
+
+.selectionBar {
+  position: sticky;
+  top: var(--strata-space-2, 8px);
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--strata-space-3, 12px);
+  padding: var(--strata-space-3, 12px) var(--strata-space-4, 16px);
+  background: var(--strata-color-surface-raised, #f4f6fb);
+  border: 1px solid var(--strata-color-border-default, #d8dce3);
+  border-radius: var(--strata-radius-md, 8px);
+  box-shadow: var(--strata-shadow-sm, 0 1px 4px rgba(0, 0, 0, 0.08));
+}
+
+.selectionCount {
+  font-size: var(--strata-font-size-sm, 0.875rem);
+  font-weight: 600;
+}
+
+.removeSelectedButton {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--strata-space-2, 8px);
+  border: 1px solid var(--strata-color-danger, #d92d20);
+  background: var(--strata-color-danger-surface, transparent);
+  color: var(--strata-color-danger, #d92d20);
+  border-radius: var(--strata-radius-sm, 6px);
+  padding: var(--strata-space-2, 8px) var(--strata-space-3, 12px);
+  font-size: var(--strata-font-size-sm, 0.875rem);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.removeSelectedButton:hover {
+  background: var(--strata-color-danger, #d92d20);
+  color: var(--strata-color-on-danger, #fff);
+}
+
+.removeSelectedButton:focus-visible {
+  outline: 2px solid var(--strata-color-focus-ring, #2563eb);
+  outline-offset: 2px;
+}
+
+.tableWrap {
+  overflow-x: auto;
+  border: 1px solid var(--strata-color-border-default, #d8dce3);
+  border-radius: var(--strata-radius-md, 8px);
+  background: var(--strata-color-surface-raised, #fff);
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: start;
+}
+
+.table th,
+.table td {
+  padding: var(--strata-space-3, 12px) var(--strata-space-4, 16px);
+  text-align: start;
+  vertical-align: middle;
+}
+
+.table thead th {
+  font-size: var(--strata-font-size-xs, 0.75rem);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: var(--strata-color-text-muted, #6b6b6b);
+  border-block-end: 1px solid var(--strata-color-border-default, #d8dce3);
+  white-space: nowrap;
+}
+
+.table tbody tr {
+  border-block-end: 1px solid var(--strata-color-border-subtle, #eceef2);
+}
+
+.table tbody tr:last-child {
+  border-block-end: none;
+}
+
+.table tbody tr:hover {
+  background: var(--strata-color-surface-hover, #f7f8fa);
+}
+
+.rowSelected {
+  background: var(--strata-color-selected-surface, #eef2ff);
+}
+
+.checkboxCell {
+  inline-size: 2.5rem;
+}
+
+.checkboxCell input,
+.selectionBar input {
+  accent-color: var(--strata-color-accent, #2563eb);
+  inline-size: 1.05rem;
+  block-size: 1.05rem;
+  cursor: pointer;
+}
+
+.name {
+  font-weight: 600;
+}
+
+.account {
+  font-family: var(--strata-font-mono, monospace);
+  color: var(--strata-color-text-muted, #6b6b6b);
+  white-space: nowrap;
+}
+
+.date {
+  white-space: nowrap;
+  color: var(--strata-color-text-muted, #6b6b6b);
+}
+
+.sortButton {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--strata-space-1, 4px);
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  color: inherit;
+  font: inherit;
+  text-transform: inherit;
+  letter-spacing: inherit;
+  cursor: pointer;
+}
+
+.sortButton:focus-visible {
+  outline: 2px solid var(--strata-color-focus-ring, #2563eb);
+  outline-offset: 2px;
+  border-radius: var(--strata-radius-sm, 4px);
+}
+
+.sortIcon {
+  color: var(--strata-color-border-strong, #b8bcc4);
+  transition: transform 0.15s ease, color 0.15s ease;
+}
+
+.sortIconActive {
+  color: var(--strata-color-text-default, #1a1a1a);
+}
+
+.sortIconDesc {
+  transform: rotate(180deg);
+}
+
+.actionsCell {
+  inline-size: 5.5rem;
+  text-align: end;
+}
+
+.actionGroup {
+  display: inline-flex;
+  gap: var(--strata-space-1, 6px);
+  justify-content: flex-end;
+}
+
+.iconButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: 2rem;
+  block-size: 2rem;
+  border: 1px solid transparent;
+  border-radius: var(--strata-radius-sm, 6px);
+  background: none;
+  color: var(--strata-color-text-muted, #6b6b6b);
+  cursor: pointer;
+}
+
+.iconButton:hover {
+  background: var(--strata-color-surface-hover, #eceef2);
+  color: var(--strata-color-text-default, #1a1a1a);
+}
+
+.iconButton:focus-visible {
+  outline: 2px solid var(--strata-color-focus-ring, #2563eb);
+  outline-offset: 1px;
+}
+
+.editInput {
+  inline-size: 100%;
+  box-sizing: border-box;
+  padding: var(--strata-space-1, 4px) var(--strata-space-2, 8px);
+  border: 1px solid var(--strata-color-border-strong, #b8bcc4);
+  border-radius: var(--strata-radius-sm, 6px);
+  font: inherit;
+  color: inherit;
+  background: var(--strata-color-surface-canvas, #fff);
+}
+
+.editInput:focus-visible {
+  outline: 2px solid var(--strata-color-focus-ring, #2563eb);
+  outline-offset: 1px;
+}
+
+.emptyState {
+  text-align: center;
+  color: var(--strata-color-text-muted, #6b6b6b);
+  padding: var(--strata-space-6, 24px);
+}
+
+.visuallyHidden {
+  position: absolute;
+  inline-size: 1px;
+  block-size: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}

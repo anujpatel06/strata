@@ -1,0 +1,195 @@
+.screen {
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-6, 24px);
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-1, 4px);
+}
+
+.claimNumber {
+  margin: 0;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--strata-color-text-muted, #6b7280);
+}
+
+.title {
+  margin: 0;
+  font-family: var(--strata-font-heading, var(--strata-font-body, inherit));
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--strata-color-text-default, #1a1d21);
+}
+
+.vehicle {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--strata-color-text-muted, #6b7280);
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-4, 16px);
+}
+
+.sectionTitle {
+  margin: 0;
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--strata-color-text-default, #1a1d21);
+}
+
+.timeline {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.item {
+  position: relative;
+  display: flex;
+  gap: var(--strata-space-4, 16px);
+  padding-block-end: var(--strata-space-6, 24px);
+}
+
+.item:last-child {
+  padding-block-end: 0;
+}
+
+.markerColumn {
+  position: relative;
+  flex: none;
+  inline-size: 20px;
+  display: flex;
+  justify-content: center;
+}
+
+.marker {
+  margin-block-start: 5px;
+  inline-size: 12px;
+  block-size: 12px;
+  border-radius: 50%;
+  background: var(--strata-color-surface-canvas, #fff);
+  border: 2px solid var(--strata-color-border-default, #d0d3d9);
+  z-index: 1;
+}
+
+.item:not(:last-child) .markerColumn::after {
+  content: '';
+  position: absolute;
+  inset-block: 17px calc(-1 * var(--strata-space-6, 24px));
+  inset-inline-start: 9px;
+  inline-size: 2px;
+  background: var(--strata-color-border-default, #e2e4e9);
+}
+
+.itemCurrent .marker {
+  background: var(--strata-color-primary, #2563eb);
+  border-color: var(--strata-color-primary, #2563eb);
+  box-shadow: 0 0 0 4px var(--strata-color-primary-subtle, rgba(37, 99, 235, 0.15));
+}
+
+.content {
+  flex: 1;
+  min-inline-size: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-1, 4px);
+}
+
+.itemCurrent .content {
+  padding: var(--strata-space-4, 16px);
+  border-radius: var(--strata-radius-lg, 12px);
+  background: var(--strata-color-surface-raised, #fff);
+  border: 1px solid var(--strata-color-border-default, #e2e4e9);
+}
+
+.meta {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--strata-space-2, 8px);
+}
+
+.time {
+  font-size: 0.8rem;
+  color: var(--strata-color-text-muted, #6b7280);
+}
+
+.currentBadge {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: var(--strata-color-primary, #2563eb);
+  background: var(--strata-color-primary-subtle, rgba(37, 99, 235, 0.12));
+  padding-block: 2px;
+  padding-inline: var(--strata-space-2, 8px);
+  border-radius: var(--strata-radius-full, 999px);
+}
+
+.actor {
+  margin: 0;
+  font-size: 0.95rem;
+}
+
+.actorName {
+  font-weight: 600;
+  color: var(--strata-color-text-default, #1a1d21);
+}
+
+.actorRole {
+  color: var(--strata-color-text-muted, #6b7280);
+}
+
+.description {
+  margin: 0;
+  line-height: 1.5;
+  color: var(--strata-color-text-default, #1a1d21);
+}
+
+.actionRow {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--strata-space-3, 12px);
+  margin-block-start: var(--strata-space-2, 8px);
+}
+
+.actionButton {
+  appearance: none;
+  border: none;
+  cursor: pointer;
+  font: inherit;
+  font-weight: 600;
+  padding-block: 8px;
+  padding-inline: var(--strata-space-4, 16px);
+  border-radius: var(--strata-radius-md, 8px);
+  background: var(--strata-color-primary, #2563eb);
+  color: var(--strata-color-on-primary, #fff);
+}
+
+.actionButton:hover:not(:disabled) {
+  background: var(--strata-color-primary-hover, #1d4ed8);
+}
+
+.actionButton:disabled {
+  cursor: default;
+  background: var(--strata-color-surface-muted, #e2e4e9);
+  color: var(--strata-color-text-muted, #6b7280);
+}
+
+.actionConfirm {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--strata-color-success, #15803d);
+}

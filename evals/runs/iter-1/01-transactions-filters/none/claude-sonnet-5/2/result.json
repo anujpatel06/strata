@@ -1,0 +1,85 @@
+{
+  "prompt": "01-transactions-filters",
+  "tags": [
+    "a11y"
+  ],
+  "condition": "none",
+  "model": "claude-sonnet-5",
+  "repeat": 2,
+  "iteration": "1",
+  "source": {
+    "commit": "320a45c63ccf410e91943590bcd6202615d23ebc",
+    "dirty": []
+  },
+  "startedAt": "2026-09-27T14:00:17.739Z",
+  "wallMs": 155009,
+  "exitCode": 0,
+  "timedOut": false,
+  "editedProtectedFiles": [],
+  "toolCalls": {
+    "Read": 8,
+    "Glob": 4,
+    "Write": 2,
+    "Edit": 2
+  },
+  "pathsOutsideWorkspace": [],
+  "touchedRepo": false,
+  "usedMemory": false,
+  "cli": {
+    "isError": false,
+    "subtype": "success",
+    "turns": 17,
+    "durationMs": 152778,
+    "costUsd": 0.3012852,
+    "usage": {
+      "input_tokens": 24,
+      "cache_creation_input_tokens": 24869,
+      "cache_read_input_tokens": 191506,
+      "output_tokens": 16346,
+      "output_tokens_details": {
+        "thinking_tokens": 6522
+      },
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 24869,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 2,
+          "output_tokens": 302,
+          "cache_read_input_tokens": 28504,
+          "cache_creation_input_tokens": 4831,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 4831
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-sonnet-5": {
+        "inputTokens": 24,
+        "outputTokens": 16346,
+        "cacheReadInputTokens": 191506,
+        "cacheCreationInputTokens": 24869,
+        "webSearchRequests": 0,
+        "costUSD": 0.3012852,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 64000,
+        "thinkingTokens": 6522,
+        "canonicalModel": "claude-sonnet-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "finalMessage": "The file looks correct and complete. This builds a self-contained transactions screen with:\n\n- **12 mock transactions** with date, description, category, status (completed/pending/failed) and amount, mixing credits and debits.\n- **Toolbar**: search field (matches description/category), category `<select>` filter, and a from/to date range filter.\n- **Export CSV**: generates a CSV of the currently filtered rows and triggers a client-side download (disabled when there's nothing to export).\n- **Empty state**: replaces the table when no transaction matches the active filters, with a \"Clear filters\" action.\n- Styled via `Screen.module.css` using Strata token CSS variables (with safe fallbacks) and logical properties, so it adapts across brands, light/dark scheme, density and RTL locales without depending on unverified `@strata/react` component APIs (no `node_modules` was present to inspect).\n\nNo other files were touched. Task complete."
+  }
+}

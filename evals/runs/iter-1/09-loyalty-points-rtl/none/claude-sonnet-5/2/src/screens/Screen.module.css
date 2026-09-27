@@ -1,0 +1,174 @@
+.screen {
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-6, 1.5rem);
+  max-inline-size: 480px;
+  font-family: var(--strata-font-body, inherit);
+  color: var(--strata-color-text-default, #1a1a1a);
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-1, 0.25rem);
+}
+
+.eyebrow {
+  margin: 0;
+  font-size: var(--strata-font-size-sm, 0.875rem);
+  font-weight: var(--strata-font-weight-medium, 600);
+  color: var(--strata-color-text-muted, #6b7280);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.balance {
+  margin: 0;
+  font-family: var(--strata-font-heading, inherit);
+  font-size: var(--strata-font-size-3xl, 2.5rem);
+  line-height: 1.1;
+}
+
+.subtext {
+  margin: 0;
+  color: var(--strata-color-text-muted, #6b7280);
+}
+
+.tierCard {
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-3, 0.75rem);
+  padding: var(--strata-space-5, 1.25rem);
+  border-radius: var(--strata-radius-lg, 12px);
+  background: var(--strata-color-surface-raised, #f5f5f7);
+  border: 1px solid var(--strata-color-border-default, #e5e7eb);
+}
+
+.tierHeadingRow {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--strata-space-2, 0.5rem);
+}
+
+.tierHeading {
+  margin: 0;
+  font-size: var(--strata-font-size-lg, 1.125rem);
+}
+
+.tierNext {
+  font-size: var(--strata-font-size-sm, 0.875rem);
+  color: var(--strata-color-text-muted, #6b7280);
+}
+
+.progressTrack {
+  block-size: 8px;
+  border-radius: var(--strata-radius-full, 999px);
+  background: var(--strata-color-surface-sunken, #e5e7eb);
+  overflow: hidden;
+}
+
+.progressFill {
+  block-size: 100%;
+  border-radius: var(--strata-radius-full, 999px);
+  background: var(--strata-color-brand-default, #2563eb);
+  transition: width 0.3s ease;
+}
+
+.tierDetail {
+  margin: 0;
+  font-size: var(--strata-font-size-sm, 0.875rem);
+  color: var(--strata-color-text-muted, #6b7280);
+}
+
+.actions {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--strata-space-2, 0.5rem);
+}
+
+.redeemButton {
+  appearance: none;
+  border: none;
+  cursor: pointer;
+  padding-block: var(--strata-space-3, 0.75rem);
+  padding-inline: var(--strata-space-6, 1.5rem);
+  border-radius: var(--strata-radius-md, 8px);
+  background: var(--strata-color-brand-default, #2563eb);
+  color: var(--strata-color-text-on-brand, #ffffff);
+  font-size: var(--strata-font-size-md, 1rem);
+  font-weight: var(--strata-font-weight-medium, 600);
+}
+
+.redeemButton:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+.redeemButton:not(:disabled):hover {
+  background: var(--strata-color-brand-hover, #1d4ed8);
+}
+
+.redeemConfirmation {
+  margin: 0;
+  font-size: var(--strata-font-size-sm, 0.875rem);
+  color: var(--strata-color-success-default, #16a34a);
+}
+
+.activityHeading {
+  margin: 0 0 var(--strata-space-3, 0.75rem) 0;
+  font-size: var(--strata-font-size-lg, 1.125rem);
+}
+
+.activityList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.activityItem {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--strata-space-3, 0.75rem);
+  padding-block: var(--strata-space-3, 0.75rem);
+  border-block-end: 1px solid var(--strata-color-border-default, #e5e7eb);
+}
+
+.activityItem:last-child {
+  border-block-end: none;
+}
+
+.activityInfo {
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-1, 0.25rem);
+  min-inline-size: 0;
+}
+
+.activityDescription {
+  font-size: var(--strata-font-size-md, 1rem);
+}
+
+.activityDate {
+  font-size: var(--strata-font-size-sm, 0.875rem);
+  color: var(--strata-color-text-muted, #6b7280);
+}
+
+.activityAmount {
+  flex-shrink: 0;
+  font-size: var(--strata-font-size-md, 1rem);
+  font-weight: var(--strata-font-weight-medium, 600);
+  text-align: end;
+}
+
+.amountEarned {
+  color: var(--strata-color-success-default, #16a34a);
+}
+
+.amountSpent {
+  color: var(--strata-color-text-muted, #6b7280);
+}

@@ -1,0 +1,85 @@
+{
+  "prompt": "06-order-return-rtl",
+  "tags": [
+    "rtl"
+  ],
+  "condition": "none",
+  "model": "claude-sonnet-5",
+  "repeat": 2,
+  "iteration": "1",
+  "source": {
+    "commit": "320a45c63ccf410e91943590bcd6202615d23ebc",
+    "dirty": []
+  },
+  "startedAt": "2026-09-27T14:19:58.629Z",
+  "wallMs": 110951,
+  "exitCode": 0,
+  "timedOut": false,
+  "editedProtectedFiles": [],
+  "toolCalls": {
+    "Read": 5,
+    "Glob": 4,
+    "Write": 2,
+    "Edit": 2
+  },
+  "pathsOutsideWorkspace": [],
+  "touchedRepo": false,
+  "usedMemory": false,
+  "cli": {
+    "isError": false,
+    "subtype": "success",
+    "turns": 14,
+    "durationMs": 109352,
+    "costUsd": 0.2027766,
+    "usage": {
+      "input_tokens": 22,
+      "cache_creation_input_tokens": 14780,
+      "cache_read_input_tokens": 152063,
+      "output_tokens": 11320,
+      "output_tokens_details": {
+        "thinking_tokens": 3972
+      },
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 14780,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 2,
+          "output_tokens": 337,
+          "cache_read_input_tokens": 22918,
+          "cache_creation_input_tokens": 328,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 328
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-sonnet-5": {
+        "inputTokens": 22,
+        "outputTokens": 11320,
+        "cacheReadInputTokens": 152063,
+        "cacheCreationInputTokens": 14780,
+        "webSearchRequests": 0,
+        "costUSD": 0.2027766,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 64000,
+        "thinkingTokens": 3972,
+        "canonicalModel": "claude-sonnet-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "finalMessage": "Screen built at `src/screens/Screen.tsx` with styles in `src/screens/Screen.module.css`:\n\n- Mock order with 5 items (name, quantity, unit price, line total).\n- Checkbox per item to select for return, with a reason `<select>` that enables once the item is checked.\n- Live refund total and item count, with hints when items are unselected or missing a reason.\n- Submit is disabled until every selected item has a reason; on submit it shows a confirmation state.\n- Back link with an arrow icon (mirrors automatically in RTL via `:dir(rtl)`).\n- Styling uses Strata's `--strata-*` CSS variables (with safe fallbacks, since `@strata/*` packages aren't installed in this sandbox to inspect exact component APIs) and logical CSS properties for RTL support.\n\nOne caveat: since `node_modules` isn't installed here, I couldn't run typecheck/dev server to verify — worth running `pnpm install && pnpm typecheck` once dependencies are available."
+  }
+}

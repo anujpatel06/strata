@@ -1,0 +1,284 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-6, 24px);
+  max-inline-size: 640px;
+  margin-inline: auto;
+  font-family: var(--strata-font-body, inherit);
+  color: var(--strata-color-text-default, #1a1a1a);
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-4, 16px);
+}
+
+.eyebrow {
+  margin: 0;
+  font-size: var(--strata-font-size-sm, 0.8125rem);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--strata-color-text-muted, #6b7280);
+}
+
+.title {
+  margin: 0;
+  font-size: var(--strata-font-size-xl, 1.5rem);
+  font-weight: 700;
+}
+
+.stepper {
+  display: flex;
+  align-items: center;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.step {
+  display: flex;
+  align-items: center;
+  flex: 1 1 auto;
+}
+
+.step:last-child {
+  flex: 0 0 auto;
+}
+
+.stepCircle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: 28px;
+  block-size: 28px;
+  border-radius: var(--strata-radius-full, 999px);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  flex-shrink: 0;
+  border: 1.5px solid var(--strata-color-border-default, #d1d5db);
+  color: var(--strata-color-text-muted, #6b7280);
+  background: var(--strata-color-surface-canvas, #fff);
+}
+
+.stepCircle_done {
+  background: var(--strata-color-accent-emphasis, #1a5f3f);
+  border-color: var(--strata-color-accent-emphasis, #1a5f3f);
+  color: var(--strata-color-text-on-accent, #fff);
+}
+
+.stepCircle_active {
+  border-color: var(--strata-color-accent-emphasis, #1a5f3f);
+  color: var(--strata-color-accent-emphasis, #1a5f3f);
+  background: var(--strata-color-surface-canvas, #fff);
+}
+
+.stepCircle_upcoming {
+  color: var(--strata-color-text-muted, #9ca3af);
+}
+
+.stepLabel {
+  margin-inline-start: var(--strata-space-2, 8px);
+  font-size: 0.8125rem;
+  white-space: nowrap;
+  color: var(--strata-color-text-muted, #6b7280);
+}
+
+.step:has(.stepCircle_active) .stepLabel {
+  color: var(--strata-color-text-default, #1a1a1a);
+  font-weight: 600;
+}
+
+.stepConnector {
+  flex: 1 1 auto;
+  block-size: 1.5px;
+  margin-inline: var(--strata-space-3, 12px);
+  background: var(--strata-color-border-default, #d1d5db);
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-4, 16px);
+  padding: var(--strata-space-6, 24px);
+  border-radius: var(--strata-radius-lg, 12px);
+  background: var(--strata-color-surface-raised, #fff);
+  border: 1px solid var(--strata-color-border-subtle, #e5e7eb);
+}
+
+.sectionTitle {
+  margin: 0;
+  font-size: var(--strata-font-size-lg, 1.125rem);
+  font-weight: 600;
+}
+
+.sectionDescription {
+  margin: 0;
+  color: var(--strata-color-text-muted, #6b7280);
+  font-size: 0.9375rem;
+  line-height: 1.5;
+}
+
+.fileList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-2, 8px);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.fileRow {
+  display: flex;
+  align-items: center;
+  gap: var(--strata-space-3, 12px);
+  padding: var(--strata-space-3, 12px);
+  border-radius: var(--strata-radius-md, 8px);
+  border: 1px solid var(--strata-color-border-subtle, #e5e7eb);
+  background: var(--strata-color-surface-canvas, #fafafa);
+}
+
+.fileRowFailed {
+  border-color: var(--strata-color-danger-border, #f3b9b9);
+  background: var(--strata-color-danger-subtle, #fdf1f1);
+}
+
+.fileIcon {
+  display: inline-flex;
+  flex-shrink: 0;
+  color: var(--strata-color-text-muted, #6b7280);
+}
+
+.fileRowFailed .fileIcon {
+  color: var(--strata-color-danger-emphasis, #b42318);
+}
+
+.fileInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-inline-size: 0;
+  flex: 1 1 auto;
+}
+
+.fileName {
+  font-size: 0.9375rem;
+  font-weight: 500;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.fileMeta {
+  font-size: 0.8125rem;
+  color: var(--strata-color-text-muted, #6b7280);
+}
+
+.fileError {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.8125rem;
+  color: var(--strata-color-danger-emphasis, #b42318);
+}
+
+.removeButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: 32px;
+  block-size: 32px;
+  flex-shrink: 0;
+  border-radius: var(--strata-radius-full, 999px);
+  border: none;
+  background: transparent;
+  color: var(--strata-color-text-muted, #6b7280);
+  cursor: pointer;
+}
+
+.removeButton:hover {
+  background: var(--strata-color-surface-sunken, #eee);
+  color: var(--strata-color-text-default, #1a1a1a);
+}
+
+.addRow {
+  display: flex;
+  align-items: center;
+  gap: var(--strata-space-3, 12px);
+  flex-wrap: wrap;
+}
+
+.addButton {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--strata-space-2, 8px);
+  padding: var(--strata-space-2, 8px) var(--strata-space-4, 16px);
+  border-radius: var(--strata-radius-md, 8px);
+  border: 1.5px dashed var(--strata-color-border-default, #d1d5db);
+  background: transparent;
+  color: var(--strata-color-accent-emphasis, #1a5f3f);
+  font-size: 0.9375rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.addButton:hover {
+  background: var(--strata-color-surface-sunken, #f4f4f4);
+}
+
+.hiddenInput {
+  position: absolute;
+  inline-size: 1px;
+  block-size: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+.hint {
+  margin: 0;
+  font-size: 0.8125rem;
+  color: var(--strata-color-text-muted, #6b7280);
+}
+
+.footer {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--strata-space-3, 12px);
+}
+
+.backButton,
+.continueButton {
+  padding: var(--strata-space-3, 12px) var(--strata-space-6, 24px);
+  border-radius: var(--strata-radius-md, 8px);
+  font-size: 0.9375rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.backButton {
+  background: transparent;
+  border: 1.5px solid var(--strata-color-border-default, #d1d5db);
+  color: var(--strata-color-text-default, #1a1a1a);
+}
+
+.backButton:hover {
+  background: var(--strata-color-surface-sunken, #f4f4f4);
+}
+
+.continueButton {
+  border: none;
+  background: var(--strata-color-accent-emphasis, #1a5f3f);
+  color: var(--strata-color-text-on-accent, #fff);
+}
+
+.continueButton:hover:not(:disabled) {
+  filter: brightness(1.05);
+}
+
+.continueButton:disabled {
+  background: var(--strata-color-surface-sunken, #d1d5db);
+  color: var(--strata-color-text-muted, #9ca3af);
+  cursor: not-allowed;
+}

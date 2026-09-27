@@ -1,0 +1,84 @@
+{
+  "prompt": "17-search-results",
+  "tags": [
+    "a11y"
+  ],
+  "condition": "none",
+  "model": "claude-sonnet-5",
+  "repeat": 1,
+  "iteration": "1",
+  "source": {
+    "commit": "320a45c63ccf410e91943590bcd6202615d23ebc",
+    "dirty": []
+  },
+  "startedAt": "2026-09-27T15:00:17.251Z",
+  "wallMs": 143424,
+  "exitCode": 0,
+  "timedOut": false,
+  "editedProtectedFiles": [],
+  "toolCalls": {
+    "Read": 7,
+    "Glob": 4,
+    "Write": 2
+  },
+  "pathsOutsideWorkspace": [],
+  "touchedRepo": false,
+  "usedMemory": false,
+  "cli": {
+    "isError": false,
+    "subtype": "success",
+    "turns": 14,
+    "durationMs": 142091,
+    "costUsd": 0.24603200000000003,
+    "usage": {
+      "input_tokens": 16,
+      "cache_creation_input_tokens": 18623,
+      "cache_read_input_tokens": 101340,
+      "output_tokens": 15124,
+      "output_tokens_details": {
+        "thinking_tokens": 7394
+      },
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 18623,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 2,
+          "output_tokens": 383,
+          "cache_read_input_tokens": 24034,
+          "cache_creation_input_tokens": 3055,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 3055
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-sonnet-5": {
+        "inputTokens": 16,
+        "outputTokens": 15124,
+        "cacheReadInputTokens": 101340,
+        "cacheCreationInputTokens": 18623,
+        "webSearchRequests": 0,
+        "costUSD": 0.24603200000000003,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 64000,
+        "thinkingTokens": 7394,
+        "canonicalModel": "claude-sonnet-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "finalMessage": "The screen is built at `src/screens/Screen.tsx` with styles in `src/screens/Screen.module.css`.\n\n- A combobox-style search input (with mock data for 6 benefits inline) shows live, filtered suggestions as you type; ArrowUp/Down moves through them, Enter selects the highlighted one (or searches the raw text if none is highlighted), and Escape closes the list.\n- Selecting a suggestion (or pressing Enter) shows results as cards with name, category, one-line description, and an \"Eligible\"/\"Not eligible\" badge.\n- If nothing matches, a dedicated no-results state is shown instead of the grid.\n- CSS uses logical properties (for RTL) and Strata token variables with sensible fallbacks, since `@strata/react`/`@strata/tokens` aren't installed in this sandbox to inspect their exact API — I avoided importing unverified components from `@strata/react` and stuck to plain semantic HTML/ARIA to keep it robust across brands/themes.\n\nI couldn't run or visually verify the app per the instructions, so please review it in the browser across the brand/scheme/locale variants when you get a chance."
+  }
+}

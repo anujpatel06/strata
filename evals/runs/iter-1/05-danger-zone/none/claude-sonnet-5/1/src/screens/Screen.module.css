@@ -1,0 +1,267 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-6, 24px);
+  font-family: var(--strata-font-body, inherit);
+  color: var(--strata-color-text-default, #1a1a1a);
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-1, 4px);
+}
+
+.title {
+  margin: 0;
+  font-size: var(--strata-font-size-xl, 1.5rem);
+  font-weight: var(--strata-font-weight-bold, 700);
+}
+
+.subtitle {
+  margin: 0;
+  color: var(--strata-color-text-muted, #6b6b6b);
+}
+
+.section,
+.dangerSection {
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-4, 16px);
+  padding: var(--strata-space-5, 20px);
+  border-radius: var(--strata-radius-lg, 12px);
+  background: var(--strata-color-surface-raised, #ffffff);
+  border: 1px solid var(--strata-color-border, #e2e2e2);
+}
+
+.dangerSection {
+  border-color: var(--strata-color-danger-border, #f3b9b9);
+}
+
+.sectionHeader {
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-1, 4px);
+}
+
+.sectionTitle {
+  margin: 0;
+  font-size: var(--strata-font-size-lg, 1.125rem);
+  font-weight: var(--strata-font-weight-bold, 600);
+}
+
+.sectionDescription {
+  margin: 0;
+  color: var(--strata-color-text-muted, #6b6b6b);
+  font-size: var(--strata-font-size-sm, 0.875rem);
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-4, 16px);
+  max-inline-size: 28rem;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-1, 4px);
+}
+
+.label {
+  font-size: var(--strata-font-size-sm, 0.875rem);
+  font-weight: var(--strata-font-weight-medium, 500);
+}
+
+.input {
+  padding-block: var(--strata-space-2, 8px);
+  padding-inline: var(--strata-space-3, 12px);
+  border-radius: var(--strata-radius-md, 8px);
+  border: 1px solid var(--strata-color-border, #cfcfcf);
+  background: var(--strata-color-surface-canvas, #ffffff);
+  color: var(--strata-color-text-default, #1a1a1a);
+  font: inherit;
+}
+
+.input:focus-visible {
+  outline: 2px solid var(--strata-color-focus-ring, #2563eb);
+  outline-offset: 1px;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: var(--strata-space-3, 12px);
+}
+
+.buttonPrimary,
+.buttonSecondary,
+.buttonDanger {
+  padding-block: var(--strata-space-2, 8px);
+  padding-inline: var(--strata-space-4, 16px);
+  border-radius: var(--strata-radius-md, 8px);
+  font: inherit;
+  font-weight: var(--strata-font-weight-medium, 600);
+  cursor: pointer;
+  border: 1px solid transparent;
+}
+
+.buttonPrimary {
+  background: var(--strata-color-accent, #2563eb);
+  color: var(--strata-color-on-accent, #ffffff);
+}
+
+.buttonPrimary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.buttonSecondary {
+  background: transparent;
+  border-color: var(--strata-color-border, #cfcfcf);
+  color: var(--strata-color-text-default, #1a1a1a);
+}
+
+.buttonDanger {
+  background: var(--strata-color-danger, #dc2626);
+  color: var(--strata-color-on-danger, #ffffff);
+}
+
+.buttonDanger:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.savedMessage {
+  color: var(--strata-color-success, #16a34a);
+  font-size: var(--strata-font-size-sm, 0.875rem);
+}
+
+.toggleList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.toggleRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--strata-space-4, 16px);
+  padding-block: var(--strata-space-3, 12px);
+  border-block-end: 1px solid var(--strata-color-border, #eeeeee);
+}
+
+.toggleRow:last-child {
+  border-block-end: none;
+}
+
+.toggleInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.toggleLabel {
+  font-weight: var(--strata-font-weight-medium, 500);
+  cursor: pointer;
+}
+
+.toggleDescription {
+  margin: 0;
+  color: var(--strata-color-text-muted, #6b6b6b);
+  font-size: var(--strata-font-size-sm, 0.875rem);
+}
+
+.switchTrack {
+  flex-shrink: 0;
+  inline-size: 2.5rem;
+  block-size: 1.5rem;
+  border-radius: 999px;
+  border: none;
+  padding: 2px;
+  display: flex;
+  align-items: center;
+  background: var(--strata-color-border-strong, #c6c6c6);
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+
+.switchTrack[data-on='true'] {
+  background: var(--strata-color-accent, #2563eb);
+  justify-content: flex-end;
+}
+
+.switchThumb {
+  inline-size: 1.125rem;
+  block-size: 1.125rem;
+  border-radius: 50%;
+  background: var(--strata-color-on-accent, #ffffff);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
+}
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: var(--strata-color-overlay, rgba(0, 0, 0, 0.5));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--strata-space-4, 16px);
+  z-index: 100;
+}
+
+.dialog {
+  max-inline-size: 30rem;
+  inline-size: 100%;
+  background: var(--strata-color-surface-raised, #ffffff);
+  border-radius: var(--strata-radius-lg, 12px);
+  padding: var(--strata-space-6, 24px);
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-3, 12px);
+  box-shadow: var(--strata-shadow-lg, 0 10px 40px rgba(0, 0, 0, 0.25));
+}
+
+.dialogTitle {
+  margin: 0;
+}
+
+.dialogDescription {
+  margin: 0;
+  color: var(--strata-color-text-muted, #6b6b6b);
+}
+
+.dialogList {
+  margin: 0;
+  padding-inline-start: var(--strata-space-5, 20px);
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-1, 4px);
+}
+
+.dialogCheckboxRow {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--strata-space-2, 8px);
+  font-size: var(--strata-font-size-sm, 0.875rem);
+  cursor: pointer;
+}
+
+.dialogActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--strata-space-3, 12px);
+  margin-block-start: var(--strata-space-2, 8px);
+}
+
+.closedState {
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-2, 8px);
+  padding: var(--strata-space-6, 24px);
+  text-align: center;
+}

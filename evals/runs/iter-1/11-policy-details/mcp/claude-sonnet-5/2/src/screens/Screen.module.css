@@ -1,0 +1,134 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-6);
+  max-inline-size: 960px;
+  margin-inline: auto;
+  padding: var(--strata-space-6);
+}
+
+.header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--strata-space-4);
+}
+
+.headerText {
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-1);
+}
+
+.title {
+  margin: 0;
+  font: var(--strata-font-heading);
+  font-size: var(--strata-font-size-2xl);
+  font-weight: var(--strata-font-weight-semibold);
+  color: var(--strata-color-text-default);
+}
+
+.policyNumber {
+  margin: 0;
+  font-size: var(--strata-font-size-sm);
+  color: var(--strata-color-text-subtle);
+}
+
+.coverGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: var(--strata-space-4);
+  margin-top: var(--strata-space-4);
+}
+
+.coverList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-3);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.coverRow {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--strata-space-2);
+  font-size: var(--strata-font-size-sm);
+  color: var(--strata-color-text-default);
+}
+
+.includedIcon {
+  flex-shrink: 0;
+  color: var(--strata-color-feedback-success-fg);
+}
+
+.excludedIcon {
+  flex-shrink: 0;
+  color: var(--strata-color-feedback-danger-fg);
+}
+
+.documentList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-4);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.documentRow {
+  display: flex;
+  align-items: center;
+  gap: var(--strata-space-3);
+}
+
+.documentText {
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-1);
+  flex: 1;
+  min-inline-size: 0;
+}
+
+.documentName {
+  font-size: var(--strata-font-size-sm);
+  font-weight: var(--strata-font-weight-medium);
+  color: var(--strata-color-text-default);
+}
+
+.documentMeta {
+  font-size: var(--strata-font-size-xs);
+  color: var(--strata-color-text-subtle);
+}
+
+.paymentsStack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-4);
+  margin-top: var(--strata-space-4);
+}
+
+.paymentList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-3);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.paymentRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--strata-space-3);
+  font-size: var(--strata-font-size-sm);
+  color: var(--strata-color-text-default);
+}
+
+.paymentRight {
+  display: flex;
+  align-items: center;
+  gap: var(--strata-space-3);
+}

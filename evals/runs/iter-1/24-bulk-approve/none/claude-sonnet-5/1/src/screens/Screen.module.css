@@ -1,0 +1,218 @@
+.screen {
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-5, 20px);
+  color: var(--strata-color-text-default, #1a1a1a);
+  font-family: var(--strata-font-body, inherit);
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-1, 4px);
+}
+
+.title {
+  margin: 0;
+  font-size: var(--strata-font-size-xl, 1.5rem);
+  font-weight: var(--strata-font-weight-bold, 700);
+}
+
+.subtitle {
+  margin: 0;
+  color: var(--strata-color-text-muted, #666);
+  font-size: var(--strata-font-size-sm, 0.875rem);
+}
+
+.banner {
+  padding: var(--strata-space-3, 12px) var(--strata-space-4, 16px);
+  border-radius: var(--strata-radius-md, 8px);
+  background: var(--strata-color-success-subtle, #e6f4ea);
+  color: var(--strata-color-success-strong, #1e7a34);
+  font-size: var(--strata-font-size-sm, 0.875rem);
+  font-weight: var(--strata-font-weight-medium, 500);
+}
+
+.toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--strata-space-3, 12px);
+  padding: var(--strata-space-3, 12px) var(--strata-space-4, 16px);
+  border-radius: var(--strata-radius-md, 8px);
+  background: var(--strata-color-surface-raised, #f7f7f8);
+  border: 1px solid var(--strata-color-border-default, #e2e2e2);
+}
+
+.selectionCount {
+  font-size: var(--strata-font-size-sm, 0.875rem);
+  color: var(--strata-color-text-muted, #666);
+}
+
+.toolbarActions {
+  display: flex;
+  gap: var(--strata-space-2, 8px);
+}
+
+.tableWrapper {
+  overflow-x: auto;
+  border: 1px solid var(--strata-color-border-default, #e2e2e2);
+  border-radius: var(--strata-radius-md, 8px);
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--strata-font-size-sm, 0.9rem);
+}
+
+.table th,
+.table td {
+  padding: var(--strata-space-3, 12px) var(--strata-space-4, 16px);
+  text-align: left;
+  border-bottom: 1px solid var(--strata-color-border-default, #e2e2e2);
+}
+
+.table thead th {
+  background: var(--strata-color-surface-raised, #f7f7f8);
+  font-weight: var(--strata-font-weight-medium, 600);
+  color: var(--strata-color-text-muted, #555);
+}
+
+.table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.rowInactive {
+  color: var(--strata-color-text-muted, #888);
+}
+
+.checkboxCell {
+  width: 1%;
+  white-space: nowrap;
+}
+
+.amountCell {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.receiptLink {
+  color: var(--strata-color-accent, #2563eb);
+  text-decoration: underline;
+}
+
+.statusBadge {
+  display: inline-block;
+  padding: 2px var(--strata-space-2, 8px);
+  border-radius: var(--strata-radius-full, 999px);
+  font-size: var(--strata-font-size-xs, 0.75rem);
+  font-weight: var(--strata-font-weight-medium, 600);
+}
+
+.status-pending {
+  background: var(--strata-color-warning-subtle, #fff4e0);
+  color: var(--strata-color-warning-strong, #9a6400);
+}
+
+.status-approved {
+  background: var(--strata-color-success-subtle, #e6f4ea);
+  color: var(--strata-color-success-strong, #1e7a34);
+}
+
+.status-rejected {
+  background: var(--strata-color-danger-subtle, #fdeaea);
+  color: var(--strata-color-danger-strong, #b42318);
+}
+
+.reasonText {
+  color: var(--strata-color-text-muted, #666);
+  font-size: var(--strata-font-size-xs, 0.8rem);
+}
+
+.approveButton,
+.rejectButton,
+.secondaryButton {
+  border: none;
+  border-radius: var(--strata-radius-md, 8px);
+  padding: var(--strata-space-2, 8px) var(--strata-space-4, 16px);
+  font-size: var(--strata-font-size-sm, 0.875rem);
+  font-weight: var(--strata-font-weight-medium, 600);
+  cursor: pointer;
+}
+
+.approveButton {
+  background: var(--strata-color-success-strong, #1e7a34);
+  color: var(--strata-color-on-accent, #fff);
+}
+
+.rejectButton {
+  background: var(--strata-color-danger-strong, #b42318);
+  color: var(--strata-color-on-accent, #fff);
+}
+
+.secondaryButton {
+  background: var(--strata-color-surface-raised, #eee);
+  color: var(--strata-color-text-default, #1a1a1a);
+  border: 1px solid var(--strata-color-border-default, #d5d5d5);
+}
+
+.approveButton:disabled,
+.rejectButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--strata-space-4, 16px);
+  z-index: 100;
+}
+
+.dialog {
+  background: var(--strata-color-surface-canvas, #fff);
+  border-radius: var(--strata-radius-lg, 12px);
+  padding: var(--strata-space-5, 20px);
+  max-inline-size: 420px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-3, 12px);
+  box-shadow: var(--strata-shadow-lg, 0 12px 32px rgba(0, 0, 0, 0.2));
+}
+
+.dialogTitle {
+  margin: 0;
+  font-size: var(--strata-font-size-lg, 1.125rem);
+}
+
+.dialogLabel {
+  font-size: var(--strata-font-size-sm, 0.875rem);
+  font-weight: var(--strata-font-weight-medium, 600);
+}
+
+.textarea {
+  font-family: inherit;
+  font-size: var(--strata-font-size-sm, 0.9rem);
+  padding: var(--strata-space-2, 8px);
+  border-radius: var(--strata-radius-md, 8px);
+  border: 1px solid var(--strata-color-border-default, #d5d5d5);
+  resize: vertical;
+}
+
+.errorText {
+  margin: 0;
+  color: var(--strata-color-danger-strong, #b42318);
+  font-size: var(--strata-font-size-xs, 0.8rem);
+}
+
+.dialogActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--strata-space-2, 8px);
+}

@@ -1,0 +1,326 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-6, 24px);
+}
+
+.pageHeader {
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-1, 4px);
+}
+
+.pageTitle {
+  margin: 0;
+  font-family: var(--strata-font-heading, var(--strata-font-body, inherit));
+  font-size: var(--strata-font-size-xl, 1.5rem);
+  color: var(--strata-color-text-default, #1a1a1a);
+}
+
+.pageDescription {
+  margin: 0;
+  color: var(--strata-color-text-muted, #5f5f5f);
+}
+
+.section {
+  border: 1px solid var(--strata-color-border-default, #d8d8d8);
+  border-radius: var(--strata-radius-md, 8px);
+  background: var(--strata-color-surface-raised, var(--strata-color-surface-canvas, #fff));
+  padding: var(--strata-space-6, 24px);
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-6, 24px);
+}
+
+.sectionHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--strata-space-4, 16px);
+}
+
+.sectionTitle {
+  margin: 0 0 var(--strata-space-1, 4px);
+  font-family: var(--strata-font-heading, var(--strata-font-body, inherit));
+  font-size: var(--strata-font-size-lg, 1.125rem);
+  color: var(--strata-color-text-default, #1a1a1a);
+}
+
+.sectionDescription {
+  margin: 0;
+  color: var(--strata-color-text-muted, #5f5f5f);
+  max-inline-size: 46ch;
+}
+
+/* Switch */
+
+.switch {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--strata-space-2, 8px);
+  flex-shrink: 0;
+  border: none;
+  background: none;
+  padding: 0;
+  cursor: pointer;
+  font: inherit;
+  color: var(--strata-color-text-default, #1a1a1a);
+}
+
+.switchTrack {
+  inline-size: 2.5rem;
+  block-size: 1.5rem;
+  border-radius: var(--strata-radius-full, 999px);
+  background: var(--strata-color-border-strong, #b5b5b5);
+  padding: 2px;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  transition: background-color 0.15s ease;
+}
+
+.switchOn .switchTrack {
+  background: var(--strata-color-accent, var(--strata-color-brand-solid, #3b5bfd));
+}
+
+.switchThumb {
+  inline-size: 1.125rem;
+  block-size: 1.125rem;
+  border-radius: 50%;
+  background: var(--strata-color-surface-canvas, #fff);
+  transition: transform 0.15s ease;
+  transform: translateX(0);
+}
+
+.switchOn .switchThumb {
+  transform: translateX(1rem);
+}
+
+[dir='rtl'] .switchOn .switchThumb {
+  transform: translateX(-1rem);
+}
+
+.switchLabel {
+  font-size: var(--strata-font-size-sm, 0.875rem);
+  min-inline-size: 1.75rem;
+}
+
+/* Content shown while enabled */
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-6, 24px);
+  padding-block-start: var(--strata-space-6, 24px);
+  border-block-start: 1px solid var(--strata-color-border-default, #e2e2e2);
+}
+
+.methodGroup {
+  border: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-3, 12px);
+}
+
+.methodLegend {
+  padding: 0;
+  margin: 0 0 var(--strata-space-1, 4px);
+  font-size: var(--strata-font-size-sm, 0.875rem);
+  font-weight: 600;
+  color: var(--strata-color-text-default, #1a1a1a);
+}
+
+.radioRow {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--strata-space-3, 12px);
+  padding: var(--strata-space-3, 12px);
+  border: 1px solid var(--strata-color-border-default, #e2e2e2);
+  border-radius: var(--strata-radius-sm, 6px);
+  cursor: pointer;
+}
+
+.radioInput {
+  margin-block-start: 0.2rem;
+  accent-color: var(--strata-color-accent, var(--strata-color-brand-solid, #3b5bfd));
+  flex-shrink: 0;
+}
+
+.radioText {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.radioTitle {
+  font-weight: 500;
+  color: var(--strata-color-text-default, #1a1a1a);
+}
+
+.radioHint {
+  font-size: var(--strata-font-size-sm, 0.875rem);
+  color: var(--strata-color-text-muted, #5f5f5f);
+}
+
+/* Backup codes */
+
+.backupCodes {
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-2, 8px);
+}
+
+.backupHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--strata-space-3, 12px);
+}
+
+.backupTitle {
+  margin: 0;
+  font-size: var(--strata-font-size-md, 1rem);
+  color: var(--strata-color-text-default, #1a1a1a);
+}
+
+.backupActions {
+  display: flex;
+  gap: var(--strata-space-4, 16px);
+}
+
+.backupHint {
+  margin: 0;
+  font-size: var(--strata-font-size-sm, 0.875rem);
+  color: var(--strata-color-text-muted, #5f5f5f);
+}
+
+.codesSummary {
+  margin: 0;
+  font-size: var(--strata-font-size-sm, 0.875rem);
+  color: var(--strata-color-text-muted, #5f5f5f);
+}
+
+.codeGrid {
+  list-style: none;
+  margin: 0;
+  padding: var(--strata-space-4, 16px);
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(9rem, 1fr));
+  gap: var(--strata-space-2, 8px);
+  background: var(--strata-color-surface-canvas, #f7f7f7);
+  border-radius: var(--strata-radius-sm, 6px);
+  border: 1px solid var(--strata-color-border-default, #e2e2e2);
+}
+
+.code {
+  font-family: var(--strata-font-mono, ui-monospace, monospace);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--strata-space-2, 8px);
+  color: var(--strata-color-text-default, #1a1a1a);
+}
+
+.codeUsed {
+  color: var(--strata-color-text-muted, #9b9b9b);
+  text-decoration: line-through;
+}
+
+.codeUsedLabel {
+  font-family: var(--strata-font-body, inherit);
+  font-size: var(--strata-font-size-xs, 0.75rem);
+  text-decoration: none;
+}
+
+/* Buttons */
+
+.linkButton {
+  border: none;
+  background: none;
+  padding: 0;
+  color: var(--strata-color-accent, var(--strata-color-brand-solid, #3b5bfd));
+  font: inherit;
+  font-size: var(--strata-font-size-sm, 0.875rem);
+  font-weight: 500;
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  align-self: flex-start;
+}
+
+.secondaryButton,
+.dangerButton {
+  border-radius: var(--strata-radius-sm, 6px);
+  padding: var(--strata-space-2, 8px) var(--strata-space-4, 16px);
+  font: inherit;
+  font-weight: 500;
+  cursor: pointer;
+  border: 1px solid transparent;
+}
+
+.secondaryButton {
+  background: var(--strata-color-surface-canvas, #fff);
+  border-color: var(--strata-color-border-default, #d8d8d8);
+  color: var(--strata-color-text-default, #1a1a1a);
+}
+
+.dangerButton {
+  background: var(--strata-color-danger, var(--strata-color-critical, #d92d20));
+  color: var(--strata-color-text-on-accent, #fff);
+}
+
+/* Confirmation dialog */
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgb(0 0 0 / 45%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--strata-space-4, 16px);
+  z-index: 10;
+}
+
+.dialog {
+  background: var(--strata-color-surface-raised, var(--strata-color-surface-canvas, #fff));
+  border-radius: var(--strata-radius-md, 8px);
+  padding: var(--strata-space-6, 24px);
+  max-inline-size: 26rem;
+  width: 100%;
+  box-shadow: var(--strata-shadow-lg, 0 8px 24px rgb(0 0 0 / 20%));
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-4, 16px);
+}
+
+.dialogTitle {
+  margin: 0;
+  font-size: var(--strata-font-size-lg, 1.125rem);
+  color: var(--strata-color-text-default, #1a1a1a);
+}
+
+.dialogDescription {
+  margin: 0;
+  color: var(--strata-color-text-muted, #5f5f5f);
+}
+
+.dialogActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--strata-space-3, 12px);
+}
+
+.visuallyHidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}

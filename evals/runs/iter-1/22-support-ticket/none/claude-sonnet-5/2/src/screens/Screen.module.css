@@ -1,0 +1,223 @@
+.page {
+  max-inline-size: 640px;
+  margin-inline: auto;
+}
+
+.title {
+  font-family: var(--strata-font-heading, var(--strata-font-body, inherit));
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-block-end: var(--strata-space-2, 0.5rem);
+}
+
+.intro {
+  color: var(--strata-color-text-muted, var(--strata-color-text-default, inherit));
+  margin-block-end: var(--strata-space-6, 1.5rem);
+  line-height: 1.5;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-5, 1.25rem);
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-2, 0.375rem);
+}
+
+.labelRow {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--strata-space-2, 0.5rem);
+}
+
+.label {
+  font-weight: 600;
+  font-size: 0.9375rem;
+}
+
+.optional {
+  font-weight: 400;
+  color: var(--strata-color-text-muted, #6b7280);
+}
+
+.input,
+.select,
+.textarea {
+  font: inherit;
+  color: var(--strata-color-text-default, inherit);
+  background: var(--strata-color-surface-raised, #fff);
+  border: 1px solid var(--strata-color-border-default, #cbd2d9);
+  border-radius: var(--strata-radius-md, 8px);
+  padding: var(--strata-space-3, 0.625rem) var(--strata-space-4, 0.875rem);
+}
+
+.input:focus,
+.select:focus,
+.textarea:focus {
+  outline: 2px solid var(--strata-color-focus-ring, var(--strata-color-accent, #2563eb));
+  outline-offset: 1px;
+}
+
+.input[aria-invalid='true'],
+.select[aria-invalid='true'],
+.textarea[aria-invalid='true'] {
+  border-color: var(--strata-color-danger, #d92d20);
+}
+
+.textarea {
+  resize: vertical;
+  min-block-size: 8rem;
+  font-family: inherit;
+}
+
+.charCount {
+  font-size: 0.8125rem;
+  color: var(--strata-color-text-muted, #6b7280);
+  white-space: nowrap;
+}
+
+.charCountWarning {
+  color: var(--strata-color-danger, #d92d20);
+}
+
+.fileRow {
+  display: flex;
+  align-items: center;
+  gap: var(--strata-space-3, 0.75rem);
+  flex-wrap: wrap;
+}
+
+.fileInput {
+  font: inherit;
+  color: var(--strata-color-text-default, inherit);
+  max-inline-size: 100%;
+}
+
+.fileName {
+  font-size: 0.8125rem;
+  color: var(--strata-color-text-muted, #6b7280);
+  word-break: break-all;
+}
+
+.removeFileButton {
+  font: inherit;
+  font-size: 0.8125rem;
+  color: var(--strata-color-danger, #d92d20);
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.fieldset {
+  border: 1px solid var(--strata-color-border-default, #cbd2d9);
+  border-radius: var(--strata-radius-md, 8px);
+  padding: var(--strata-space-4, 1rem);
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-2, 0.5rem);
+}
+
+.legend {
+  font-weight: 600;
+  font-size: 0.9375rem;
+  padding-inline: var(--strata-space-1, 0.25rem);
+}
+
+.radioGroup {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--strata-space-4, 1rem);
+}
+
+.radioOption {
+  display: flex;
+  align-items: center;
+  gap: var(--strata-space-2, 0.5rem);
+  font-size: 0.9375rem;
+  cursor: pointer;
+}
+
+.error {
+  color: var(--strata-color-danger, #d92d20);
+  font-size: 0.8125rem;
+}
+
+.actions {
+  margin-block-start: var(--strata-space-2, 0.5rem);
+}
+
+.submitButton,
+.secondaryButton {
+  font: inherit;
+  font-weight: 600;
+  border-radius: var(--strata-radius-md, 8px);
+  padding: var(--strata-space-3, 0.75rem) var(--strata-space-6, 1.5rem);
+  cursor: pointer;
+  border: 1px solid transparent;
+}
+
+.submitButton {
+  color: var(--strata-color-text-on-accent, #fff);
+  background: var(--strata-color-accent, #2563eb);
+}
+
+.submitButton:hover {
+  background: var(--strata-color-accent-hover, #1d4ed8);
+}
+
+.secondaryButton {
+  color: var(--strata-color-text-default, inherit);
+  background: var(--strata-color-surface-raised, #fff);
+  border-color: var(--strata-color-border-default, #cbd2d9);
+}
+
+.confirmation {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--strata-space-3, 0.75rem);
+  border: 1px solid var(--strata-color-border-default, #cbd2d9);
+  border-radius: var(--strata-radius-md, 12px);
+  padding: var(--strata-space-6, 2rem);
+  background: var(--strata-color-surface-raised, #fff);
+}
+
+.confirmationIcon {
+  inline-size: 2.5rem;
+  block-size: 2.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: var(--strata-color-success-surface, #ecfdf3);
+  color: var(--strata-color-success, #16a34a);
+  font-size: 1.25rem;
+}
+
+.referenceBox {
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-1, 0.25rem);
+  border: 1px dashed var(--strata-color-border-default, #cbd2d9);
+  border-radius: var(--strata-radius-md, 8px);
+  padding: var(--strata-space-4, 1rem) var(--strata-space-5, 1.25rem);
+}
+
+.referenceLabel {
+  font-size: 0.8125rem;
+  color: var(--strata-color-text-muted, #6b7280);
+}
+
+.referenceNumber {
+  font-size: 1.25rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  font-family: var(--strata-font-mono, monospace);
+}

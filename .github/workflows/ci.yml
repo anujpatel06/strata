@@ -15,7 +15,7 @@ permissions:
 
 jobs:
   verify:
-    name: typecheck · test · meta · fuzz · tokens · build
+    name: typecheck · test · meta · drift · fuzz · tokens · build
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
@@ -34,6 +34,8 @@ jobs:
       - run: pnpm test
       # Component metadata, maturity criteria and deprecation records (GOVERNANCE.md §5, §7)
       - run: pnpm check:meta
+      # The drift gate: the docs app, which stands in for the reference product, must stay on-system (BRIEF §9)
+      - run: pnpm drift apps/docs --min-score 95
       - run: pnpm test:themes
       - run: pnpm tokens
       - run: pnpm build

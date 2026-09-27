@@ -1,0 +1,247 @@
+.page {
+  display: flex;
+  justify-content: center;
+  padding-block: var(--strata-space-8, 48px);
+}
+
+.card {
+  width: 100%;
+  max-inline-size: 400px;
+  box-sizing: border-box;
+  background: var(--strata-color-surface-raised, #ffffff);
+  border: 1px solid var(--strata-color-border-default, #e1e3e8);
+  border-radius: var(--strata-radius-lg, 12px);
+  box-shadow: var(--strata-shadow-md, 0 1px 3px rgba(16, 24, 40, 0.08));
+  padding: var(--strata-space-7, 32px);
+}
+
+.title {
+  margin: 0;
+  font-family: var(--strata-font-heading, inherit);
+  font-size: var(--strata-font-size-xl, 1.5rem);
+  font-weight: var(--strata-font-weight-semibold, 600);
+  color: var(--strata-color-text-default, #111827);
+}
+
+.subtitle {
+  margin: var(--strata-space-2, 8px) 0 0;
+  font-size: var(--strata-font-size-sm, 0.875rem);
+  color: var(--strata-color-text-muted, #6b7280);
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-5, 20px);
+  margin-top: var(--strata-space-6, 24px);
+}
+
+.errorBanner {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--strata-space-2, 8px);
+  padding: var(--strata-space-3, 12px) var(--strata-space-4, 16px);
+  border-radius: var(--strata-radius-md, 8px);
+  background: var(--strata-color-danger-surface, #fef2f2);
+  border: 1px solid var(--strata-color-danger-border, #fca5a5);
+  color: var(--strata-color-danger-default, #b42318);
+  font-size: var(--strata-font-size-sm, 0.875rem);
+  line-height: 1.4;
+}
+
+.errorIcon {
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-2, 6px);
+}
+
+.labelRow {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--strata-space-2, 8px);
+}
+
+.label {
+  font-size: var(--strata-font-size-sm, 0.875rem);
+  font-weight: var(--strata-font-weight-medium, 500);
+  color: var(--strata-color-text-default, #111827);
+}
+
+.input {
+  box-sizing: border-box;
+  inline-size: 100%;
+  padding: var(--strata-space-3, 10px) var(--strata-space-3, 12px);
+  border-radius: var(--strata-radius-md, 8px);
+  border: 1px solid var(--strata-color-border-default, #d1d5db);
+  background: var(--strata-color-surface-canvas, #ffffff);
+  color: var(--strata-color-text-default, #111827);
+  font-size: var(--strata-font-size-md, 1rem);
+  font-family: inherit;
+}
+
+.input:focus-visible {
+  outline: 2px solid var(--strata-color-focus-ring, #2563eb);
+  outline-offset: 1px;
+}
+
+.input:disabled {
+  opacity: 0.6;
+}
+
+.passwordField {
+  display: flex;
+  align-items: center;
+  border: 1px solid var(--strata-color-border-default, #d1d5db);
+  border-radius: var(--strata-radius-md, 8px);
+  background: var(--strata-color-surface-canvas, #ffffff);
+}
+
+.passwordField:focus-within {
+  outline: 2px solid var(--strata-color-focus-ring, #2563eb);
+  outline-offset: 1px;
+}
+
+.inputInvalid {
+  border-color: var(--strata-color-danger-default, #d92d20);
+}
+
+.passwordInput {
+  box-sizing: border-box;
+  flex: 1;
+  min-inline-size: 0;
+  border: none;
+  background: transparent;
+  padding: var(--strata-space-3, 10px) var(--strata-space-3, 12px);
+  color: var(--strata-color-text-default, #111827);
+  font-size: var(--strata-font-size-md, 1rem);
+  font-family: inherit;
+}
+
+.passwordInput:focus {
+  outline: none;
+}
+
+.passwordInput:disabled {
+  opacity: 0.6;
+}
+
+.toggleButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: 40px;
+  block-size: 40px;
+  margin-inline-end: var(--strata-space-1, 4px);
+  border: none;
+  background: transparent;
+  color: var(--strata-color-text-muted, #6b7280);
+  border-radius: var(--strata-radius-sm, 6px);
+  cursor: pointer;
+}
+
+.toggleButton:hover:not(:disabled) {
+  background: var(--strata-color-surface-hover, #f3f4f6);
+  color: var(--strata-color-text-default, #111827);
+}
+
+.toggleButton:focus-visible {
+  outline: 2px solid var(--strata-color-focus-ring, #2563eb);
+  outline-offset: 1px;
+}
+
+.toggleButton:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.linkButton {
+  border: none;
+  background: transparent;
+  padding: 0;
+  color: var(--strata-color-accent-default, #2563eb);
+  font-size: var(--strata-font-size-sm, 0.875rem);
+  font-family: inherit;
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.linkButton:hover {
+  color: var(--strata-color-accent-emphasis, #1d4ed8);
+}
+
+.linkButton:focus-visible {
+  outline: 2px solid var(--strata-color-focus-ring, #2563eb);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+.checkboxRow {
+  display: flex;
+  align-items: center;
+  gap: var(--strata-space-2, 8px);
+  font-size: var(--strata-font-size-sm, 0.875rem);
+  color: var(--strata-color-text-default, #111827);
+  cursor: pointer;
+  user-select: none;
+}
+
+.checkbox {
+  inline-size: 16px;
+  block-size: 16px;
+  accent-color: var(--strata-color-accent-default, #2563eb);
+  cursor: pointer;
+}
+
+.submitButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--strata-space-2, 8px);
+  inline-size: 100%;
+  padding: var(--strata-space-3, 12px) var(--strata-space-4, 16px);
+  border: none;
+  border-radius: var(--strata-radius-md, 8px);
+  background: var(--strata-color-accent-default, #2563eb);
+  color: var(--strata-color-accent-contrast, #ffffff);
+  font-size: var(--strata-font-size-md, 1rem);
+  font-weight: var(--strata-font-weight-semibold, 600);
+  font-family: inherit;
+  cursor: pointer;
+  margin-top: var(--strata-space-1, 4px);
+}
+
+.submitButton:hover:not(:disabled) {
+  background: var(--strata-color-accent-emphasis, #1d4ed8);
+}
+
+.submitButton:focus-visible {
+  outline: 2px solid var(--strata-color-focus-ring, #2563eb);
+  outline-offset: 2px;
+}
+
+.submitButton:disabled {
+  cursor: not-allowed;
+  opacity: 0.75;
+}
+
+.spinner {
+  inline-size: 16px;
+  block-size: 16px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  border-top-color: #ffffff;
+  animation: spin 0.7s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

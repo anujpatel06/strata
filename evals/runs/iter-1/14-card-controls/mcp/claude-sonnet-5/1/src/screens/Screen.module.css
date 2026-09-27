@@ -1,0 +1,41 @@
+.page {
+  display: flex;
+  justify-content: center;
+  padding-block: var(--strata-space-8);
+  padding-inline: var(--strata-space-4);
+}
+
+.card {
+  inline-size: 100%;
+  max-inline-size: 480px;
+}
+
+.identity {
+  display: flex;
+  align-items: center;
+  gap: var(--strata-space-3);
+}
+
+.content {
+  display: grid;
+  gap: var(--strata-space-4);
+}
+
+.controls {
+  display: grid;
+  gap: var(--strata-space-4);
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: var(--strata-space-3);
+}
+
+.switch {
+  flex: 1;
+}
+
+.limit {
+  display: grid;
+}

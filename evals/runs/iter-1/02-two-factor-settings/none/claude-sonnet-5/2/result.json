@@ -1,0 +1,85 @@
+{
+  "prompt": "02-two-factor-settings",
+  "tags": [
+    "a11y"
+  ],
+  "condition": "none",
+  "model": "claude-sonnet-5",
+  "repeat": 2,
+  "iteration": "1",
+  "source": {
+    "commit": "320a45c63ccf410e91943590bcd6202615d23ebc",
+    "dirty": []
+  },
+  "startedAt": "2026-09-27T14:04:13.943Z",
+  "wallMs": 122727,
+  "exitCode": 0,
+  "timedOut": false,
+  "editedProtectedFiles": [],
+  "toolCalls": {
+    "Read": 7,
+    "Glob": 10,
+    "Grep": 1,
+    "Write": 2
+  },
+  "pathsOutsideWorkspace": [],
+  "touchedRepo": false,
+  "usedMemory": false,
+  "cli": {
+    "isError": false,
+    "subtype": "success",
+    "turns": 21,
+    "durationMs": 121112,
+    "costUsd": 0.23379040000000004,
+    "usage": {
+      "input_tokens": 20,
+      "cache_creation_input_tokens": 18055,
+      "cache_read_input_tokens": 130302,
+      "output_tokens": 13547,
+      "output_tokens_details": {
+        "thinking_tokens": 5480
+      },
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 18055,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 2,
+          "output_tokens": 386,
+          "cache_read_input_tokens": 22856,
+          "cache_creation_input_tokens": 3665,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 3665
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-sonnet-5": {
+        "inputTokens": 20,
+        "outputTokens": 13547,
+        "cacheReadInputTokens": 130302,
+        "cacheCreationInputTokens": 18055,
+        "webSearchRequests": 0,
+        "costUSD": 0.23379040000000004,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 64000,
+        "thinkingTokens": 5480,
+        "canonicalModel": "claude-sonnet-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "finalMessage": "Built the two-factor authentication section in `src/screens/Screen.tsx` (default export) with styles in `src/screens/Screen.module.css`.\n\n- Toggle switch turns 2FA on/off; turning it off opens a confirmation dialog (role=\"alertdialog\", closable via Cancel/Escape/backdrop) warning that it lowers account security before disabling.\n- When on, radio options let the user pick \"Authenticator app\" or \"Text message\" (with a mock masked phone number).\n- A \"Show/Hide codes\" control reveals mock backup codes, with one marked as already used.\n- Styling uses Strata design tokens (`--strata-color-*`, `--strata-space-*`, `--strata-radius-*`, `--strata-font-body`) with sensible fallbacks, and logical CSS properties/RTL-aware switch transform so it should adapt across the brand/light-dark/RTL/density variations mentioned in the README.\n\nNote: no `node_modules` were present for `@strata/react`/`@strata/icons` in this sandbox, so I built the UI with semantic HTML and CSS Modules against the token variables rather than guessing at unverified component APIs."
+  }
+}

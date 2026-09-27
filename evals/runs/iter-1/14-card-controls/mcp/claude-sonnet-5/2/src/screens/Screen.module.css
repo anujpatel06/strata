@@ -1,0 +1,67 @@
+.page {
+  display: flex;
+  justify-content: center;
+  padding-block: var(--strata-space-8);
+  padding-inline: var(--strata-space-4);
+}
+
+.card {
+  inline-size: 100%;
+  max-inline-size: 480px;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--strata-space-4);
+}
+
+.identity {
+  display: flex;
+  align-items: center;
+  gap: var(--strata-space-3);
+  min-inline-size: 0;
+}
+
+.identityText {
+  display: grid;
+  gap: var(--strata-space-1);
+  min-inline-size: 0;
+}
+
+.cardName {
+  font-size: var(--strata-font-size-md);
+  font-weight: var(--strata-font-weight-semibold);
+  color: var(--strata-color-text-default);
+}
+
+.cardMeta {
+  font-size: var(--strata-font-size-sm);
+  color: var(--strata-color-text-subtle);
+}
+
+.stack {
+  display: grid;
+  gap: var(--strata-space-4);
+}
+
+.switch {
+  inline-size: 100%;
+}
+
+.switchLabel {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--strata-space-2);
+}
+
+.switchIcon {
+  inline-size: var(--strata-font-size-lg);
+  block-size: var(--strata-font-size-lg);
+  color: var(--strata-color-text-subtle);
+}
+
+.slider {
+  inline-size: 100%;
+}

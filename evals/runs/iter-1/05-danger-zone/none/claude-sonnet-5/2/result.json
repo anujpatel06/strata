@@ -1,0 +1,85 @@
+{
+  "prompt": "05-danger-zone",
+  "tags": [
+    "a11y"
+  ],
+  "condition": "none",
+  "model": "claude-sonnet-5",
+  "repeat": 2,
+  "iteration": "1",
+  "source": {
+    "commit": "320a45c63ccf410e91943590bcd6202615d23ebc",
+    "dirty": []
+  },
+  "startedAt": "2026-09-27T14:16:44.835Z",
+  "wallMs": 120859,
+  "exitCode": 0,
+  "timedOut": false,
+  "editedProtectedFiles": [],
+  "toolCalls": {
+    "Read": 8,
+    "Glob": 5,
+    "Write": 2,
+    "Edit": 5
+  },
+  "pathsOutsideWorkspace": [],
+  "touchedRepo": false,
+  "usedMemory": false,
+  "cli": {
+    "isError": false,
+    "subtype": "success",
+    "turns": 21,
+    "durationMs": 119305,
+    "costUsd": 0.265784,
+    "usage": {
+      "input_tokens": 26,
+      "cache_creation_input_tokens": 21907,
+      "cache_read_input_tokens": 221420,
+      "output_tokens": 13382,
+      "output_tokens_details": {
+        "thinking_tokens": 3064
+      },
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 21907,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 2,
+          "output_tokens": 350,
+          "cache_read_input_tokens": 25947,
+          "cache_creation_input_tokens": 4426,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 4426
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-sonnet-5": {
+        "inputTokens": 26,
+        "outputTokens": 13382,
+        "cacheReadInputTokens": 221420,
+        "cacheCreationInputTokens": 21907,
+        "webSearchRequests": 0,
+        "costUSD": 0.265784,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 64000,
+        "thinkingTokens": 3064,
+        "canonicalModel": "claude-sonnet-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "finalMessage": "This looks correct and complete. The screen is built at `src/screens/Screen.tsx` with styles in `src/screens/Screen.module.css`:\n\n- **Profile details** — editable name/email/phone fields (mock data pre-filled, save button enabled only when dirty)\n- **Notification preferences** — four accessible on/off switches with labels and descriptions\n- **Close account** — a danger-zone button opens a confirmation dialog listing exactly what will be lost, requires an explicit \"I understand\" checkbox before the final destructive action is enabled, with Escape/Cancel/backdrop-click to back out safely\n\nStyling uses Strata's CSS custom properties (with sensible fallbacks) and logical properties throughout, so it should adapt across brands, light/dark scheme, and RTL locale as set by `ThemeScope`. I didn't import from `@strata/react` directly since `node_modules` isn't installed in this environment and I couldn't verify the real component API — using tokens + semantic HTML avoids guessing at nonexistent exports that would break the build."
+  }
+}

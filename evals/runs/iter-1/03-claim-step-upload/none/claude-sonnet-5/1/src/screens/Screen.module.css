@@ -1,0 +1,299 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-6, 24px);
+  max-inline-size: 640px;
+  margin-inline: auto;
+  font-family: var(--strata-font-body);
+  color: var(--strata-color-text-default);
+}
+
+/* Stepper */
+
+.stepper {
+  display: flex;
+  align-items: center;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.step {
+  display: flex;
+  align-items: center;
+  gap: var(--strata-space-2, 8px);
+  flex: 1;
+  position: relative;
+}
+
+.step:not(:last-child)::after {
+  content: '';
+  flex: 1;
+  block-size: 2px;
+  margin-inline: var(--strata-space-2, 8px);
+  background: var(--strata-color-border-default, color-mix(in srgb, var(--strata-color-text-default) 18%, transparent));
+}
+
+.step[data-status='done']:not(:last-child)::after {
+  background: var(--strata-color-success, var(--strata-color-accent, #2e7d32));
+}
+
+.stepMarker {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: 28px;
+  block-size: 28px;
+  border-radius: var(--strata-radius-full, 999px);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  border: 2px solid var(--strata-color-border-default, color-mix(in srgb, var(--strata-color-text-default) 25%, transparent));
+  color: var(--strata-color-text-muted, color-mix(in srgb, var(--strata-color-text-default) 65%, transparent));
+  flex-shrink: 0;
+}
+
+.step[data-status='current'] .stepMarker {
+  border-color: var(--strata-color-accent, var(--strata-color-primary, currentColor));
+  color: var(--strata-color-accent, var(--strata-color-primary, currentColor));
+}
+
+.step[data-status='done'] .stepMarker {
+  border-color: var(--strata-color-success, var(--strata-color-accent, #2e7d32));
+  background: var(--strata-color-success, var(--strata-color-accent, #2e7d32));
+  color: var(--strata-color-text-inverse, #fff);
+}
+
+.stepLabel {
+  font-size: 0.8125rem;
+  color: var(--strata-color-text-muted, color-mix(in srgb, var(--strata-color-text-default) 65%, transparent));
+  white-space: nowrap;
+  display: none;
+}
+
+.step[data-status='current'] .stepLabel {
+  color: var(--strata-color-text-default);
+  font-weight: 600;
+}
+
+@media (min-width: 560px) {
+  .stepLabel {
+    display: inline;
+  }
+}
+
+/* Header */
+
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-1, 4px);
+}
+
+.eyebrow {
+  margin: 0;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--strata-color-accent, var(--strata-color-primary, currentColor));
+}
+
+.title {
+  margin: 0;
+  font-family: var(--strata-font-heading, var(--strata-font-body));
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.subtitle {
+  margin: 0;
+  color: var(--strata-color-text-muted, color-mix(in srgb, var(--strata-color-text-default) 65%, transparent));
+  font-size: 0.9375rem;
+}
+
+/* Upload section */
+
+.uploadSection {
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-3, 12px);
+}
+
+.fileList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-2, 8px);
+}
+
+.fileRow {
+  display: flex;
+  align-items: center;
+  gap: var(--strata-space-3, 12px);
+  padding: var(--strata-space-3, 12px);
+  border: 1px solid var(--strata-color-border-default, color-mix(in srgb, var(--strata-color-text-default) 15%, transparent));
+  border-radius: var(--strata-radius-md, 10px);
+  background: var(--strata-color-surface-raised, color-mix(in srgb, var(--strata-color-text-default) 3%, var(--strata-color-surface-canvas)));
+}
+
+.fileRow[data-status='failed'] {
+  border-color: var(--strata-color-danger, var(--strata-color-critical, #d64545));
+  background: var(--strata-color-danger-surface, color-mix(in srgb, var(--strata-color-danger, #d64545) 8%, var(--strata-color-surface-canvas)));
+}
+
+.fileIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: 36px;
+  block-size: 36px;
+  flex-shrink: 0;
+  border-radius: var(--strata-radius-sm, 8px);
+  background: color-mix(in srgb, var(--strata-color-text-default) 8%, transparent);
+  color: var(--strata-color-text-muted, color-mix(in srgb, var(--strata-color-text-default) 70%, transparent));
+}
+
+.fileIcon[data-status='failed'] {
+  color: var(--strata-color-danger, var(--strata-color-critical, #d64545));
+  background: color-mix(in srgb, var(--strata-color-danger, #d64545) 14%, transparent);
+}
+
+.fileInfo {
+  display: flex;
+  flex-direction: column;
+  min-inline-size: 0;
+  flex: 1;
+}
+
+.fileName {
+  font-size: 0.9375rem;
+  font-weight: 500;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.fileMeta {
+  font-size: 0.8125rem;
+  color: var(--strata-color-text-muted, color-mix(in srgb, var(--strata-color-text-default) 65%, transparent));
+}
+
+.fileError {
+  font-size: 0.8125rem;
+  color: var(--strata-color-danger, var(--strata-color-critical, #d64545));
+}
+
+.removeButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: 32px;
+  block-size: 32px;
+  flex-shrink: 0;
+  border: none;
+  border-radius: var(--strata-radius-full, 999px);
+  background: transparent;
+  color: var(--strata-color-text-muted, color-mix(in srgb, var(--strata-color-text-default) 65%, transparent));
+  cursor: pointer;
+}
+
+.removeButton:hover {
+  background: color-mix(in srgb, var(--strata-color-text-default) 10%, transparent);
+  color: var(--strata-color-text-default);
+}
+
+.emptyState {
+  padding: var(--strata-space-4, 16px);
+  text-align: center;
+  color: var(--strata-color-text-muted, color-mix(in srgb, var(--strata-color-text-default) 65%, transparent));
+  font-size: 0.875rem;
+}
+
+.addRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--strata-space-3, 12px);
+  flex-wrap: wrap;
+}
+
+.addButton {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--strata-space-2, 8px);
+  padding-block: var(--strata-space-2, 8px);
+  padding-inline: var(--strata-space-4, 16px);
+  border: 1px dashed var(--strata-color-border-default, color-mix(in srgb, var(--strata-color-text-default) 30%, transparent));
+  border-radius: var(--strata-radius-md, 10px);
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--strata-color-accent, var(--strata-color-primary, currentColor));
+  cursor: pointer;
+}
+
+.addButton:has(input:disabled) {
+  color: var(--strata-color-text-muted, color-mix(in srgb, var(--strata-color-text-default) 50%, transparent));
+  border-color: var(--strata-color-border-default, color-mix(in srgb, var(--strata-color-text-default) 15%, transparent));
+  cursor: not-allowed;
+}
+
+.hiddenInput {
+  position: absolute;
+  inline-size: 1px;
+  block-size: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+.fileCount {
+  font-size: 0.8125rem;
+  color: var(--strata-color-text-muted, color-mix(in srgb, var(--strata-color-text-default) 65%, transparent));
+}
+
+/* Actions */
+
+.actions {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--strata-space-3, 12px);
+  padding-block-start: var(--strata-space-4, 16px);
+  border-block-start: 1px solid var(--strata-color-border-default, color-mix(in srgb, var(--strata-color-text-default) 15%, transparent));
+}
+
+.backButton,
+.continueButton {
+  padding-block: var(--strata-space-2, 10px);
+  padding-inline: var(--strata-space-5, 20px);
+  border-radius: var(--strata-radius-md, 10px);
+  font-size: 0.9375rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.backButton {
+  border: 1px solid var(--strata-color-border-default, color-mix(in srgb, var(--strata-color-text-default) 25%, transparent));
+  background: transparent;
+  color: var(--strata-color-text-default);
+}
+
+.backButton:hover {
+  background: color-mix(in srgb, var(--strata-color-text-default) 6%, transparent);
+}
+
+.continueButton {
+  border: none;
+  background: var(--strata-color-accent, var(--strata-color-primary, var(--strata-color-text-default)));
+  color: var(--strata-color-text-inverse, var(--strata-color-surface-canvas));
+}
+
+.continueButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.continueButton:not(:disabled):hover {
+  opacity: 0.9;
+}

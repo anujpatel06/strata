@@ -1,0 +1,86 @@
+{
+  "prompt": "12-address-form",
+  "tags": [
+    "a11y",
+    "rtl"
+  ],
+  "condition": "none",
+  "model": "claude-sonnet-5",
+  "repeat": 1,
+  "iteration": "1",
+  "source": {
+    "commit": "320a45c63ccf410e91943590bcd6202615d23ebc",
+    "dirty": []
+  },
+  "startedAt": "2026-09-27T14:41:55.368Z",
+  "wallMs": 131842,
+  "exitCode": 0,
+  "timedOut": false,
+  "editedProtectedFiles": [],
+  "toolCalls": {
+    "Read": 5,
+    "Glob": 8,
+    "Grep": 1,
+    "Write": 2
+  },
+  "pathsOutsideWorkspace": [],
+  "touchedRepo": false,
+  "usedMemory": false,
+  "cli": {
+    "isError": false,
+    "subtype": "success",
+    "turns": 17,
+    "durationMs": 130549,
+    "costUsd": 0.20450559999999998,
+    "usage": {
+      "input_tokens": 24,
+      "cache_creation_input_tokens": 14844,
+      "cache_read_input_tokens": 154058,
+      "output_tokens": 11427,
+      "output_tokens_details": {
+        "thinking_tokens": 5744
+      },
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 14844,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 2,
+          "output_tokens": 463,
+          "cache_read_input_tokens": 21672,
+          "cache_creation_input_tokens": 1638,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 1638
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-sonnet-5": {
+        "inputTokens": 24,
+        "outputTokens": 11427,
+        "cacheReadInputTokens": 154058,
+        "cacheCreationInputTokens": 14844,
+        "webSearchRequests": 0,
+        "costUSD": 0.20450559999999998,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 64000,
+        "thinkingTokens": 5744,
+        "canonicalModel": "claude-sonnet-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "finalMessage": "Built the delivery address form in `src/screens/Screen.tsx` with styles in `src/screens/Screen.module.css`.\n\nDetails:\n- Fields: full name, phone, emirate (select with the 7 UAE emirates), area, building, flat number, delivery notes — name/phone/emirate/area marked required with `*` and validated.\n- Mock data (`MOCK_FORM`) has phone empty and flat number set to `\"12/B!\"` (fails the flat-number pattern), with `submitted` initialized to `true`, so those two errors render immediately while the rest of the form shows valid mock values.\n- Errors are shown with `role=\"alert\"`, `aria-invalid`, and `aria-describedby` wiring.\n- CSS uses the `--strata-*` design tokens already referenced in `src/app.css` (with sensible fallback values) and logical properties (`inline`/`block`, `margin-inline`, etc.) so it adapts to the right-to-left Arabic locale.\n- No `@strata/react` components were used since neither `node_modules` nor type declarations for that package exist in this folder, so I couldn't verify its API; plain semantic HTML form controls styled with the confirmed design tokens avoid guessing an incorrect component API while still matching the visual system.\n\nI didn't touch `src/main.tsx`, `src/app.css`, `package.json`, or config files, and worked only within this folder."
+  }
+}

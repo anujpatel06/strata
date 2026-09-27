@@ -1,0 +1,84 @@
+{
+  "prompt": "16-checkout-summary-rtl",
+  "tags": [
+    "rtl"
+  ],
+  "condition": "none",
+  "model": "claude-sonnet-5",
+  "repeat": 2,
+  "iteration": "1",
+  "source": {
+    "commit": "320a45c63ccf410e91943590bcd6202615d23ebc",
+    "dirty": []
+  },
+  "startedAt": "2026-09-27T14:56:18.510Z",
+  "wallMs": 238731,
+  "exitCode": 0,
+  "timedOut": false,
+  "editedProtectedFiles": [],
+  "toolCalls": {
+    "Read": 6,
+    "Glob": 6,
+    "Write": 2
+  },
+  "pathsOutsideWorkspace": [],
+  "touchedRepo": false,
+  "usedMemory": false,
+  "cli": {
+    "isError": false,
+    "subtype": "success",
+    "turns": 15,
+    "durationMs": 237325,
+    "costUsd": 0.41072040000000004,
+    "usage": {
+      "input_tokens": 22,
+      "cache_creation_input_tokens": 29452,
+      "cache_read_input_tokens": 163442,
+      "output_tokens": 26018,
+      "output_tokens_details": {
+        "thinking_tokens": 16092
+      },
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 29452,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 2,
+          "output_tokens": 496,
+          "cache_read_input_tokens": 33813,
+          "cache_creation_input_tokens": 4105,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 4105
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-sonnet-5": {
+        "inputTokens": 22,
+        "outputTokens": 26018,
+        "cacheReadInputTokens": 163442,
+        "cacheCreationInputTokens": 29452,
+        "webSearchRequests": 0,
+        "costUSD": 0.41072040000000004,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 64000,
+        "thinkingTokens": 16092,
+        "canonicalModel": "claude-sonnet-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "finalMessage": "The checkout screen is built at `src/screens/Screen.tsx` and `src/screens/Screen.module.css`.\n\nNote: `@strata/react` isn't actually present in `node_modules` in this folder (no install found), and I have no way to run commands to install or inspect it. Rather than guess at an unverifiable component API and risk broken imports, I built the screen with plain semantic HTML/CSS Modules, styled using the Strata design tokens (CSS custom properties) referenced in `app.css`, with safe fallback values so it renders correctly whether or not the exact token names match. All layout uses logical CSS properties (`inline-start/end`, `text-align: start/end`, etc.) for correct RTL rendering in Arabic.\n\nWhat it includes:\n- Delivery address card with a \"Change\" link that reveals a radio-choice list of two mock addresses to switch between.\n- Delivery slot picker with 3 selectable time windows.\n- Item list (5 mock grocery items) each with a +/− quantity stepper (clamped 1–9).\n- Promo code field (try mock code `FRESH10` for 10% off, capped at $15) with apply/remove and an invalid-code error state.\n- Price breakdown: subtotal, delivery (free over $50), discount (shown only when applied), and total.\n- \"Place order\" button showing the live total, which shows a confirmation message when clicked.\n\nI couldn't run or visually verify the app since no Bash tool is available in this session — worth a quick dev-server check before shipping."
+  }
+}
