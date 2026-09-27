@@ -284,7 +284,9 @@ export function buildBlockItems({ blocksDir, uiDir, url, pin, componentNames }) 
             if (target.includes('/') || !exists) blockProblems.push(`${file}: import '${spec}' is not a file in the block folder`);
             continue;
           }
-          if (spec.startsWith('.') || spec.startsWith('@/') || spec.startsWith('~/') || spec.startsWith('/') || spec.startsWith('@strata/')) {
+          // @strata/icons is a standalone package (ADR-014) and becomes an npm dependency, as it does for components.
+          const strataPackage = spec.startsWith('@strata/') && spec !== '@strata/icons';
+          if (spec.startsWith('.') || spec.startsWith('@/') || spec.startsWith('~/') || spec.startsWith('/') || strataPackage) {
             blockProblems.push(`${file}: import '${spec}' breaks registry installs`);
             continue;
           }
