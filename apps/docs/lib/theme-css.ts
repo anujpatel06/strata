@@ -22,11 +22,15 @@ export interface SiteTheme {
   tenantFontHrefs: string[];
 }
 
-/** Colour + elevation variables of one scheme, as a declaration list. */
+/**
+ * Every variable whose dark value differs from its light one (colours, shadows, sheen, rim, glow, glass, chart…),
+ * as a declaration list. Diffing instead of a name prefix list means a new scheme-dependent token can't be missed.
+ */
 function schemeDeclarations(theme: Theme, scheme: 'dark'): string {
   const vars = toCssVariables(theme, scheme);
+  const light = toCssVariables(theme, 'light');
   return Object.entries(vars)
-    .filter(([name]) => name.startsWith('--strata-color-') || name.startsWith('--strata-shadow-'))
+    .filter(([name, value]) => light[name] !== value)
     .map(([name, value]) => `  ${name}: ${value};`)
     .join('\n');
 }

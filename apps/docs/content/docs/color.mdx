@@ -1,0 +1,167 @@
+In Strata you pick colour by **role**, never by hex. A role names a job, such as `text.subtle` or `action.primary.bg`. The theme engine resolves every role for each brand in light and dark. It guarantees contrast only for the pairs listed on this page. Everything else is up to you, and this page shows how to get it right.
+
+Three rules cover most of it:
+
+1. **Use a role for its job.** Why: the same role gets a different hex in every brand and scheme, and only roles are checked.
+2. **Put text only on backgrounds it’s checked against.** Why: a pair that isn’t listed can pass in one brand and fail in the next.
+3. **Never say something with colour alone.** Why: many people can’t tell some colours apart, and screen readers don’t read colour.
+
+For every hex in every brand, see [Colors](/colors). For how themes are built, see [Theming](/docs/theming).
+
+## The roles by job
+
+The swatches below are live. They read the CSS variables of the brand you pick, in the site’s current scheme (switch light and dark in the header). The hex beside each one is the engine’s output for that brand, generated when this page was built.
+
+<ColorTenantPicker />
+
+### Surfaces
+
+Surfaces stack. The page is `surface.canvas`. Content sits on `surface.default`, and cards sit on `surface.raised`. Don’t skip a step: depth reads from the order. `surface.sunken` goes the other way, an inset well inside a card or panel.
+
+- Use `surface.selected` for the one chosen thing in a list, not for decoration. Why: people read it as “this one”.
+- `surface.inverse` flips against the page (a tooltip). Only `text.inverse` is checked on it.
+
+<RoleGroup group="surface" />
+
+### Text
+
+Most text is `text.default` or `text.subtle`. Both are checked on every surface except `surface.inverse`.
+
+- `text.brand` is for links and a word of emphasis. It isn’t checked on `surface.selected`, so don’t use it in a selected row.
+- `text.disabled` is only for disabled controls. WCAG exempts inactive controls from contrast, so the engine doesn’t check it and it sits well below 4.5:1. Never use it for text people need to read, like a hint or a placeholder.
+
+<RoleGroup group="text" />
+
+### Action
+
+`action.primary.*` is the brand’s solid button. `action.secondary.*` is its quiet, tinted sibling. The hover and pressed fills are checked with the same label, so states never lose contrast.
+
+<RoleGroup group="action" />
+
+### Accent
+
+The accent is a second brand colour. Use it for highlights, not actions. `accent.text` is checked only on `surface.default` and `accent.subtle`.
+
+<RoleGroup group="accent" />
+
+### Borders
+
+- `border.subtle` is decorative: card edges, dividers, chart grids. It needs no contrast, so never let it be the only thing that shows where something is.
+- `border.default` edges floating layers and secondary controls.
+- `border.strong` marks boundaries people must find, such as input edges. It reaches 3:1 against `surface.canvas` and `surface.default`.
+
+<RoleGroup group="border" />
+
+### Focus ring
+
+`focus.ring` is the 2px keyboard focus outline, with a soft halo around it. It reaches 3:1 against canvas, default and raised surfaces. Never remove it or recolour it.
+
+<RoleGroup group="focus" />
+
+### Feedback
+
+Each tone (success, warning, danger, info) has the same five roles. The jobs are the same for every tone, so they’re listed once.
+
+<RoleGroup group="feedback" />
+
+## Safe pairs
+
+These tables are generated from `contrast-pairs.json`, the list the engine checks for every brand. If a pair isn’t here, it isn’t checked.
+
+<PairLegend />
+
+<PairMatrix kind="text" />
+
+Labels on fills work differently: each label is checked only on its own fill.
+
+<FillPairs />
+
+<PairMatrix kind="non-text" />
+
+<UnlistedNote />
+
+## Brand colour, sparingly
+
+- **One primary action per view.** Why: the primary fill says “do this next”. Two of them cancel out.
+- **Use `text.brand` for links and emphasis, not paragraphs.** Why: long runs of coloured text are harder to read and dilute the brand.
+- **Keep surfaces neutral.** Don’t flood a card or a page section with the brand fill. Why: brand works as a signal. A brand-filled panel also hides the primary button inside it.
+- **The glow is for dark mode and one hero element.** The feature card and the current page in the sidebar are the only glowing things (<AdrLink n="013" />). Why: on a pale page a coloured halo reads as a smudge, and two glows compete.
+
+## Status colours
+
+- **Feedback colours are for state only:** saved, due, failed, scheduled. Why: if green also means “brand”, success stops meaning anything.
+- **Always add an icon or a word.** Never use colour alone. Why: people who can’t tell red from green, and screen readers, still get the message.
+- **Use the pair that matches the component:**
+
+<Table aria-label="Which feedback pair to use">
+  <thead>
+    <tr>
+      <th scope="col">Where</th>
+      <th scope="col">Background</th>
+      <th scope="col">Text and icon</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>Soft badge, alert</td><td>`feedback.*.bg`</td><td>`feedback.*.fg`</td></tr>
+    <tr><td>Solid badge</td><td>`feedback.*.solid`</td><td>`feedback.*.onSolid`</td></tr>
+    <tr><td>Inline status text</td><td>`surface.default`, `sunken` or `selected`</td><td>`feedback.*.fg`</td></tr>
+    <tr><td>Status dot</td><td>`feedback.*.solid` (the dot)</td><td>The word beside it, in `text.default`</td></tr>
+  </tbody>
+</Table>
+
+Inline status text isn’t checked on `surface.canvas` or `surface.raised`. On a card, put it in a soft badge or a sunken well instead.
+
+## Charts
+
+- **Series use `--strata-chart-1` to `--strata-chart-4` in that order.** Never reorder them by rank or value. Why: a category keeps its colour across charts and filters, so people don’t have to re-learn the legend.
+- **Series 1 follows the brand hue** when the brand has one. The engine solves the others per brand, so neighbours stay apart for protan, deutan and tritan colour blindness (<AdrLink n="016" />).
+- **Text never goes in a series colour.** Why: series promise 3:1, enough for bars and lines but not for text. The lowest on this site is <ChartWorst />.
+- **Grid lines use `--strata-chart-grid`** (`border.subtle`, decorative). **Axis labels use `--strata-chart-axis`** (`text.subtle`, checked for text).
+
+<ChartDemo />
+
+## Glass, gradients and tints
+
+- **On glass, use only `text.default` and `text.subtle`.** The engine solves the glass opacity per brand (<GlassOpacity /> on this site) so those two reach 4.5:1 over any backdrop. Any other text colour goes on an opaque role, such as `surface.selected` for a highlighted row.
+- **Never put a gradient or overlay behind a label on a solid fill.** Why: the solver tunes some fills to exactly 4.5:1 with their label. Any tint can push them below it.
+- **Hover tints mix `text.default` at 6% over the surface:** `color-mix(in oklab, var(--strata-color-text-default) 6%, transparent)`. Why: it darkens in light mode and lightens in dark mode, in every brand, without a new colour.
+- **The feature card’s gradient is capped and proven.** It uses <FeatureGlow />. A test samples every pixel of it for text contrast in every tenant: `pnpm --filter @strata/react exec vitest run test/card.test.tsx`.
+
+## Fields and borders
+
+Fields use a soft outline that still meets WCAG (<AdrLink n="017" />). The fill sits between `surface.default` and `surface.sunken`, so the edge sits between two close tones and looks quieter. The edge itself still reaches 3:1 against the surface outside the field.
+
+- In light mode the edge is `border.strong`.
+- In dark mode it mixes <FieldDarkMix /> `border.strong` into `border.default`. Dark has more headroom, so it steps back a little.
+- On hover the edge gets stronger; on focus the 2px ring and halo take over.
+
+Why not the 1.5:1 hairline many products use? It fails WCAG 1.4.11, and people with low vision can’t find the field.
+
+## Do and don’t
+
+Each pair is live, in the brand you pick. The mistakes that would fail contrast are shown as pictures, so this page never ships a failing pair.
+
+<DoDont />
+
+## Checking your own pairs
+
+If you need a pair that isn’t listed, measure it for every brand you ship, in both schemes:
+
+```ts
+import { contrastRatio, generateTheme } from '@strata/theme-engine';
+
+const theme = generateTheme(brand);
+for (const scheme of ['light', 'dark'] as const) {
+  const { roles } = theme.schemes[scheme];
+  const ratio = contrastRatio(roles['text.brand'].hex, roles['surface.selected'].hex);
+  console.log(scheme, ratio >= 4.5 ? 'passes' : 'fails', ratio);
+}
+```
+
+That covers the brands you have today, not the next one. If the pair should always work, ask for it to be added to `packages/theme-engine/src/contrast-pairs.json`. Then the solver fixes it for every brand, and the fuzz test covers it:
+
+```sh
+pnpm test:themes
+```
+
+The fuzz generates random brands in light and dark and fails if any listed pair drops below its minimum. The latest results are on [Accessibility](/docs/accessibility).

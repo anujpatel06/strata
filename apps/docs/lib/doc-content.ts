@@ -9,6 +9,7 @@ export const DOC_CONTENT: Record<string, () => Promise<MdxModule>> = {
   mcp: () => import('../content/docs/mcp.mdx'),
   figma: () => import('../content/docs/figma.mdx'),
   theming: () => import('../content/docs/theming.mdx'),
+  color: () => import('../content/docs/color.mdx'),
   'dark-mode': () => import('../content/docs/dark-mode.mdx'),
   rtl: () => import('../content/docs/rtl.mdx'),
   density: () => import('../content/docs/density.mdx'),

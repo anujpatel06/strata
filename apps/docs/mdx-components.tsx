@@ -18,6 +18,19 @@ import {
   TenantGrid,
   TenantBrandJson,
 } from '@/components/mdx/data';
+import { ChartDemo } from '@/components/color-usage/chart-demo';
+import { DoDont } from '@/components/color-usage/do-dont';
+import {
+  ChartWorst,
+  FeatureGlow,
+  FieldDarkMix,
+  FillPairs,
+  GlassOpacity,
+  PairLegend,
+  PairMatrix,
+  UnlistedNote,
+} from '@/components/color-usage/pairs';
+import { ColorTenantPicker, RoleGroup } from '@/components/color-usage/roles';
 
 /**
  * Global MDX mapping (required by @next/mdx in the App Router). Markdown elements get prose styles;
@@ -44,20 +57,32 @@ const components: MDXComponents = {
   AdrList,
   Badge,
   Callout,
+  ChartDemo,
+  ChartWorst,
   CodeBlock,
+  ColorTenantPicker,
   ComponentPreview,
   ContrastPairs,
   DensityTable,
+  DoDont,
+  FeatureGlow,
+  FieldDarkMix,
+  FillPairs,
   FuzzMargins,
   FuzzResults,
+  GlassOpacity,
   HouseAdjustments,
   Kbd,
   PackageCommand,
+  PairLegend,
+  PairMatrix,
+  RoleGroup,
   RolesTable,
   Steps,
   Table,
   TenantGrid,
   TenantBrandJson,
+  UnlistedNote,
 };
 
 export function useMDXComponents(): MDXComponents {

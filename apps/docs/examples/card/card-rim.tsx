@@ -7,14 +7,14 @@ export default function Example() {
     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 'var(--strata-space-4)', inlineSize: '100%' }}>
       <Card>
         <CardHeader>
-          <CardTitle>Without rim</CardTitle>
-          <CardDescription>The default hairline edge.</CardDescription>
+          <CardTitle>Default</CardTitle>
+          <CardDescription>A hairline edge in light; in dark the rim is built in.</CardDescription>
         </CardHeader>
       </Card>
       <Card rim>
         <CardHeader>
           <CardTitle>With rim</CardTitle>
-          <CardDescription>The edge catches light at the top-left.</CardDescription>
+          <CardDescription>The edge catches light at the top-left, in light too.</CardDescription>
         </CardHeader>
       </Card>
     </div>

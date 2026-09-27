@@ -6,6 +6,29 @@ Numbers only with the command that produced them. Design trade-offs get an ADR i
 
 ---
 
+## 2026-09-27 (night) — Using colour page, toast reference, surface recipe
+
+**Changed**
+- New /docs/color "Using colour": roles by job with live swatches, and a safe-pairs matrix generated from contrast-pairs.json with the worst ratio across tenants. Rules with reasons for brand colour, status, charts, glass/gradients/tints and fields. Live do/don't. How to check your own pair.
+- The matrix found **focus.ring on surface.selected at 2.97:1 (Care dark)**, which was unguarded. Added it to contrast-pairs.json, and `text.brand` on `surface.selected` too (it had been passing by luck at 4.82). Now 102 checks per brand; the solver lightens Care's dark ring to #90b7ff (7.2:1).
+- Engine: `--strata-sheen` (dark: a 115° band peaking at 8% text.default; light: none). text.subtle stays ≥ 6.86:1 at its brightest pixel over tenants and fuzz (test).
+- Toast and Alert rebuilt to Anuj's toast reference:
+  - sheen, hairline and rim; filled status icons (shape `feedback.*.fg`, knockout `feedback.*.bg`, worst 6.09:1; `solid` failed 3:1 in three places);
+  - icon | title and description | one action; action weight by severity (`contrast` for danger/warning).
+  - `@strata/icons` gains 6 filled status icons (243 total).
+- The surface recipe is applied to card, stat-tile, data-table, empty-state, popover, menu, the select/combobox listboxes, date-picker, dialog, sheet and command. On glass, the face is +8 points more opaque so text stays ≥ 4.72:1 (test in popover).
+- Docs: the site's dark scope copies every scheme-dependent variable (diffed, not a prefix list). Before this, sheen, rim, glow and glass never switched to dark in previews.
+
+**Decided**
+- Toast pattern from Anuj's reference, applied system-wide — **Anuj**.
+- Sheen on glass with the +8 opacity offset — **Claude** (proof in tests).
+
+**Results**
+- `pnpm test`: react 389, engine 210, icons 243; typecheck clean; `pnpm check:meta` 52/52.
+- Fuzz: 102,000 / 102,000 checks, all invariants valid — `pnpm test:themes`.
+
+---
+
 ## 2026-09-27 (late) — charts, app shell, 235 icons, KYB web rebuild, soft fields
 
 **Changed**

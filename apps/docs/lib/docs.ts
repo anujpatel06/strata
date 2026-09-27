@@ -67,6 +67,14 @@ export const DOC_PAGES: readonly DocPage[] = [
     keywords: 'tokens css variables brand tenant theme scope roles',
   },
   {
+    slug: 'color',
+    href: '/docs/color',
+    title: 'Using colour',
+    description: 'Which colour role to use for what, the pairs the engine guarantees, and how to check your own.',
+    group: 'foundations',
+    keywords: 'color colour roles contrast pairs palette brand status feedback chart glass swatches do dont',
+  },
+  {
     slug: 'dark-mode',
     href: '/docs/dark-mode',
     title: 'Dark mode',
