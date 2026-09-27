@@ -115,7 +115,7 @@ export function RevenueCard({ level }: CardProps) {
   const up = data.delta >= 0;
   const Trend = up ? IconTrendingUp : IconTrendingDown;
   return (
-    <Card rim>
+    <Card variant="showcase">
       <CardHeader>
         <Eyebrow tone="brand">After fees</Eyebrow>
         <CardTitle level={level} id={titleId}>
@@ -255,7 +255,7 @@ const ACCOUNT_ICONS: Record<AccountIcon, ReactNode> = {
 export function AccountsCard({ level }: CardProps) {
   const total = ACCOUNTS.reduce((a, b) => a + b.balance, 0);
   return (
-    <Card>
+    <Card variant="showcase">
       <CardHeader>
         <CardTitle level={level}>Accounts</CardTitle>
         <CardDescription>
@@ -306,7 +306,7 @@ const LIMITS = { cards: { spent: 3120, limit: 5000 }, transfers: { used: 18, fre
 export function LimitsCard({ level }: CardProps) {
   const { cards, transfers } = LIMITS;
   return (
-    <Card>
+    <Card variant="showcase">
       <CardHeader>
         <CardTitle level={level}>Spend limits</CardTitle>
         <CardDescription>Team cards reset on October 1.</CardDescription>
@@ -338,7 +338,7 @@ export function LimitsCard({ level }: CardProps) {
 
 export function ApprovalsCard({ level }: CardProps) {
   return (
-    <Card>
+    <Card variant="showcase">
       <CardHeader>
         <CardTitle level={level}>Approvals</CardTitle>
         <CardDescription>Payouts over $2,500 need a yes from one of them.</CardDescription>
@@ -371,7 +371,7 @@ export function ScheduleCard({ level }: CardProps) {
   const [date, setDate] = useState<CalendarDate>(() => parseDate('2026-10-02'));
   const due = SCHEDULE.filter((s) => s.date === date.toString());
   return (
-    <Card>
+    <Card variant="showcase">
       <CardHeader>
         <CardTitle level={level}>Scheduled</CardTitle>
         <CardDescription>{SCHEDULE.length} payments go out in October.</CardDescription>
@@ -419,7 +419,7 @@ export function TransferCard({ level }: CardProps) {
   const valid = value > 0;
   const name = PAYEES.find((p) => p.id === payee)?.name ?? '';
   return (
-    <Card>
+    <Card variant="showcase">
       <form className={styles.contents} onSubmit={(e) => e.preventDefault()} aria-labelledby={titleId}>
         <CardHeader>
           <CardTitle level={level} id={titleId}>
@@ -490,7 +490,7 @@ export function TransferCard({ level }: CardProps) {
 
 export function AlertsCard({ level }: CardProps) {
   return (
-    <Card>
+    <Card variant="showcase">
       <CardHeader>
         <CardTitle level={level}>Alerts</CardTitle>
         <CardDescription>Push and email, as it happens.</CardDescription>
@@ -523,7 +523,7 @@ export function AlertsCard({ level }: CardProps) {
 
 export function ActivityCard({ level }: CardProps) {
   return (
-    <Card>
+    <Card variant="showcase">
       <CardHeader>
         <CardTitle level={level}>Activity</CardTitle>
         <CardDescription>Across all accounts, newest first.</CardDescription>

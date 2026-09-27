@@ -36,6 +36,11 @@
       "name": "stat-tile-caption",
       "title": "Captions, icons and variants",
       "description": "A caption instead of a delta, a no-change delta, and the small outline tile."
+    },
+    {
+      "name": "stat-tile-editorial",
+      "title": "Editorial",
+      "description": "Case-study figures: a large regular-weight number over a quiet label, in hairline tiles."
     }
   ],
   "props": [
@@ -107,9 +112,9 @@
     {
       "component": "StatTile",
       "name": "variant",
-      "type": "'default' | 'outline' | 'ghost'",
+      "type": "'default' | 'outline' | 'ghost' | 'editorial'",
       "default": "'default'",
-      "description": "Same chrome options as Card; ghost for tiles inside a card."
+      "description": "Same chrome options as Card; ghost for tiles inside a card. editorial = a quiet inset figure for a card (a showcase card's results): the number first, large and regular weight, the label beneath, a hairline edge on a slightly lifted face (surface.canvas light, surface.default dark), no shadow; its corner follows the card's."
     },
     {
       "component": "StatTileGroup",
@@ -179,6 +184,8 @@
     "motion.easingOut",
     "motion.spring",
     "sheen",
-    "rim"
+    "rim",
+    "color.surface.canvas",
+    "space.3"
   ]
 }

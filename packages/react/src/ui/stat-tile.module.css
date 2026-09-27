@@ -80,6 +80,41 @@
   box-shadow: none;
 }
 
+/*
+ * Editorial: the case-study figure ("+18%" over "cashless use"). The value comes first on screen and the label sits
+ * beneath it; in the DOM the <dt> still comes first, so it's read "cashless use, +18%". A lifted face with only a
+ * hairline (no shadow, no sheen or rim: it's a tile inside a card, not a card), and a large regular-weight number.
+ * Text sits on surface.canvas (light) or surface.default (dark): engine-checked pairs for text.default and text.subtle.
+ * Its radius is the container token, which a showcase Card points at its concentric inner radius.
+ */
+.tile[data-variant='editorial'] {
+  --_fill: light-dark(var(--strata-color-surface-canvas), var(--strata-color-surface-default));
+  --_sheen: none;
+  --_rim: transparent;
+  grid-template-areas:
+    'value'
+    'label'
+    'meta';
+  row-gap: var(--strata-space-1);
+  padding: var(--strata-space-3) var(--strata-space-4) var(--strata-space-4);
+  box-shadow: 0 0 0 var(--strata-hairline) var(--_edge);
+}
+
+.tile[data-variant='editorial'][data-sparkline] {
+  grid-template-areas:
+    'value value'
+    'label label'
+    'meta  spark';
+}
+
+.tile[data-variant='editorial'] .value {
+  font-weight: var(--strata-font-weight-regular);
+  /* A figure takes its direction from its own first strong character (none = LTR), so "+18%" and "3 min" stay
+     whole in an RTL page and Arabic figures stay RTL; it still aligns to the tile's start. */
+  unicode-bidi: plaintext;
+  text-align: match-parent;
+}
+
 .label {
   display: flex;
   grid-area: label;
@@ -200,7 +235,7 @@
   stroke: currentColor;
   stroke-linecap: round;
   stroke-linejoin: round;
-  /* Matches the icon stroke (1.75): a fine line reads as data, a heavy one as decoration. */
+  /* Matches the icon stroke (1.5): a fine line reads as data, a heavy one as decoration. */
   stroke-width: var(--strata-icon-stroke, 1.5);
 }
 
@@ -212,6 +247,10 @@
 
 .tile[data-variant='ghost'] .sparkDot {
   stroke: var(--strata-color-surface-default);
+}
+
+.tile[data-variant='editorial'] .sparkDot {
+  stroke: var(--_fill);
 }
 
 /* ---- motion ------------------------------------------------------------ */
@@ -301,4 +340,10 @@
   inline-size: 100%;
   margin: 0;
   padding: 0;
+}
+
+/* Editorial tiles are small inset figures: ~128px columns (three fit a 420px card), and a tighter gap. */
+.group:has(> .tile[data-variant='editorial']) {
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, calc(var(--strata-space-16) * 2)), 1fr));
+  gap: var(--strata-space-3);
 }

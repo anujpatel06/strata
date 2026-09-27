@@ -6,6 +6,28 @@ Numbers only with the command that produced them. Design trade-offs get an ADR i
 
 ---
 
+## 2026-09-27 (showcase card) — the case-study card face on Blocks and the home showcase; the axe sweep waits for hydration
+
+**Changed**
+- `Card variant="showcase"` + `CardMedia` (glow behind media only), `StatTile variant="editorial"`, `CardFooter divider`; the /blocks index is a grid of showcase cards (`components/blocks/block-overview.tsx`).
+- Home showcase (`components/showcase/cards.tsx`): every plain card, Net revenue included, is now `variant="showcase"`. The promo keeps `feature`, so it stays the one glowing card.
+- `scripts/axe-sweep.mjs` waits until `<main>` is hydrated before scanning. At networkidle /blocks was still server HTML, so Meter's role fix hadn't run and closed accordion panels read as focusable: 8 false findings, 0 after hydration.
+- `.claude/launch.json` runs `next dev` directly; through `pnpm docs` the preview server exited after 3s.
+
+**Decided**
+- Showcase face on the home cards — **Anuj** (asked for his case-study background on the Net revenue card). Applying it to the neighbouring plain cards too — **Claude** (pending Anuj).
+- Dark showcase face stays surface.sunken (the page colour), not surface.raised: closer to the reference, and the stat tiles stay lifted instead of reading as sunk — **Claude recommended, Anuj accepted** (previewed side by side).
+- Editorial stat numbers stay regular weight, not medium — **Claude recommended, Anuj accepted**.
+
+**Results**
+- `pnpm test`: react 443, engine 219, icons 245, codemods 8 passing (before the Phase 5 session's changes). `pnpm check:meta`: 53/53.
+- `node scripts/axe-sweep.mjs`: 105 routes × 2 schemes, 0 violation nodes.
+
+**Next**
+- Commit on Anuj's go, only these files (another session has uncommitted Phase 5 work in the tree).
+
+---
+
 ## 2026-09-27 (Phase 5, build) — auditor, MCP server, brand fidelity, eval harness
 
 **Changed**

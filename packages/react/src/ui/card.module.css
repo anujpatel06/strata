@@ -25,13 +25,18 @@
   --_sheen: var(--strata-sheen);
   --_rim: transparent;
   --_edge: var(--strata-color-border-subtle);
+  /* The outer corner. A private alias so the showcase variant can enlarge it and CardMedia can follow it. */
+  --_radius: var(--strata-radius-container);
+  /* The card's inset, captured here (custom properties inherit their computed value), so CardMedia bleeds and pads
+     by the card's inset even when the media carries another theme's tokens. */
+  --_inset: var(--strata-card-inset);
   /* Finesse: the soft shadow carries the depth; the edge is a hairline ring (0.5px on 2× screens). It's a
      box-shadow, not a border, because Chromium rounds sub-pixel border widths up to 1px. The 1px transparent
      border keeps the box size, carries the rim light and becomes the visible edge in forced-colours mode.
      Background layers, top to bottom: the sheen and the face (padding box), then the rim gradient over the fill
      (border box), so the rim only shows in the 1px ring and follows any radius (CONVENTIONS "Rim light"). */
   border: 1px solid transparent;
-  border-radius: var(--strata-radius-container);
+  border-radius: var(--_radius);
   background:
     var(--_sheen) padding-box,
     var(--_face) padding-box,
@@ -188,6 +193,177 @@
   }
 }
 
+/* ---- showcase ------------------------------------------------------------ */
+
+/*
+ * A case-study card (Anuj's portfolio reference, 2026-09-27): a quiet face, a large radius, a glossy rim that is
+ * brightest along the top and fades down the sides, and a CardMedia on top with a brand haze behind the media.
+ *
+ * The face is a solid role, so every line of text sits on an engine-checked pair (contrast-pairs.json):
+ * - light: surface.raised, lifted by the raised shadow (no inverted black card);
+ * - dark:  surface.sunken, the darkest surface (the same as the page canvas in every tenant today), lit by the rim
+ *          and the sheen (surface recipe). The sheen is proved on this face too (test/card.test.tsx).
+ * Text on it: text.default, text.subtle, text.brand. Worst pixel, tenants and 1,000 fuzz brands, face and the
+ * sheen's peak (measured 2026-09-27, `pnpm --filter @strata/react exec vitest run test/card.test.tsx`,
+ * "showcase card contrast"):
+ *
+ *                 light                      dark
+ *   text.default  16.12 (vela; fuzz 16.12)   14.13 (fuzz; care 14.19)
+ *   text.subtle    6.68 (fuzz; care 6.71)     8.15 (fuzz; care 8.21)
+ *   text.brand     5.03 (fuzz; qamar 5.51)    7.49 (fuzz; vela 8.13)
+ * (floored, never rounded up). The binding role is text.brand in light, which is the engine's own raised-surface
+ * guarantee; the dark face is darker than surface.raised, so the sheen costs less there than on a default card.
+ *
+ * The glow is never behind text: only CardMedia draws it (.media::before), and the showcase face has no gradient
+ * of its own. The test checks both.
+ *
+ * Radius: 2 × the brand's container radius, capped at space-8 (32px, the reference's corner): a sharp brand stays
+ * sharp, a round one doesn't turn into a pill. Parts inside get a concentric radius (outer − inset) through the container token.
+ */
+.card[data-variant='showcase'] {
+  --_radius: clamp(var(--strata-radius-container), calc(var(--strata-radius-container) * 2), var(--strata-space-8));
+  /* Concentric (outer − inset), floored at the brand's own container radius capped at space-3: with a 24–32px
+     outer corner and a 20–28px inset, pure concentric math gives 4–8px, which reads sharp beside the card. */
+  --_inner-radius: max(
+    min(var(--strata-radius-container), var(--strata-space-3)),
+    calc(var(--_radius) - var(--strata-card-inset))
+  );
+  --_fill: light-dark(var(--strata-color-surface-raised), var(--strata-color-surface-sunken));
+  --_rim: transparent;
+  /* Three top-down layers of the rim: together about 2.5× as bright along the top edge and round the top corners
+     (the gloss), fading down the sides; the longest layer keeps a faint edge all the way down. */
+  background:
+    var(--_sheen) padding-box,
+    var(--_face) padding-box,
+    linear-gradient(to bottom, var(--_rim), transparent 16%) border-box,
+    linear-gradient(to bottom, var(--_rim), transparent 40%) border-box,
+    linear-gradient(to bottom, var(--_rim), transparent) border-box,
+    var(--_fill);
+  /* Light: the depth is the shadow, so it rests at the overlay step (soft and wide) rather than a hairline lift. */
+  box-shadow: 0 0 0 var(--strata-hairline) var(--_edge), var(--strata-shadow-overlay);
+}
+
+@container not style(--strata-sheen: none) {
+  .card[data-variant='showcase'] {
+    --_rim: var(--strata-rim);
+  }
+}
+
+/* Parts inside follow the card's corner concentrically: a StatTile or inset surface inside reads the container
+   radius, so point it at the inner radius (the same trick as the inset's card-inset). */
+.card[data-variant='showcase'] > :not(.media) {
+  --strata-radius-container: var(--_inner-radius);
+}
+
+.card[data-variant='showcase'] > .content[data-variant='inset'] {
+  border-radius: var(--_inner-radius);
+}
+
+.card[data-variant='showcase'] .header {
+  row-gap: var(--strata-space-3);
+}
+
+.card[data-variant='showcase'] .title {
+  font-size: var(--strata-font-size-xl);
+  letter-spacing: var(--strata-font-tracking-xl);
+}
+
+.card[data-variant='showcase'] .description {
+  font-size: var(--strata-font-size-md);
+  letter-spacing: var(--strata-font-tracking-md);
+}
+
+/* The rail's hairline stops at the text edge instead of running into the rim (it's drawn on the box, so the
+   box moves in from padding to margin). */
+.card[data-variant='showcase'] > .footer[data-divider] {
+  margin-inline: var(--strata-card-inset);
+  padding-inline: 0;
+}
+
+/* The footer rail: pinned to the bottom, so the rails of cards in a row line up; its meta text is quiet. */
+.card[data-variant='showcase'] > .footer:last-child {
+  margin-block-start: auto;
+}
+
+.card[data-variant='showcase'] > .footer {
+  column-gap: var(--strata-space-4);
+  color: var(--strata-color-text-subtle);
+}
+
+/* ---- media --------------------------------------------------------------- */
+
+/*
+ * CardMedia: edge to edge at the top of the card, clipped to the card's top corners (the padding-box radius, one
+ * border pixel inside the outer corner). The media is centred, and stands a little above the bottom edge so the
+ * haze shows beneath it.
+ */
+.media {
+  position: relative;
+  isolation: isolate;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-inline-size: 0;
+  padding: var(--_inset) var(--_inset) calc(var(--_inset) * 1.25);
+  overflow: hidden;
+  border-start-start-radius: calc(var(--_radius) - 1px);
+  border-start-end-radius: calc(var(--_radius) - 1px);
+}
+
+.card > .media:first-child {
+  margin-block-start: calc(var(--_inset) * -1);
+}
+
+.media > :where(img, video, picture, svg) {
+  display: block;
+  max-inline-size: 100%;
+  block-size: auto;
+}
+
+/*
+ * The glow: a deep haze rising from the bottom centre of the media zone, faded out over the last stretch so it melts
+ * into the face instead of stopping at a line. Built from the brand role with transparent (tokens only), capped:
+ * light is a tint, dark is the deep haze. Decoration only: a pseudo-element, behind the media (z-index -1 in the
+ * media's own stacking context), never behind text.
+ */
+.media[data-glow]::before {
+  --_haze: var(--strata-color-action-primary-bg);
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  background:
+    radial-gradient(
+      ellipse 50% 70% at 50% 92%,
+      light-dark(
+        color-mix(in oklab, var(--_haze) 22%, transparent),
+        color-mix(in oklab, var(--_haze) 70%, transparent)
+      ),
+      transparent
+    ),
+    radial-gradient(
+      ellipse 100% 100% at 50% 100%,
+      light-dark(
+        color-mix(in oklab, var(--_haze) 10%, transparent),
+        color-mix(in oklab, var(--_haze) 28%, transparent)
+      ),
+      transparent
+    );
+  content: '';
+  mask-image: linear-gradient(to top, transparent, var(--strata-color-text-default) 24%);
+  pointer-events: none;
+}
+
+.media[data-glow='accent']::before {
+  --_haze: var(--strata-color-accent-bg);
+}
+
+@media (forced-colors: active) {
+  .media[data-glow]::before {
+    content: none;
+  }
+}
+
 /* ---- interactive ------------------------------------------------------- */
 
 /*
@@ -230,6 +406,10 @@
   box-shadow: 0 0 0 var(--strata-hairline) var(--_edge), var(--strata-shadow-overlay);
 }
 
+.card[data-variant='showcase'][data-interactive]:hover:not(:has(:where(a[href], button, input, select, textarea, [role='button']):not(.title a):hover)) {
+  box-shadow: 0 0 0 var(--strata-hairline) var(--_edge), var(--strata-shadow-overlay), var(--strata-shadow-overlay);
+}
+
 .card[data-interactive]:has(.title a:hover) .title :where(a[href]) {
   text-decoration: underline;
   text-decoration-thickness: 1px;
@@ -253,6 +433,11 @@
 
   .card[data-interactive]:hover:not(:has(:where(a[href], button, input, select, textarea, [role='button']):not(.title a):hover)) {
     translate: 0 -1px;
+  }
+
+  /* A showcase card is a bigger object, so it rises further. */
+  .card[data-variant='showcase'][data-interactive]:hover:not(:has(:where(a[href], button, input, select, textarea, [role='button']):not(.title a):hover)) {
+    translate: 0 -2px;
   }
 
   /* Press: sinks back and gives a little (a whole card is a big target, so 0.98, not a button's 0.96), quickly;

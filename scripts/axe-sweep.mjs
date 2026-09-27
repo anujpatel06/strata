@@ -20,6 +20,11 @@ for (const scheme of ['light', 'dark']) {
     page.on('pageerror', (e) => errs.push(e.message));
     try {
       await page.goto(base + route, { waitUntil: 'networkidle', timeout: 45000 });
+      // Scan the hydrated page, not the server HTML: heavy routes (/blocks) are still hydrating at networkidle, and
+      // effects such as Meter's role fix only run once React owns the DOM. Hydrated = <main> carries a React fiber.
+      await page
+        .waitForFunction(() => Object.keys(document.querySelector('main') ?? {}).some((k) => k.startsWith('__react')), null, { timeout: 15000 })
+        .catch(() => (summary['not-hydrated'] ??= []).push(`${scheme} ${route}`));
       const res = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa']).analyze();
       for (const v of res.violations) {
         const k = `${v.id} (${v.impact})`;

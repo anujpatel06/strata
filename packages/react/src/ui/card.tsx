@@ -10,8 +10,10 @@ export interface CardProps extends HTMLAttributes<HTMLDivElement> {
    * `default` = raised surface with a hairline edge and a soft shadow (plus the sheen and rim light in dark), `outline` = border only, `ghost` = no chrome.
    * `feature` = a promo/hero card: a deep brand glow from the top-start corner, a rim-light edge and the brand halo.
    * Its text stays on checked pairs (see card.module.css for the numbers). Use one per view.
+   * `showcase` = a case-study card: a quiet face (surface.sunken in dark, surface.raised in light), a large radius, a
+   * glossy rim brightest along the top, and room for a CardMedia on top whose glow sits behind the media only.
    */
-  variant?: 'default' | 'outline' | 'ghost' | 'feature';
+  variant?: 'default' | 'outline' | 'ghost' | 'feature' | 'showcase';
   /**
    * Rim light: the 1px edge catches light at the top-left and fades, like glass. Default cards always have it in
    * dark (the surface recipe); `rim` adds it in light, and to outline and ghost cards. Always on for `variant="feature"`.
@@ -47,6 +49,25 @@ export function Card({
       className={cx(styles.card, className)}
     />
   );
+}
+
+export interface CardMediaProps extends HTMLAttributes<HTMLDivElement> {
+  /**
+   * The ambient haze behind the media, rising from the bottom centre: `brand` (action.primary.bg), `accent`
+   * (accent.bg) or `none`. It's decoration (a pseudo-element, so assistive tech never meets it) and it never sits
+   * behind text: CardMedia is the only part that draws it, and text belongs in the parts below.
+   */
+  glow?: 'brand' | 'accent' | 'none';
+  ref?: Ref<HTMLDivElement>;
+}
+
+/**
+ * A media area at the top of the card, edge to edge and clipped to the card's top corners: an image, a video or a
+ * device mock, centred over the glow. Give images their own `alt`. Put it first in the card. Media only: no
+ * headings or copy in here (the glow's contrast isn't proven for text).
+ */
+export function CardMedia({ glow = 'brand', className, ...rest }: CardMediaProps): JSX.Element {
+  return <div {...rest} data-glow={glow === 'none' ? undefined : glow} className={cx(styles.media, className)} />;
 }
 
 export interface CardHeaderProps extends HTMLAttributes<HTMLDivElement> {

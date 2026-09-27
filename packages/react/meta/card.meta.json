@@ -6,6 +6,7 @@
   "maturity": "beta",
   "exports": [
     "Card",
+    "CardMedia",
     "CardHeader",
     "CardTitle",
     "CardDescription",
@@ -30,6 +31,16 @@
       "name": "card-feature",
       "title": "Feature",
       "description": "A promo card: brand glow from the top-start corner, rim light, star field, and a primary and secondary action."
+    },
+    {
+      "name": "card-showcase",
+      "title": "Showcase",
+      "description": "A case-study card: media on a brand glow, a title and body, three editorial figures, a footnote and a footer rail with the year and a link."
+    },
+    {
+      "name": "card-showcase-grid",
+      "title": "Showcase grid",
+      "description": "Three interactive showcase cards in a row, one per glow (brand, accent, none). The rails line up at the bottom."
     },
     {
       "name": "card-with-form",
@@ -61,9 +72,9 @@
     {
       "component": "Card",
       "name": "variant",
-      "type": "'default' | 'outline' | 'ghost' | 'feature'",
+      "type": "'default' | 'outline' | 'ghost' | 'feature' | 'showcase'",
       "default": "'default'",
-      "description": "default = raised surface, hairline edge and soft shadow, plus the sheen (a diagonal band of light) and the rim light in dark; outline = hairline edge only; ghost = no chrome, same spacing; feature = a promo/hero card with a deep brand glow from the top-start corner, the rim light and the brand halo (one per view). Its glow is capped so text.default, text.subtle and text.brand stay ≥ 4.5:1 (proved in test/card.test.tsx). feature adapts to the scheme: in light it's the raised shadow and a very faint brand gradient; in dark, a deep gradient and the brand halo."
+      "description": "default = raised surface, hairline edge and soft shadow, plus the sheen (a diagonal band of light) and the rim light in dark; outline = hairline edge only; ghost = no chrome, same spacing; feature = a promo/hero card with a deep brand glow from the top-start corner, the rim light and the brand halo (one per view). Its glow is capped so text.default, text.subtle and text.brand stay ≥ 4.5:1 (proved in test/card.test.tsx). feature adapts to the scheme: in light it's the raised shadow and a very faint brand gradient; in dark, a deep gradient and the brand halo. showcase = a case-study card: a quiet solid face (surface.raised in light with the raised shadow; surface.sunken in dark), 1.6× the container radius (capped at space-10), a glossy rim brightest along the top, and a CardMedia on top. Its text (text.default, text.subtle, text.brand) is proved on the face and the sheen for tenants and 1,000 fuzz brands (test/card.test.tsx). Parts inside get a concentric radius. With interactive it lifts 2px."
     },
     {
       "component": "Card",
@@ -85,6 +96,19 @@
       "type": "boolean",
       "default": "false",
       "description": "A faint decorative star field (CSS dots in a pseudo-element, invisible to assistive tech). Only drawn on variant=\"feature\"."
+    },
+    {
+      "component": "CardMedia",
+      "name": "glow",
+      "type": "'brand' | 'accent' | 'none'",
+      "default": "'brand'",
+      "description": "The ambient haze behind the media, rising from the bottom centre and fading into the card face: brand = action.primary.bg, accent = accent.bg. Decorative (a pseudo-element), and only ever behind the media: CardMedia is the only part that draws it."
+    },
+    {
+      "component": "CardMedia",
+      "name": "children",
+      "type": "ReactNode",
+      "description": "An image, video or device mock, centred. Edge to edge at the top of the card and clipped to its top corners; put it first. Give images their own alt text; a mock built from divs needs role=\"img\" and an aria-label. No text content: the glow isn't proven for text."
     },
     {
       "component": "CardHeader",
@@ -128,7 +152,9 @@
       "If the whole card is a link, put the link on the title and extend its hit area with CSS rather than wrapping the card in <a>.",
       "Give a card role=\"region\" and aria-labelledby only when it is a major page landmark.",
       "Interactive cards: the title link is the only tab stop for the card and names it; its focus ring is drawn round the whole card. Keep other controls inside few — they stay separately focusable above the stretched link.",
-      "Feature cards: the glow strength (16% light, 30% dark) and star alpha are capped so text.default, text.subtle and text.brand reach 4.5:1 on the worst pixel for every tenant; test/card.test.tsx re-proves it from the CSS. Buttons on it keep their own solved fills."
+      "Feature cards: the glow strength (16% light, 30% dark) and star alpha are capped so text.default, text.subtle and text.brand reach 4.5:1 on the worst pixel for every tenant; test/card.test.tsx re-proves it from the CSS. Buttons on it keep their own solved fills.",
+      "Showcase cards: text sits only on the solid face (surface.raised light, surface.sunken dark), never on the glow. CardMedia's glow is a pseudo-element, so assistive tech never meets it; what's inside CardMedia needs its own text alternative (img alt, or role=\"img\" + aria-label on a mock).",
+      "Editorial figures inside a showcase card (StatTile variant=\"editorial\" in a StatTileGroup) are one <dl>: each label is read before its value, although the value is drawn first."
     ]
   },
   "guidelines": {
@@ -136,13 +162,15 @@
       "Keep one primary action per card, in the footer or CardAction.",
       "Let parts that must bleed (tables, images) drop their inline padding.",
       "Use CardContent variant=\"inset\" when the content is one object (a table, a diff, a list) that should read as a unit inside the card.",
-      "Use variant=\"feature\" for one promo or hero card per view, with one primary and one secondary action."
+      "Use variant=\"feature\" for one promo or hero card per view, with one primary and one secondary action.",
+      "Use variant=\"showcase\" for case studies and galleries: CardMedia first, then the header, the figures, a footnote and a CardFooter divider rail with meta text and one Link (standalone, trailing IconArrowUpRight)."
     ],
     "dont": [
       "Don't nest cards; use a Separator or an outline card inside.",
       "Don't put more than one heading level inside a CardHeader.",
       "Don't nest inset surfaces, or put an inset surface in an outline or ghost card: the pale fill needs the raised card around it.",
-      "Don't put text colours other than text.default, text.subtle and text.brand on a feature card; other roles aren't proved on the glow."
+      "Don't put text colours other than text.default, text.subtle and text.brand on a feature card; other roles aren't proved on the glow.",
+      "Don't put text or controls inside CardMedia, or rebuild the glow behind the header: the glow's contrast is not proven for text."
     ]
   },
   "tokens": [
@@ -186,6 +214,11 @@
     "rim",
     "sheen",
     "glow",
-    "icon-stroke"
+    "icon-stroke",
+    "color.accent.bg",
+    "space.3",
+    "space.10",
+    "font.size.xl",
+    "font.tracking.xl"
   ]
 }

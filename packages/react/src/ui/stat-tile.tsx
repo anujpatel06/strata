@@ -45,8 +45,13 @@ export interface StatTileProps extends HTMLAttributes<HTMLElement> {
   sparkline?: number[];
   /** `lg` is for a dashboard's lead figures; `sm` for dense rows. */
   size?: 'sm' | 'md' | 'lg';
-  /** Same chrome options as Card. Use `ghost` for tiles inside an existing card. */
-  variant?: 'default' | 'outline' | 'ghost';
+  /**
+   * Same chrome options as Card. Use `ghost` for tiles inside an existing card.
+   * `editorial` = a quiet inset tile for a row of figures inside a card (a showcase card's results): the number
+   * first, large and regular weight, the label beneath it, a hairline edge and a slightly lifted face
+   * (surface.canvas in light, surface.default in dark), no shadow. Its corner follows the card's.
+   */
+  variant?: 'default' | 'outline' | 'ghost' | 'editorial';
   ref?: Ref<HTMLElement>;
 }
 

@@ -98,4 +98,21 @@ describe('StatTile', () => {
     expect(dl.children[0]).toHaveClass('tile', 'mine');
     expect(within(dl as HTMLElement).getAllByRole('term')).toHaveLength(2);
   });
+
+  it('editorial: the label is still the term read before its value, and the variant is reflected', () => {
+    const { container } = render(
+      <StatTileGroup>
+        <StatTile variant="editorial" value="−42%" label="time to file" />
+        <StatTile variant="editorial" value="3 min" label="median claim" />
+      </StatTileGroup>,
+    );
+    const tile = container.firstElementChild!.children[0]!;
+    expect(tile).toHaveAttribute('data-variant', 'editorial');
+    // DOM order stays dt, dd (label, value): CSS draws the value first, assistive tech reads "time to file, −42%".
+    expect(tile.children[0]!.tagName).toBe('DT');
+    expect(tile.children[0]).toHaveTextContent('time to file');
+    expect(tile.children[1]!.tagName).toBe('DD');
+    expect(tile.children[1]).toHaveTextContent('−42%');
+    expect(within(container.firstElementChild as HTMLElement).getAllByRole('definition')).toHaveLength(2);
+  });
 });

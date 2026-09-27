@@ -1,6 +1,6 @@
 import { createRef } from 'react';
 import { render, screen } from '@testing-library/react';
-import { generateTheme, type BrandInput } from '@strata/theme-engine';
+import { generateTheme, toCssVariables, type BrandInput } from '@strata/theme-engine';
 import {
   contrastRatio,
   hexToRgb8,
@@ -15,7 +15,8 @@ import harbor from '../../../tenants/harbor/brand.json';
 import qamar from '../../../tenants/qamar/brand.json';
 import care from '../../../tenants/care/brand.json';
 import house from '../../../tenants/house/brand.json';
-import { Card, CardAction, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '../src/ui/card';
+import { Card, CardAction, CardContent, CardDescription, CardFooter, CardHeader, CardMedia, CardTitle } from '../src/ui/card';
+import { loadFuzzInputs } from './status-icon-contrast';
 
 describe('Card', () => {
   it('composes header, content and footer with an h3 title by default', () => {
@@ -203,3 +204,143 @@ describe('feature card contrast', () => {
   }
 });
 
+
+describe('showcase card and CardMedia', () => {
+  it('renders media first, with the glow as a data attribute and no extra DOM', () => {
+    render(
+      <Card variant="showcase" data-testid="card">
+        <CardMedia data-testid="media" className="mine">
+          <img src="data:," alt="The claim screen on a laptop" />
+        </CardMedia>
+        <CardHeader>
+          <CardTitle>Claims</CardTitle>
+        </CardHeader>
+        <CardFooter divider>
+          <a href="#case">Case study</a>
+        </CardFooter>
+      </Card>,
+    );
+    const card = screen.getByTestId('card');
+    expect(card).toHaveAttribute('data-variant', 'showcase');
+    // The showcase rim is its own (top-weighted), not the rim prop's.
+    expect(card).not.toHaveAttribute('data-rim');
+    const media = screen.getByTestId('media');
+    expect(card.firstElementChild).toBe(media);
+    expect(media).toHaveClass('media', 'mine');
+    expect(media).toHaveAttribute('data-glow', 'brand');
+    // The glow is a pseudo-element: the only child is the user's media, with its own alt.
+    expect(media.childElementCount).toBe(1);
+    expect(screen.getByRole('img', { name: 'The claim screen on a laptop' })).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: 'Case study' }).parentElement).toHaveAttribute('data-divider', 'true');
+  });
+
+  it('takes accent and none glows', () => {
+    render(
+      <>
+        <CardMedia data-testid="accent" glow="accent" />
+        <CardMedia data-testid="none" glow="none" />
+      </>,
+    );
+    expect(screen.getByTestId('accent')).toHaveAttribute('data-glow', 'accent');
+    expect(screen.getByTestId('none')).not.toHaveAttribute('data-glow');
+  });
+
+  it('interactive showcase: the title link is the one tab stop and names the card', () => {
+    render(
+      <Card variant="showcase" interactive data-testid="card">
+        <CardMedia>
+          <div role="img" aria-label="A phone" />
+        </CardMedia>
+        <CardHeader>
+          <CardTitle>
+            <a href="#renewals">Renewals in one tap</a>
+          </CardTitle>
+        </CardHeader>
+      </Card>,
+    );
+    expect(screen.getByTestId('card')).toHaveAttribute('data-interactive', 'true');
+    expect(screen.getAllByRole('link')).toHaveLength(1);
+    expect(screen.getByRole('link', { name: 'Renewals in one tap' })).toBeInTheDocument();
+  });
+});
+
+/*
+ * Showcase card contrast proof. All showcase text sits on the solid face; the face roles are read from the CSS
+ * (`--_fill: light-dark(<light role>, <dark role>)` in the showcase rule). In dark the surface recipe's sheen lies
+ * over the face: its peak (parsed from the engine's --strata-sheen) is mixed into the face in sRGB, as the engine's
+ * own sheen test does. text.default, text.subtle and text.brand must reach 4.5:1 on the face and on the sheen's
+ * peak, for the five tenants and the engine's 1,000 fuzz brands. The glow must stay inside CardMedia.
+ */
+describe('showcase card contrast', () => {
+  const node = (
+    globalThis as unknown as {
+      process: { cwd(): string; getBuiltinModule(id: 'node:fs'): { readFileSync(file: string, encoding: 'utf8'): string } };
+    }
+  ).process;
+  const css = node.getBuiltinModule('node:fs').readFileSync(`${node.cwd()}/src/ui/card.module.css`, 'utf8');
+  const rule = /\.card\[data-variant='showcase'\] \{([\s\S]*?)\n\}/.exec(css)?.[1] ?? '';
+  const fill = /--_fill: light-dark\(var\(--strata-color-([a-z-]+)\), var\(--strata-color-([a-z-]+)\)\);/.exec(rule);
+  const role = (v: string) => v.replace('-', '.') as 'surface.raised';
+  const FACE = { light: role(fill?.[1] ?? ''), dark: role(fill?.[2] ?? '') };
+  const TEXT = ['text.default', 'text.subtle', 'text.brand'] as const;
+  type Rgb = [number, number, number];
+
+  it('reads the face roles from the CSS and keeps every gradient except the rim out of the face', () => {
+    expect(FACE).toEqual({ light: 'surface.raised', dark: 'surface.sunken' });
+    // The showcase face layers: the sheen, the solid face and the rim. No radial glow, nowhere near the text.
+    expect(rule).not.toMatch(/radial-gradient/);
+    expect(rule).toMatch(/--_sheen|var\(--_sheen\) padding-box/);
+    // The haze exists in exactly one rule: CardMedia's pseudo-element.
+    const bare = css.replace(/\/\*[\s\S]*?\*\//g, '');
+    const hazeRules = [...bare.matchAll(/([^{}]+)\{[^{}]*var\(--_haze\)[^{}]*\}/g)].map((m) => m[1]!.trim());
+    expect(hazeRules.length).toBeGreaterThan(0);
+    for (const sel of hazeRules) expect(sel).toMatch(/^\.media\[data-glow\]::before$/);
+  });
+
+  const worstFor = (inputs: BrandInput[]) => {
+    const worst: Record<string, { ratio: number; at: string }> = {};
+    inputs.forEach((input, i) => {
+      const theme = generateTheme(input);
+      for (const scheme of ['light', 'dark'] as const) {
+        const r = theme.schemes[scheme].roles;
+        const face = r[FACE[scheme]].hex;
+        const faces = [face];
+        if (scheme === 'dark') {
+          const sheen = toCssVariables(theme, 'dark')['--strata-sheen'] ?? '';
+          const peak = Number(/(\d+)%, transparent\) 20%/.exec(sheen)?.[1] ?? NaN) / 100;
+          if (!Number.isFinite(peak)) throw new Error(`sheen peak not found: ${sheen}`);
+          const A = hexToRgb8(face);
+          const B = hexToRgb8(r['text.default'].hex);
+          faces.push(rgb8ToHex([0, 1, 2].map((k) => A[k]! * (1 - peak) + B[k]! * peak) as Rgb));
+        }
+        for (const t of TEXT) {
+          for (const f of faces) {
+            const v = contrastRatio(r[t].hex, f);
+            const key = `${scheme} ${t}`;
+            if (!worst[key] || v < worst[key].ratio) worst[key] = { ratio: v, at: `#${i}` };
+          }
+        }
+      }
+    });
+    return worst;
+  };
+
+  it('tenants: text.default, text.subtle and text.brand ≥ 4.5:1 on the face and the sheen peak', () => {
+    const names = ['vela', 'harbor', 'qamar', 'care', 'house'];
+    const worst = worstFor(names.map((n) => ({ vela, harbor, qamar, care, house })[n] as unknown as BrandInput));
+    const report = Object.fromEntries(
+      Object.entries(worst).map(([k, v]) => [k, `${(Math.floor(v.ratio * 1000) / 1000).toFixed(3)} (${names[Number(v.at.slice(1))]})`]),
+    );
+    console.log('showcase contrast, tenants', report);
+    for (const v of Object.values(worst)) expect(v.ratio).toBeGreaterThanOrEqual(4.5);
+  });
+
+  it('1,000 fuzz brands: the same three roles ≥ 4.5:1 on the face and the sheen peak', async () => {
+    const worst = worstFor(await loadFuzzInputs());
+    console.log(
+      'showcase contrast, fuzz',
+      Object.fromEntries(Object.entries(worst).map(([k, v]) => [k, `${(Math.floor(v.ratio * 1000) / 1000).toFixed(3)} (fuzz${v.at})`])),
+    );
+    for (const v of Object.values(worst)) expect(v.ratio).toBeGreaterThanOrEqual(4.5);
+  }, 60_000);
+});

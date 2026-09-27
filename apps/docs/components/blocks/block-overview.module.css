@@ -1,0 +1,98 @@
+/*
+ * /blocks overview: the blocks as showcase cards (Card variant="showcase" + CardMedia). Three up on wide screens,
+ * one column on phones. The rails line up because the showcase card pins its footer to the bottom.
+ */
+.overview {
+  margin-block-start: var(--strata-space-12);
+}
+
+.grid {
+  display: grid;
+  /* ~336px minimum per card, one column below that. */
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, calc(var(--strata-space-16) * 5.25)), 1fr));
+  gap: var(--strata-space-6);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.item {
+  display: flex;
+  min-inline-size: 0;
+}
+
+.card {
+  flex: 1;
+}
+
+.eyebrow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--strata-space-2);
+}
+
+.number {
+  color: var(--strata-color-text-default);
+  font-family: var(--strata-font-mono);
+  font-variant-numeric: tabular-nums;
+}
+
+/* The block descriptions are written for the viewer below; the card shows the first three lines. */
+.description {
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+}
+
+.view {
+  margin-inline-start: auto;
+}
+
+/*
+ * The thumbnail: a window onto the live block. The canvas is laid out at 4× the window's width (and height), so
+ * the block renders its desktop layout, then scaled to a quarter from the window's top-start corner.
+ */
+.window {
+  position: relative;
+  inline-size: 100%;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  border-radius: var(--strata-space-3);
+  background: var(--strata-color-surface-canvas);
+  box-shadow: 0 0 0 1px var(--strata-color-border-default), var(--strata-shadow-overlay);
+  pointer-events: none;
+}
+
+@supports (corner-shape: squircle) {
+  .window {
+    corner-shape: squircle;
+  }
+}
+
+.canvas {
+  position: absolute;
+  inset-block-start: 0;
+  inset-inline-start: 0;
+  inline-size: 400%;
+  block-size: 400%;
+  transform-origin: top left;
+  /* A static scale (a thumbnail), not motion. */
+  scale: 0.25;
+}
+
+.canvas:dir(rtl) {
+  transform-origin: top right;
+}
+
+.scope {
+  display: flex;
+  flex-direction: column;
+  block-size: 100%;
+  overflow: hidden;
+}
+
+.scope > * {
+  flex: 1 0 auto;
+}
