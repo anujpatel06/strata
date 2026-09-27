@@ -8,7 +8,7 @@ import {
   IconSun,
   IconSparkles,
   IconX,
-} from '@tabler/icons-react';
+} from '@strata/icons';
 import {
   Badge,
   DataTable,
@@ -50,7 +50,7 @@ function AdjustmentRow({ adjustment: a }: { adjustment: Adjustment }) {
     <li className={styles.change}>
       <span className={styles.changeSwatches}>
         <Hex hex={a.fromHex} label="From" />
-        <IconArrowNarrowRight className={styles.arrow} aria-hidden stroke={1.75} />
+        <IconArrowNarrowRight className={styles.arrow} aria-hidden />
         <Hex hex={a.toHex} label="to" />
       </span>
       <span className={styles.changeBody}>
@@ -159,7 +159,7 @@ export function AccessibilityPanel() {
         label={`${SCHEME_LABEL[s]} checks`}
         value={`${passed}/${list.length}`}
         caption={failed === 0 ? 'All pass WCAG 2.2 AA' : `${failed} failing`}
-        icon={s === 'light' ? <IconSun stroke={1.75} /> : <IconMoon stroke={1.75} />}
+        icon={s === 'light' ? <IconSun /> : <IconMoon />}
       />
     );
   };
@@ -172,7 +172,7 @@ export function AccessibilityPanel() {
           label="Solver adjustments"
           value={String(theme.adjustments.length)}
           caption={`${adjustments.light.length} light · ${adjustments.dark.length} dark`}
-          icon={<IconSparkles stroke={1.75} />}
+          icon={<IconSparkles />}
         />
       </StatTileGroup>
 
@@ -188,7 +188,7 @@ export function AccessibilityPanel() {
             size="sm"
             level={3}
             className={styles.empty}
-            icon={<IconCircleCheck stroke={1.75} />}
+            icon={<IconCircleCheck />}
             title="Nothing to fix"
             description="Every role landed on its preferred ramp step and passes WCAG 2.2 AA, in light and dark."
           />
@@ -197,7 +197,7 @@ export function AccessibilityPanel() {
             {SCHEMES.map((s) => (
               <div key={s} className={styles.changeGroup}>
                 <h3 className={styles.h3}>
-                  {s === 'light' ? <IconSun aria-hidden stroke={1.75} /> : <IconMoon aria-hidden stroke={1.75} />}
+                  {s === 'light' ? <IconSun aria-hidden /> : <IconMoon aria-hidden />}
                   {SCHEME_LABEL[s]}
                   <span className={styles.count}>{plural(adjustments[s].length, 'change')}</span>
                 </h3>

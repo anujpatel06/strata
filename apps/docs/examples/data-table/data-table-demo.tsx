@@ -25,7 +25,7 @@ const columns: DataTableColumn<Payment>[] = [
   { id: 'date', header: 'Date', allowsSorting: true, cell: (r) => day.format(r.date) },
   { id: 'payee', header: 'Payee', allowsSorting: true, cell: (r) => r.payee },
   { id: 'method', header: 'Method', cell: (r) => r.method },
-  { id: 'status', header: 'Status', cell: (r) => <Badge tone={tones[r.status]}>{r.status}</Badge> },
+  { id: 'status', header: 'Status', cell: (r) => <Badge variant="status" tone={tones[r.status]}>{r.status}</Badge> },
   { id: 'amount', header: 'Amount', align: 'end', allowsSorting: true, cell: (r) => money.format(r.amount) },
 ];
 

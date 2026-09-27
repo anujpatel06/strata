@@ -1,13 +1,13 @@
 'use client';
 
-import { IconHome } from '@tabler/icons-react';
+import { IconHome } from '@strata/icons';
 import { Breadcrumb, Breadcrumbs } from '@strata/react';
 
 export default function Example() {
   return (
     <Breadcrumbs aria-label="Document breadcrumbs">
       <Breadcrumb href="#">
-        <IconHome aria-hidden="true" stroke={1.75} />
+        <IconHome aria-hidden="true" />
         Home
       </Breadcrumb>
       <Breadcrumb href="#">Documents</Breadcrumb>

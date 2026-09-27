@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { IconAlertTriangle, IconDownload, IconMoon, IconSun } from '@tabler/icons-react';
+import { IconAlertTriangle, IconDownload, IconMoon, IconSun } from '@strata/icons';
 import { generateTheme, normalizeHex, type Scheme, type Theme } from '@strata/theme-engine';
 import { AccessibilityPanel } from './components/AccessibilityPanel';
 import { Header } from './components/Header';
@@ -146,7 +146,7 @@ export function App() {
                   className={styles.schemeToggle}
                 />
                 <button type="button" className={`${ui.btn} ${ui.btnInk} ${styles.exportBtn}`} onClick={onExport}>
-                  <IconDownload size={16} stroke={1.75} aria-hidden="true" />
+                  <IconDownload size={16} aria-hidden="true" />
                   Export
                 </button>
               </div>

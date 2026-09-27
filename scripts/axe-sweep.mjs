@@ -1,12 +1,13 @@
 import { chromium } from 'playwright';
+import { launchBrowser } from './launch-browser.mjs';
 import { AxeBuilder } from '@axe-core/playwright';
 import { readdirSync } from 'node:fs';
 const base = 'http://localhost:3000';
 const comps = readdirSync('packages/react/meta').filter((f) => f.endsWith('.meta.json')).map((f) => f.replace('.meta.json', ''));
 const docs = readdirSync('apps/docs/content/docs').filter((f) => f.endsWith('.mdx')).map((f) => f.replace('.mdx', '')).filter((s) => s !== 'index');
-const blocks = ['dashboard-overview', 'request-flow', 'settings', 'sign-in', 'activity-table'];
-const routes = ['/', '/docs', '/docs/components', '/blocks', '/themes', '/colors', ...docs.map((d) => `/docs/${d}`), ...comps.map((c) => `/docs/components/${c}`), ...blocks.flatMap((b) => ['vela', 'harbor', 'qamar'].map((t) => `/blocks/${b}/view?tenant=${t}`))];
-const browser = await chromium.launch();
+const blocks = ['benefits-overview', 'portfolio', 'dashboard-overview', 'request-flow', 'settings', 'sign-in', 'activity-table'];
+const routes = ['/', '/docs', '/docs/components', '/blocks', '/themes', '/colors', ...docs.map((d) => `/docs/${d}`), ...comps.map((c) => `/docs/components/${c}`), ...blocks.flatMap((b) => ['vela', 'harbor', 'qamar', 'care', 'house'].map((t) => `/blocks/${b}/view?tenant=${t}`))];
+const browser = await launchBrowser();
 const summary = {};
 let total = 0;
 for (const scheme of ['light', 'dark']) {

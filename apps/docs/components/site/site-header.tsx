@@ -19,26 +19,34 @@ function searchGroups(): SearchGroup[] {
       href: p.href,
       title: p.title,
       keywords: `${p.description} ${p.keywords ?? ''}`,
+      description: p.description,
     })),
   }));
   groups.push({
     label: 'Components',
     items: [
-      { href: '/docs/components', title: 'All components', keywords: 'index overview list' },
+      {
+        href: '/docs/components',
+        title: 'All components',
+        keywords: 'index overview list',
+        description: 'Every component, grouped by what it does.',
+      },
       ...getAllMeta().map((m) => ({
         href: `/docs/components/${m.name}`,
         title: m.title,
         keywords: `${m.name} ${CATEGORY_LABEL[m.category]} ${m.description} ${m.exports.join(' ')}`,
+        description: m.description,
+        meta: CATEGORY_LABEL[m.category],
       })),
     ],
   });
   groups.push({
     label: 'Pages',
     items: [
-      { href: '/', title: 'Home', keywords: 'start landing' },
-      { href: '/blocks', title: 'Blocks', keywords: 'patterns screens' },
-      { href: '/themes', title: 'Themes', keywords: 'tenants brands generator' },
-      { href: '/colors', title: 'Colors', keywords: 'palette ramps roles' },
+      { href: '/', title: 'Home', keywords: 'start landing', description: 'Strata at a glance, live in every tenant.' },
+      { href: '/blocks', title: 'Blocks', keywords: 'patterns screens', description: 'Whole screens built only from Strata components.' },
+      { href: '/themes', title: 'Themes', keywords: 'tenants brands generator', description: 'Type a brand colour, get an accessible theme.' },
+      { href: '/colors', title: 'Colors', keywords: 'palette ramps roles', description: 'Every brand’s ramps, light and dark. Click to copy.' },
     ],
   });
   return groups;
@@ -59,7 +67,7 @@ export function SiteHeader() {
         <div className={styles.actions}>
           <Search groups={searchGroups()} />
           <a href={GITHUB_URL} className={styles.iconLink} aria-label="Strata on GitHub" target="_blank" rel="noreferrer">
-            <IconBrandGithub aria-hidden stroke={1.75} />
+            <IconBrandGithub aria-hidden />
           </a>
           <SchemeToggle />
         </div>

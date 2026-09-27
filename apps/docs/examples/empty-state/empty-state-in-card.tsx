@@ -1,6 +1,6 @@
 'use client';
 
-import { IconSearch } from '@tabler/icons-react';
+import { IconSearch } from '@strata/icons';
 import { Button, Card, CardDescription, CardHeader, CardTitle, EmptyState } from '@strata/react';
 
 export default function Example() {

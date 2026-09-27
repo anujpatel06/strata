@@ -1,6 +1,6 @@
 'use client';
 
-import { IconUsers, IconWallet } from '@tabler/icons-react';
+import { IconUsers, IconWallet } from '@strata/icons';
 import { StatTile, StatTileGroup } from '@strata/react';
 
 export default function Example() {

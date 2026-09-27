@@ -136,13 +136,13 @@
   font-size: inherit;
 }
 
-/* ---- Tables ---- */
+/* ---- Tables ----
+   Finesse: no box around the table, no fill behind the header. The header is small and subtle; rows are divided
+   by hairlines (inset box-shadow keeps 0.5px on 2x screens), and the text lines up with the prose edge. */
 .tableWrap {
   inline-size: 100%;
   overflow-x: auto;
-  border: 1px solid var(--strata-color-border-subtle);
-  border-radius: var(--strata-radius-container);
-  background: var(--strata-color-surface-default);
+  border-radius: var(--strata-radius-badge);
   scrollbar-width: thin;
 }
 .tableWrap:focus-visible {
@@ -152,28 +152,40 @@
 
 .table {
   inline-size: 100%;
-  border-collapse: collapse;
+  border-collapse: separate;
+  border-spacing: 0;
   font-size: var(--strata-font-size-md);
+  letter-spacing: var(--strata-font-tracking-md);
   line-height: var(--strata-line-height-snug);
   font-variant-numeric: tabular-nums;
 }
 .table th,
 .table td {
   padding-block: var(--strata-space-3);
-  padding-inline: var(--strata-space-4);
+  padding-inline: var(--strata-space-3);
   text-align: start;
   vertical-align: top;
 }
+.table :is(th, td):first-child {
+  padding-inline-start: 0;
+}
+.table :is(th, td):last-child {
+  padding-inline-end: 0;
+}
 .table th {
-  background: color-mix(in oklab, var(--strata-color-text-default) 3%, transparent);
+  padding-block: 0 var(--strata-space-2);
   color: var(--strata-color-text-subtle);
   font-size: var(--strata-font-size-sm);
+  letter-spacing: var(--strata-font-tracking-sm);
   font-weight: var(--strata-font-weight-medium);
   white-space: nowrap;
+  box-shadow: inset 0 calc(var(--strata-hairline) * -1) 0 0 var(--strata-color-border-default);
 }
 .table td {
-  border-block-start: var(--docs-hairline);
   color: var(--strata-color-text-default);
+}
+.table tr + tr td {
+  box-shadow: inset 0 var(--strata-hairline) 0 0 var(--strata-color-border-subtle);
 }
 .table td[data-num],
 .table th[data-num] {

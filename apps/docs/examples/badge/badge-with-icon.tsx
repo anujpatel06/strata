@@ -1,6 +1,6 @@
 'use client';
 
-import { IconAlertTriangle, IconCheck, IconClock } from '@tabler/icons-react';
+import { IconAlertTriangle, IconCheck, IconClock } from '@strata/icons';
 import { Badge } from '@strata/react';
 
 export default function Example() {

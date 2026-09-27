@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { ToggleButton } from '@strata/react';
-import { IconPin, IconStar } from '@tabler/icons-react';
+import { IconPin, IconStar } from '@strata/icons';
 
 export default function Example() {
   const [starred, setStarred] = useState(true);

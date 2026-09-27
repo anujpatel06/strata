@@ -1,11 +1,13 @@
 import type { Metadata } from 'next';
 import { MdxPage } from '@/components/docs/mdx-page';
+import { DOC_CONTENT } from '@/lib/doc-content';
 import { DOC_PAGES, getDocPage } from '@/lib/docs';
 
 export const dynamicParams = false;
 
 export function generateStaticParams() {
-  return DOC_PAGES.filter((p) => p.slug !== 'index').map((p) => ({ slug: p.slug }));
+  // Only MDX pages: a page with its own route (e.g. /docs/icons) is listed in DOC_PAGES but has no loader.
+  return DOC_PAGES.filter((p) => p.slug !== 'index' && p.slug in DOC_CONTENT).map((p) => ({ slug: p.slug }));
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {

@@ -1,6 +1,8 @@
-import { IconBrandReact, IconCode, IconCheck, IconX, IconBraces } from '@tabler/icons-react';
-import { Tab, TabList, TabPanel, Tabs, Kbd } from '@strata/react';
+import { IconCode, IconCheck, IconX } from '@strata/icons';
+import { IconBrandReact } from '@tabler/icons-react';
+import { Tab, TabList, TabPanel, Tabs, Kbd, Tag } from '@strata/react';
 import type { Metadata } from 'next';
+import type { CSSProperties } from 'react';
 import { notFound } from 'next/navigation';
 import { DocsPage } from '@/components/docs/docs-page';
 import { MaturityBadge } from '@/components/docs/maturity-badge';
@@ -58,6 +60,51 @@ function toc(meta: ComponentMeta): TocItem[] {
   return items;
 }
 
+/** `'a' | 'b' | 'c'` → ['a', 'b', 'c']; anything that isn't a union of string literals → null. */
+function literalUnion(type: string): string[] | null {
+  const parts = type.split('|').map((p) => p.trim());
+  return parts.length > 1 && parts.every((p) => /^'[^']*'$/.test(p)) ? parts : null;
+}
+
+/** A prop's type: string-literal unions become a row of values (the default one marked); anything else is code. */
+function PropType({ prop }: { prop: PropDoc }) {
+  const literals = literalUnion(prop.type);
+  if (!literals) return <code className={styles.typeCode}>{prop.type}</code>;
+  return (
+    <ul className={styles.values} aria-label="Values">
+      {literals.map((v) => (
+        <li key={v} className={styles.value} data-default={v === prop.default || undefined}>
+          <code>{v.slice(1, -1)}</code>
+          {v === prop.default && <span className={styles.valueDefault}>default</span>}
+        </li>
+      ))}
+    </ul>
+  );
+}
+
+const TOKEN_GROUPS: ReadonlyArray<{ label: string; match: (t: string) => boolean }> = [
+  { label: 'Colour', match: (t) => t.startsWith('color.') },
+  { label: 'Type', match: (t) => /^(font|line-height)\b/.test(t) },
+  { label: 'Space and size', match: (t) => /^(space|control|card-inset|field-gap|section-gap|table-row-height|icon)\b/.test(t) },
+  { label: 'Shape', match: (t) => t.startsWith('radius') },
+  { label: 'Depth', match: (t) => /^(shadow|glass|hairline)\b/.test(t) },
+  { label: 'Motion', match: (t) => t.startsWith('motion') },
+];
+
+/** "color.feedback.danger.onSolid" → "--strata-color-feedback-danger-on-solid" (same rule as the engine's roleToCssVar). */
+const tokenVar = (t: string) => '--strata-' + t.replace(/\./g, '-').replace(/[A-Z]/g, (m) => '-' + m.toLowerCase());
+
+function groupTokens(tokens: string[]): Array<{ label: string; tokens: string[] }> {
+  const rest = [...tokens];
+  const groups = TOKEN_GROUPS.map((g) => {
+    const mine = rest.filter(g.match);
+    for (const t of mine) rest.splice(rest.indexOf(t), 1);
+    return { label: g.label, tokens: mine };
+  });
+  if (rest.length) groups.push({ label: 'Other', tokens: rest });
+  return groups.filter((g) => g.tokens.length > 0);
+}
+
 /** "Shift + Tab" → Shift + Tab keycaps; "Space / Enter" → two alternatives. */
 function Keys({ keys }: { keys: string }) {
   const alternatives = keys.split(/\s+\/\s+|\s+or\s+/);
@@ -93,30 +140,24 @@ export default async function ComponentPage({ params }: { params: Promise<{ name
     <DocsPage
       href={`/docs/components/${meta.name}`}
       crumbs={[
-        { href: '/docs', label: 'Docs' },
         { href: '/docs/components', label: 'Components' },
-        { label: meta.title },
+        { label: CATEGORY_LABEL[meta.category] },
       ]}
       title={meta.title}
       description={meta.description}
       meta={
         <>
           <MaturityBadge maturity={meta.maturity} size="md" />
-          <span className={styles.category}>{CATEGORY_LABEL[meta.category]}</span>
           <span className={styles.metaLinks}>
             {meta.reactAria && (
               <a href={meta.reactAria} className={styles.metaLink} target="_blank" rel="noreferrer">
-                <IconBrandReact aria-hidden size={14} stroke={1.75} />
+                <IconBrandReact aria-hidden size={14} />
                 React Aria
               </a>
             )}
             <a href={githubBlob(sourcePath)} className={styles.metaLink} target="_blank" rel="noreferrer">
-              <IconCode aria-hidden size={14} stroke={1.75} />
+              <IconCode aria-hidden size={14} />
               Source
-            </a>
-            <a href={`/r/${meta.name}.json`} className={styles.metaLink}>
-              <IconBraces aria-hidden size={14} stroke={1.75} />
-              Registry item
             </a>
           </span>
         </>
@@ -133,21 +174,11 @@ export default async function ComponentPage({ params }: { params: Promise<{ name
       </section>
 
       <H2 id="installation">Installation</H2>
-      <Tabs className={styles.installTabs}>
+      <Tabs variant="pill" className={styles.installTabs}>
         <TabList aria-label="Installation method">
-          <Tab id="cli">CLI</Tab>
           <Tab id="npm">npm</Tab>
           <Tab id="manual">Manual</Tab>
         </TabList>
-        <TabPanel id="cli" className={styles.installPanel}>
-          <PackageCommand dlx={`shadcn@latest add @strata/${meta.name}`} />
-          <P className={styles.note}>
-            Needs the <code>@strata</code> namespace in <code>components.json</code> and the base item (
-            <code>@strata/strata</code>) once per project — see{' '}
-            <A href="/docs/installation#add-the-strata-namespace">Installation</A>. Or use the item’s URL:
-          </P>
-          <PackageCommand dlx={`shadcn@latest add {{SITE_URL}}/r/${meta.name}.json`} />
-        </TabPanel>
         <TabPanel id="npm" className={styles.installPanel}>
           <PackageCommand add="@strata/react @strata/tokens" />
           <CodeBlock code={importLine} lang="tsx" />
@@ -244,28 +275,28 @@ export default async function ComponentPage({ params }: { params: Promise<{ name
         <>
           <H2 id="guidelines">Guidelines</H2>
           <div className={styles.guidelines}>
-            <section className={styles.guide} data-kind="do" aria-labelledby="guidelines-do">
-              <h3 id="guidelines-do" className={styles.guideTitle}>
-                <IconCheck aria-hidden size={16} stroke={2} />
-                Do
-              </h3>
-              <ul className={styles.guideList}>
-                {meta.guidelines.do.map((g) => (
-                  <li key={g}>{g}</li>
-                ))}
-              </ul>
-            </section>
-            <section className={styles.guide} data-kind="dont" aria-labelledby="guidelines-dont">
-              <h3 id="guidelines-dont" className={styles.guideTitle}>
-                <IconX aria-hidden size={16} stroke={2} />
-                Don’t
-              </h3>
-              <ul className={styles.guideList}>
-                {meta.guidelines.dont.map((g) => (
-                  <li key={g}>{g}</li>
-                ))}
-              </ul>
-            </section>
+            {(
+              [
+                { kind: 'do', title: 'Do', items: meta.guidelines.do, Icon: IconCheck },
+                { kind: 'dont', title: 'Don’t', items: meta.guidelines.dont, Icon: IconX },
+              ] as const
+            ).map(({ kind, title, items, Icon }) =>
+              items.length > 0 ? (
+                <section key={kind} className={styles.guide} data-kind={kind} aria-labelledby={`guidelines-${kind}`}>
+                  <h3 id={`guidelines-${kind}`} className={styles.guideTitle}>
+                    <span className={styles.guideChip} aria-hidden="true">
+                      <Icon />
+                    </span>
+                    {title}
+                  </h3>
+                  <ul className={styles.guideList}>
+                    {items.map((g) => (
+                      <li key={g}>{g}</li>
+                    ))}
+                  </ul>
+                </section>
+              ) : null,
+            )}
           </div>
         </>
       )}
@@ -276,33 +307,29 @@ export default async function ComponentPage({ params }: { params: Promise<{ name
           {propsByComponent(meta.props).map(([component, props]) => (
             <section key={component} className={styles.api} aria-labelledby={`api-${slugify(component)}`}>
               <H3 id={`api-${slugify(component)}`}>{component}</H3>
-              <Table aria-label={`${component} props`}>
-                <thead>
-                  <tr>
-                    <th scope="col">Prop</th>
-                    <th scope="col">Type and description</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {props.map((p) => (
-                    <tr key={p.name}>
-                      <td className={styles.propName}>
-                        <code>{p.name}</code>
-                        {p.required && <span className={styles.propMeta}>Required</span>}
-                        {p.default && (
-                          <span className={styles.propMeta}>
-                            Default <code>{p.default}</code>
-                          </span>
-                        )}
-                      </td>
-                      <td className={styles.propType}>
-                        <code>{p.type}</code>
-                        <span className={styles.propDescription}>{p.description}</span>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </Table>
+              <dl className={styles.props}>
+                {props.map((p) => (
+                  <div key={p.name} className={styles.prop}>
+                    <dt className={styles.propName}>
+                      <code>{p.name}</code>
+                      {p.required && (
+                        <Tag size="sm" variant="outline" className={styles.propRequired}>
+                          Required
+                        </Tag>
+                      )}
+                    </dt>
+                    <dd className={styles.propBody}>
+                      <PropType prop={p} />
+                      <p className={styles.propDescription}>{p.description}</p>
+                      {p.default && !literalUnion(p.type)?.includes(p.default) && (
+                        <p className={styles.propDefault}>
+                          Default <code>{p.default}</code>
+                        </p>
+                      )}
+                    </dd>
+                  </div>
+                ))}
+              </dl>
             </section>
           ))}
         </>
@@ -312,15 +339,33 @@ export default async function ComponentPage({ params }: { params: Promise<{ name
         <>
           <H2 id="tokens">Tokens</H2>
           <P>
-            The semantic tokens this component reads. Change them per tenant and the component follows — no code change.
+            The semantic tokens this component reads, grouped by what they control. Swatches show this site’s theme; change a tenant’s brand and the component follows with no code change.
           </P>
-          <ul className={styles.tokens}>
-            {meta.tokens.map((t) => (
-              <li key={t}>
-                <code>{t}</code>
-              </li>
+          <dl className={styles.tokenGroups}>
+            {groupTokens(meta.tokens).map((g) => (
+              <div key={g.label} className={styles.tokenGroup}>
+                <dt className={styles.tokenLabel}>
+                  {g.label}
+                  <span className={styles.tokenCount}>{g.tokens.length}</span>
+                </dt>
+                <dd className={styles.tokenList}>
+                  {g.tokens.map((t) => (
+                    <code key={t} className={styles.token}>
+                      {t.startsWith('color.') && (
+                        <span
+                          className={styles.tokenSwatch}
+                          data-wildcard={t.includes('*') || undefined}
+                          style={t.includes('*') ? undefined : ({ '--_swatch': `var(${tokenVar(t)})` } as CSSProperties)}
+                          aria-hidden="true"
+                        />
+                      )}
+                      {t.startsWith('color.') ? t.slice('color.'.length) : t}
+                    </code>
+                  ))}
+                </dd>
+              </div>
             ))}
-          </ul>
+          </dl>
         </>
       )}
     </DocsPage>

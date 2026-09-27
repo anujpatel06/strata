@@ -1,5 +1,5 @@
 import { useId, useMemo } from 'react';
-import { IconArrowNarrowRight, IconCheck, IconCircleCheck, IconCircleX, IconX } from '@tabler/icons-react';
+import { IconArrowNarrowRight, IconCheck, IconCircleCheck, IconCircleX, IconX } from '@strata/icons';
 import type { Adjustment, ContrastCheck, Scheme, Theme } from '@strata/theme-engine';
 import { KIND_LABEL, SCHEME_LABEL, floorRatio, formatRequired } from './format';
 import styles from './AccessibilityPanel.module.css';
@@ -79,7 +79,7 @@ export function AccessibilityPanel({ theme, scheme }: AccessibilityPanelProps) {
         </div>
         {theme.adjustments.length === 0 ? (
           <div className={`${ui.card} ${styles.empty}`}>
-            <IconCircleCheck size={20} stroke={1.75} aria-hidden="true" />
+            <IconCircleCheck size={20} aria-hidden="true" />
             <p>Nothing to fix — this brand passes as-is.</p>
           </div>
         ) : (
@@ -133,7 +133,7 @@ function AdjustmentRow({ adjustment: a }: { adjustment: Adjustment }) {
     <li className={styles.adj}>
       <span className={styles.swPair}>
         <SwatchWithHex hex={a.fromHex} label="From" />
-        <IconArrowNarrowRight className={styles.arrow} size={16} stroke={1.75} aria-hidden="true" />
+        <IconArrowNarrowRight className={styles.arrow} size={16} aria-hidden="true" />
         <SwatchWithHex hex={a.toHex} label="to" />
       </span>
       <span className={styles.adjBody}>

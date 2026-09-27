@@ -1,4 +1,4 @@
-import { IconFileTypeCss, IconFileTypeTsx, IconJson, IconTerminal2, IconFile } from '@tabler/icons-react';
+import { IconFileTypeCss, IconFileTypeTsx, IconJson, IconTerminal2, IconFile } from '@strata/icons';
 import { isValidElement, type ReactNode } from 'react';
 import { highlight, normaliseLang } from '@/lib/highlight';
 import { SITE_URL } from '@/lib/site';

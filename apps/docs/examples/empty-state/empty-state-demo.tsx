@@ -1,6 +1,6 @@
 'use client';
 
-import { IconFileText } from '@tabler/icons-react';
+import { IconFileText } from '@strata/icons';
 import { Button, EmptyState } from '@strata/react';
 
 export default function Example() {

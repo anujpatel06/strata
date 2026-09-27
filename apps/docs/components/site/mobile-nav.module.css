@@ -77,6 +77,10 @@
   color: var(--strata-color-text-default);
   font-weight: var(--strata-font-weight-medium);
 }
+.link,
+.primaryLink {
+  transition: color var(--strata-motion-duration-fast) var(--strata-motion-easing);
+}
 .link:hover,
 .primaryLink:hover {
   color: var(--strata-color-text-default);

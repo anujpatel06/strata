@@ -11,8 +11,8 @@
     "typecheck": "tsc -p tsconfig.json"
   },
   "dependencies": {
+    "@strata/icons": "workspace:*",
     "@strata/theme-engine": "workspace:*",
-    "@tabler/icons-react": "^3.30.0",
     "react": "^19.2.0",
     "react-dom": "^19.2.0"
   },

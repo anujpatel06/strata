@@ -29,10 +29,30 @@
   padding-block: var(--strata-space-4);
   border-color: var(--strata-color-border-subtle);
   background: var(--strata-color-surface-default);
-  transition: border-color var(--strata-motion-duration-fast) var(--strata-motion-easing);
+  box-shadow: var(--strata-shadow-raised);
+  transition:
+    border-color var(--strata-motion-duration-fast) var(--strata-motion-easing),
+    box-shadow var(--strata-motion-duration-fast) var(--strata-motion-easing);
 }
+/* The whole card is a link (stretched ::after), so it lifts: Tactile style's interactive-card hover. */
 .card.card:hover {
   border-color: var(--strata-color-border-default);
+  box-shadow: var(--strata-shadow-overlay);
+}
+@media (prefers-reduced-motion: no-preference) {
+  .card.card {
+    transition:
+      border-color var(--strata-motion-duration-fast) var(--strata-motion-easing),
+      box-shadow var(--strata-motion-duration-fast) var(--strata-motion-easing),
+      translate var(--strata-motion-duration-fast) var(--strata-motion-easing),
+      scale var(--strata-motion-duration-spring) var(--strata-motion-spring);
+  }
+  .card.card:hover {
+    translate: 0 -1px;
+  }
+  .card.card:active {
+    scale: 0.99;
+  }
 }
 .card.card:has(.link:focus-visible) {
   outline: 2px solid var(--strata-color-focus-ring);

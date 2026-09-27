@@ -1,3 +1,4 @@
+import { Eyebrow } from '@strata/react';
 import type { ReactNode } from 'react';
 import styles from './page-shell.module.css';
 
@@ -26,7 +27,11 @@ export function PageShell({
       <div className={styles.container} data-width={width}>
         {(title || description) && (
           <header className={styles.header}>
-            {eyebrow && <p className={styles.eyebrow}>{eyebrow}</p>}
+            {eyebrow && (
+              <Eyebrow lead="rule" className={styles.eyebrow}>
+                {eyebrow}
+              </Eyebrow>
+            )}
             {title && <h1 className={styles.title}>{title}</h1>}
             {description && <p className={styles.description}>{description}</p>}
             {actions && <div className={styles.actions}>{actions}</div>}

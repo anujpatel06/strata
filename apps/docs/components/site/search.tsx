@@ -1,6 +1,6 @@
 'use client';
 
-import { IconComponents, IconFileText, IconLayoutGrid, IconSearch } from '@tabler/icons-react';
+import { IconComponents, IconFileText, IconGitBranch, IconLayoutGrid, IconLayoutRows, IconSearch } from '@strata/icons';
 import { Button, CommandDialog, CommandItem, CommandSection, Kbd } from '@strata/react';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
@@ -11,6 +11,10 @@ export interface SearchItem {
   title: string;
   /** Extra words matched by the filter (description, category, keywords). */
   keywords: string;
+  /** One line under the title, so results say what they are, not just what they're called. */
+  description?: string;
+  /** Short trailing label, e.g. a component's category. */
+  meta?: string;
 }
 
 export interface SearchGroup {
@@ -47,6 +51,9 @@ function fuzzyFilter(textValue: string, query: string): boolean {
 }
 
 const GROUP_ICON = {
+  'Getting started': IconFileText,
+  Foundations: IconLayoutRows,
+  Project: IconGitBranch,
   Components: IconComponents,
   Pages: IconLayoutGrid,
 } as const;
@@ -80,7 +87,7 @@ export function Search({ groups }: { groups: SearchGroup[] }) {
   return (
     <>
       <Button variant="outline" onPress={() => setOpen(true)} className={styles.search} aria-label="Search documentation">
-        <IconSearch aria-hidden stroke={1.75} className={styles.searchIcon} />
+        <IconSearch aria-hidden className={styles.searchIcon} />
         <span className={styles.searchLabel}>Search documentation…</span>
         <Kbd className={styles.searchKbd} aria-hidden="true">
           {isMac ? '⌘K' : 'Ctrl K'}
@@ -106,7 +113,9 @@ export function Search({ groups }: { groups: SearchGroup[] }) {
                   key={item.href}
                   id={item.href}
                   textValue={`${item.title} | ${item.keywords}`}
-                  icon={<Icon size={16} stroke={1.75} />}
+                  icon={<Icon size={16} />}
+                  description={item.description}
+                  meta={item.meta}
                 >
                   {item.title}
                 </CommandItem>

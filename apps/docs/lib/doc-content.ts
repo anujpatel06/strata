@@ -6,7 +6,6 @@ type MdxModule = { default: ComponentType };
 export const DOC_CONTENT: Record<string, () => Promise<MdxModule>> = {
   index: () => import('../content/docs/index.mdx'),
   installation: () => import('../content/docs/installation.mdx'),
-  registry: () => import('../content/docs/registry.mdx'),
   mcp: () => import('../content/docs/mcp.mdx'),
   figma: () => import('../content/docs/figma.mdx'),
   theming: () => import('../content/docs/theming.mdx'),

@@ -7,12 +7,13 @@ import {
   IconExternalLink,
   IconMoon,
   IconSun,
-} from '@tabler/icons-react';
+} from '@strata/icons';
 import {
   Tab,
   TabList,
   TabPanel,
   Tabs,
+  Tag,
   ThemeScope,
   ToggleButton,
   ToggleButtonGroup,
@@ -29,9 +30,9 @@ type Scheme = 'light' | 'dark';
 type Viewport = 'desktop' | 'tablet' | 'mobile';
 
 const VIEWPORTS: { id: Viewport; label: string; icon: ReactNode }[] = [
-  { id: 'desktop', label: 'Desktop (full width)', icon: <IconDeviceDesktop aria-hidden stroke={1.75} /> },
-  { id: 'tablet', label: 'Tablet (768px)', icon: <IconDeviceTablet aria-hidden stroke={1.75} /> },
-  { id: 'mobile', label: 'Mobile (390px)', icon: <IconDeviceMobile aria-hidden stroke={1.75} /> },
+  { id: 'desktop', label: 'Desktop (full width)', icon: <IconDeviceDesktop aria-hidden /> },
+  { id: 'tablet', label: 'Tablet (768px)', icon: <IconDeviceTablet aria-hidden /> },
+  { id: 'mobile', label: 'Mobile (390px)', icon: <IconDeviceMobile aria-hidden /> },
 ];
 
 /** The site's effective scheme (html attribute, or the OS preference when it is "auto"). */
@@ -96,10 +97,16 @@ export interface BlockViewerClientProps {
   /** Tenant id → that tenant's content for this block. */
   contents: Record<string, Record<string, unknown>>;
   code: ReactNode;
+  /** The install command for the packages the block imports; null when it needs none. */
   install: ReactNode;
+  /** Position on /blocks (1-based), shown as the section number. */
+  index?: number;
+  categories?: string[];
+  /** Package names the block imports, for the one-line caption under the preview. */
+  packages?: string[];
 }
 
-export function BlockViewerClient({ name, title, description, tenants, contents, code, install }: BlockViewerClientProps) {
+export function BlockViewerClient({ name, title, description, tenants, contents, code, install, index, categories = [], packages = [] }: BlockViewerClientProps) {
   const titleId = useId();
   const Block = BLOCK_COMPONENTS[name];
   const [view, setView] = useState<'preview' | 'code'>('preview');
@@ -115,12 +122,30 @@ export function BlockViewerClient({ name, title, description, tenants, contents,
   return (
     <section className={styles.viewer} aria-labelledby={titleId} id={name}>
       <header className={styles.header}>
-        <h2 id={titleId} className={styles.title}>
-          <a href={`#${name}`} className={styles.anchor}>
-            {title}
-          </a>
-        </h2>
-        <p className={styles.description}>{description}</p>
+        {index != null && (
+          <span className={styles.number} aria-hidden="true">
+            {String(index).padStart(2, '0')}
+          </span>
+        )}
+        <div className={styles.heading}>
+          <h2 id={titleId} className={styles.title}>
+            <a href={`#${name}`} className={styles.anchor}>
+              {title}
+            </a>
+          </h2>
+          <p className={styles.description}>{description}</p>
+          {categories.length > 0 && (
+            <ul className={styles.categories} aria-label="Categories">
+              {categories.map((c) => (
+                <li key={c}>
+                  <Tag size="sm" variant="outline">
+                    {c}
+                  </Tag>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
       </header>
 
       <Tabs
@@ -136,25 +161,31 @@ export function BlockViewerClient({ name, title, description, tenants, contents,
           </TabList>
 
           <div className={styles.controls} hidden={view !== 'preview'}>
-            <ToggleButtonGroup
-              aria-label="Tenant"
-              size="sm"
-              disallowEmptySelection
-              selectedKeys={[tenantId]}
-              onSelectionChange={(keys) => {
-                const next = firstKey(keys);
-                if (next) setTenantId(next);
-              }}
-            >
-              {tenants.map((t) => (
-                <ToggleButton key={t.id} id={t.id} className={styles.tenantToggle}>
-                  <span className={styles.dotRing} aria-hidden="true">
-                    <span className={styles.dot} data-strata-theme={t.id} />
-                  </span>
-                  {t.name}
-                </ToggleButton>
-              ))}
-            </ToggleButtonGroup>
+            <div className={styles.tenantPicker}>
+              <ToggleButtonGroup
+                aria-label="Tenant"
+                size="sm"
+                disallowEmptySelection
+                selectedKeys={[tenantId]}
+                onSelectionChange={(keys) => {
+                  const next = firstKey(keys);
+                  if (next) setTenantId(next);
+                }}
+                className={styles.dots}
+              >
+                {tenants.map((t) => (
+                  <TooltipTrigger key={t.id} delay={400}>
+                    <ToggleButton id={t.id} aria-label={t.name} className={styles.dotToggle}>
+                      <span className={styles.dot} data-strata-theme={t.id} aria-hidden="true" />
+                    </ToggleButton>
+                    <Tooltip>{t.name}</Tooltip>
+                  </TooltipTrigger>
+                ))}
+              </ToggleButtonGroup>
+              <span className={styles.tenantName} aria-hidden="true">
+                {tenant?.name}
+              </span>
+            </div>
 
             <ToggleButtonGroup
               aria-label="Colour scheme"
@@ -164,10 +195,10 @@ export function BlockViewerClient({ name, title, description, tenants, contents,
               onSelectionChange={(keys) => setScheme(firstKey(keys) as Scheme | undefined)}
             >
               <IconToggle id="light" label="Light">
-                <IconSun aria-hidden stroke={1.75} />
+                <IconSun aria-hidden />
               </IconToggle>
               <IconToggle id="dark" label="Dark">
-                <IconMoon aria-hidden stroke={1.75} />
+                <IconMoon aria-hidden />
               </IconToggle>
             </ToggleButtonGroup>
 
@@ -192,7 +223,7 @@ export function BlockViewerClient({ name, title, description, tenants, contents,
               rel="noreferrer"
               className={styles.open}
             >
-              <IconExternalLink aria-hidden stroke={1.75} />
+              <IconExternalLink aria-hidden />
               Open
               <span className="visually-hidden"> {title} in a new tab</span>
             </a>
@@ -224,14 +255,40 @@ export function BlockViewerClient({ name, title, description, tenants, contents,
           </div>
         </TabPanel>
         <TabPanel id="code" className={styles.panel}>
-          <div className={styles.code}>{code}</div>
+          <div className={styles.code}>
+            <ol className={styles.steps}>
+              {install && (
+                <li className={styles.step}>
+                  <p className={styles.stepLabel}>Install the packages it imports.</p>
+                  {install}
+                </li>
+              )}
+              <li className={styles.step}>
+                <p className={styles.stepLabel}>Copy these files into one folder.</p>
+                {code}
+              </li>
+            </ol>
+          </div>
         </TabPanel>
       </Tabs>
 
-      <div className={styles.install}>
-        <p className={styles.installLabel}>Install with the shadcn CLI</p>
-        {install}
-      </div>
+      {view === 'preview' && (
+        <p className={styles.caption}>
+          {packages.length > 0 ? (
+            <>
+              Built from{' '}
+              {packages.map((p, i) => (
+                <span key={p}>
+                  {i > 0 && (i === packages.length - 1 ? ' and ' : ', ')}
+                  <code>{p}</code>
+                </span>
+              ))}
+              .{' '}
+            </>
+          ) : null}
+          The same code in every tenant; open <strong>Code</strong> to copy it.
+        </p>
+      )}
     </section>
   );
 }

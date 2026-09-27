@@ -17,7 +17,7 @@ export const HOUSE: BrandInput = {
   primary: '#18181b',
   neutral: 'neutral',
   shape: 'soft',
-  typePair: 'precise',
+  typePair: 'modern',
   density: 'comfortable',
 };
 

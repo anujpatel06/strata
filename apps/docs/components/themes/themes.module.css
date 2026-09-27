@@ -5,19 +5,47 @@
 .stats {
   display: flex;
   flex-wrap: wrap;
+  align-items: stretch;
+  gap: var(--strata-space-4) var(--strata-space-8);
+  margin: 0;
+}
+.stat {
+  display: grid;
+  align-content: start;
+  gap: var(--strata-space-1);
+  padding-inline-start: var(--strata-space-4);
+  box-shadow: inset var(--strata-hairline) 0 0 0 var(--strata-color-border-default);
+}
+.stat:dir(rtl) {
+  box-shadow: inset calc(var(--strata-hairline) * -1) 0 0 0 var(--strata-color-border-default);
+}
+.stat[data-lead] {
+  padding-inline-start: 0;
+  box-shadow: none;
+}
+.statLabel {
+  display: inline-flex;
   align-items: center;
-  gap: var(--strata-space-1) var(--strata-space-2);
-  padding-block: var(--strata-space-1);
-  padding-inline: var(--strata-space-2) var(--strata-space-3);
-  border: 1px solid var(--strata-color-border-subtle);
-  /* A pill on one line; still a tidy box when it wraps on phones. */
-  border-radius: var(--strata-space-4);
-  background: var(--strata-color-surface-default);
+  gap: var(--strata-space-1);
   color: var(--strata-color-text-subtle);
-  font-family: var(--strata-font-mono);
-  font-size: var(--strata-font-size-xs);
-  line-height: var(--strata-line-height-snug);
+  font-size: var(--strata-font-size-sm);
+  letter-spacing: var(--strata-font-tracking-sm);
+}
+.statValue {
+  margin: 0;
+  color: var(--strata-color-text-default);
+  font-family: var(--strata-font-heading);
+  font-size: var(--strata-font-size-3xl);
+  font-weight: var(--strata-font-weight-semibold);
+  letter-spacing: var(--strata-font-tracking-3xl);
+  line-height: var(--strata-line-height-tight);
   font-variant-numeric: tabular-nums;
+}
+.statOf {
+  color: var(--strata-color-text-subtle);
+  font-size: var(--strata-font-size-xl);
+  letter-spacing: var(--strata-font-tracking-xl);
+  font-weight: var(--strata-font-weight-regular);
 }
 
 .statsIcon {

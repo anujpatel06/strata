@@ -15,6 +15,7 @@ const NEUTRAL_OPTIONS: ReadonlyArray<SegmentedOption<NeutralTemperature>> = [
   { value: 'cool', label: 'Cool' },
   { value: 'neutral', label: 'Neutral' },
   { value: 'warm', label: 'Warm' },
+  { value: 'paper', label: 'Paper' },
 ];
 
 const SHAPE_OPTIONS: ReadonlyArray<SegmentedOption<Shape>> = [

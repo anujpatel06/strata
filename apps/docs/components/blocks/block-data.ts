@@ -6,6 +6,8 @@
 import { existsSync, readFileSync, readdirSync } from 'node:fs';
 import path from 'node:path';
 import blocksJson from '@/blocks/blocks.json';
+import { benefitsOverviewTenantCopy } from '@/blocks/benefits-overview/benefits-overview.content';
+import { portfolioTenantCopy } from '@/blocks/portfolio/portfolio.content';
 import { DOCS_ROOT, readRepoFile } from '@/lib/repo';
 import { getTenants } from '@/lib/tenants';
 
@@ -65,6 +67,15 @@ export function getBlockTenants(): BlockTenant[] {
 }
 
 /**
+ * Sample copy a block ships for the docs tenants, keyed by block then tenant id. It fills keys a tenant's
+ * content.json doesn't carry (benefits-overview's copy lives with the block, not in every content.json).
+ */
+const BLOCK_TENANT_COPY: Record<string, Record<string, Record<string, unknown>>> = {
+  'benefits-overview': benefitsOverviewTenantCopy,
+  portfolio: portfolioTenantCopy,
+};
+
+/**
  * Each tenant's content for one block: only the keys the block reads, so a page ships a few KB per tenant
  * instead of every section of every content.json. Tenants without content.json are skipped.
  */
@@ -73,7 +84,7 @@ export function getBlockContents(block: BlockInfo): Record<string, Record<string
   for (const tenant of getTenants()) {
     const raw = readRepoFile('tenants', tenant.id, 'content.json');
     if (!raw) continue;
-    const content = JSON.parse(raw) as Record<string, unknown>;
+    const content = { ...BLOCK_TENANT_COPY[block.name]?.[tenant.id], ...(JSON.parse(raw) as Record<string, unknown>) };
     const picked: Record<string, unknown> = {};
     for (const key of block.contentKeys) if (key in content) picked[key] = content[key];
     out[tenant.id] = picked;

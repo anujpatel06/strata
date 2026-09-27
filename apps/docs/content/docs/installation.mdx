@@ -1,96 +1,64 @@
-Strata ships two ways from one source: as a registry the shadcn CLI installs from, and as npm packages (<AdrLink n="011" />). Both give you the same component files and the same tokens. Every component page has the exact commands.
+Strata installs two ways: from npm, or by copying a component’s source files into your project (<AdrLink n="011" />). Both give you the same components and the same tokens. Every component page has the exact steps.
 
 <Callout tone="info" title="Not on npm yet">
-  `@strata/react` and `@strata/tokens` are published in Phase 6. Until then, install from the registry or copy the files by hand. The npm steps below show how the packages will work.
+  `@strata/react` and `@strata/tokens` are published in Phase 6. Until then, copy the files by hand. The npm steps below show how the packages will work.
 </Callout>
 
-You need React 19 and a bundler that handles CSS Modules — Next.js and Vite both do out of the box.
+You need React 19 and a bundler that handles CSS — Next.js and Vite both do out of the box. Strata doesn’t use Tailwind, so it works with or without it.
 
-## With the shadcn CLI
-
-The CLI copies each component’s `.tsx` and `.module.css` into your `components/ui` folder, installs the npm packages it needs, and pulls in any Strata components it uses. You own the code from then on. Strata components don’t use Tailwind classes — they are CSS Modules that read `--strata-*` variables — so they work with or without Tailwind in your project.
+## With npm
 
 <Steps>
 
-### Add the @strata namespace
+### Install the packages
 
-Register the registry once in `components.json`, so items install by name.
+<PackageCommand add="@strata/react @strata/tokens" />
 
-<CodeBlock title="components.json">
+`@strata/react` has the components and `ThemeScope`. `@strata/tokens` has the token CSS for every tenant. React and React DOM are peer dependencies; React Aria and the icons come with the package.
 
-```json
-{
-  "registries": {
-    "@strata": "{{SITE_URL}}/r/{name}.json"
-  }
-}
-```
+### Import the CSS once
 
-</CodeBlock>
-
-### Install the base
-
-`@strata/strata` installs the house tokens as `styles/strata-house.css` and the `ThemeScope` component.
-
-<PackageCommand dlx="shadcn@latest add @strata/strata" />
-
-To start from a tenant’s tokens instead, add `@strata/strata-tokens-vela`, `@strata/strata-tokens-harbor` or `@strata/strata-tokens-qamar`.
-
-### Import the tokens once
-
-Import the token file at your app root — `app/layout.tsx` in Next.js, `src/main.tsx` in Vite.
+At your app root — `app/layout.tsx` in Next.js, `src/main.tsx` in Vite — import the tokens and the component styles.
 
 <CodeBlock title="app/layout.tsx">
 
 ```tsx
-import '../styles/strata-house.css';
+import '@strata/tokens/dist/strata.css';
+import '@strata/react/styles.css';
 ```
 
 </CodeBlock>
 
-The font stacks fall back to system fonts. For the brand’s own type pair, add the Google Fonts stylesheet the CLI prints after the install.
+`dist/strata.css` holds every tenant, each scoped to `[data-strata-theme="<id>"]`. If your app only ever shows one brand, import `@strata/tokens/dist/<id>/tokens.css` instead; it puts that tenant on `:root`.
 
-### Add components
-
-<PackageCommand dlx="shadcn@latest add @strata/button @strata/dialog" />
-
-Components that use other components bring them along: adding `dialog` also adds `button`.
-
-</Steps>
-
-Without the namespace, every item also installs by URL, e.g. `{{SITE_URL}}/r/strata.json` and `{{SITE_URL}}/r/button.json`. The namespace also lets AI coding agents find Strata components through [MCP](/docs/mcp). Already on shadcn/ui and only want the colours? See [the shadcn bridge](/docs/registry#the-shadcn-bridge).
-
-## With npm
-
-<PackageCommand add="@strata/react @strata/tokens" />
-
-Import the token CSS once, then wrap the part of your app that should use a theme.
+### Wrap your app in a ThemeScope
 
 ```tsx
-import '@strata/tokens/dist/strata.css';
 import { Button, ThemeScope } from '@strata/react';
 
 export default function App() {
   return (
-    <ThemeScope theme="vela">
+    <ThemeScope theme="vela" scheme="dark">
       <Button>Continue</Button>
     </ThemeScope>
   );
 }
 ```
 
-`dist/strata.css` holds every tenant, each scoped to `[data-strata-theme="<id>"]`. `dist/<id>/tokens.css` holds one tenant on `:root`, for apps that only ever show one brand.
+Each component also has its own entry point, e.g. `import { Button } from '@strata/react/ui/button'`.
 
-The package ships TypeScript source and CSS Modules today. In Next.js, add `transpilePackages: ['@strata/react']` to `next.config`; a compiled build that emits plain CSS is planned ([ADR-003](https://github.com/anujpatel06/strata/blob/main/docs/adr/003-styling-css-modules.md)).
+</Steps>
 
 ## By hand
 
 Every component page has a **Manual** tab with the full source of each file.
 
 1. Install the npm packages the component lists — usually `react-aria-components` and `@tabler/icons-react`; date components also need `@internationalized/date`.
-2. Copy its `.tsx` and `.module.css` files into one folder.
+2. Copy its `.tsx` and `.module.css` files into one folder, such as `components/ui`.
 3. Copy any Strata components it uses into the same folder. Files import each other as `./button`, so the folder can live anywhere.
-4. Load a token file once, from the registry item or `@strata/tokens`.
+4. Load a token file once at your app root. Take one from `@strata/tokens`, or copy the **CSS** export on the [Themes](/themes) page.
+
+The files are yours from then on. They are CSS Modules that read `--strata-*` variables, and nothing else.
 
 ## Set the theme
 
@@ -100,6 +68,6 @@ Token CSS keys off three attributes on one element — `<html>` for the whole ap
 <html data-strata-theme="vela" data-strata-scheme="auto" data-strata-density="compact">
 ```
 
-A token file from the registry makes its tenant the default, so on a single-brand app you only need the scheme and density attributes. Its selector is `:root, [data-strata-theme="<id>"], [data-strata-scheme]:not([data-strata-theme])` — see [Registry](/docs/registry#token-files) for what each part does.
+With a single tenant’s `tokens.css`, the tenant is already on `:root`. Put the scheme and density attributes on `<html>`. To give regions of a page different tenants or schemes, load `strata.css` and pass `theme` to each `ThemeScope`.
 
 See [Theming](/docs/theming), [Dark mode](/docs/dark-mode) and [Density](/docs/density) for the rest.

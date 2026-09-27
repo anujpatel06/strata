@@ -6,14 +6,25 @@
   margin: 0;
   min-inline-size: 0;
   overflow: hidden;
-  border: 1px solid var(--strata-color-border-subtle);
+  /* Finesse: a hairline edge drawn as a shadow (keeps 0.5px on 2x screens); the transparent border keeps the box
+     size and gives forced-colors mode an edge. */
+  border: 1px solid transparent;
   border-radius: var(--strata-radius-container);
   background: var(--strata-color-surface-default);
+  box-shadow:
+    0 0 0 var(--strata-hairline) var(--strata-color-border-subtle),
+    var(--strata-shadow-raised);
+}
+@supports (corner-shape: squircle) {
+  .frame {
+    corner-shape: squircle;
+  }
 }
 .frame[data-flush] {
   border: 0;
   border-radius: 0;
   background: transparent;
+  box-shadow: none;
 }
 
 .titleBar {
@@ -22,7 +33,7 @@
   gap: var(--strata-space-2);
   block-size: calc(var(--strata-space-10) + var(--strata-space-1));
   padding-inline: var(--strata-space-4) var(--strata-space-1);
-  border-block-end: 1px solid var(--strata-color-border-subtle);
+  box-shadow: inset 0 calc(var(--strata-hairline) * -1) 0 0 var(--strata-color-border-subtle);
   color: var(--strata-color-text-subtle);
   font-family: var(--strata-font-mono);
   font-size: var(--strata-font-size-xs);

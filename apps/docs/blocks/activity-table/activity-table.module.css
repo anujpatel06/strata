@@ -43,7 +43,7 @@
   flex: 1;
   display: grid;
   align-content: start;
-  gap: var(--strata-space-6);
+  gap: var(--strata-section-gap);
   inline-size: 100%;
   max-inline-size: var(--_page);
   margin-inline: auto;
@@ -53,7 +53,7 @@
 
 @container activity-table (min-width: 1024px) {
   .page {
-    padding-block-start: var(--strata-space-10);
+    padding-block-start: var(--strata-space-12);
   }
 }
 
@@ -76,18 +76,21 @@
   font-family: var(--strata-font-heading);
   font-size: var(--strata-font-size-xl);
   font-weight: var(--strata-font-weight-semibold);
-  letter-spacing: var(--strata-font-heading-tracking);
+  letter-spacing: var(--strata-font-tracking-xl);
   line-height: var(--strata-line-height-tight);
+  text-wrap: balance;
 }
 
 @container activity-table (min-width: 640px) {
   .title {
-    font-size: var(--strata-font-size-2xl);
+    font-size: var(--strata-font-size-3xl);
+    letter-spacing: var(--strata-font-tracking-3xl);
   }
 }
 
 .description {
   color: var(--strata-color-text-subtle);
+  letter-spacing: var(--strata-font-tracking-md);
   text-wrap: pretty;
 }
 
@@ -108,13 +111,56 @@
 }
 
 /* ------------------------------------------------------------------ *
- * Card: toolbar, edge-to-edge table, pagination
+ * Totals: two figures set as type, divided by a hairline, not boxed
+ * ------------------------------------------------------------------ */
+
+.totals {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--strata-space-4) var(--strata-space-10);
+  margin: 0;
+}
+
+.total {
+  display: grid;
+  gap: var(--strata-space-2);
+  min-inline-size: 0;
+}
+
+.total + .total {
+  padding-inline-start: var(--strata-space-10);
+  box-shadow: inset var(--strata-hairline) 0 0 var(--strata-color-border-subtle);
+}
+
+.total + .total:dir(rtl) {
+  box-shadow: inset calc(var(--strata-hairline) * -1) 0 0 var(--strata-color-border-subtle);
+}
+
+.total dd {
+  margin: 0;
+}
+
+.totalLabel {
+  display: flex;
+  align-items: center;
+  gap: var(--strata-space-2);
+  color: var(--strata-color-text-subtle);
+  font-size: var(--strata-font-size-sm);
+  letter-spacing: var(--strata-font-tracking-sm);
+}
+
+.totalLabel .ledger {
+  inline-size: var(--strata-space-6);
+  block-size: var(--strata-space-6);
+}
+
+/* ------------------------------------------------------------------ *
+ * Card: toolbar, the table in the inset panel, pagination
  * ------------------------------------------------------------------ */
 
 .card.card {
   gap: 0;
   padding-block: 0;
-  overflow: hidden;
 }
 
 .toolbar.toolbar {
@@ -151,6 +197,7 @@
 .selection {
   color: var(--strata-color-text-subtle);
   font-size: var(--strata-font-size-sm);
+  letter-spacing: var(--strata-font-tracking-sm);
   font-variant-numeric: tabular-nums;
   white-space: nowrap;
 }
@@ -163,19 +210,59 @@
   gap: var(--strata-space-1);
 }
 
-.table.table {
-  border: 0;
-  border-block: 1px solid var(--strata-color-border-subtle);
-  border-radius: 0;
-  background-color: transparent;
-}
-
 .pagination.pagination {
   padding-block: var(--strata-space-3);
   padding-inline: var(--strata-card-inset);
 }
 
+.date {
+  color: var(--strata-color-text-subtle);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.quiet {
+  color: var(--strata-color-text-subtle);
+}
+
+/* Arrows point "forward", whichever way forward is. */
+.directional:dir(rtl) {
+  scale: -1 1;
+}
+
 .desc {
+  display: flex;
+  align-items: center;
+  gap: var(--strata-space-3);
+  min-inline-size: 0;
+}
+
+/* On the inset (sunken) panel the chip lifts to raised with a hairline; text.subtle on raised is checked. */
+.ledger {
+  display: inline-grid;
+  flex: none;
+  place-items: center;
+  inline-size: var(--strata-space-8);
+  block-size: var(--strata-space-8);
+  border-radius: var(--strata-radius-pill);
+  background-color: var(--strata-color-surface-raised);
+  box-shadow: 0 0 0 var(--strata-hairline) var(--strata-color-border-subtle);
+  color: var(--strata-color-text-subtle);
+}
+
+.ledger svg {
+  inline-size: var(--strata-space-4);
+  block-size: var(--strata-space-4);
+  stroke-width: var(--strata-icon-stroke, 1.5);
+}
+
+.ledgerIn {
+  background-color: var(--strata-color-feedback-success-bg);
+  box-shadow: none;
+  color: var(--strata-color-feedback-success-fg);
+}
+
+.descText {
   display: grid;
   min-inline-size: 0;
 }
@@ -191,16 +278,19 @@
   overflow: hidden;
   color: var(--strata-color-text-subtle);
   font-size: var(--strata-font-size-sm);
+  letter-spacing: var(--strata-font-tracking-sm);
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
+/* Amounts are typography: tabular figures, semibold, one aligned stack. */
 .amount {
   font-variant-numeric: tabular-nums;
-  font-weight: var(--strata-font-weight-medium);
+  font-weight: var(--strata-font-weight-semibold);
   white-space: nowrap;
 }
 
+/* Money in: feedback.success.fg is checked on surface.sunken, the inset panel the table sits on. */
 .amountIn {
   color: var(--strata-color-feedback-success-fg);
 }
@@ -217,6 +307,84 @@
  * the meaning.
  */
 [data-selected] .descMeta,
+[data-selected] .date,
+[data-selected] .quiet,
 [data-selected] .amountIn {
   color: var(--strata-color-text-default);
+}
+
+/* ------------------------------------------------------------------ *
+ * Entrance
+ * ------------------------------------------------------------------ */
+
+/*
+ * Page content fades up in reading order when the block mounts:
+ * the header, the card, then the first rows of the table, each a step
+ * (duration-fast / 2) after the last. Fill mode `backwards` only holds the "before" state during each delay,
+ * so nothing is left transformed once it lands. Reduced motion: no animation; everything is simply there.
+ * Duration is 2 × duration-slow: easing-out is a steep expo curve, and at 1× the move is over before it reads.
+ */
+.root {
+  --_step: calc(var(--strata-motion-duration-fast) / 2);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .header,
+  .totals,
+  .card.card,
+  .table.table tbody > tr {
+    animation: activity-table-enter calc(var(--strata-motion-duration-slow) * 2) var(--strata-motion-easing-out) backwards;
+    animation-delay: calc(var(--_i, 0) * var(--_step));
+  }
+
+  .totals {
+    --_i: 1;
+  }
+
+  .card.card {
+    --_i: 2;
+  }
+
+  .table.table tbody > tr:nth-child(1) {
+    --_i: 3;
+  }
+
+  .table.table tbody > tr:nth-child(2) {
+    --_i: 4;
+  }
+
+  .table.table tbody > tr:nth-child(3) {
+    --_i: 5;
+  }
+
+  .table.table tbody > tr:nth-child(4) {
+    --_i: 6;
+  }
+
+  .table.table tbody > tr:nth-child(5) {
+    --_i: 7;
+  }
+
+  .table.table tbody > tr:nth-child(6) {
+    --_i: 8;
+  }
+
+  .table.table tbody > tr:nth-child(7) {
+    --_i: 9;
+  }
+
+  .table.table tbody > tr:nth-child(8) {
+    --_i: 10;
+  }
+
+  .table.table tbody > tr:nth-child(n + 9) {
+    --_i: 10;
+  }
+}
+
+@keyframes activity-table-enter {
+  from {
+    opacity: 0;
+    translate: 0 var(--strata-space-3);
+  }
 }

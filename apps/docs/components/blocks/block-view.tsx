@@ -18,7 +18,10 @@ export interface BlockViewProps {
  */
 export function BlockView({ name, tenants, contents }: BlockViewProps) {
   const params = useSearchParams();
-  const tenant = tenants.find((t) => t.id === params.get('tenant')) ?? tenants[0];
+  const tenantParam = params.get('tenant');
+  // ?tenant=house shows the block in the site's own brand with the block's sample copy (house has no content.json).
+  const tenant =
+    tenantParam === HOUSE_TENANT.id ? HOUSE_TENANT : (tenants.find((t) => t.id === tenantParam) ?? tenants[0]);
   const schemeParam = params.get('scheme');
   const scheme = schemeParam === 'light' || schemeParam === 'dark' ? schemeParam : 'site';
   const Block = BLOCK_COMPONENTS[name];
@@ -28,6 +31,8 @@ export function BlockView({ name, tenants, contents }: BlockViewProps) {
     </ThemeScope>
   );
 }
+
+const HOUSE_TENANT: BlockTenant = { id: 'house', name: 'House', locale: 'en-US', dir: 'ltr' };
 
 /** Rendered into the static HTML until the query is known: the page canvas, so there is no flash of site chrome. */
 export function BlockViewFallback() {

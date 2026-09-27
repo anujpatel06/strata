@@ -13,7 +13,49 @@
   white-space: nowrap;
   transition:
     background-color var(--strata-motion-duration-fast) var(--strata-motion-easing),
-    border-color var(--strata-motion-duration-fast) var(--strata-motion-easing);
+    border-color var(--strata-motion-duration-fast) var(--strata-motion-easing),
+    box-shadow var(--strata-motion-duration-fast) var(--strata-motion-easing),
+    outline-offset var(--strata-motion-duration-fast) var(--strata-motion-easing);
+}
+/* Tall marketing size: fully rounded, a step taller and wider than a control. The icon/text gap stays the same. */
+.link[data-size='lg'] {
+  block-size: calc(var(--strata-control-height) + var(--strata-space-3));
+  padding-inline: calc(var(--strata-control-padding-inline) + var(--strata-space-3));
+  border-radius: var(--strata-radius-pill);
+  font-size: var(--strata-font-size-md);
+  letter-spacing: var(--strata-font-tracking-md);
+}
+.link[data-size='lg'][data-variant='ghost'] {
+  padding-inline: calc(var(--strata-control-padding-inline) + var(--strata-space-1));
+}
+
+/* Press: a small squeeze that springs back (Tactile style). Links have no data-pressed, so :active. */
+@media (prefers-reduced-motion: no-preference) {
+  .link {
+    transition:
+      background-color var(--strata-motion-duration-fast) var(--strata-motion-easing),
+      border-color var(--strata-motion-duration-fast) var(--strata-motion-easing),
+      box-shadow var(--strata-motion-duration-fast) var(--strata-motion-easing),
+      outline-offset var(--strata-motion-duration-fast) var(--strata-motion-easing),
+      scale var(--strata-motion-duration-spring) var(--strata-motion-spring);
+  }
+  .link:active {
+    scale: 0.97;
+  }
+  /* Visible motion: filled and outlined CTAs lift a pixel on hover. `transform`, not `translate`, so the
+     homepage's entrance animation (which animates translate) never fights it. */
+  .link[data-size='lg'] {
+    transition:
+      background-color var(--strata-motion-duration-fast) var(--strata-motion-easing),
+      border-color var(--strata-motion-duration-fast) var(--strata-motion-easing),
+      box-shadow var(--strata-motion-duration-fast) var(--strata-motion-easing),
+      outline-offset var(--strata-motion-duration-fast) var(--strata-motion-easing),
+      transform var(--strata-motion-duration-spring) var(--strata-motion-spring),
+      scale var(--strata-motion-duration-spring) var(--strata-motion-spring);
+  }
+  .link[data-size='lg']:is([data-variant='inverse'], [data-variant='outline']):hover {
+    transform: translateY(-1px);
+  }
 }
 .link svg {
   inline-size: var(--strata-space-4);
@@ -24,16 +66,32 @@
   border-color: var(--strata-color-action-primary-border);
   background: var(--strata-color-action-primary-bg);
   color: var(--strata-color-action-primary-fg);
+  /* Solid fill: depth from shadow only — nothing laid over the label (the solver tunes fill + label exactly). */
+  box-shadow: var(--strata-shadow-highlight), var(--strata-shadow-raised);
 }
 .link[data-variant='primary']:hover {
   background: var(--strata-color-action-primary-hover);
   border-color: var(--strata-color-action-primary-hover);
 }
 
+.link[data-variant='inverse'] {
+  border-color: var(--strata-color-surface-inverse);
+  background: var(--strata-color-surface-inverse);
+  color: var(--strata-color-text-inverse);
+  box-shadow: var(--strata-shadow-highlight), var(--strata-shadow-raised);
+}
+/* Hover eases the fill a tenth of the way toward the canvas: the label stays far above 4.5:1 either way. */
+.link[data-variant='inverse']:hover {
+  background: color-mix(in oklab, var(--strata-color-surface-inverse) 88%, var(--strata-color-surface-canvas));
+  border-color: color-mix(in oklab, var(--strata-color-surface-inverse) 88%, var(--strata-color-surface-canvas));
+  box-shadow: var(--strata-shadow-highlight), var(--strata-shadow-overlay);
+}
+
 .link[data-variant='outline'] {
   border-color: var(--strata-color-border-strong);
   background: var(--strata-color-surface-default);
   color: var(--strata-color-text-default);
+  box-shadow: var(--strata-shadow-raised);
 }
 .link[data-variant='outline']:hover {
   background: color-mix(in oklab, var(--strata-color-text-default) 6%, var(--strata-color-surface-default));
@@ -44,4 +102,12 @@
 }
 .link[data-variant='ghost']:hover {
   background: color-mix(in oklab, var(--strata-color-text-default) 6%, transparent);
+}
+
+/* The quiet partner to an inverse CTA: a lighter edge at rest, the strong border only under the pointer. */
+.link[data-size='lg'][data-variant='outline'] {
+  border-color: var(--strata-color-border-default);
+}
+.link[data-size='lg'][data-variant='outline']:hover {
+  border-color: var(--strata-color-border-strong);
 }

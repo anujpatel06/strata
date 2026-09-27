@@ -1,7 +1,7 @@
 'use client';
 
 import { Button, Checkbox, CheckboxGroup, DialogTrigger, Sheet, TextField } from '@strata/react';
-import { IconAdjustmentsHorizontal } from '@tabler/icons-react';
+import { IconAdjustmentsHorizontal } from '@strata/icons';
 
 export default function Example() {
   return (

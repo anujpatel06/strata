@@ -19,7 +19,7 @@ export default function ComponentsIndex() {
   return (
     <DocsPage
       href="/docs/components"
-      crumbs={[{ href: '/docs', label: 'Docs' }, { label: 'Components' }]}
+      crumbs={[{ href: '/docs', label: 'Docs' }, { label: 'Reference' }]}
       title="Components"
       description="Built on React Aria, styled only with Strata tokens, so each one renders every brand, scheme, density and direction from the same code."
       toc={groups.map((g) => ({ id: slugify(g.label), title: g.label, depth: 2 as const }))}

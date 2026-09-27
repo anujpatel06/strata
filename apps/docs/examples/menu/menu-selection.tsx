@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import type { Selection } from 'react-aria-components';
 import { Button, Menu, MenuItem, MenuSection, MenuSeparator, MenuTrigger } from '@strata/react';
-import { IconArrowsSort } from '@tabler/icons-react';
+import { IconArrowsSort } from '@strata/icons';
 
 export default function Example() {
   const [sort, setSort] = useState<Selection>(new Set(['newest']));

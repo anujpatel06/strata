@@ -1,6 +1,6 @@
 'use client';
 
-import { IconBuildingBank, IconCreditCard, IconWallet } from '@tabler/icons-react';
+import { IconBuildingBank, IconCreditCard, IconWallet } from '@strata/icons';
 import { Combobox, ComboboxItem, ComboboxSection } from '@strata/react';
 
 export default function Example() {

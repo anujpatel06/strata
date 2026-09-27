@@ -1,6 +1,6 @@
 'use client';
 
-import { IconDeviceDesktop, IconMoon, IconSun } from '@tabler/icons-react';
+import { IconDeviceDesktop, IconMoon, IconSun } from '@strata/icons';
 import { Button, Tooltip, TooltipTrigger } from '@strata/react';
 import { useEffect, useState } from 'react';
 import { SCHEME_STORAGE_KEY, type SchemePreference } from '@/lib/scheme';
@@ -38,9 +38,9 @@ export function SchemeToggle() {
   return (
     <TooltipTrigger delay={400}>
       <Button variant="ghost" size="icon" aria-label={label} onPress={cycle} className={styles.iconButton}>
-        <IconSun className={styles.schemeLight} aria-hidden stroke={1.75} />
-        <IconMoon className={styles.schemeDark} aria-hidden stroke={1.75} />
-        <IconDeviceDesktop className={styles.schemeAuto} aria-hidden stroke={1.75} />
+        <IconSun className={styles.schemeLight} aria-hidden />
+        <IconMoon className={styles.schemeDark} aria-hidden />
+        <IconDeviceDesktop className={styles.schemeAuto} aria-hidden />
       </Button>
       <Tooltip>{LABEL[scheme]} theme</Tooltip>
     </TooltipTrigger>

@@ -7,28 +7,91 @@
   scroll-margin-block-start: calc(var(--docs-header-height) + var(--strata-space-6));
 }
 
+/* On /blocks each viewer rises in as it scrolls into view (a view() timeline, no scroll listener). The first
+   is already on screen, past the end of its range, so it simply shows. Reduced motion or no support: static. */
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: view()) {
+    .viewer {
+      /* The shorthand resets the timeline, so the timeline and range come after it. */
+      animation: viewer-reveal var(--strata-motion-easing-out) backwards;
+      animation-timeline: view();
+      animation-range: entry 0% entry calc(var(--strata-space-16) * 3);
+    }
+  }
+}
+@keyframes viewer-reveal {
+  from {
+    opacity: 0;
+    translate: 0 var(--strata-space-8);
+  }
+}
+
 .header {
   display: grid;
-  gap: var(--strata-space-1);
-  max-inline-size: calc(var(--docs-prose) + var(--strata-space-16));
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: start;
+  gap: var(--strata-space-4);
+  padding-block-start: var(--strata-space-4);
+  box-shadow: inset 0 var(--strata-hairline) 0 0 var(--strata-color-border-default);
+}
+@media (min-width: 768px) {
+  .header {
+    gap: var(--strata-space-6);
+  }
+}
+
+/* The section number, set as a display figure in the subtle colour so the title still leads. */
+.number {
+  min-inline-size: 2ch;
+  color: var(--strata-color-text-subtle);
+  font-family: var(--strata-font-heading);
+  font-size: var(--strata-font-size-3xl);
+  font-weight: var(--strata-font-weight-regular);
+  letter-spacing: var(--strata-font-tracking-3xl);
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+
+.heading {
+  max-inline-size: calc(var(--docs-prose) + var(--strata-space-16) * 2);
+  display: grid;
+  justify-items: start;
+  gap: var(--strata-space-2);
 }
 
 .title {
   font-family: var(--strata-font-heading);
-  font-size: var(--strata-font-size-xl);
+  font-size: var(--strata-font-size-2xl);
   font-weight: var(--strata-font-weight-semibold);
-  letter-spacing: var(--strata-font-heading-tracking);
+  letter-spacing: var(--strata-font-tracking-2xl);
   line-height: var(--strata-line-height-tight);
 }
 
-.anchor:hover {
+.anchor {
   text-decoration: underline;
+  text-decoration-color: transparent;
+  text-decoration-thickness: 1px;
   text-underline-offset: 0.2em;
+  transition: text-decoration-color var(--strata-motion-duration-fast) var(--strata-motion-easing);
+}
+.anchor:hover {
+  text-decoration-color: currentColor;
 }
 
 .description {
+  max-inline-size: 70ch;
   color: var(--strata-color-text-subtle);
+  letter-spacing: var(--strata-font-tracking-md);
   text-wrap: pretty;
+}
+
+.categories {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--strata-space-1);
+  margin: 0;
+  padding: 0;
+  list-style: none;
 }
 
 /* ---- toolbar ------------------------------------------------------------ */
@@ -60,24 +123,58 @@
   display: none;
 }
 
-.tenantToggle.tenantToggle {
+/* Tenant picker: colour dots named by tooltip, the current tenant written beside them (same as component previews). */
+.tenantPicker {
+  display: inline-flex;
+  align-items: center;
   gap: var(--strata-space-2);
 }
-
-/* The ring is drawn in the site's tokens; the dot inside reads the tenant's primary (it carries data-strata-theme). */
-.dotRing {
-  display: inline-flex;
-  padding: 1px;
-  border-radius: var(--strata-radius-pill);
-  background: color-mix(in oklab, var(--strata-color-text-default) 22%, transparent);
+.dots.dots {
+  flex: none;
+  gap: 0;
+  padding: 0;
+  background: transparent;
+  box-shadow: none;
 }
-
+.dotToggle.dotToggle {
+  inline-size: var(--strata-space-6);
+  min-inline-size: var(--strata-space-6);
+  block-size: var(--strata-space-6);
+  min-block-size: var(--strata-space-6);
+  padding: 0;
+  border-radius: var(--strata-radius-pill);
+  background: transparent;
+  box-shadow: none;
+}
+.dotToggle.dotToggle[data-hovered] {
+  background: var(--docs-hover);
+}
+.dotToggle.dotToggle[data-selected] {
+  background: transparent;
+  box-shadow: inset 0 0 0 2px var(--strata-color-text-default);
+}
 .dot {
   display: block;
-  inline-size: var(--strata-space-2);
-  block-size: var(--strata-space-2);
+  inline-size: var(--strata-space-3);
+  block-size: var(--strata-space-3);
   border-radius: var(--strata-radius-pill);
   background: var(--strata-color-action-primary-bg);
+  box-shadow: inset 0 0 0 var(--strata-hairline) color-mix(in oklab, var(--strata-color-text-default) 18%, transparent);
+}
+@media (prefers-reduced-motion: no-preference) {
+  .dot {
+    transition: scale var(--strata-motion-duration-spring) var(--strata-motion-spring);
+  }
+  .dotToggle[data-pressed] .dot {
+    scale: 0.8;
+  }
+}
+.tenantName {
+  min-inline-size: calc(var(--strata-space-12) + var(--strata-space-2));
+  color: var(--strata-color-text-default);
+  font-size: var(--strata-font-size-sm);
+  letter-spacing: var(--strata-font-tracking-sm);
+  font-weight: var(--strata-font-weight-medium);
 }
 
 .iconToggle.iconToggle {
@@ -104,14 +201,30 @@
   border: 1px solid var(--strata-color-border-strong);
   border-radius: var(--strata-radius-button);
   background: var(--strata-color-surface-default);
+  box-shadow: var(--strata-shadow-raised);
   color: var(--strata-color-text-default);
   font-size: var(--strata-font-size-sm);
   font-weight: var(--strata-font-weight-medium);
   white-space: nowrap;
+  transition:
+    background-color var(--strata-motion-duration-fast) var(--strata-motion-easing),
+    outline-offset var(--strata-motion-duration-fast) var(--strata-motion-easing);
 }
 
 .open:hover {
   background: color-mix(in oklab, var(--strata-color-text-default) 6%, var(--strata-color-surface-default));
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .open {
+    transition:
+      background-color var(--strata-motion-duration-fast) var(--strata-motion-easing),
+      outline-offset var(--strata-motion-duration-fast) var(--strata-motion-easing),
+      scale var(--strata-motion-duration-spring) var(--strata-motion-spring);
+  }
+  .open:active {
+    scale: 0.97;
+  }
 }
 
 .open svg {
@@ -130,16 +243,44 @@
   display: none;
 }
 
+/* The block sits in a framed stage with real depth: hairline, top-edge sheen and a raised shadow, like a window
+   set into the page. */
 .frame {
   overflow: hidden;
-  border: var(--docs-hairline);
+  border: 1px solid transparent;
   border-radius: var(--strata-radius-container);
+  box-shadow:
+    0 0 0 var(--strata-hairline) var(--strata-color-border-subtle),
+    var(--strata-shadow-highlight),
+    var(--strata-shadow-raised);
   background-color: var(--strata-color-surface-sunken);
   background-image: radial-gradient(
     color-mix(in oklab, var(--strata-color-border-default) 55%, transparent) 1px,
     transparent 1px
   );
   background-size: var(--strata-space-4) var(--strata-space-4);
+}
+
+/* The frame answers the pointer: it rises a couple of pixels on the spring and its shadow deepens one step.
+   The shadow change is a fade and always runs; the movement only with motion allowed. */
+.frame {
+  transition: box-shadow var(--strata-motion-duration-normal) var(--strata-motion-easing);
+}
+.frame:hover {
+  box-shadow:
+    0 0 0 var(--strata-hairline) var(--strata-color-border-subtle),
+    var(--strata-shadow-highlight),
+    var(--strata-shadow-overlay);
+}
+@media (prefers-reduced-motion: no-preference) {
+  .frame {
+    transition:
+      box-shadow var(--strata-motion-duration-normal) var(--strata-motion-easing),
+      translate var(--strata-motion-duration-spring) var(--strata-motion-spring);
+  }
+  .frame:hover {
+    translate: 0 calc(var(--strata-space-1) / -2);
+  }
 }
 
 /* The stage the block renders in. Its inline size is what the block's container queries respond to. */
@@ -218,15 +359,48 @@
   overflow: auto;
 }
 
-/* ---- install ------------------------------------------------------------ */
+/* ---- code view: install, then the files ---------------------------------- */
 
-.install {
+.steps {
   display: grid;
+  gap: var(--strata-space-6);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: step;
+}
+.step {
+  display: grid;
+  gap: var(--strata-space-3);
+  counter-increment: step;
+}
+.stepLabel {
+  display: flex;
+  align-items: baseline;
   gap: var(--strata-space-2);
+  font-size: var(--strata-font-size-md);
+  letter-spacing: var(--strata-font-tracking-md);
+  font-weight: var(--strata-font-weight-medium);
+}
+.stepLabel::before {
+  content: counter(step);
+  color: var(--strata-color-text-subtle);
+  font-family: var(--strata-font-mono);
+  font-size: var(--strata-font-size-xs);
 }
 
-.installLabel {
+/* One quiet line under the preview instead of an install box after every block. */
+.caption {
   color: var(--strata-color-text-subtle);
   font-size: var(--strata-font-size-sm);
+  letter-spacing: var(--strata-font-tracking-sm);
+}
+.caption code {
+  font-family: var(--strata-font-mono);
+  font-size: var(--strata-font-size-xs);
+  color: var(--strata-color-text-default);
+}
+.caption strong {
+  color: var(--strata-color-text-default);
   font-weight: var(--strata-font-weight-medium);
 }

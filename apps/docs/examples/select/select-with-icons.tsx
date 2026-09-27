@@ -1,6 +1,6 @@
 'use client';
 
-import { IconLock, IconUsers, IconWorld } from '@tabler/icons-react';
+import { IconLock, IconUsers, IconWorld } from '@strata/icons';
 import { Select, SelectItem } from '@strata/react';
 
 export default function Example() {

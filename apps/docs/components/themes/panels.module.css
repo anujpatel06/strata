@@ -54,8 +54,7 @@
   text-wrap: pretty;
 }
 
-.sub code,
-.install code {
+.sub code {
   font-family: var(--strata-font-mono);
   font-size: 0.92em;
   color: var(--strata-color-text-default);
@@ -128,6 +127,7 @@
   border: 1px solid var(--strata-color-border-subtle);
   border-radius: var(--strata-radius-container);
   background: var(--strata-color-surface-default);
+  box-shadow: var(--strata-shadow-raised);
 }
 
 .change {
@@ -251,6 +251,7 @@
   border: 1px solid var(--strata-color-border-subtle);
   border-radius: var(--strata-radius-container);
   background: var(--strata-color-surface-default);
+  box-shadow: var(--strata-shadow-raised);
 }
 
 .rampRow {
@@ -427,14 +428,3 @@
   text-overflow: ellipsis;
 }
 
-.registry {
-  display: flex;
-  flex-direction: column;
-  gap: var(--strata-space-8);
-}
-
-.install {
-  display: flex;
-  flex-direction: column;
-  gap: var(--strata-space-3);
-}

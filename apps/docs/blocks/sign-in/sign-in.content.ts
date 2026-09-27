@@ -26,6 +26,7 @@ export interface SignInContent {
     passkey: string;
     signUp: { prompt: string; action: string };
     legal: { terms: string; privacy: string; help: string };
+    /** Brand panel copy. Wrap a word in `*…*` to set it in the heading face's italic ("Your money, *clearly*."). */
     brand: { headline: string; body: string };
     /** Toast after a successful (demo) sign-in. */
     success: { title: string };
@@ -57,7 +58,7 @@ export const signInContent: SignInContent = {
     signUp: { prompt: 'New to Acme?', action: 'Create an account' },
     legal: { terms: 'Terms', privacy: 'Privacy', help: 'Help center' },
     brand: {
-      headline: 'Your money, clearly.',
+      headline: 'Your money, *clearly*.',
       body: 'Payments, savings goals and card controls in one place, with security built in.',
     },
     success: { title: 'You’re signed in' },

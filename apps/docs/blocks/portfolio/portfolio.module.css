@@ -1,0 +1,583 @@
+/*
+ * Portfolio. Tokens only. Designed dark-first (the references are dark fintech dashboards), and every text colour
+ * sits on a surface the theme engine checks it against (packages/theme-engine/src/contrast-pairs.json):
+ * - on cards (surface.raised) only text.default, text.subtle and text.brand, so money in and out is told by its
+ *   sign, and the green for money in lives on the activity inset (surface.sunken), where feedback.success.fg is checked;
+ * - the page tint is a solid colour 5% of the way from the canvas to the brand, so the axe run measures it; the
+ *   brand wash above it is decoration behind the header only.
+ */
+
+.root {
+  box-sizing: border-box;
+  container-type: inline-size;
+  inline-size: 100%;
+  min-block-size: 100%;
+  /* The deep tinted canvas: dark reads as ink-blue rather than grey; light stays the plain canvas. */
+  --_canvas: light-dark(
+    var(--strata-color-surface-canvas),
+    color-mix(in oklab, var(--strata-color-action-primary-bg) 5%, var(--strata-color-surface-canvas))
+  );
+  background:
+    radial-gradient(
+      60% 40% at 30% 0%,
+      light-dark(transparent, color-mix(in oklab, var(--strata-color-action-primary-bg) 9%, transparent)),
+      transparent
+    ),
+    var(--_canvas);
+  color: var(--strata-color-text-default);
+  font-family: var(--strata-font-body);
+  font-size: var(--strata-font-size-md);
+  letter-spacing: var(--strata-font-tracking-md);
+  line-height: var(--strata-line-height-normal);
+}
+
+.root:dir(rtl) {
+  background:
+    radial-gradient(
+      60% 40% at 70% 0%,
+      light-dark(transparent, color-mix(in oklab, var(--strata-color-action-primary-bg) 9%, transparent)),
+      transparent
+    ),
+    var(--_canvas);
+}
+
+/*
+ * The deep tinted dark mode of the references: in dark, the surfaces take 6% of the brand, so cards read as ink-blue
+ * (or ink-teal, ink-amber) rather than grey. The root captures the theme's surfaces and .shell re-points the roles
+ * from those copies (a property can't reference itself). Light is untouched. Safe for contrast: in dark every tenant's
+ * text.subtle is ≥ 8.5:1 on these surfaces (packages/tokens/dist/<tenant>/contrast-report.json), and the tint is
+ * a solid colour, so the axe run measures it.
+ */
+.root {
+  --_raised: var(--strata-color-surface-raised);
+  --_default: var(--strata-color-surface-default);
+  --_sunken: var(--strata-color-surface-sunken);
+}
+
+.shell {
+  --strata-color-surface-raised: light-dark(
+    var(--_raised),
+    color-mix(in oklab, var(--strata-color-action-primary-bg) 6%, var(--_raised))
+  );
+  --strata-color-surface-default: light-dark(
+    var(--_default),
+    color-mix(in oklab, var(--strata-color-action-primary-bg) 5%, var(--_default))
+  );
+  --strata-color-surface-sunken: light-dark(
+    var(--_sunken),
+    color-mix(in oklab, var(--strata-color-action-primary-bg) 5%, var(--_sunken))
+  );
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--strata-space-4);
+  min-block-size: 100%;
+  padding: var(--strata-space-3);
+}
+
+/* ------------------------------------------------------------------ sidebar */
+
+.sidebar {
+  display: none;
+}
+
+/* In the Sheet, the Sheet is the panel. */
+.sheetNav {
+  inline-size: 100%;
+  padding-block: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+@container (min-width: 960px) {
+  .shell {
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: var(--strata-space-5);
+    padding: var(--strata-space-4);
+  }
+
+  .sidebar {
+    display: flex;
+    position: sticky;
+    inset-block-start: var(--strata-space-4);
+    align-self: start;
+    block-size: calc(100dvh - var(--strata-space-4) * 2);
+    min-block-size: calc(var(--strata-space-16) * 9);
+  }
+
+  .menuButton {
+    display: none;
+  }
+}
+
+.account {
+  display: flex;
+  align-items: center;
+  gap: var(--strata-space-3);
+  min-inline-size: 0;
+  padding-inline: var(--strata-space-3);
+}
+
+/* ------------------------------------------------------------------ page + header */
+
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-5);
+  min-inline-size: 0;
+  padding-block: var(--strata-space-2) var(--strata-space-6);
+}
+
+.header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--strata-space-4);
+}
+
+.titleRow {
+  display: flex;
+  align-items: center;
+  gap: var(--strata-space-3);
+  min-inline-size: 0;
+}
+
+.greeting {
+  display: grid;
+  gap: var(--strata-space-1);
+  min-inline-size: 0;
+}
+
+.title {
+  margin: 0;
+  font-family: var(--strata-font-heading);
+  font-size: var(--strata-font-size-2xl);
+  font-weight: var(--strata-font-weight-semibold);
+  letter-spacing: var(--strata-font-tracking-2xl);
+  line-height: var(--strata-line-height-tight);
+  text-wrap: balance;
+}
+
+.intro {
+  margin: 0;
+  color: var(--strata-color-text-subtle);
+  font-size: var(--strata-font-size-sm);
+  letter-spacing: var(--strata-font-tracking-sm);
+}
+
+.tools {
+  display: flex;
+  align-items: center;
+  gap: var(--strata-space-2);
+  flex: 1 1 calc(var(--strata-space-16) * 4);
+  justify-content: flex-end;
+  max-inline-size: calc(var(--strata-space-16) * 6);
+}
+
+.search {
+  flex: 1;
+  min-inline-size: 0;
+}
+
+.menuButton,
+.bell {
+  flex: none;
+}
+
+/* ------------------------------------------------------------------ KPI row */
+
+.kpis {
+  margin: 0;
+}
+
+/* The tiles are rim-lit like the cards (same background-clip trick as Card rim; CONVENTIONS, Rim light). */
+.kpis .kpi {
+  --_face: var(--strata-color-surface-raised);
+  border: 1px solid transparent;
+  background:
+    linear-gradient(var(--_face), var(--_face)) padding-box,
+    linear-gradient(135deg, var(--strata-rim), transparent 60%) border-box var(--_face);
+}
+
+/* ------------------------------------------------------------------ grid */
+
+.grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-areas:
+    'hero'
+    'promo'
+    'allocation'
+    'contributions'
+    'activity'
+    'holdings';
+  gap: var(--strata-space-4);
+}
+
+.hero {
+  grid-area: hero;
+}
+.promo {
+  grid-area: promo;
+}
+.allocation {
+  grid-area: allocation;
+}
+.contributions {
+  grid-area: contributions;
+}
+.activity {
+  grid-area: activity;
+}
+.holdings {
+  grid-area: holdings;
+}
+
+@container (min-width: 720px) {
+  .grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-areas:
+      'hero hero'
+      'promo allocation'
+      'contributions activity'
+      'holdings holdings';
+    gap: var(--strata-space-5);
+  }
+}
+
+@container (min-width: 1180px) {
+  .grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-areas:
+      'hero hero promo'
+      'allocation contributions activity'
+      'holdings holdings holdings';
+  }
+}
+
+/* ------------------------------------------------------------------ hero chart */
+
+.hero {
+  display: flex;
+  flex-direction: column;
+  min-inline-size: 0;
+}
+
+.heroHead {
+  row-gap: var(--strata-space-3);
+}
+
+.heroFigure {
+  display: grid;
+  gap: var(--strata-space-2);
+  min-inline-size: 0;
+}
+
+/* The card title reads as a quiet label; the figure under it is the view's one hero number. */
+.eyebrowTitle {
+  color: var(--strata-color-text-subtle);
+  font-family: var(--strata-font-body);
+  font-size: var(--strata-font-size-sm);
+  font-weight: var(--strata-font-weight-medium);
+  letter-spacing: var(--strata-font-tracking-sm);
+}
+
+.heroAmount {
+  font-size: var(--strata-font-size-5xl);
+  letter-spacing: var(--strata-font-tracking-5xl);
+}
+
+.heroDelta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--strata-space-2);
+  margin: 0;
+}
+
+.heroDeltaText {
+  color: var(--strata-color-text-subtle);
+  font-size: var(--strata-font-size-sm);
+  letter-spacing: var(--strata-font-tracking-sm);
+}
+
+.heroAction {
+  align-self: start;
+}
+
+.heroChart {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+.areaChart {
+  inline-size: 100%;
+}
+
+.chip {
+  font-variant-numeric: tabular-nums;
+}
+
+/* ------------------------------------------------------------------ promo */
+
+.promo {
+  display: flex;
+  flex-direction: column;
+}
+
+.promoTop {
+  display: flex;
+  align-items: center;
+  gap: var(--strata-space-3);
+  margin-block-end: var(--strata-space-3);
+}
+
+.promoTitle {
+  font-size: var(--strata-font-size-2xl);
+  letter-spacing: var(--strata-font-tracking-2xl);
+  line-height: var(--strata-line-height-tight);
+  text-wrap: balance;
+}
+
+.promoBody {
+  max-inline-size: 36ch;
+}
+
+.promoCash {
+  display: grid;
+  gap: var(--strata-space-1);
+  margin-block-start: auto;
+}
+
+.label {
+  color: var(--strata-color-text-subtle);
+  font-size: var(--strata-font-size-sm);
+  letter-spacing: var(--strata-font-tracking-sm);
+}
+
+.nextRun {
+  display: flex;
+  align-items: center;
+  gap: var(--strata-space-3);
+  margin: var(--strata-space-3) 0 0;
+  padding-block-start: var(--strata-space-3);
+  box-shadow: inset 0 var(--strata-hairline) 0 0 var(--strata-color-border-subtle);
+  font-size: var(--strata-font-size-sm);
+  letter-spacing: var(--strata-font-tracking-sm);
+}
+
+.nextIcon {
+  flex: none;
+  inline-size: 1.25em;
+  block-size: 1.25em;
+  color: var(--strata-color-text-brand);
+  stroke-width: 1.75;
+}
+
+.nextText {
+  display: grid;
+  gap: calc(var(--strata-space-1) / 2);
+}
+
+.promoActions {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(calc(var(--strata-space-16) * 2), 1fr));
+  gap: var(--strata-space-2);
+}
+
+.promoButton {
+  inline-size: 100%;
+}
+
+/* ------------------------------------------------------------------ lists (allocation, activity) */
+
+.total {
+  font-size: var(--strata-font-size-sm);
+  font-weight: var(--strata-font-weight-semibold);
+  letter-spacing: var(--strata-font-tracking-sm);
+  font-variant-numeric: tabular-nums;
+}
+
+.allocationBody {
+  display: grid;
+  gap: var(--strata-space-4);
+}
+
+/* Allocation as one bar: a segment per class in its palette colour, a 2px surface gap between them. */
+.stack {
+  display: flex;
+  gap: 2px;
+  block-size: var(--strata-space-2);
+}
+
+.segment {
+  flex-basis: 0;
+  min-inline-size: var(--strata-space-1);
+  border-radius: min(var(--strata-radius-badge), var(--strata-space-1));
+  background: var(--_c);
+}
+
+.list {
+  display: grid;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.assetRow,
+.activityRow {
+  display: flex;
+  align-items: center;
+  gap: var(--strata-space-3);
+  min-block-size: var(--strata-table-row-height);
+  padding-block: var(--strata-space-2);
+}
+
+.assetRow + .assetRow,
+.activityRow + .activityRow {
+  box-shadow: inset 0 var(--strata-hairline) 0 0 var(--strata-color-border-subtle);
+}
+
+.activityList {
+  padding-inline: var(--strata-card-inset);
+}
+
+.assetText {
+  display: grid;
+  flex: 1;
+  gap: calc(var(--strata-space-1) / 2);
+  min-inline-size: 0;
+}
+
+.assetName {
+  display: flex;
+  align-items: center;
+  gap: var(--strata-space-2);
+  min-inline-size: 0;
+  font-size: var(--strata-font-size-sm);
+  font-weight: var(--strata-font-weight-medium);
+  letter-spacing: var(--strata-font-tracking-sm);
+  line-height: var(--strata-line-height-tight);
+  text-wrap: pretty;
+}
+
+.meta {
+  color: var(--strata-color-text-subtle);
+  font-size: var(--strata-font-size-xs);
+  letter-spacing: var(--strata-font-tracking-xs);
+  line-height: var(--strata-line-height-tight);
+}
+
+.nowrap {
+  white-space: nowrap;
+}
+
+.swatch {
+  flex: none;
+  inline-size: calc(var(--strata-space-1) * 1.5);
+  block-size: calc(var(--strata-space-1) * 1.5);
+  border-radius: var(--strata-radius-pill);
+  background: var(--_c);
+}
+
+.rowSpark {
+  flex: none;
+  inline-size: var(--strata-space-16);
+  min-inline-size: 0;
+  block-size: var(--strata-space-8);
+}
+
+.rowValue {
+  display: grid;
+  justify-items: end;
+  gap: calc(var(--strata-space-1) / 2);
+  font-size: var(--strata-font-size-sm);
+  letter-spacing: var(--strata-font-tracking-sm);
+}
+
+.strong {
+  color: var(--strata-color-text-default);
+  font-weight: var(--strata-font-weight-semibold);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Signed figures keep their own order ("+2.1%", "−₹1,500") inside right-to-left text. */
+.signed {
+  direction: ltr;
+  unicode-bidi: isolate;
+  font-variant-numeric: tabular-nums;
+}
+
+.activityRow > .signed {
+  flex: none;
+  font-size: var(--strata-font-size-sm);
+  letter-spacing: var(--strata-font-tracking-sm);
+}
+
+.inflow {
+  color: var(--strata-color-feedback-success-fg);
+}
+
+/* ------------------------------------------------------------------ holdings table */
+
+.assetCell {
+  display: flex;
+  align-items: center;
+  gap: var(--strata-space-3);
+  min-inline-size: 0;
+}
+
+.ticker {
+  color: var(--strata-color-text-subtle);
+  font-size: var(--strata-font-size-xs);
+  letter-spacing: var(--strata-font-tracking-xs);
+  font-variant-numeric: tabular-nums;
+}
+
+.tableSpark {
+  inline-size: calc(var(--strata-space-16) * 1.75);
+  block-size: var(--strata-space-6);
+  /* The ring round the end dot matches the inset surface the table sits on. */
+  --_ring: var(--strata-color-surface-sunken);
+}
+
+/* ------------------------------------------------------------------ narrow */
+
+@container (max-width: 559.98px) {
+  .shell {
+    padding: var(--strata-space-2);
+  }
+
+  .tools {
+    flex-basis: 100%;
+    max-inline-size: none;
+  }
+
+  .heroAmount {
+    font-size: var(--strata-font-size-4xl);
+    letter-spacing: var(--strata-font-tracking-4xl);
+  }
+
+  .rowSpark {
+    display: none;
+  }
+}
+
+/* ------------------------------------------------------------------ motion */
+
+@media (prefers-reduced-motion: no-preference) {
+  /* Cards fade up in reading order on first paint (staggered by --_i). */
+  .rise {
+    animation: rise var(--strata-motion-duration-slow) var(--strata-motion-easing-out) both;
+    animation-delay: calc(var(--_i, 0) * var(--strata-motion-duration-fast) / 3);
+  }
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    translate: 0 4px;
+  }
+}

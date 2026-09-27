@@ -2,7 +2,7 @@
 
 A multi-brand design system that humans and AI agents build with.
 
-41 React Aria components, a docs site at the level of ui.shadcn.com, and a shadcn-compatible registry, all themed by an engine that turns six brand inputs into a light and dark theme passing WCAG 2.2 AA.
+41 React Aria components and a docs site with live previews, all themed by an engine that turns six brand inputs into a light and dark theme passing WCAG 2.2 AA.
 
 ![Strata docs home](docs/screenshots/v0.2/home.png)
 
@@ -14,10 +14,10 @@ Same components, same code. A tenant differs by tokens + copy only. Screenshots:
 
 ## What works today (v0.2)
 
-- **41 components** (`@strata/react`) on React Aria: fields, pickers, overlays, feedback, navigation and a DataTable. Every one works in light and dark, both densities, and RTL, and each has a `meta.json` that drives its docs page and registry item.
+- **41 components** (`@strata/react`) on React Aria: fields, pickers, overlays, feedback, navigation and a DataTable. Every one works in light and dark, both densities, and RTL, and each has a `meta.json` that drives its docs page.
 - **Docs site** (`apps/docs`, Next.js): component pages with live previews per tenant, scheme, direction and density; Blocks; Themes; Colors; ⌘K search. The site is themed by Strata itself.
-- **Two ways to ship from one source** (ADR-011): the npm package, or `npx shadcn@latest add @strata/<name>` (verified with shadcn CLI 4.21). A theme bridge re-skins any existing shadcn project.
-- **5 blocks**: dashboard, request flow, settings, sign-in and activity table. Each runs in all three tenants and installs from the registry.
+- **Distribution** (ADR-011): install `@strata/react` and `@strata/tokens` from npm (published in Phase 6), or copy a component's source files into your project.
+- **5 blocks**: dashboard, request flow, settings, sign-in and activity table. Each runs in all three tenants.
 
 Phase 1:
 
@@ -34,12 +34,11 @@ Every number comes from a script. Run the command to reproduce it.
 | Metric | Value | Reproduce |
 |---|---|---|
 | Themes fuzzed (random brands × light/dark) | 1,000 | `pnpm test:themes` |
-| Contrast checks passed | 86,000 / 86,000 (100%) | `pnpm test:themes` |
+| Contrast checks passed | 98,000 / 98,000 (100%) | `pnpm test:themes` |
 | Solver adjustments per brand | median 4, max 6 (all brand-driven) | `pnpm test:themes` |
 | Median theme generation time | 0.45 ms (this machine) | `pnpm test:themes` |
-| Components / blocks | 41 / 5 | `pnpm check:meta`, `pnpm registry` |
+| Components / blocks | 41 / 5 | `pnpm check:meta`; blocks listed in `apps/docs/blocks/blocks.json` |
 | Component + engine tests | 271 + 157 passing | `pnpm test` |
-| Registry items (shadcn schema-valid) | 55 | `pnpm registry` |
 | Docs routes swept with axe (light + dark) | 73 × 2, 0 violations | `node scripts/axe-sweep.mjs` (with the docs site running) |
 | Tenants rendering from one codebase | 3 (one Arabic RTL) + house | `pnpm tokens` |
 <!-- numbers:end -->

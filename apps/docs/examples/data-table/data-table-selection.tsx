@@ -22,7 +22,7 @@ const columns: DataTableColumn<Claim>[] = [
   { id: 'id', header: 'Claim', isRowHeader: true, cell: (r) => r.id },
   { id: 'member', header: 'Member', cell: (r) => r.member },
   { id: 'type', header: 'Type', cell: (r) => r.type },
-  { id: 'status', header: 'Status', cell: (r) => <Badge tone={tones[r.status]}>{r.status}</Badge> },
+  { id: 'status', header: 'Status', cell: (r) => <Badge variant="status" tone={tones[r.status]}>{r.status}</Badge> },
   { id: 'amount', header: 'Amount', align: 'end', cell: (r) => money.format(r.amount) },
 ];
 

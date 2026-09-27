@@ -1,8 +1,3 @@
-.category {
-  color: var(--strata-color-text-subtle);
-  font-size: var(--strata-font-size-sm);
-}
-
 .metaLinks {
   display: inline-flex;
   flex-wrap: wrap;
@@ -20,18 +15,33 @@
   display: inline-flex;
   align-items: center;
   gap: var(--strata-space-1);
-  block-size: calc(var(--strata-space-6) + var(--strata-space-1));
+  min-block-size: var(--strata-space-6);
   padding-inline: var(--strata-space-2);
-  border: 1px solid var(--strata-color-border-subtle);
-  border-radius: var(--strata-radius-button);
-  background: var(--strata-color-surface-default);
-  color: var(--strata-color-text-default);
+  border-radius: var(--strata-radius-badge);
+  color: var(--strata-color-text-subtle);
   font-size: var(--strata-font-size-sm);
+  letter-spacing: var(--strata-font-tracking-sm);
   font-weight: var(--strata-font-weight-medium);
-  transition: border-color var(--strata-motion-duration-fast) var(--strata-motion-easing);
+  transition:
+    color var(--strata-motion-duration-fast) var(--strata-motion-easing),
+    background-color var(--strata-motion-duration-fast) var(--strata-motion-easing),
+    outline-offset var(--strata-motion-duration-fast) var(--strata-motion-easing);
 }
 .metaLink:hover {
-  border-color: var(--strata-color-border-default);
+  background: var(--docs-hover);
+  color: var(--strata-color-text-default);
+}
+@media (prefers-reduced-motion: no-preference) {
+  .metaLink {
+    transition:
+      color var(--strata-motion-duration-fast) var(--strata-motion-easing),
+      background-color var(--strata-motion-duration-fast) var(--strata-motion-easing),
+      outline-offset var(--strata-motion-duration-fast) var(--strata-motion-easing),
+      scale var(--strata-motion-duration-spring) var(--strata-motion-spring);
+  }
+  .metaLink:active {
+    scale: 0.97;
+  }
 }
 
 .installTabs.installTabs {
@@ -40,11 +50,6 @@
 .installPanel.installPanel {
   display: grid;
   gap: var(--strata-space-4);
-}
-
-.note.note {
-  font-size: var(--strata-font-size-md);
-  color: var(--strata-color-text-subtle);
 }
 
 .example {
@@ -91,9 +96,10 @@
   line-height: var(--strata-line-height-normal);
 }
 
+/* ---- Guidelines: two calm columns. The tone lives in a small icon chip; the text stays default. ---- */
 .guidelines {
   display: grid;
-  gap: var(--strata-space-4);
+  gap: var(--strata-space-8);
 }
 @media (min-width: 640px) {
   .guidelines {
@@ -105,17 +111,6 @@
   display: grid;
   align-content: start;
   gap: var(--strata-space-3);
-  padding: var(--strata-space-5);
-  border: 1px solid var(--strata-color-border-subtle);
-  border-block-start-width: 2px;
-  border-radius: var(--strata-radius-container);
-  background: var(--strata-color-surface-default);
-}
-.guide[data-kind='do'] {
-  border-block-start-color: var(--strata-color-feedback-success-solid);
-}
-.guide[data-kind='dont'] {
-  border-block-start-color: var(--strata-color-feedback-danger-solid);
 }
 
 .guideTitle {
@@ -123,74 +118,238 @@
   align-items: center;
   gap: var(--strata-space-2);
   font-family: var(--strata-font-heading);
-  font-size: var(--strata-font-size-md);
+  font-size: var(--strata-font-size-lg);
+  letter-spacing: var(--strata-font-tracking-lg);
   font-weight: var(--strata-font-weight-semibold);
 }
-.guide[data-kind='do'] .guideTitle {
+.guideChip {
+  display: inline-grid;
+  place-items: center;
+  inline-size: var(--strata-space-6);
+  block-size: var(--strata-space-6);
+  border-radius: var(--strata-radius-pill);
+  font-size: var(--strata-font-size-sm);
+}
+.guide[data-kind='do'] .guideChip {
+  background: var(--strata-color-feedback-success-bg);
   color: var(--strata-color-feedback-success-fg);
 }
-.guide[data-kind='dont'] .guideTitle {
+.guide[data-kind='dont'] .guideChip {
+  background: var(--strata-color-feedback-danger-bg);
   color: var(--strata-color-feedback-danger-fg);
 }
 
 .guideList {
   display: grid;
-  gap: var(--strata-space-2);
   margin: 0;
-  padding-inline-start: var(--strata-space-5);
+  padding: 0;
+  list-style: none;
   font-size: var(--strata-font-size-md);
+  letter-spacing: var(--strata-font-tracking-md);
   line-height: var(--strata-line-height-normal);
 }
-.guideList li::marker {
-  color: var(--strata-color-text-subtle);
+.guideList li {
+  padding-block: var(--strata-space-3);
+  box-shadow: inset 0 var(--strata-hairline) 0 0 var(--strata-color-border-subtle);
+  text-wrap: pretty;
+}
+
+/* ---- API reference: one row per prop. Name on the start rail, then the type, what it does, the default. ---- */
+.props {
+  display: grid;
+  margin: 0;
+}
+.prop {
+  display: grid;
+  gap: var(--strata-space-2);
+  padding-block: var(--strata-space-4);
+  box-shadow: inset 0 var(--strata-hairline) 0 0 var(--strata-color-border-subtle);
+}
+.prop:last-child {
+  box-shadow:
+    inset 0 var(--strata-hairline) 0 0 var(--strata-color-border-subtle),
+    inset 0 calc(var(--strata-hairline) * -1) 0 0 var(--strata-color-border-subtle);
+}
+@media (min-width: 640px) {
+  .prop {
+    grid-template-columns: calc(var(--strata-space-16) * 2.75) minmax(0, 1fr);
+    gap: var(--strata-space-6);
+  }
 }
 
 .propName {
-  inline-size: 1%;
+  display: flex;
+  flex-wrap: wrap;
+  align-content: start;
+  align-items: center;
+  gap: var(--strata-space-2);
 }
 .propName > code {
+  font-family: var(--strata-font-mono);
+  font-size: var(--strata-font-size-sm);
+  font-weight: var(--strata-font-weight-semibold);
+  color: var(--strata-color-text-default);
   overflow-wrap: anywhere;
 }
-@media (min-width: 640px) {
-  .propName > code {
-    white-space: nowrap;
-  }
+.propRequired.propRequired {
+  flex: none;
 }
-.propMeta {
-  display: block;
-  margin-block-start: var(--strata-space-2);
+
+.propBody {
+  display: grid;
+  justify-items: start;
+  gap: var(--strata-space-2);
+  margin: 0;
+  min-inline-size: 0;
+}
+.typeCode {
   color: var(--strata-color-text-subtle);
-  font-size: var(--strata-font-size-xs);
-  white-space: nowrap;
-}
-.propMeta code {
-  font-size: var(--strata-font-size-xs);
-}
-.propType code {
-  white-space: normal;
+  font-family: var(--strata-font-mono);
+  font-size: var(--strata-font-size-sm);
+  line-height: var(--strata-line-height-snug);
   overflow-wrap: anywhere;
 }
 .propDescription {
-  display: block;
-  margin-block-start: var(--strata-space-2);
+  max-inline-size: 62ch;
+  color: var(--strata-color-text-default);
+  font-size: var(--strata-font-size-md);
+  letter-spacing: var(--strata-font-tracking-md);
+  line-height: var(--strata-line-height-normal);
+  text-wrap: pretty;
+}
+.propDefault {
   color: var(--strata-color-text-subtle);
+  font-size: var(--strata-font-size-sm);
+  letter-spacing: var(--strata-font-tracking-sm);
+}
+.propDefault code {
+  font-family: var(--strata-font-mono);
+  color: var(--strata-color-text-default);
 }
 
-.tokens {
+/* A union of string literals reads as its values; the default wears the selected surface and says so. */
+.values {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--strata-space-2);
+  gap: var(--strata-space-1);
   margin: 0;
   padding: 0;
   list-style: none;
 }
-.tokens code {
+.value {
   display: inline-flex;
-  padding-block: var(--strata-space-1);
+  align-items: center;
+  gap: var(--strata-space-1);
+  min-block-size: var(--strata-space-6);
   padding-inline: var(--strata-space-2);
-  border: 1px solid var(--strata-color-border-subtle);
-  border-radius: var(--strata-radius-pill);
-  background: var(--strata-color-surface-default);
+  border-radius: var(--strata-radius-badge);
+  background: color-mix(in oklab, var(--strata-color-text-default) 5%, transparent);
   font-family: var(--strata-font-mono);
+  font-size: var(--strata-font-size-xs);
+  color: var(--strata-color-text-default);
+}
+.value[data-default] {
+  background: var(--strata-color-surface-selected);
+  box-shadow: inset 0 0 0 var(--strata-hairline) var(--strata-color-border-default);
+}
+.valueDefault {
+  color: var(--strata-color-text-subtle);
+  font-family: var(--strata-font-body);
+  font-size: var(--strata-font-size-xs);
+  letter-spacing: var(--strata-font-tracking-xs);
+}
+
+/* ---- Tokens: grouped by what they control, with a count, instead of one wall of pills. ---- */
+.tokenGroups {
+  display: grid;
+  margin: 0;
+}
+.tokenGroup {
+  display: grid;
+  gap: var(--strata-space-2);
+  padding-block: var(--strata-space-4);
+  box-shadow: inset 0 var(--strata-hairline) 0 0 var(--strata-color-border-subtle);
+}
+@media (min-width: 640px) {
+  .tokenGroup {
+    grid-template-columns: calc(var(--strata-space-16) * 2.75) minmax(0, 1fr);
+    gap: var(--strata-space-6);
+  }
+}
+.tokenLabel {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--strata-space-2);
+  font-size: var(--strata-font-size-sm);
+  letter-spacing: var(--strata-font-tracking-sm);
+  font-weight: var(--strata-font-weight-medium);
+}
+@media (min-width: 640px) {
+  .tokenLabel {
+    flex-direction: column;
+    justify-content: start;
+    gap: 0;
+  }
+}
+.tokenCount {
+  color: var(--strata-color-text-subtle);
+  font-family: var(--strata-font-heading);
+  font-size: var(--strata-font-size-2xl);
+  letter-spacing: var(--strata-font-tracking-2xl);
+  font-weight: var(--strata-font-weight-semibold);
+  font-variant-numeric: tabular-nums;
+  line-height: var(--strata-line-height-tight);
+}
+.tokenList {
+  display: flex;
+  flex-wrap: wrap;
+  align-content: start;
+  gap: var(--strata-space-1) var(--strata-space-4);
+  margin: 0;
+}
+.token {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--strata-space-2);
+  min-block-size: var(--strata-space-6);
+  font-family: var(--strata-font-mono);
+  font-size: var(--strata-font-size-xs);
+  color: var(--strata-color-text-default);
+}
+.tokenSwatch {
+  --_swatch: transparent;
+  inline-size: var(--strata-space-3);
+  block-size: var(--strata-space-3);
+  border-radius: var(--strata-radius-badge);
+  background: var(--_swatch);
+  box-shadow: inset 0 0 0 var(--strata-hairline) color-mix(in oklab, var(--strata-color-text-default) 20%, transparent);
+}
+.tokenSwatch[data-wildcard] {
+  background: conic-gradient(
+    var(--strata-color-feedback-info-solid) 0 25%,
+    var(--strata-color-feedback-success-solid) 0 50%,
+    var(--strata-color-feedback-warning-solid) 0 75%,
+    var(--strata-color-feedback-danger-solid) 0
+  );
+}
+
+/* The prose inline-code chip (a tinted pill) is for code in running text. In these structured rows the layout
+   already says "this is code", so the chip goes and the mono face carries it. */
+.props code,
+.tokenGroups code {
+  padding: 0;
+  border-radius: 0;
+  background: none;
+}
+.propName.propName > code,
+.typeCode.typeCode,
+.propDefault.propDefault code {
+  font-size: var(--strata-font-size-sm);
+}
+.value.value code {
+  font-size: inherit;
+}
+.token.token {
   font-size: var(--strata-font-size-xs);
 }

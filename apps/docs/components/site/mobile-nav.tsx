@@ -1,6 +1,6 @@
 'use client';
 
-import { IconMenu2 } from '@tabler/icons-react';
+import { IconMenu2 } from '@strata/icons';
 import { Button, DialogTrigger, Sheet } from '@strata/react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -15,7 +15,7 @@ export function MobileNav({ groups }: { groups: NavGroup[] }) {
   return (
     <DialogTrigger>
       <Button variant="ghost" size="icon" aria-label="Open menu" className={styles.trigger}>
-        <IconMenu2 aria-hidden stroke={1.75} />
+        <IconMenu2 aria-hidden />
       </Button>
       <Sheet side="start" title="Menu" className={styles.sheet}>
         {({ close }) => (

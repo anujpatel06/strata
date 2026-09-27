@@ -9,6 +9,7 @@ export default function Example() {
       <Button variant="secondary">Secondary</Button>
       <Button variant="outline">Outline</Button>
       <Button variant="ghost">Ghost</Button>
+      <Button variant="contrast">Contrast</Button>
       <Button variant="danger">Delete</Button>
       <Button variant="link">Link</Button>
     </div>

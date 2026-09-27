@@ -1,7 +1,7 @@
 'use client';
 
 import { Button, Menu, MenuItem, MenuSeparator, MenuTrigger, SubmenuTrigger } from '@strata/react';
-import { IconFolder, IconMail, IconLink, IconShare } from '@tabler/icons-react';
+import { IconFolder, IconMail, IconLink, IconShare } from '@strata/icons';
 
 export default function Example() {
   return (

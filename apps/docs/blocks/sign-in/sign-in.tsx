@@ -24,8 +24,8 @@ import {
   ToastRegion,
   toast,
 } from '@strata/react';
-import { IconEye, IconEyeOff, IconKey } from '@tabler/icons-react';
-import { useId, useRef, useState, type FormEvent, type JSX, type MouseEvent } from 'react';
+import { IconEye, IconEyeOff, IconKey } from '@strata/icons';
+import { Fragment, useId, useRef, useState, type FormEvent, type JSX, type MouseEvent, type ReactNode } from 'react';
 import { signInContent, type SignInContent } from './sign-in.content';
 import styles from './sign-in.module.css';
 
@@ -36,6 +36,13 @@ const level = (n: number): Level => Math.min(6, Math.max(1, Math.round(n))) as L
 
 /** Demo links point at "#": keep them from navigating (or scrolling a host page to the top). */
 const stay = (e: MouseEvent<Element>) => e.preventDefault();
+
+/** `*word*` → <em>word</em>: editorial emphasis written in the copy (the heading face's italic), not in the component. */
+function emphasis(text: string): ReactNode {
+  const parts = text.split('*');
+  if (parts.length < 3) return text;
+  return parts.map((part, i) => (i % 2 === 1 ? <em key={i}>{part}</em> : <Fragment key={i}>{part}</Fragment>));
+}
 
 const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -92,7 +99,7 @@ export function SignIn({ content = signInContent, headingLevel = 1, className }:
                 {monogram}
               </span>
               <CardTitle level={level(headingLevel)} id={`${uid}-title`} className={styles.title}>
-                {c.title}
+                {emphasis(c.title)}
               </CardTitle>
               <CardDescription>{c.subtitle}</CardDescription>
             </CardHeader>
@@ -184,6 +191,10 @@ export function SignIn({ content = signInContent, headingLevel = 1, className }:
           </Footer>
         </div>
 
+        {/*
+          The brand panel is a quiet inset surface, not a slab of brand colour: the mark, a short kicker, and the
+          promise set large. Decorative arcs sit in the far corner, away from the text.
+        */}
         <div className={styles.brandPanel}>
           <span className={styles.brand}>
             <span className={styles.brandMark} aria-hidden="true">
@@ -191,8 +202,13 @@ export function SignIn({ content = signInContent, headingLevel = 1, className }:
             </span>
             <span className={styles.brandName}>{content.product.name}</span>
           </span>
+          <svg className={styles.arcs} viewBox="0 0 400 400" aria-hidden="true" focusable="false">
+            {[80, 140, 200, 260, 320].map((r) => (
+              <circle key={r} cx="400" cy="0" r={r} />
+            ))}
+          </svg>
           <div className={styles.brandCopy}>
-            <p className={styles.headline}>{c.brand.headline}</p>
+            <p className={styles.headline}>{emphasis(c.brand.headline)}</p>
             <p className={styles.brandBody}>{c.brand.body}</p>
           </div>
         </div>

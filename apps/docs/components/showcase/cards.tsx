@@ -1,27 +1,39 @@
 'use client';
 
 /**
- * The showcase cards: small, realistic product surfaces composed only from @strata/react. Layout glue lives
- * in cards.module.css (tokens only); every control, label and colour comes from the components themselves.
+ * The showcase cards: one small business-money product told as specific moments (a revenue week, a card limit,
+ * a payout waiting on approval), composed only from @strata/react and @strata/icons. Layout glue lives in
+ * cards.module.css (tokens only); every control, chart, label and colour comes from the components themselves.
+ *
+ * Each card takes the heading level of its title, so the grid fits under any page heading.
  */
 
-import { parseDate } from '@internationalized/date';
+import { DateFormatter, parseDate, type CalendarDate } from '@internationalized/date';
 import {
+  IconAlertTriangle,
+  IconArrowDownLeft,
+  IconArrowUpRight,
+  IconBolt,
   IconBuildingBank,
+  IconClock,
+  IconArrowsExchange,
+  IconCoins,
   IconCreditCard,
-  IconDownload,
-  IconFileText,
-  IconKey,
-  IconLock,
-  IconSettings,
-  IconUserPlus,
-  IconUsers,
+  IconPercentage,
+  IconPiggyBank,
+  IconPlus,
+  IconShieldCheck,
+  IconTrendingDown,
+  IconTrendingUp,
   IconWallet,
-} from '@tabler/icons-react';
+} from '@strata/icons';
 import {
+  Amount,
+  AreaChart,
   Avatar,
   Badge,
   Button,
+  Calendar,
   Card,
   CardAction,
   CardContent,
@@ -29,29 +41,40 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-  Checkbox,
-  DataTable,
-  FileUpload,
-  Kbd,
-  KbdGroup,
-  Menu,
-  MenuItem,
-  Radio,
-  RadioGroup,
-  RangeCalendar,
-  SearchField,
+  Eyebrow,
+  IconTile,
+  Label,
+  Meter,
+  PersonChip,
+  PersonChipGroup,
   Select,
   SelectItem,
   Separator,
+  Sparkline,
   StatTile,
+  StatTileGroup,
   Switch,
-  TextArea,
+  Tag,
   TextField,
-  type DataTableColumn,
-  type FileUploadEntry,
+  ToggleButton,
+  ToggleButtonGroup,
 } from '@strata/react';
-import { useId, useState, type ReactNode } from 'react';
-import { PEOPLE, RENEWALS, RENEWAL_STATUS, REVENUE_SERIES, ROLES, type Renewal } from './showcase-data';
+import { useId, useState, type Key, type ReactNode } from 'react';
+import {
+  ACCOUNTS,
+  ACTIVITY,
+  ACTIVITY_STATUS,
+  APPROVERS,
+  COPY_LOCALE,
+  CURRENCY,
+  PAYEES,
+  REVENUE,
+  REVENUE_SPLIT,
+  SCHEDULE,
+  money,
+  type AccountIcon,
+  type Period,
+} from './showcase-data';
 import styles from './cards.module.css';
 
 type Level = 2 | 3 | 4;
@@ -61,171 +84,250 @@ interface CardProps {
   level: Level;
 }
 
+const percent = new Intl.NumberFormat(COPY_LOCALE, { style: 'percent', maximumFractionDigits: 1, signDisplay: 'exceptZero' });
+const compactMoney = new Intl.NumberFormat(COPY_LOCALE, {
+  style: 'currency',
+  currency: CURRENCY,
+  notation: 'compact',
+  maximumFractionDigits: 1,
+});
+/** "+$12,650.00" / "−$4,800.00", with a real minus sign. */
+const signedMoney = (v: number) => `${v < 0 ? '−' : '+'}${money(Math.abs(v), 2)}`;
+
+const firstKey = (keys: Set<Key>): string | undefined => {
+  const [k] = keys;
+  return k == null ? undefined : String(k);
+};
+
 /* ------------------------------------------------------------------ */
 
+const PERIODS: Array<{ id: Period; spoken: string }> = [
+  { id: '7d', spoken: 'last 7 days' },
+  { id: '4w', spoken: 'last 4 weeks' },
+  { id: '12m', spoken: 'last 12 months' },
+];
+
+/** The hero: net revenue with a period toggle that redraws the chart, then the month split by channel. */
 export function RevenueCard({ level }: CardProps) {
-  const id = useId();
+  const titleId = useId();
+  const [period, setPeriod] = useState<Period>('4w');
+  const data = REVENUE[period];
+  const up = data.delta >= 0;
+  const Trend = up ? IconTrendingUp : IconTrendingDown;
   return (
-    <section className={styles.stack} aria-labelledby={id}>
-      <HiddenHeading id={id} level={level}>
-        Revenue summary
-      </HiddenHeading>
-      <StatTile
-        size="lg"
-        label="Revenue"
-        value="$45,231.89"
-        delta={0.201}
-        deltaLabel="vs last month"
-        sparkline={REVENUE_SERIES}
-      />
-      <div className={styles.pair}>
-        <StatTile size="sm" label="Subscriptions" value="2,350" delta={0.18} deltaLabel="this month" />
-        <StatTile size="sm" label="Churn" value="1.9%" delta={-0.04} positiveIsGood={false} deltaLabel="this month" />
-      </div>
-    </section>
-  );
-}
-
-/** The tiles stand in for a titled card, so the heading outline still gets an entry. */
-function HiddenHeading({ id, level, children }: { id: string; level: Level; children: ReactNode }) {
-  const H = `h${level}` as const;
-  return (
-    <H id={id} className="visually-hidden">
-      {children}
-    </H>
-  );
-}
-
-/* ------------------------------------------------------------------ */
-
-export function SendMoneyCard({ level }: CardProps) {
-  const [amount, setAmount] = useState('250.00');
-  const [recipient, setRecipient] = useState<string>('amara');
-  const person = PEOPLE.find((p) => p.id === recipient);
-  const valid = /^\d+(\.\d{1,2})?$/.test(amount.trim()) && Number(amount) > 0;
-  return (
-    <Card>
-      <form className={styles.contents} onSubmit={(e) => e.preventDefault()} aria-label="Send money">
-        <CardHeader>
-          <CardTitle level={level}>Send money</CardTitle>
-          <CardDescription>Arrives within one working day. No fee.</CardDescription>
-        </CardHeader>
-        <CardContent className={styles.fields}>
-          <Select
-            label="Recipient"
-            selectedKey={recipient}
-            onSelectionChange={(key) => key != null && setRecipient(String(key))}
+    <Card rim>
+      <CardHeader>
+        <Eyebrow tone="brand">After fees</Eyebrow>
+        <CardTitle level={level} id={titleId}>
+          Net revenue
+        </CardTitle>
+        <CardAction>
+          <ToggleButtonGroup
+            aria-label="Period"
+            size="sm"
+            selectedKeys={[period]}
+            disallowEmptySelection
+            onSelectionChange={(keys) => {
+              const key = firstKey(keys);
+              if (key === '7d' || key === '4w' || key === '12m') setPeriod(key);
+            }}
           >
-            {PEOPLE.map((p) => (
-              <SelectItem key={p.id} id={p.id} textValue={p.name} icon={<Avatar size="sm" name={p.name} alt="" />}>
-                {p.name}
-              </SelectItem>
+            {PERIODS.map((p) => (
+              <ToggleButton key={p.id} id={p.id}>
+                {REVENUE[p.id].label}
+                <span className="visually-hidden">, {p.spoken}</span>
+              </ToggleButton>
             ))}
-          </Select>
-          <TextField
-            label="Amount"
-            inputMode="decimal"
-            prefix="$"
-            suffix="USD"
-            value={amount}
-            onChange={setAmount}
-            isInvalid={!valid}
-            errorMessage="Enter an amount, like 25.00"
-          />
-          <TextField label="Reference" placeholder="What’s it for?" defaultValue="Team lunch" />
-        </CardContent>
-        <CardFooter>
-          <Button type="submit" className={styles.grow} isDisabled={!valid}>
-            Send{valid ? ` $${Number(amount).toFixed(2)}` : ''} to {person?.name.split(' ')[0]}
-          </Button>
-        </CardFooter>
-      </form>
+          </ToggleButtonGroup>
+        </CardAction>
+      </CardHeader>
+      <CardContent className={styles.revenue}>
+        <div className={styles.headline} aria-live="polite">
+          <Amount value={data.total} currency={CURRENCY} locale={COPY_LOCALE} size="lg" />
+          <span className={styles.headlineMeta}>
+            <Badge size="sm" tone={up ? 'success' : 'danger'} icon={<Trend aria-hidden />}>
+              <span dir="ltr">{percent.format(data.delta)}</span>
+            </Badge>
+            <span className={styles.muted}>{data.versus}</span>
+          </span>
+        </div>
+        <AreaChart
+          aria-labelledby={titleId}
+          data={data.points}
+          x="x"
+          xLabel={data.xLabel}
+          height={168}
+          series={[
+            { key: 'current', label: 'This period' },
+            { key: 'previous', label: 'Previous period' },
+          ]}
+          format={{ value: (v) => money(v), axis: (v) => compactMoney.format(v) }}
+        />
+        <Separator />
+        {/* One label for the three channels, instead of "in September" under every figure. */}
+        <div className={styles.channels}>
+          <Eyebrow>September by channel</Eyebrow>
+          <StatTileGroup className={styles.split}>
+            {REVENUE_SPLIT.map((s) => (
+              <StatTile
+                key={s.label}
+                variant="ghost"
+                size="sm"
+                label={s.label}
+                value={money(s.value)}
+                delta={s.delta}
+                deltaLabel={<span className="visually-hidden">versus August</span>}
+                positiveIsGood={'positiveIsGood' in s ? s.positiveIsGood : true}
+                sparkline={[...s.spark]}
+              />
+            ))}
+          </StatTileGroup>
+        </div>
+      </CardContent>
     </Card>
   );
 }
 
 /* ------------------------------------------------------------------ */
 
-export function TeamCard({ level }: CardProps) {
+const PERKS = [
+  { icon: <IconClock />, title: 'Minutes, not two days', detail: 'Card sales land as soon as they settle.' },
+  { icon: <IconShieldCheck />, title: 'Same checks as today', detail: 'Every payout still goes through review.' },
+  { icon: <IconPercentage />, title: '1% a payout, capped at $15', detail: 'Only on the payouts you speed up.' },
+];
+
+/** The one feature card per view: brand glow, stars, rim and halo. */
+export function PromoCard({ level }: CardProps) {
   return (
-    <Card>
+    <Card variant="feature" stars>
       <CardHeader>
-        <CardTitle level={level}>Team members</CardTitle>
-        <CardDescription>Invite your team to collaborate.</CardDescription>
-        <CardAction>
-          <Button variant="outline" size="sm">
-            <IconUserPlus aria-hidden />
-            Invite
-          </Button>
-        </CardAction>
+        <span className={styles.promoTop}>
+          <IconTile tint="solid" size="sm">
+            <IconBolt />
+          </IconTile>
+          <Tag tone="brand" size="sm">
+            New
+          </Tag>
+        </span>
+        <CardTitle level={level} className={styles.promoTitle}>
+          Get paid <em>the day you invoice</em>
+        </CardTitle>
+        <CardDescription>Instant payouts move card sales into Operating within minutes, for 1% a payout.</CardDescription>
       </CardHeader>
       <CardContent>
-        <ul className={styles.list} role="list">
-          {PEOPLE.map((p) => (
-            <li key={p.id} className={styles.person}>
-              <Avatar name={p.name} alt="" />
-              <span className={styles.personText}>
-                <span className={styles.strong}>{p.name}</span>
-                <span className={styles.muted}>{p.email}</span>
+        <ul className={styles.perks} role="list">
+          {PERKS.map((p) => (
+            <li key={p.title} className={styles.perk}>
+              <IconTile size="sm" tint="none">
+                {p.icon}
+              </IconTile>
+              <span className={styles.rowText}>
+                <span className={styles.strong}>{p.title}</span>
+                <span className={styles.subtle}>{p.detail}</span>
               </span>
-              <Select aria-label={`Role for ${p.name}`} defaultSelectedKey={p.role} className={styles.roleSelect}>
-                {ROLES.map((r) => (
-                  <SelectItem key={r.id} id={r.id} description={r.description} textValue={r.label}>
-                    {r.label}
-                  </SelectItem>
-                ))}
-              </Select>
             </li>
           ))}
         </ul>
       </CardContent>
+      <CardContent className={styles.promoFigure}>
+        <Eyebrow>Could have landed early in September</Eyebrow>
+        <Amount value={28460} currency={CURRENCY} locale={COPY_LOCALE} size="md" tone="brand" />
+      </CardContent>
+      <CardFooter className={styles.promoActions}>
+        <Button>Turn on</Button>
+        <Button variant="secondary">How it works</Button>
+      </CardFooter>
     </Card>
   );
 }
 
 /* ------------------------------------------------------------------ */
 
-const renewalColumns: DataTableColumn<Renewal>[] = [
-  {
-    id: 'account',
-    header: 'Account',
-    isRowHeader: true,
-    cell: (r) => (
-      <span className={styles.cellStack}>
-        <span className={styles.strong}>{r.account}</span>
-        <span className={styles.muted}>
-          {r.plan} · {r.date}
-        </span>
-      </span>
-    ),
-  },
-  {
-    id: 'status',
-    header: 'Status',
-    cell: (r) => <Badge tone={RENEWAL_STATUS[r.status].tone}>{RENEWAL_STATUS[r.status].label}</Badge>,
-  },
-  { id: 'amount', header: 'Amount', align: 'end', cell: (r) => r.amount },
-];
+const ACCOUNT_ICONS: Record<AccountIcon, ReactNode> = {
+  bank: <IconBuildingBank />,
+  wallet: <IconWallet />,
+  piggy: <IconPiggyBank />,
+  coins: <IconCoins />,
+  card: <IconCreditCard />,
+};
 
-export function RenewalsCard({ level }: CardProps) {
+/** Balances with a 9-week trend each. The sign carries the direction; the colour only repeats it. */
+export function AccountsCard({ level }: CardProps) {
+  const total = ACCOUNTS.reduce((a, b) => a + b.balance, 0);
   return (
     <Card>
       <CardHeader>
-        <CardTitle level={level}>Upcoming renewals</CardTitle>
-        <CardDescription>Subscriptions renewing in the next 30 days.</CardDescription>
-        <CardAction>
-          <Button variant="ghost" size="icon" aria-label="Export renewals">
-            <IconDownload aria-hidden />
-          </Button>
-        </CardAction>
+        <CardTitle level={level}>Accounts</CardTitle>
+        <CardDescription>
+          {money(total)} across {ACCOUNTS.length} accounts
+        </CardDescription>
       </CardHeader>
       <CardContent>
-        <DataTable
-          aria-label="Upcoming renewals"
-          columns={renewalColumns}
-          rows={RENEWALS}
-          getRowId={(r) => r.id}
-          density="compact"
+        <ul className={`${styles.rows} ${styles.accounts}`} role="list">
+          {ACCOUNTS.map((a) => (
+            <li key={a.id} className={styles.row}>
+              <IconTile tint="auto" name={a.name}>
+                {ACCOUNT_ICONS[a.icon]}
+              </IconTile>
+              <span className={styles.rowText}>
+                <span className={styles.strong}>{a.name}</span>
+                <span className={styles.muted}>{a.detail}</span>
+              </span>
+              <Sparkline data={a.trend} tone={a.change >= 0 ? 'success' : 'danger'} showEndDot={false} className={styles.spark} />
+              <span className={styles.rowFigure}>
+                <span className={styles.number}>{money(a.balance)}</span>
+                <span className={styles.change} data-tone={a.change >= 0 ? 'up' : 'down'} dir="ltr">
+                  {percent.format(a.change)}
+                </span>
+              </span>
+            </li>
+          ))}
+        </ul>
+      </CardContent>
+      <CardFooter className={styles.pairFooter}>
+        <Button variant="secondary">
+          <IconArrowsExchange aria-hidden />
+          Move money
+        </Button>
+        <Button variant="secondary">
+          <IconPlus aria-hidden />
+          Add funds
+        </Button>
+      </CardFooter>
+    </Card>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+
+/** Both ends of each meter are figures (spent, left), with the limit in the label, so nothing trails alone. */
+const LIMITS = { cards: { spent: 3120, limit: 5000 }, transfers: { used: 18, free: 25 } };
+
+export function LimitsCard({ level }: CardProps) {
+  const { cards, transfers } = LIMITS;
+  return (
+    <Card>
+      <CardHeader>
+        <CardTitle level={level}>Spend limits</CardTitle>
+        <CardDescription>Team cards reset on October 1.</CardDescription>
+      </CardHeader>
+      <CardContent className={styles.meters}>
+        <Meter
+          variant="card"
+          label={`Team cards, ${money(cards.limit)} a month`}
+          value={cards.spent}
+          maxValue={cards.limit}
+          valueLabel={`${money(cards.spent)} spent`}
+          caption={`${money(cards.limit - cards.spent)} left`}
+        />
+        <Meter
+          variant="card"
+          label={`Free transfers, ${transfers.free} a month`}
+          tone="accent"
+          value={transfers.used}
+          maxValue={transfers.free}
+          valueLabel={`${transfers.used} used`}
+          caption={`${transfers.free - transfers.used} left`}
         />
       </CardContent>
     </Card>
@@ -234,47 +336,62 @@ export function RenewalsCard({ level }: CardProps) {
 
 /* ------------------------------------------------------------------ */
 
-export function TimeOffCard({ level }: CardProps) {
-  const [range, setRange] = useState({ start: parseDate('2026-10-12'), end: parseDate('2026-10-16') });
-  const days = range.end.compare(range.start) + 1;
+export function ApprovalsCard({ level }: CardProps) {
   return (
     <Card>
       <CardHeader>
-        <CardTitle level={level}>Time off</CardTitle>
-        <CardDescription>Pick the days you’ll be away.</CardDescription>
+        <CardTitle level={level}>Approvals</CardTitle>
+        <CardDescription>Payouts over $2,500 need a yes from one of them.</CardDescription>
+      </CardHeader>
+      <CardContent>
+        <PersonChipGroup aria-label="Approvers" size="sm">
+          {APPROVERS.map((name) => (
+            <PersonChip key={name} id={name} name={name} />
+          ))}
+        </PersonChipGroup>
+      </CardContent>
+      <CardFooter divider className={styles.between}>
+        <Badge variant="status" tone="warning">
+          1 payout waiting
+        </Badge>
+        <Button variant="contrast" size="sm">
+          Review
+        </Button>
+      </CardFooter>
+    </Card>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+
+const dayFormat = new DateFormatter(COPY_LOCALE, { month: 'short', day: 'numeric', timeZone: 'UTC' });
+const dayLabel = (d: CalendarDate) => dayFormat.format(d.toDate('UTC'));
+
+export function ScheduleCard({ level }: CardProps) {
+  const [date, setDate] = useState<CalendarDate>(() => parseDate('2026-10-02'));
+  const due = SCHEDULE.filter((s) => s.date === date.toString());
+  return (
+    <Card>
+      <CardHeader>
+        <CardTitle level={level}>Scheduled</CardTitle>
+        <CardDescription>{SCHEDULE.length} payments go out in October.</CardDescription>
       </CardHeader>
       <CardContent className={styles.center}>
-        <RangeCalendar aria-label="Time off dates" value={range} onChange={setRange} />
+        <Calendar aria-label="Payment schedule" value={date} onChange={(d) => setDate(d as CalendarDate)} />
       </CardContent>
-      <CardFooter divider className={styles.between}>
-        <span className={styles.muted} aria-live="polite">
-          {days} {days === 1 ? 'day' : 'days'} selected
-        </span>
-        <Button size="sm">Request</Button>
-      </CardFooter>
-    </Card>
-  );
-}
-
-/* ------------------------------------------------------------------ */
-
-export function NotificationsCard({ level }: CardProps) {
-  return (
-    <Card>
-      <CardHeader>
-        <CardTitle level={level}>Notifications</CardTitle>
-        <CardDescription>Choose what you hear about, and where.</CardDescription>
-      </CardHeader>
-      <CardContent className={styles.switches}>
-        <Switch defaultSelected description="When someone mentions you or replies to your comment.">
-          Mentions
-        </Switch>
-        <Separator />
-        <Switch defaultSelected description="A summary of activity in your workspace, every Monday.">
-          Weekly digest
-        </Switch>
-        <Separator />
-        <Switch description="New features and improvements, about once a month.">Product updates</Switch>
+      <CardContent variant="inset" className={styles.schedule} aria-live="polite">
+        {due.length ? (
+          due.map((s) => (
+            <span key={s.title} className={styles.scheduleRow}>
+              <span className={styles.strong}>
+                {s.title}, {dayLabel(date)}
+              </span>
+              <span className={styles.number}>{signedMoney(s.amount)}</span>
+            </span>
+          ))
+        ) : (
+          <span className={styles.muted}>Nothing goes out on {dayLabel(date)}.</span>
+        )}
       </CardContent>
     </Card>
   );
@@ -282,34 +399,87 @@ export function NotificationsCard({ level }: CardProps) {
 
 /* ------------------------------------------------------------------ */
 
-export function CreateAccountCard({ level }: CardProps) {
+const LIMIT = 2500;
+
+/** The amount as typed ("4800", "4,800.5") → a number, or NaN when it isn't one. Commas are grouping only. */
+const parseAmount = (text: string) => {
+  const t = text.trim().replaceAll(',', '');
+  return /^\d+(\.\d{1,2})?$/.test(t) ? Number(t) : Number.NaN;
+};
+/** Grouped, two decimals, no currency: the field's "$" prefix is the one currency cue ("4,800.00"). */
+const amountText = new Intl.NumberFormat(COPY_LOCALE, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
+export function TransferCard({ level }: CardProps) {
+  const titleId = useId();
+  const speedId = useId();
+  const [payee, setPayee] = useState<string>('lumen');
+  const [amount, setAmount] = useState(() => amountText.format(4800));
+  const [speed, setSpeed] = useState('standard');
+  const value = parseAmount(amount);
+  const valid = value > 0;
+  const name = PAYEES.find((p) => p.id === payee)?.name ?? '';
   return (
     <Card>
-      <form className={styles.contents} onSubmit={(e) => e.preventDefault()} aria-label="Create an account">
+      <form className={styles.contents} onSubmit={(e) => e.preventDefault()} aria-labelledby={titleId}>
         <CardHeader>
-          <CardTitle level={level}>Create an account</CardTitle>
-          <CardDescription>Enter your email below to create your account.</CardDescription>
+          <CardTitle level={level} id={titleId}>
+            Pay a supplier
+          </CardTitle>
+          <CardDescription>From Operating ·· 4821</CardDescription>
         </CardHeader>
         <CardContent className={styles.fields}>
-          <div className={styles.pair}>
-            <Button variant="outline">
-              <IconBuildingBank aria-hidden />
-              SSO
-            </Button>
-            <Button variant="outline">
-              <IconKey aria-hidden />
-              Passkey
-            </Button>
+          <Select label="Pay to" selectedKey={payee} onSelectionChange={(key) => key != null && setPayee(String(key))}>
+            {PAYEES.map((p) => (
+              <SelectItem
+                key={p.id}
+                id={p.id}
+                textValue={p.name}
+                description={p.detail}
+                icon={<Avatar size="sm" name={p.name} alt="" />}
+              >
+                {p.name}
+              </SelectItem>
+            ))}
+          </Select>
+          {/* No NumberField in Strata yet, so the text is regrouped when you leave the field: type "4800", read
+              "4,800.00". One currency cue (the "$" prefix); the card's copy already says the account is in USD. */}
+          <TextField
+            label="Amount"
+            inputMode="decimal"
+            prefix="$"
+            value={amount}
+            onChange={setAmount}
+            onBlur={() => valid && setAmount(amountText.format(value))}
+            isInvalid={!valid}
+            errorMessage="Enter an amount, like 250.00"
+            className={styles.amount}
+          />
+          <div className={styles.field}>
+            <Label id={speedId} elementType="span">
+              Arrives
+            </Label>
+            <ToggleButtonGroup
+              aria-labelledby={speedId}
+              size="sm"
+              selectedKeys={[speed]}
+              disallowEmptySelection
+              onSelectionChange={(keys) => setSpeed(firstKey(keys) ?? 'standard')}
+              className={styles.segmented}
+            >
+              <ToggleButton id="standard">Tomorrow, free</ToggleButton>
+              <ToggleButton id="instant">In minutes, $2</ToggleButton>
+            </ToggleButtonGroup>
           </div>
-          <Separator label="or continue with" />
-          <TextField label="Email" type="email" autoComplete="email" placeholder="you@example.com" />
-          <TextField label="Password" type="password" autoComplete="new-password" description="At least 12 characters." />
-          <Checkbox>I agree to the terms and privacy policy</Checkbox>
         </CardContent>
-        <CardFooter>
-          <Button type="submit" className={styles.grow}>
-            Create account
+        <CardFooter className={styles.submit}>
+          <Button type="submit" isDisabled={!valid}>
+            {valid ? `Send ${money(value, 2)}` : 'Send'}
           </Button>
+          <span className={styles.note} aria-live="polite">
+            {valid && value > LIMIT
+              ? `Over ${money(LIMIT)}, so it waits for an approver.`
+              : `${name.split(' ')[0]} gets it ${speed === 'instant' ? 'in minutes' : 'tomorrow'}.`}
+          </span>
         </CardFooter>
       </form>
     </Card>
@@ -318,102 +488,32 @@ export function CreateAccountCard({ level }: CardProps) {
 
 /* ------------------------------------------------------------------ */
 
-export function ReportIssueCard({ level }: CardProps) {
-  return (
-    <Card>
-      <form className={styles.contents} onSubmit={(e) => e.preventDefault()} aria-label="Report an issue">
-        <CardHeader>
-          <CardTitle level={level}>Report an issue</CardTitle>
-          <CardDescription>What area are you having problems with?</CardDescription>
-        </CardHeader>
-        <CardContent className={`${styles.fields} ${styles.fill}`}>
-          <div className={styles.pair}>
-            <Select label="Area" defaultSelectedKey="billing">
-              <SelectItem id="billing">Billing</SelectItem>
-              <SelectItem id="account">Account</SelectItem>
-              <SelectItem id="integrations">Integrations</SelectItem>
-              <SelectItem id="other">Something else</SelectItem>
-            </Select>
-            <Select label="Severity" defaultSelectedKey="medium">
-              <SelectItem id="low">Low</SelectItem>
-              <SelectItem id="medium">Medium</SelectItem>
-              <SelectItem id="high">High</SelectItem>
-              <SelectItem id="critical">Critical</SelectItem>
-            </Select>
-          </div>
-          <TextField label="Subject" placeholder="I need help with…" />
-          <TextArea label="Description" placeholder="Include anything that helps us reproduce it." rows={3} />
-        </CardContent>
-        <CardFooter className={styles.between}>
-          <Button variant="ghost">Cancel</Button>
-          <Button type="submit">Submit</Button>
-        </CardFooter>
-      </form>
-    </Card>
-  );
-}
-
-/* ------------------------------------------------------------------ */
-
-const sampleFile = (name: string, kb: number, type: string) =>
-  new File([new Uint8Array(kb * 1024)], name, { type, lastModified: 0 });
-
-export function UploadCard({ level }: CardProps) {
-  const [entries, setEntries] = useState<FileUploadEntry[]>(() => [
-    { file: sampleFile('signed-agreement.pdf', 842, 'application/pdf'), progress: 100 },
-    { file: sampleFile('receipt-october.jpg', 2310, 'image/jpeg'), progress: 64 },
-  ]);
+export function AlertsCard({ level }: CardProps) {
   return (
     <Card>
       <CardHeader>
-        <CardTitle level={level}>Upload documents</CardTitle>
-        <CardDescription>Attach receipts or signed paperwork.</CardDescription>
-      </CardHeader>
-      <CardContent>
-        <FileUpload
-          label="Attachments"
-          acceptedFileTypes={['image/*', '.pdf']}
-          maxSize={20 * 1024 * 1024}
-          allowsMultiple
-          files={entries}
-          onChange={(files) => setEntries(files.map((file) => entries.find((e) => e.file === file) ?? { file, progress: 100 }))}
-        />
-      </CardContent>
-    </Card>
-  );
-}
-
-/* ------------------------------------------------------------------ */
-
-export function QuickActionsCard({ level }: CardProps) {
-  return (
-    <Card>
-      <CardHeader>
-        <CardTitle level={level}>Ask or jump to</CardTitle>
-        <CardDescription>Search, run a command or ask a question.</CardDescription>
+        <CardTitle level={level}>Alerts</CardTitle>
+        <CardDescription>Push and email, as it happens.</CardDescription>
         <CardAction>
-          <KbdGroup>
-            <Kbd>⌘</Kbd>
-            <Kbd>K</Kbd>
-          </KbdGroup>
+          <IconTile tint="warning" size="sm">
+            <IconAlertTriangle />
+          </IconTile>
         </CardAction>
       </CardHeader>
-      <CardContent className={styles.fields}>
-        <SearchField aria-label="Search or ask" placeholder="Search or ask a question…" />
-        <Menu aria-label="Suggestions" className={styles.menu}>
-          <MenuItem id="doc" icon={<IconFileText />} shortcut="⌘N">
-            New document
-          </MenuItem>
-          <MenuItem id="invite" icon={<IconUsers />} shortcut="⌘I">
-            Invite teammates
-          </MenuItem>
-          <MenuItem id="billing" icon={<IconCreditCard />} shortcut="⌘B">
-            Billing
-          </MenuItem>
-          <MenuItem id="settings" icon={<IconSettings />} shortcut="⌘,">
-            Settings
-          </MenuItem>
-        </Menu>
+      <CardContent className={styles.switches}>
+        <Switch defaultSelected description="Before anything over $2,500 leaves an account.">
+          Large payouts
+        </Switch>
+        <Separator />
+        <Switch defaultSelected description="When Operating drops under $10,000.">
+          Low balance
+        </Switch>
+        <Separator />
+        <Switch defaultSelected description="A team card is declined, with the reason.">
+          Declined cards
+        </Switch>
+        <Separator />
+        <Switch description="Every Monday: what came in, what went out.">Weekly summary</Switch>
       </CardContent>
     </Card>
   );
@@ -421,79 +521,43 @@ export function QuickActionsCard({ level }: CardProps) {
 
 /* ------------------------------------------------------------------ */
 
-export function PaymentMethodCard({ level }: CardProps) {
-  return (
-    <Card>
-      <form className={styles.contents} onSubmit={(e) => e.preventDefault()} aria-label="Payment method">
-        <CardHeader>
-          <CardTitle level={level}>Payment method</CardTitle>
-          <CardDescription>Add a new payment method to your account.</CardDescription>
-        </CardHeader>
-        <CardContent className={`${styles.fields} ${styles.fill}`}>
-          <RadioGroup variant="card" aria-label="Payment type" defaultValue="card">
-            <Radio value="card" description="Visa, Mastercard, Amex">
-              <span className={styles.radioLabel}>
-                <IconCreditCard aria-hidden className={styles.icon} />
-                Card
-              </span>
-            </Radio>
-            <Radio value="bank" description="2–3 working days">
-              <span className={styles.radioLabel}>
-                <IconBuildingBank aria-hidden className={styles.icon} />
-                Bank transfer
-              </span>
-            </Radio>
-            <Radio value="wallet" description="Pay with a saved balance">
-              <span className={styles.radioLabel}>
-                <IconWallet aria-hidden className={styles.icon} />
-                Wallet
-              </span>
-            </Radio>
-          </RadioGroup>
-          <TextField
-            label="Card number"
-            autoComplete="cc-number"
-            inputMode="numeric"
-            placeholder="1234 1234 1234 1234"
-            suffix={<IconLock aria-hidden className={styles.icon} />}
-          />
-          <div className={styles.pair}>
-            <TextField label="Expires" autoComplete="cc-exp" placeholder="MM / YY" />
-            <TextField label="CVC" autoComplete="cc-csc" inputMode="numeric" placeholder="123" />
-          </div>
-        </CardContent>
-        <CardFooter>
-          <Button type="submit" className={styles.grow}>
-            Continue
-          </Button>
-        </CardFooter>
-      </form>
-    </Card>
-  );
-}
-
-/* ------------------------------------------------------------------ */
-
-export function CookieCard({ level }: CardProps) {
+export function ActivityCard({ level }: CardProps) {
   return (
     <Card>
       <CardHeader>
-        <CardTitle level={level}>Cookie settings</CardTitle>
-        <CardDescription>Manage the cookies this site may use.</CardDescription>
+        <CardTitle level={level}>Activity</CardTitle>
+        <CardDescription>Across all accounts, newest first.</CardDescription>
+        <CardAction>
+          <Button variant="ghost" size="sm">
+            View all
+          </Button>
+        </CardAction>
       </CardHeader>
-      <CardContent className={`${styles.switches} ${styles.fill}`}>
-        <Switch isSelected isReadOnly description="Needed to sign in and keep the site secure. Always on.">
-          Strictly necessary
-        </Switch>
-        <Switch defaultSelected description="Remember your preferences, like language and layout.">
-          Functional
-        </Switch>
-        <Switch description="Help us understand how the site is used, anonymously.">Performance</Switch>
+      <CardContent>
+        <ul className={styles.rows} role="list">
+          {ACTIVITY.map((a) => {
+            const incoming = a.amount > 0;
+            const status = ACTIVITY_STATUS[a.status];
+            return (
+              <li key={a.id} className={styles.row}>
+                <IconTile size="sm" tint={incoming ? 'success' : 'none'}>
+                  {incoming ? <IconArrowDownLeft className={styles.flip} /> : <IconArrowUpRight className={styles.flip} />}
+                </IconTile>
+                <span className={styles.rowText}>
+                  <span className={styles.strong}>{a.title}</span>
+                  <span className={styles.muted}>{a.meta}</span>
+                </span>
+                <span className={styles.rowFigure}>
+                  <span className={styles.number}>{signedMoney(a.amount)}</span>
+                  <Badge variant="status" tone={status.tone} size="sm">
+                    {status.label}
+                  </Badge>
+                </span>
+              </li>
+            );
+          })}
+        </ul>
       </CardContent>
-      <CardFooter divider className={styles.between}>
-        <Button variant="outline">Reject all</Button>
-        <Button>Save preferences</Button>
-      </CardFooter>
     </Card>
   );
 }

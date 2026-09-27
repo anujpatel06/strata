@@ -1,7 +1,7 @@
 'use client';
 
 import { Link } from '@strata/react';
-import { IconExternalLink } from '@tabler/icons-react';
+import { IconExternalLink } from '@strata/icons';
 
 export default function Example() {
   return (

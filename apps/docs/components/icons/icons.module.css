@@ -1,0 +1,426 @@
+/* Icons page: a specimen row on the construction grid, the style as three display figures, then the sheet. */
+
+.leadEm {
+  font-family: var(--strata-font-heading);
+  font-style: italic;
+  color: var(--strata-color-text-default);
+}
+
+/* ---- Specimen: the hero (check) spans two rows; the other four sit beside it ---- */
+.specimen {
+  display: grid;
+  gap: var(--strata-space-3);
+}
+.featured {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--strata-space-3);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+@media (min-width: 768px) {
+  .featured {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+  .feature[data-hero] {
+    grid-column: span 2;
+    grid-row: span 2;
+  }
+}
+.feature[data-hero] {
+  grid-column: 1 / -1;
+}
+@media (min-width: 768px) {
+  .feature[data-hero] {
+    grid-column: span 2;
+  }
+}
+
+.feature {
+  display: grid;
+  grid-template-rows: 1fr auto;
+  gap: var(--strata-space-3);
+  padding: var(--strata-space-3);
+  border: 1px solid transparent;
+  border-radius: var(--strata-radius-container);
+  background: var(--strata-color-surface-raised);
+  box-shadow:
+    0 0 0 var(--strata-hairline) var(--strata-color-border-subtle),
+    var(--strata-shadow-raised);
+}
+@supports (corner-shape: squircle) {
+  .feature {
+    corner-shape: squircle;
+  }
+}
+
+.featureArt {
+  position: relative;
+  align-self: center;
+  display: grid;
+  place-items: center;
+  aspect-ratio: 1;
+  inline-size: 100%;
+  max-inline-size: calc(var(--strata-space-16) * 2.5);
+  justify-self: center;
+  color: var(--strata-color-text-default);
+}
+.feature[data-hero] .featureArt {
+  max-inline-size: calc(var(--strata-space-16) * 5.5);
+}
+.construction,
+.featureGlyph {
+  grid-area: 1 / 1;
+  inline-size: 100%;
+  block-size: 100%;
+}
+.construction {
+  overflow: visible;
+  fill: none;
+}
+/* Construction lines are thinner than the glyph by an order of magnitude, so the drawing reads first. */
+.gridLines {
+  stroke: color-mix(in oklab, var(--strata-color-text-default) 9%, transparent);
+  stroke-width: 0.04;
+}
+.liveArea {
+  stroke: color-mix(in oklab, var(--strata-color-text-default) 28%, transparent);
+  stroke-width: 0.06;
+  stroke-dasharray: 0.3 0.25;
+}
+.keyline {
+  stroke: color-mix(in oklab, var(--strata-color-text-default) 22%, transparent);
+  stroke-width: 0.06;
+}
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: view()) {
+    .featureGlyph {
+      animation: glyph-arrive linear both;
+      animation-timeline: view();
+      animation-range: entry 0% cover 30%;
+    }
+  }
+}
+@keyframes glyph-arrive {
+  from {
+    opacity: 0;
+    scale: 0.92;
+  }
+}
+
+.featureCaption {
+  display: grid;
+  gap: var(--strata-space-1);
+  min-block-size: calc(var(--strata-space-10) + var(--strata-space-1));
+}
+.featureName.featureName {
+  padding: 0;
+  background: none;
+  font-family: var(--strata-font-mono);
+  font-size: var(--strata-font-size-xs);
+  font-weight: var(--strata-font-weight-medium);
+  color: var(--strata-color-text-default);
+}
+.featureRule {
+  color: var(--strata-color-text-subtle);
+  font-size: var(--strata-font-size-sm);
+  letter-spacing: var(--strata-font-tracking-sm);
+  line-height: var(--strata-line-height-snug);
+  text-wrap: pretty;
+}
+.feature[data-hero] .featureRule {
+  font-family: var(--strata-font-heading);
+  font-size: var(--strata-font-size-lg);
+  letter-spacing: var(--strata-font-tracking-lg);
+  color: var(--strata-color-text-default);
+}
+.specimenCaption {
+  color: var(--strata-color-text-subtle);
+  font-size: var(--strata-font-size-sm);
+  letter-spacing: var(--strata-font-tracking-sm);
+}
+
+/* ---- The style: three facts as display figures ---- */
+.facts {
+  display: grid;
+  gap: var(--strata-space-4);
+  margin: 0;
+}
+@media (min-width: 640px) {
+  .facts {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+.fact {
+  display: grid;
+  gap: var(--strata-space-1);
+  padding-block-start: var(--strata-space-3);
+  box-shadow: inset 0 var(--strata-hairline) 0 0 var(--strata-color-border-default);
+}
+.fact dt {
+  color: var(--strata-color-text-subtle);
+  font-size: var(--strata-font-size-xs);
+  font-weight: var(--strata-font-weight-medium);
+  letter-spacing: var(--strata-font-tracking-caps);
+  text-transform: uppercase;
+}
+.fact dd {
+  display: grid;
+  gap: var(--strata-space-1);
+  margin: 0;
+}
+.factNumber {
+  font-family: var(--strata-font-heading);
+  font-size: var(--strata-font-size-5xl);
+  font-weight: var(--strata-font-weight-semibold);
+  letter-spacing: var(--strata-font-tracking-5xl);
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+.factUnit code {
+  white-space: nowrap;
+}
+.factUnit {
+  color: var(--strata-color-text-subtle);
+  font-size: var(--strata-font-size-sm);
+  letter-spacing: var(--strata-font-tracking-sm);
+  line-height: var(--strata-line-height-snug);
+}
+
+.rules {
+  display: grid;
+  gap: var(--strata-space-4) var(--strata-space-8);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: var(--strata-font-size-md);
+  letter-spacing: var(--strata-font-tracking-md);
+  line-height: var(--strata-line-height-normal);
+  color: var(--strata-color-text-subtle);
+}
+@media (min-width: 640px) {
+  .rules {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+.rules strong {
+  display: block;
+  color: var(--strata-color-text-default);
+  font-family: var(--strata-font-heading);
+  font-weight: var(--strata-font-weight-semibold);
+  font-size: var(--strata-font-size-lg);
+  letter-spacing: var(--strata-font-tracking-lg);
+}
+
+.inlineLink {
+  color: var(--strata-color-text-default);
+  font-weight: var(--strata-font-weight-medium);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-decoration-color: var(--strata-color-border-strong);
+  text-underline-offset: 0.25em;
+}
+.inlineLink:hover {
+  text-decoration-color: currentColor;
+}
+
+/* ---- Gallery ---- */
+.gallery {
+  display: grid;
+  gap: var(--strata-space-6);
+}
+
+/* Sticky under the site header; glass, so only text.default / text.subtle sit on it (CONVENTIONS, sticky chrome). */
+.toolbar {
+  position: sticky;
+  inset-block-start: var(--docs-header-height);
+  z-index: 2;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: var(--strata-space-3) var(--strata-space-6);
+  margin-inline: calc(var(--strata-space-3) * -1);
+  padding: var(--strata-space-3);
+  border-radius: var(--strata-radius-container);
+  background: var(--strata-glass-bg);
+  -webkit-backdrop-filter: blur(var(--strata-glass-blur)) saturate(1.6);
+  backdrop-filter: blur(var(--strata-glass-blur)) saturate(1.6);
+}
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .toolbar {
+    background: var(--strata-color-surface-raised);
+  }
+}
+.search.search {
+  flex: 1 1 calc(var(--strata-space-16) * 4);
+  min-inline-size: 0;
+}
+.tools {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: var(--strata-space-3) var(--strata-space-6);
+}
+.sizeToggle.sizeToggle {
+  min-inline-size: calc(var(--strata-space-8) + var(--strata-space-1));
+  font-variant-numeric: tabular-nums;
+}
+.stroke.stroke {
+  inline-size: calc(var(--strata-space-16) * 2.5);
+}
+
+.count {
+  margin-block-start: calc(var(--strata-space-3) * -1);
+  color: var(--strata-color-text-subtle);
+  font-size: var(--strata-font-size-sm);
+  letter-spacing: var(--strata-font-tracking-sm);
+}
+.count strong {
+  color: var(--strata-color-text-default);
+  font-weight: var(--strata-font-weight-semibold);
+  font-variant-numeric: tabular-nums;
+}
+
+.group {
+  display: grid;
+  gap: var(--strata-space-3);
+  scroll-margin-block-start: calc(var(--docs-header-height) + var(--strata-space-16) * 2);
+}
+.groupTitle {
+  display: flex;
+  align-items: baseline;
+  gap: var(--strata-space-2);
+  font-family: var(--strata-font-heading);
+  font-size: var(--strata-font-size-lg);
+  letter-spacing: var(--strata-font-tracking-lg);
+  font-weight: var(--strata-font-weight-semibold);
+}
+.groupCount {
+  color: var(--strata-color-text-subtle);
+  font-family: var(--strata-font-body);
+  font-size: var(--strata-font-size-sm);
+  font-weight: var(--strata-font-weight-regular);
+  font-variant-numeric: tabular-nums;
+}
+
+/* A specimen sheet: cells share hairlines. The sheet draws the top and start edges; each cell draws its own end
+   and bottom edges, so every line is drawn once (never doubled). */
+.sheet {
+  --_size: 24px;
+  --_stroke: 1.5;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(calc(var(--strata-space-16) * 1.75), 1fr));
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  box-shadow:
+    inset 0 var(--strata-hairline) 0 0 var(--strata-color-border-subtle),
+    inset var(--strata-hairline) 0 0 0 var(--strata-color-border-subtle);
+}
+.sheet:dir(rtl) {
+  box-shadow:
+    inset 0 var(--strata-hairline) 0 0 var(--strata-color-border-subtle),
+    inset calc(var(--strata-hairline) * -1) 0 0 0 var(--strata-color-border-subtle);
+}
+.cell {
+  display: grid;
+  box-shadow:
+    inset calc(var(--strata-hairline) * -1) 0 0 0 var(--strata-color-border-subtle),
+    inset 0 calc(var(--strata-hairline) * -1) 0 0 var(--strata-color-border-subtle);
+}
+.cell:dir(rtl) {
+  box-shadow:
+    inset var(--strata-hairline) 0 0 0 var(--strata-color-border-subtle),
+    inset 0 calc(var(--strata-hairline) * -1) 0 0 var(--strata-color-border-subtle);
+}
+
+.cellButton {
+  position: relative;
+  display: grid;
+  grid-template-rows: auto 1fr;
+  align-content: start;
+  justify-items: center;
+  gap: var(--strata-space-3);
+  min-block-size: calc(var(--strata-space-16) * 1.75);
+  margin: 1px;
+  padding-block: var(--strata-space-5) var(--strata-space-3);
+  padding-inline: var(--strata-space-2);
+  border: 0;
+  border-radius: var(--strata-radius-badge);
+  background: transparent;
+  color: var(--strata-color-text-default);
+  cursor: pointer;
+  transition:
+    background-color var(--strata-motion-duration-fast) var(--strata-motion-easing),
+    outline-offset var(--strata-motion-duration-fast) var(--strata-motion-easing);
+}
+.cellButton[data-hovered] {
+  background: var(--docs-hover);
+}
+.cellButton[data-focus-visible] {
+  outline: 2px solid var(--strata-color-focus-ring);
+  outline-offset: -2px;
+}
+.glyph {
+  display: grid;
+  place-items: center;
+  block-size: max(var(--_size), calc(var(--strata-space-8) + var(--strata-space-1)));
+}
+.glyph svg {
+  inline-size: var(--_size);
+  block-size: var(--_size);
+  stroke-width: var(--_stroke);
+}
+.cellName {
+  max-inline-size: 100%;
+  color: var(--strata-color-text-subtle);
+  font-family: var(--strata-font-mono);
+  font-size: var(--strata-font-size-xs);
+  line-height: var(--strata-line-height-snug);
+  text-align: center;
+  overflow-wrap: anywhere;
+  transition: color var(--strata-motion-duration-fast) var(--strata-motion-easing);
+}
+.cellButton[data-hovered] .cellName {
+  color: var(--strata-color-text-default);
+}
+.cellCopy {
+  position: absolute;
+  inset-block-start: var(--strata-space-2);
+  inset-inline-end: var(--strata-space-2);
+  inline-size: var(--strata-space-4);
+  block-size: var(--strata-space-4);
+  color: var(--strata-color-text-subtle);
+  opacity: 0;
+  transition: opacity var(--strata-motion-duration-fast) var(--strata-motion-easing);
+}
+.cellButton:is([data-hovered], [data-focus-visible]) .cellCopy {
+  opacity: 1;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .glyph svg {
+    transition: translate var(--strata-motion-duration-spring) var(--strata-motion-spring);
+  }
+  .cellButton[data-hovered] .glyph svg {
+    translate: 0 calc(var(--strata-space-1) / -2);
+  }
+  .cellButton {
+    transition:
+      background-color var(--strata-motion-duration-fast) var(--strata-motion-easing),
+      outline-offset var(--strata-motion-duration-fast) var(--strata-motion-easing),
+      scale var(--strata-motion-duration-spring) var(--strata-motion-spring);
+  }
+  .cellButton[data-pressed] {
+    scale: 0.96;
+  }
+}
+
+.empty.empty {
+  padding-block: var(--strata-space-12);
+}
+
+.toastCode {
+  font-family: var(--strata-font-mono);
+  font-size: var(--strata-font-size-xs);
+}

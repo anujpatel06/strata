@@ -1,6 +1,6 @@
 import { notFound } from 'next/navigation';
 import { DOC_CONTENT } from '@/lib/doc-content';
-import { getDocPage } from '@/lib/docs';
+import { DOC_GROUPS, getDocPage } from '@/lib/docs';
 import { readRepoFile } from '@/lib/repo';
 import { githubBlob } from '@/lib/site';
 import { tocFromMdx } from '@/lib/toc';
@@ -14,7 +14,8 @@ export async function MdxPage({ slug }: { slug: string }) {
   const { default: Content } = await load();
   const repoFile = `apps/docs/content/docs/${slug}.mdx`;
   const source = readRepoFile(...repoFile.split('/')) ?? '';
-  const crumbs = slug === 'index' ? [{ label: 'Docs' }] : [{ href: '/docs', label: 'Docs' }, { label: page.title }];
+  const group = DOC_GROUPS.find((g) => g.id === page.group)?.label ?? 'Docs';
+  const crumbs = slug === 'index' ? [{ label: 'Docs' }, { label: group }] : [{ href: '/docs', label: 'Docs' }, { label: group }];
   return (
     <DocsPage
       href={page.href}

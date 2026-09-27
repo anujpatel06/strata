@@ -1,7 +1,7 @@
 'use client';
 
 import { Button, Tooltip, TooltipTrigger } from '@strata/react';
-import { IconCopy, IconDownload, IconShare, IconTrash } from '@tabler/icons-react';
+import { IconCopy, IconDownload, IconShare, IconTrash } from '@strata/icons';
 
 const actions = [
   { label: 'Copy reference', icon: IconCopy },

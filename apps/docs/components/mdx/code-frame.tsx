@@ -1,6 +1,6 @@
 'use client';
 
-import { IconCheck, IconCopy } from '@tabler/icons-react';
+import { IconCheck, IconCopy } from '@strata/icons';
 import { Button, Tooltip, TooltipTrigger } from '@strata/react';
 import { useEffect, useRef, useState, type ReactNode } from 'react';
 import styles from './code.module.css';
@@ -46,7 +46,7 @@ export function CopyButton({ getText, label = 'Copy code', className }: { getTex
         className={[styles.copy, className].filter(Boolean).join(' ')}
         onPress={async () => setState((await copyText(getText())) ? 'copied' : 'failed')}
       >
-        {state === 'copied' ? <IconCheck aria-hidden stroke={2} /> : <IconCopy aria-hidden stroke={1.75} />}
+        {state === 'copied' ? <IconCheck aria-hidden stroke={2} /> : <IconCopy aria-hidden />}
       </Button>
       <Tooltip>{tip}</Tooltip>
     </TooltipTrigger>

@@ -105,74 +105,114 @@
   gap: var(--strata-space-3);
 }
 
-/* ---- Tenant grid ---- */
+/* ---- Tenant grid: each tenant as a brand specimen ---- */
 .tenants {
   display: grid;
   gap: var(--strata-space-4);
 }
 @media (min-width: 640px) {
   .tenants {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
 .tenant {
-  display: grid;
-  align-content: start;
-  gap: var(--strata-space-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-6);
   padding: var(--strata-card-inset);
-  border: 1px solid var(--strata-color-border-subtle);
+  border: 1px solid transparent;
   border-radius: var(--strata-radius-container);
-  background: var(--strata-color-surface-default);
+  background: var(--strata-color-surface-raised);
+  /* Hairline edge as a shadow (Chrome rounds sub-pixel borders up), plus the soft raised depth. */
+  box-shadow:
+    0 0 0 var(--strata-hairline) var(--strata-color-border-subtle),
+    var(--strata-shadow-raised);
+}
+@supports (corner-shape: squircle) {
+  .tenant {
+    corner-shape: squircle;
+  }
 }
 
+/* Brand line: mark, name in the brand's heading face, industry pushed to the far edge. */
 .tenantHead {
   display: flex;
   align-items: center;
   gap: var(--strata-space-3);
 }
 .tenantMark {
-  inline-size: var(--strata-space-8);
-  block-size: var(--strata-space-8);
+  flex: none;
+  inline-size: var(--strata-space-6);
+  block-size: var(--strata-space-6);
   border-radius: var(--strata-radius-button);
   background: var(--strata-color-action-primary-bg);
+  box-shadow: var(--strata-shadow-highlight);
 }
 .tenantName {
+  margin: 0;
   font-family: var(--strata-font-heading);
   font-size: var(--strata-font-size-lg);
   font-weight: var(--strata-font-weight-semibold);
+  letter-spacing: var(--strata-font-tracking-lg);
   line-height: var(--strata-line-height-tight);
 }
 .tenantIndustry {
+  margin: 0;
+  margin-inline-start: auto;
   color: var(--strata-color-text-subtle);
   font-size: var(--strata-font-size-sm);
+  letter-spacing: var(--strata-font-tracking-sm);
+  white-space: nowrap;
 }
 
-.tenantActions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--strata-space-2);
-}
-
-.tenantFacts {
+/* The product moment is the hero: the brand's own type at display size. */
+.moment {
   display: grid;
+  flex: 1;
+  align-content: start;
   gap: var(--strata-space-2);
+}
+.momentHeadline {
   margin: 0;
-  padding-block-start: var(--strata-space-3);
-  border-block-start: 1px solid var(--strata-color-border-subtle);
-  font-size: var(--strata-font-size-sm);
+  font-family: var(--strata-font-heading);
+  font-size: var(--strata-font-size-3xl);
+  font-weight: var(--strata-font-weight-regular);
+  letter-spacing: var(--strata-font-tracking-3xl);
+  line-height: var(--strata-line-height-tight);
+  text-wrap: balance;
 }
-.tenantFacts > div {
-  display: flex;
-  justify-content: space-between;
-  gap: var(--strata-space-2);
+.momentHeadline em {
+  color: var(--strata-color-text-brand);
+  font-style: italic;
 }
-.tenantFacts dt {
+.momentNote {
+  margin: 0;
   color: var(--strata-color-text-subtle);
+  font-size: var(--strata-font-size-sm);
+  letter-spacing: var(--strata-font-tracking-sm);
 }
-.tenantFacts dd {
+
+/* The primary ramp, light to dark, as one strip. Decorative: the caption carries the facts. */
+.ramp {
+  display: flex;
+  overflow: hidden;
+  block-size: var(--strata-space-2);
+  border-radius: var(--strata-radius-pill);
+}
+.ramp > span {
+  flex: 1;
+}
+
+.tenantCaption {
+  overflow: hidden;
   margin: 0;
-  text-align: end;
+  margin-block-start: calc(var(--strata-space-4) * -1);
+  color: var(--strata-color-text-subtle);
+  font-size: var(--strata-font-size-xs);
+  letter-spacing: var(--strata-font-tracking-xs);
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 /* Roles table: show the swatch for the scheme the page is in. */

@@ -1,7 +1,7 @@
 'use client';
 
 import { Button } from '@strata/react';
-import { IconArrowRight, IconDownload, IconUpload } from '@tabler/icons-react';
+import { IconArrowRight, IconDownload, IconUpload } from '@strata/icons';
 
 export default function Example() {
   return (

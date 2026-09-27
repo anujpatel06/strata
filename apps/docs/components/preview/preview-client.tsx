@@ -7,7 +7,7 @@ import {
   IconSun,
   IconTextDirectionLtr,
   IconTextDirectionRtl,
-} from '@tabler/icons-react';
+} from '@strata/icons';
 import {
   Tab,
   TabList,
@@ -99,6 +99,7 @@ export interface PreviewClientProps {
 export function PreviewClient({ name, label, align, tenants, code }: PreviewClientProps) {
   const Example = examples[name];
   const siteScheme = useSiteScheme();
+  const [tab, setTab] = useState<Key>('preview');
   const [tenantId, setTenantId] = useState(tenants[0]?.id ?? 'house');
   /** undefined = follow the site's scheme. */
   const [scheme, setScheme] = useState<Scheme | undefined>();
@@ -109,38 +110,47 @@ export function PreviewClient({ name, label, align, tenants, code }: PreviewClie
   const effectiveScheme = scheme ?? siteScheme;
   const effectiveDensity = density ?? tenant?.density ?? 'comfortable';
 
+  // One frame, one bar: Preview / Code on the start side, the stage controls on the end side (only while the
+  // preview shows; they do nothing to the code). Tenants are colour dots named by tooltip, with the current
+  // tenant's name written beside them, so the bar stays one line at docs width.
   return (
-    <Tabs className={styles.root} defaultSelectedKey="preview">
-      <TabList aria-label={`${label} example`} className={styles.tabs}>
-        <Tab id="preview">Preview</Tab>
-        <Tab id="code" isDisabled={code == null}>
-          Code
-        </Tab>
-      </TabList>
-      <TabPanel id="preview" shouldForceMount className={styles.panel}>
-        <div className={styles.frame}>
-          <div className={styles.toolbar}>
-            <ToggleButtonGroup
-              aria-label="Tenant"
-              size="sm"
-              disallowEmptySelection
-              selectedKeys={[tenantId]}
-              onSelectionChange={(keys) => {
-                const next = firstKey(keys);
-                if (next) setTenantId(next);
-              }}
-              className={styles.group}
-            >
-              {tenants.map((t) => (
-                <ToggleButton key={t.id} id={t.id} className={styles.tenantToggle}>
-                  <span className={styles.dotRing} aria-hidden="true">
-                    <span className={styles.dot} data-strata-theme={t.id} />
-                  </span>
-                  {t.name}
-                </ToggleButton>
-              ))}
-            </ToggleButtonGroup>
-            <div className={styles.toolbarEnd}>
+    <Tabs variant="pill" className={styles.root} selectedKey={tab} onSelectionChange={setTab}>
+      <div className={styles.frame}>
+        <div className={styles.bar}>
+          <TabList aria-label={`${label} example`} className={styles.tabs}>
+            <Tab id="preview">Preview</Tab>
+            <Tab id="code" isDisabled={code == null}>
+              Code
+            </Tab>
+          </TabList>
+          {tab === 'preview' && (
+            <div className={styles.controls}>
+              <div className={styles.tenantPicker}>
+                <ToggleButtonGroup
+                  aria-label="Tenant"
+                  size="sm"
+                  disallowEmptySelection
+                  selectedKeys={[tenantId]}
+                  onSelectionChange={(keys) => {
+                    const next = firstKey(keys);
+                    if (next) setTenantId(next);
+                  }}
+                  className={styles.dots}
+                >
+                  {tenants.map((t) => (
+                    <TooltipTrigger key={t.id} delay={400}>
+                      <ToggleButton id={t.id} aria-label={t.name} className={styles.dotToggle}>
+                        <span className={styles.dot} data-strata-theme={t.id} aria-hidden="true" />
+                      </ToggleButton>
+                      <Tooltip>{t.name}</Tooltip>
+                    </TooltipTrigger>
+                  ))}
+                </ToggleButtonGroup>
+                <span className={styles.tenantName} aria-hidden="true">
+                  {tenant?.name}
+                </span>
+              </div>
+              <span className={`${styles.divider} ${styles.wideOnly}`} aria-hidden="true" />
               <ToggleButtonGroup
                 aria-label="Colour scheme"
                 size="sm"
@@ -150,10 +160,10 @@ export function PreviewClient({ name, label, align, tenants, code }: PreviewClie
                 className={styles.group}
               >
                 <IconToggle id="light" label="Light">
-                  <IconSun aria-hidden stroke={1.75} />
+                  <IconSun aria-hidden />
                 </IconToggle>
                 <IconToggle id="dark" label="Dark">
-                  <IconMoon aria-hidden stroke={1.75} />
+                  <IconMoon aria-hidden />
                 </IconToggle>
               </ToggleButtonGroup>
               <ToggleButtonGroup
@@ -165,10 +175,10 @@ export function PreviewClient({ name, label, align, tenants, code }: PreviewClie
                 className={styles.group}
               >
                 <IconToggle id="ltr" label="Left to right">
-                  <IconTextDirectionLtr aria-hidden stroke={1.75} />
+                  <IconTextDirectionLtr aria-hidden />
                 </IconToggle>
                 <IconToggle id="rtl" label="Right to left">
-                  <IconTextDirectionRtl aria-hidden stroke={1.75} />
+                  <IconTextDirectionRtl aria-hidden />
                 </IconToggle>
               </ToggleButtonGroup>
               <ToggleButtonGroup
@@ -177,17 +187,19 @@ export function PreviewClient({ name, label, align, tenants, code }: PreviewClie
                 disallowEmptySelection
                 selectedKeys={[effectiveDensity]}
                 onSelectionChange={(keys) => setDensity(firstKey(keys) as Density)}
-                className={styles.group}
+                className={`${styles.group} ${styles.wideOnly}`}
               >
                 <IconToggle id="comfortable" label="Comfortable">
-                  <IconBaselineDensityMedium aria-hidden stroke={1.75} />
+                  <IconBaselineDensityMedium aria-hidden />
                 </IconToggle>
                 <IconToggle id="compact" label="Compact">
-                  <IconBaselineDensitySmall aria-hidden stroke={1.75} />
+                  <IconBaselineDensitySmall aria-hidden />
                 </IconToggle>
               </ToggleButtonGroup>
             </div>
-          </div>
+          )}
+        </div>
+        <TabPanel id="preview" shouldForceMount className={styles.panel}>
           <ThemeScope
             theme={tenant?.id}
             data-strata-scheme={scheme ?? 'site'}
@@ -210,11 +222,11 @@ export function PreviewClient({ name, label, align, tenants, code }: PreviewClie
               </p>
             )}
           </ThemeScope>
-        </div>
-      </TabPanel>
-      <TabPanel id="code" className={styles.panel}>
-        <div className={styles.codeFrame}>{code}</div>
-      </TabPanel>
+        </TabPanel>
+        <TabPanel id="code" className={styles.panel}>
+          {code}
+        </TabPanel>
+      </div>
     </Tabs>
   );
 }

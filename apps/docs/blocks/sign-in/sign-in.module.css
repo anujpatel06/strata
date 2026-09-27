@@ -111,8 +111,15 @@
 }
 
 .title.title {
-  font-size: var(--strata-font-size-xl);
-  letter-spacing: var(--strata-font-heading-tracking);
+  font-size: var(--strata-font-size-2xl);
+  letter-spacing: var(--strata-font-tracking-2xl);
+}
+
+@container sign-in (min-width: 960px) {
+  .title.title {
+    font-size: var(--strata-font-size-3xl);
+    letter-spacing: var(--strata-font-tracking-3xl);
+  }
 }
 
 .form {
@@ -184,7 +191,7 @@
 }
 
 /* ------------------------------------------------------------------ *
- * Brand panel (wide containers only)
+ * Brand panel (wide containers only): an inset surface with the mark, arcs in the far corner, and the promise
  * ------------------------------------------------------------------ */
 
 .brandPanel {
@@ -193,23 +200,27 @@
 
 @container sign-in (min-width: 960px) {
   .brandPanel {
+    position: relative;
+    isolation: isolate;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     gap: var(--strata-space-12);
+    margin: var(--strata-space-3);
+    margin-inline-start: 0;
     padding: var(--strata-space-12);
-    background-color: var(--strata-color-action-primary-bg);
-    background-image: radial-gradient(
-        circle at 100% 0%,
-        color-mix(in oklab, var(--strata-color-action-primary-fg) 14%, transparent),
-        transparent 55%
-      ),
-      radial-gradient(
-        circle at 0% 100%,
-        color-mix(in oklab, var(--strata-color-action-primary-fg) 8%, transparent),
-        transparent 45%
-      );
-    color: var(--strata-color-action-primary-fg);
+    overflow: hidden;
+    border: 1px solid transparent;
+    border-radius: var(--strata-radius-container);
+    background-color: var(--strata-color-surface-sunken);
+    box-shadow: 0 0 0 var(--strata-hairline) var(--strata-color-border-subtle);
+    color: var(--strata-color-text-default);
+  }
+}
+
+@supports (corner-shape: squircle) {
+  .brandPanel {
+    corner-shape: squircle;
   }
 }
 
@@ -225,39 +236,126 @@
   inline-size: var(--strata-space-10);
   block-size: var(--strata-space-10);
   border-radius: var(--strata-radius-button);
-  background-color: var(--strata-color-action-primary-fg);
-  color: var(--strata-color-action-primary-bg);
+  background-color: var(--strata-color-action-primary-bg);
+  color: var(--strata-color-action-primary-fg);
   font-family: var(--strata-font-heading);
   font-size: var(--strata-font-size-lg);
   font-weight: var(--strata-font-weight-bold);
   line-height: 1;
+  box-shadow: var(--strata-shadow-highlight), var(--strata-shadow-raised);
 }
 
 .brandName {
   font-family: var(--strata-font-heading);
   font-size: var(--strata-font-size-xl);
   font-weight: var(--strata-font-weight-semibold);
-  letter-spacing: var(--strata-font-heading-tracking);
+  letter-spacing: var(--strata-font-tracking-xl);
+}
+
+/*
+ * Concentric hairline arcs from the panel's top inline-end corner, in the brand colour at low strength.
+ * Decorative only; they fade out before the headline, so no text sits on them.
+ */
+.arcs {
+  position: absolute;
+  z-index: -1;
+  inset-block-start: 0;
+  inset-inline-end: 0;
+  inline-size: 70%;
+  block-size: auto;
+  fill: none;
+  stroke: color-mix(in oklab, var(--strata-color-action-primary-bg) 35%, transparent);
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
+  mask-image: radial-gradient(circle at 100% 0%, black 30%, transparent 75%);
+}
+
+.arcs circle {
+  vector-effect: non-scaling-stroke;
+}
+
+.arcs:dir(rtl) {
+  scale: -1 1;
 }
 
 .brandCopy {
   display: grid;
-  gap: var(--strata-space-4);
-  max-inline-size: 28ch;
+  gap: var(--strata-space-5);
+  max-inline-size: 30ch;
 }
 
 .headline {
   font-family: var(--strata-font-heading);
-  font-size: var(--strata-font-size-3xl);
+  font-size: var(--strata-font-size-4xl);
   font-weight: var(--strata-font-weight-semibold);
-  letter-spacing: var(--strata-font-heading-tracking);
+  letter-spacing: var(--strata-font-tracking-4xl);
   line-height: var(--strata-line-height-tight);
   text-wrap: balance;
 }
 
+/* Editorial emphasis: the heading face's italic in the brand's text colour (checked on surface.sunken). */
+.headline em,
+.title em {
+  font-style: italic;
+  font-weight: var(--strata-font-weight-regular);
+  color: var(--strata-color-text-brand);
+}
+
 .brandBody {
-  max-inline-size: 36ch;
+  max-inline-size: 38ch;
+  color: var(--strata-color-text-subtle);
   font-size: var(--strata-font-size-lg);
+  letter-spacing: var(--strata-font-tracking-lg);
   line-height: var(--strata-line-height-normal);
   text-wrap: pretty;
+}
+
+/* ------------------------------------------------------------------ *
+ * Entrance
+ * ------------------------------------------------------------------ */
+
+/*
+ * Page content fades up in reading order when the block mounts:
+ * the card's header, form and footer, then the brand panel's name and copy, each a step
+ * (duration-fast / 2) after the last. Fill mode `backwards` only holds the "before" state during each delay,
+ * so nothing is left transformed once it lands. Reduced motion: no animation; everything is simply there.
+ * Duration is 2 × duration-slow: easing-out is a steep expo curve, and at 1× the move is over before it reads.
+ */
+.root {
+  --_step: calc(var(--strata-motion-duration-fast) / 2);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .card.card > *,
+  .brandPanel > * {
+    animation: sign-in-enter calc(var(--strata-motion-duration-slow) * 2) var(--strata-motion-easing-out) backwards;
+    animation-delay: calc(var(--_i, 0) * var(--_step));
+  }
+
+  .card.card > :nth-child(2) {
+    --_i: 1;
+  }
+
+  .card.card > :nth-child(3) {
+    --_i: 2;
+  }
+
+  .brandPanel > :nth-child(1) {
+    --_i: 2;
+  }
+
+  .brandPanel > :nth-child(2) {
+    --_i: 3;
+  }
+
+  .brandPanel > :nth-child(3) {
+    --_i: 4;
+  }
+}
+
+@keyframes sign-in-enter {
+  from {
+    opacity: 0;
+    translate: 0 var(--strata-space-3);
+  }
 }

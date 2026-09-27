@@ -1,13 +1,13 @@
 'use client';
 
-import { IconAlertTriangle, IconCheck, IconCircleCheck, IconLink } from '@tabler/icons-react';
+import { IconAlertTriangle, IconCheck, IconCircleCheck, IconLink } from '@strata/icons';
 import { Button } from '@strata/react';
 import { useEffect, useState } from 'react';
 import { plural } from './format';
 import { useDebouncedAnnouncement, useThemes } from './themes-provider';
 import styles from './themes.module.css';
 
-/** "6 inputs → 316 tokens · 7.9 ms · 78/78 checks pass", plus a polite live region for changes. */
+/** The theme in three figures (checks passed, tokens, generation time), plus a polite live region for changes. */
 export function ThemeStats() {
   const { theme } = useThemes();
   const { summary } = theme;
@@ -17,26 +17,33 @@ export function ThemeStats() {
   );
   return (
     <>
-      <p className={styles.stats}>
-        <span className={styles.statsIcon} data-pass={allPass || undefined} aria-hidden="true">
-          {allPass ? <IconCircleCheck stroke={1.75} /> : <IconAlertTriangle stroke={1.75} />}
-        </span>
-        <span>
-          6 inputs <span aria-hidden="true">→</span>
-          <span className="visually-hidden"> generate</span> {summary.tokenCount} tokens
-        </span>
-        <span className={styles.statsSep} aria-hidden="true">
-          ·
-        </span>
-        {/* Measured with performance.now() on each render, so server and browser differ. */}
-        <span suppressHydrationWarning>{`${summary.generationMs.toFixed(1)} ms`}</span>
-        <span className={styles.statsSep} aria-hidden="true">
-          ·
-        </span>
-        <span>
-          {summary.passed}/{summary.checks} checks pass
-        </span>
-      </p>
+      {/* Three figures, set as numbers: the pass count leads, because it's the promise. Status is icon + words. */}
+      <dl className={styles.stats}>
+        <div className={styles.stat} data-lead>
+          <dt className={styles.statLabel}>
+            <span className={styles.statsIcon} data-pass={allPass || undefined} aria-hidden="true">
+              {allPass ? <IconCircleCheck /> : <IconAlertTriangle />}
+            </span>
+            {allPass ? 'Contrast checks pass' : 'Contrast checks'}
+          </dt>
+          <dd className={styles.statValue}>
+            {summary.passed}
+            <span className={styles.statOf}>/{summary.checks}</span>
+          </dd>
+        </div>
+        <div className={styles.stat}>
+          <dt className={styles.statLabel}>Tokens from 6 inputs</dt>
+          <dd className={styles.statValue}>{summary.tokenCount}</dd>
+        </div>
+        <div className={styles.stat}>
+          <dt className={styles.statLabel}>To generate</dt>
+          {/* Measured with performance.now() on each render, so server and browser differ. */}
+          <dd className={styles.statValue} suppressHydrationWarning>
+            {summary.generationMs.toFixed(1)}
+            <span className={styles.statOf}> ms</span>
+          </dd>
+        </div>
+      </dl>
       <CopyLink />
       <p className="visually-hidden" role="status" aria-live="polite" aria-atomic="true">
         {announcement}
@@ -65,7 +72,7 @@ function CopyLink() {
   return (
     <>
       <Button variant="ghost" size="sm" onPress={copy} className={styles.copyLink}>
-        {state === 'copied' ? <IconCheck aria-hidden stroke={2} /> : <IconLink aria-hidden stroke={1.75} />}
+        {state === 'copied' ? <IconCheck aria-hidden stroke={2} /> : <IconLink aria-hidden />}
         {state === 'copied' ? 'Link copied' : 'Copy link'}
       </Button>
       <p className="visually-hidden" role="status" aria-live="polite">

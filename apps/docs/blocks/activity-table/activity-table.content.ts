@@ -60,8 +60,27 @@ export interface ActivityTableContent {
     };
     /** Read by screen readers on skeleton rows. */
     loading: string;
+    /**
+     * Labels of the totals above the table (money in and money out across the current search and filter).
+     * Optional: without it the block uses its own sample copy for the content locale's language (English or
+     * Arabic, see `activitySummaryCopy`), and hides the totals for other languages.
+     */
+    summary?: ActivitySummaryCopy;
   };
 }
+
+export interface ActivitySummaryCopy {
+  /** Accessible name of the totals group, e.g. "Totals for this view". */
+  label: string;
+  moneyIn: string;
+  moneyOut: string;
+}
+
+/** Sample totals copy by language, used when `activity.summary` isn't in the content. */
+export const activitySummaryCopy: Record<string, ActivitySummaryCopy> = {
+  en: { label: 'Totals for this view', moneyIn: 'Money in', moneyOut: 'Money out' },
+  ar: { label: 'الإجمالي لهذا العرض', moneyIn: 'المبالغ الواردة', moneyOut: 'المبالغ المدفوعة' },
+};
 
 export const activityTableContent: ActivityTableContent = {
   locale: 'en-US',

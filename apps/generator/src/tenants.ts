@@ -21,7 +21,7 @@ export interface Tenant {
   content: TenantContent;
 }
 
-const NEUTRALS = ['cool', 'neutral', 'warm'];
+const NEUTRALS = ['cool', 'neutral', 'warm', 'paper'];
 const SHAPES = ['sharp', 'soft', 'round'];
 const DENSITIES = ['comfortable', 'compact'];
 

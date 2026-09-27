@@ -12,28 +12,79 @@
   text-decoration-thickness: 1px;
   text-underline-offset: 0.3em;
 }
+.textLink {
+  transition: text-decoration-color var(--strata-motion-duration-fast) var(--strata-motion-easing);
+}
 .textLink:hover {
   text-decoration-color: currentColor;
 }
 
+/* Arrows nudge toward where the link goes. --_nudge flips in RTL: `translate` is applied before the arrow's
+   mirroring `scale`, so it moves in page space, not the icon's. */
 .arrow {
+  --_nudge: calc(var(--strata-space-1) / 2);
   flex: none;
   inline-size: calc(var(--strata-space-4) - 2px);
   block-size: calc(var(--strata-space-4) - 2px);
 }
 .arrow:dir(rtl) {
+  --_nudge: calc(var(--strata-space-1) / -2);
   scale: -1 1;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .arrow {
+    transition: translate var(--strata-motion-duration-spring) var(--strata-motion-spring);
+  }
+  :is(.textLink, .pill):hover .arrow {
+    translate: var(--_nudge) 0;
+  }
 }
 
 /* ---- Hero ---- */
 
 .hero {
+  position: relative;
+  isolation: isolate;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: var(--strata-space-5);
   padding-block: 0 var(--strata-space-12);
   text-align: center;
+}
+
+/* The hero's atmosphere is HeroGlow (home-stage.module.css): the selected tenant's colours, blurred. */
+
+/* First load: the hero builds itself line by line (badge, headline, second line, lead, each button, install
+   command), then the live showcase rises in under it (app/page.module.css picks up where this ends).
+   Fill mode `backwards` holds only the "before" state during each delay; once an item has landed the
+   animation lets go, so hover lifts on the badge and buttons still work. Reduced motion: no animation at all,
+   everything is simply there.
+   Timing: easing-out is a steep expo curve that covers ~90% of the move in the first third, so at plain
+   duration-slow (320ms) the whole entrance is over before the eye catches it. Page-level entrances run
+   2.5 × duration-slow; the long tail is what makes them read as settling rather than popping. */
+.hero {
+  --_step: calc(var(--strata-motion-duration-fast) * 2 / 3);
+}
+@media (prefers-reduced-motion: no-preference) {
+  .hero > :not(.heroActions, [aria-hidden]),
+  .heroBreak,
+  .hero > .heroActions > * {
+    animation: hero-rise calc(var(--strata-motion-duration-slow) * 2.5) var(--strata-motion-easing-out) backwards;
+    animation-delay: calc(var(--_i, 0) * var(--_step));
+  }
+  .heroTitle { --_i: 1; }
+  .heroBreak { --_i: 2; }
+  .heroLead { --_i: 3; }
+  .hero > .heroActions > :nth-child(1) { --_i: 4; }
+  .hero > .heroActions > :nth-child(2) { --_i: 5; }
+  .hero > :last-child { --_i: 6; }
+}
+@keyframes hero-rise {
+  from {
+    opacity: 0;
+    translate: 0 var(--strata-space-4);
+  }
 }
 @media (min-width: 768px) {
   .hero {
@@ -50,14 +101,38 @@
   border: var(--docs-hairline);
   border-radius: var(--strata-radius-pill);
   background: var(--strata-color-surface-default);
+  box-shadow: var(--strata-shadow-raised);
   color: var(--strata-color-text-subtle);
   font-size: var(--strata-font-size-sm);
   font-weight: var(--strata-font-weight-medium);
   font-variant-numeric: tabular-nums;
+  transition:
+    color var(--strata-motion-duration-fast) var(--strata-motion-easing),
+    border-color var(--strata-motion-duration-fast) var(--strata-motion-easing),
+    box-shadow var(--strata-motion-duration-fast) var(--strata-motion-easing);
 }
 .pill:hover {
   color: var(--strata-color-text-default);
-  background: var(--docs-hover);
+  border-color: var(--strata-color-border-default);
+  box-shadow: var(--strata-shadow-overlay);
+}
+@media (prefers-reduced-motion: no-preference) {
+  /* The hero entrance animates `translate`, so the hover lift uses `transform`: the two never fight, even if
+     the pointer is already over the badge while it lands. */
+  .pill {
+    transition:
+      color var(--strata-motion-duration-fast) var(--strata-motion-easing),
+      border-color var(--strata-motion-duration-fast) var(--strata-motion-easing),
+      box-shadow var(--strata-motion-duration-fast) var(--strata-motion-easing),
+      transform var(--strata-motion-duration-fast) var(--strata-motion-easing),
+      scale var(--strata-motion-duration-spring) var(--strata-motion-spring);
+  }
+  .pill:hover {
+    transform: translateY(-1px);
+  }
+  .pill:active {
+    scale: 0.97;
+  }
 }
 .pillVersion {
   color: var(--strata-color-text-default);
@@ -70,26 +145,42 @@
 
 .heroTitle {
   font-family: var(--strata-font-heading);
-  font-size: calc(var(--strata-font-size-3xl) * 1.125);
+  font-size: var(--strata-font-size-4xl);
   font-weight: var(--strata-font-weight-semibold);
-  line-height: var(--strata-line-height-tight);
-  /* Display sizes want tighter tracking than the pair's default; scales to 0 for pairs that don't track. */
-  letter-spacing: calc(var(--strata-font-heading-tracking) * 2.5);
+  /* Display type sets solid: the two lines nearly touch, as big headlines do. */
+  line-height: 1;
+  /* Beyond the 5xl step the scale stops, so the tracking keeps tightening in proportion (×1.5 of 5xl's).
+     It's 0 for Arabic-capable pairs, so this scales to 0 there too. */
+  letter-spacing: calc(var(--strata-font-tracking-5xl) * 1.5);
   text-wrap: balance;
 }
 @media (min-width: 768px) {
   .heroTitle {
-    font-size: calc(var(--strata-font-size-3xl) * 1.625);
+    font-size: calc(var(--strata-font-size-5xl) * 1.375);
   }
 }
 @media (min-width: 1280px) {
   .heroTitle {
-    font-size: calc(var(--strata-font-size-3xl) * 1.875);
+    font-size: calc(var(--strata-font-size-5xl) * 1.625);
   }
 }
-.heroBreak {
+
+/*
+ * The one typographic accent: "Every brand." in the selected tenant's text.brand (HeroAccent carries the
+ * tenant's data-strata-theme; the showcase only hands over tenants whose text.brand passes 4.5:1 on the house
+ * canvas in both schemes). Same family as the line above, set italic; the house pair ships no italic, so the
+ * browser slants it, which suits a single display line. `font-family: inherit` keeps the house face: the global
+ * [data-strata-theme] rule would otherwise switch it to the tenant's body font.
+ */
+.heroTitle .heroBreak {
   display: block;
-  color: var(--strata-color-text-subtle);
+  padding-block-start: var(--strata-space-1);
+  /* Room for the slanted final glyph, so it isn't clipped by the line box. */
+  padding-inline-end: 0.08em;
+  color: var(--strata-color-text-brand);
+  font-family: inherit;
+  font-style: italic;
+  transition: color calc(var(--strata-motion-duration-slow) * 2) var(--strata-motion-easing);
 }
 
 .heroLead {
@@ -195,7 +286,7 @@
 
 .tenantGrid {
   display: grid;
-  gap: var(--strata-space-8) var(--strata-space-6);
+  gap: var(--strata-space-8) var(--docs-card-gap);
   justify-content: center;
   grid-template-columns: minmax(0, calc(var(--strata-space-16) * 9));
 }
@@ -222,18 +313,26 @@
 }
 
 .tenantFrame {
-  /* Resolved here, in the house theme, before the scope inside re-points --strata-radius-*. */
-  --home-radius: calc(var(--strata-radius-container) + var(--strata-space-1));
   flex: 1;
   display: grid;
-  border: var(--docs-hairline);
-  border-radius: var(--home-radius);
-  overflow: hidden;
 }
 
+/* The frame's edge, radius and shadow sit on the tenant scope, so its corner is the tenant's card radius plus
+   the inset: concentric for sharp, soft and round brands alike (as on the live showcase). */
 .tenantScope.tenantScope {
+  --_inset: var(--strata-space-5);
   display: grid;
-  padding: var(--strata-space-5);
+  padding: var(--_inset);
+  border: 1px solid transparent;
+  border-radius: calc(var(--strata-radius-container) + var(--_inset));
+  box-shadow: 0 0 0 var(--strata-hairline) var(--strata-color-border-subtle), var(--strata-shadow-raised);
+  transition: box-shadow var(--strata-motion-duration-normal) var(--strata-motion-easing);
+  overflow: clip;
+}
+@supports (corner-shape: squircle) {
+  .tenantScope.tenantScope {
+    corner-shape: squircle;
+  }
 }
 
 .tenantCard {
@@ -272,22 +371,28 @@
 
 .figures.figures {
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: var(--strata-space-3);
+  gap: var(--docs-card-gap);
+}
+/* Same corner as every other card on the page (StatTile already uses the container radius; this pins it to the
+   house value even if the component's default changes). */
+.figures > * {
+  border-radius: var(--docs-card-radius);
 }
 
 .quote {
-  --home-radius: calc(var(--strata-radius-container) + var(--strata-space-1));
+  --_pad: var(--strata-space-5);
   display: grid;
   grid-template-columns: minmax(0, 1fr);
   gap: var(--strata-space-5);
-  padding: var(--strata-space-5);
+  padding: var(--_pad);
   border: var(--docs-hairline);
-  border-radius: var(--home-radius);
+  border-radius: var(--docs-card-radius);
   background: var(--strata-color-surface-default);
+  box-shadow: var(--strata-shadow-raised);
 }
 @media (min-width: 768px) {
   .quote {
-    padding: var(--strata-space-8);
+    --_pad: var(--strata-space-8);
   }
 }
 
@@ -305,7 +410,10 @@
   padding-block: var(--strata-space-10);
   padding-inline: var(--strata-space-4);
   border: 1px solid var(--strata-color-border-subtle);
-  border-radius: calc(var(--home-radius) - var(--strata-space-2));
+  /* Concentric with the card around it: outer radius minus the card's padding, never below a badge corner.
+     This element is a Qamar scope, where the badge radius is a pill, so it's capped at space-2 first. */
+  border-radius: max(min(var(--strata-radius-badge), var(--strata-space-2)), calc(var(--docs-card-radius) - var(--_pad)));
+  box-shadow: var(--strata-shadow-highlight);
 }
 
 .beforeAfter {
@@ -391,7 +499,7 @@
 
 .shipGrid {
   display: grid;
-  gap: var(--strata-space-4);
+  gap: var(--docs-card-gap);
 }
 @media (min-width: 960px) {
   .shipGrid {
@@ -401,6 +509,7 @@
 
 .shipCard.shipCard {
   block-size: 100%;
+  border-radius: var(--docs-card-radius);
   background-color: var(--strata-color-surface-default);
 }
 
@@ -432,8 +541,9 @@
   margin-block-start: calc(var(--strata-space-16) * 1.25);
   padding: var(--strata-space-8) var(--strata-space-6);
   border: var(--docs-hairline);
-  border-radius: calc(var(--strata-radius-container) + var(--strata-space-1));
-  background: var(--strata-color-surface-default);
+  border-radius: var(--docs-card-radius);
+  background-color: var(--strata-color-surface-default);
+  box-shadow: var(--strata-shadow-highlight), var(--strata-shadow-raised);
 }
 @media (min-width: 768px) {
   .cta {
@@ -463,4 +573,83 @@
 
 .cta .heroActions {
   justify-content: flex-start;
+}
+
+/* ---- Motion: scroll reveal and hover lift ---- */
+
+/*
+ * Scroll reveal. Section headers, cards and figures rise into place as they enter the viewport. It's a CSS
+ * scroll-driven animation (a view() timeline), not a scroll listener: the browser ties progress to the
+ * element's own position, so scrolling back up reverses it. The range starts when the element's top edge
+ * crosses the bottom of the viewport and ends a few rows later, so only a thin band at the bottom of the
+ * screen is ever mid-reveal. Items in a row start a step apart (--_i), which reads as a left-to-right wave.
+ * Without view() support, or with reduced motion, none of this applies and everything is simply visible.
+ */
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: view()) {
+    .sectionHeader,
+    .commandRow,
+    .tenantFigure,
+    .figures > *,
+    .quote,
+    .shipCard.shipCard,
+    .excerpt,
+    .cta {
+      --_from: calc(var(--_i, 0) * var(--strata-space-6));
+      /* The shorthand resets the timeline, so the timeline and range come after it. */
+      animation: home-reveal var(--strata-motion-easing-out) backwards;
+      animation-timeline: view();
+      animation-range: entry var(--_from) entry calc(var(--_from) + var(--strata-space-16) * 3);
+    }
+    .tenantFigure:nth-child(2),
+    .figures > :nth-child(2n),
+    .shipCard.shipCard:nth-child(2) {
+      --_i: 1;
+    }
+    .tenantFigure:nth-child(3),
+    .shipCard.shipCard:nth-child(3) {
+      --_i: 2;
+    }
+  }
+}
+@keyframes home-reveal {
+  from {
+    opacity: 0;
+    translate: 0 var(--strata-space-6);
+  }
+}
+
+/*
+ * Hover lift for the cards on this page (tenant frames, "Ship it your way"): they rise a couple of pixels on
+ * the spring and their shadow deepens one step. The shadow change is a fade and always runs; the movement only
+ * with motion allowed. The ship cards lift with `transform` because their scroll reveal animates `translate`.
+ */
+.tenantFrame,
+.shipCard.shipCard {
+  --_lift: calc(var(--strata-space-1) / -2);
+  transition: box-shadow var(--strata-motion-duration-normal) var(--strata-motion-easing);
+}
+.tenantFrame:hover .tenantScope {
+  box-shadow: 0 0 0 var(--strata-hairline) var(--strata-color-border-default), var(--strata-shadow-overlay);
+}
+.shipCard.shipCard:hover {
+  box-shadow: 0 0 0 var(--strata-hairline) var(--strata-color-border-default), var(--strata-shadow-overlay);
+}
+@media (prefers-reduced-motion: no-preference) {
+  .tenantFrame {
+    transition:
+      box-shadow var(--strata-motion-duration-normal) var(--strata-motion-easing),
+      translate var(--strata-motion-duration-spring) var(--strata-motion-spring);
+  }
+  .tenantFrame:hover {
+    translate: 0 var(--_lift);
+  }
+  .shipCard.shipCard {
+    transition:
+      box-shadow var(--strata-motion-duration-normal) var(--strata-motion-easing),
+      transform var(--strata-motion-duration-spring) var(--strata-motion-spring);
+  }
+  .shipCard.shipCard:hover {
+    transform: translateY(var(--_lift));
+  }
 }

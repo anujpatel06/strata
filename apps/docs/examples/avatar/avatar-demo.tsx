@@ -11,13 +11,15 @@ const photo =
 
 export default function Example() {
   return (
-    <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--strata-space-4)' }}>
-      <Avatar name="Priya Raman" src={photo} />
-      <Avatar name="Daniel Okafor" />
-      <Avatar name="Mei Lin" />
-      <Avatar name="Omar Haddad" shape="square" />
+    <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 'var(--strata-space-4)' }}>
+      <Avatar name="Priya Raman" src={photo} size="lg" />
+      {/* Each name hashes to its own tint, so a person keeps their colour everywhere. */}
+      <Avatar name="Arjun Shah" size="lg" />
+      <Avatar name="Meera Iyer" size="lg" />
+      <Avatar name="Daniel Okafor" size="lg" />
+      <Avatar name="Omar Haddad" size="lg" shape="square" />
       {/* A broken image falls back to initials. */}
-      <Avatar name="Sofia Duarte" src="/does-not-exist.jpg" />
+      <Avatar name="Sofia Duarte" src="/does-not-exist.jpg" size="lg" />
     </div>
   );
 }

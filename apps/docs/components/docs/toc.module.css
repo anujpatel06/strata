@@ -30,7 +30,9 @@
   border-inline-start: 1px solid transparent;
   color: var(--strata-color-text-subtle);
   line-height: var(--strata-line-height-snug);
-  transition: color var(--strata-motion-duration-fast) var(--strata-motion-easing);
+  transition:
+    color var(--strata-motion-duration-fast) var(--strata-motion-easing),
+    border-color var(--strata-motion-duration-normal) var(--strata-motion-easing);
 }
 .link:hover {
   color: var(--strata-color-text-default);

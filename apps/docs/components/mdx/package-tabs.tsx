@@ -1,6 +1,6 @@
 'use client';
 
-import { IconTerminal2 } from '@tabler/icons-react';
+import { IconTerminal2 } from '@strata/icons';
 import { Tab, TabList, TabPanel, Tabs } from '@strata/react';
 import { useEffect, useRef, useState, type Key } from 'react';
 import { CopyButton } from './code-frame';
@@ -50,7 +50,7 @@ export function PackageTabs({ html }: { html: Record<PackageManager, string> }) 
     <div className={styles.root}>
       <Tabs selectedKey={pm} onSelectionChange={select} className={styles.tabs}>
         <div className={styles.bar}>
-          <IconTerminal2 aria-hidden size={14} stroke={1.75} className={styles.icon} />
+          <IconTerminal2 aria-hidden size={14} className={styles.icon} />
           <TabList aria-label="Package manager" className={styles.list}>
             {MANAGERS.map((m) => (
               <Tab key={m} id={m} className={styles.tab}>

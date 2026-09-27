@@ -1,6 +1,6 @@
 'use client';
 
-import { IconCheck, IconCopy, IconDownload, IconFileCode } from '@tabler/icons-react';
+import { IconCheck, IconCopy, IconDownload, IconFileCode } from '@strata/icons';
 import { Button } from '@strata/react';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { formatBytes } from './format';
@@ -80,16 +80,16 @@ export function CodeViewer({ file }: { file: ExportFile }) {
   return (
     <figure className={styles.frame}>
       <figcaption className={styles.bar}>
-        <IconFileCode className={styles.fileIcon} aria-hidden stroke={1.75} />
+        <IconFileCode className={styles.fileIcon} aria-hidden />
         <span className={styles.name}>{file.name}</span>
         <span className={styles.stats}>{stats}</span>
         <span className={styles.actions}>
           <Button variant="ghost" size="sm" onPress={onCopy}>
-            {copied ? <IconCheck aria-hidden stroke={2} /> : <IconCopy aria-hidden stroke={1.75} />}
+            {copied ? <IconCheck aria-hidden stroke={2} /> : <IconCopy aria-hidden />}
             {copied ? 'Copied' : 'Copy'}
           </Button>
           <Button variant="outline" size="sm" onPress={onDownload}>
-            <IconDownload aria-hidden stroke={1.75} />
+            <IconDownload aria-hidden />
             Download
           </Button>
         </span>

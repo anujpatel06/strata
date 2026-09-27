@@ -6,12 +6,11 @@ import {
   FOUNDATIONS,
   ROLES,
   TYPE_PAIRS,
-  contrastRatio,
   generateTheme,
   roleToCssVar,
   type Role,
 } from '@strata/theme-engine';
-import { Badge, Button, ThemeScope } from '@strata/react';
+import { Amount, Badge, Eyebrow, ThemeScope } from '@strata/react';
 import { listRepoDir, readRepoFile } from '@/lib/repo';
 import { githubBlob } from '@/lib/site';
 import { getHouseBrand, getTenants } from '@/lib/tenants';
@@ -371,47 +370,51 @@ export function AdrList() {
 /* ------------------------------------------------------------------ */
 
 /** One ThemeScope per tenant rendering the same components — the whole idea in one row. */
+/** `*word*` → <em>word</em>: the brand's italic, used sparingly in specimen headlines. */
+function withEmphasis(text: string): React.ReactNode[] {
+  return text.split(/(\*[^*]+\*)/).map((part, i) =>
+    part.startsWith('*') && part.endsWith('*') ? <em key={i}>{part.slice(1, -1)}</em> : part,
+  );
+}
+
+/**
+ * Each tenant as a brand specimen, not a spec sheet: its own type and colour carrying one real product moment
+ * (content.json `specimen`), the primary ramp as a strip, and the technical facts as a single quiet caption.
+ */
 export function TenantGrid() {
   const tenants = getTenants();
   return (
     <div className={styles.tenants}>
       {tenants.map((t) => {
         const theme = generateTheme(t.brand);
+        const ramp = theme.schemes.light.ramps.primary;
+        const typeName = TYPE_PAIRS[t.brand.typePair].label.split(' — ')[1]?.split(' / ')[0] ?? t.brand.typePair;
+        const s = t.specimen;
         return (
           <ThemeScope key={t.id} theme={t.id} scheme="light" locale={t.locale} className={styles.tenant}>
             <div className={styles.tenantHead}>
               <span className={styles.tenantMark} aria-hidden="true" />
-              <div>
-                <p className={styles.tenantName}>{t.product.name}</p>
-                <p className={styles.tenantIndustry}>{t.product.industry}</p>
-              </div>
+              <p className={styles.tenantName}>{t.product.name}</p>
+              <p className={styles.tenantIndustry}>{t.product.industry}</p>
             </div>
-            <div className={styles.tenantActions}>
-              <Button variant="primary" size="sm">
-                {t.dir === 'rtl' ? 'متابعة' : 'Continue'}
-              </Button>
-              <Button variant="outline" size="sm">
-                {t.dir === 'rtl' ? 'إلغاء' : 'Cancel'}
-              </Button>
+            {s ? (
+              <div className={styles.moment}>
+                <Eyebrow lead="rule" tone="accent">
+                  {s.eyebrow}
+                </Eyebrow>
+                {s.headline ? <p className={styles.momentHeadline}>{withEmphasis(s.headline)}</p> : null}
+                {s.amount != null ? <Amount value={s.amount} currency={t.currency} locale={t.locale} size="lg" /> : null}
+                {s.note ? <p className={styles.momentNote}>{s.note}</p> : null}
+              </div>
+            ) : null}
+            <div className={styles.ramp} aria-hidden="true">
+              {ramp.map((hex, i) => (
+                <span key={i} style={{ background: hex }} />
+              ))}
             </div>
-            <dl className={styles.tenantFacts} dir="ltr" lang="en">
-              <div>
-                <dt>Primary</dt>
-                <dd>
-                  <Swatch hex={theme.input.primary} />
-                </dd>
-              </div>
-              <div>
-                <dt>Type</dt>
-                <dd>{TYPE_PAIRS[t.brand.typePair].label.split(' — ')[1]}</dd>
-              </div>
-              <div>
-                <dt>Shape · density</dt>
-                <dd>
-                  {t.brand.shape} · {t.brand.density}
-                </dd>
-              </div>
-            </dl>
+            <p className={styles.tenantCaption} dir="ltr" lang="en">
+              {typeName} · {t.brand.shape} · {t.brand.density}
+            </p>
           </ThemeScope>
         );
       })}
@@ -428,97 +431,6 @@ export async function TenantBrandJson({ id }: { id: string }) {
 
 /* ------------------------------------------------------------------ */
 
-interface RegistryIndex {
-  items: Array<{ name: string; type: string; title?: string; description?: string }>;
-}
-
-/** The non-component items in the built registry (apps/docs/public/r/registry.json), plus a component count. */
-export function RegistryItems() {
-  const raw = readRepoFile('apps', 'docs', 'public', 'r', 'registry.json');
-  if (!raw) return <p className={styles.note}>Run `pnpm registry` to build the registry.</p>;
-  const index = JSON.parse(raw) as RegistryIndex;
-  const ui = index.items.filter((i) => i.type === 'registry:ui');
-  const rest = index.items.filter((i) => i.type !== 'registry:ui');
-  return (
-    <figure className={styles.figure}>
-      <Table aria-label="Registry items">
-        <thead>
-          <tr>
-            <th scope="col">Item</th>
-            <th scope="col">Type</th>
-            <th scope="col">What it installs</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td className={styles.nowrap}>
-              <Code>{'<component>'}</Code>
-            </td>
-            <td className={styles.nowrap}>
-              <Code>registry:ui</Code>
-            </td>
-            <td>
-              One per component ({ui.length} in this build): its <Code>.tsx</Code> and <Code>.module.css</Code>, npm
-              dependencies and the Strata components it uses.
-            </td>
-          </tr>
-          {rest.map((i) => (
-            <tr key={i.name}>
-              <td className={styles.nowrap}>
-                <a href={`/r/${i.name}.json`} className={styles.link}>
-                  {i.name}
-                </a>
-              </td>
-              <td className={styles.nowrap}>
-                <Code>{i.type}</Code>
-              </td>
-              <td>{i.description}</td>
-            </tr>
-          ))}
-        </tbody>
-      </Table>
-      <figcaption className={styles.caption}>
-        Read from <a href="/r/registry.json" className={styles.link}>/r/registry.json</a> when this page was built.
-      </figcaption>
-    </figure>
-  );
-}
-
-/** How shadcn/ui variables map onto Strata roles in the theme bridge (theme-engine src/export/shadcn.ts). */
-export async function ShadcnMap() {
-  const { SHADCN_ROLE_MAP } = await import('../../../../packages/theme-engine/src/export/shadcn');
-  const rows = new Map<string, string[]>();
-  for (const [variable, role] of SHADCN_ROLE_MAP) rows.set(role, [...(rows.get(role) ?? []), variable]);
-  return (
-    <Table aria-label="shadcn variable to Strata role">
-      <thead>
-        <tr>
-          <th scope="col">Strata role</th>
-          <th scope="col">shadcn/ui variables</th>
-        </tr>
-      </thead>
-      <tbody>
-        {[...rows].map(([role, vars]) => (
-          <tr key={role}>
-            <td className={styles.nowrap}>
-              <Code>{`color.${role}`}</Code>
-            </td>
-            <td>
-              <span className={styles.chips}>
-                {vars.map((v) => (
-                  <Code key={v}>{`--${v}`}</Code>
-                ))}
-              </span>
-            </td>
-          </tr>
-        ))}
-      </tbody>
-    </Table>
-  );
-}
-
-/* ------------------------------------------------------------------ */
-
 /** Link to an ADR by number, resolved against docs/adr at build time (so renamed files don't break links). */
 export function AdrLink({ n, children }: { n: string; children?: React.ReactNode }) {
   const file = listRepoDir('docs', 'adr').find((f) => f.startsWith(`${n}-`));
@@ -527,63 +439,5 @@ export function AdrLink({ n, children }: { n: string; children?: React.ReactNode
     <a href={href} className={styles.link}>
       {children ?? `ADR-${n}`}
     </a>
-  );
-}
-
-/**
- * Pairs the shadcn bridge does NOT guarantee: brand fills used as text or as chart marks on the page
- * background. Ratios computed from each theme's final hex values at build time, floored (never rounded up).
- */
-export function ShadcnGaps() {
-  const brands = [...getTenants().map((t) => ({ name: t.name, brand: t.brand })), { name: 'House', brand: getHouseBrand() }];
-  const cols = [
-    { label: '--destructive', role: 'feedback.danger.solid' as Role, need: 4.5 },
-    { label: '--primary', role: 'action.primary.bg' as Role, need: 4.5 },
-    { label: '--chart-5', role: 'feedback.warning.solid' as Role, need: 3 },
-  ];
-  return (
-    <figure className={styles.figure}>
-      <Table aria-label="Unguaranteed shadcn pairs">
-        <thead>
-          <tr>
-            <th scope="col">Theme</th>
-            {cols.map((c) => (
-              <th key={c.label} scope="col" data-num="">
-                <Code>{c.label}</Code>
-              </th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {brands.flatMap(({ name, brand }) => {
-            const theme = generateTheme(brand);
-            return (['light', 'dark'] as const).map((scheme) => {
-              const roles = theme.schemes[scheme].roles;
-              return (
-                <tr key={`${name}-${scheme}`}>
-                  <td className={styles.nowrap}>
-                    {name} · {scheme}
-                  </td>
-                  {cols.map((c) => {
-                    const r = contrastRatio(roles[c.role].hex, roles['surface.canvas'].hex);
-                    return (
-                      <td key={c.label} data-num="" className={r < c.need ? styles.below : undefined}>
-                        {floor2(r)}:1
-                        {r < c.need && <span className="visually-hidden"> (below {c.need}:1)</span>}
-                      </td>
-                    );
-                  })}
-                </tr>
-              );
-            });
-          })}
-        </tbody>
-      </Table>
-      <figcaption className={styles.caption}>
-        Each colour against <Code>--background</Code>. WCAG 2.x ratios from each theme’s final hex values, computed
-        when this page was built and floored, never rounded up. Text needs 4.5:1; chart marks need 3:1 (non-text
-        contrast). Values below the minimum are in bold red.
-      </figcaption>
-    </figure>
   );
 }

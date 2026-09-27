@@ -957,5 +957,10 @@
       "none": "No results"
     },
     "loading": "Loading transactions"
+  },
+  "specimen": {
+    "eyebrow": "Available balance",
+    "amount": 184250,
+    "note": "+6.4% vs last month"
   }
 }

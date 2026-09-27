@@ -21,25 +21,35 @@
   max-inline-size: calc(var(--docs-prose) + var(--strata-space-16));
 }
 
-.eyebrow {
-  color: var(--strata-color-text-subtle);
-  font-size: var(--strata-font-size-sm);
-  font-weight: var(--strata-font-weight-medium);
+.eyebrow.eyebrow {
+  margin-block-end: var(--strata-space-1);
 }
 
+/* Top-level pages open with a display title: a size step above docs pages, tracking tightened to match. */
 .title {
   font-family: var(--strata-font-heading);
-  font-size: var(--strata-font-size-3xl);
+  font-size: var(--strata-font-size-4xl);
   font-weight: var(--strata-font-weight-semibold);
   line-height: var(--strata-line-height-tight);
-  letter-spacing: var(--strata-font-heading-tracking);
+  letter-spacing: var(--strata-font-tracking-4xl);
   text-wrap: balance;
+}
+@media (min-width: 1024px) {
+  .title {
+    font-size: var(--strata-font-size-5xl);
+    letter-spacing: var(--strata-font-tracking-5xl);
+  }
+}
+.title em {
+  font-style: italic;
+  font-weight: var(--strata-font-weight-regular);
 }
 
 .description {
   max-inline-size: 60ch;
   color: var(--strata-color-text-subtle);
   font-size: var(--strata-font-size-lg);
+  letter-spacing: var(--strata-font-tracking-lg);
   line-height: var(--strata-line-height-normal);
   text-wrap: pretty;
 }

@@ -1,6 +1,6 @@
 'use client';
 
-import { IconAlertTriangle, IconCircleCheck, IconInbox } from '@tabler/icons-react';
+import { IconAlertTriangle, IconCircleCheck, IconInbox } from '@strata/icons';
 import { Tab, TabList, TabPanel, Tabs } from '@strata/react';
 
 const text = { margin: 0, color: 'var(--strata-color-text-subtle)', fontSize: 'var(--strata-font-size-md)' };
@@ -10,15 +10,15 @@ export default function Example() {
     <Tabs defaultSelectedKey="open">
       <TabList aria-label="Requests">
         <Tab id="open" count={12}>
-          <IconInbox aria-hidden="true" stroke={1.75} />
+          <IconInbox aria-hidden="true" />
           Open
         </Tab>
         <Tab id="action" count={3}>
-          <IconAlertTriangle aria-hidden="true" stroke={1.75} />
+          <IconAlertTriangle aria-hidden="true" />
           Needs action
         </Tab>
         <Tab id="closed" count={128}>
-          <IconCircleCheck aria-hidden="true" stroke={1.75} />
+          <IconCircleCheck aria-hidden="true" />
           Closed
         </Tab>
         <Tab id="archived" isDisabled>

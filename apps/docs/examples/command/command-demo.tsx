@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { Button, CommandDialog, CommandItem, CommandSection, Kbd, useCommandShortcut } from '@strata/react';
-import { IconArrowsExchange, IconCreditCard, IconFileText, IconSearch, IconSettings, IconUser } from '@tabler/icons-react';
+import { IconArrowsExchange, IconCreditCard, IconFileText, IconSearch, IconSettings, IconUser } from '@strata/icons';
 
 export default function Example() {
   const [isOpen, setOpen] = useState(false);

@@ -1,12 +1,39 @@
+/* Glass header (Tactile style): only text.default / text.subtle sit on it — the engine solves the glass opacity
+   so those two reach 4.5:1 over any backdrop. Anything else coloured goes on an opaque role background. */
 .header {
   position: sticky;
   inset-block-start: 0;
   z-index: 40;
   inline-size: 100%;
-  background: color-mix(in oklab, var(--strata-color-surface-canvas) 80%, transparent);
-  border-block-end: var(--docs-hairline);
-  -webkit-backdrop-filter: saturate(1.8) blur(var(--strata-space-3));
-  backdrop-filter: saturate(1.8) blur(var(--strata-space-3));
+  background: var(--strata-glass-bg);
+  border-block-end: 1px solid var(--strata-color-border-subtle);
+  -webkit-backdrop-filter: blur(var(--strata-glass-blur)) saturate(1.6);
+  backdrop-filter: blur(var(--strata-glass-blur)) saturate(1.6);
+}
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .header {
+    background: var(--strata-color-surface-raised);
+  }
+}
+
+/* Once the page scrolls under it, the header gains depth (a scroll-driven animation of box-shadow only).
+   At rest it's a flat hairline; the shadow reads as "content is passing beneath". */
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: scroll()) {
+    .header {
+      animation: header-depth linear both;
+      animation-timeline: scroll(root block);
+      animation-range: 0 var(--strata-space-16);
+    }
+  }
+}
+@keyframes header-depth {
+  from {
+    box-shadow: none;
+  }
+  to {
+    box-shadow: var(--strata-shadow-raised);
+  }
 }
 
 .inner {
@@ -30,6 +57,18 @@
   font-weight: var(--strata-font-weight-semibold);
   letter-spacing: var(--strata-font-heading-tracking);
 }
+/* The mark's three layers fan apart on hover — the logo's idea (stacked brands) acted out. Reduced-motion safe. */
+@media (prefers-reduced-motion: no-preference) {
+  .brand svg rect {
+    transition: translate var(--strata-motion-duration-spring) var(--strata-motion-spring);
+  }
+  .brand:hover svg rect:first-child {
+    translate: calc(var(--strata-space-1) / -2) 0;
+  }
+  .brand:hover svg rect:last-child {
+    translate: calc(var(--strata-space-1) / 2) 0;
+  }
+}
 
 /* ---- Main nav ---- */
 .mainNav {
@@ -49,19 +88,68 @@
   list-style: none;
 }
 .mainNavLink {
+  position: relative;
+  isolation: isolate;
   display: inline-flex;
   align-items: center;
   block-size: calc(var(--strata-space-8) + var(--strata-space-1));
-  padding-inline: var(--strata-space-2);
-  border-radius: var(--strata-radius-button);
+  padding-inline: var(--strata-space-3);
+  border-radius: var(--strata-radius-pill);
   color: var(--strata-color-text-subtle);
   font-size: var(--strata-font-size-md);
   font-weight: var(--strata-font-weight-medium);
-  transition: color var(--strata-motion-duration-fast) var(--strata-motion-easing);
+  transition:
+    color var(--strata-motion-duration-fast) var(--strata-motion-easing),
+    outline-offset var(--strata-motion-duration-fast) var(--strata-motion-easing);
 }
-.mainNavLink:hover,
+/* Hover: a soft pill grows in behind the link (a pseudo-element, so it can scale without scaling the text).
+   Current page: the same pill, solid enough to read as "here". With reduced motion the pill only fades. */
+.mainNavLink::before {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  border-radius: inherit;
+  background-color: var(--docs-hover);
+  opacity: 0;
+  transition:
+    opacity var(--strata-motion-duration-fast) var(--strata-motion-easing),
+    background-color var(--strata-motion-duration-fast) var(--strata-motion-easing);
+}
+.mainNavLink:hover {
+  color: var(--strata-color-text-default);
+}
+.mainNavLink:hover::before {
+  opacity: 1;
+}
 .mainNavLink[aria-current='page'] {
   color: var(--strata-color-text-default);
+}
+.mainNavLink[aria-current='page']::before {
+  background-color: var(--strata-color-surface-selected);
+  opacity: 1;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .mainNavLink {
+    transition:
+      color var(--strata-motion-duration-fast) var(--strata-motion-easing),
+      outline-offset var(--strata-motion-duration-fast) var(--strata-motion-easing),
+      scale var(--strata-motion-duration-spring) var(--strata-motion-spring);
+  }
+  .mainNavLink::before {
+    scale: 0.8 0.6;
+    transition:
+      opacity var(--strata-motion-duration-fast) var(--strata-motion-easing),
+      background-color var(--strata-motion-duration-fast) var(--strata-motion-easing),
+      scale var(--strata-motion-duration-spring) var(--strata-motion-spring);
+  }
+  .mainNavLink:hover::before,
+  .mainNavLink[aria-current='page']::before {
+    scale: 1;
+  }
+  .mainNavLink:active {
+    scale: 0.97;
+  }
 }
 
 /* ---- Actions ---- */
@@ -131,7 +219,9 @@
   padding: 0;
   border-radius: var(--strata-radius-button);
   color: var(--strata-color-text-default);
-  transition: background-color var(--strata-motion-duration-fast) var(--strata-motion-easing);
+  transition:
+    background-color var(--strata-motion-duration-fast) var(--strata-motion-easing),
+    outline-offset var(--strata-motion-duration-fast) var(--strata-motion-easing);
 }
 .iconLink:hover {
   background: var(--docs-hover);
@@ -139,6 +229,17 @@
 .iconLink svg {
   inline-size: var(--strata-space-4);
   block-size: var(--strata-space-4);
+}
+@media (prefers-reduced-motion: no-preference) {
+  .iconLink {
+    transition:
+      background-color var(--strata-motion-duration-fast) var(--strata-motion-easing),
+      outline-offset var(--strata-motion-duration-fast) var(--strata-motion-easing),
+      scale var(--strata-motion-duration-spring) var(--strata-motion-spring);
+  }
+  .iconLink:active {
+    scale: 0.9;
+  }
 }
 
 /* Scheme icon follows <html data-strata-scheme> — correct before hydration. */
@@ -151,4 +252,31 @@
 :global(:root[data-strata-scheme='dark']) .schemeDark,
 :global(:root[data-strata-scheme='auto']) .schemeAuto {
   display: block;
+}
+/* When the scheme changes, the incoming icon turns in and fades up. An element that goes from display: none
+   to block starts its animation afresh, so this plays on every switch with no script. Reduced motion: the
+   icon only fades. */
+.schemeLight,
+.schemeDark,
+.schemeAuto {
+  animation: scheme-fade var(--strata-motion-duration-normal) var(--strata-motion-easing-out);
+}
+@media (prefers-reduced-motion: no-preference) {
+  .schemeLight,
+  .schemeDark,
+  .schemeAuto {
+    animation: scheme-turn var(--strata-motion-duration-spring) var(--strata-motion-spring);
+  }
+}
+@keyframes scheme-fade {
+  from {
+    opacity: 0;
+  }
+}
+@keyframes scheme-turn {
+  from {
+    opacity: 0;
+    rotate: -90deg;
+    scale: 0.5;
+  }
 }

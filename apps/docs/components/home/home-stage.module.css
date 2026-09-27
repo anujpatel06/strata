@@ -1,0 +1,155 @@
+/*
+ * The homepage stage (hero + live showcase) and the hero's colour glow. Tokens only: the glow is the selected
+ * tenant's action.primary.bg and accent.bg mixed with transparent, so it follows the showcase's tenant switcher
+ * and the site's light/dark.
+ *
+ * Contrast budget. The glow never sits under a solid fill, and it is strongest *above* the headline (behind the
+ * version pill and the site header's glass), falling off before the lead paragraph. Light mode mixes in less
+ * colour than dark: a light canvas darkens toward the tint, which eats into text.subtle's margin; a dark canvas
+ * lightens a little, which text.subtle (near-white) barely notices. Measured with a pixel probe against every
+ * tenant; axe alone can't see through a gradient.
+ */
+
+.stage {
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  min-inline-size: 0;
+}
+
+/* Registered so a tenant switch cross-fades the glow instead of snapping. Colour fades are allowed under
+   reduced motion (CONVENTIONS "Tactile style"). */
+@property --home-glow-primary {
+  syntax: '<color>';
+  inherits: true;
+  initial-value: transparent;
+}
+@property --home-glow-accent {
+  syntax: '<color>';
+  inherits: true;
+  initial-value: transparent;
+}
+
+.glow {
+  /* This element carries the tenant's data-strata-theme, so these resolve to the tenant's roles.
+     The global [data-strata-theme] rule sets colour and font on it; irrelevant for an empty layer.
+     --_k scales the whole glow: full on wide screens, where the fields sit beside and above the text; lower on
+     narrow ones, where every field ends up behind a line of text. */
+  --_k: 0.6;
+  --home-glow-primary: light-dark(
+    color-mix(in oklab, var(--strata-color-action-primary-bg) calc(20% * var(--_k)), transparent),
+    color-mix(in oklab, var(--strata-color-action-primary-bg) calc(44% * var(--_k)), transparent)
+  );
+  --home-glow-accent: light-dark(
+    color-mix(in oklab, var(--strata-color-accent-bg) calc(14% * var(--_k)), transparent),
+    color-mix(in oklab, var(--strata-color-accent-bg) calc(30% * var(--_k)), transparent)
+  );
+  /* An eased fall-off (full, half, a sixth, none) instead of a blur filter: the same softness without filter
+     tiles, and the drift only moves pre-painted layers. */
+  --_primary-mid: color-mix(in oklab, var(--home-glow-primary) 50%, transparent);
+  --_primary-low: color-mix(in oklab, var(--home-glow-primary) 16%, transparent);
+  --_accent-mid: color-mix(in oklab, var(--home-glow-accent) 50%, transparent);
+  --_accent-low: color-mix(in oklab, var(--home-glow-accent) 16%, transparent);
+  position: absolute;
+  z-index: -1;
+  inset-block-start: calc(var(--strata-space-16) * -3);
+  inset-inline: 0;
+  block-size: calc(var(--strata-space-16) * 12);
+  overflow: hidden;
+  pointer-events: none;
+  /* Every edge of the layer fades out, so there's never a line where it ends (or where a drifting field leaves). */
+  -webkit-mask-image: radial-gradient(closest-side, black 55%, transparent);
+  mask-image: radial-gradient(closest-side, black 55%, transparent);
+  transition:
+    --home-glow-primary calc(var(--strata-motion-duration-slow) * 2) var(--strata-motion-easing),
+    --home-glow-accent calc(var(--strata-motion-duration-slow) * 2) var(--strata-motion-easing);
+}
+/* Full strength only once the flanking fields clear the headline's ends (measured, not guessed). */
+@media (min-width: 1280px) {
+  .glow {
+    --_k: 0.8;
+  }
+}
+@media (min-width: 1440px) {
+  .glow {
+    --_k: 1;
+  }
+}
+
+.glowPrimary,
+.glowAccent,
+.glowFlank {
+  position: absolute;
+}
+
+/* Light from above: a wide field centred behind the site header and the version pill. Its lower edge reaches
+   the headline only as the faint tail of the fall-off. */
+.glowPrimary {
+  inset-block-start: calc(var(--strata-space-16) * 0.5);
+  inset-inline-start: 50%;
+  inline-size: min(100%, calc(var(--strata-space-16) * 18));
+  block-size: calc(var(--strata-space-16) * 6.5);
+  translate: -50% 0;
+  background: radial-gradient(closest-side, var(--home-glow-primary), var(--_primary-mid) 45%, var(--_primary-low) 72%, transparent);
+}
+.glowPrimary:dir(rtl) {
+  translate: 50% 0;
+}
+
+/* Two flanking fields beside the headline (never centred on it): the accent toward the inline end, a second
+   primary field toward the start, so the colour frames the words instead of sitting under them. */
+.glowAccent {
+  inset-block-start: calc(var(--strata-space-16) * 3.5);
+  inset-inline-end: 0;
+  inline-size: min(36%, calc(var(--strata-space-16) * 8));
+  block-size: calc(var(--strata-space-16) * 6);
+  background: radial-gradient(closest-side, var(--home-glow-accent), var(--_accent-mid) 45%, var(--_accent-low) 72%, transparent);
+}
+.glowFlank {
+  inset-block-start: calc(var(--strata-space-16) * 4);
+  inset-inline-start: 0;
+  inline-size: min(36%, calc(var(--strata-space-16) * 8));
+  block-size: calc(var(--strata-space-16) * 6);
+  background: radial-gradient(closest-side, var(--_primary-mid), var(--_primary-low) 60%, transparent);
+}
+
+/* Drift: a very slow loop (tens of seconds), transform only. Off with reduced motion; the glow just sits. */
+@media (prefers-reduced-motion: no-preference) {
+  .glowPrimary {
+    animation: glow-drift-a calc(var(--strata-motion-duration-slow) * 70) ease-in-out infinite alternate;
+  }
+  .glowAccent {
+    animation: glow-drift-b calc(var(--strata-motion-duration-slow) * 55) ease-in-out infinite alternate;
+  }
+  .glowFlank {
+    animation: glow-drift-c calc(var(--strata-motion-duration-slow) * 62) ease-in-out infinite alternate;
+  }
+}
+@keyframes glow-drift-a {
+  to {
+    transform: translateX(calc(var(--strata-space-16) * -1)) scale(1.08, 0.94);
+  }
+}
+@keyframes glow-drift-b {
+  to {
+    transform: translate(var(--strata-space-8), calc(var(--strata-space-8) * -1)) scale(0.9);
+  }
+}
+@keyframes glow-drift-c {
+  to {
+    transform: translate(calc(var(--strata-space-8) * -1), var(--strata-space-8)) scale(0.95);
+  }
+}
+
+/* First load: the light comes up slowly under the hero's line-by-line entrance. Opacity only. */
+@media (prefers-reduced-motion: no-preference) {
+  .glow {
+    animation: glow-in calc(var(--strata-motion-duration-slow) * 5) var(--strata-motion-easing-out) backwards;
+  }
+}
+@keyframes glow-in {
+  from {
+    opacity: 0;
+  }
+}

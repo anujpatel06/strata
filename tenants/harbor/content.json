@@ -2,9 +2,21 @@
   "locale": "en-GB",
   "dir": "ltr",
   "currency": "GBP",
-  "product": { "name": "Harbor", "industry": "Insurance" },
-  "nav": ["Overview", "Policies", "Claims", "Payments", "Documents"],
-  "user": { "name": "Daniel Okafor", "initials": "DO" },
+  "product": {
+    "name": "Harbor",
+    "industry": "Insurance"
+  },
+  "nav": [
+    "Overview",
+    "Policies",
+    "Claims",
+    "Payments",
+    "Documents"
+  ],
+  "user": {
+    "name": "Daniel Okafor",
+    "initials": "DO"
+  },
   "a11y": {
     "search": "Search policies and claims",
     "notifications": "Notifications, 1 unread",
@@ -120,11 +132,26 @@
       ]
     },
     "statusLabels": {
-      "paid": { "label": "Paid", "tone": "success" },
-      "settled": { "label": "Settled", "tone": "success" },
-      "action_needed": { "label": "Action needed", "tone": "warning" },
-      "in_review": { "label": "In review", "tone": "info" },
-      "failed": { "label": "Payment failed", "tone": "danger" }
+      "paid": {
+        "label": "Paid",
+        "tone": "success"
+      },
+      "settled": {
+        "label": "Settled",
+        "tone": "success"
+      },
+      "action_needed": {
+        "label": "Action needed",
+        "tone": "warning"
+      },
+      "in_review": {
+        "label": "In review",
+        "tone": "info"
+      },
+      "failed": {
+        "label": "Payment failed",
+        "tone": "danger"
+      }
     },
     "form": {
       "title": "Start a claim",
@@ -135,7 +162,11 @@
           "id": "policy",
           "label": "Which policy is this for?",
           "placeholder": "Choose a policy",
-          "options": ["Home · HB-HOM-31877", "Motor · HB-MTR-55102", "Travel · HB-TRV-60914"],
+          "options": [
+            "Home · HB-HOM-31877",
+            "Motor · HB-MTR-55102",
+            "Travel · HB-TRV-60914"
+          ],
           "value": "Home · HB-HOM-31877"
         },
         {
@@ -573,7 +604,7 @@
       "title": "Payments",
       "description": "How and when you pay for your cover.",
       "plan": {
-        "name": "Monthly Direct Debit",
+        "name": "Home, Motor & Travel",
         "price": 88.65,
         "period": "per month",
         "badge": "Active",
@@ -888,5 +919,10 @@
       "none": "No results"
     },
     "loading": "Loading claims and payments"
+  },
+  "specimen": {
+    "eyebrow": "Home policy",
+    "headline": "Renews on *14 October*",
+    "note": "Cover that’s there when you need it."
   }
 }

@@ -13,9 +13,11 @@ const as = (c: unknown) => c as ComponentType<BlockProps>;
 
 /**
  * Block components by name (= folder in apps/docs/blocks and registry item). Each is its own chunk, so the
- * full-page view of one block doesn't load the other four. Server-rendered as usual.
+ * full-page view of one block doesn't load the others. Server-rendered as usual.
  */
 export const BLOCK_COMPONENTS: Record<string, ComponentType<BlockProps>> = {
+  'benefits-overview': dynamic(() => import('@/blocks/benefits-overview/benefits-overview').then((m) => as(m.BenefitsOverview))),
+  portfolio: dynamic(() => import('@/blocks/portfolio/portfolio').then((m) => as(m.Portfolio))),
   'dashboard-overview': dynamic(() => import('@/blocks/dashboard-overview/dashboard-overview').then((m) => as(m.DashboardOverview))),
   'request-flow': dynamic(() => import('@/blocks/request-flow/request-flow').then((m) => as(m.RequestFlow))),
   settings: dynamic(() => import('@/blocks/settings/settings').then((m) => as(m.Settings))),

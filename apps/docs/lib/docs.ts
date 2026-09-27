@@ -12,7 +12,10 @@ export const DOC_GROUPS: ReadonlyArray<{ id: DocGroupId; label: string }> = [
 ];
 
 export interface DocPage {
-  /** File name in content/docs without extension; "index" is /docs. */
+  /**
+   * File name in content/docs without extension; "index" is /docs. A page with its own route instead of an MDX
+   * file (icons: app/docs/icons/page.tsx) is listed here too, so the sidebar, search and prev/next include it.
+   */
   slug: string;
   href: string;
   title: string;
@@ -35,23 +38,15 @@ export const DOC_PAGES: readonly DocPage[] = [
     slug: 'installation',
     href: '/docs/installation',
     title: 'Installation',
-    description: 'Add Strata to a React project with npm, the shadcn CLI, or by copying the files.',
+    description: 'Add Strata to a React project with npm, or by copying the files.',
     group: 'getting-started',
-    keywords: 'install setup npm pnpm shadcn cli',
-  },
-  {
-    slug: 'registry',
-    href: '/docs/registry',
-    title: 'Registry',
-    description: 'How the Strata registry is built and how it plugs into the shadcn CLI.',
-    group: 'getting-started',
-    keywords: 'shadcn registry json namespace components.json',
+    keywords: 'install setup npm pnpm copy manual tokens styles',
   },
   {
     slug: 'mcp',
     href: '/docs/mcp',
     title: 'MCP',
-    description: 'Let AI coding agents install and use Strata components through MCP.',
+    description: 'The planned Strata MCP server for AI coding agents.',
     group: 'getting-started',
     keywords: 'mcp agents claude cursor ai model context protocol',
   },
@@ -102,6 +97,14 @@ export const DOC_PAGES: readonly DocPage[] = [
     description: 'WCAG 2.2 AA contrast by construction, keyboard support from React Aria.',
     group: 'foundations',
     keywords: 'a11y wcag contrast keyboard screen reader focus',
+  },
+  {
+    slug: 'icons',
+    href: '/docs/icons',
+    title: 'Icons',
+    description: 'Strata’s own icon set, curvy and minimal. Search it, try a size and stroke, copy an import.',
+    group: 'foundations',
+    keywords: 'icons svg glyphs @strata/icons stroke grid tabler lucide',
   },
   {
     slug: 'governance',

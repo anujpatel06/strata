@@ -13,7 +13,7 @@ function variants(kind: 'add' | 'dlx' | 'run', args: string): Record<PackageMana
 export interface PackageCommandProps {
   /** Packages to install, e.g. "@strata/react @strata/tokens". */
   add?: string;
-  /** A package binary to execute, e.g. "shadcn@latest add @strata/button". */
+  /** A package binary to execute, e.g. "tsx scripts/build.ts". */
   dlx?: string;
   /** A package.json script, e.g. "test:themes". */
   run?: string;

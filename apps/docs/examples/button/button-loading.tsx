@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { Button } from '@strata/react';
-import { IconSend } from '@tabler/icons-react';
+import { IconSend } from '@strata/icons';
 
 export default function Example() {
   const [isPending, setPending] = useState(false);

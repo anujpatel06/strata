@@ -1,7 +1,8 @@
 /**
  * Homepage sections (server components). Every figure is read from the repo at build time — see home-data.ts.
  */
-import { IconArrowRight, IconBrandGithub, IconCheck, IconX } from '@tabler/icons-react';
+import { IconArrowRight, IconCheck, IconX } from '@strata/icons';
+import { IconBrandGithub } from '@tabler/icons-react';
 import {
   Badge,
   Card,
@@ -28,6 +29,7 @@ import {
   getTenantOverviews,
   type TenantOverview,
 } from './home-data';
+import { HeroAccent, HeroGlow } from './home-stage';
 import { InstallCommand } from './install-command';
 import { TenantCard } from './tenant-card';
 import styles from './sections.module.css';
@@ -40,7 +42,7 @@ function TextLink({ href, children }: { href: string; children: ReactNode }) {
   return (
     <Link href={href} className={styles.textLink}>
       {children}
-      <IconArrowRight aria-hidden stroke={1.75} className={styles.arrow} />
+      <IconArrowRight aria-hidden className={styles.arrow} />
     </Link>
   );
 }
@@ -62,26 +64,29 @@ export function Hero() {
   const { version, components } = getReleaseInfo();
   return (
     <section className={styles.hero} aria-labelledby="home-title">
+      <HeroGlow />
       <Link href="/docs/changelog" className={styles.pill}>
         {version && <span className={styles.pillVersion}>{version}</span>}
         {version && <span aria-hidden className={styles.pillDivider} />}
         <span>{components} components</span>
-        <IconArrowRight aria-hidden stroke={1.75} className={styles.arrow} />
+        <IconArrowRight aria-hidden className={styles.arrow} />
       </Link>
       <h1 id="home-title" className={styles.heroTitle}>
-        One design system. <span className={styles.heroBreak}>Every brand.</span>
+        One design system. <HeroAccent className={styles.heroBreak}>Every brand.</HeroAccent>
       </h1>
       <p className={styles.heroLead}>
         Six brand inputs become a light and dark theme that passes WCAG 2.2 AA. One React library renders every
         brand, for the people and the AI agents who build with it.
       </p>
       <div className={styles.heroActions}>
-        <ButtonLink href="/docs">Get started</ButtonLink>
-        <ButtonLink href="/docs/components" variant="outline">
+        <ButtonLink href="/docs" variant="inverse" size="lg">
+          Get started
+        </ButtonLink>
+        <ButtonLink href="/docs/components" variant="outline" size="lg">
           Browse components
         </ButtonLink>
       </div>
-      <InstallCommand command="npx shadcn@latest add @strata/button" />
+      <InstallCommand command="npm install @strata/react" />
     </section>
   );
 }
@@ -172,21 +177,24 @@ export function AccessibilitySection() {
           {fuzz && (
             <>
               <StatTileGroup className={styles.figures}>
-                <StatTile variant="outline" label="Random brands fuzzed" value={int.format(fuzz.themes)} caption="Each in light and dark" />
+                <StatTile variant="outline" size="lg" label="Random brands fuzzed" value={int.format(fuzz.themes)} caption="Each in light and dark" />
                 <StatTile
                   variant="outline"
+                  size="lg"
                   label="Contrast checks"
                   value={int.format(fuzz.totalChecks)}
                   caption={`${fuzz.checksPerTheme} per brand`}
                 />
                 <StatTile
                   variant="outline"
+                  size="lg"
                   label="Pass rate"
                   value={`${fuzz.passRatePercent}%`}
                   caption={`${int.format(fuzz.failed)} failures`}
                 />
                 <StatTile
                   variant="outline"
+                  size="lg"
                   label="Adjustments per brand"
                   value={`${fuzz.adjustments.median}`}
                   caption={`Median; ${fuzz.adjustments.min} to ${fuzz.adjustments.max}`}
@@ -217,7 +225,7 @@ export function AccessibilitySection() {
                     <span className="visually-hidden">, fails</span>
                   </span>
                 </div>
-                <IconArrowRight aria-hidden stroke={1.75} className={styles.beforeAfterArrow} />
+                <IconArrowRight aria-hidden className={styles.beforeAfterArrow} />
                 <div className={styles.sample}>
                   <ButtonPicture fill={quote.againstHex} label={a.toHex} />
                   <span className={styles.verdict} data-pass="true">
@@ -263,18 +271,19 @@ const SHIP: readonly ShipOption[] = [
     badge: 'Not on npm yet',
   },
   {
-    title: 'shadcn registry',
-    description: 'Copy the source into your project and own it. Components bring the components they use with them.',
-    command: 'npx shadcn@latest add @strata/strata',
-    href: '/docs/installation#with-the-shadcn-cli',
-    link: 'Install from the registry',
+    title: 'Design tokens',
+    description: 'Every tenant as CSS variables, DTCG 2025.10 JSON and Figma variables. Plain CSS, so any stack can read it.',
+    command: 'pnpm add @strata/tokens',
+    href: '/docs/theming',
+    link: 'How theming works',
+    badge: 'Not on npm yet',
   },
   {
-    title: 'shadcn bridge',
-    description: 'Already on shadcn/ui? Give it a tenant’s palette, light and dark, without changing a component.',
-    command: 'npx shadcn@latest add @strata/theme-harbor',
-    href: '/docs/registry#the-shadcn-bridge',
-    link: 'How the bridge maps',
+    title: 'Copy the source',
+    description: 'Copy a component’s files into your project and own them. Each component page lists its files and dependencies.',
+    command: 'pnpm add react-aria-components',
+    href: '/docs/installation#by-hand',
+    link: 'Install by hand',
   },
 ];
 
@@ -282,7 +291,7 @@ export function ShipSection() {
   return (
     <section className={styles.section} aria-labelledby="ship-title">
       <SectionHeader id="ship-title" title="Ship it your way">
-        One source, three ways in. Pick ownership or upgrades; the components and tokens are the same.
+        One source, three ways in. Pick upgrades or ownership; the components and tokens are the same.
       </SectionHeader>
       <div className={styles.shipGrid}>
         {SHIP.map((o) => (
@@ -351,12 +360,11 @@ export function AgentsSection() {
         <div className={styles.stack}>
           <SectionHeader id="agents-title" title="Built for people and agents">
             Each component is described once, in a meta.json: props, examples, keyboard behaviour, do and don’t.
-            These docs are generated from it, and coding agents can find and install Strata today through shadcn’s
-            MCP server. Strata’s own server, which adds tokens and usage rules, is planned.
+            These docs are generated from it, and coding agents can read the same file. A Strata MCP server, which
+            serves components, tokens and usage rules to agents, is planned.
           </SectionHeader>
           <div className={styles.commandRow}>
-            <InstallCommand command="npx shadcn@latest mcp init --client claude" />
-            <TextLink href="/docs/mcp">Set up MCP</TextLink>
+            <TextLink href="/docs/mcp">About the MCP server</TextLink>
           </div>
         </div>
         {excerpt && (
@@ -381,12 +389,14 @@ export function ClosingCta() {
         <p className={styles.ctaLead}>Install a button today; bring your brand colour when you’re ready.</p>
       </div>
       <div className={styles.heroActions}>
-        <ButtonLink href="/docs">Get started</ButtonLink>
-        <ButtonLink href="/themes" variant="outline">
+        <ButtonLink href="/docs" variant="inverse" size="lg">
+          Get started
+        </ButtonLink>
+        <ButtonLink href="/themes" variant="outline" size="lg">
           Try your brand colour
         </ButtonLink>
-        <ButtonLink href={GITHUB_URL} variant="ghost">
-          <IconBrandGithub aria-hidden stroke={1.75} />
+        <ButtonLink href={GITHUB_URL} variant="ghost" size="lg">
+          <IconBrandGithub aria-hidden />
           GitHub
         </ButtonLink>
       </div>

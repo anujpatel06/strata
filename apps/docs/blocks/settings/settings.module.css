@@ -1,9 +1,13 @@
 /*
  * Settings. Tokens only; container breakpoints are the only literals (CSS can't read them from variables).
+ *
+ * Shape: a page header with the person whose settings these are, tabs, then sections. Each section is a quiet
+ * name-and-purpose column beside one card of controls (stacked when narrow). Inside cards, rows are divided
+ * by hairlines, not boxes; lists that are read rather than edited sit in the card's inset panel.
  */
 
 .root {
-  --_page: calc(var(--strata-space-16) * 15);
+  --_page: calc(var(--strata-space-16) * 18);
   --_gutter: var(--strata-space-4);
 
   container: settings / inline-size;
@@ -48,6 +52,10 @@
   white-space: nowrap;
 }
 
+.num {
+  font-variant-numeric: tabular-nums;
+}
+
 /* Email and phone numbers read left to right even on right-to-left pages, still aligned to the field's start. */
 .ltrValue:dir(rtl) input {
   direction: ltr;
@@ -58,46 +66,97 @@
   flex: 1;
   display: grid;
   align-content: start;
-  gap: var(--strata-space-6);
+  gap: var(--strata-space-8);
   inline-size: 100%;
   max-inline-size: var(--_page);
   margin-inline: auto;
-  padding-block: var(--strata-space-6) var(--strata-space-12);
+  padding-block: var(--strata-space-6) var(--strata-space-16);
   padding-inline: var(--_gutter);
 }
 
 @container settings (min-width: 1024px) {
   .page {
-    padding-block-start: var(--strata-space-10);
+    padding-block-start: var(--strata-space-12);
   }
 }
 
+/* ------------------------------------------------------------------ *
+ * Page header: title, and whose settings these are
+ * ------------------------------------------------------------------ */
+
 .header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--strata-space-5) var(--strata-space-8);
+}
+
+.titleBlock {
   display: grid;
-  gap: var(--strata-space-1);
+  gap: var(--strata-space-2);
+  flex: 1 1 calc(var(--strata-space-16) * 5);
+  min-inline-size: 0;
 }
 
 .title {
   font-family: var(--strata-font-heading);
-  font-size: var(--strata-font-size-xl);
+  font-size: var(--strata-font-size-2xl);
   font-weight: var(--strata-font-weight-semibold);
-  letter-spacing: var(--strata-font-heading-tracking);
+  letter-spacing: var(--strata-font-tracking-2xl);
   line-height: var(--strata-line-height-tight);
+  text-wrap: balance;
 }
 
 @container settings (min-width: 640px) {
   .title {
-    font-size: var(--strata-font-size-2xl);
+    font-size: var(--strata-font-size-3xl);
+    letter-spacing: var(--strata-font-tracking-3xl);
   }
 }
 
+.title em,
+.planName em {
+  font-style: italic;
+  font-weight: var(--strata-font-weight-regular);
+  color: var(--strata-color-text-brand);
+}
+
 .description {
+  max-inline-size: 60ch;
   color: var(--strata-color-text-subtle);
+  letter-spacing: var(--strata-font-tracking-md);
   text-wrap: pretty;
 }
 
+.identity {
+  display: flex;
+  align-items: center;
+  gap: var(--strata-space-3);
+  min-inline-size: 0;
+}
+
+.identityFace.identityFace.identityFace {
+  --_size: var(--strata-space-12);
+}
+
+.identityText {
+  display: grid;
+  gap: var(--strata-space-1);
+  min-inline-size: 0;
+}
+
+.identityName {
+  overflow: hidden;
+  font-weight: var(--strata-font-weight-medium);
+  letter-spacing: var(--strata-font-tracking-md);
+  line-height: var(--strata-line-height-snug);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 .tabs.tabs {
-  gap: var(--strata-space-6);
+  gap: var(--strata-space-8);
   min-inline-size: 0;
 }
 
@@ -107,7 +166,69 @@
 
 .panel.panel {
   display: grid;
-  gap: var(--strata-section-gap);
+  gap: var(--strata-space-10);
+  min-inline-size: 0;
+}
+
+/* ------------------------------------------------------------------ *
+ * Section: name + purpose | card
+ * ------------------------------------------------------------------ */
+
+.section {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--strata-space-4);
+  min-inline-size: 0;
+}
+
+@container settings (min-width: 880px) {
+  .section {
+    grid-template-columns: calc(var(--strata-space-16) * 4) minmax(0, 1fr);
+    column-gap: var(--strata-space-12);
+    align-items: start;
+  }
+
+  /* Sections after the first are divided by a hairline across both columns: the rhythm of a document. */
+  .section + .section {
+    padding-block-start: var(--strata-space-10);
+    box-shadow: inset 0 var(--strata-hairline) 0 var(--strata-color-border-subtle);
+  }
+
+  .panel.panel:has(.section + .section) {
+    gap: var(--strata-space-10);
+  }
+}
+
+.aside {
+  display: grid;
+  gap: var(--strata-space-1);
+  align-content: start;
+  min-inline-size: 0;
+}
+
+@container settings (min-width: 880px) {
+  .aside {
+    padding-block-start: var(--strata-space-1);
+  }
+}
+
+.sectionTitle {
+  font-family: var(--strata-font-heading);
+  font-size: var(--strata-font-size-lg);
+  font-weight: var(--strata-font-weight-semibold);
+  letter-spacing: var(--strata-font-tracking-lg);
+  line-height: var(--strata-line-height-snug);
+}
+
+.sectionDescription {
+  color: var(--strata-color-text-subtle);
+  font-size: var(--strata-font-size-sm);
+  letter-spacing: var(--strata-font-tracking-sm);
+  text-wrap: pretty;
+}
+
+.sectionBody {
+  display: grid;
   min-inline-size: 0;
 }
 
@@ -130,6 +251,74 @@
   justify-content: flex-end;
 }
 
+/* Rows divided by hairlines: each row after the first gets an inset top edge and the gap on both sides. */
+.lines.lines {
+  display: grid;
+  gap: 0;
+}
+
+.lines.lines > * + * {
+  margin-block-start: var(--strata-space-5);
+  padding-block-start: var(--strata-space-5);
+  box-shadow: inset 0 var(--strata-hairline) 0 var(--strata-color-border-subtle);
+}
+
+.line {
+  display: grid;
+  gap: var(--strata-space-2);
+  justify-items: start;
+  min-inline-size: 0;
+}
+
+@container settings (min-width: 640px) {
+  .line {
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    column-gap: var(--strata-space-4);
+  }
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--strata-space-3) var(--strata-space-6);
+}
+
+.rowText {
+  display: grid;
+  gap: var(--strata-space-1);
+  flex: 1 1 calc(var(--strata-space-16) * 3.5);
+  min-inline-size: 0;
+}
+
+.rowLabel {
+  font-weight: var(--strata-font-weight-medium);
+  letter-spacing: var(--strata-font-tracking-md);
+}
+
+.rowDescription {
+  color: var(--strata-color-text-subtle);
+  font-size: var(--strata-font-size-sm);
+  letter-spacing: var(--strata-font-tracking-sm);
+  text-wrap: pretty;
+}
+
+.quiet {
+  color: var(--strata-color-text-subtle);
+}
+
+.toggles.toggles {
+  flex-wrap: wrap;
+  block-size: auto;
+  min-block-size: var(--strata-control-height);
+}
+
+/* ------------------------------------------------------------------ *
+ * Profile
+ * ------------------------------------------------------------------ */
+
 .fieldGrid {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
@@ -150,77 +339,64 @@
   }
 }
 
+/* The photo row: face, what's needed, one button. Also a drop target, so it shows where a drop will land.
+   The divider under it is a straight hairline (no radius on the row), whatever the tenant's corner style. */
 .photoRow {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: var(--strata-space-4);
+  gap: var(--strata-space-3) var(--strata-space-4);
+  padding-block-end: var(--strata-space-6);
+  box-shadow: inset 0 calc(var(--strata-hairline) * -1) 0 var(--strata-color-border-subtle);
+  outline: none;
+  transition: background-color var(--strata-motion-duration-fast) var(--strata-motion-easing);
 }
 
-.photo.photo {
+.photoRow[data-drop-target] {
+  border-radius: var(--strata-radius-field);
+  background-color: var(--strata-color-surface-selected);
+  outline: 2px dashed var(--strata-color-focus-ring);
+  outline-offset: var(--strata-space-2);
+}
+
+.photoRow[data-focus-visible] {
+  border-radius: var(--strata-radius-field);
+  outline: 2px solid var(--strata-color-focus-ring);
+  outline-offset: var(--strata-space-2);
+}
+
+.photo.photo.photo {
+  --_size: var(--strata-space-16);
   flex: none;
-  inline-size: var(--strata-space-16);
-  block-size: var(--strata-space-16);
-  font-size: var(--strata-font-size-xl);
 }
 
-.upload.upload {
-  flex: 1 1 calc(var(--strata-space-16) * 4);
+.photoText {
+  display: grid;
+  gap: var(--strata-space-1);
+  flex: 1 1 calc(var(--strata-space-16) * 3);
   min-inline-size: 0;
 }
 
-.choices.choices {
-  display: grid;
-  gap: var(--strata-space-5);
-}
-
-.choice {
-  display: grid;
-  gap: var(--strata-space-2);
-  justify-items: start;
-  min-inline-size: 0;
-}
-
-@container settings (min-width: 640px) {
-  .choice {
-    grid-template-columns: calc(var(--strata-space-16) * 2.5) minmax(0, 1fr);
-    align-items: center;
-    column-gap: var(--strata-space-4);
-  }
-}
-
-.choiceLabel {
-  color: var(--strata-color-text-default);
-  font-size: var(--strata-font-size-sm);
-  font-weight: var(--strata-font-weight-medium);
-}
-
-.toggles.toggles {
-  flex-wrap: wrap;
-  block-size: auto;
-  min-block-size: var(--strata-control-height);
+.photoButton.photoButton {
+  flex: none;
 }
 
 /* ------------------------------------------------------------------ *
- * Danger zone
+ * Danger: calm until chosen
  * ------------------------------------------------------------------ */
 
-.danger.danger {
-  border-color: var(--strata-color-feedback-danger-border);
+.dangerText {
+  flex: 1 1 calc(var(--strata-space-16) * 4);
+  max-inline-size: 60ch;
 }
 
-/* Narrow: the action drops under the text instead of squeezing it. (Tripled class: beats Card's :has() rule.) */
-@container settings (max-width: 559.98px) {
-  .dangerHeader.dangerHeader.dangerHeader {
-    grid-template-columns: minmax(0, 1fr);
-  }
+/* feedback.danger.fg is checked on surface.default, the outline button's fill. */
+.dangerButton.dangerButton {
+  color: var(--strata-color-feedback-danger-fg);
+}
 
-  .dangerHeader .dangerAction.dangerAction {
-    grid-row: auto;
-    grid-column: 1;
-    justify-self: start;
-    margin-block-start: var(--strata-space-2);
-  }
+.dangerButton.dangerButton[data-hovered] {
+  border-color: var(--strata-color-feedback-danger-border);
 }
 
 /* ------------------------------------------------------------------ *
@@ -229,32 +405,34 @@
 
 .groups.groups {
   display: grid;
-  gap: var(--strata-space-6);
+  gap: 0;
+}
+
+.groups.groups > * + * {
+  margin-block-start: var(--strata-space-6);
+  padding-block-start: var(--strata-space-6);
+  box-shadow: inset 0 var(--strata-hairline) 0 var(--strata-color-border-subtle);
 }
 
 .group {
   display: grid;
-  gap: var(--strata-space-3);
+  gap: var(--strata-space-4);
 }
 
-@container settings (min-width: 720px) {
-  .group {
-    grid-template-columns: calc(var(--strata-space-16) * 2.5) minmax(0, 1fr);
-    column-gap: var(--strata-space-4);
-    align-items: start;
-  }
-}
-
+/* A small-caps label: names the group without competing with the switches' own labels. */
 .groupTitle {
+  color: var(--strata-color-text-subtle);
   font-family: var(--strata-font-body);
-  font-size: var(--strata-font-size-sm);
-  font-weight: var(--strata-font-weight-semibold);
+  font-size: var(--strata-font-size-xs);
+  font-weight: var(--strata-font-weight-medium);
+  letter-spacing: var(--strata-font-tracking-caps);
   line-height: var(--strata-line-height-snug);
+  text-transform: uppercase;
 }
 
 .switches {
   display: grid;
-  gap: var(--strata-space-4);
+  gap: var(--strata-space-5);
 }
 
 .switch.switch {
@@ -262,48 +440,8 @@
 }
 
 /* ------------------------------------------------------------------ *
- * Security
+ * Sessions
  * ------------------------------------------------------------------ */
-
-.rows.rows {
-  display: grid;
-  gap: var(--strata-space-4);
-}
-
-.row {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--strata-space-3) var(--strata-space-4);
-}
-
-.rowText {
-  display: grid;
-  gap: var(--strata-space-1);
-  min-inline-size: 0;
-}
-
-.rowLabel {
-  font-weight: var(--strata-font-weight-medium);
-}
-
-.rowDescription {
-  color: var(--strata-color-text-subtle);
-  font-size: var(--strata-font-size-sm);
-}
-
-.tableCard.tableCard {
-  padding-block-end: 0;
-  overflow: hidden;
-}
-
-.table.table {
-  border: 0;
-  border-block-start: 1px solid var(--strata-color-border-subtle);
-  border-radius: 0;
-  background-color: transparent;
-}
 
 .device {
   display: flex;
@@ -312,6 +450,7 @@
   min-inline-size: 0;
 }
 
+/* On the inset (sunken) panel the chip lifts to raised with a hairline; text.subtle on raised is checked. */
 .deviceIcon,
 .methodIcon {
   display: inline-grid;
@@ -319,33 +458,41 @@
   place-items: center;
   inline-size: var(--strata-space-8);
   block-size: var(--strata-space-8);
-  border-radius: var(--strata-radius-field);
-  background-color: var(--strata-color-surface-sunken);
+  border-radius: var(--strata-radius-pill);
+  background-color: var(--strata-color-surface-raised);
+  box-shadow: 0 0 0 var(--strata-hairline) var(--strata-color-border-subtle);
   color: var(--strata-color-text-subtle);
+}
+
+.deviceIconCurrent {
+  background-color: var(--strata-color-feedback-success-bg);
+  box-shadow: none;
+  color: var(--strata-color-feedback-success-fg);
 }
 
 .deviceIcon svg,
 .methodIcon svg {
   inline-size: var(--strata-space-4);
   block-size: var(--strata-space-4);
+  stroke-width: var(--strata-icon-stroke, 1.5);
 }
 
 .deviceText {
   display: grid;
+  justify-items: start;
+  gap: var(--strata-space-1);
   min-inline-size: 0;
 }
 
 .deviceName {
-  display: inline-flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: var(--strata-space-2);
   font-weight: var(--strata-font-weight-medium);
+  line-height: var(--strata-line-height-snug);
 }
 
 .deviceMeta {
   color: var(--strata-color-text-subtle);
   font-size: var(--strata-font-size-sm);
+  letter-spacing: var(--strata-font-tracking-sm);
 }
 
 /* ------------------------------------------------------------------ *
@@ -353,8 +500,25 @@
  * ------------------------------------------------------------------ */
 
 .plan.plan {
-  display: grid;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
   gap: var(--strata-space-4);
+}
+
+.planHead {
+  display: grid;
+  gap: var(--strata-space-2);
+  min-inline-size: 0;
+}
+
+.planName {
+  font-family: var(--strata-font-heading);
+  font-size: var(--strata-font-size-xl);
+  font-weight: var(--strata-font-weight-semibold);
+  letter-spacing: var(--strata-font-tracking-xl);
+  line-height: var(--strata-line-height-tight);
 }
 
 .price {
@@ -362,24 +526,22 @@
   flex-wrap: wrap;
   align-items: baseline;
   gap: var(--strata-space-2);
-}
-
-.priceValue {
-  font-family: var(--strata-font-heading);
-  font-size: var(--strata-font-size-3xl);
-  font-weight: var(--strata-font-weight-semibold);
-  font-variant-numeric: tabular-nums;
-  letter-spacing: var(--strata-font-heading-tracking);
-  line-height: var(--strata-line-height-tight);
+  margin-block-start: var(--strata-space-2);
 }
 
 .pricePeriod {
   color: var(--strata-color-text-subtle);
+  font-size: var(--strata-font-size-sm);
+  letter-spacing: var(--strata-font-tracking-sm);
+}
+
+.planAction.planAction {
+  flex: none;
 }
 
 .features {
   display: grid;
-  gap: var(--strata-space-2);
+  gap: var(--strata-space-3);
   padding: 0;
   list-style: none;
 }
@@ -387,9 +549,10 @@
 .features li {
   display: flex;
   align-items: flex-start;
-  gap: var(--strata-space-2);
+  gap: var(--strata-space-3);
 }
 
+/* feedback.success.fg is checked on the inset (sunken) panel this list sits on. */
 .featureIcon {
   flex: none;
   inline-size: 1.25em;
@@ -397,11 +560,70 @@
   /* Centre the icon on the first line of the item. */
   margin-block-start: calc((1lh - 1.25em) / 2);
   color: var(--strata-color-feedback-success-fg);
+  stroke-width: var(--strata-icon-stroke, 1.5);
 }
 
-.method {
+.method.method {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
-  gap: var(--strata-space-3);
-  min-inline-size: 0;
+  justify-content: flex-start;
+  gap: var(--strata-space-3) var(--strata-space-4);
+}
+
+.method.method .methodIcon {
+  align-self: flex-start;
+  margin-block-start: var(--strata-space-1);
+}
+
+.methodAction.methodAction {
+  flex: none;
+  margin-inline-start: auto;
+}
+
+/* ------------------------------------------------------------------ *
+ * Entrance
+ * ------------------------------------------------------------------ */
+
+/*
+ * Page content fades up in reading order when the block mounts:
+ * the header, the tabs, then each section of the open panel (a newly opened tab's sections enter too), each a
+ * step (duration-fast / 2) after the last. Fill mode `backwards` only holds the "before" state during each
+ * delay, so nothing is left transformed once it lands. Reduced motion: no animation; everything is simply there.
+ * Duration is 2 × duration-slow: easing-out is a steep expo curve, and at 1× the move is over before it reads.
+ */
+.root {
+  --_step: calc(var(--strata-motion-duration-fast) / 2);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .header,
+  .tabList.tabList,
+  .panel.panel > * {
+    animation: settings-enter calc(var(--strata-motion-duration-slow) * 2) var(--strata-motion-easing-out) backwards;
+    animation-delay: calc(var(--_i, 0) * var(--_step));
+  }
+
+  .tabList.tabList {
+    --_i: 1;
+  }
+
+  .panel.panel > :nth-child(1) {
+    --_i: 2;
+  }
+
+  .panel.panel > :nth-child(2) {
+    --_i: 3;
+  }
+
+  .panel.panel > :nth-child(3) {
+    --_i: 4;
+  }
+}
+
+@keyframes settings-enter {
+  from {
+    opacity: 0;
+    translate: 0 var(--strata-space-3);
+  }
 }

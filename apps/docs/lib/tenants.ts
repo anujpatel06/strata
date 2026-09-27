@@ -15,6 +15,10 @@ export interface TenantInfo {
   locale: string;
   /** Product name and industry in the tenant's own language (content.json). */
   product: { name: string; industry: string };
+  /** ISO currency from content.json, e.g. "INR". */
+  currency: string;
+  /** One real product moment for the tenant specimen (content.json `specimen`); `*word*` marks brand italics. */
+  specimen?: { eyebrow: string; headline?: string; amount?: number; note?: string };
 }
 
 /** The three reference tenants in the order the brief introduces them; any others follow alphabetically. */
@@ -33,7 +37,13 @@ export const getTenants = cache((): TenantInfo[] => {
     const brand = JSON.parse(brandJson) as BrandInput;
     const contentJson = readRepoFile('tenants', id, 'content.json');
     const content = contentJson
-      ? (JSON.parse(contentJson) as { dir?: string; locale?: string; product?: { name?: string; industry?: string } })
+      ? (JSON.parse(contentJson) as {
+          dir?: string;
+          locale?: string;
+          currency?: string;
+          product?: { name?: string; industry?: string };
+          specimen?: TenantInfo['specimen'];
+        })
       : {};
     tenants.push({
       id,
@@ -42,6 +52,8 @@ export const getTenants = cache((): TenantInfo[] => {
       dir: content.dir === 'rtl' ? 'rtl' : 'ltr',
       locale: content.locale ?? 'en-US',
       product: { name: content.product?.name ?? brand.name, industry: content.product?.industry ?? '' },
+      currency: content.currency ?? 'USD',
+      ...(content.specimen ? { specimen: content.specimen } : {}),
     });
   }
   return tenants.sort((a, b) => rank(a.id) - rank(b.id) || a.id.localeCompare(b.id));

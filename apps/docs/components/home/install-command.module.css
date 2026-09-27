@@ -9,6 +9,7 @@
   border: var(--docs-hairline);
   border-radius: var(--strata-radius-button);
   background: var(--strata-color-surface-default);
+  box-shadow: var(--strata-shadow-raised);
   direction: ltr;
 }
 

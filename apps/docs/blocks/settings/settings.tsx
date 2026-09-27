@@ -10,25 +10,21 @@
 
 import {
   AlertDialog,
+  Amount,
   Avatar,
   Badge,
   Button,
   Card,
-  CardAction,
   CardContent,
-  CardDescription,
   CardFooter,
-  CardHeader,
-  CardTitle,
   DataTable,
   DialogTrigger,
-  FileUpload,
+  Eyebrow,
   Menu,
   MenuItem,
   MenuTrigger,
   Select,
   SelectItem,
-  Separator,
   Switch,
   Tab,
   TabList,
@@ -52,8 +48,11 @@ import {
   IconLayoutRows,
   IconMoon,
   IconSun,
-} from '@tabler/icons-react';
+  IconUpload,
+} from '@strata/icons';
+import { DropZone, FileTrigger, type FileDropItem } from 'react-aria-components';
 import {
+  Fragment,
   useEffect,
   useId,
   useLayoutEffect,
@@ -63,6 +62,7 @@ import {
   type FormEvent,
   type HTMLAttributes,
   type JSX,
+  type ReactNode,
   type RefObject,
 } from 'react';
 import { settingsContent, type SettingsContent, type SettingsSession } from './settings.content';
@@ -110,22 +110,42 @@ export function Settings({ content = settingsContent, headingLevel = 1, classNam
   const s = content.settings;
   const embedded = headingLevel > 1;
   const Main = embedded ? 'div' : 'main';
-  const cardLevel = level(headingLevel + 1);
+  const sectionLevel = level(headingLevel + 1);
   const groupLevel = level(headingLevel + 2);
+  // The photo lives here so the identity in the page header changes with the upload, not just the form.
+  const [photo, setPhoto] = useState<string | undefined>();
+  // Object URLs hold the file in memory until revoked.
+  useEffect(() => () => (photo ? URL.revokeObjectURL(photo) : undefined), [photo]);
 
   const saved = (e?: FormEvent<HTMLFormElement>) => {
     e?.preventDefault();
     toast({ title: s.saved, tone: 'success' });
   };
 
+  const props = { content, level: sectionLevel };
+
   return (
     <div className={cx(styles.root, className)}>
       <Main className={styles.page} aria-labelledby={embedded ? undefined : `${uid}-title`}>
         <div className={styles.header}>
-          <Heading level={level(headingLevel)} id={`${uid}-title`} className={styles.title}>
-            {s.title}
-          </Heading>
-          <p className={styles.description}>{s.description}</p>
+          <div className={styles.titleBlock}>
+            <Heading level={level(headingLevel)} id={`${uid}-title`} className={styles.title}>
+              {emphasis(s.title)}
+            </Heading>
+            <p className={styles.description}>{s.description}</p>
+          </div>
+          {/* Whose settings these are: the person (tinted from their name, same as everywhere else) and their plan. */}
+          <div className={styles.identity}>
+            <Avatar name={content.user.name} src={photo} alt="" tint="auto" size="lg" className={styles.identityFace}>
+              {content.user.initials}
+            </Avatar>
+            <span className={styles.identityText}>
+              <span className={styles.identityName}>{content.user.name}</span>
+              <Eyebrow as="span" tone="brand" lead="rule">
+                {s.billing.plan.name}
+              </Eyebrow>
+            </span>
+          </div>
         </div>
 
         <Tabs className={styles.tabs}>
@@ -137,22 +157,22 @@ export function Settings({ content = settingsContent, headingLevel = 1, classNam
           </TabList>
 
           <TabPanel id="profile" className={styles.panel}>
-            <ProfileCard content={content} level={cardLevel} onSave={saved} />
-            <DisplayCard content={content} level={cardLevel} />
-            <DangerCard content={content} level={cardLevel} />
+            <ProfileSection {...props} photo={photo} onPhoto={setPhoto} onSave={saved} />
+            <DisplaySection {...props} />
+            <DangerSection {...props} />
           </TabPanel>
 
           <TabPanel id="notifications" className={styles.panel}>
-            <NotificationsCard content={content} level={cardLevel} groupLevel={groupLevel} onSave={saved} />
+            <NotificationsSection {...props} groupLevel={groupLevel} onSave={saved} />
           </TabPanel>
 
           <TabPanel id="security" className={styles.panel}>
-            <SecurityCard content={content} level={cardLevel} />
-            <SessionsCard content={content} level={cardLevel} />
+            <SecuritySection {...props} />
+            <SessionsSection {...props} />
           </TabPanel>
 
           <TabPanel id="billing" className={styles.panel}>
-            <BillingCards content={content} level={cardLevel} />
+            <BillingSections {...props} />
           </TabPanel>
         </Tabs>
       </Main>
@@ -161,166 +181,237 @@ export function Settings({ content = settingsContent, headingLevel = 1, classNam
   );
 }
 
-interface CardProps {
+/** `*word*` → <em>word</em>: editorial emphasis written in the copy (the heading face's italic), not in the component. */
+function emphasis(text: string): ReactNode {
+  const parts = text.split('*');
+  if (parts.length < 3) return text;
+  return parts.map((part, i) => (i % 2 === 1 ? <em key={i}>{part}</em> : <Fragment key={i}>{part}</Fragment>));
+}
+
+interface SectionProps {
   content: SettingsContent;
   level: Level;
+}
+
+/**
+ * One settings section: its name and purpose in a quiet column at the start, the controls in a card beside it.
+ * The heading labels the section (and the form inside it), so the card itself carries no second title.
+ */
+function Section({
+  title,
+  description,
+  level: l,
+  headingId,
+  children,
+  className,
+}: {
+  title: ReactNode;
+  description?: ReactNode;
+  level: Level;
+  headingId: string;
+  children: ReactNode;
+  className?: string;
+}): JSX.Element {
+  return (
+    <section className={cx(styles.section, className)} aria-labelledby={headingId}>
+      <div className={styles.aside}>
+        <Heading level={l} id={headingId} className={styles.sectionTitle}>
+          {title}
+        </Heading>
+        {description && <p className={styles.sectionDescription}>{description}</p>}
+      </div>
+      <div className={styles.sectionBody}>{children}</div>
+    </section>
+  );
 }
 
 /* ------------------------------------------------------------------ *
  * Profile
  * ------------------------------------------------------------------ */
 
-function ProfileCard({ content, level: l, onSave }: CardProps & { onSave: (e: FormEvent<HTMLFormElement>) => void }): JSX.Element {
+const PHOTO_TYPES = ['image/png', 'image/jpeg'];
+const PHOTO_MAX = 5 * 1024 * 1024;
+
+/** "upload one" → "Upload one" as a button label; scripts without case are unchanged. */
+const sentence = (text: string, locale: string) => text.charAt(0).toLocaleUpperCase(locale) + text.slice(1);
+
+function ProfileSection({
+  content,
+  level: l,
+  photo,
+  onPhoto,
+  onSave,
+}: SectionProps & {
+  photo: string | undefined;
+  onPhoto: (url: string | undefined) => void;
+  onSave: (e: FormEvent<HTMLFormElement>) => void;
+}): JSX.Element {
   const uid = useId();
   const p = content.settings.profile;
-  const [photo, setPhoto] = useState<string | undefined>();
-
-  // Object URLs hold the file in memory until revoked.
-  useEffect(() => () => (photo ? URL.revokeObjectURL(photo) : undefined), [photo]);
+  const accept = (file: File | undefined) => {
+    if (!file || !PHOTO_TYPES.includes(file.type) || file.size > PHOTO_MAX) return;
+    onPhoto(URL.createObjectURL(file));
+  };
 
   return (
-    <Card>
-      <form onSubmit={onSave} aria-labelledby={`${uid}-title`} className={styles.form}>
-        <CardHeader divider>
-          <CardTitle level={l} id={`${uid}-title`}>
-            {p.title}
-          </CardTitle>
-          <CardDescription>{p.description}</CardDescription>
-        </CardHeader>
-        <CardContent className={styles.stack}>
-          <div className={styles.photoRow}>
-            <Avatar name={content.user.name} src={photo} alt="" size="lg" className={styles.photo}>
-              {content.user.initials}
-            </Avatar>
-            <FileUpload
-              label={p.photo.label}
-              dropLabel={p.photo.dropLabel}
-              browseLabel={p.photo.browseLabel}
-              hint={p.photo.hint}
-              acceptedFileTypes={['image/png', 'image/jpeg']}
-              maxSize={5 * 1024 * 1024}
-              onChange={(files) => setPhoto(files[0] ? URL.createObjectURL(files[0]) : undefined)}
-              className={styles.upload}
-            />
-          </div>
-          <div className={styles.fieldGrid}>
-            <TextField label={p.name.label} description={p.name.description} defaultValue={p.name.value} autoComplete="name" name="name" />
-            <TextField
-              label={p.email.label}
-              description={p.email.description}
-              defaultValue={p.email.value}
-              type="email"
-              autoComplete="email"
-              name="email"
-              className={styles.ltrValue}
-            />
-            <TextField
-              label={p.phone.label}
-              description={p.phone.description}
-              defaultValue={p.phone.value}
-              type="tel"
-              autoComplete="tel"
-              name="phone"
-              className={styles.ltrValue}
-            />
-            <Select label={p.language.label} defaultSelectedKey={p.language.value} name="language">
-              {p.language.options.map((o) => (
-                <SelectItem key={o.id} id={o.id}>
-                  {o.label}
-                </SelectItem>
-              ))}
-            </Select>
-            <Select label={p.region.label} defaultSelectedKey={p.region.value} name="timeZone">
-              {p.region.options.map((o) => (
-                <SelectItem key={o.id} id={o.id}>
-                  {o.label}
-                </SelectItem>
-              ))}
-            </Select>
-          </div>
-        </CardContent>
-        <CardFooter divider className={styles.footerEnd}>
-          <Button type="submit">{content.settings.save}</Button>
-        </CardFooter>
-      </form>
-    </Card>
+    <Section title={p.title} description={p.description} level={l} headingId={`${uid}-title`}>
+      <Card>
+        <form onSubmit={onSave} aria-labelledby={`${uid}-title`} className={styles.form}>
+          <CardContent className={styles.stack}>
+            {/* The photo row is also a drop target; the button is the keyboard and pointer path. */}
+            <DropZone
+              aria-label={p.photo.label}
+              getDropOperation={(types) => (PHOTO_TYPES.some((t) => types.has(t)) ? 'copy' : 'cancel')}
+              onDrop={async (e) => {
+                const item = e.items.find((i): i is FileDropItem => i.kind === 'file');
+                accept(item ? await item.getFile() : undefined);
+              }}
+              className={styles.photoRow}
+            >
+              <Avatar name={content.user.name} src={photo} alt="" tint="auto" size="lg" className={styles.photo}>
+                {content.user.initials}
+              </Avatar>
+              <div className={styles.photoText}>
+                <p className={styles.rowLabel} id={`${uid}-photo`}>
+                  {p.photo.label}
+                </p>
+                <p className={styles.rowDescription} id={`${uid}-photo-hint`}>
+                  {p.photo.hint}
+                </p>
+              </div>
+              <FileTrigger acceptedFileTypes={PHOTO_TYPES} onSelect={(files) => accept(files?.[0])}>
+                <Button variant="outline" size="sm" aria-describedby={`${uid}-photo ${uid}-photo-hint`} className={styles.photoButton}>
+                  <IconUpload aria-hidden />
+                  {sentence(p.photo.browseLabel, content.locale)}
+                </Button>
+              </FileTrigger>
+            </DropZone>
+            <div className={styles.fieldGrid}>
+              <TextField label={p.name.label} description={p.name.description} defaultValue={p.name.value} autoComplete="name" name="name" />
+              <TextField
+                label={p.email.label}
+                description={p.email.description}
+                defaultValue={p.email.value}
+                type="email"
+                autoComplete="email"
+                name="email"
+                className={styles.ltrValue}
+              />
+              <TextField
+                label={p.phone.label}
+                description={p.phone.description}
+                defaultValue={p.phone.value}
+                type="tel"
+                autoComplete="tel"
+                name="phone"
+                className={styles.ltrValue}
+              />
+              <Select label={p.language.label} defaultSelectedKey={p.language.value} name="language">
+                {p.language.options.map((o) => (
+                  <SelectItem key={o.id} id={o.id}>
+                    {o.label}
+                  </SelectItem>
+                ))}
+              </Select>
+              <Select label={p.region.label} defaultSelectedKey={p.region.value} name="timeZone">
+                {p.region.options.map((o) => (
+                  <SelectItem key={o.id} id={o.id}>
+                    {o.label}
+                  </SelectItem>
+                ))}
+              </Select>
+            </div>
+          </CardContent>
+          <CardFooter divider className={styles.footerEnd}>
+            {/* The tab's one hero action. */}
+            <Button type="submit">{content.settings.save}</Button>
+          </CardFooter>
+        </form>
+      </Card>
+    </Section>
   );
 }
 
-function DisplayCard({ content, level: l }: CardProps): JSX.Element {
+function DisplaySection({ content, level: l }: SectionProps): JSX.Element {
   const uid = useId();
   const d = content.settings.display;
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle level={l}>{d.title}</CardTitle>
-        <CardDescription>{d.description}</CardDescription>
-      </CardHeader>
-      <CardContent className={styles.choices}>
-        <div className={styles.choice}>
-          <span id={`${uid}-theme`} className={styles.choiceLabel}>
-            {d.theme.label}
-          </span>
-          <ToggleButtonGroup aria-labelledby={`${uid}-theme`} defaultSelectedKeys={['system']} disallowEmptySelection className={styles.toggles}>
-            <ToggleButton id="system">
-              <IconDeviceDesktop aria-hidden />
-              {d.theme.options.system}
-            </ToggleButton>
-            <ToggleButton id="light">
-              <IconSun aria-hidden />
-              {d.theme.options.light}
-            </ToggleButton>
-            <ToggleButton id="dark">
-              <IconMoon aria-hidden />
-              {d.theme.options.dark}
-            </ToggleButton>
-          </ToggleButtonGroup>
-        </div>
-        <div className={styles.choice}>
-          <span id={`${uid}-density`} className={styles.choiceLabel}>
-            {d.density.label}
-          </span>
-          <ToggleButtonGroup aria-labelledby={`${uid}-density`} defaultSelectedKeys={['comfortable']} disallowEmptySelection className={styles.toggles}>
-            <ToggleButton id="comfortable">
-              <IconLayoutRows aria-hidden />
-              {d.density.options.comfortable}
-            </ToggleButton>
-            <ToggleButton id="compact">
-              <IconLayoutList aria-hidden />
-              {d.density.options.compact}
-            </ToggleButton>
-          </ToggleButtonGroup>
-        </div>
-      </CardContent>
-    </Card>
+    <Section title={d.title} description={d.description} level={l} headingId={`${uid}-title`}>
+      <Card>
+        <CardContent className={styles.lines}>
+          <div className={styles.line}>
+            <span id={`${uid}-theme`} className={styles.rowLabel}>
+              {d.theme.label}
+            </span>
+            <ToggleButtonGroup aria-labelledby={`${uid}-theme`} defaultSelectedKeys={['system']} disallowEmptySelection className={styles.toggles}>
+              <ToggleButton id="system">
+                <IconDeviceDesktop aria-hidden />
+                {d.theme.options.system}
+              </ToggleButton>
+              <ToggleButton id="light">
+                <IconSun aria-hidden />
+                {d.theme.options.light}
+              </ToggleButton>
+              <ToggleButton id="dark">
+                <IconMoon aria-hidden />
+                {d.theme.options.dark}
+              </ToggleButton>
+            </ToggleButtonGroup>
+          </div>
+          <div className={styles.line}>
+            <span id={`${uid}-density`} className={styles.rowLabel}>
+              {d.density.label}
+            </span>
+            <ToggleButtonGroup aria-labelledby={`${uid}-density`} defaultSelectedKeys={['comfortable']} disallowEmptySelection className={styles.toggles}>
+              <ToggleButton id="comfortable">
+                <IconLayoutRows aria-hidden />
+                {d.density.options.comfortable}
+              </ToggleButton>
+              <ToggleButton id="compact">
+                <IconLayoutList aria-hidden />
+                {d.density.options.compact}
+              </ToggleButton>
+            </ToggleButtonGroup>
+          </div>
+        </CardContent>
+      </Card>
+    </Section>
   );
 }
 
-function DangerCard({ content, level: l }: CardProps): JSX.Element {
+/**
+ * Closing the account is calm until it's chosen: a plain row and an outline button in the danger text colour.
+ * The alert dialog that follows is where the red fill belongs.
+ */
+function DangerSection({ content, level: l }: SectionProps): JSX.Element {
+  const uid = useId();
   const d = content.settings.danger;
   return (
-    <Card variant="outline" className={styles.danger}>
-      <CardHeader className={styles.dangerHeader}>
-        <CardTitle level={l}>{d.title}</CardTitle>
-        <CardDescription>{d.description}</CardDescription>
-        <CardAction className={styles.dangerAction}>
-          <DialogTrigger>
-            <Button variant="danger">{d.action}</Button>
-            <AlertDialog
-              tone="danger"
-              title={d.dialog.title}
-              actionLabel={d.dialog.action}
-              cancelLabel={d.dialog.cancel}
-              onAction={() => {
-                toast({ title: d.done, tone: 'neutral' });
-              }}
-            >
-              {d.dialog.body}
-            </AlertDialog>
-          </DialogTrigger>
-        </CardAction>
-      </CardHeader>
-    </Card>
+    <Section title={d.title} level={l} headingId={`${uid}-title`}>
+      <Card>
+        <CardContent>
+          <div className={styles.row}>
+            <p className={cx(styles.rowDescription, styles.dangerText)}>{d.description}</p>
+            <DialogTrigger>
+              <Button variant="outline" className={styles.dangerButton}>
+                {d.action}
+              </Button>
+              <AlertDialog
+                tone="danger"
+                title={d.dialog.title}
+                actionLabel={d.dialog.action}
+                cancelLabel={d.dialog.cancel}
+                onAction={() => {
+                  toast({ title: d.done, tone: 'neutral' });
+                }}
+              >
+                {d.dialog.body}
+              </AlertDialog>
+            </DialogTrigger>
+          </div>
+        </CardContent>
+      </Card>
+    </Section>
   );
 }
 
@@ -328,69 +419,64 @@ function DangerCard({ content, level: l }: CardProps): JSX.Element {
  * Notifications
  * ------------------------------------------------------------------ */
 
-function NotificationsCard({
+function NotificationsSection({
   content,
   level: l,
   groupLevel,
   onSave,
-}: CardProps & { groupLevel: Level; onSave: (e: FormEvent<HTMLFormElement>) => void }): JSX.Element {
+}: SectionProps & { groupLevel: Level; onSave: (e: FormEvent<HTMLFormElement>) => void }): JSX.Element {
   const uid = useId();
   const n = content.settings.notifications;
   return (
-    <Card>
-      <form onSubmit={onSave} aria-labelledby={`${uid}-title`} className={styles.form}>
-        <CardHeader divider>
-          <CardTitle level={l} id={`${uid}-title`}>
-            {n.title}
-          </CardTitle>
-          <CardDescription>{n.description}</CardDescription>
-        </CardHeader>
-        <CardContent className={styles.groups}>
-          {n.groups.map((group, i) => (
-            <section key={group.title} className={styles.group} aria-labelledby={`${uid}-g${i}`}>
-              <Heading level={groupLevel} id={`${uid}-g${i}`} className={styles.groupTitle}>
-                {group.title}
-              </Heading>
-              <div className={styles.switches}>
-                {group.items.map((item) => (
-                  <Switch
-                    key={item.id}
-                    name={item.id}
-                    defaultSelected={item.on}
-                    isDisabled={item.locked}
-                    description={item.description}
-                    className={styles.switch}
-                  >
-                    {item.label}
-                  </Switch>
+    <Section title={n.title} description={n.description} level={l} headingId={`${uid}-title`}>
+      <Card>
+        <form onSubmit={onSave} aria-labelledby={`${uid}-title`} className={styles.form}>
+          <CardContent className={styles.groups}>
+            {n.groups.map((group, i) => (
+              <section key={group.title} className={styles.group} aria-labelledby={`${uid}-g${i}`}>
+                <Heading level={groupLevel} id={`${uid}-g${i}`} className={styles.groupTitle}>
+                  {group.title}
+                </Heading>
+                <div className={styles.switches}>
+                  {group.items.map((item) => (
+                    <Switch
+                      key={item.id}
+                      name={item.id}
+                      defaultSelected={item.on}
+                      isDisabled={item.locked}
+                      description={item.description}
+                      className={styles.switch}
+                    >
+                      {item.label}
+                    </Switch>
+                  ))}
+                </div>
+              </section>
+            ))}
+            <div className={cx(styles.line, styles.channels)}>
+              <span id={`${uid}-channels`} className={styles.rowLabel}>
+                {n.channels.label}
+              </span>
+              <ToggleButtonGroup
+                aria-labelledby={`${uid}-channels`}
+                selectionMode="multiple"
+                defaultSelectedKeys={n.channels.selected}
+                className={styles.toggles}
+              >
+                {n.channels.options.map((o) => (
+                  <ToggleButton key={o.id} id={o.id}>
+                    {o.label}
+                  </ToggleButton>
                 ))}
-              </div>
-            </section>
-          ))}
-          <Separator />
-          <div className={styles.choice}>
-            <span id={`${uid}-channels`} className={styles.choiceLabel}>
-              {n.channels.label}
-            </span>
-            <ToggleButtonGroup
-              aria-labelledby={`${uid}-channels`}
-              selectionMode="multiple"
-              defaultSelectedKeys={n.channels.selected}
-              className={styles.toggles}
-            >
-              {n.channels.options.map((o) => (
-                <ToggleButton key={o.id} id={o.id}>
-                  {o.label}
-                </ToggleButton>
-              ))}
-            </ToggleButtonGroup>
-          </div>
-        </CardContent>
-        <CardFooter divider className={styles.footerEnd}>
-          <Button type="submit">{content.settings.save}</Button>
-        </CardFooter>
-      </form>
-    </Card>
+              </ToggleButtonGroup>
+            </div>
+          </CardContent>
+          <CardFooter divider className={styles.footerEnd}>
+            <Button type="submit">{content.settings.save}</Button>
+          </CardFooter>
+        </form>
+      </Card>
+    </Section>
   );
 }
 
@@ -398,32 +484,30 @@ function NotificationsCard({
  * Security
  * ------------------------------------------------------------------ */
 
-function SecurityCard({ content, level: l }: CardProps): JSX.Element {
+function SecuritySection({ content, level: l }: SectionProps): JSX.Element {
+  const uid = useId();
   const sec = content.settings.security;
   return (
-    <Card>
-      <CardHeader divider>
-        <CardTitle level={l}>{sec.title}</CardTitle>
-        <CardDescription>{sec.description}</CardDescription>
-      </CardHeader>
-      <CardContent className={styles.rows}>
-        <Switch defaultSelected={sec.twoFactor.on} description={sec.twoFactor.description} className={styles.switch}>
-          {sec.twoFactor.label}
-        </Switch>
-        <Separator />
-        <div className={styles.row}>
-          <div className={styles.rowText}>
-            <p className={styles.rowLabel}>{sec.password.label}</p>
-            <p className={styles.rowDescription}>{sec.password.description}</p>
+    <Section title={sec.title} description={sec.description} level={l} headingId={`${uid}-title`}>
+      <Card>
+        <CardContent className={styles.lines}>
+          <Switch defaultSelected={sec.twoFactor.on} description={sec.twoFactor.description} className={styles.switch}>
+            {sec.twoFactor.label}
+          </Switch>
+          <div className={styles.row}>
+            <div className={styles.rowText}>
+              <p className={styles.rowLabel}>{sec.password.label}</p>
+              <p className={styles.rowDescription}>{sec.password.description}</p>
+            </div>
+            <Button variant="outline">{sec.password.action}</Button>
           </div>
-          <Button variant="outline">{sec.password.action}</Button>
-        </div>
-      </CardContent>
-    </Card>
+        </CardContent>
+      </Card>
+    </Section>
   );
 }
 
-function SessionsCard({ content, level: l }: CardProps): JSX.Element {
+function SessionsSection({ content, level: l }: SectionProps): JSX.Element {
   const uid = useId();
   const ref = useRef<HTMLDivElement>(null);
   const compact = useWidthBelow(ref, COMPACT_TABLE_BELOW);
@@ -448,22 +532,20 @@ function SessionsCard({ content, level: l }: CardProps): JSX.Element {
         const Icon = DEVICE_ICON[row.kind];
         return (
           <span className={styles.device}>
-            <span className={styles.deviceIcon} aria-hidden="true">
+            <span className={cx(styles.deviceIcon, row.current && styles.deviceIconCurrent)} aria-hidden="true">
               <Icon />
             </span>
             <span className={styles.deviceText}>
-              <span className={styles.deviceName}>
-                {row.device}
-                {row.current && (
-                  <Badge tone="success" size="sm" dot>
-                    {t.current}
-                  </Badge>
-                )}
-              </span>
-              {compact && (
+              <span className={styles.deviceName}>{row.device}</span>
+              {compact ? (
                 <span className={styles.deviceMeta}>
                   {row.location} · {lastActive(row)}
                 </span>
+              ) : null}
+              {row.current && (
+                <Badge tone="success" variant="status" size="sm" className={styles.current}>
+                  {t.current}
+                </Badge>
               )}
             </span>
           </span>
@@ -498,29 +580,34 @@ function SessionsCard({ content, level: l }: CardProps): JSX.Element {
     if (compact) return [device, actions];
     return [
       device,
-      { id: 'location', header: t.columns.location, cell: (row) => row.location },
-      { id: 'lastActive', header: t.columns.lastActive, cell: (row) => <time dateTime={row.lastActive}>{lastActive(row)}</time> },
+      { id: 'location', header: t.columns.location, cell: (row) => <span className={styles.quiet}>{row.location}</span> },
+      {
+        id: 'lastActive',
+        header: t.columns.lastActive,
+        cell: (row) => (
+          <time dateTime={row.lastActive} className={cx(styles.quiet, styles.num)}>
+            {lastActive(row)}
+          </time>
+        ),
+      },
       actions,
     ];
   }, [compact, t, when]);
 
   return (
-    <Card className={styles.tableCard} ref={ref}>
-      <CardHeader>
-        <CardTitle level={l} id={`${uid}-title`}>
-          {t.title}
-        </CardTitle>
-        <CardDescription>{t.description}</CardDescription>
-      </CardHeader>
-      <DataTable
-        aria-labelledby={`${uid}-title`}
-        columns={columns}
-        rows={rows}
-        getRowId={(row) => row.id}
-        stickyHeader={false}
-        className={styles.table}
-      />
-    </Card>
+    <Section title={t.title} description={t.description} level={l} headingId={`${uid}-title`}>
+      <Card ref={ref}>
+        <CardContent variant="inset">
+          <DataTable
+            aria-labelledby={`${uid}-title`}
+            columns={columns}
+            rows={rows}
+            getRowId={(row) => row.id}
+            stickyHeader={false}
+          />
+        </CardContent>
+      </Card>
+    </Section>
   );
 }
 
@@ -528,31 +615,31 @@ function SessionsCard({ content, level: l }: CardProps): JSX.Element {
  * Billing
  * ------------------------------------------------------------------ */
 
-function BillingCards({ content, level: l }: CardProps): JSX.Element {
+function BillingSections({ content, level: l }: SectionProps): JSX.Element {
+  const uid = useId();
   const b = content.settings.billing;
-  const price = useMemo(() => {
-    const whole = Number.isInteger(b.plan.price);
-    return new Intl.NumberFormat(content.locale, {
-      style: 'currency',
-      currency: content.currency,
-      ...(whole ? { minimumFractionDigits: 0, maximumFractionDigits: 0 } : {}),
-    }).format(b.plan.price);
-  }, [b.plan.price, content.currency, content.locale]);
-
   return (
-    <>
+    <Section title={b.title} description={b.description} level={l} headingId={`${uid}-title`}>
       <Card>
-        <CardHeader>
-          <CardTitle level={l}>{b.plan.name}</CardTitle>
-          <CardDescription>{b.description}</CardDescription>
-          <CardAction>
-            <Badge tone="brand">{b.plan.badge}</Badge>
-          </CardAction>
-        </CardHeader>
         <CardContent className={styles.plan}>
-          <p className={styles.price}>
-            <span className={styles.priceValue}>{price}</span> <span className={styles.pricePeriod}>{b.plan.period}</span>
-          </p>
+          <div className={styles.planHead}>
+            <Eyebrow tone="brand" lead="rule">
+              {b.plan.badge}
+            </Eyebrow>
+            <Heading level={level(l + 1)} className={styles.planName}>
+              {emphasis(b.plan.name)}
+            </Heading>
+            <p className={styles.price}>
+              <Amount value={b.plan.price} currency={content.currency} locale={content.locale} size="md" />
+              <span className={styles.pricePeriod}>{b.plan.period}</span>
+            </p>
+          </div>
+          <Button variant="outline" className={styles.planAction}>
+            {b.plan.change}
+          </Button>
+        </CardContent>
+        {/* What the plan includes sits in the card's inset panel: a list to read, not more card chrome. */}
+        <CardContent variant="inset">
           <ul className={styles.features}>
             {b.plan.features.map((f) => (
               <li key={f}>
@@ -562,30 +649,20 @@ function BillingCards({ content, level: l }: CardProps): JSX.Element {
             ))}
           </ul>
         </CardContent>
-        <CardFooter divider className={styles.footerEnd}>
-          <Button variant="outline">{b.plan.change}</Button>
+        <CardFooter className={styles.method}>
+          <span className={styles.methodIcon} aria-hidden="true">
+            <IconCreditCard />
+          </span>
+          <div className={styles.rowText}>
+            <Eyebrow as="span">{b.method.title}</Eyebrow>
+            <p className={styles.rowLabel}>{b.method.label}</p>
+            <p className={styles.rowDescription}>{b.method.detail}</p>
+          </div>
+          <Button variant="ghost" className={styles.methodAction}>
+            {b.method.update}
+          </Button>
         </CardFooter>
       </Card>
-
-      <Card>
-        <CardHeader>
-          <CardTitle level={l}>{b.method.title}</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className={styles.row}>
-            <div className={styles.method}>
-              <span className={styles.methodIcon} aria-hidden="true">
-                <IconCreditCard />
-              </span>
-              <div className={styles.rowText}>
-                <p className={styles.rowLabel}>{b.method.label}</p>
-                <p className={styles.rowDescription}>{b.method.detail}</p>
-              </div>
-            </div>
-            <Button variant="outline">{b.method.update}</Button>
-          </div>
-        </CardContent>
-      </Card>
-    </>
+    </Section>
   );
 }

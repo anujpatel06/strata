@@ -155,23 +155,39 @@
   max-inline-size: 60ch;
 }
 
+.stepEyebrow {
+  display: none;
+}
+
+@container request-flow (min-width: 640px) {
+  .stepEyebrow.stepEyebrow {
+    display: flex;
+  }
+}
+
 .title {
   font-family: var(--strata-font-heading);
-  font-size: var(--strata-font-size-xl);
+  font-size: var(--strata-font-size-2xl);
   font-weight: var(--strata-font-weight-semibold);
-  letter-spacing: var(--strata-font-heading-tracking);
+  letter-spacing: var(--strata-font-tracking-2xl);
   line-height: var(--strata-line-height-tight);
   text-wrap: balance;
 }
 
 @container request-flow (min-width: 640px) {
   .title {
-    font-size: var(--strata-font-size-2xl);
+    font-size: var(--strata-font-size-3xl);
+    letter-spacing: var(--strata-font-tracking-3xl);
   }
+}
+
+.title em {
+  color: var(--strata-color-text-brand);
 }
 
 .subtitle {
   color: var(--strata-color-text-subtle);
+  letter-spacing: var(--strata-font-tracking-md);
   text-wrap: pretty;
 }
 
@@ -372,21 +388,16 @@
 }
 
 /* ------------------------------------------------------------------ *
- * Context cards
+ * Context: the receipt card and the "what happens next" timeline
  * ------------------------------------------------------------------ */
 
-.eyebrow {
-  color: var(--strata-color-text-subtle);
-  font-size: var(--strata-font-size-xs);
-  font-weight: var(--strata-font-weight-medium);
+.subjectTitle.subjectTitle {
+  margin-block-start: var(--strata-space-1);
 }
 
 .facts {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: var(--strata-space-4);
-  padding-block-start: var(--strata-space-4);
-  border-block-start: 1px solid var(--strata-color-border-subtle);
 }
 
 .fact {
@@ -397,21 +408,131 @@
 .fact dt {
   color: var(--strata-color-text-subtle);
   font-size: var(--strata-font-size-sm);
+  letter-spacing: var(--strata-font-tracking-sm);
 }
 
-.fact dd {
-  font-weight: var(--strata-font-weight-semibold);
+.fact + .fact {
+  padding-block-start: var(--strata-space-4);
+  box-shadow: inset 0 var(--strata-hairline) 0 var(--strata-color-border-subtle);
 }
 
-.helpList {
+.factDate {
+  font-weight: var(--strata-font-weight-medium);
+  font-variant-numeric: tabular-nums;
+}
+
+.help {
   display: grid;
-  gap: var(--strata-space-3);
-  padding-inline-start: var(--strata-space-5);
+  gap: var(--strata-space-4);
+  padding-inline: var(--strata-space-1);
+}
+
+@container request-flow (min-width: 960px) {
+  .help {
+    padding-block-start: var(--strata-space-2);
+  }
+}
+
+.helpTitle {
+  font-family: var(--strata-font-heading);
+  font-size: var(--strata-font-size-md);
+  font-weight: var(--strata-font-weight-semibold);
+  letter-spacing: var(--strata-font-tracking-md);
+  line-height: var(--strata-line-height-snug);
+}
+
+/* Numbered marks joined by a hairline rail: the order is the point, so it's drawn. */
+.timeline {
+  display: grid;
+  padding: 0;
+  list-style: none;
+}
+
+.timelineItem {
+  position: relative;
+  display: grid;
+  grid-template-columns: var(--strata-space-6) minmax(0, 1fr);
+  column-gap: var(--strata-space-3);
+  padding-block-end: var(--strata-space-5);
+}
+
+.timelineItem:last-child {
+  padding-block-end: 0;
+}
+
+.timelineItem:not(:last-child)::before {
+  content: '';
+  position: absolute;
+  inset-block: var(--strata-space-6) 0;
+  inset-inline-start: calc(var(--strata-space-6) / 2);
+  inline-size: 0;
+  border-inline-start: 1px solid var(--strata-color-border-subtle);
+}
+
+.timelineMark {
+  display: inline-grid;
+  place-items: center;
+  inline-size: var(--strata-space-6);
+  block-size: var(--strata-space-6);
+  border-radius: var(--strata-radius-pill);
+  background-color: var(--strata-color-surface-raised);
+  box-shadow: 0 0 0 var(--strata-hairline) var(--strata-color-border-default);
+  color: var(--strata-color-text-subtle);
+  font-size: var(--strata-font-size-xs);
+  font-weight: var(--strata-font-weight-semibold);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: var(--strata-font-tracking-xs);
+  line-height: 1;
+}
+
+.timelineText {
+  padding-block-start: calc((var(--strata-space-6) - 1lh) / 2);
   color: var(--strata-color-text-subtle);
   font-size: var(--strata-font-size-sm);
+  letter-spacing: var(--strata-font-tracking-sm);
+  text-wrap: pretty;
 }
 
-.helpList li::marker {
-  color: var(--strata-color-text-default);
-  font-weight: var(--strata-font-weight-semibold);
+/* ------------------------------------------------------------------ *
+ * Entrance
+ * ------------------------------------------------------------------ */
+
+/*
+ * Page content fades up in reading order when the block mounts:
+ * the intro, the current step, then the help card, each a step
+ * (duration-fast / 2) after the last. Fill mode `backwards` only holds the "before" state during each delay,
+ * so nothing is left transformed once it lands. Reduced motion: no animation; everything is simply there.
+ * Duration is 2 × duration-slow: easing-out is a steep expo curve, and at 1× the move is over before it reads.
+ */
+.root {
+  --_step: calc(var(--strata-motion-duration-fast) / 2);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .intro,
+  .flow,
+  .subject.subject,
+  .help {
+    animation: request-flow-enter calc(var(--strata-motion-duration-slow) * 2) var(--strata-motion-easing-out) backwards;
+    animation-delay: calc(var(--_i, 0) * var(--_step));
+  }
+
+  .flow {
+    --_i: 1;
+  }
+
+  .subject.subject {
+    --_i: 2;
+  }
+
+  .help {
+    --_i: 3;
+  }
+}
+
+@keyframes request-flow-enter {
+  from {
+    opacity: 0;
+    translate: 0 var(--strata-space-3);
+  }
 }

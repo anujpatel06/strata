@@ -5,9 +5,9 @@
  *   ?tenant=<preset id>          preset (brand defaults + preview locale); default: the first preset
  *   &primary=RRGGBB  &accent=RRGGBB|none
  *   &neutral=cool|neutral|warm  &shape=sharp|soft|round  &type=<type pair id>  &density=comfortable|compact
- *   &scheme=light|dark  &tab=preview|accessibility|tokens|export  &format=css|dtcg|figma|shadcn|registry
+ *   &scheme=light|dark  &tab=preview|accessibility|tokens|export  &format=css|dtcg|figma
  *
- * Anything missing or invalid falls back to the preset. Only values that differ from it are written back.
+ * Anything missing or invalid falls back to the preset (retired formats, e.g. format=registry, fall back to css). Only values that differ from it are written back.
  * Ported from the Phase 1 generator (apps/generator/src/url-state.ts).
  */
 import {
@@ -24,7 +24,7 @@ import {
 
 /** A starting point: a tenant's brand.json plus what the preview needs from its content.json. */
 export interface ThemePreset {
-  /** Folder name under tenants/, e.g. "vela". Also the registry item suffix. */
+  /** Folder name under tenants/, e.g. "vela". */
   id: string;
   /** Card title, e.g. "Vela" or "House". */
   label: string;
@@ -40,10 +40,10 @@ export interface ThemePreset {
 export const TABS = ['preview', 'accessibility', 'tokens', 'export'] as const;
 export type Tab = (typeof TABS)[number];
 
-export const FORMATS = ['css', 'dtcg', 'figma', 'shadcn', 'registry'] as const;
+export const FORMATS = ['css', 'dtcg', 'figma'] as const;
 export type ExportFormat = (typeof FORMATS)[number];
 
-export const NEUTRALS: readonly NeutralTemperature[] = ['cool', 'neutral', 'warm'];
+export const NEUTRALS: readonly NeutralTemperature[] = ['cool', 'neutral', 'warm', 'paper'];
 export const SHAPES: readonly Shape[] = ['sharp', 'soft', 'round'];
 export const DENSITIES: readonly Density[] = ['comfortable', 'compact'];
 export const SCHEMES: readonly Scheme[] = ['light', 'dark'];

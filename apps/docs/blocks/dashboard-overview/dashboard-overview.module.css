@@ -59,7 +59,8 @@
   inset-block-start: 0;
   z-index: 2;
   background-color: var(--strata-color-surface-default);
-  border-block-end: 1px solid var(--strata-color-border-subtle);
+  /* A hairline (inset shadow: Chromium rounds sub-pixel borders up to 1px). */
+  box-shadow: inset 0 calc(var(--strata-hairline) * -1) 0 var(--strata-color-border-subtle);
 }
 
 .appBarInner {
@@ -105,14 +106,29 @@
   font-family: var(--strata-font-heading);
   font-size: var(--strata-font-size-md);
   font-weight: var(--strata-font-weight-bold);
+  letter-spacing: var(--strata-font-tracking-md);
   line-height: 1;
+  box-shadow: var(--strata-shadow-highlight), var(--strata-shadow-raised);
+}
+
+@supports (corner-shape: squircle) {
+  .logoMark {
+    corner-shape: squircle;
+  }
+}
+
+/* A pill brand's mark is a circle: keep its round ends. */
+@container style(--strata-radius-button: var(--strata-radius-pill)) {
+  .logoMark {
+    corner-shape: round;
+  }
 }
 
 .productName {
   font-family: var(--strata-font-heading);
   font-size: var(--strata-font-size-lg);
   font-weight: var(--strata-font-weight-semibold);
-  letter-spacing: var(--strata-font-heading-tracking);
+  letter-spacing: var(--strata-font-tracking-lg);
 }
 
 .nav {
@@ -148,6 +164,7 @@
   color: var(--strata-color-text-subtle);
   font-size: var(--strata-font-size-sm);
   font-weight: var(--strata-font-weight-medium);
+  letter-spacing: var(--strata-font-tracking-sm);
   text-decoration: none;
   white-space: nowrap;
 }
@@ -310,19 +327,21 @@
   font-family: var(--strata-font-heading);
   font-size: var(--strata-font-size-xl);
   font-weight: var(--strata-font-weight-semibold);
-  letter-spacing: var(--strata-font-heading-tracking);
+  letter-spacing: var(--strata-font-tracking-xl);
   line-height: var(--strata-line-height-tight);
   text-wrap: balance;
 }
 
 @container dashboard-overview (min-width: 640px) {
   .title {
-    font-size: var(--strata-font-size-2xl);
+    font-size: var(--strata-font-size-3xl);
+    letter-spacing: var(--strata-font-tracking-3xl);
   }
 }
 
 .subtitle {
   color: var(--strata-color-text-subtle);
+  letter-spacing: var(--strata-font-tracking-md);
   text-wrap: pretty;
 }
 
@@ -332,14 +351,15 @@
   gap: var(--strata-space-2);
 }
 
-/* Narrow: the two actions share the row evenly. */
+/* Narrow: the actions fill the row, each growing from its own label width, so a long label wraps the pair
+   onto two rows instead of squeezing into its padding. */
 @container dashboard-overview (max-width: 479.98px) {
   .pageActions {
     inline-size: 100%;
   }
 
   .pageActions > * {
-    flex: 1 1 0;
+    flex: 1 1 auto;
   }
 }
 
@@ -350,6 +370,7 @@
 .grid {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
+  align-items: start;
   gap: var(--strata-section-gap);
 }
 
@@ -374,13 +395,8 @@
 }
 
 /* ------------------------------------------------------------------ *
- * Recent activity — the table runs edge to edge inside the card
+ * Recent activity — the table sits in the card's inset surface (CardContent variant="inset")
  * ------------------------------------------------------------------ */
-
-.activity.activity {
-  padding-block-end: 0;
-  overflow: hidden;
-}
 
 .viewAll.viewAll {
   display: inline-flex;
@@ -388,19 +404,13 @@
   gap: var(--strata-space-1);
   font-size: var(--strata-font-size-sm);
   font-weight: var(--strata-font-weight-medium);
+  letter-spacing: var(--strata-font-tracking-sm);
   white-space: nowrap;
 }
 
 .viewAll svg {
   inline-size: 1em;
   block-size: 1em;
-}
-
-.table.table {
-  border: 0;
-  border-block-start: 1px solid var(--strata-color-border-subtle);
-  border-radius: 0;
-  background-color: transparent;
 }
 
 .desc {
@@ -417,17 +427,21 @@
   inline-size: var(--strata-space-8);
   block-size: var(--strata-space-8);
   border-radius: var(--strata-radius-pill);
-  background-color: var(--strata-color-surface-sunken);
+  /* On the inset (sunken) surface the chip lifts to raised with a hairline; text.subtle on raised is checked. */
+  background-color: var(--strata-color-surface-raised);
+  box-shadow: 0 0 0 var(--strata-hairline) var(--strata-color-border-subtle);
   color: var(--strata-color-text-subtle);
 }
 
 .ledger svg {
   inline-size: var(--strata-space-4);
   block-size: var(--strata-space-4);
+  stroke-width: var(--strata-icon-stroke, 1.5);
 }
 
 .ledgerIn {
   background-color: var(--strata-color-feedback-success-bg);
+  box-shadow: none;
   color: var(--strata-color-feedback-success-fg);
 }
 
@@ -448,16 +462,20 @@
   overflow: hidden;
   color: var(--strata-color-text-subtle);
   font-size: var(--strata-font-size-sm);
+  letter-spacing: var(--strata-font-tracking-sm);
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
+/* Amounts are typography: tabular figures, semibold, so the column reads as one aligned figure stack. */
 .amount {
   font-variant-numeric: tabular-nums;
-  font-weight: var(--strata-font-weight-medium);
+  font-weight: var(--strata-font-weight-semibold);
   white-space: nowrap;
 }
 
+/* Money in is green: feedback.success.fg is engine-checked on surface.sunken, the inset panel the table sits on.
+   The explicit "+" and the green ledger chip say it too, so colour is never the only signal. */
 .amountIn {
   color: var(--strata-color-feedback-success-fg);
 }
@@ -497,9 +515,10 @@
   gap: var(--strata-space-4);
   padding-block: var(--strata-space-2);
   padding-inline: var(--strata-space-4);
-  border-block-start: 1px solid var(--strata-color-border-subtle);
+  box-shadow: inset 0 var(--strata-hairline) 0 var(--strata-color-border-subtle);
   color: var(--strata-color-text-subtle);
   font-size: var(--strata-font-size-xs);
+  letter-spacing: var(--strata-font-tracking-xs);
 }
 
 .commandHint {
@@ -515,4 +534,68 @@
   color: var(--strata-color-text-subtle);
   font-size: var(--strata-font-size-sm);
   text-align: center;
+}
+
+/* ------------------------------------------------------------------ *
+ * Entrance
+ * ------------------------------------------------------------------ */
+
+/*
+ * Page content fades up in reading order when the block mounts:
+ * the header, the alert, each stat tile, then the cards, each a step
+ * (duration-fast / 2) after the last. Fill mode `backwards` only holds the "before" state during each delay,
+ * so nothing is left transformed once it lands. Reduced motion: no animation; everything is simply there.
+ * Duration is 2 × duration-slow: easing-out is a steep expo curve, and at 1× the move is over before it reads.
+ */
+.root {
+  --_step: calc(var(--strata-motion-duration-fast) / 2);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .page > :not(.stats, .grid),
+  .stats.stats > *,
+  .grid > :not(.side),
+  .side > * {
+    animation: dashboard-overview-enter calc(var(--strata-motion-duration-slow) * 2) var(--strata-motion-easing-out) backwards;
+    animation-delay: calc(var(--_i, 0) * var(--_step));
+  }
+
+  .page > :nth-child(2) {
+    --_i: 1;
+  }
+
+  .stats.stats > :nth-child(1) {
+    --_i: 2;
+  }
+
+  .stats.stats > :nth-child(2) {
+    --_i: 3;
+  }
+
+  .stats.stats > :nth-child(3) {
+    --_i: 4;
+  }
+
+  .stats.stats > :nth-child(4) {
+    --_i: 5;
+  }
+
+  .grid > :first-child {
+    --_i: 6;
+  }
+
+  .side > :nth-child(1) {
+    --_i: 7;
+  }
+
+  .side > :nth-child(2) {
+    --_i: 8;
+  }
+}
+
+@keyframes dashboard-overview-enter {
+  from {
+    opacity: 0;
+    translate: 0 var(--strata-space-3);
+  }
 }

@@ -1,6 +1,6 @@
 'use client';
 
-import { IconReceipt } from '@tabler/icons-react';
+import { IconReceipt } from '@strata/icons';
 import { Button, DataTable, EmptyState, type DataTableColumn } from '@strata/react';
 
 type Invoice = { id: string; issued: string; amount: string };

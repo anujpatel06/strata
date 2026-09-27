@@ -1,5 +1,5 @@
 import { useId } from 'react';
-import { IconChevronDown } from '@tabler/icons-react';
+import { IconChevronDown } from '@strata/icons';
 import { TYPE_PAIRS, type TypePairId } from '@strata/theme-engine';
 import styles from './TypeSelect.module.css';
 import ui from './ui.module.css';

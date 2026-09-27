@@ -12,18 +12,6 @@
 .toolbar {
   z-index: 20;
   margin-inline: calc(var(--strata-space-2) * -1);
-  padding: var(--strata-space-2);
-  border-radius: var(--home-frame-radius);
-}
-@media (min-width: 768px) {
-  /* Sticky under the site header on wide screens, so the controls stay in reach while you scroll the grid. */
-  .toolbar {
-    position: sticky;
-    inset-block-start: calc(var(--docs-header-height) + var(--strata-space-2));
-    background: color-mix(in oklab, var(--strata-color-surface-canvas) 85%, transparent);
-    -webkit-backdrop-filter: saturate(1.8) blur(var(--strata-space-3));
-    backdrop-filter: saturate(1.8) blur(var(--strata-space-3));
-  }
 }
 
 .toolbarInner {
@@ -31,6 +19,45 @@
   flex-wrap: wrap;
   align-items: center;
   gap: var(--strata-space-2) var(--strata-space-3);
+  padding: var(--strata-space-2);
+  border: 1px solid transparent;
+  border-radius: var(--home-frame-radius);
+  transition:
+    background-color var(--strata-motion-duration-normal) var(--strata-motion-easing),
+    border-color var(--strata-motion-duration-normal) var(--strata-motion-easing),
+    box-shadow var(--strata-motion-duration-normal) var(--strata-motion-easing);
+}
+@media (min-width: 768px) {
+  /* Sticky under the site header on wide screens, so the controls stay in reach while you scroll the grid.
+     The toolbar is the scroll-state container; its inner bar turns to glass while it floats. */
+  .toolbar {
+    position: sticky;
+    inset-block-start: calc(var(--docs-header-height) + var(--strata-space-2));
+    container-type: scroll-state;
+  }
+  .toolbarInner {
+    background: var(--strata-glass-bg);
+    border-color: var(--strata-color-border-default);
+    box-shadow: var(--strata-shadow-overlay);
+    -webkit-backdrop-filter: blur(var(--strata-glass-blur)) saturate(1.6);
+    backdrop-filter: blur(var(--strata-glass-blur)) saturate(1.6);
+  }
+  @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+    .toolbarInner {
+      background: var(--strata-color-surface-raised);
+    }
+  }
+  /* Where the browser can tell (scroll-state queries), the bar is plain at rest and only floats once stuck.
+     Browsers without it keep the glass all the time, which is still correct. */
+  @container not scroll-state(stuck: top) {
+    .toolbarInner {
+      background: transparent;
+      border-color: transparent;
+      box-shadow: none;
+      -webkit-backdrop-filter: none;
+      backdrop-filter: none;
+    }
+  }
 }
 
 /* Tenant chips: the segmented control scrolls sideways on narrow screens rather than wrapping. The padding
@@ -81,6 +108,10 @@
 /* The native colour input, drawn as a swatch the size of a small control. */
 .swatch {
   flex: none;
+  box-shadow: var(--strata-shadow-raised);
+  transition:
+    border-color var(--strata-motion-duration-fast) var(--strata-motion-easing),
+    outline-offset var(--strata-motion-duration-fast) var(--strata-motion-easing);
   inline-size: calc(var(--strata-control-height) - var(--strata-space-2));
   block-size: calc(var(--strata-control-height) - var(--strata-space-2));
   padding: 0;
@@ -100,6 +131,20 @@
 .swatch::-moz-color-swatch {
   border: 0;
   border-radius: 0;
+}
+.swatch:hover {
+  border-color: var(--strata-color-text-subtle);
+}
+@media (prefers-reduced-motion: no-preference) {
+  .swatch {
+    transition:
+      border-color var(--strata-motion-duration-fast) var(--strata-motion-easing),
+      outline-offset var(--strata-motion-duration-fast) var(--strata-motion-easing),
+      scale var(--strata-motion-duration-spring) var(--strata-motion-spring);
+  }
+  .swatch:active {
+    scale: 0.9;
+  }
 }
 .swatch:focus-visible {
   outline: 2px solid var(--strata-color-focus-ring);
@@ -121,19 +166,60 @@
 
 /* ---- Frame ---- */
 
+/*
+ * The grid floats: a soft colour field behind it (the hero glow's colours, fainter), a hairline edge and a deep,
+ * soft shadow. The edge, radius and shadow live on the scope itself, so they're the tenant's: the frame's radius is
+ * the tenant's card radius plus the inset, which keeps the corners concentric for sharp, soft and round brands alike.
+ */
 .frame {
+  position: relative;
+  isolation: isolate;
   min-inline-size: 0;
-  border: var(--docs-hairline);
-  border-radius: var(--home-frame-radius);
-  overflow: hidden;
+}
+
+.field {
+  --_primary: light-dark(
+    color-mix(in oklab, var(--strata-color-action-primary-bg) 16%, transparent),
+    color-mix(in oklab, var(--strata-color-action-primary-bg) 30%, transparent)
+  );
+  --_accent: light-dark(
+    color-mix(in oklab, var(--strata-color-accent-bg) 14%, transparent),
+    color-mix(in oklab, var(--strata-color-accent-bg) 22%, transparent)
+  );
+  position: absolute;
+  z-index: -1;
+  inset-block: calc(var(--strata-space-16) * -2) calc(var(--strata-space-16) * -1.5);
+  inset-inline: calc(var(--docs-gutter) * -1);
+  background:
+    radial-gradient(40% 40% at 25% 35%, var(--_primary), transparent),
+    radial-gradient(40% 40% at 75% 60%, var(--_accent), transparent);
+  pointer-events: none;
+  /* Edges fade, so the field never shows its box. */
+  -webkit-mask-image: radial-gradient(closest-side, black 60%, transparent);
+  mask-image: radial-gradient(closest-side, black 60%, transparent);
 }
 
 .scope.scope {
-  padding: var(--strata-space-3);
+  --_inset: var(--strata-space-3);
+  padding: var(--_inset);
+  border: 1px solid transparent;
+  border-radius: calc(var(--strata-radius-container) + var(--_inset));
+  box-shadow:
+    0 0 0 var(--strata-hairline) var(--strata-color-border-subtle),
+    var(--strata-shadow-highlight),
+    var(--strata-shadow-overlay),
+    0 var(--strata-space-12) calc(var(--strata-space-16) * 2) calc(var(--strata-space-10) * -1)
+      color-mix(in oklab, var(--strata-color-action-primary-bg) 22%, transparent);
+  overflow: clip;
+}
+@supports (corner-shape: squircle) {
+  .scope.scope {
+    corner-shape: squircle;
+  }
 }
 @media (min-width: 768px) {
   .scope.scope {
-    padding: var(--strata-space-6);
+    --_inset: var(--strata-space-6);
   }
 }
 
@@ -167,6 +253,8 @@
 }
 
 .solverLink {
+  text-decoration-color: color-mix(in oklab, currentColor 35%, transparent);
+  transition: text-decoration-color var(--strata-motion-duration-fast) var(--strata-motion-easing);
   display: inline-flex;
   align-items: center;
   gap: var(--strata-space-1);
@@ -177,10 +265,24 @@
   text-underline-offset: 0.25em;
 }
 
+.solverLink:hover {
+  text-decoration-color: currentColor;
+}
+
 .arrow {
+  --_nudge: calc(var(--strata-space-1) / 2);
   inline-size: calc(var(--strata-space-4) - 2px);
   block-size: calc(var(--strata-space-4) - 2px);
 }
 .arrow:dir(rtl) {
+  --_nudge: calc(var(--strata-space-1) / -2);
   scale: -1 1;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .arrow {
+    transition: translate var(--strata-motion-duration-spring) var(--strata-motion-spring);
+  }
+  .solverLink:hover .arrow {
+    translate: var(--_nudge) 0;
+  }
 }

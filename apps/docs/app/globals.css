@@ -13,6 +13,11 @@
   --docs-prose: calc(var(--strata-space-16) * 11.5); /* 736px */
   --docs-hairline: 1px solid var(--strata-color-border-subtle);
   --docs-hover: color-mix(in oklab, var(--strata-color-text-default) 6%, transparent);
+  /* Marketing-page rhythm (home): one radius for every standalone card (the house container radius, the same one
+     Card, StatTile and CodeBlock use) and one gap between cards in a grid. Declared here so they resolve in the
+     house theme even when read inside a tenant ThemeScope. */
+  --docs-card-radius: var(--strata-radius-container);
+  --docs-card-gap: var(--strata-space-4);
   scroll-padding-block-start: calc(var(--docs-header-height) + var(--strata-space-6));
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
@@ -100,6 +105,15 @@ textarea {
 a {
   color: inherit;
   text-decoration: none;
+}
+
+/* Tactile style (CONVENTIONS "Tactile style"): the focus ring settles from 0 to 2px so focus visibly arrives.
+   :where() keeps this at zero specificity, so any rule that sets its own `transition` still wins. */
+@media (prefers-reduced-motion: no-preference) {
+  :where(a, button, [tabindex]) {
+    outline-offset: 0;
+    transition: outline-offset var(--strata-motion-duration-fast) var(--strata-motion-easing);
+  }
 }
 
 :where(a:focus-visible, button:focus-visible, [tabindex]:focus-visible) {

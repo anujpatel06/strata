@@ -10,9 +10,11 @@
  */
 
 import {
+  Amount,
   Badge,
   Button,
   Card,
+  CardContent,
   DataTable,
   DataTablePagination,
   DataTableToolbar,
@@ -35,15 +37,22 @@ import {
   type DataTableSortDescriptor,
 } from '@strata/react';
 import {
+  IconArrowDownLeft,
+  IconArrowUpRight,
   IconBaselineDensityMedium,
   IconBaselineDensitySmall,
   IconChevronDown,
   IconDownload,
   IconRefresh,
   IconSearch,
-} from '@tabler/icons-react';
+} from '@strata/icons';
 import { useId, useLayoutEffect, useMemo, useRef, useState, type HTMLAttributes, type JSX, type RefObject } from 'react';
-import { activityTableContent, type ActivityPlural, type ActivityRow, type ActivityTableContent } from './activity-table.content';
+import {
+  activitySummaryCopy,
+  activityTableContent,
+  type ActivityPlural,   type ActivityRow,
+  type ActivityTableContent,
+} from './activity-table.content';
 import styles from './activity-table.module.css';
 
 const cx = (...c: Array<string | false | null | undefined>) => c.filter(Boolean).join(' ');
@@ -58,6 +67,8 @@ function Heading({ level: l, ...rest }: { level: Level } & HTMLAttributes<HTMLHe
 }
 
 const PAGE_SIZE = 8;
+/** Totals are whole amounts: cents would only add noise at display size. */
+const MONEY = { minimumFractionDigits: 0, maximumFractionDigits: 0 } as const;
 /** Below this width (px) the table folds date, category and status into two columns. */
 const COMPACT_TABLE_BELOW = 640;
 const ALL = '__all';
@@ -89,6 +100,7 @@ function useFormat(locale: string, currency: string) {
     const signed = new Intl.NumberFormat(locale, { style: 'currency', currency, signDisplay: 'exceptZero' });
     const number = new Intl.NumberFormat(locale);
     const day = new Intl.DateTimeFormat(locale, { day: 'numeric', month: 'short', year: 'numeric', timeZone: 'UTC' });
+    const dayMonth = new Intl.DateTimeFormat(locale, { day: 'numeric', month: 'short', timeZone: 'UTC' });
     const plural = new Intl.PluralRules(locale);
     return {
       amount: (v: number) =>
@@ -96,9 +108,11 @@ function useFormat(locale: string, currency: string) {
           .formatToParts(v)
           .map((p) => (p.type === 'minusSign' ? p.value.replace('-', MINUS) : p.value))
           .join(''),
-      date: (iso: string) => {
+      /** "28 Sept": the year only appears when it isn't `currentYear` (the newest row's year). */
+      date: (iso: string, currentYear?: number) => {
         const d = new Date(`${iso}T00:00:00Z`);
-        return Number.isNaN(d.getTime()) ? iso : day.format(d);
+        if (Number.isNaN(d.getTime())) return iso;
+        return d.getUTCFullYear() === currentYear ? dayMonth.format(d) : day.format(d);
       },
       number: (n: number) => number.format(n),
       count: (n: number, forms: ActivityPlural) =>
@@ -162,6 +176,12 @@ export function ActivityTable({
     if (Number.isFinite(row) && Number.isFinite(comfortable)) setDensity(row >= comfortable ? 'comfortable' : 'compact');
   }, []);
 
+  const year = useMemo(
+    () => a.rows.reduce((max, r) => Math.max(max, Number(r.date.slice(0, 4)) || 0), 0) || undefined,
+    [a.rows],
+  );
+  const summary = a.summary ?? activitySummaryCopy[content.locale.split('-')[0]?.toLowerCase() ?? ''];
+
   const filtered = useMemo(() => {
     const q = query.trim().toLocaleLowerCase(content.locale);
     return a.rows.filter(
@@ -170,6 +190,16 @@ export function ActivityTable({
         (!q || [row.title, row.meta, row.category, row.id].some((v) => v.toLocaleLowerCase(content.locale).includes(q))),
     );
   }, [a.rows, query, status, content.locale]);
+
+  // Totals follow the search and filter, not the page: they describe what the table is showing.
+  const totals = useMemo(
+    () =>
+      filtered.reduce(
+        (t, r) => (r.amount > 0 ? { ...t, in: t.in + r.amount } : { ...t, out: t.out - r.amount }),
+        { in: 0, out: 0 },
+      ),
+    [filtered],
+  );
 
   const accessors = useMemo(
     () => ({
@@ -223,7 +253,7 @@ export function ActivityTable({
     const statusBadge = (row: ActivityRow) => {
       const s = a.statuses[row.status] ?? { label: row.status, tone: 'neutral' as const };
       return (
-        <Badge tone={s.tone} size={compact ? 'sm' : 'md'}>
+        <Badge tone={s.tone} variant="status" size={compact ? 'sm' : 'md'}>
           {s.label}
         </Badge>
       );
@@ -235,8 +265,19 @@ export function ActivityTable({
       allowsSorting: true,
       cell: (row) => (
         <span className={styles.desc}>
-          <span className={styles.descTitle}>{row.title}</span>
-          <span className={styles.descMeta}>{compact ? `${fmt.date(row.date)} · ${row.meta}` : row.meta}</span>
+          {!compact && (
+            <span className={cx(styles.ledger, row.amount > 0 && styles.ledgerIn)} aria-hidden="true">
+              {row.amount > 0 ? (
+                <IconArrowDownLeft className={styles.directional} />
+              ) : (
+                <IconArrowUpRight className={styles.directional} />
+              )}
+            </span>
+          )}
+          <span className={styles.descText}>
+            <span className={styles.descTitle}>{row.title}</span>
+            <span className={styles.descMeta}>{compact ? `${fmt.date(row.date, year)} · ${row.meta}` : row.meta}</span>
+          </span>
         </span>
       ),
     };
@@ -257,13 +298,23 @@ export function ActivityTable({
     };
     if (compact) return [description, amount];
     return [
-      { id: 'date', header: a.columns.date, allowsSorting: true, cell: (row) => <time dateTime={row.date}>{fmt.date(row.date)}</time> },
+      { id: 'date', header: a.columns.date, allowsSorting: true, cell: (row) => (
+          <time dateTime={row.date} className={styles.date}>
+            {fmt.date(row.date, year)}
+          </time>
+        ),
+      },
       description,
-      { id: 'category', header: a.columns.category, allowsSorting: true, cell: (row) => row.category },
+      {
+        id: 'category',
+        header: a.columns.category,
+        allowsSorting: true,
+        cell: (row) => <span className={styles.quiet}>{row.category}</span>,
+      },
       { id: 'status', header: a.columns.status, allowsSorting: true, cell: statusBadge },
       amount,
     ];
-  }, [a.columns, a.statuses, compact, fmt]);
+  }, [a.columns, a.statuses, compact, fmt, year]);
 
   const count = selected.size;
   const { pagination: p } = a;
@@ -279,16 +330,44 @@ export function ActivityTable({
             <p className={styles.description}>{a.description}</p>
           </div>
           <div className={styles.headerActions}>
-            <Button variant="outline" onPress={refresh} isDisabled={loading}>
+            {/* No brand-coloured hero here: the page is for reading. Export is the one strong action. */}
+            <Button variant="ghost" onPress={refresh} isDisabled={loading}>
               <IconRefresh aria-hidden />
               {a.refresh}
             </Button>
-            <Button variant="primary" onPress={exportCsv} isDisabled={loading || sorted.length === 0}>
+            <Button variant="outline" onPress={exportCsv} isDisabled={loading || sorted.length === 0}>
               <IconDownload aria-hidden />
               {a.export}
             </Button>
           </div>
         </div>
+
+        {summary && (
+          <dl className={styles.totals} aria-label={summary.label}>
+            <div className={styles.total}>
+              <dt className={styles.totalLabel}>
+                <span className={cx(styles.ledger, styles.ledgerIn)} aria-hidden="true">
+                  <IconArrowDownLeft className={styles.directional} />
+                </span>
+                {summary.moneyIn}
+              </dt>
+              <dd>
+                <Amount value={totals.in} currency={content.currency} locale={content.locale} size="sm" formatOptions={MONEY} />
+              </dd>
+            </div>
+            <div className={styles.total}>
+              <dt className={styles.totalLabel}>
+                <span className={styles.ledger} aria-hidden="true">
+                  <IconArrowUpRight className={styles.directional} />
+                </span>
+                {summary.moneyOut}
+              </dt>
+              <dd>
+                <Amount value={totals.out} currency={content.currency} locale={content.locale} size="sm" formatOptions={MONEY} />
+              </dd>
+            </div>
+          </dl>
+        )}
 
         <Card className={styles.card} ref={cardRef}>
           <DataTableToolbar className={styles.toolbar}>
@@ -324,8 +403,9 @@ export function ActivityTable({
               <span className={styles.selection} aria-live="polite">
                 {count > 0 ? fmt.count(count, a.selected) : ''}
               </span>
+              {count > 0 && (
               <MenuTrigger>
-                <Button variant="outline" isDisabled={count === 0} className={styles.bulk}>
+                <Button variant="outline" className={styles.bulk}>
                   {a.bulk.label}
                   <IconChevronDown aria-hidden />
                 </Button>
@@ -345,6 +425,7 @@ export function ActivityTable({
                   ))}
                 </Menu>
               </MenuTrigger>
+              )}
               <ToggleButtonGroup
                 aria-label={a.density.label}
                 size="sm"
@@ -371,6 +452,8 @@ export function ActivityTable({
             </div>
           </DataTableToolbar>
 
+          {/* The table sits in the card's inset panel, like the dashboard's activity: rows on a quiet ground. */}
+          <CardContent variant="inset" className={styles.tableWell}>
           <DataTable
             aria-labelledby={`${uid}-title`}
             columns={columns}
@@ -413,6 +496,7 @@ export function ActivityTable({
               />
             }
           />
+          </CardContent>
 
           <DataTablePagination
             className={styles.pagination}

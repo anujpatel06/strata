@@ -2,9 +2,21 @@
   "locale": "ar-AE-u-nu-latn",
   "dir": "rtl",
   "currency": "AED",
-  "product": { "name": "قمر", "industry": "بقالة ومكافآت" },
-  "nav": ["نظرة عامة", "الطلبات", "العروض", "المكافآت", "المساعدة"],
-  "user": { "name": "سارة المنصوري", "initials": "س" },
+  "product": {
+    "name": "قمر",
+    "industry": "بقالة ومكافآت"
+  },
+  "nav": [
+    "نظرة عامة",
+    "الطلبات",
+    "العروض",
+    "المكافآت",
+    "المساعدة"
+  ],
+  "user": {
+    "name": "سارة المنصوري",
+    "initials": "س"
+  },
   "a11y": {
     "search": "البحث في الطلبات والمنتجات",
     "notifications": "الإشعارات، 3 غير مقروءة",
@@ -126,11 +138,26 @@
       ]
     },
     "statusLabels": {
-      "delivered": { "label": "تم التوصيل", "tone": "success" },
-      "refunded": { "label": "تم الاسترداد", "tone": "success" },
-      "out_for_delivery": { "label": "قيد التوصيل", "tone": "info" },
-      "awaiting_payment": { "label": "بانتظار الدفع", "tone": "warning" },
-      "cancelled": { "label": "ملغى", "tone": "danger" }
+      "delivered": {
+        "label": "تم التوصيل",
+        "tone": "success"
+      },
+      "refunded": {
+        "label": "تم الاسترداد",
+        "tone": "success"
+      },
+      "out_for_delivery": {
+        "label": "قيد التوصيل",
+        "tone": "info"
+      },
+      "awaiting_payment": {
+        "label": "بانتظار الدفع",
+        "tone": "warning"
+      },
+      "cancelled": {
+        "label": "ملغى",
+        "tone": "danger"
+      }
     },
     "form": {
       "title": "إرجاع طلب",
@@ -149,7 +176,12 @@
           "id": "reason",
           "label": "سبب الإرجاع",
           "placeholder": "يُرجى اختيار السبب",
-          "options": ["منتج تالف أو منتهي الصلاحية", "منتج ناقص من الطلب", "منتج مختلف عمّا طلبته", "لم أعد بحاجة إليه"],
+          "options": [
+            "منتج تالف أو منتهي الصلاحية",
+            "منتج ناقص من الطلب",
+            "منتج مختلف عمّا طلبته",
+            "لم أعد بحاجة إليه"
+          ],
           "value": "منتج تالف أو منتهي الصلاحية",
           "hint": "تُقبل طلبات إرجاع المنتجات الطازجة خلال 24 ساعة من التوصيل."
         }
@@ -948,5 +980,10 @@
       "none": "لا توجد نتائج"
     },
     "loading": "جارٍ تحميل الطلبات"
+  },
+  "specimen": {
+    "eyebrow": "رصيد النقاط",
+    "headline": "4,820 نقطة",
+    "note": "تنتهي صلاحية 1,250 نقطة في 30 سبتمبر"
   }
 }

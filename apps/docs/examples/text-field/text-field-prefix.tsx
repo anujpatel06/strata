@@ -1,7 +1,7 @@
 'use client';
 
 import { TextField } from '@strata/react';
-import { IconAt, IconWorld } from '@tabler/icons-react';
+import { IconAt, IconWorld } from '@strata/icons';
 
 export default function Example() {
   return (

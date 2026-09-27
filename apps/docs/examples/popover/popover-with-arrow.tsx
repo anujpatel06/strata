@@ -1,7 +1,7 @@
 'use client';
 
 import { Button, DialogTrigger, Popover } from '@strata/react';
-import { IconInfoCircle } from '@tabler/icons-react';
+import { IconInfoCircle } from '@strata/icons';
 
 export default function Example() {
   return (

@@ -1,7 +1,7 @@
 'use client';
 
 import { Button, Menu, MenuItem, MenuSection, MenuSeparator, MenuTrigger } from '@strata/react';
-import { IconChevronDown } from '@tabler/icons-react';
+import { IconChevronDown } from '@strata/icons';
 
 export default function Example() {
   return (

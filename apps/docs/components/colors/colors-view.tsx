@@ -6,8 +6,8 @@
  * server (color-data.ts); this file only handles hover, focus and copying.
  */
 
-import { IconCheck } from '@tabler/icons-react';
-import { ThemeScope, ToggleButton, ToggleButtonGroup, toast } from '@strata/react';
+import { IconCheck } from '@strata/icons';
+import { Eyebrow, ThemeScope, ToggleButton, ToggleButtonGroup, toast } from '@strata/react';
 import Link from 'next/link';
 import { useId, useState, type CSSProperties, type Key } from 'react';
 import { Header, ListBox, ListBoxItem, ListBoxSection } from 'react-aria-components';
@@ -55,12 +55,14 @@ export function ColorsView({ tenants }: { tenants: ColorTenant[] }) {
   const formatLabelId = useId();
   return (
     <div className={styles.root}>
+      <div className={styles.intro}>
       <div className={styles.toolbar}>
         <nav aria-label="Brands on this page" className={styles.jump}>
           <ul className={styles.jumpList}>
             {tenants.map((t) => (
               <li key={t.id}>
                 <a href={`#${t.id}`} className={styles.jumpLink}>
+                  <span className={styles.jumpDot} data-strata-theme={t.id} aria-hidden="true" />
                   {t.name}
                 </a>
               </li>
@@ -90,6 +92,17 @@ export function ColorsView({ tenants }: { tenants: ColorTenant[] }) {
         </div>
       </div>
 
+      {/* Said once for the whole page, not under every panel. */}
+      <p className={styles.note}>
+        Hover or focus a swatch to inspect it; click or press Enter to copy.{' '}
+        <span className={styles.noteDot} aria-hidden />
+        marks a step a semantic role uses, and copying it as a CSS variable gives you that role.{' '}
+        <Link href="/docs/theming#semantic-roles" className={styles.noteLink}>
+          How ramps map to roles
+        </Link>
+      </p>
+      </div>
+
       {tenants.map((t) => (
         <TenantColors key={t.id} tenant={t} format={format} />
       ))}
@@ -101,23 +114,30 @@ function TenantColors({ tenant, format }: { tenant: ColorTenant; format: CopyFor
   const titleId = `${tenant.id}-title`;
   return (
     <section id={tenant.id} aria-labelledby={titleId} className={styles.tenant}>
-      <header className={styles.tenantHeader}>
-        <div className={styles.tenantHeading}>
-          <h2 id={titleId} className={styles.tenantTitle}>
-            {tenant.name}
-          </h2>
-          <p className={styles.tenantDescription}>{tenant.description}</p>
-        </div>
-        <ul className={styles.facts} aria-label={`${tenant.name} brand inputs`}>
-          {tenant.facts.map((f) => (
-            <li key={f.label} className={styles.fact}>
-              <span className={styles.factLabel}>{f.label}</span>
+      {/* A brand specimen, not a spec sheet: the name in the tenant's own heading face, its two brand colours as
+          chips, the rest of the inputs as one quiet caption. The header is a ThemeScope in the site's scheme. */}
+      <ThemeScope theme={tenant.id} data-strata-scheme="site" className={styles.tenantHeader}>
+        <Eyebrow lead="rule" tone="accent">
+          {tenant.description}
+        </Eyebrow>
+        <h2 id={titleId} className={styles.tenantTitle}>
+          {tenant.name}
+        </h2>
+        <p className={styles.tenantCaption}>
+          {tenant.facts.map((f, i) => (
+            <span key={f.label} className={styles.captionItem}>
+              {i > 0 && (
+                <span className={styles.captionSep} aria-hidden="true">
+                  ·
+                </span>
+              )}
               {f.swatch && <span className={styles.factSwatch} style={{ backgroundColor: f.swatch }} aria-hidden />}
-              <span className={styles.factValue}>{f.value}</span>
-            </li>
+              <span className="visually-hidden">{f.label}: </span>
+              {f.value}
+            </span>
           ))}
-        </ul>
-      </header>
+        </p>
+      </ThemeScope>
 
       <div className={styles.panels}>
         {tenant.schemes.map((s) => (
@@ -125,13 +145,6 @@ function TenantColors({ tenant, format }: { tenant: ColorTenant; format: CopyFor
         ))}
       </div>
 
-      <p className={styles.note}>
-        <span className={styles.noteDot} aria-hidden />A dot marks a step a semantic role uses; copying it as a CSS
-        variable gives you that role.{' '}
-        <Link href="/docs/theming#semantic-roles" className={styles.noteLink}>
-          How ramps map to roles
-        </Link>
-      </p>
     </section>
   );
 }
@@ -193,16 +206,16 @@ function SchemePanel({ tenant, scheme, format }: { tenant: ColorTenant; scheme: 
           ))}
         </ListBox>
       </div>
-      <Readout active={active} format={format} />
+      <Readout active={active} format={format} idle={`${scheme.ramps.length} ramps × ${STEPS.length} steps`} />
     </ThemeScope>
   );
 }
 
-function Readout({ active, format }: { active: { ramp: ColorRamp; swatch: ColorSwatch } | null; format: CopyFormat }) {
+function Readout({ active, format, idle }: { active: { ramp: ColorRamp; swatch: ColorSwatch } | null; format: CopyFormat; idle: string }) {
   if (!active) {
     return (
       <p className={styles.readout}>
-        <span className={styles.readoutHint}>Hover or focus a swatch to inspect it. Click or press Enter to copy.</span>
+        <span className={styles.readoutHint}>{idle}</span>
       </p>
     );
   }

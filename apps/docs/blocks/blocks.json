@@ -1,5 +1,19 @@
 [
   {
+    "name": "benefits-overview",
+    "title": "Benefits overview",
+    "description": "A family health-benefits screen: a member and category filter rail, search, the shared wallet, and every benefit as a row that opens for who's covered, how you pay and what to do next. Rows show used, unlimited, member-rate, fully used, locked and enrol states.",
+    "categories": ["dashboard", "lists"],
+    "contentKeys": ["locale", "currency", "benefitsOverview"]
+  },
+  {
+    "name": "portfolio",
+    "title": "Portfolio",
+    "description": "A wealth dashboard, dark-first: sidebar, greeting and search, KPI tiles with sparklines, portfolio value over 24H/7D/1M/1Y, allocation, monthly investing, a deposit card, recent activity and a holdings table with inline trends.",
+    "categories": ["dashboard", "data"],
+    "contentKeys": ["locale", "currency", "product", "user", "portfolio"]
+  },
+  {
     "name": "dashboard-overview",
     "title": "Dashboard overview",
     "description": "An account overview: app header with a command menu, notifications and account menus, KPI tiles, an alert, recent activity and a quick-action form.",

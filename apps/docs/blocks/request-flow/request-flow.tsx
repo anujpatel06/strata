@@ -15,6 +15,7 @@
 import {
   AlertDialog,
   Alert,
+  Amount,
   Button,
   Card,
   CardContent,
@@ -25,6 +26,7 @@ import {
   Checkbox,
   DatePicker,
   EmptyState,
+  Eyebrow,
   FileUpload,
   Link,
   Radio,
@@ -34,7 +36,7 @@ import {
   type FileUploadEntry,
 } from '@strata/react';
 import { getLocalTimeZone, today } from '@internationalized/date';
-import { IconChevronLeft, IconCircleCheck, IconLogout } from '@tabler/icons-react';
+import { IconChevronLeft, IconCircleCheck, IconLogout } from '@strata/icons';
 import {
   useEffect,
   useId,
@@ -69,6 +71,8 @@ const stay = (e: MouseEvent<Element>) => e.preventDefault();
 type Step = 'details' | 'evidence' | 'review' | 'done';
 type FieldKey = 'reason' | 'field' | 'date' | 'files' | 'confirm';
 type Errors = Partial<Record<FieldKey, string>>;
+
+const STEP_ORDER = ['details', 'evidence', 'review'] as const;
 
 const STEP_FIELDS: Record<Exclude<Step, 'done'>, FieldKey[]> = {
   details: ['reason', 'field', 'date'],
@@ -321,6 +325,12 @@ export function RequestFlow({ content = requestFlowContent, headingLevel = 1, cl
       <Main className={styles.main} aria-labelledby={embedded ? undefined : id('title')}>
         <div className={styles.page}>
           <div className={styles.intro}>
+            {/* Narrow, the Steps bar already reads "Step 1 of 3", so the eyebrow is only shown beside the full bar. */}
+            {step !== 'done' && (
+              <Eyebrow className={styles.stepEyebrow}>
+                {`${c.stepWord} ${new Intl.NumberFormat(content.locale).format(STEP_ORDER.indexOf(step) + 1)} ${c.ofWord} ${new Intl.NumberFormat(content.locale).format(STEP_ORDER.length)}`}
+              </Eyebrow>
+            )}
             <Heading level={titleLevel} id={id('title')} className={styles.title}>
               {c.title}
             </Heading>
@@ -532,40 +542,51 @@ export function RequestFlow({ content = requestFlowContent, headingLevel = 1, cl
               )}
             </div>
 
+            {/* What this is about, set like a receipt: who, the amount as the one big figure, then when. */}
             <Card className={styles.subject}>
               <CardHeader>
-                <p className={styles.eyebrow}>{c.subject.label}</p>
-                <CardTitle level={sectionLevel}>{c.subject.title}</CardTitle>
+                <Eyebrow lead="rule" tone="brand">
+                  {c.subject.label}
+                </Eyebrow>
+                <CardTitle level={sectionLevel} className={styles.subjectTitle}>
+                  {c.subject.title}
+                </CardTitle>
                 <CardDescription>{c.subject.meta}</CardDescription>
               </CardHeader>
-              <CardContent>
+              <CardContent variant="inset">
                 <dl className={styles.facts}>
                   <div className={styles.fact}>
-                    <dt>{c.subject.dateLabel}</dt>
+                    <dt>{c.subject.amountLabel}</dt>
                     <dd>
-                      <time dateTime={c.subject.date}>{fmt.isoDate(c.subject.date)}</time>
+                      <Amount value={c.subject.amount} currency={content.currency} locale={content.locale} size="md" />
                     </dd>
                   </div>
                   <div className={styles.fact}>
-                    <dt>{c.subject.amountLabel}</dt>
-                    <dd className={styles.num}>{fmt.money(c.subject.amount)}</dd>
+                    <dt>{c.subject.dateLabel}</dt>
+                    <dd className={styles.factDate}>
+                      <time dateTime={c.subject.date}>{fmt.isoDate(c.subject.date)}</time>
+                    </dd>
                   </div>
                 </dl>
               </CardContent>
             </Card>
 
-            <Card variant="outline" className={styles.help}>
-              <CardHeader>
-                <CardTitle level={sectionLevel}>{c.help.title}</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <ol className={styles.helpList}>
-                  {c.help.items.map((item) => (
-                    <li key={item}>{item}</li>
-                  ))}
-                </ol>
-              </CardContent>
-            </Card>
+            {/* What happens next: a short timeline on the page itself, not another card. */}
+            <section className={styles.help} aria-labelledby={id('help')}>
+              <Heading level={sectionLevel} id={id('help')} className={styles.helpTitle}>
+                {c.help.title}
+              </Heading>
+              <ol className={styles.timeline}>
+                {c.help.items.map((item, i) => (
+                  <li key={item} className={styles.timelineItem}>
+                    <span className={styles.timelineMark} aria-hidden="true">
+                      {new Intl.NumberFormat(content.locale).format(i + 1)}
+                    </span>
+                    <span className={styles.timelineText}>{item}</span>
+                  </li>
+                ))}
+              </ol>
+            </section>
           </div>
         </div>
       </Main>

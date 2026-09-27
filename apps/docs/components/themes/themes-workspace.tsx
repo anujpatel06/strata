@@ -1,11 +1,11 @@
 'use client';
 
-import { IconMoon, IconSun } from '@tabler/icons-react';
+import { IconMoon, IconSun } from '@strata/icons';
 import { Tab, TabList, TabPanel, Tabs, ToggleButton, ToggleButtonGroup } from '@strata/react';
 import type { Key } from 'react-aria-components';
 import { AccessibilityPanel } from './accessibility-panel';
 import { ControlsPanel } from './controls-panel';
-import { ExportPanel, type RegistryCommands } from './export-panel';
+import { ExportPanel } from './export-panel';
 import { plural } from './format';
 import { PreviewPanel } from './preview-panel';
 import { SCHEMES, TABS, oneOf, type Tab as TabId } from './state';
@@ -36,11 +36,11 @@ function SchemeToggle() {
       className={styles.schemeToggle}
     >
       <ToggleButton id="light">
-        <IconSun aria-hidden stroke={1.75} />
+        <IconSun aria-hidden />
         Light
       </ToggleButton>
       <ToggleButton id="dark">
-        <IconMoon aria-hidden stroke={1.75} />
+        <IconMoon aria-hidden />
         Dark
       </ToggleButton>
     </ToggleButtonGroup>
@@ -48,7 +48,7 @@ function SchemeToggle() {
 }
 
 /** Inputs on the start side (sticky on wide screens), views of the generated theme in tabs on the end side. */
-export function ThemesWorkspace({ registry }: { registry: Record<string, RegistryCommands> }) {
+export function ThemesWorkspace() {
   const { state, dispatch, theme } = useThemes();
   const { adjustments } = theme.summary;
 
@@ -92,7 +92,7 @@ export function ThemesWorkspace({ registry }: { registry: Record<string, Registr
           <TokensPanel />
         </TabPanel>
         <TabPanel id="export" className={styles.panel}>
-          <ExportPanel registry={registry} />
+          <ExportPanel />
         </TabPanel>
       </Tabs>
     </div>

@@ -1,7 +1,7 @@
 'use client';
 
 import { Button, SearchField } from '@strata/react';
-import { IconFilter } from '@tabler/icons-react';
+import { IconFilter } from '@strata/icons';
 
 export default function Example() {
   return (

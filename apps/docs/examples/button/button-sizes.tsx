@@ -1,7 +1,7 @@
 'use client';
 
 import { Button } from '@strata/react';
-import { IconSettings } from '@tabler/icons-react';
+import { IconSettings } from '@strata/icons';
 
 export default function Example() {
   return (

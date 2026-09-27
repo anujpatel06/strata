@@ -52,7 +52,7 @@ The 48 colour roles every theme resolves, with the CSS variable components read.
 
 <RolesTable />
 
-Other variables follow the same pattern: `--strata-space-{0…16}`, `--strata-radius-{button,field,container,badge,pill}`, `--strata-font-{heading,body,mono}`, `--strata-font-size-{xs…3xl}`, `--strata-shadow-{raised,overlay}`, `--strata-motion-*` and the density variables. The full contract is in `packages/theme-engine/src/types.ts`.
+Other variables follow the same pattern: `--strata-space-{0…16}`, `--strata-radius-{button,field,container,badge,pill}`, `--strata-font-{heading,body,mono}`, `--strata-font-size-{xs…5xl}`, `--strata-font-tracking-{xs…5xl}`, `--strata-shadow-{raised,overlay}`, `--strata-motion-*` and the density variables. The full contract is in `packages/theme-engine/src/types.ts`.
 
 ## ThemeScope
 
@@ -68,13 +68,10 @@ import { ThemeScope } from '@strata/react';
 
 ### How token files are scoped
 
-`toCSS` takes the selector for a theme’s base block and appends the mode attributes to it. The registry’s token files use:
+`toCSS` takes the selector for a theme’s base block and appends the mode attributes to it. `@strata/tokens` builds two kinds of file:
 
-```css
-:root, [data-strata-theme="<id>"], [data-strata-scheme]:not([data-strata-theme]) { … }
-```
-
-So the file’s tenant is the page default, a named scope can still pick it when several files are loaded, and a scope with only `scheme` or `density` switches modes without naming a tenant. `@strata/tokens/dist/strata.css` scopes every tenant to `[data-strata-theme="<id>"]` only. Details in [Registry](/docs/registry#token-files).
+- `dist/<id>/tokens.css` uses `:root`, so that tenant is the whole app’s theme. Its modes key off `<html>`, e.g. `:root[data-strata-scheme="dark"]`.
+- `dist/strata.css` uses `[data-strata-theme="<id>"]` for every tenant, so a tenant applies only inside an element or `ThemeScope` that names it.
 
 ## Several tenants on one page
 
@@ -96,8 +93,4 @@ Dialogs, popovers and menus render in a portal at the end of `<body>`, outside a
 1. Create `tenants/<id>/brand.json` with the six inputs, and `content.json` with the tenant’s copy, locale and direction.
 2. Run `pnpm tokens`. It fails if any contrast check fails, so a broken theme can’t ship.
 
-That’s all. No component changes, and this site picks the new tenant up on its next build — in the preview toolbar, the tables above and the registry, which gains `strata-tokens-<id>` and `theme-<id>` items.
-
-## Using Strata colours in shadcn/ui
-
-Every theme also exports as shadcn/ui variables. `npx shadcn@latest add @strata/theme-<id>` gives an existing shadcn project a tenant’s palette, light and dark — see [the shadcn bridge](/docs/registry#the-shadcn-bridge) for the mapping and the pairs it doesn’t guarantee.
+That’s all. No component changes. `pnpm tokens` writes the new tenant’s files to `@strata/tokens`, and this site picks it up on its next build, in the preview toolbar and the tables above.

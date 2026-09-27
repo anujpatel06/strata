@@ -4,6 +4,7 @@
   padding: var(--strata-space-6);
   border: 1px solid var(--strata-color-border-subtle);
   border-radius: var(--strata-radius-container);
+  box-shadow: var(--strata-shadow-highlight), var(--strata-shadow-raised);
   overflow: clip;
 }
 

@@ -1,6 +1,6 @@
 'use client';
 
-import { IconRotate } from '@tabler/icons-react';
+import { IconRotate } from '@strata/icons';
 import {
   Badge,
   Button,
@@ -21,7 +21,7 @@ import { findPreset, isTypePairId, oneOf, DENSITIES, NEUTRALS, SHAPES } from './
 import { useThemes } from './themes-provider';
 import styles from './controls.module.css';
 
-const NEUTRAL_LABEL: Record<NeutralTemperature, string> = { cool: 'Cool', neutral: 'Neutral', warm: 'Warm' };
+const NEUTRAL_LABEL: Record<NeutralTemperature, string> = { cool: 'Cool', neutral: 'Neutral', warm: 'Warm', paper: 'Paper' };
 const SHAPE_LABEL: Record<Shape, string> = { sharp: 'Sharp', soft: 'Soft', round: 'Round' };
 const SHAPE_HINT: Record<Shape, string> = { sharp: '2px', soft: '8px', round: '16px' };
 const DENSITY_LABEL: Record<Density, string> = { comfortable: 'Comfortable', compact: 'Compact' };
@@ -116,7 +116,7 @@ export function ControlsPanel() {
           aria-label={`Reset to the ${preset.label} preset`}
           className={styles.reset}
         >
-          <IconRotate aria-hidden stroke={1.75} />
+          <IconRotate aria-hidden />
           Reset
         </Button>
       </div>

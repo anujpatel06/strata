@@ -16,6 +16,7 @@ import net from 'node:net';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { chromium } from 'playwright';
+import { launchBrowser } from './launch-browser.mjs';
 import { AxeBuilder } from '@axe-core/playwright';
 
 const ROOT = fileURLToPath(new URL('..', import.meta.url));
@@ -203,9 +204,7 @@ async function main() {
   if (BUILD) build();
   const base = EXTERNAL_URL ? EXTERNAL_URL.replace(/\/$/, '') : await startPreview();
 
-  const browser = await chromium.launch({
-    executablePath: process.env.PLAYWRIGHT_CHROMIUM_PATH || undefined,
-  });
+  const browser = await launchBrowser();
 
   const shots = [];
   const axePages = [];

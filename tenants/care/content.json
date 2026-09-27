@@ -1,0 +1,970 @@
+{
+  "locale": "en-IN",
+  "dir": "ltr",
+  "currency": "INR",
+  "product": {
+    "name": "Care",
+    "industry": "Family health benefits"
+  },
+  "nav": [
+    "Home",
+    "Benefits",
+    "Claims",
+    "Family",
+    "Documents"
+  ],
+  "user": {
+    "name": "Arjun Mehra",
+    "initials": "AM"
+  },
+  "a11y": {
+    "search": "Search benefits, doctors and claims",
+    "notifications": "Notifications, 2 unread",
+    "account": "Account menu for Arjun Mehra",
+    "mainNav": "Main"
+  },
+  "overview": {
+    "greeting": "Good morning, Arjun",
+    "subtitle": "Here’s how your family’s health benefits look this month.",
+    "primaryAction": "Book a consultation",
+    "secondaryAction": "Download e-card",
+    "alert": {
+      "tone": "warning",
+      "title": "Enrol your parents in elder care by 30 September",
+      "body": "Ramesh and Sunita are covered for OPD, but the elder care program starts only once you enrol them. The window reopens next April.",
+      "action": "Enrol parents"
+    },
+    "stats": [
+      {
+        "label": "OPD wallet left",
+        "value": 10600,
+        "format": "currency",
+        "deltaLabel": "of ₹18,000 for 2026"
+      },
+      {
+        "label": "Hospital cover",
+        "value": 500000,
+        "format": "currency",
+        "deltaLabel": "Shared by your family of five"
+      },
+      {
+        "label": "Visits this year",
+        "value": 7,
+        "format": "number",
+        "delta": 0.4,
+        "deltaLabel": "vs 2025",
+        "positiveIsGood": true
+      }
+    ],
+    "table": {
+      "title": "Recent activity",
+      "action": "View all",
+      "columns": {
+        "date": "Date",
+        "description": "Visit or order",
+        "category": "Service",
+        "status": "Status",
+        "amount": "Amount"
+      },
+      "rows": [
+        {
+          "date": "2026-09-29",
+          "title": "Physiotherapy, session 3 of 6",
+          "meta": "Arjun · Movewell Physio, Andheri",
+          "category": "Therapy",
+          "status": "scheduled",
+          "amount": -900
+        },
+        {
+          "date": "2026-09-25",
+          "title": "Dr. Meenal Joshi",
+          "meta": "Aarav · Paediatric check-up",
+          "category": "Consultation",
+          "status": "completed",
+          "amount": -800
+        },
+        {
+          "date": "2026-09-23",
+          "title": "Lipid profile and HbA1c",
+          "meta": "Arjun · Home sample collection",
+          "category": "Diagnostics",
+          "status": "completed",
+          "amount": -1450
+        },
+        {
+          "date": "2026-09-21",
+          "title": "Reimbursement: dental cleaning",
+          "meta": "Priya · Claim CR-2026-40611",
+          "category": "Dental",
+          "status": "processing",
+          "amount": 1200
+        },
+        {
+          "date": "2026-09-18",
+          "title": "Medicines, home delivery",
+          "meta": "Priya · Order MD-77104",
+          "category": "Pharmacy",
+          "status": "completed",
+          "amount": -620
+        },
+        {
+          "date": "2026-09-12",
+          "title": "Eye test and frames",
+          "meta": "Aarav · Clearsight Opticals",
+          "category": "Vision",
+          "status": "declined",
+          "amount": -3200
+        },
+        {
+          "date": "2026-09-06",
+          "title": "Dr. Kavita Rao",
+          "meta": "Priya · General physician, video",
+          "category": "Consultation",
+          "status": "completed",
+          "amount": -500
+        },
+        {
+          "date": "2026-09-01",
+          "title": "Wallet top-up from your employer",
+          "meta": "Quarterly credit · Plan 2026",
+          "category": "Wallet",
+          "status": "completed",
+          "amount": 4500
+        }
+      ]
+    },
+    "statusLabels": {
+      "completed": {
+        "label": "Settled",
+        "tone": "success"
+      },
+      "scheduled": {
+        "label": "Booked",
+        "tone": "warning"
+      },
+      "processing": {
+        "label": "In review",
+        "tone": "info"
+      },
+      "declined": {
+        "label": "Not covered",
+        "tone": "danger"
+      }
+    },
+    "form": {
+      "title": "Book a consultation",
+      "description": "Choose who it’s for and we’ll find a doctor near you. It’s cashless at network clinics.",
+      "fields": [
+        {
+          "type": "select",
+          "id": "member",
+          "label": "Who is it for?",
+          "placeholder": "Choose a family member",
+          "options": [
+            "Arjun (you)",
+            "Priya",
+            "Aarav"
+          ],
+          "value": "Aarav"
+        },
+        {
+          "type": "select",
+          "id": "speciality",
+          "label": "Speciality",
+          "placeholder": "Choose a speciality",
+          "options": [
+            "General physician",
+            "Paediatrician",
+            "Dermatologist"
+          ],
+          "value": "Paediatrician",
+          "hint": "Not sure? A general physician can refer you."
+        }
+      ],
+      "submit": "Find a doctor"
+    },
+    "progress": {
+      "title": "OPD wallet used",
+      "value": 0.41,
+      "label": "₹7,400 of ₹18,000",
+      "caption": "Your wallet resets on 1 April. Unused balance doesn’t carry over."
+    }
+  },
+  "dashboard": {
+    "sparkline": {
+      "stat": 0,
+      "values": [
+        18000,
+        17200,
+        16400,
+        15100,
+        14250,
+        13000,
+        11800,
+        10600
+      ]
+    },
+    "command": {
+      "placeholder": "Search benefits, doctors and claims…",
+      "empty": "Nothing found for “{query}”",
+      "pages": "Pages",
+      "actions": "Actions",
+      "recent": "Recent activity",
+      "hints": {
+        "navigate": "to move",
+        "select": "to open",
+        "close": "to close"
+      }
+    },
+    "notifications": {
+      "title": "Notifications",
+      "markAllRead": "Mark all as read",
+      "items": [
+        {
+          "id": "claim",
+          "title": "Claim approved",
+          "description": "₹1,200 for Priya’s dental cleaning is on its way to your bank.",
+          "ago": {
+            "value": 3,
+            "unit": "hour"
+          }
+        },
+        {
+          "id": "visit",
+          "title": "Aarav’s check-up is tomorrow",
+          "description": "Dr. Meenal Joshi, Sunrise Children’s Clinic, at 10:30 am.",
+          "ago": {
+            "value": 1,
+            "unit": "day"
+          }
+        }
+      ]
+    },
+    "account": {
+      "profile": "Your profile",
+      "settings": "Settings",
+      "help": "Help centre",
+      "signOut": "Sign out"
+    },
+    "formSubmitted": {
+      "title": "We’re finding a doctor",
+      "description": "We’ll message you with a time at a network clinic near you."
+    }
+  },
+  "requestFlow": {
+    "exit": "Save and exit",
+    "title": "Claim a reimbursement",
+    "subtitle": "Paid for a visit yourself? Tell us about it and we’ll pay you back from your wallet. Most claims are settled within 7 working days.",
+    "progressLabel": "Claim progress",
+    "stepWord": "Step",
+    "ofWord": "of",
+    "completedWord": "completed",
+    "steps": {
+      "details": "Visit",
+      "evidence": "Bills",
+      "review": "Review"
+    },
+    "subject": {
+      "label": "Bill",
+      "title": "Lakeview Dental Care",
+      "meta": "Priya · Dental cleaning · Bill LD-20931",
+      "dateLabel": "Date",
+      "date": "2026-09-19",
+      "amountLabel": "Amount",
+      "amount": -2400
+    },
+    "help": {
+      "title": "What happens next",
+      "items": [
+        "We check the bill against your plan, usually within 2 working days.",
+        "If we need anything else, we’ll ask in the app. You won’t need to call.",
+        "Approved amounts reach your bank account within 7 working days."
+      ]
+    },
+    "errorSummary": "Check the highlighted fields",
+    "back": "Back",
+    "next": "Continue",
+    "details": {
+      "title": "What was the visit for?",
+      "description": "Choose the closest match. You’ll add the bill and prescription next.",
+      "reason": {
+        "label": "Type of visit",
+        "options": [
+          {
+            "id": "consultation",
+            "label": "A doctor’s consultation",
+            "description": "In a clinic or on a video call, with a GP or a specialist."
+          },
+          {
+            "id": "diagnostics",
+            "label": "Tests or scans",
+            "description": "Blood tests, X-rays and other tests a doctor prescribed."
+          },
+          {
+            "id": "medicines",
+            "label": "Medicines",
+            "description": "Prescribed medicines from any licensed pharmacy."
+          },
+          {
+            "id": "dental",
+            "label": "Dental or eye care",
+            "description": "Cleaning, fillings, eye tests and prescribed glasses."
+          }
+        ],
+        "error": "Choose the type of visit"
+      },
+      "field": {
+        "kind": "amount",
+        "label": "Amount you’re claiming",
+        "description": "Up to the bill total of ₹2,400.",
+        "placeholder": "0",
+        "errors": {
+          "required": "Enter the amount you’re claiming",
+          "invalid": "Enter an amount in rupees, like 1,200",
+          "tooHigh": "The amount can’t be more than the bill of ₹2,400"
+        }
+      },
+      "date": {
+        "label": "When did you pay?",
+        "description": "Use the date on the bill. Claims can be made up to 90 days after a visit.",
+        "errors": {
+          "required": "Enter the date you paid",
+          "future": "The date can’t be in the future"
+        }
+      }
+    },
+    "evidence": {
+      "title": "Add your bill",
+      "description": "A clear photo of the bill and the doctor’s prescription is enough. We’ll read the details for you.",
+      "upload": {
+        "label": "Bill and prescription",
+        "description": "Add at least one file. Phone photos are fine.",
+        "dropLabel": "Drag files here or",
+        "browseLabel": "browse",
+        "hint": "PDF, JPG or PNG, up to 10 MB each",
+        "error": "Add at least one bill or prescription"
+      }
+    },
+    "review": {
+      "title": "Check your claim",
+      "description": "Make sure everything is right. You can’t change a claim once it’s sent.",
+      "edit": "Change",
+      "labels": {
+        "reason": "Visit",
+        "field": "Amount claimed",
+        "date": "Paid on",
+        "files": "Documents"
+      },
+      "files": {
+        "one": "{count} file",
+        "other": "{count} files"
+      },
+      "confirm": {
+        "label": "I confirm this bill is genuine and hasn’t been claimed anywhere else",
+        "error": "Confirm the bill is genuine to continue"
+      },
+      "submit": "Submit claim",
+      "dialog": {
+        "title": "Submit this claim?",
+        "body": "We’ll check it against your plan and pay the approved amount to your bank account ending 3308.",
+        "action": "Submit claim",
+        "cancel": "Go back"
+      }
+    },
+    "success": {
+      "title": "Claim submitted",
+      "description": "We’ve got your claim. Your reference is {reference}. We’ll let you know in the app as soon as it’s checked.",
+      "reference": "CR-2026-40718",
+      "track": "Track your claim",
+      "done": "Back to home"
+    }
+  },
+  "settings": {
+    "title": "Settings",
+    "description": "Manage your profile, alerts and sign-in for Care.",
+    "tabsLabel": "Settings sections",
+    "tabs": {
+      "profile": "Profile",
+      "notifications": "Notifications",
+      "security": "Security",
+      "billing": "Plan"
+    },
+    "save": "Save changes",
+    "saved": "Changes saved",
+    "profile": {
+      "title": "Your details",
+      "description": "Clinics and your plan use these to recognise you. Keep them up to date.",
+      "photo": {
+        "label": "Profile photo",
+        "dropLabel": "Drag a photo here or",
+        "browseLabel": "upload one",
+        "hint": "JPG or PNG, at least 400 × 400 px"
+      },
+      "name": {
+        "label": "Full name",
+        "value": "Arjun Mehra",
+        "description": "As it appears on your employee record."
+      },
+      "email": {
+        "label": "Email",
+        "value": "arjun.mehra@example.com"
+      },
+      "phone": {
+        "label": "Mobile number",
+        "value": "98200 41736"
+      },
+      "language": {
+        "label": "Language",
+        "value": "en-IN",
+        "options": [
+          {
+            "id": "en-IN",
+            "label": "English (India)"
+          },
+          {
+            "id": "hi-IN",
+            "label": "हिन्दी"
+          },
+          {
+            "id": "mr-IN",
+            "label": "मराठी"
+          },
+          {
+            "id": "ta-IN",
+            "label": "தமிழ்"
+          }
+        ]
+      },
+      "region": {
+        "label": "Time zone",
+        "value": "Asia/Kolkata",
+        "options": [
+          {
+            "id": "Asia/Kolkata",
+            "label": "India Standard Time"
+          },
+          {
+            "id": "Asia/Dubai",
+            "label": "Gulf Standard Time"
+          },
+          {
+            "id": "Europe/London",
+            "label": "UK time"
+          }
+        ]
+      }
+    },
+    "display": {
+      "title": "Appearance",
+      "description": "Choose how Care looks on this device.",
+      "theme": {
+        "label": "Theme",
+        "options": {
+          "system": "System",
+          "light": "Light",
+          "dark": "Dark"
+        }
+      },
+      "density": {
+        "label": "Density",
+        "options": {
+          "comfortable": "Comfortable",
+          "compact": "Compact"
+        }
+      }
+    },
+    "danger": {
+      "title": "Delete your Care account",
+      "description": "Your plan stays active through your employer. This only removes the app account, your saved bills and your family’s profiles.",
+      "action": "Delete account",
+      "dialog": {
+        "title": "Delete your Care account?",
+        "body": "You’ll lose saved bills, prescriptions and booking history on every device. Your cover doesn’t change. This can’t be undone.",
+        "action": "Delete account",
+        "cancel": "Keep account"
+      },
+      "done": "We’ve received your request to delete your account"
+    },
+    "notifications": {
+      "title": "Notifications",
+      "description": "Choose what we tell you about, and how.",
+      "groups": [
+        {
+          "title": "Visits",
+          "items": [
+            {
+              "id": "reminders",
+              "label": "Appointment reminders",
+              "description": "The evening before a visit, and an hour before it starts.",
+              "on": true
+            },
+            {
+              "id": "results",
+              "label": "Test results",
+              "description": "When a lab shares a report for anyone in your family.",
+              "on": true
+            },
+            {
+              "id": "refills",
+              "label": "Medicine refills",
+              "description": "A few days before a regular prescription runs out.",
+              "on": false
+            }
+          ]
+        },
+        {
+          "title": "Security",
+          "items": [
+            {
+              "id": "sign-in",
+              "label": "New sign-ins",
+              "description": "When your account is used on a new device. Always on to protect your family’s records.",
+              "on": true,
+              "locked": true
+            }
+          ]
+        },
+        {
+          "title": "From Care",
+          "items": [
+            {
+              "id": "tips",
+              "label": "Weekly health tips",
+              "description": "One short, practical read every Sunday.",
+              "on": true
+            },
+            {
+              "id": "offers",
+              "label": "Partner offers",
+              "description": "Discounts at network pharmacies and labs, no more than two a month.",
+              "on": false
+            }
+          ]
+        }
+      ],
+      "channels": {
+        "label": "Send alerts by",
+        "options": [
+          {
+            "id": "push",
+            "label": "Push"
+          },
+          {
+            "id": "email",
+            "label": "Email"
+          },
+          {
+            "id": "sms",
+            "label": "SMS"
+          }
+        ],
+        "selected": [
+          "push",
+          "sms"
+        ]
+      }
+    },
+    "security": {
+      "title": "Sign-in and security",
+      "description": "Health records are personal. Keep your account locked down.",
+      "twoFactor": {
+        "label": "Two-step verification",
+        "description": "Ask for a code from your phone when you sign in on a new device.",
+        "on": true
+      },
+      "password": {
+        "label": "Password",
+        "description": "Last changed on 3 June 2026.",
+        "action": "Change password"
+      },
+      "sessions": {
+        "title": "Active sessions",
+        "description": "Devices signed in to your account. Sign out of any you don’t recognise.",
+        "columns": {
+          "device": "Device",
+          "location": "Location",
+          "lastActive": "Last active",
+          "actions": "Actions"
+        },
+        "current": "This device",
+        "actionsLabel": "Actions for {device}",
+        "signOut": "Sign out",
+        "signedOut": "Signed out of {device}",
+        "rows": [
+          {
+            "id": "s1",
+            "device": "Care for Android",
+            "kind": "mobile",
+            "location": "Mumbai, India",
+            "lastActive": "2026-09-26T09:05:00+05:30",
+            "current": true
+          },
+          {
+            "id": "s2",
+            "device": "Chrome on Windows",
+            "kind": "desktop",
+            "location": "Mumbai, India",
+            "lastActive": "2026-09-25T18:22:00+05:30"
+          },
+          {
+            "id": "s3",
+            "device": "Care for iPad",
+            "kind": "tablet",
+            "location": "Pune, India",
+            "lastActive": "2026-09-20T21:14:00+05:30"
+          },
+          {
+            "id": "s4",
+            "device": "Safari on macOS",
+            "kind": "desktop",
+            "location": "Nashik, India",
+            "lastActive": "2026-08-30T11:40:00+05:30"
+          }
+        ]
+      }
+    },
+    "billing": {
+      "title": "Your plan",
+      "description": "What your plan covers and what you add to it.",
+      "plan": {
+        "name": "Parents top-up",
+        "price": 249,
+        "period": "per month",
+        "badge": "Added by you",
+        "features": [
+          "Adds both parents to your OPD wallet",
+          "A doctor on call, day and night",
+          "Free home sample collection"
+        ],
+        "change": "Change top-up"
+      },
+      "method": {
+        "title": "Paid from",
+        "label": "Salary deduction",
+        "detail": "Taken on the last working day of each month",
+        "update": "Change method"
+      }
+    }
+  },
+  "signIn": {
+    "title": "Sign in to Care",
+    "subtitle": "Welcome back. Your family’s benefits are a step away.",
+    "email": {
+      "label": "Email",
+      "placeholder": "you@example.com",
+      "errors": {
+        "required": "Enter your email address",
+        "invalid": "Enter an email address like name@example.com"
+      }
+    },
+    "password": {
+      "label": "Password",
+      "show": "Show password",
+      "hide": "Hide password",
+      "forgot": "Forgot password?",
+      "errors": {
+        "required": "Enter your password"
+      }
+    },
+    "remember": "Keep me signed in on this device",
+    "submit": "Sign in",
+    "or": "or",
+    "passkey": "Continue with passkey",
+    "signUp": {
+      "prompt": "First time here?",
+      "action": "Activate your benefits"
+    },
+    "legal": {
+      "terms": "Terms",
+      "privacy": "Privacy",
+      "help": "Help centre"
+    },
+    "brand": {
+      "headline": "Your family’s care, *in one place*.",
+      "body": "Book doctors, order medicines and follow every claim, all from one shared wallet."
+    },
+    "success": {
+      "title": "You’re signed in"
+    }
+  },
+  "activity": {
+    "title": "Claims and payments",
+    "description": "Everything paid from your wallet, and every claim your family has made.",
+    "export": "Export CSV",
+    "exported": {
+      "one": "Exported {count} entry",
+      "other": "Exported {count} entries"
+    },
+    "refresh": "Refresh",
+    "search": {
+      "label": "Search claims and payments",
+      "placeholder": "Search by provider, member or reference"
+    },
+    "status": {
+      "label": "Status",
+      "all": "All statuses"
+    },
+    "density": {
+      "label": "Row density",
+      "comfortable": "Comfortable",
+      "compact": "Compact"
+    },
+    "bulk": {
+      "label": "Bulk actions",
+      "items": [
+        {
+          "id": "review",
+          "label": "Mark as reviewed",
+          "done": {
+            "one": "{count} entry marked as reviewed",
+            "other": "{count} entries marked as reviewed"
+          }
+        },
+        {
+          "id": "tax",
+          "label": "Add to tax summary",
+          "done": {
+            "one": "Added {count} entry to your tax summary",
+            "other": "Added {count} entries to your tax summary"
+          }
+        }
+      ]
+    },
+    "selected": {
+      "one": "{count} selected",
+      "other": "{count} selected"
+    },
+    "columns": {
+      "date": "Date",
+      "description": "Visit or order",
+      "category": "Service",
+      "status": "Status",
+      "amount": "Amount"
+    },
+    "statuses": {
+      "completed": {
+        "label": "Settled",
+        "tone": "success"
+      },
+      "scheduled": {
+        "label": "Booked",
+        "tone": "warning"
+      },
+      "processing": {
+        "label": "In review",
+        "tone": "info"
+      },
+      "declined": {
+        "label": "Not covered",
+        "tone": "danger"
+      }
+    },
+    "rows": [
+      {
+        "id": "CL-30418",
+        "date": "2026-09-29",
+        "title": "Physiotherapy, session 3 of 6",
+        "meta": "Arjun · Movewell Physio, Andheri",
+        "category": "Therapy",
+        "status": "scheduled",
+        "amount": -900
+      },
+      {
+        "id": "CL-30377",
+        "date": "2026-09-26",
+        "title": "Dr. Kavita Rao",
+        "meta": "Arjun · General physician, video",
+        "category": "Consultation",
+        "status": "completed",
+        "amount": -500
+      },
+      {
+        "id": "CL-30351",
+        "date": "2026-09-25",
+        "title": "Dr. Meenal Joshi",
+        "meta": "Aarav · Paediatric check-up",
+        "category": "Consultation",
+        "status": "completed",
+        "amount": -800
+      },
+      {
+        "id": "CL-30322",
+        "date": "2026-09-23",
+        "title": "Lipid profile and HbA1c",
+        "meta": "Arjun · Home sample collection",
+        "category": "Diagnostics",
+        "status": "completed",
+        "amount": -1450
+      },
+      {
+        "id": "CL-30298",
+        "date": "2026-09-21",
+        "title": "Reimbursement: dental cleaning",
+        "meta": "Priya · Claim CR-2026-40611",
+        "category": "Dental",
+        "status": "processing",
+        "amount": 1200
+      },
+      {
+        "id": "CL-30263",
+        "date": "2026-09-19",
+        "title": "Lakeview Dental Care",
+        "meta": "Priya · Paid by you · Bill LD-20931",
+        "category": "Dental",
+        "status": "completed",
+        "amount": -2400
+      },
+      {
+        "id": "CL-30241",
+        "date": "2026-09-18",
+        "title": "Medicines, home delivery",
+        "meta": "Priya · Order MD-77104",
+        "category": "Pharmacy",
+        "status": "completed",
+        "amount": -620
+      },
+      {
+        "id": "CL-30219",
+        "date": "2026-09-16",
+        "title": "Complete blood count",
+        "meta": "Aarav · Greenfield Labs",
+        "category": "Diagnostics",
+        "status": "completed",
+        "amount": -380
+      },
+      {
+        "id": "CL-30187",
+        "date": "2026-09-14",
+        "title": "Physiotherapy, session 2 of 6",
+        "meta": "Arjun · Movewell Physio, Andheri",
+        "category": "Therapy",
+        "status": "completed",
+        "amount": -900
+      },
+      {
+        "id": "CL-30160",
+        "date": "2026-09-12",
+        "title": "Eye test and frames",
+        "meta": "Aarav · Frames aren’t covered by your plan",
+        "category": "Vision",
+        "status": "declined",
+        "amount": -3200
+      },
+      {
+        "id": "CL-30133",
+        "date": "2026-09-10",
+        "title": "Medicines, home delivery",
+        "meta": "Arjun · Order MD-76820",
+        "category": "Pharmacy",
+        "status": "completed",
+        "amount": -412.5
+      },
+      {
+        "id": "CL-30102",
+        "date": "2026-09-07",
+        "title": "Physiotherapy, session 1 of 6",
+        "meta": "Arjun · Movewell Physio, Andheri",
+        "category": "Therapy",
+        "status": "completed",
+        "amount": -900
+      },
+      {
+        "id": "CL-30077",
+        "date": "2026-09-06",
+        "title": "Dr. Kavita Rao",
+        "meta": "Priya · General physician, video",
+        "category": "Consultation",
+        "status": "completed",
+        "amount": -500
+      },
+      {
+        "id": "CL-30046",
+        "date": "2026-09-05",
+        "title": "Vitamin D and B12",
+        "meta": "Priya · Home sample collection",
+        "category": "Diagnostics",
+        "status": "completed",
+        "amount": -1100
+      },
+      {
+        "id": "CL-30021",
+        "date": "2026-09-03",
+        "title": "Dr. Farhan Siddiqui",
+        "meta": "Arjun · Orthopaedic consultation",
+        "category": "Consultation",
+        "status": "completed",
+        "amount": -1000
+      },
+      {
+        "id": "CL-29994",
+        "date": "2026-09-01",
+        "title": "Wallet top-up from your employer",
+        "meta": "Quarterly credit · Plan 2026",
+        "category": "Wallet",
+        "status": "completed",
+        "amount": 4500
+      },
+      {
+        "id": "CL-29968",
+        "date": "2026-08-28",
+        "title": "Medicines, home delivery",
+        "meta": "Aarav · Order MD-75511",
+        "category": "Pharmacy",
+        "status": "completed",
+        "amount": -286
+      },
+      {
+        "id": "CL-29941",
+        "date": "2026-08-24",
+        "title": "Dental X-ray",
+        "meta": "Priya · Lakeview Dental Care",
+        "category": "Dental",
+        "status": "completed",
+        "amount": -650
+      },
+      {
+        "id": "CL-29915",
+        "date": "2026-08-20",
+        "title": "Dr. Meenal Joshi",
+        "meta": "Aarav · Vaccination visit",
+        "category": "Consultation",
+        "status": "completed",
+        "amount": -800
+      },
+      {
+        "id": "CL-29890",
+        "date": "2026-08-14",
+        "title": "Annual health check",
+        "meta": "Arjun · Fully covered by your plan",
+        "category": "Diagnostics",
+        "status": "completed",
+        "amount": 0
+      }
+    ],
+    "empty": {
+      "title": "Nothing matches that search",
+      "description": "Try a different name or clear the filters to see everything.",
+      "clear": "Clear filters"
+    },
+    "pagination": {
+      "label": "Claim pages",
+      "previous": "Previous",
+      "next": "Next",
+      "page": "Page",
+      "of": "of",
+      "summary": "Showing {start}–{end} of {total}",
+      "none": "No results"
+    },
+    "loading": "Loading claims and payments",
+    "summary": {
+      "label": "Totals for this view",
+      "moneyIn": "Reimbursed",
+      "moneyOut": "Paid"
+    }
+  },
+  "specimen": {
+    "eyebrow": "Shared OPD wallet",
+    "amount": 7400,
+    "note": "used of ₹18,000 · ₹10,600 left"
+  }
+}

@@ -65,6 +65,18 @@
   color: var(--strata-color-text-default);
   font-weight: var(--strata-font-weight-medium);
 }
+@media (prefers-reduced-motion: no-preference) {
+  .link {
+    transition:
+      background-color var(--strata-motion-duration-fast) var(--strata-motion-easing),
+      color var(--strata-motion-duration-fast) var(--strata-motion-easing),
+      outline-offset var(--strata-motion-duration-fast) var(--strata-motion-easing),
+      scale var(--strata-motion-duration-spring) var(--strata-motion-spring);
+  }
+  .link:active {
+    scale: 0.98;
+  }
+}
 
 .linkText {
   flex: 1;

@@ -17,6 +17,7 @@
     "@mdx-js/loader": "^3.1.0",
     "@mdx-js/react": "^3.1.0",
     "@next/mdx": "^16.3.0",
+    "@strata/icons": "workspace:*",
     "@strata/react": "workspace:*",
     "@strata/theme-engine": "workspace:*",
     "@tabler/icons-react": "^3.30.0",

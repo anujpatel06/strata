@@ -18,7 +18,7 @@ import {
   IconInfoCircle,
   IconSearch,
   type Icon as TablerIcon,
-} from '@tabler/icons-react';
+} from '@strata/icons';
 import type { Tone } from './content-types';
 
 export interface GlyphProps {

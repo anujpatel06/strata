@@ -1,7 +1,5 @@
 import type { Metadata } from 'next';
 import { PageShell } from '@/components/page/page-shell';
-import { PackageCommand } from '@/components/mdx/package-command';
-import type { RegistryCommands } from '@/components/themes/export-panel';
 import { readState, toQuery, type ThemePreset } from '@/components/themes/state';
 import { ThemeStats } from '@/components/themes/theme-stats';
 import { ThemesProvider } from '@/components/themes/themes-provider';
@@ -51,23 +49,19 @@ export default async function Themes({ searchParams }: { searchParams: Promise<R
   const presets = getPresets();
   const initial = readState(toQuery(await searchParams), presets);
 
-  // Install commands are highlighted here, on the server, one pair per preset.
-  const registry: Record<string, RegistryCommands> = {};
-  for (const p of presets) {
-    registry[p.id] = {
-      tokens: <PackageCommand dlx={`shadcn@latest add @strata/strata-tokens-${p.id}`} />,
-      theme: <PackageCommand dlx={`shadcn@latest add @strata/theme-${p.id}`} />,
-    };
-  }
-
   return (
     <ThemesProvider presets={presets} initial={initial}>
       <PageShell
-        title="Themes"
-        description="Type a brand colour. Get a complete, accessible theme — and see every change the solver made."
+        eyebrow="Themes"
+        title={
+          <>
+            One colour in, <em>a whole brand</em> out
+          </>
+        }
+        description="Type a brand colour. Get a complete, accessible theme, and see every change the solver made to get there."
         actions={<ThemeStats />}
       >
-        <ThemesWorkspace registry={registry} />
+        <ThemesWorkspace />
       </PageShell>
     </ThemesProvider>
   );

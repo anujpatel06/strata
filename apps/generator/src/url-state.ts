@@ -28,10 +28,11 @@ import { getTenant, isTenantId, type TenantId } from './tenants';
 export const TABS = ['preview', 'accessibility', 'tokens'] as const;
 export type Tab = (typeof TABS)[number];
 
-export const EXPORT_FORMATS = ['css', 'dtcg', 'figma', 'shadcn'] as const;
+/** Retired formats in old links (e.g. format=shadcn) aren't listed, so they fall back to css. */
+export const EXPORT_FORMATS = ['css', 'dtcg', 'figma'] as const;
 export type ExportFormat = (typeof EXPORT_FORMATS)[number];
 
-export const NEUTRALS: readonly NeutralTemperature[] = ['cool', 'neutral', 'warm'];
+export const NEUTRALS: readonly NeutralTemperature[] = ['cool', 'neutral', 'warm', 'paper'];
 export const SHAPES: readonly Shape[] = ['sharp', 'soft', 'round'];
 export const DENSITIES: readonly Density[] = ['comfortable', 'compact'];
 const SCHEMES: readonly Scheme[] = ['light', 'dark'];

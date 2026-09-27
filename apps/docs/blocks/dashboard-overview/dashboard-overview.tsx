@@ -62,7 +62,7 @@ import {
   IconSettings,
   IconSparkles,
   IconUser,
-} from '@tabler/icons-react';
+} from '@strata/icons';
 import {
   useId,
   useLayoutEffect,
@@ -197,6 +197,7 @@ export function DashboardOverview({
               <p className={styles.subtitle}>{overview.subtitle}</p>
             </div>
             <div className={styles.pageActions}>
+              {/* The page's one hero action keeps the brand colour; every other strong action is `contrast`. */}
               <Button variant="outline">{overview.secondaryAction}</Button>
               <Button variant="primary">{overview.primaryAction}</Button>
             </div>
@@ -468,7 +469,7 @@ function ActivityCard({
     const status = (row: DashboardActivityRow) => {
       const s = statusLabels[row.status] ?? { label: row.status, tone: 'neutral' as const };
       return (
-        <Badge tone={s.tone} size={compact ? 'sm' : 'md'}>
+        <Badge tone={s.tone} variant="status" size={compact ? 'sm' : 'md'}>
           {s.label}
         </Badge>
       );
@@ -517,7 +518,7 @@ function ActivityCard({
   const rows = useMemo(() => table.rows.map((row, i) => ({ ...row, key: `${row.date}-${i}` })), [table.rows]);
 
   return (
-    <Card className={styles.activity} ref={ref}>
+    <Card ref={ref}>
       <CardHeader>
         <CardTitle level={headingLevel} id={`${uid}-activity`}>
           {table.title}
@@ -529,14 +530,15 @@ function ActivityCard({
           </Link>
         </CardAction>
       </CardHeader>
-      <DataTable
-        aria-labelledby={`${uid}-activity`}
-        columns={columns}
-        rows={rows}
-        getRowId={(row) => row.key}
-        stickyHeader={false}
-        className={styles.table}
-      />
+      <CardContent variant="inset">
+        <DataTable
+          aria-labelledby={`${uid}-activity`}
+          columns={columns}
+          rows={rows}
+          getRowId={(row) => row.key}
+          stickyHeader={false}
+        />
+      </CardContent>
     </Card>
   );
 }
@@ -575,7 +577,7 @@ function QuickActionCard({
           ))}
         </CardContent>
         <CardFooter>
-          <Button type="submit" className={styles.block}>
+          <Button type="submit" variant="contrast" size="lg" className={styles.block}>
             {form.submit}
           </Button>
         </CardFooter>

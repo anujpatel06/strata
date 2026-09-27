@@ -72,7 +72,7 @@ function schemeData(theme: Theme, scheme: Scheme): ColorScheme {
   };
 }
 
-const NEUTRAL_LABEL = { cool: 'Cool', neutral: 'Neutral', warm: 'Warm' } as const;
+const NEUTRAL_LABEL = { cool: 'Cool', neutral: 'Neutral', warm: 'Warm', paper: 'Paper' } as const;
 const SHAPE_LABEL = { sharp: 'Sharp', soft: 'Soft', round: 'Round' } as const;
 const DENSITY_LABEL = { comfortable: 'Comfortable', compact: 'Compact' } as const;
 
@@ -80,11 +80,11 @@ function facts(brand: BrandInput, theme: Theme): BrandFact[] {
   const pair = TYPE_PAIRS[brand.typePair];
   return [
     { label: 'Primary', value: theme.input.primary, swatch: theme.input.primary },
-    { label: 'Accent', value: brand.accent ? theme.input.accent : 'Same as primary', swatch: theme.input.accent },
-    { label: 'Neutral', value: NEUTRAL_LABEL[brand.neutral] },
-    { label: 'Shape', value: SHAPE_LABEL[brand.shape] },
+    { label: 'Accent', value: brand.accent ? theme.input.accent : 'accent = primary', swatch: theme.input.accent },
+    { label: 'Neutral', value: `${NEUTRAL_LABEL[brand.neutral].toLowerCase()} neutrals` },
+    { label: 'Shape', value: SHAPE_LABEL[brand.shape].toLowerCase() },
     { label: 'Type', value: pair?.label.split('—')[1]?.trim() ?? brand.typePair },
-    { label: 'Density', value: DENSITY_LABEL[brand.density] },
+    { label: 'Density', value: DENSITY_LABEL[brand.density].toLowerCase() },
   ];
 }
 
