@@ -47,9 +47,9 @@
     {
       "component": "toast",
       "name": "content",
-      "type": "string | { title: ReactNode; description?: ReactNode; tone?: 'neutral' | 'info' | 'success' | 'warning' | 'danger'; action?: { label: string; onAction: () => void } }",
+      "type": "string | { title: ReactNode; description?: ReactNode; tone?: 'neutral' | 'info' | 'success' | 'warning' | 'danger'; icon?: ReactNode; action?: { label: string; onAction: () => void } }",
       "required": true,
-      "description": "What to show. A string is the title. Each tone except neutral gets its own filled status shape. Pressing the action runs onAction and closes the toast; its weight follows the tone (Button variant=\"contrast\" for danger and warning, \"outline\" otherwise)."
+      "description": "What to show. A string is the title. Every tone gets a filled status shape (neutral: the info shape in a quiet grey); `icon` replaces it with any icon, coloured by the tone. Pressing the action runs onAction and closes the toast; its weight follows the tone (Button variant=\"contrast\" for danger and warning, \"outline\" otherwise)."
     },
     {
       "component": "toast",

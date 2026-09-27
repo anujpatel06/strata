@@ -145,7 +145,7 @@ describe('toast + ToastRegion', () => {
 });
 
 describe('toast: filled status icon and action weight', () => {
-  it('shows a filled status shape per tone, decorative, and none for neutral', () => {
+  it('shows a filled status shape for every tone (neutral: the quiet info shape), decorative', () => {
     render(<ToastRegion />);
     act(() => {
       toast({ title: 'Plain', tone: 'neutral' }, { timeout: null });
@@ -156,7 +156,17 @@ describe('toast: filled status icon and action weight', () => {
     expect(icon('Done')).toHaveAttribute('data-strata-icon', 'seal-check-filled');
     expect(icon('Broken')).toHaveAttribute('data-strata-icon', 'alert-triangle-filled');
     expect(icon('Done')?.closest('[aria-hidden="true"]')).not.toBeNull();
-    expect(screen.getByRole('alertdialog', { name: 'Plain' }).querySelector('[data-strata-icon$="-filled"]')).toBeNull();
+    expect(icon('Plain')).toHaveAttribute('data-strata-icon', 'info-circle-filled');
+  });
+
+  it('lets `icon` replace the status shape, still decorative', () => {
+    render(<ToastRegion />);
+    act(() => {
+      toast({ title: 'Copied', tone: 'success', icon: <svg data-testid="custom-icon" /> }, { timeout: null });
+    });
+    const custom = screen.getByTestId('custom-icon');
+    expect(custom.closest('[aria-hidden="true"]')).not.toBeNull();
+    expect(screen.getByRole('alertdialog', { name: 'Copied' }).querySelector('[data-strata-icon="seal-check-filled"]')).toBeNull();
   });
 
   it('weights the action by severity: contrast for danger and warning, outline otherwise', () => {

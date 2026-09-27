@@ -48,6 +48,8 @@ export interface ToastContent {
   title: ReactNode;
   description?: ReactNode;
   tone?: ToastTone;
+  /** Replaces the tone's status shape, e.g. `<IconCopy />` for a copy confirmation. Decorative: the title carries the meaning. Coloured by the tone. */
+  icon?: ReactNode;
   /**
    * One short action, e.g. Undo. Pressing it runs `onAction` and closes the toast. Its weight follows the tone:
    * a high-contrast button (`contrast`) for `danger` and `warning`, because something needs you, and a quiet neutral
@@ -344,7 +346,9 @@ export function ToastRegion({ placement = 'bottom-end', className, ...rest }: To
  * CSS colours the shape feedback.<tone>.fg and knocks the glyph out in feedback.<tone>.bg (see the proof in
  * test/toast.test.tsx: shape ≥ 3:1 on the toast surface, glyph ≥ 4.5:1 on the shape).
  */
-const TONE_ICON: Record<Exclude<ToastTone, 'neutral'>, typeof IconInfoCircleFilled> = {
+const TONE_ICON: Record<ToastTone, typeof IconInfoCircleFilled> = {
+  // Neutral keeps the same icon | text | action rhythm: the info shape in text.subtle, glyph knocked out in the face.
+  neutral: IconInfoCircleFilled,
   info: IconInfoCircleFilled,
   success: IconSealCheckFilled,
   warning: IconAlertCircleFilled,
@@ -357,7 +361,7 @@ function ToastItem({ toast: item }: { toast: QueuedToast<ToastContent> }): JSX.E
   const toastRef = useRef<HTMLDivElement>(null);
   const { key, content } = item;
   const tone = content.tone ?? 'neutral';
-  const ToneIcon = tone === 'neutral' ? null : TONE_ICON[tone];
+  const ToneIcon = TONE_ICON[tone];
   const isExiting = region?.exiting.has(key) ?? false;
   const slot = region?.layout.get(key) ?? { index: 0, offset: 0 };
   const height = region?.heights[key];
@@ -404,11 +408,9 @@ function ToastItem({ toast: item }: { toast: QueuedToast<ToastContent> }): JSX.E
     >
       <div ref={innerRef} className={styles.inner}>
         <div className={styles.lead}>
-          {ToneIcon && (
-            <span className={styles.icon} aria-hidden="true">
-              <ToneIcon />
-            </span>
-          )}
+          <span className={styles.icon} aria-hidden="true">
+            {content.icon ?? <ToneIcon />}
+          </span>
           <AriaToastContent className={styles.content}>
             <Text slot="title" className={styles.title}>
               {content.title}

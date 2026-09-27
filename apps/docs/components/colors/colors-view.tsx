@@ -46,7 +46,7 @@ async function copySwatch(swatch: ColorSwatch, ramp: ColorRamp, scheme: ColorSch
   toast({
     title: `Copied ${value}`,
     description: fellBack ? `No semantic role uses ${where}, so this is the hex value.` : where,
-    tone: 'neutral',
+    tone: 'success',
   });
 }
 
