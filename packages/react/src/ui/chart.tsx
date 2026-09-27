@@ -335,8 +335,8 @@ export interface ChartTableProps extends HTMLAttributes<HTMLTableElement> {
 
 /** The chart's data as a table: the WCAG equivalent of the picture. Visually hidden by default. */
 export function ChartTable({ caption, xLabel = '', series, rows, isVisible = false, className, ref, ...rest }: ChartTableProps): JSX.Element {
-  return (
-    <table {...rest} ref={ref} className={cx(isVisible ? styles.table : styles.srOnly, className)}>
+  const table = (
+    <table {...rest} ref={ref} className={cx(isVisible ? styles.table : undefined, className)}>
       <caption className={isVisible ? styles.srOnly : undefined}>{caption}</caption>
       <thead>
         <tr>
@@ -360,6 +360,9 @@ export function ChartTable({ caption, xLabel = '', series, rows, isVisible = fal
       </tbody>
     </table>
   );
+  // Browsers size a <table> to its content and ignore width: 1px, so the visually-hidden clip goes on a wrapper.
+  // Without it the hidden table widened the page at 320px and made it scroll sideways.
+  return isVisible ? table : <div className={styles.srOnly}>{table}</div>;
 }
 
 /* ------------------------------------------------------------------ *

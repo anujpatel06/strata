@@ -46,7 +46,7 @@ function Account() {
 
 export default function Example() {
   return (
-    <div style={{ blockSize: 620, display: 'flex' }}>
+    <div style={{ blockSize: 620, display: 'flex', maxInlineSize: '100%' }}>
       <Sidebar aria-label="Main" variant="floating" defaultCollapsed={false}>
         <SidebarHeader
           logo={<IconTile tint="solid" size="sm"><IconSparkles /></IconTile>}

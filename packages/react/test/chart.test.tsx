@@ -62,6 +62,9 @@ describe('ChartTooltip', () => {
 describe('ChartTable', () => {
   it('is visually hidden by default and captioned', () => {
     render(<ChartTable caption="Revenue" xLabel="Month" series={[{ key: 'r', label: 'Revenue' }]} rows={[{ x: 'Jan', values: ['$1'] }]} />);
-    expect(screen.getByRole('table', { name: 'Revenue' })).toHaveClass('srOnly');
+    // The clip lives on a wrapper: browsers ignore width: 1px on a <table>, which widened the page at 320px.
+    const table = screen.getByRole('table', { name: 'Revenue' });
+    expect(table.parentElement).toHaveClass('srOnly');
+    expect(table).not.toHaveClass('srOnly');
   });
 });

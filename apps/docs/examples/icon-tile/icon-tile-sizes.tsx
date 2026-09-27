@@ -5,7 +5,7 @@ import { IconWallet } from '@strata/icons';
 
 export default function Example() {
   return (
-    <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--strata-space-3)' }}>
+    <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 'var(--strata-space-3)' }}>
       <IconTile size="sm"><IconWallet /></IconTile>
       <IconTile size="md"><IconWallet /></IconTile>
       <IconTile size="lg"><IconWallet /></IconTile>

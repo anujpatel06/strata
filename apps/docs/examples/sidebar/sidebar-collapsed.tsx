@@ -7,7 +7,7 @@ import { IconBell, IconLayoutDashboard, IconReceipt, IconSettings, IconSparkles,
 export default function Example() {
   const [collapsed, setCollapsed] = useState(true);
   return (
-    <div style={{ blockSize: 440, display: 'flex' }}>
+    <div style={{ blockSize: 440, display: 'flex', maxInlineSize: '100%' }}>
       <Sidebar aria-label="Main" variant="floating" collapsed={collapsed} onCollapsedChange={setCollapsed}>
         <SidebarHeader
           logo={<IconTile tint="solid" size="sm"><IconSparkles /></IconTile>}
