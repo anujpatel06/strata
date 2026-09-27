@@ -1,0 +1,29 @@
+{
+  "name": "@strata/icons",
+  "version": "0.1.0",
+  "description": "Strata's own icon set: curvy, minimal outline icons on a 24px grid. React components; colour follows text, stroke follows the --strata-icon-stroke token.",
+  "type": "module",
+  "license": "MIT",
+  "sideEffects": false,
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "test": "vitest run",
+    "typecheck": "tsc -p tsconfig.json",
+    "sheet": "tsx scripts/sheet.tsx"
+  },
+  "peerDependencies": {
+    "react": "^19.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "@types/react": "^19.2.0",
+    "@types/react-dom": "^19.2.0",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "tsx": "^4.20.0",
+    "typescript": "~5.9.0",
+    "vitest": "^5.0.0"
+  }
+}

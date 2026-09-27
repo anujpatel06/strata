@@ -1,0 +1,10 @@
+export { createIcon, type Icon, type IconNode, type IconProps } from './create-icon';
+export * from './icons/core';
+export * from './icons/navigation';
+export * from './icons/status';
+export * from './icons/objects';
+export * from './icons/health';
+export * from './icons/commerce';
+export * from './icons/media';
+export * from './icons/travel';
+export * from './icons/system';
