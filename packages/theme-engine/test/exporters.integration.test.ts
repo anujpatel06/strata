@@ -11,7 +11,7 @@ import { toFigmaFiles } from '../src/export/figma';
 import { generateTheme } from '../src/theme';
 import { ROLES, roleToCssVar } from '../src/types';
 import type { BrandInput } from '../src/types';
-import { cssVarProblems, dtcgProblems, dtcgRoleProblems, figmaProblems, parseCss, stripDescriptions } from './fixture';
+import { cssVarProblems, dtcgProblems, dtcgRoleProblems, figmaProblems, figmaStarterProblems, parseCss, stripDescriptions } from './fixture';
 
 const TENANTS: BrandInput[] = [
   { name: 'Vela', primary: '#3d45d6', accent: '#12b5a6', neutral: 'cool', shape: 'sharp', typePair: 'precise', density: 'compact' },
@@ -73,6 +73,10 @@ describe.each(TENANTS)('$name', (input) => {
 
   it('toFigmaFiles: 7 files; every alias resolves across files to the engine hex', () => {
     expect(figmaProblems(toFigmaFiles(theme), theme)).toEqual([]);
+  });
+
+  it("toFigmaFiles { modes: 'single' }: 4 one-mode collections, every role the engine hex, no aliases", () => {
+    expect(figmaStarterProblems(toFigmaFiles(theme, { modes: 'single' }), theme)).toEqual([]);
   });
 });
 

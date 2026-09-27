@@ -1,12 +1,12 @@
 'use client';
 
 import { IconFileCode } from '@strata/icons';
-import { Tab, TabList, TabPanel, Tabs, ToggleButton, ToggleButtonGroup } from '@strata/react';
-import { toCSS, toDTCG, toFigmaFiles, type Theme } from '@strata/theme-engine';
+import { Radio, RadioGroup, Tab, TabList, TabPanel, Tabs, ToggleButton, ToggleButtonGroup } from '@strata/react';
+import { toCSS, toDTCG, toFigmaFiles, type FigmaModes, type Theme } from '@strata/theme-engine';
 import { useDeferredValue, useMemo, useState, type ReactNode } from 'react';
 import type { Key, Selection } from 'react-aria-components';
 import { CodeViewer, type ExportFile } from './code-viewer';
-import { FORMATS, oneOf, type ExportFormat } from './state';
+import { FIGMA_MODES, FORMATS, oneOf, type ExportFormat } from './state';
 import { useThemes } from './themes-provider';
 import styles from './panels.module.css';
 
@@ -37,14 +37,26 @@ const NOTES: Record<ExportFormat, ReactNode> = {
   ),
 };
 
-function buildFiles(theme: Theme, format: ExportFormat, slug: string): ExportFile[] {
+/** Figma plan → layout. Starter allows one mode per collection, so it gets one collection per brand × scheme. */
+const FIGMA_PLAN_LABEL: Record<FigmaModes, string> = {
+  single: 'Starter (1 mode)',
+  multi: 'Professional or higher',
+};
+const FIGMA_PLAN_ORDER: readonly FigmaModes[] = ['single', 'multi'];
+const FIGMA_PLAN_NOTE: Record<FigmaModes, string> = {
+  multi: 'Brand, Shape and Type get one mode per tenant; Semantic is Light / Dark; Density is Comfortable / Compact.',
+  single:
+    'Every collection has one mode, “Value”: one collection per scheme with the colours as hex, plus Size and the other density. Switch brands by swapping libraries, not modes.',
+};
+
+function buildFiles(theme: Theme, format: ExportFormat, slug: string, figmaModes: FigmaModes): ExportFile[] {
   switch (format) {
     case 'css':
       return [{ name: `${slug}.css`, content: toCSS(theme), mime: 'text/css', lang: 'css' }];
     case 'dtcg':
       return [{ name: `${slug}.tokens.json`, content: JSON.stringify(toDTCG(theme), null, 2), mime: 'application/json', lang: 'json' }];
     case 'figma':
-      return Object.entries(toFigmaFiles(theme)).map(([name, doc]) => ({
+      return Object.entries(toFigmaFiles(theme, { modes: figmaModes })).map(([name, doc]) => ({
         name,
         content: JSON.stringify(doc, null, 2),
         mime: 'application/json',
@@ -97,7 +109,8 @@ export function ExportPanel() {
   const theme = useDeferredValue(liveTheme);
   const slug = `${preset.id}${edited ? '-custom' : ''}`;
   const format = state.format;
-  const files = useMemo(() => buildFiles(theme, format, slug), [theme, format, slug]);
+  const figmaModes = state.figmaModes;
+  const files = useMemo(() => buildFiles(theme, format, slug, figmaModes), [theme, format, slug, figmaModes]);
 
   return (
     <Tabs
@@ -119,6 +132,25 @@ export function ExportPanel() {
       {FORMATS.map((f) => (
         <TabPanel key={f} id={f} className={styles.exportPanel}>
           <p className={styles.sub}>{NOTES[f]}</p>
+          {f === 'figma' && (
+            <RadioGroup
+              label="Figma plan"
+              description={FIGMA_PLAN_NOTE[figmaModes]}
+              orientation="horizontal"
+              value={figmaModes}
+              onChange={(value) => {
+                const next = oneOf(value, FIGMA_MODES);
+                if (next) dispatch({ type: 'setFigmaModes', figmaModes: next });
+              }}
+              className={styles.figmaPlan}
+            >
+              {FIGMA_PLAN_ORDER.map((m) => (
+                <Radio key={m} value={m}>
+                  {FIGMA_PLAN_LABEL[m]}
+                </Radio>
+              ))}
+            </RadioGroup>
+          )}
           <Files files={files} />
         </TabPanel>
       ))}

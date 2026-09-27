@@ -12,7 +12,7 @@ Anuj owns design decisions. You pair on engineering and push back when he's wron
 
 - **Done (v0.2):** Phase 0–2, plus the docs site. That covers the theme engine and contrast solver, 41 components, 5 blocks, the docs site (Home, Docs, Components, Blocks, Themes, Colors, ⌘K) and the npm build. No shadcn anywhere users look (ADR-011 revision).
 - **Next:** Phase 4, governance (GOVERNANCE.md, RFC flow, the `Button variant="danger"` → `tone="critical"` deprecation with a codemod). Then Phase 5: MCP server, drift auditor, agent eval. See BRIEF §7–10 and §13.
-- **Waiting on Anuj:** confirm ADR-012.
+- **Waiting on Anuj:** deploy the docs to Vercel. All ADRs 001–017 are decided (2026-09-27).
 - **Known gaps:** listed at the end of the latest entry in `docs/log.md`.
 
 ## Run it

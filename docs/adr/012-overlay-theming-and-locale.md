@@ -1,6 +1,6 @@
 # ADR-012: Overlays copy their scope; ThemeScope owns the locale
 
-- **Status:** Accepted — Claude recommended (C3's approach); Anuj to confirm
+- **Status:** Accepted — Claude recommended (C3's approach); **Anuj delegated the call** ("do whatever is correct", 2026-09-27). Accepted because it is built and tested in every overlay
 - **Date:** 2026-09-26
 - **Principles:** 1, 4
 

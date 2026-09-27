@@ -177,6 +177,8 @@ export function App() {
                       tenant={state.tenant}
                       format={state.format}
                       onFormatChange={(format) => dispatch({ type: 'setFormat', format })}
+                      figmaModes={state.figmaModes}
+                      onFigmaModesChange={(figmaModes) => dispatch({ type: 'setFigmaModes', figmaModes })}
                       focusExport={focusExport}
                       onExportFocused={onExportFocused}
                     />

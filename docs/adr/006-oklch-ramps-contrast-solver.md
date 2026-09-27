@@ -1,6 +1,6 @@
 # ADR-006: OKLCH ramps + contrast solver
 
-- **Status:** Proposed — Claude recommended, pending Anuj
+- **Status:** Accepted — Claude recommended, **Anuj** accepted (2026-09-27); the open question was decided by Anuj earlier the same day
 - **Date:** 2026-09-26
 - **Principles:** 3, 7
 

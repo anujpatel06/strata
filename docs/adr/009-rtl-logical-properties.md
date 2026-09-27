@@ -1,6 +1,6 @@
 # ADR-009: RTL via CSS logical properties from day one
 
-- **Status:** Proposed — Claude recommended, pending Anuj. Applied in Phase 1's preview screen.
+- **Status:** Accepted — Claude recommended, **Anuj** accepted (2026-09-27). In use across every component and all tenants, including Qamar (RTL)
 - **Date:** 2026-09-26
 - **Principles:** 2, 4
 

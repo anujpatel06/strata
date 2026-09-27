@@ -1,6 +1,6 @@
 import { useEffect, useId, useMemo, useRef, useState } from 'react';
 import { IconCheck, IconCopy, IconDownload, IconFileCode } from '@strata/icons';
-import { toCSS, toDTCG, toFigmaFiles, type Theme } from '@strata/theme-engine';
+import { toCSS, toDTCG, toFigmaFiles, type FigmaModes, type Theme } from '@strata/theme-engine';
 import type { TenantId } from '../tenants';
 import type { ExportFormat } from '../url-state';
 import { Segmented, type SegmentedOption } from './Segmented';
@@ -21,16 +21,28 @@ const FORMAT_OPTIONS: ReadonlyArray<SegmentedOption<ExportFormat>> = [
   { value: 'figma', label: 'Figma' },
 ];
 
+/** Figma plan → layout. Starter (free) allows one mode per collection, so it gets one collection per brand × scheme. */
+const FIGMA_PLAN_OPTIONS: ReadonlyArray<SegmentedOption<FigmaModes>> = [
+  { value: 'single', label: 'Starter (1 mode)' },
+  { value: 'multi', label: 'Professional or higher' },
+];
+
+const FIGMA_PLAN_NOTE: Record<FigmaModes, string> = {
+  multi: 'Brand, Shape and Type get one mode per tenant; Semantic is Light / Dark; Density is Comfortable / Compact.',
+  single:
+    'Every collection has one mode, “Value”: one collection per scheme with the colours as hex, plus Size and the other density. Switch brands by swapping libraries, not modes.',
+};
+
 const NOTE = 'DTCG 2025.10 uses colour objects; the Figma files use hex strings for plugin compatibility.';
 
-function buildFiles(theme: Theme, format: ExportFormat, tenant: TenantId): ExportFile[] {
+function buildFiles(theme: Theme, format: ExportFormat, tenant: TenantId, figmaModes: FigmaModes): ExportFile[] {
   switch (format) {
     case 'css':
       return [{ name: `${tenant}.css`, content: toCSS(theme), mime: 'text/css' }];
     case 'dtcg':
       return [{ name: `${tenant}.tokens.json`, content: JSON.stringify(toDTCG(theme), null, 2), mime: 'application/json' }];
     case 'figma':
-      return Object.entries(toFigmaFiles(theme)).map(([name, doc]) => ({
+      return Object.entries(toFigmaFiles(theme, { modes: figmaModes })).map(([name, doc]) => ({
         name,
         content: JSON.stringify(doc, null, 2),
         mime: 'application/json',
@@ -57,11 +69,22 @@ interface ExportSectionProps {
   tenant: TenantId;
   format: ExportFormat;
   onFormatChange: (format: ExportFormat) => void;
+  figmaModes: FigmaModes;
+  onFigmaModesChange: (figmaModes: FigmaModes) => void;
   focusExport: boolean;
   onExportFocused: () => void;
 }
 
-export function ExportSection({ theme, tenant, format, onFormatChange, focusExport, onExportFocused }: ExportSectionProps) {
+export function ExportSection({
+  theme,
+  tenant,
+  format,
+  onFormatChange,
+  figmaModes,
+  onFigmaModesChange,
+  focusExport,
+  onExportFocused,
+}: ExportSectionProps) {
   const headingId = useId();
   const fileListId = useId();
   const sectionRef = useRef<HTMLElement>(null);
@@ -71,7 +94,7 @@ export function ExportSection({ theme, tenant, format, onFormatChange, focusExpo
   const [status, setStatus] = useState('');
   const [copied, setCopied] = useState(false);
 
-  const files = useMemo(() => buildFiles(theme, format, tenant), [theme, format, tenant]);
+  const files = useMemo(() => buildFiles(theme, format, tenant, figmaModes), [theme, format, tenant, figmaModes]);
   const file = files.find((f) => f.name === selectedName) ?? files[0];
   const stats = useMemo(() => {
     if (!file) return '';
@@ -186,12 +209,26 @@ export function ExportSection({ theme, tenant, format, onFormatChange, focusExpo
           </div>
         </div>
 
+        {format === 'figma' && (
+          <div className={styles.planBar}>
+            <Segmented
+              legend="Figma plan"
+              size="sm"
+              options={FIGMA_PLAN_OPTIONS}
+              value={figmaModes}
+              onChange={onFigmaModesChange}
+              className={styles.plan}
+            />
+            <p className={styles.planNote}>{FIGMA_PLAN_NOTE[figmaModes]}</p>
+          </div>
+        )}
+
         <div className={format === 'figma' ? styles.bodySplit : styles.body}>
           {format === 'figma' && (
             <fieldset className={`${ui.fieldset} ${styles.fileList}`}>
               <legend className={ui.srOnly}>Figma variable files</legend>
               <p className={styles.fileListHint} aria-hidden="true">
-                One file per collection mode
+                {figmaModes === 'single' ? 'One file per collection (one mode each)' : 'One file per collection mode'}
               </p>
               {files.map((f) => {
                 const id = `${fileListId}-${f.name}`;

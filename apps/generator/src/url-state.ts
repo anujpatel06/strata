@@ -6,6 +6,7 @@
  *   &scheme=light|dark             preview scheme
  *   &tab=preview|accessibility|tokens
  *   &format=css|dtcg|figma         export format on the Tokens tab
+ *   &figmaPlan=starter             Figma export for the Starter plan (one mode per collection); absent = Professional or higher
  *   &primary=RRGGBB  &accent=RRGGBB|none
  *   &neutral=cool|neutral|warm  &shape=sharp|soft|round  &type=<type pair id>  &density=comfortable|compact
  *
@@ -18,6 +19,7 @@ import {
   normalizeHex,
   type BrandInput,
   type Density,
+  type FigmaModes,
   type NeutralTemperature,
   type Scheme,
   type Shape,
@@ -44,6 +46,8 @@ export interface AppState {
   scheme: Scheme;
   tab: Tab;
   format: ExportFormat;
+  /** Figma export layout: 'multi' (Professional or higher, the default) or 'single' (Starter). */
+  figmaModes: FigmaModes;
 }
 
 export type AppAction =
@@ -57,7 +61,8 @@ export type AppAction =
   | { type: 'setDensity'; density: Density }
   | { type: 'setScheme'; scheme: Scheme }
   | { type: 'setTab'; tab: Tab }
-  | { type: 'setFormat'; format: ExportFormat };
+  | { type: 'setFormat'; format: ExportFormat }
+  | { type: 'setFigmaModes'; figmaModes: FigmaModes };
 
 /* ------------------------------------------------------------------ helpers */
 
@@ -100,7 +105,7 @@ export function brandDiff(brand: BrandInput, tenant: TenantId): Array<keyof Bran
 
 /* ------------------------------------------------------------------ read / write */
 
-const OWN_KEYS = ['tenant', 'scheme', 'tab', 'format', 'primary', 'accent', 'neutral', 'shape', 'type', 'density'];
+const OWN_KEYS = ['tenant', 'scheme', 'tab', 'format', 'figmaPlan', 'primary', 'accent', 'neutral', 'shape', 'type', 'density'];
 
 export function readState(search: string): AppState {
   const q = new URLSearchParams(search);
@@ -128,6 +133,7 @@ export function readState(search: string): AppState {
     scheme: oneOf(q.get('scheme'), SCHEMES) ?? 'light',
     tab: oneOf(q.get('tab'), TABS) ?? 'preview',
     format: oneOf(q.get('format'), EXPORT_FORMATS) ?? 'css',
+    figmaModes: q.get('figmaPlan') === 'starter' ? 'single' : 'multi',
   };
 }
 
@@ -139,6 +145,7 @@ export function toSearch(state: AppState, existing = ''): string {
   if (state.scheme !== 'light') q.set('scheme', state.scheme);
   if (state.tab !== 'preview') q.set('tab', state.tab);
   if (state.format !== 'css') q.set('format', state.format);
+  if (state.figmaModes === 'single') q.set('figmaPlan', 'starter');
 
   const { brand } = state;
   for (const field of brandDiff(brand, state.tenant)) {
@@ -227,6 +234,8 @@ export function reducer(state: AppState, action: AppAction): AppState {
       return { ...state, tab: action.tab };
     case 'setFormat':
       return { ...state, format: action.format };
+    case 'setFigmaModes':
+      return { ...state, figmaModes: action.figmaModes };
     default:
       return state;
   }

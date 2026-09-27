@@ -179,3 +179,27 @@
     flex-basis: 100%;
   }
 }
+
+/* ------------------------------------------------------------------ figma plan (Starter = one mode per collection) */
+
+.planBar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 8px 16px;
+  padding: 12px;
+  border-bottom: 1px solid var(--ui-border);
+}
+
+.plan {
+  flex: 0 1 360px;
+  min-width: 0;
+}
+
+.planNote {
+  flex: 1 1 280px;
+  margin: 0;
+  color: var(--ui-text-2);
+  font-size: 13px;
+  line-height: 20px;
+}

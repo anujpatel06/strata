@@ -6,6 +6,7 @@
  *   &primary=RRGGBB  &accent=RRGGBB|none
  *   &neutral=cool|neutral|warm  &shape=sharp|soft|round  &type=<type pair id>  &density=comfortable|compact
  *   &scheme=light|dark  &tab=preview|accessibility|tokens|export  &format=css|dtcg|figma
+ *   &figmaPlan=starter           Figma export for the Starter plan (one mode per collection); absent = Professional or higher
  *
  * Anything missing or invalid falls back to the preset (retired formats, e.g. format=registry, fall back to css). Only values that differ from it are written back.
  * Ported from the Phase 1 generator (apps/generator/src/url-state.ts).
@@ -16,6 +17,7 @@ import {
   normalizeHex,
   type BrandInput,
   type Density,
+  type FigmaModes,
   type NeutralTemperature,
   type Scheme,
   type Shape,
@@ -43,6 +45,9 @@ export type Tab = (typeof TABS)[number];
 export const FORMATS = ['css', 'dtcg', 'figma'] as const;
 export type ExportFormat = (typeof FORMATS)[number];
 
+/** Figma plan → export layout. Starter allows one mode per collection; Professional and up allow several. */
+export const FIGMA_MODES: readonly FigmaModes[] = ['multi', 'single'];
+
 export const NEUTRALS: readonly NeutralTemperature[] = ['cool', 'neutral', 'warm', 'paper'];
 export const SHAPES: readonly Shape[] = ['sharp', 'soft', 'round'];
 export const DENSITIES: readonly Density[] = ['comfortable', 'compact'];
@@ -56,6 +61,8 @@ export interface ThemesState {
   scheme: Scheme;
   tab: Tab;
   format: ExportFormat;
+  /** Figma export layout: 'multi' (Professional or higher, the default) or 'single' (Starter). */
+  figmaModes: FigmaModes;
 }
 
 export type ThemesAction =
@@ -69,7 +76,8 @@ export type ThemesAction =
   | { type: 'setDensity'; density: Density }
   | { type: 'setScheme'; scheme: Scheme }
   | { type: 'setTab'; tab: Tab }
-  | { type: 'setFormat'; format: ExportFormat };
+  | { type: 'setFormat'; format: ExportFormat }
+  | { type: 'setFigmaModes'; figmaModes: FigmaModes };
 
 /* ------------------------------------------------------------------ helpers */
 
@@ -157,10 +165,11 @@ export function readState(q: Query, presets: readonly ThemePreset[]): ThemesStat
     scheme: oneOf(q.get('scheme'), SCHEMES) ?? 'light',
     tab: oneOf(q.get('tab'), TABS) ?? 'preview',
     format: oneOf(q.get('format'), FORMATS) ?? 'css',
+    figmaModes: q.get('figmaPlan') === 'starter' ? 'single' : 'multi',
   };
 }
 
-const OWN_KEYS = ['tenant', 'scheme', 'tab', 'format', 'primary', 'accent', 'neutral', 'shape', 'type', 'density'];
+const OWN_KEYS = ['tenant', 'scheme', 'tab', 'format', 'figmaPlan', 'primary', 'accent', 'neutral', 'shape', 'type', 'density'];
 
 /** State → query string (without "?"). Keeps unrelated params that were already there. */
 export function toSearch(state: ThemesState, presets: readonly ThemePreset[], existing = ''): string {
@@ -199,6 +208,7 @@ export function toSearch(state: ThemesState, presets: readonly ThemePreset[], ex
   if (state.scheme !== 'light') q.set('scheme', state.scheme);
   if (state.tab !== 'preview') q.set('tab', state.tab);
   if (state.format !== 'css') q.set('format', state.format);
+  if (state.figmaModes === 'single') q.set('figmaPlan', 'starter');
   return q.toString();
 }
 
@@ -236,6 +246,8 @@ export function reducer(state: ThemesState, action: ThemesAction): ThemesState {
       return { ...state, tab: action.tab };
     case 'setFormat':
       return { ...state, format: action.format };
+    case 'setFigmaModes':
+      return { ...state, figmaModes: action.figmaModes };
     default:
       return state;
   }

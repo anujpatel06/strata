@@ -1,6 +1,6 @@
 # ADR-016: Chart palette, solved per brand
 
-- **Status:** Proposed — Claude recommended, pending Anuj
+- **Status:** Accepted — Claude recommended; **Anuj delegated the call** ("do whatever is correct", 2026-09-27). Accepted because every tenant passes the dataviz validator and all 2,000 fuzz palettes pass
 - **Date:** 2026-09-27
 - **Principles:** 1, 2, 3
 

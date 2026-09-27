@@ -3,6 +3,7 @@ import {
   ROLES,
   roleToCssVar,
   type Adjustment,
+  type FigmaModes,
   type RampName,
   type Role,
   type Scheme,
@@ -34,6 +35,8 @@ interface TokensPanelProps {
   tenant: TenantId;
   format: ExportFormat;
   onFormatChange: (format: ExportFormat) => void;
+  figmaModes: FigmaModes;
+  onFigmaModesChange: (figmaModes: FigmaModes) => void;
   focusExport: boolean;
   onExportFocused: () => void;
 }
@@ -44,6 +47,8 @@ export function TokensPanel({
   tenant,
   format,
   onFormatChange,
+  figmaModes,
+  onFigmaModesChange,
   focusExport,
   onExportFocused,
 }: TokensPanelProps) {
@@ -166,6 +171,8 @@ export function TokensPanel({
         tenant={tenant}
         format={format}
         onFormatChange={onFormatChange}
+        figmaModes={figmaModes}
+        onFigmaModesChange={onFigmaModesChange}
         focusExport={focusExport}
         onExportFocused={onExportFocused}
       />

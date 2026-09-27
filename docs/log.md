@@ -6,6 +6,22 @@ Numbers only with the command that produced them. Design trade-offs get an ADR i
 
 ---
 
+## 2026-09-27 (close) — every ADR decided
+
+**Decided**
+- ADR-001, 005, 006 and 009 accepted — **Claude recommended, Anuj accepted**.
+- ADR-007, 012 and 016 accepted — **Anuj delegated the call** ("do whatever is correct"). Claude accepted them because each is built and verified: check:meta 52/52, overlay tests, and the dataviz validator plus 2,000 fuzz palettes.
+- ADR-008 accepted as the Phase 5 plan — **Anuj**. Enforcement arrives with the MCP server and drift auditor.
+- ADR-010: Anuj is on the **Figma Starter** plan (one mode per collection), so a single-mode Figma export was added. See the ADR.
+
+**Changed**
+- A responsive sweep of all 52 component pages at 320/390px found three real overflows, now fixed:
+  - the chart's hidden table widened the page at 320px (browsers ignore width: 1px on tables, so it now sits in a clipped wrapper);
+  - the icon-tile sizes example didn't wrap;
+  - the sidebar examples' wrappers didn't shrink.
+
+---
+
 ## 2026-09-27 (night) — Using colour page, toast reference, surface recipe
 
 **Changed**

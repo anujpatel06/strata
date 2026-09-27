@@ -1,6 +1,6 @@
 # ADR-008: Agent trust levels
 
-- **Status:** Proposed (Phase 5) — levels defined by Anuj (BRIEF §7); enforcement Claude recommended, pending Anuj
+- **Status:** Accepted as the Phase 5 plan — levels defined by **Anuj** (BRIEF §7); enforcement design Claude recommended, **Anuj** accepted (2026-09-27). Not built yet: enforcement lands with the MCP server and drift auditor
 - **Date:** 2026-09-26
 - **Principles:** 6, 7
 

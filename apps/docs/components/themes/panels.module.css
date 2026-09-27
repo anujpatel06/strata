@@ -428,3 +428,8 @@
   text-overflow: ellipsis;
 }
 
+
+/* Figma plan choice on the export tab: Starter (1 mode) vs Professional or higher. */
+.figmaPlan.figmaPlan {
+  max-inline-size: 72ch;
+}

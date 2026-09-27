@@ -27,7 +27,27 @@ Brand × scheme × density is twelve combinations. One collection with twelve mo
   </tbody>
 </Table>
 
-Switching a frame’s Brand mode re-skins it, because Semantic only ever points at Brand. With three tenants no collection needs more than three modes; a fourth tenant adds a mode to Brand, Shape and Type, so check your plan’s mode limit first.
+Switching a frame’s Brand mode re-skins it, because Semantic only ever points at Brand. With the five current tenants, Brand, Shape and Type need five modes. Figma’s Professional plan allows up to 10 modes per collection and Organization up to 20, so this layout needs Professional or higher.
+
+## On the Starter plan
+
+Figma’s free Starter plan allows one mode per collection, so the layout above can’t be imported there. Pick **Starter (1 mode)** under *Figma plan* on the [Themes](/themes?tab=export&format=figma&figmaPlan=starter) export tab, or use `packages/tokens/dist/<tenant>/figma-starter/`. Every collection then has a single mode, `Value`, and each brand × scheme is its own collection:
+
+<Table aria-label="Figma collections on the Starter plan">
+  <thead>
+    <tr>
+      <th scope="col">Collection</th>
+      <th scope="col">Holds</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>Vela · Light, Vela · Dark</td><td>Every colour role as a hex value, plus that scheme’s 12-step ramps under `ramp/`.</td></tr>
+    <tr><td>Vela · Size</td><td>Radius, font families, sizes and weights, and the brand’s default density.</td></tr>
+    <tr><td>Vela · Size comfortable</td><td>The other density only (named after whichever one isn’t the default).</td></tr>
+  </tbody>
+</Table>
+
+Import only what you need. Colours are plain hex values, not aliases, because an alias into another collection only switches with that collection’s modes. Variable names are the same in every brand’s collections, so you switch brands or schemes by swapping the library or collection, not the mode.
 
 ## Two file formats
 

@@ -4,7 +4,7 @@
  * Dialect: the older DTCG draft most Figma variable-import plugins still read — colour $value is
  * a hex string, dimensions are plain numbers. The DTCG 2025.10 export lives in dtcg.ts.
  *
- * Collection model (≤3 modes per collection with the three reference tenants):
+ * Collection model (Brand, Shape and Type get one mode per tenant — 5 with the current tenants; Figma Professional allows 10):
  *   Brand     one mode per tenant   color/<scheme>/<ramp>/<step>  + role/<scheme>/<role path>
  *                                   (the brand-resolved role layer: the contrast solver's per-brand picks)
  *   Semantic  Light / Dark          color/<role path> → {role.<scheme>.<role path>}
@@ -12,6 +12,16 @@
  *   Density   Comfortable / Compact
  *   Shape     one mode per tenant   radius
  *   Type      one mode per tenant   font family / size / weight
+ *
+ * That layout needs a paid Figma plan: Starter (free) allows one mode per collection. So
+ * toFigmaFiles(theme, { modes: 'single' }) emits a Starter layout instead (ADR-010): every collection has
+ * exactly one mode, "Value", and each combination is its own collection —
+ *   "<Brand> · Light" / "<Brand> · Dark"   color/<role path> (resolved hex, no aliases) + ramp/<ramp>/<step>
+ *   "<Brand> · Size"                       radius + font family/size/weight + the tenant's default density
+ *   "<Brand> · Size <other density>"       the other density only
+ * No cross-collection aliases: an alias needs a matching mode on the other side, and with one mode per
+ * collection there is nothing to switch, so values are resolved hex. Variable names are the same in every
+ * brand's collections, so swapping a library (or collection) re-skins a frame.
  */
 import type { Role, Scheme, Theme } from '../types';
 import { ROLES } from '../types';
@@ -39,7 +49,7 @@ const SCHEME_LABEL: Record<Scheme, string> = { light: 'Light', dark: 'Dark' };
 const FIGMA_COLLECTIONS_NOTE =
   'Collections → modes: Brand → one mode per tenant (ramps + brand-resolved roles); Semantic → Light / Dark (aliases into Brand role/<scheme>/…, identical for every tenant); ' +
   'Density → Comfortable / Compact; Shape → one mode per tenant; Type → one mode per tenant. ' +
-  'With the three reference tenants no collection needs more than 3 modes; a 4th tenant adds a 4th mode to Brand, Shape and Type — check your Figma plan’s mode limit.';
+  'Brand, Shape and Type get one mode per tenant (5 today), so this layout needs a plan with at least that many modes per collection (Professional allows 10). On the Starter plan (one mode per collection) use the single-mode export instead.';
 
 const color = (value: string): FigmaColor => ({ $type: 'color', $value: value });
 const num = (n: number): FigmaToken => ({ $type: 'number', $value: n });
@@ -97,7 +107,17 @@ function semanticFile(scheme: Scheme): FigmaFile {
   };
 }
 
-export function toFigmaFiles(theme: Theme): Record<string, Record<string, unknown>> {
+export type FigmaModes = 'multi' | 'single';
+export interface FigmaExportOptions {
+  /**
+   * 'multi' (default): the mode-based collections above — needs Figma Professional or higher.
+   * 'single': one mode ("Value") per collection, for Figma Starter (free), which allows one mode per collection.
+   */
+  modes?: FigmaModes;
+}
+
+export function toFigmaFiles(theme: Theme, options: FigmaExportOptions = {}): Record<string, Record<string, unknown>> {
+  if (options.modes === 'single') return toFigmaStarterFiles(theme);
   const name = safeName(theme.input.name);
   const f = theme.foundations;
 
@@ -135,4 +155,88 @@ export function toFigmaFiles(theme: Theme): Record<string, Record<string, unknow
       font: { family, size, weight },
     },
   };
+}
+
+/* ------------------------------------------------------------------ Starter (single-mode) layout */
+
+/** The one mode every Starter collection has. */
+export const FIGMA_STARTER_MODE = 'Value';
+
+const STARTER_NOTE =
+  'Starter plan: one mode per collection, so each brand × scheme is its own collection. Switch brands by swapping libraries or collections, not modes. ' +
+  'Collections: "<Brand> · Light" and "<Brand> · Dark" (colour roles as hex, plus that scheme’s ramps), "<Brand> · Size" (radius, type and the brand’s default density), ' +
+  '"<Brand> · Size <other density>" (the other density only). Variable names match across brands. Import only the collections you need.';
+
+const DENSITY_LABEL: Record<'comfortable' | 'compact', string> = { comfortable: 'Comfortable', compact: 'Compact' };
+
+const starterFileName = (collection: string): string => `${collection}.${FIGMA_STARTER_MODE}.tokens.json`;
+
+function toFigmaStarterFiles(theme: Theme): Record<string, Record<string, unknown>> {
+  const name = safeName(theme.input.name);
+  const f = theme.foundations;
+  const messages = new Map(theme.adjustments.map((a) => [a.id, a.message] as const));
+  const out: Record<string, Record<string, unknown>> = {};
+
+  for (const scheme of SCHEMES) {
+    const s = theme.schemes[scheme];
+    const collection = `${name} · ${SCHEME_LABEL[scheme]}`;
+    // Roles: the resolved hex, never an alias — there is no other mode-bearing collection to point into.
+    const roles: Record<string, unknown> = {};
+    for (const role of ROLES as readonly Role[]) {
+      const c = s.roles[role];
+      const t = color(c.hex);
+      const message = c.adjusted ? messages.get(c.adjusted.adjustmentId) : undefined;
+      if (message) t.$description = message;
+      setPath(roles, rolePath(role), t);
+    }
+    const ramps: Record<string, unknown> = {};
+    for (const ramp of RAMP_NAMES) {
+      const steps: Record<string, FigmaToken> = {};
+      s.ramps[ramp].forEach((hex, i) => {
+        steps[String(i + 1)] = color(hex);
+      });
+      ramps[ramp] = steps;
+    }
+    out[starterFileName(collection)] = {
+      $description:
+        `Figma collection "${collection}", mode "${FIGMA_STARTER_MODE}". color/… are ${name}’s ${scheme} colour roles as hex (adjusted roles explain why in their description); ` +
+        `ramp/<ramp>/<step> are the 12-step ${scheme} ramps. ${STARTER_NOTE}`,
+      color: roles,
+      ramp: ramps,
+    };
+  }
+
+  const radius: Record<string, FigmaToken> = {};
+  for (const k of RADIUS_KEYS) radius[k] = num(f.radius[k]);
+  const family: Record<string, FigmaToken> = {};
+  for (const k of FONT_ROLES) family[k] = { $type: 'string', $value: splitFontStack(theme.typePair[k])[0] ?? '' };
+  const size: Record<string, FigmaToken> = {};
+  for (const k of FONT_SIZE_KEYS) size[k] = num(f.fontSize[k]);
+  const weight: Record<string, FigmaToken> = {};
+  for (const k of FONT_WEIGHT_KEYS) weight[k] = num(f.fontWeight[k]);
+  const densityTokens = (d: 'comfortable' | 'compact'): Record<string, FigmaToken> => {
+    const tokens: Record<string, FigmaToken> = {};
+    for (const k of DENSITY_KEYS) tokens[k] = num(f.density[d][k]);
+    return tokens;
+  };
+
+  const base = theme.input.density;
+  const other = base === 'compact' ? 'comfortable' : 'compact';
+  const sizeCollection = `${name} · Size`;
+  const otherCollection = `${name} · Size ${other}`;
+  out[starterFileName(sizeCollection)] = {
+    $description:
+      `Figma collection "${sizeCollection}", mode "${FIGMA_STARTER_MODE}". Radius in px (${theme.input.shape}); ${theme.typePair.label}, sizes in px, heading tracking ${theme.typePair.headingTracking}; ` +
+      `density/… is ${name}’s default density (${DENSITY_LABEL[base]}) — the other one is in "${otherCollection}". ${STARTER_NOTE}`,
+    radius,
+    font: { family, size, weight },
+    density: densityTokens(base),
+  };
+  out[starterFileName(otherCollection)] = {
+    $description:
+      `Figma collection "${otherCollection}", mode "${FIGMA_STARTER_MODE}". The ${DENSITY_LABEL[other]} density only (px), with the same density/… names as "${sizeCollection}", ` +
+      `so swapping collections changes density. ${STARTER_NOTE}`,
+    density: densityTokens(other),
+  };
+  return out;
 }

@@ -9,6 +9,7 @@
  *   <id>/tokens.css             this tenant on :root
  *   <id>/<id>.tokens.json       W3C DTCG 2025.10
  *   <id>/figma/*.tokens.json    Figma-variables import: Brand.<Name>, Semantic.{Light,Dark}, Density.*, Shape.<Name>, Type.<Name>
+ *   <id>/figma-starter/*.tokens.json  the same for Figma Starter (one mode per collection): "<Name> · Light|Dark|Size|Size <other>".Value
  *   <id>/contrast-report.json   every contrast check + every solver adjustment
  *
  * Options: --tenants <dir> (default <repo>/tenants), --out <dir> (default packages/tokens/dist).
@@ -80,6 +81,7 @@ function buildTenant(id: string): Built {
   write(join(out, `${id}.tokens.json`), json(dtcg));
   const figma = toFigmaFiles(theme);
   for (const [file, doc] of Object.entries(figma)) write(join(out, 'figma', file), json(doc));
+  for (const [file, doc] of Object.entries(toFigmaFiles(theme, { modes: 'single' }))) write(join(out, 'figma-starter', file), json(doc));
   const semantic = JSON.stringify(
     Object.keys(figma)
       .filter((f) => f.startsWith('Semantic.'))

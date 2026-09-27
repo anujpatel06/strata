@@ -612,8 +612,8 @@ export function figmaProblems(files: Record<string, Obj>, theme: Theme): string[
   for (const [file, doc] of Object.entries(files)) {
     if (typeof doc.$description !== 'string' || !/collection ".+", mode ".+"/.test(doc.$description))
       problems.push(`${file}: $description must name its collection and mode`);
-    else if (!doc.$description.includes('no collection needs more than 3 modes'))
-      problems.push(`${file}: $description lacks the ≤3-modes note`);
+    else if (!doc.$description.includes('single-mode export'))
+      problems.push(`${file}: $description lacks the mode-limit note (pointing Starter users to the single-mode export)`);
     for (const { path, token, type } of collectLeaves(doc)) {
       const v = token.$value;
       if (type === 'color') {
@@ -653,5 +653,91 @@ export function figmaProblems(files: Record<string, Obj>, theme: Theme): string[
       if (hex !== c.hex) problems.push(`Semantic.${scheme} ${role}: resolves to ${String(hex)}, theme has ${c.hex}`);
     }
   }
+  return problems;
+}
+
+/* ================================================================== Figma, Starter (single-mode) layout */
+
+/** "<Collection>.Value.tokens.json" → { collection, mode }, or undefined if the name doesn't parse. */
+export function parseFigmaFileName(file: string): { collection: string; mode: string } | undefined {
+  const m = /^(.+)\.([^.]+)\.tokens\.json$/.exec(file);
+  return m ? { collection: m[1]!, mode: m[2]! } : undefined;
+}
+
+/** The four Starter collections for a brand, in emit order. */
+export function figmaStarterCollections(name: string, density: 'comfortable' | 'compact'): string[] {
+  const other = density === 'compact' ? 'comfortable' : 'compact';
+  return [`${name} · Light`, `${name} · Dark`, `${name} · Size`, `${name} · Size ${other}`];
+}
+
+/**
+ * Starter export checks: exactly one mode ("Value") per collection, file names parse, the expected
+ * collections and nothing else, no alias anywhere, every role present as the theme's hex, every ramp step,
+ * both densities (default in Size, the other alone), and valid leaf types.
+ */
+export function figmaStarterProblems(files: Record<string, Obj>, theme: Theme): string[] {
+  const problems: string[] = [];
+  const name = theme.input.name;
+  const modesByCollection = new Map<string, Set<string>>();
+  for (const file of Object.keys(files)) {
+    const parsed = parseFigmaFileName(file);
+    if (!parsed) {
+      problems.push(`${file}: name does not parse as <Collection>.<Mode>.tokens.json`);
+      continue;
+    }
+    const modes = modesByCollection.get(parsed.collection) ?? new Set();
+    modes.add(parsed.mode);
+    modesByCollection.set(parsed.collection, modes);
+  }
+  for (const [collection, modes] of modesByCollection) {
+    if (modes.size !== 1 || !modes.has('Value')) problems.push(`${collection}: modes ${[...modes].join(', ')} (expected only "Value")`);
+  }
+  const expected = figmaStarterCollections(name, theme.input.density);
+  const actual = [...modesByCollection.keys()];
+  if (actual.length !== expected.length || expected.some((c) => !actual.includes(c)))
+    problems.push(`collections: expected ${expected.join(' | ')}; got ${actual.join(' | ')}`);
+
+  for (const [file, doc] of Object.entries(files)) {
+    if (typeof doc.$description !== 'string' || !doc.$description.includes('Starter plan: one mode per collection'))
+      problems.push(`${file}: $description lacks the Starter note`);
+    for (const { path, token, type } of collectLeaves(doc)) {
+      const v = token.$value;
+      if (typeof v === 'string' && v.includes('{')) problems.push(`${file} ${path}: alias ${v}`);
+      if (type === 'color' && (typeof v !== 'string' || !/^#[0-9a-f]{6}$/.test(v))) problems.push(`${file} ${path}: colour ${String(v)} is not #rrggbb`);
+      else if (type === 'number' && typeof v !== 'number') problems.push(`${file} ${path}: number is ${typeof v}`);
+      else if (type === 'string' && typeof v !== 'string') problems.push(`${file} ${path}: string is ${typeof v}`);
+      else if (type !== 'color' && type !== 'number' && type !== 'string') problems.push(`${file} ${path}: $type ${String(type)}`);
+    }
+  }
+
+  const get = (doc: unknown, path: string[]): unknown => path.reduce<unknown>((n, k) => (isObj(n) ? n[k] : undefined), doc);
+  for (const scheme of ['light', 'dark'] as const) {
+    const label = scheme === 'light' ? 'Light' : 'Dark';
+    const doc = files[`${name} · ${label}.Value.tokens.json`];
+    if (!doc) continue;
+    const s = theme.schemes[scheme];
+    for (const role of ROLES) {
+      const hex = (get(doc.color, role.split('.')) as Obj | undefined)?.$value;
+      if (hex !== s.roles[role].hex) problems.push(`${label} ${role}: ${String(hex)}, theme has ${s.roles[role].hex}`);
+    }
+    for (const [ramp, steps] of Object.entries(s.ramps)) {
+      steps.forEach((hex, i) => {
+        const v = (get(doc.ramp, [ramp, String(i + 1)]) as Obj | undefined)?.$value;
+        if (v !== hex) problems.push(`${label} ramp.${ramp}.${i + 1}: ${String(v)} ≠ ${hex}`);
+      });
+    }
+  }
+  const [, , sizeName, otherName] = expected;
+  const size = files[`${sizeName}.Value.tokens.json`];
+  const other = files[`${otherName}.Value.tokens.json`];
+  const otherDensity = theme.input.density === 'compact' ? 'comfortable' : 'compact';
+  for (const [doc, d] of [[size, theme.input.density], [other, otherDensity]] as const) {
+    if (!doc) continue;
+    for (const [k, px] of Object.entries(theme.foundations.density[d])) {
+      const v = (get(doc, ['density', k]) as Obj | undefined)?.$value;
+      if (v !== px) problems.push(`${d} density.${k}: ${String(v)} ≠ ${px}`);
+    }
+  }
+  if (other && Object.keys(other).some((k) => k !== '$description' && k !== 'density')) problems.push(`${otherName}: holds more than density`);
   return problems;
 }

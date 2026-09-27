@@ -8,6 +8,7 @@ Built token files for every Strata tenant, generated from `tenants/<id>/brand.js
 | `dist/<id>/tokens.css` | One tenant on `:root` |
 | `dist/<id>/<id>.tokens.json` | W3C DTCG 2025.10 (primitives, semantic light/dark, foundations, density) |
 | `dist/<id>/figma/*.tokens.json` | Figma variables, one file per collection mode: `Brand.<Name>` (ramps + brand-resolved roles), `Semantic.Light/Dark` (identical for every tenant — import once), `Density.*`, `Shape.<Name>`, `Type.<Name>` |
+| `dist/<id>/figma-starter/*.tokens.json` | The same variables for Figma Starter (free), which allows one mode per collection: `<Name> · Light`, `<Name> · Dark` (roles as hex + ramps), `<Name> · Size` (radius, type, default density), `<Name> · Size <other density>`; each has one mode, `Value` |
 | `dist/<id>/contrast-report.json` | Every contrast check, plus a plain-English reason for each solver adjustment |
 | `dist/manifest.json` | Tenant ids, names and summaries |
 

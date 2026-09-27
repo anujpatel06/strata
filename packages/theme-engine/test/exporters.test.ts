@@ -17,7 +17,10 @@ import {
   figmaFileNames,
   figmaIndex,
   figmaProblems,
+  figmaStarterCollections,
+  figmaStarterProblems,
   makeFixtureTheme,
+  parseFigmaFileName,
   parseCss,
   resolveAlias,
   resolveFigmaAlias,
@@ -341,5 +344,60 @@ describe('toFigmaFiles', () => {
     const broken = structuredClone(files) as any;
     broken['Brand.Fixture.tokens.json'].role.light.text.brand.$value = '{color.light.primary.13}';
     expect(figmaProblems(broken, theme).some((p) => p.includes('{color.light.primary.13} matches 0 tokens'))).toBe(true);
+  });
+});
+
+describe("toFigmaFiles(theme, { modes: 'single' }) — Figma Starter layout", () => {
+  const files = toFigmaFiles(theme, { modes: 'single' });
+
+  it('multi stays the default: no options, {} and { modes: "multi" } give the same output', () => {
+    const plain = toFigmaFiles(theme);
+    expect(toFigmaFiles(theme, {})).toEqual(plain);
+    expect(toFigmaFiles(theme, { modes: 'multi' })).toEqual(plain);
+    expect(JSON.stringify(toFigmaFiles(theme, { modes: 'multi' }))).toBe(JSON.stringify(plain));
+    expect(Object.keys(plain).sort()).toEqual(figmaFileNames('Fixture').sort());
+  });
+
+  it('every collection has exactly one mode, "Value", and every file name parses', () => {
+    const parsed = Object.keys(files).map(parseFigmaFileName);
+    expect(parsed.every(Boolean)).toBe(true);
+    expect(parsed.map((p) => p!.mode)).toEqual(['Value', 'Value', 'Value', 'Value']);
+    expect(parsed.map((p) => p!.collection)).toEqual(figmaStarterCollections('Fixture', theme.input.density));
+    expect(new Set(parsed.map((p) => p!.collection)).size).toBe(parsed.length);
+  });
+
+  it('every role is the theme hex; ramps and both densities present; no aliases', () => {
+    expect(figmaStarterProblems(files, theme)).toEqual([]);
+    expect(JSON.stringify(files)).not.toMatch(/"\{/);
+  });
+
+  it('matches the documented shapes', () => {
+    const light = files['Fixture · Light.Value.tokens.json'] as any;
+    expect(light.color.action.primary.bg).toEqual({ $type: 'color', $value: theme.schemes.light.roles['action.primary.bg'].hex });
+    expect(light.color.focus.ring).toEqual({ $type: 'color', $value: FIXTURE_FOCUS_RING_LIGHT, $description: theme.adjustments[0]!.message });
+    expect(light.ramp.neutral['12']).toEqual({ $type: 'color', $value: theme.schemes.light.ramps.neutral[11] });
+    const size = files['Fixture · Size.Value.tokens.json'] as any;
+    expect(size.radius.button).toEqual({ $type: 'number', $value: 8 });
+    expect(size.font.family.heading).toEqual({ $type: 'string', $value: 'Inter Tight' });
+    expect(size.density.tableRowHeight.$value).toBe(theme.foundations.density[theme.input.density].tableRowHeight);
+    expect(light.$description).toMatch(/^Figma collection "Fixture · Light", mode "Value"/);
+    expect(light.$description).toContain('Switch brands by swapping libraries or collections, not modes.');
+  });
+
+  it('puts the default density in Size and the other in its own collection (compact brand)', () => {
+    const c = toFigmaFiles(compactTheme, { modes: 'single' });
+    expect(Object.keys(c)).toContain('Fixture · Size comfortable.Value.tokens.json');
+    expect(figmaStarterProblems(c, compactTheme)).toEqual([]);
+  });
+
+  it('flags an alias, a wrong hex and a second mode', () => {
+    const broken = structuredClone(files) as any;
+    broken['Fixture · Dark.Value.tokens.json'].color.text.brand.$value = '{ramp.primary.12}';
+    broken['Fixture · Light.Value.tokens.json'].color.surface.canvas.$value = '#000001';
+    broken['Fixture · Light.Other.tokens.json'] = { $description: 'x' };
+    const p = figmaStarterProblems(broken, theme);
+    expect(p.some((x) => x.includes('alias {ramp.primary.12}'))).toBe(true);
+    expect(p.some((x) => x.includes('surface.canvas: #000001'))).toBe(true);
+    expect(p.some((x) => x.includes('Fixture · Light: modes'))).toBe(true);
   });
 });

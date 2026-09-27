@@ -1,6 +1,6 @@
 # ADR-007: One `meta.json` per component
 
-- **Status:** Proposed (Phase 2) — Claude recommended, pending Anuj
+- **Status:** Accepted — Claude recommended; **Anuj delegated the call** ("do whatever is correct", 2026-09-27). Accepted because it is built and enforced: `pnpm check:meta` passes for all 52 components
 - **Date:** 2026-09-26
 - **Principles:** 5, 6
 
@@ -11,7 +11,7 @@
 
 ## Decision
 
-- One `packages/meta/<component>.meta.json` per component: name, maturity (alpha / beta / stable), one-line purpose, props schema, variants, states, do / don't, a11y notes, minimal example, `since` / `deprecated`.
+- One `packages/react/meta/<component>.meta.json` per component: name, maturity (alpha / beta / stable), one-line purpose, props schema, variants, states, do / don't, a11y notes, minimal example, `since` / `deprecated`.
 - Generated from it: docs props tables, MCP responses, Figma description text, parity table.
 - Validated against a JSON Schema in CI. A test fails if a React prop is missing from meta, or meta lists a prop the component doesn't have.
 
