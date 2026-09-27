@@ -53,12 +53,14 @@
     "do": [
       "Use short, parallel labels (one or two words).",
       "Use underline tabs for sections of a page and pill tabs for switching views of the same data.",
-      "Give the TabList an aria-label that says what the tabs switch between."
+      "Give the TabList an aria-label that says what the tabs switch between.",
+      "With server components, render Tabs, TabList and Tab from a client component ('use client'), or set defaultSelectedKey. Panel contents can still come from the server."
     ],
     "dont": [
       "Don't use tabs for steps in a sequence — use Steps.",
       "Don't use tabs for site navigation between pages unless each Tab has an href.",
-      "Don't nest tabs inside tabs."
+      "Don't nest tabs inside tabs.",
+      "Don't render Tabs straight from a server component without defaultSelectedKey. The server can render no selected tab, and the page then fails hydration."
     ]
   },
   "tokens": [

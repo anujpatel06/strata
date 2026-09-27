@@ -12,6 +12,7 @@ Run these from the repo root and stop at the first failure. Fix it, or report it
 5. `pnpm check:meta` (every component passes)
 6. `pnpm registry` (every item ok)
 7. `pnpm --filter @strata/docs build` (all pages generated)
-8. Start the site (`cd apps/docs && npx next start -p 3000 &`, note the PID), run `node scripts/axe-sweep.mjs`, then kill that PID. Expect 0 violation nodes and no page errors.
+8. `node scripts/check-ssr-tabs.mjs` (0 pages with a tab list missing its panel; reads the build from step 7)
+9. Start the site (`cd apps/docs && npx next start -p 3000 &`, note the PID), run `node scripts/axe-sweep.mjs`, then kill that PID. Expect 0 violation nodes and no page errors.
 
 Then report a short table (step, result, the number that proves it) and update the "Results" lines in the current `docs/log.md` entry with the commands that produced each number.

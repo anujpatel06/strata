@@ -37,6 +37,8 @@ jobs:
       - run: pnpm test:themes
       - run: pnpm tokens
       - run: pnpm build
+      # Prerendered docs pages must have a selected tab in every tab list, or hydration fails
+      - run: node scripts/check-ssr-tabs.mjs
 
       - name: Upload theme reports
         if: always()

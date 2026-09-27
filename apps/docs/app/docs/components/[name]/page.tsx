@@ -1,10 +1,11 @@
 import { IconCode, IconCheck, IconX } from '@strata/icons';
 import { IconBrandReact } from '@tabler/icons-react';
-import { Tab, TabList, TabPanel, Tabs, Kbd, Tag } from '@strata/react';
+import { Kbd, Tag } from '@strata/react';
 import type { Metadata } from 'next';
 import type { CSSProperties } from 'react';
 import { notFound } from 'next/navigation';
 import { DocsPage } from '@/components/docs/docs-page';
+import { InstallTabs } from '@/components/docs/install-tabs';
 import { MaturityBadgeLink } from '@/components/docs/maturity-badge';
 import { CodeBlock } from '@/components/mdx/code-block';
 import { PackageCommand } from '@/components/mdx/package-command';
@@ -195,55 +196,66 @@ export default async function ComponentPage({ params }: { params: Promise<{ name
       </section>
 
       <H2 id="installation">Installation</H2>
-      <Tabs variant="pill" className={styles.installTabs}>
-        <TabList aria-label="Installation method">
-          <Tab id="npm">npm</Tab>
-          <Tab id="manual">Manual</Tab>
-        </TabList>
-        <TabPanel id="npm" className={styles.installPanel}>
-          <PackageCommand add="@strata/react @strata/tokens" />
-          <CodeBlock code={importLine} lang="tsx" />
-        </TabPanel>
-        <TabPanel id="manual" className={styles.installPanel}>
-          <Steps>
-            {meta.dependencies.length > 0 && (
+      <InstallTabs
+        label="Installation method"
+        className={styles.installTabs}
+        panelClassName={styles.installPanel}
+        tabs={[
+          {
+            id: 'npm',
+            label: 'npm',
+            content: (
               <>
-                <H3 id="manual-dependencies">Install the dependencies</H3>
-                <PackageCommand add={meta.dependencies.join(' ')} />
+                <PackageCommand add="@strata/react @strata/tokens" />
+                <CodeBlock code={importLine} lang="tsx" />
               </>
-            )}
-            <H3 id="manual-files">Copy the files into your components/ui folder</H3>
-            {files.map(({ file, source }) =>
-              source ? (
-                <CodeBlock key={file} code={source} lang={file.endsWith('.css') ? 'css' : 'tsx'} title={`components/ui/${file}`} collapseAfter={16} />
-              ) : (
-                <P key={file}>
-                  <code>{file}</code> isn’t in the repo yet.
-                </P>
-              ),
-            )}
-            {meta.registryDependencies.length > 0 && (
-              <>
-                <H3 id="manual-siblings">Copy the components it uses</H3>
+            ),
+          },
+          {
+            id: 'manual',
+            label: 'Manual',
+            content: (
+              <Steps>
+                {meta.dependencies.length > 0 && (
+                  <>
+                    <H3 id="manual-dependencies">Install the dependencies</H3>
+                    <PackageCommand add={meta.dependencies.join(' ')} />
+                  </>
+                )}
+                <H3 id="manual-files">Copy the files into your components/ui folder</H3>
+                {files.map(({ file, source }) =>
+                  source ? (
+                    <CodeBlock key={file} code={source} lang={file.endsWith('.css') ? 'css' : 'tsx'} title={`components/ui/${file}`} collapseAfter={16} />
+                  ) : (
+                    <P key={file}>
+                      <code>{file}</code> isn’t in the repo yet.
+                    </P>
+                  ),
+                )}
+                {meta.registryDependencies.length > 0 && (
+                  <>
+                    <H3 id="manual-siblings">Copy the components it uses</H3>
+                    <P>
+                      {meta.registryDependencies.map((dep, i) => (
+                        <span key={dep}>
+                          {i > 0 && ', '}
+                          <A href={`/docs/components/${dep}`}>{getMeta(dep)?.title ?? dep}</A>
+                        </span>
+                      ))}{' '}
+                      — same steps, same folder.
+                    </P>
+                  </>
+                )}
+                <H3 id="manual-tokens">Load the tokens once</H3>
                 <P>
-                  {meta.registryDependencies.map((dep, i) => (
-                    <span key={dep}>
-                      {i > 0 && ', '}
-                      <A href={`/docs/components/${dep}`}>{getMeta(dep)?.title ?? dep}</A>
-                    </span>
-                  ))}{' '}
-                  — same steps, same folder.
+                  Components read <code>--strata-*</code> variables. Import a tenant’s token file at your app root — see{' '}
+                  <A href="/docs/installation">Installation</A>.
                 </P>
-              </>
-            )}
-            <H3 id="manual-tokens">Load the tokens once</H3>
-            <P>
-              Components read <code>--strata-*</code> variables. Import a tenant’s token file at your app root — see{' '}
-              <A href="/docs/installation">Installation</A>.
-            </P>
-          </Steps>
-        </TabPanel>
-      </Tabs>
+              </Steps>
+            ),
+          },
+        ]}
+      />
 
       <H2 id="usage">Usage</H2>
       {meta.usage ? <CodeBlock code={meta.usage} lang="tsx" /> : <CodeBlock code={importLine} lang="tsx" />}
