@@ -1,0 +1,26 @@
+.page {
+  display: flex;
+  justify-content: center;
+  padding-block: var(--strata-space-8);
+  padding-inline: var(--strata-space-4);
+}
+
+.card {
+  inline-size: 100%;
+  max-inline-size: 32rem;
+}
+
+.grid {
+  display: grid;
+  gap: var(--strata-space-4);
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--strata-space-4);
+}
+
+.footer {
+  justify-content: flex-end;
+}

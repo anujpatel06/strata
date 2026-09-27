@@ -1,0 +1,104 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-6);
+  max-inline-size: 640px;
+}
+
+.pageHeader {
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-1);
+}
+
+.pageTitle {
+  margin: 0;
+  font-family: var(--strata-font-heading);
+  font-size: var(--strata-font-size-2xl);
+  font-weight: var(--strata-font-weight-semibold);
+  color: var(--strata-color-text-default);
+}
+
+.pageDescription {
+  margin: 0;
+  color: var(--strata-color-text-subtle);
+}
+
+.card {
+  container-type: inline-size;
+}
+
+.headerText {
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-1);
+}
+
+.titleRow {
+  display: flex;
+  align-items: center;
+  gap: var(--strata-space-2);
+}
+
+.titleRow h2 {
+  margin: 0;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-5);
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-3);
+}
+
+.sectionTitle {
+  margin: 0;
+  font-size: var(--strata-font-size-sm);
+  font-weight: var(--strata-font-weight-semibold);
+  color: var(--strata-color-text-default);
+}
+
+.sectionDescription {
+  margin: 0;
+  font-size: var(--strata-font-size-sm);
+  color: var(--strata-color-text-subtle);
+}
+
+.radioLabel {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--strata-space-2);
+}
+
+.codeGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--strata-space-2);
+}
+
+@container (min-width: 420px) {
+  .codeGrid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.code {
+  inline-size: 100%;
+}
+
+.copyButton {
+  align-self: flex-start;
+}
+
+.disabledHint {
+  display: flex;
+  align-items: center;
+  gap: var(--strata-space-2);
+  margin: 0;
+  color: var(--strata-color-text-subtle);
+}

@@ -1,0 +1,84 @@
+{
+  "prompt": "01-transactions-filters",
+  "condition": "mcp",
+  "model": "claude-sonnet-5",
+  "repeat": 1,
+  "tags": [
+    "a11y"
+  ],
+  "scoredAt": "2026-09-27T19:23:07.710Z",
+  "built": true,
+  "agentFailed": false,
+  "editedProtectedFiles": [],
+  "leaks": [],
+  "contaminated": false,
+  "touchedRepo": false,
+  "toolCalls": {
+    "Read": 5,
+    "Glob": 6,
+    "mcp__strata__list_components": 1,
+    "mcp__strata__get_component": 10,
+    "mcp__strata__get_example": 3,
+    "mcp__strata__get_pattern": 2,
+    "Grep": 15,
+    "mcp__strata__get_tokens": 3,
+    "Write": 2,
+    "Edit": 1,
+    "mcp__strata__audit_snippet": 2
+  },
+  "readPackages": true,
+  "files": 2,
+  "lines": 297,
+  "importsStrata": true,
+  "brandNames": 0,
+  "typeErrors": 0,
+  "audit": {
+    "score": 100,
+    "findings": 0,
+    "opportunities": 30,
+    "byRule": {}
+  },
+  "views": [
+    {
+      "name": "light",
+      "query": "tenant=vela&locale=en-IN",
+      "scheme": "light",
+      "width": 1280,
+      "pageErrors": [],
+      "mounted": true,
+      "textLength": 952,
+      "overflowPx": 0,
+      "axeNodes": 0,
+      "axeRules": {}
+    },
+    {
+      "name": "dark",
+      "query": "tenant=vela&locale=en-IN",
+      "scheme": "dark",
+      "width": 1280,
+      "pageErrors": [],
+      "mounted": true,
+      "textLength": 952,
+      "overflowPx": 0,
+      "axeNodes": 0,
+      "axeRules": {}
+    },
+    {
+      "name": "narrow",
+      "query": "tenant=vela&locale=en-IN",
+      "scheme": "light",
+      "width": 390,
+      "pageErrors": [],
+      "mounted": true,
+      "textLength": 952,
+      "overflowPx": 0,
+      "axeNodes": 0,
+      "axeRules": {}
+    }
+  ],
+  "builds": true,
+  "renders": true,
+  "axeNodes": 0,
+  "overflowPx": 0,
+  "onSystem": true
+}

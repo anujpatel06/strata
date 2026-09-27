@@ -1,0 +1,94 @@
+{
+  "prompt": "13-spending-chart",
+  "tags": [
+    "multi-brand"
+  ],
+  "condition": "mcp",
+  "model": "claude-sonnet-5",
+  "repeat": 1,
+  "iteration": "2",
+  "source": {
+    "commit": "dffb1e071736157779c49d2ad358710a973f5a48",
+    "dirty": []
+  },
+  "startedAt": "2026-09-27T18:28:43.286Z",
+  "wallMs": 195804,
+  "exitCode": 0,
+  "timedOut": false,
+  "editedProtectedFiles": [],
+  "toolCalls": {
+    "Read": 6,
+    "Glob": 6,
+    "mcp__strata__list_components": 1,
+    "mcp__strata__get_component": 8,
+    "mcp__strata__get_example": 4,
+    "Grep": 1,
+    "mcp__strata__get_pattern": 2,
+    "mcp__strata__get_tokens": 2,
+    "Write": 2,
+    "Edit": 3,
+    "mcp__strata__find_token": 1,
+    "mcp__strata__audit_snippet": 2
+  },
+  "pathsOutsideWorkspace": [],
+  "touchedRepo": false,
+  "usedMemory": false,
+  "readPackages": false,
+  "cli": {
+    "isError": false,
+    "subtype": "success",
+    "turns": 39,
+    "durationMs": 194392,
+    "costUsd": 0.6367746,
+    "usage": {
+      "input_tokens": 52,
+      "cache_creation_input_tokens": 55324,
+      "cache_read_input_tokens": 1169323,
+      "output_tokens": 18151,
+      "output_tokens_details": {
+        "thinking_tokens": 10013
+      },
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 55324,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 2,
+          "output_tokens": 254,
+          "cache_read_input_tokens": 64177,
+          "cache_creation_input_tokens": 1632,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 1632
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-sonnet-5": {
+        "inputTokens": 52,
+        "outputTokens": 18151,
+        "cacheReadInputTokens": 1169323,
+        "cacheCreationInputTokens": 55324,
+        "webSearchRequests": 0,
+        "costUSD": 0.6367746,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 64000,
+        "thinkingTokens": 10013,
+        "canonicalModel": "claude-sonnet-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "finalMessage": "Both score 100 with no findings. The screen is complete:\n\n- `src/screens/Screen.tsx` — a spending summary with a `ToggleButtonGroup` (3/6/12 months), a `BarChart` of monthly totals, and a `Meter`-based list of the five largest categories with amount (`Amount`) and share of total for the selected period. 12 months of mock data are defined in the file; period selection slices and re-aggregates it.\n- `src/screens/Screen.module.css` — layout only, all tokens, logical properties.\n\nNo brand names, no native form elements, no raw colours/px/hex — confirmed by `audit_snippet` (score 100 on both files). I can't run the app to verify visually, per the task constraints, so this hasn't been checked in a browser."
+  }
+}

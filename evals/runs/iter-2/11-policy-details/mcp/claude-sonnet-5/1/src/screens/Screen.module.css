@@ -1,0 +1,132 @@
+.page {
+  display: grid;
+  gap: var(--strata-space-6);
+}
+
+.header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--strata-space-4);
+  flex-wrap: wrap;
+}
+
+.headerText {
+  display: grid;
+  gap: var(--strata-space-1);
+}
+
+.title {
+  margin: 0;
+  font-family: var(--strata-font-heading);
+  font-size: var(--strata-font-size-xl);
+  font-weight: var(--strata-font-weight-semibold);
+  color: var(--strata-color-text-default);
+}
+
+.meta {
+  margin: 0;
+  font-size: var(--strata-font-size-sm);
+  color: var(--strata-color-text-subtle);
+}
+
+.coverGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--strata-space-4);
+  margin-block-start: var(--strata-space-4);
+}
+
+@media (max-width: 640px) {
+  .coverGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.coverList {
+  display: grid;
+  gap: var(--strata-space-3);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.coverItem {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--strata-space-2);
+  font-size: var(--strata-font-size-sm);
+  color: var(--strata-color-text-default);
+}
+
+.iconSuccess {
+  flex-shrink: 0;
+  margin-block-start: 2px;
+  color: var(--strata-color-feedback-success-fg);
+}
+
+.iconDanger {
+  flex-shrink: 0;
+  margin-block-start: 2px;
+  color: var(--strata-color-feedback-danger-fg);
+}
+
+.documentsList,
+.historyList {
+  display: grid;
+  gap: var(--strata-space-4);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.documentRow {
+  display: flex;
+  align-items: center;
+  gap: var(--strata-space-3);
+}
+
+.documentInfo {
+  display: grid;
+  flex: 1;
+  gap: var(--strata-space-1);
+  min-inline-size: 0;
+}
+
+.documentName {
+  font-size: var(--strata-font-size-sm);
+  font-weight: var(--strata-font-weight-medium);
+  color: var(--strata-color-text-default);
+}
+
+.documentMeta {
+  font-size: var(--strata-font-size-xs);
+  color: var(--strata-color-text-subtle);
+}
+
+.paymentsStack {
+  display: grid;
+  gap: var(--strata-space-4);
+  margin-block-start: var(--strata-space-4);
+}
+
+.nextPaymentRow {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--strata-space-3);
+}
+
+.historyRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--strata-space-3);
+}
+
+.historyDate {
+  font-size: var(--strata-font-size-sm);
+  color: var(--strata-color-text-subtle);
+  flex: 1;
+}

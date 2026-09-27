@@ -1,0 +1,91 @@
+{
+  "prompt": "08-beneficiaries-table",
+  "tags": [
+    "a11y"
+  ],
+  "condition": "mcp",
+  "model": "claude-sonnet-5",
+  "repeat": 2,
+  "iteration": "2",
+  "source": {
+    "commit": "dffb1e071736157779c49d2ad358710a973f5a48",
+    "dirty": []
+  },
+  "startedAt": "2026-09-27T18:06:47.538Z",
+  "wallMs": 139070,
+  "exitCode": 0,
+  "timedOut": false,
+  "editedProtectedFiles": [],
+  "toolCalls": {
+    "Read": 2,
+    "Glob": 1,
+    "mcp__strata__list_components": 1,
+    "mcp__strata__get_component": 8,
+    "mcp__strata__get_example": 2,
+    "Grep": 5,
+    "mcp__strata__get_tokens": 1,
+    "Write": 2,
+    "mcp__strata__audit_snippet": 2
+  },
+  "pathsOutsideWorkspace": [],
+  "touchedRepo": false,
+  "usedMemory": false,
+  "readPackages": true,
+  "cli": {
+    "isError": false,
+    "subtype": "success",
+    "turns": 25,
+    "durationMs": 137617,
+    "costUsd": 0.3826532,
+    "usage": {
+      "input_tokens": 30,
+      "cache_creation_input_tokens": 39728,
+      "cache_read_input_tokens": 488156,
+      "output_tokens": 12605,
+      "output_tokens_details": {
+        "thinking_tokens": 3602
+      },
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 39728,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 2,
+          "output_tokens": 292,
+          "cache_read_input_tokens": 49709,
+          "cache_creation_input_tokens": 504,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 504
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-sonnet-5": {
+        "inputTokens": 30,
+        "outputTokens": 12605,
+        "cacheReadInputTokens": 488156,
+        "cacheCreationInputTokens": 39728,
+        "webSearchRequests": 0,
+        "costUSD": 0.3826532,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 64000,
+        "thinkingTokens": 3602,
+        "canonicalModel": "claude-sonnet-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "finalMessage": "Good, `Selection = 'all' | Set<Key>`, so `.size` and `Array.from(selectedKeys, String)` both type-check correctly. The implementation is complete.\n\nI've built the beneficiaries list in `src/screens/Screen.tsx` using `DataTable` with:\n- Name (with avatar, row header, sortable), Bank, masked Account, and Added date (sortable) columns\n- Icon-only Edit (opens a `Dialog` form) and Remove (opens an `AlertDialog`) actions per row, both with tooltips and `aria-label`s\n- Multi-select checkboxes, with a `DataTableToolbar` bar showing \"N selected\" and a \"Remove selected\" button (confirmed via `AlertDialog`) that only appears once a row is selected\n- Mock data and styles pass `audit_snippet` at a score of 100 with no findings."
+  }
+}

@@ -1,0 +1,27 @@
+.root {
+  display: flex;
+  justify-content: center;
+  padding-block: var(--strata-space-16);
+}
+
+.card {
+  inline-size: 100%;
+  max-inline-size: 400px;
+}
+
+.fields {
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-4);
+}
+
+.options {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--strata-space-4);
+}
+
+.submit {
+  inline-size: 100%;
+}

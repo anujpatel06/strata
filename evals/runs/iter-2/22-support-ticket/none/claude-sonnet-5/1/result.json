@@ -1,0 +1,87 @@
+{
+  "prompt": "22-support-ticket",
+  "tags": [
+    "a11y"
+  ],
+  "condition": "none",
+  "model": "claude-sonnet-5",
+  "repeat": 1,
+  "iteration": "2",
+  "source": {
+    "commit": "dffb1e071736157779c49d2ad358710a973f5a48",
+    "dirty": []
+  },
+  "startedAt": "2026-09-27T18:50:33.467Z",
+  "wallMs": 256204,
+  "exitCode": 0,
+  "timedOut": false,
+  "editedProtectedFiles": [],
+  "toolCalls": {
+    "Read": 30,
+    "Glob": 14,
+    "Grep": 15,
+    "Write": 2,
+    "Edit": 1
+  },
+  "pathsOutsideWorkspace": [],
+  "touchedRepo": false,
+  "usedMemory": false,
+  "readPackages": true,
+  "cli": {
+    "isError": false,
+    "subtype": "success",
+    "turns": 63,
+    "durationMs": 254908,
+    "costUsd": 1.0287708000000002,
+    "usage": {
+      "input_tokens": 82,
+      "cache_creation_input_tokens": 88091,
+      "cache_read_input_tokens": 2318614,
+      "output_tokens": 21252,
+      "output_tokens_details": {
+        "thinking_tokens": 9531
+      },
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 88091,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 2,
+          "output_tokens": 1399,
+          "cache_read_input_tokens": 94629,
+          "cache_creation_input_tokens": 1928,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 1928
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-sonnet-5": {
+        "inputTokens": 82,
+        "outputTokens": 21252,
+        "cacheReadInputTokens": 2318614,
+        "cacheCreationInputTokens": 88091,
+        "webSearchRequests": 0,
+        "costUSD": 1.0287708000000002,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 64000,
+        "thinkingTokens": 9531,
+        "canonicalModel": "claude-sonnet-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "finalMessage": "Built the support request form in `src/screens/Screen.tsx` with styles in `src/screens/Screen.module.css`, using Strata components (`Select`, `TextField`, `TextArea`, `FileUpload`, `RadioGroup`) and mock topic data defined in the file.\n\n- Topic (`Select`), subject (`TextField`), description (`TextArea` with a live \"N characters left\" counter plus the built-in `n/500` count, capped via `maxLength`), an optional attachment (`FileUpload`), and a contact-preference `RadioGroup` (email / phone / no preference) with icons.\n- Client-side validation on submit (topic, subject, description required) shows inline errors via each field's `errorMessage`.\n- On successful submit, the form is replaced by a confirmation view with a success icon and a generated reference number (e.g. `SR-2026-AB12C`), plus a button to raise another request.\n\nI couldn't run the app to visually verify it, so please check it in a browser when convenient."
+  }
+}

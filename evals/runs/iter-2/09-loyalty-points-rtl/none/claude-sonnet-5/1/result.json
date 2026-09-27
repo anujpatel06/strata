@@ -1,0 +1,88 @@
+{
+  "prompt": "09-loyalty-points-rtl",
+  "tags": [
+    "rtl",
+    "multi-brand"
+  ],
+  "condition": "none",
+  "model": "claude-sonnet-5",
+  "repeat": 1,
+  "iteration": "2",
+  "source": {
+    "commit": "dffb1e071736157779c49d2ad358710a973f5a48",
+    "dirty": []
+  },
+  "startedAt": "2026-09-27T18:08:02.595Z",
+  "wallMs": 352113,
+  "exitCode": 0,
+  "timedOut": false,
+  "editedProtectedFiles": [],
+  "toolCalls": {
+    "Read": 35,
+    "Glob": 7,
+    "Grep": 12,
+    "Write": 2,
+    "Edit": 1
+  },
+  "pathsOutsideWorkspace": [],
+  "touchedRepo": false,
+  "usedMemory": false,
+  "readPackages": true,
+  "cli": {
+    "isError": false,
+    "subtype": "success",
+    "turns": 58,
+    "durationMs": 350877,
+    "costUsd": 1.117768,
+    "usage": {
+      "input_tokens": 68,
+      "cache_creation_input_tokens": 95893,
+      "cache_read_input_tokens": 2115700,
+      "output_tokens": 31092,
+      "output_tokens_details": {
+        "thinking_tokens": 18716
+      },
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 95893,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 2,
+          "output_tokens": 151,
+          "cache_read_input_tokens": 100462,
+          "cache_creation_input_tokens": 3897,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 3897
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-sonnet-5": {
+        "inputTokens": 68,
+        "outputTokens": 31092,
+        "cacheReadInputTokens": 2115700,
+        "cacheCreationInputTokens": 95893,
+        "webSearchRequests": 0,
+        "costUSD": 1.117768,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 64000,
+        "thinkingTokens": 18716,
+        "canonicalModel": "claude-sonnet-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "finalMessage": "This looks solid. The screen is complete: a points balance card with tier badge, a tier-progress meter with remaining-points note, a Redeem action opening a dialog to pick a reward (validated against balance, updates state on confirm), and a six-item recent activity list mixing earned/redeemed entries with dates and signed point amounts — all using Strata components/tokens so it adapts across brands, color schemes, and the Arabic RTL locale via `useLocale`."
+  }
+}

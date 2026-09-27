@@ -1,0 +1,28 @@
+.page {
+  max-inline-size: 960px;
+  margin-inline: auto;
+  padding-block: var(--strata-space-8);
+  padding-inline: var(--strata-space-6);
+}
+
+.memberCell {
+  display: flex;
+  align-items: center;
+  gap: var(--strata-space-3);
+}
+
+.memberInfo {
+  display: flex;
+  flex-direction: column;
+  min-inline-size: 0;
+}
+
+.memberName {
+  font-weight: var(--strata-font-weight-medium);
+  color: var(--strata-color-text-default);
+}
+
+.memberEmail {
+  font-size: var(--strata-font-size-sm);
+  color: var(--strata-color-text-subtle);
+}

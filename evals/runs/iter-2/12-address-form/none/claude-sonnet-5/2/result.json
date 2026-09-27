@@ -1,0 +1,88 @@
+{
+  "prompt": "12-address-form",
+  "tags": [
+    "a11y",
+    "rtl"
+  ],
+  "condition": "none",
+  "model": "claude-sonnet-5",
+  "repeat": 2,
+  "iteration": "2",
+  "source": {
+    "commit": "dffb1e071736157779c49d2ad358710a973f5a48",
+    "dirty": []
+  },
+  "startedAt": "2026-09-27T18:23:23.301Z",
+  "wallMs": 159154,
+  "exitCode": 0,
+  "timedOut": false,
+  "editedProtectedFiles": [],
+  "toolCalls": {
+    "Read": 18,
+    "Glob": 12,
+    "Grep": 10,
+    "Write": 2,
+    "Edit": 2
+  },
+  "pathsOutsideWorkspace": [],
+  "touchedRepo": false,
+  "usedMemory": false,
+  "readPackages": true,
+  "cli": {
+    "isError": false,
+    "subtype": "success",
+    "turns": 45,
+    "durationMs": 157844,
+    "costUsd": 0.5468666000000001,
+    "usage": {
+      "input_tokens": 58,
+      "cache_creation_input_tokens": 52712,
+      "cache_read_input_tokens": 1026413,
+      "output_tokens": 13062,
+      "output_tokens_details": {
+        "thinking_tokens": 4620
+      },
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 52712,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 2,
+          "output_tokens": 201,
+          "cache_read_input_tokens": 57999,
+          "cache_creation_input_tokens": 3179,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 3179
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-sonnet-5": {
+        "inputTokens": 58,
+        "outputTokens": 13062,
+        "cacheReadInputTokens": 1026413,
+        "cacheCreationInputTokens": 52712,
+        "webSearchRequests": 0,
+        "costUSD": 0.5468666000000001,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 64000,
+        "thinkingTokens": 4620,
+        "canonicalModel": "claude-sonnet-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "finalMessage": "This looks complete and correct. The screen builds a delivery address form using Strata components (Card, TextField, Select, TextArea, Alert, IconTile, Button), with mock state pre-loaded as an already-submitted attempt where the phone number is empty and the flat number (`14/B`) fails validation, so both fields show their error messages and the summary alert on load. Required fields (name, phone, emirate, area) are marked with `isRequired`; building, flat number and notes are optional. Layout uses logical CSS (grid/gap, no physical left/right) so it adapts correctly under the Arabic RTL locale."
+  }
+}

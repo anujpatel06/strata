@@ -1,0 +1,92 @@
+{
+  "prompt": "24-bulk-approve",
+  "tags": [
+    "a11y"
+  ],
+  "condition": "mcp",
+  "model": "claude-sonnet-5",
+  "repeat": 1,
+  "iteration": "2",
+  "source": {
+    "commit": "dffb1e071736157779c49d2ad358710a973f5a48",
+    "dirty": []
+  },
+  "startedAt": "2026-09-27T18:54:53.237Z",
+  "wallMs": 210085,
+  "exitCode": 0,
+  "timedOut": false,
+  "editedProtectedFiles": [],
+  "toolCalls": {
+    "Read": 6,
+    "Glob": 2,
+    "mcp__strata__list_components": 1,
+    "mcp__strata__get_pattern": 2,
+    "mcp__strata__get_component": 10,
+    "mcp__strata__get_example": 2,
+    "mcp__strata__get_tokens": 2,
+    "Write": 2,
+    "Edit": 7,
+    "mcp__strata__audit_snippet": 2
+  },
+  "pathsOutsideWorkspace": [],
+  "touchedRepo": false,
+  "usedMemory": false,
+  "readPackages": false,
+  "cli": {
+    "isError": false,
+    "subtype": "success",
+    "turns": 37,
+    "durationMs": 208671,
+    "costUsd": 0.6892064,
+    "usage": {
+      "input_tokens": 34,
+      "cache_creation_input_tokens": 75900,
+      "cache_read_input_tokens": 899692,
+      "output_tokens": 20560,
+      "output_tokens_details": {
+        "thinking_tokens": 7699
+      },
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 75900,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 2,
+          "output_tokens": 328,
+          "cache_read_input_tokens": 82014,
+          "cache_creation_input_tokens": 4371,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 4371
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-sonnet-5": {
+        "inputTokens": 34,
+        "outputTokens": 20560,
+        "cacheReadInputTokens": 899692,
+        "cacheCreationInputTokens": 75900,
+        "webSearchRequests": 0,
+        "costUSD": 0.6892064,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 64000,
+        "thinkingTokens": 7699,
+        "canonicalModel": "claude-sonnet-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "finalMessage": "This looks complete and correct. The screen is built at `src/screens/Screen.tsx` with styles in `src/screens/Screen.module.css`, both audited clean (score 100, no findings).\n\nSummary of what it does:\n- A `DataTable` lists 10 mock expense requests (employee, category, amount via `Amount`, date submitted, a \"View receipt\" link opening in a new tab, and a status badge).\n- Row checkboxes let the manager multi-select pending requests (already-decided rows are disabled from selection).\n- The toolbar shows the selection count and enables **Approve**/**Reject** once something is selected.\n- Approve marks selected rows approved immediately and shows a toast with the count.\n- Reject opens a `Dialog` requiring a reason (`TextArea`, validated non-empty) before marking rows rejected and showing a toast with the count.\n\nI can't run the app to verify visually, so I haven't tested it in a browser — only validated it against the Strata component docs and the audit tool."
+  }
+}

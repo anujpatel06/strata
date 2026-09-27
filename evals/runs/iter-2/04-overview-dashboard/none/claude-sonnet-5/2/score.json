@@ -1,0 +1,101 @@
+{
+  "prompt": "04-overview-dashboard",
+  "condition": "none",
+  "model": "claude-sonnet-5",
+  "repeat": 2,
+  "tags": [
+    "multi-brand"
+  ],
+  "scoredAt": "2026-09-27T19:24:23.072Z",
+  "built": true,
+  "agentFailed": false,
+  "editedProtectedFiles": [],
+  "leaks": [],
+  "contaminated": false,
+  "touchedRepo": false,
+  "toolCalls": {
+    "Read": 31,
+    "Glob": 6,
+    "Write": 2,
+    "Edit": 7
+  },
+  "readPackages": true,
+  "files": 2,
+  "lines": 228,
+  "importsStrata": true,
+  "brandNames": 0,
+  "typeErrors": 0,
+  "audit": {
+    "score": 100,
+    "findings": 0,
+    "opportunities": 23,
+    "byRule": {}
+  },
+  "views": [
+    {
+      "name": "light",
+      "query": "tenant=vela&locale=en-IN",
+      "scheme": "light",
+      "width": 1280,
+      "pageErrors": [],
+      "mounted": true,
+      "textLength": 733,
+      "overflowPx": 0,
+      "axeNodes": 0,
+      "axeRules": {}
+    },
+    {
+      "name": "dark",
+      "query": "tenant=vela&locale=en-IN",
+      "scheme": "dark",
+      "width": 1280,
+      "pageErrors": [],
+      "mounted": true,
+      "textLength": 733,
+      "overflowPx": 0,
+      "axeNodes": 0,
+      "axeRules": {}
+    },
+    {
+      "name": "narrow",
+      "query": "tenant=vela&locale=en-IN",
+      "scheme": "light",
+      "width": 390,
+      "pageErrors": [],
+      "mounted": true,
+      "textLength": 733,
+      "overflowPx": 0,
+      "axeNodes": 0,
+      "axeRules": {}
+    },
+    {
+      "name": "brand:harbor",
+      "query": "tenant=harbor&locale=en-IN",
+      "scheme": "light",
+      "width": 1280,
+      "pageErrors": [],
+      "mounted": true,
+      "textLength": 733,
+      "overflowPx": 0,
+      "axeNodes": 0,
+      "axeRules": {}
+    },
+    {
+      "name": "brand:care",
+      "query": "tenant=care&locale=en-IN",
+      "scheme": "light",
+      "width": 1280,
+      "pageErrors": [],
+      "mounted": true,
+      "textLength": 733,
+      "overflowPx": 0,
+      "axeNodes": 0,
+      "axeRules": {}
+    }
+  ],
+  "builds": true,
+  "renders": true,
+  "axeNodes": 0,
+  "overflowPx": 0,
+  "onSystem": true
+}

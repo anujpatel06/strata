@@ -1,0 +1,101 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-6);
+  max-inline-size: 640px;
+  margin-inline: auto;
+  padding: var(--strata-space-8) var(--strata-space-4);
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-1);
+}
+
+.title {
+  margin: 0;
+  font-family: var(--strata-font-heading);
+  font-size: var(--strata-font-size-2xl);
+  font-weight: var(--strata-font-weight-semibold);
+  letter-spacing: var(--strata-font-heading-tracking);
+  color: var(--strata-color-text-default);
+  text-align: start;
+}
+
+.description {
+  margin: 0;
+  font-family: var(--strata-font-body);
+  font-size: var(--strata-font-size-md);
+  color: var(--strata-color-text-subtle);
+  text-align: start;
+}
+
+.stack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-5);
+}
+
+.radioLabel {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--strata-space-2);
+}
+
+.backupHeader {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--strata-space-4);
+}
+
+.rowText {
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-1);
+  max-inline-size: 420px;
+}
+
+.rowLabel {
+  margin: 0;
+  font-family: var(--strata-font-body);
+  font-size: var(--strata-font-size-md);
+  font-weight: var(--strata-font-weight-medium);
+  color: var(--strata-color-text-default);
+  text-align: start;
+}
+
+.rowDescription {
+  margin: 0;
+  font-family: var(--strata-font-body);
+  font-size: var(--strata-font-size-sm);
+  color: var(--strata-color-text-subtle);
+  text-align: start;
+}
+
+.backupActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--strata-space-2);
+}
+
+.codes {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--strata-space-2);
+}
+
+.code {
+  text-align: start;
+}
+
+.code code {
+  font-family: var(--strata-font-mono);
+  font-size: var(--strata-font-size-sm);
+  color: var(--strata-color-text-default);
+}

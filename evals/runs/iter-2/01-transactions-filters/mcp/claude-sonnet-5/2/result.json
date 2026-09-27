@@ -1,0 +1,90 @@
+{
+  "prompt": "01-transactions-filters",
+  "tags": [
+    "a11y"
+  ],
+  "condition": "mcp",
+  "model": "claude-sonnet-5",
+  "repeat": 2,
+  "iteration": "2",
+  "source": {
+    "commit": "dffb1e071736157779c49d2ad358710a973f5a48",
+    "dirty": []
+  },
+  "startedAt": "2026-09-27T16:05:03.215Z",
+  "wallMs": 111926,
+  "exitCode": 0,
+  "timedOut": false,
+  "editedProtectedFiles": [],
+  "toolCalls": {
+    "Read": 1,
+    "mcp__strata__list_components": 1,
+    "mcp__strata__get_component": 9,
+    "mcp__strata__get_example": 4,
+    "mcp__strata__get_pattern": 2,
+    "mcp__strata__get_tokens": 1,
+    "Write": 2,
+    "mcp__strata__audit_snippet": 2
+  },
+  "pathsOutsideWorkspace": [],
+  "touchedRepo": false,
+  "usedMemory": false,
+  "readPackages": false,
+  "cli": {
+    "isError": false,
+    "subtype": "success",
+    "turns": 23,
+    "durationMs": 110529,
+    "costUsd": 0.38605999999999996,
+    "usage": {
+      "input_tokens": 26,
+      "cache_creation_input_tokens": 46776,
+      "cache_read_input_tokens": 459820,
+      "output_tokens": 10694,
+      "output_tokens_details": {
+        "thinking_tokens": 2997
+      },
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 46776,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 2,
+          "output_tokens": 319,
+          "cache_read_input_tokens": 56597,
+          "cache_creation_input_tokens": 664,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 664
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-sonnet-5": {
+        "inputTokens": 26,
+        "outputTokens": 10694,
+        "cacheReadInputTokens": 459820,
+        "cacheCreationInputTokens": 46776,
+        "webSearchRequests": 0,
+        "costUSD": 0.38605999999999996,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 64000,
+        "thinkingTokens": 2997,
+        "canonicalModel": "claude-sonnet-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "finalMessage": "Both files score 100 with no findings on the Strata audit. The transactions screen is complete at `src/screens/Screen.tsx` and `src/screens/Screen.module.css`:\n\n- 12 mock transactions with date, description, category, status and amount\n- Toolbar with a `SearchField`, category `Select` and date-range `Select` (All time / 7 / 30 / 90 days), all filtering client-side\n- `Export CSV` button (outline, `IconDownload`) that exports the currently filtered rows, disabled when there's nothing to export\n- Status shown via `Badge variant=\"status\"` with tone + word (never colour alone), category via `Tag`\n- `DataTable` inside a `Card`'s inset `CardContent`, with an `EmptyState` (search icon, message, \"Clear filters\" action) shown when no row matches the filters\n\nI can't run the app per the instructions, so this hasn't been visually verified in a browser — only checked via the Strata audit tool."
+  }
+}

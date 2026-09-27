@@ -1,0 +1,89 @@
+.card {
+  max-inline-size: 640px;
+  margin-inline: auto;
+}
+
+.timeline {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.item {
+  display: flex;
+  align-items: stretch;
+  gap: var(--strata-space-4);
+}
+
+.rail {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.line {
+  flex: 1;
+  inline-size: 2px;
+  background: var(--strata-color-border-subtle);
+  margin-block: var(--strata-space-1);
+}
+
+.content {
+  flex: 1;
+  min-inline-size: 0;
+  padding-block-end: var(--strata-space-6);
+}
+
+.item:last-child .content {
+  padding-block-end: 0;
+}
+
+.currentContent {
+  background: var(--strata-color-surface-selected);
+  border: 1px solid var(--strata-color-action-primary-border);
+  border-radius: var(--strata-radius-container);
+  padding: var(--strata-space-3) var(--strata-space-4);
+  margin-block-end: var(--strata-space-2);
+}
+
+.meta {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--strata-space-2);
+}
+
+.person {
+  display: flex;
+  align-items: center;
+  gap: var(--strata-space-2);
+  flex-wrap: wrap;
+}
+
+.actorName {
+  font-weight: var(--strata-font-weight-semibold);
+  color: var(--strata-color-text-default);
+}
+
+.actorRole {
+  color: var(--strata-color-text-subtle);
+}
+
+.time {
+  color: var(--strata-color-text-subtle);
+  font-size: var(--strata-font-size-sm);
+  white-space: nowrap;
+}
+
+.description {
+  margin: var(--strata-space-1) 0 0;
+  color: var(--strata-color-text-default);
+  font-size: var(--strata-font-size-md);
+  line-height: var(--strata-line-height-normal);
+}
+
+.actionRow {
+  margin-block-start: var(--strata-space-3);
+}

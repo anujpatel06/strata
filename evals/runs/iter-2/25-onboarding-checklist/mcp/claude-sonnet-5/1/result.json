@@ -1,0 +1,92 @@
+{
+  "prompt": "25-onboarding-checklist",
+  "tags": [
+    "multi-brand"
+  ],
+  "condition": "mcp",
+  "model": "claude-sonnet-5",
+  "repeat": 1,
+  "iteration": "2",
+  "source": {
+    "commit": "dffb1e071736157779c49d2ad358710a973f5a48",
+    "dirty": []
+  },
+  "startedAt": "2026-09-27T18:56:36.185Z",
+  "wallMs": 182617,
+  "exitCode": 0,
+  "timedOut": false,
+  "editedProtectedFiles": [],
+  "toolCalls": {
+    "Read": 6,
+    "Glob": 4,
+    "mcp__strata__list_components": 1,
+    "mcp__strata__get_component": 7,
+    "mcp__strata__get_pattern": 1,
+    "mcp__strata__get_example": 3,
+    "Grep": 5,
+    "mcp__strata__get_tokens": 4,
+    "Write": 2,
+    "mcp__strata__audit_snippet": 2
+  },
+  "pathsOutsideWorkspace": [],
+  "touchedRepo": false,
+  "usedMemory": false,
+  "readPackages": true,
+  "cli": {
+    "isError": false,
+    "subtype": "success",
+    "turns": 36,
+    "durationMs": 181283,
+    "costUsd": 0.46965520000000005,
+    "usage": {
+      "input_tokens": 40,
+      "cache_creation_input_tokens": 49893,
+      "cache_read_input_tokens": 751966,
+      "output_tokens": 11961,
+      "output_tokens_details": {
+        "thinking_tokens": 4498
+      },
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 49893,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 2,
+          "output_tokens": 364,
+          "cache_read_input_tokens": 58047,
+          "cache_creation_input_tokens": 2331,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 2331
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-sonnet-5": {
+        "inputTokens": 40,
+        "outputTokens": 11961,
+        "cacheReadInputTokens": 751966,
+        "cacheCreationInputTokens": 49893,
+        "webSearchRequests": 0,
+        "costUSD": 0.46965520000000005,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 64000,
+        "thinkingTokens": 4498,
+        "canonicalModel": "claude-sonnet-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "finalMessage": "Both files score 100 with no findings from the Strata auditor.\n\nSummary of what I built in `src/screens/Screen.tsx` (styles in `Screen.module.css`):\n\n- A `Card` header with the checklist title, description, and a `ProgressBar` showing \"2 of 5 steps\" done.\n- An `Accordion` of 5 mock onboarding steps (verify email, complete profile, invite team, add billing, turn on two-factor auth), each expandable to show its description and a \"Start\"/\"Review step\" `Button`.\n- Two steps are pre-marked done (`Badge tone=\"success\"`); the two-factor step is locked until \"Add billing details\" is completed, shown with a `Badge tone=\"neutral\"` + lock icon and an explanatory note, with its Start button disabled.\n- All colours/spacing use Strata tokens, logical CSS properties, and icons from `@strata/icons`; no brand names or native form elements are used, so it should render correctly across brands, schemes and RTL locales.\n\nI can't run the app to visually verify, per your instructions, but the code is complete and passes the Strata audit."
+  }
+}

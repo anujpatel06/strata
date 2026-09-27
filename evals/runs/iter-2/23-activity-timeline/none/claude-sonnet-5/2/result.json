@@ -1,0 +1,88 @@
+{
+  "prompt": "23-activity-timeline",
+  "tags": [
+    "multi-brand",
+    "rtl"
+  ],
+  "condition": "none",
+  "model": "claude-sonnet-5",
+  "repeat": 2,
+  "iteration": "2",
+  "source": {
+    "commit": "dffb1e071736157779c49d2ad358710a973f5a48",
+    "dirty": []
+  },
+  "startedAt": "2026-09-27T18:53:08.888Z",
+  "wallMs": 160462,
+  "exitCode": 0,
+  "timedOut": false,
+  "editedProtectedFiles": [],
+  "toolCalls": {
+    "Read": 16,
+    "Glob": 5,
+    "Grep": 7,
+    "Write": 2,
+    "Edit": 1
+  },
+  "pathsOutsideWorkspace": [],
+  "touchedRepo": false,
+  "usedMemory": false,
+  "readPackages": true,
+  "cli": {
+    "isError": false,
+    "subtype": "success",
+    "turns": 32,
+    "durationMs": 159149,
+    "costUsd": 0.40465299999999993,
+    "usage": {
+      "input_tokens": 38,
+      "cache_creation_input_tokens": 41775,
+      "cache_read_input_tokens": 504335,
+      "output_tokens": 13661,
+      "output_tokens_details": {
+        "thinking_tokens": 6167
+      },
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 41775,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 2,
+          "output_tokens": 189,
+          "cache_read_input_tokens": 49078,
+          "cache_creation_input_tokens": 1163,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 1163
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-sonnet-5": {
+        "inputTokens": 38,
+        "outputTokens": 13661,
+        "cacheReadInputTokens": 504335,
+        "cacheCreationInputTokens": 41775,
+        "webSearchRequests": 0,
+        "costUSD": 0.40465299999999993,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 64000,
+        "thinkingTokens": 6167,
+        "canonicalModel": "claude-sonnet-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "finalMessage": "The claim activity timeline is built in `src/screens/Screen.tsx` (with styles in `src/screens/Screen.module.css`): a card showing claim `CLM-2026-04831` with seven mock events newest-to-oldest, each with a time, actor/role via `Avatar`, and a description. The newest event is marked \"Current stage\" and includes an \"Upload estimate\" button that, when pressed, flips to a \"done\" badge (local state only, no backend). Built entirely from `@strata/react` components and tokens, using logical CSS properties for RTL/Arabic support."
+  }
+}

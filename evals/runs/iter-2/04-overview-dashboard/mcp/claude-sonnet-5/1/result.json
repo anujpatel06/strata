@@ -1,0 +1,92 @@
+{
+  "prompt": "04-overview-dashboard",
+  "tags": [
+    "multi-brand"
+  ],
+  "condition": "mcp",
+  "model": "claude-sonnet-5",
+  "repeat": 1,
+  "iteration": "2",
+  "source": {
+    "commit": "dffb1e071736157779c49d2ad358710a973f5a48",
+    "dirty": []
+  },
+  "startedAt": "2026-09-27T19:18:59.419Z",
+  "wallMs": 169126,
+  "exitCode": 0,
+  "timedOut": false,
+  "editedProtectedFiles": [],
+  "toolCalls": {
+    "Read": 5,
+    "Glob": 2,
+    "mcp__strata__list_components": 1,
+    "mcp__strata__get_pattern": 2,
+    "mcp__strata__get_component": 7,
+    "mcp__strata__get_example": 4,
+    "Grep": 3,
+    "mcp__strata__get_tokens": 4,
+    "Write": 2,
+    "mcp__strata__audit_snippet": 2
+  },
+  "pathsOutsideWorkspace": [],
+  "touchedRepo": false,
+  "usedMemory": false,
+  "readPackages": true,
+  "cli": {
+    "isError": false,
+    "subtype": "success",
+    "turns": 33,
+    "durationMs": 167760,
+    "costUsd": 0.5465372000000001,
+    "usage": {
+      "input_tokens": 38,
+      "cache_creation_input_tokens": 59047,
+      "cache_read_input_tokens": 809516,
+      "output_tokens": 14837,
+      "output_tokens_details": {
+        "thinking_tokens": 6860
+      },
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 59047,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 2,
+          "output_tokens": 382,
+          "cache_read_input_tokens": 68596,
+          "cache_creation_input_tokens": 936,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 936
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-sonnet-5": {
+        "inputTokens": 38,
+        "outputTokens": 14837,
+        "cacheReadInputTokens": 809516,
+        "cacheCreationInputTokens": 59047,
+        "webSearchRequests": 0,
+        "costUSD": 0.5465372000000001,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 64000,
+        "thinkingTokens": 6860,
+        "canonicalModel": "claude-sonnet-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "finalMessage": "Both files pass the audit clean (score 100, no findings).\n\nThe screen is built in `src/screens/Screen.tsx` and `src/screens/Screen.module.css`:\n\n- **Four headline stats** (`StatTile`/`StatTileGroup`): Total balance and Rewards points up vs. last month; Monthly spending and Open disputes down (both good news, shown via `positiveIsGood`).\n- **Banner**: an `Alert` (tone=\"warning\") about the card ending 4821 expiring next month, with a \"Order replacement\" contrast action.\n- **Recent activity**: a `Card` with the 5 most recent mock transactions, each with an `IconTile` (in/out arrow), description, date/category, and signed amount (colour + sign, never colour alone).\n\nAll values/tokens are from `@strata/react`/`@strata/icons`, styled only with `var(--strata-*)` tokens and logical properties, no brand-specific logic. I did not touch `main.tsx`, `app.css`, or config files, and can't run the dev server in this environment to visually verify — you'll want to spin it up and check the four brand/scheme/locale combinations from the README."
+  }
+}

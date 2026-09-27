@@ -1,0 +1,87 @@
+{
+  "prompt": "08-beneficiaries-table",
+  "tags": [
+    "a11y"
+  ],
+  "condition": "none",
+  "model": "claude-sonnet-5",
+  "repeat": 2,
+  "iteration": "2",
+  "source": {
+    "commit": "dffb1e071736157779c49d2ad358710a973f5a48",
+    "dirty": []
+  },
+  "startedAt": "2026-09-27T18:03:53.954Z",
+  "wallMs": 572417,
+  "exitCode": 0,
+  "timedOut": false,
+  "editedProtectedFiles": [],
+  "toolCalls": {
+    "Read": 43,
+    "Glob": 18,
+    "Grep": 32,
+    "Write": 2,
+    "Edit": 9
+  },
+  "pathsOutsideWorkspace": [],
+  "touchedRepo": false,
+  "usedMemory": false,
+  "readPackages": true,
+  "cli": {
+    "isError": false,
+    "subtype": "success",
+    "turns": 105,
+    "durationMs": 571115,
+    "costUsd": 2.960494999999999,
+    "usage": {
+      "input_tokens": 160,
+      "cache_creation_input_tokens": 181067,
+      "cache_read_input_tokens": 8705085,
+      "output_tokens": 49489,
+      "output_tokens_details": {
+        "thinking_tokens": 27988
+      },
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 181067,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 2,
+          "output_tokens": 370,
+          "cache_read_input_tokens": 184580,
+          "cache_creation_input_tokens": 4953,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 4953
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-sonnet-5": {
+        "inputTokens": 160,
+        "outputTokens": 49489,
+        "cacheReadInputTokens": 8705085,
+        "cacheCreationInputTokens": 181067,
+        "webSearchRequests": 0,
+        "costUSD": 2.960494999999999,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 64000,
+        "thinkingTokens": 27988,
+        "canonicalModel": "claude-sonnet-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "finalMessage": "The screen is complete. Summary of what was built in `src/screens/Screen.tsx` and `src/screens/Screen.module.css`:\n\n- A beneficiaries list using Strata's `DataTable`, with columns for name (with avatar), bank (with an icon tile), masked account number (last 4 digits), and date added — mock data defined in the file.\n- Sorting enabled on the Name and Added columns via `sortDescriptor`/`useSortedRows`.\n- Icon-only Edit (pencil) and Remove (trash) buttons per row, each with an accessible `aria-label`. Edit opens a dialog with a small form (name, bank select, account digits) that updates the row; Remove opens a confirmation `AlertDialog`.\n- Row selection (checkboxes) that reveals a \"N selected\" bar with \"Clear\" and \"Remove selected\" actions when any rows are selected; bulk removal also goes through a confirmation dialog.\n- An empty state for when all beneficiaries have been removed, and locale-aware date formatting so it works correctly under the `en-IN`/`ar-AE` locales and RTL."
+  }
+}

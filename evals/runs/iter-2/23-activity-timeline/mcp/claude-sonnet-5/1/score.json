@@ -1,0 +1,51 @@
+{
+  "prompt": "23-activity-timeline",
+  "condition": "mcp",
+  "model": "claude-sonnet-5",
+  "repeat": 1,
+  "tags": [
+    "multi-brand",
+    "rtl"
+  ],
+  "scoredAt": "2026-09-27T19:30:49.626Z",
+  "built": true,
+  "agentFailed": false,
+  "editedProtectedFiles": [],
+  "leaks": [],
+  "contaminated": false,
+  "touchedRepo": false,
+  "toolCalls": {
+    "Read": 5,
+    "Glob": 2,
+    "mcp__strata__list_components": 1,
+    "mcp__strata__get_pattern": 2,
+    "mcp__strata__get_component": 8,
+    "mcp__strata__get_example": 2,
+    "mcp__strata__get_tokens": 3,
+    "Write": 2,
+    "mcp__strata__audit_snippet": 2,
+    "Edit": 4
+  },
+  "readPackages": false,
+  "files": 2,
+  "lines": 327,
+  "importsStrata": true,
+  "brandNames": 0,
+  "typeErrors": 1,
+  "typeErrorSample": [
+    "src/screens/Screen.tsx(13,3): error TS2305: Module '\"@strata/icons\"' has no exported member 'IconClipboardCheck'."
+  ],
+  "audit": {
+    "score": 100,
+    "findings": 0,
+    "opportunities": 54,
+    "byRule": {}
+  },
+  "views": [],
+  "builds": false,
+  "buildError": "✗ Build failed in 140ms\nerror during build:\nBuild failed with 1 error:\n\n\u001b[31m[MISSING_EXPORT] \u001b[0m\"IconClipboardCheck\" is not exported by \"../../strata-evals-prepared/app/node_modules/@strata/icons/src/index.ts\".\n   \u001b[38;5;246m╭\u001b[0m\u001b[38;5;246m─\u001b[0m\u001b[38;5;246m[\u001b[0m src/screens/Screen.tsx:9:29 \u001b[38;5;246m]\u001b[0m\n   \u001b[38;5;246m│\u001b[0m\n \u001b[38;5;246m9 │\u001b[0m \u001b[38;5;249mi\u001b[0m\u001b[38;5;249mm\u001b[0m\u001b[38;5;249mp\u001b[0m\u001b[38;5;249mo\u001b[0m\u001b[38;5;249mr\u001b[0m\u001b[38;5;249mt\u001b[0m\u001b[38;5;249m \u001b[0m\u001b[38;5;249m{\u001b[0m\u001b[38;5;249m \u001b[0m\u001b[38;5;249mI\u001b[0m\u001b[38;5;249mc\u001b[0m\u001b[38;5;249mo\u001b[0m\u001b[38;5;249mn\u001b[0m\u001b[38;5;249mA\u001b[0m\u001b[38;5;249ml\u001b[0m\u001b[38;5;249",
+  "renders": false,
+  "axeNodes": null,
+  "overflowPx": null,
+  "onSystem": false
+}

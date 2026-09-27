@@ -1,0 +1,87 @@
+{
+  "prompt": "14-card-controls",
+  "tags": [
+    "a11y"
+  ],
+  "condition": "none",
+  "model": "claude-sonnet-5",
+  "repeat": 2,
+  "iteration": "2",
+  "source": {
+    "commit": "dffb1e071736157779c49d2ad358710a973f5a48",
+    "dirty": []
+  },
+  "startedAt": "2026-09-27T18:28:51.413Z",
+  "wallMs": 280741,
+  "exitCode": 0,
+  "timedOut": false,
+  "editedProtectedFiles": [],
+  "toolCalls": {
+    "Read": 26,
+    "Glob": 8,
+    "Grep": 18,
+    "Write": 2,
+    "Edit": 1
+  },
+  "pathsOutsideWorkspace": [],
+  "touchedRepo": false,
+  "usedMemory": false,
+  "readPackages": true,
+  "cli": {
+    "isError": false,
+    "subtype": "success",
+    "turns": 56,
+    "durationMs": 279188,
+    "costUsd": 0.9024808000000001,
+    "usage": {
+      "input_tokens": 84,
+      "cache_creation_input_tokens": 70208,
+      "cache_read_input_tokens": 2140104,
+      "output_tokens": 19346,
+      "output_tokens_details": {
+        "thinking_tokens": 8957
+      },
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 70208,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 2,
+          "output_tokens": 96,
+          "cache_read_input_tokens": 77555,
+          "cache_creation_input_tokens": 1119,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 1119
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-sonnet-5": {
+        "inputTokens": 84,
+        "outputTokens": 19346,
+        "cacheReadInputTokens": 2140104,
+        "cacheCreationInputTokens": 70208,
+        "webSearchRequests": 0,
+        "costUSD": 0.9024808000000001,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 64000,
+        "thinkingTokens": 8957,
+        "canonicalModel": "claude-sonnet-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "finalMessage": "This all looks correct. The card controls screen is complete: it shows the card's nickname and last four digits, a freeze toggle that visually and functionally disables the online payments, contactless, and international switches plus the daily limit slider when active, and an info alert explaining that other controls don't apply while frozen."
+  }
+}

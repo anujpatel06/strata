@@ -1,0 +1,86 @@
+{
+  "prompt": "16-checkout-summary-rtl",
+  "tags": [
+    "rtl"
+  ],
+  "condition": "none",
+  "model": "claude-sonnet-5",
+  "repeat": 2,
+  "iteration": "2",
+  "source": {
+    "commit": "dffb1e071736157779c49d2ad358710a973f5a48",
+    "dirty": []
+  },
+  "startedAt": "2026-09-27T18:33:46.935Z",
+  "wallMs": 230579,
+  "exitCode": 0,
+  "timedOut": false,
+  "editedProtectedFiles": [],
+  "toolCalls": {
+    "Read": 30,
+    "Glob": 8,
+    "Grep": 21,
+    "Write": 2
+  },
+  "pathsOutsideWorkspace": [],
+  "touchedRepo": false,
+  "usedMemory": false,
+  "readPackages": true,
+  "cli": {
+    "isError": false,
+    "subtype": "success",
+    "turns": 62,
+    "durationMs": 229093,
+    "costUsd": 0.8503570000000001,
+    "usage": {
+      "input_tokens": 68,
+      "cache_creation_input_tokens": 73724,
+      "cache_read_input_tokens": 1799925,
+      "output_tokens": 19534,
+      "output_tokens_details": {
+        "thinking_tokens": 5748
+      },
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 73724,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 2,
+          "output_tokens": 2445,
+          "cache_read_input_tokens": 81746,
+          "cache_creation_input_tokens": 444,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 444
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-sonnet-5": {
+        "inputTokens": 68,
+        "outputTokens": 19534,
+        "cacheReadInputTokens": 1799925,
+        "cacheCreationInputTokens": 73724,
+        "webSearchRequests": 0,
+        "costUSD": 0.8503570000000001,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 64000,
+        "thinkingTokens": 5748,
+        "canonicalModel": "claude-sonnet-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "finalMessage": "Both files are complete: the checkout screen uses Strata components (Card, RadioGroup, Amount, TextField, Badge, Link, Button) with mock grocery data, a working quantity stepper, promo code apply/remove flow, and a price breakdown ending in a full-width \"Place order\" button. Styling uses logical properties and CSS Grid so it mirrors correctly for the Arabic RTL locale, and all copy is in English as requested."
+  }
+}

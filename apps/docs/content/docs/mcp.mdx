@@ -1,7 +1,7 @@
 The Strata MCP server lets AI coding agents look up components, tokens and usage rules while they write code, and check their own work. It reads the same `meta.json` files as these pages.
 
 <Callout tone="info" title="Not published yet">
-  The server works from a checkout of the repo today. `npx @strata/mcp` arrives with the npm release. The agent eval that measures whether the server helps is running; its results will be linked here, whatever they show.
+  The server works from a checkout of the repo today. `npx @strata/mcp` arrives with the npm release.
 </Callout>
 
 ## What it does
@@ -77,6 +77,33 @@ Agents pay for every token, so responses are compact JSON with no prose around t
 </Table>
 
 Measured on 2026-09-27 with `pnpm --filter @strata/mcp test sizes`. These are bytes, not tokens.
+
+## Does it help?
+
+An eval ran 25 screen-building prompts with Claude Code, twice each, with and without the server. Both conditions had Strata installed.
+
+<Table aria-label="Agent eval, iteration 2">
+  <thead>
+    <tr>
+      <th scope="col">Measure</th>
+      <th scope="col">No context</th>
+      <th scope="col">Server and AGENTS.md</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>Runs</td><td>50</td><td>50</td></tr>
+    <tr><td>Fully on-system</td><td>64%</td><td>88%</td></tr>
+    <tr><td>Audit findings, all runs</td><td>19</td><td>0</td></tr>
+    <tr><td>No axe violations</td><td>92%</td><td>98%</td></tr>
+    <tr><td>Passes typecheck</td><td>88%</td><td>88%</td></tr>
+    <tr><td>No horizontal scroll at 390px</td><td>98%</td><td>92%</td></tr>
+    <tr><td>Median turns</td><td>57</td><td>33.5</td></tr>
+  </tbody>
+</Table>
+
+One model (`claude-sonnet-5`), one agent, 50 runs a side. A gap of a few points is inside what repeats of the same prompt disagree on. The server didn’t help with type errors and did worse on narrow screens. The first attempt at this eval was thrown out because of a fault in the harness. The full results, the method and both sets of runs are in [`evals/`](https://github.com/anujpatel06/strata/tree/main/evals).
+
+Reproduce with `node evals/setup.mjs --clean`, then `run`, `score` and `report`. A new run gives different numbers, because models don’t answer the same way twice.
 
 ## The drift auditor
 

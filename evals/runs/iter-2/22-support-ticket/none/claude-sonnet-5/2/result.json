@@ -1,0 +1,87 @@
+{
+  "prompt": "22-support-ticket",
+  "tags": [
+    "a11y"
+  ],
+  "condition": "none",
+  "model": "claude-sonnet-5",
+  "repeat": 2,
+  "iteration": "2",
+  "source": {
+    "commit": "dffb1e071736157779c49d2ad358710a973f5a48",
+    "dirty": []
+  },
+  "startedAt": "2026-09-27T18:50:53.351Z",
+  "wallMs": 160505,
+  "exitCode": 0,
+  "timedOut": false,
+  "editedProtectedFiles": [],
+  "toolCalls": {
+    "Read": 28,
+    "Glob": 8,
+    "Grep": 13,
+    "Write": 2,
+    "Edit": 3
+  },
+  "pathsOutsideWorkspace": [],
+  "touchedRepo": false,
+  "usedMemory": false,
+  "readPackages": true,
+  "cli": {
+    "isError": false,
+    "subtype": "success",
+    "turns": 55,
+    "durationMs": 158134,
+    "costUsd": 0.6294029999999999,
+    "usage": {
+      "input_tokens": 64,
+      "cache_creation_input_tokens": 59476,
+      "cache_read_input_tokens": 1322105,
+      "output_tokens": 12695,
+      "output_tokens_details": {
+        "thinking_tokens": 1766
+      },
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 59476,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 2,
+          "output_tokens": 283,
+          "cache_read_input_tokens": 65209,
+          "cache_creation_input_tokens": 2733,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 2733
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-sonnet-5": {
+        "inputTokens": 64,
+        "outputTokens": 12695,
+        "cacheReadInputTokens": 1322105,
+        "cacheCreationInputTokens": 59476,
+        "webSearchRequests": 0,
+        "costUSD": 0.6294029999999999,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 64000,
+        "thinkingTokens": 1766,
+        "canonicalModel": "claude-sonnet-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "finalMessage": "This looks correct and complete. The screen implements:\n\n- **Topic**: `Select` populated from a mock `TOPICS` list, each with a label and description.\n- **Subject**: `TextField`.\n- **Description**: `TextArea` with a 500-char cap (enforced by slicing input) and a live \"N characters left\" message via its `description` slot.\n- **Attachment**: optional `FileUpload`, with the chosen filename echoed in the footer.\n- **Contact preference**: `RadioGroup` with email / phone / no preference options.\n- **Confirmation**: on submit, the form is replaced by an `EmptyState` showing a generated reference number (`SR-XXXXXX`), with a way to raise another request.\n\nBoth files stay inside `src/screens/`, no other files were touched, and mock data (topics list) lives directly in `Screen.tsx`."
+  }
+}

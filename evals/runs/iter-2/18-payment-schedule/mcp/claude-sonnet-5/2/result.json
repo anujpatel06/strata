@@ -1,0 +1,92 @@
+{
+  "prompt": "18-payment-schedule",
+  "tags": [
+    "multi-brand"
+  ],
+  "condition": "mcp",
+  "model": "claude-sonnet-5",
+  "repeat": 2,
+  "iteration": "2",
+  "source": {
+    "commit": "dffb1e071736157779c49d2ad358710a973f5a48",
+    "dirty": []
+  },
+  "startedAt": "2026-09-27T18:40:20.049Z",
+  "wallMs": 391997,
+  "exitCode": 0,
+  "timedOut": false,
+  "editedProtectedFiles": [],
+  "toolCalls": {
+    "Read": 7,
+    "mcp__strata__list_components": 1,
+    "mcp__strata__get_pattern": 3,
+    "Glob": 8,
+    "mcp__strata__get_component": 13,
+    "mcp__strata__get_example": 6,
+    "mcp__strata__get_tokens": 3,
+    "Grep": 11,
+    "Write": 2,
+    "mcp__strata__audit_snippet": 3
+  },
+  "pathsOutsideWorkspace": [],
+  "touchedRepo": false,
+  "usedMemory": false,
+  "readPackages": true,
+  "cli": {
+    "isError": false,
+    "subtype": "success",
+    "turns": 58,
+    "durationMs": 390654,
+    "costUsd": 1.4380132000000003,
+    "usage": {
+      "input_tokens": 82,
+      "cache_creation_input_tokens": 114518,
+      "cache_read_input_tokens": 3054636,
+      "output_tokens": 36885,
+      "output_tokens_details": {
+        "thinking_tokens": 18154
+      },
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 114518,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 2,
+          "output_tokens": 2182,
+          "cache_read_input_tokens": 121151,
+          "cache_creation_input_tokens": 3852,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 3852
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-sonnet-5": {
+        "inputTokens": 82,
+        "outputTokens": 36885,
+        "cacheReadInputTokens": 3054636,
+        "cacheCreationInputTokens": 114518,
+        "webSearchRequests": 0,
+        "costUSD": 1.4380132000000003,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 64000,
+        "thinkingTokens": 18154,
+        "canonicalModel": "claude-sonnet-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "finalMessage": "Both files score 100 on the Strata audit with no findings. The screen is complete:\n\n- **`src/screens/Screen.tsx`** — lists six mock scheduled payments (payee, amount, next date, frequency, status) in a `DataTable` inside a `Card`. Each row has a `Menu` with Pause/Resume, Edit and Cancel. Edit opens a controlled `Dialog` (amount, date, frequency); Cancel opens a danger `AlertDialog` that says the action can't be undone and removes the row on confirm — there's no way to bring it back. \"Schedule a payment\" is a header `Button` that opens a `Dialog` form to add a new payment. Uses `Amount`, `Badge` (status variant, word + tone, never colour alone), `DatePicker`, `Select`, `TextField`, `toast` confirmations, and locale-aware date formatting via `useLocale`.\n- **`src/screens/Screen.module.css`** — layout only, all `var(--strata-*)` tokens, logical properties (`inline-size`, `margin-inline`, etc.), no brand or hex values.\n\nNo native `<button>/<input>/<select>/<table>`, no deprecated APIs (`tone=\"danger\"`, not `variant=\"danger\"`), all icon-only buttons have `aria-label`, nothing brand-specific in the code — it should render correctly across tenants, schemes and RTL locales via the existing `ThemeScope` in `main.tsx`."
+  }
+}

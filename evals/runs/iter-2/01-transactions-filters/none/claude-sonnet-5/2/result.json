@@ -1,0 +1,87 @@
+{
+  "prompt": "01-transactions-filters",
+  "tags": [
+    "a11y"
+  ],
+  "condition": "none",
+  "model": "claude-sonnet-5",
+  "repeat": 2,
+  "iteration": "2",
+  "source": {
+    "commit": "dffb1e071736157779c49d2ad358710a973f5a48",
+    "dirty": []
+  },
+  "startedAt": "2026-09-27T16:01:12.127Z",
+  "wallMs": 240255,
+  "exitCode": 0,
+  "timedOut": false,
+  "editedProtectedFiles": [],
+  "toolCalls": {
+    "Read": 25,
+    "Glob": 11,
+    "Grep": 20,
+    "Write": 2,
+    "Edit": 1
+  },
+  "pathsOutsideWorkspace": [],
+  "touchedRepo": false,
+  "usedMemory": false,
+  "readPackages": true,
+  "cli": {
+    "isError": false,
+    "subtype": "success",
+    "turns": 60,
+    "durationMs": 238964,
+    "costUsd": 0.8873574000000001,
+    "usage": {
+      "input_tokens": 82,
+      "cache_creation_input_tokens": 75365,
+      "cache_read_input_tokens": 1905517,
+      "output_tokens": 20463,
+      "output_tokens_details": {
+        "thinking_tokens": 8322
+      },
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 75365,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 2,
+          "output_tokens": 115,
+          "cache_read_input_tokens": 80870,
+          "cache_creation_input_tokens": 2961,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 2961
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-sonnet-5": {
+        "inputTokens": 82,
+        "outputTokens": 20463,
+        "cacheReadInputTokens": 1905517,
+        "cacheCreationInputTokens": 75365,
+        "webSearchRequests": 0,
+        "costUSD": 0.8873574000000001,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 64000,
+        "thinkingTokens": 8322,
+        "canonicalModel": "claude-sonnet-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "finalMessage": "Good, both `IconDownload` and `IconInbox` are exported. The implementation is complete: a Transactions screen with search, category select, date-range filter, CSV export, a 12-row data table, and an empty state when no rows match — built entirely with Strata components and mock data in `src/screens/Screen.tsx` / `Screen.module.css`."
+  }
+}

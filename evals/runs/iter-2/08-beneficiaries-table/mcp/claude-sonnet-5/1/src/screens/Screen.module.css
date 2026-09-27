@@ -1,0 +1,54 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-6);
+  max-inline-size: 960px;
+  margin-inline: auto;
+  padding: var(--strata-space-8);
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-1);
+}
+
+.title {
+  margin: 0;
+  font-family: var(--strata-font-heading);
+  font-size: var(--strata-font-size-2xl);
+  font-weight: var(--strata-font-weight-semibold);
+  letter-spacing: var(--strata-font-heading-tracking);
+  color: var(--strata-color-text-default);
+}
+
+.subtitle {
+  margin: 0;
+  font-family: var(--strata-font-body);
+  font-size: var(--strata-font-size-md);
+  color: var(--strata-color-text-subtle);
+}
+
+.selectionSummary {
+  font-family: var(--strata-font-body);
+  font-size: var(--strata-font-size-sm);
+  font-weight: var(--strata-font-weight-medium);
+  color: var(--strata-color-text-default);
+}
+
+.nameCell {
+  display: flex;
+  align-items: center;
+  gap: var(--strata-space-2);
+}
+
+.account {
+  font-family: var(--strata-font-mono);
+  color: var(--strata-color-text-subtle);
+}
+
+.rowActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--strata-space-1);
+}

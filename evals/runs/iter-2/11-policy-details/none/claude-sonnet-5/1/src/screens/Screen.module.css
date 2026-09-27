@@ -1,0 +1,246 @@
+.screen {
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-6);
+}
+
+.header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--strata-space-4);
+}
+
+.headerText {
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-1);
+}
+
+.eyebrow {
+  margin: 0;
+  font-size: var(--strata-font-size-sm);
+  font-weight: var(--strata-font-weight-medium);
+  letter-spacing: var(--strata-font-tracking-caps);
+  text-transform: uppercase;
+  color: var(--strata-color-text-subtle);
+}
+
+.title {
+  margin: 0;
+  font-family: var(--strata-font-heading);
+  font-size: var(--strata-font-size-3xl);
+  font-weight: var(--strata-font-weight-semibold);
+  letter-spacing: var(--strata-font-tracking-3xl);
+  color: var(--strata-color-text-default);
+}
+
+.number {
+  margin: 0;
+  font-size: var(--strata-font-size-md);
+  color: var(--strata-color-text-subtle);
+}
+
+.tabs {
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-5);
+}
+
+.tabList {
+  border-bottom: var(--strata-hairline) solid var(--strata-color-border-subtle);
+}
+
+.panel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-6);
+}
+
+.groupTitle {
+  margin: 0 0 var(--strata-space-3);
+  font-size: var(--strata-font-size-lg);
+  font-weight: var(--strata-font-weight-semibold);
+  color: var(--strata-color-text-default);
+}
+
+.coverGroups {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: var(--strata-space-6);
+}
+
+.coverGroup {
+  min-inline-size: 0;
+}
+
+.coverList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-4);
+}
+
+.coverRow {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--strata-space-3);
+}
+
+.coverIcon {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: 24px;
+  block-size: 24px;
+  border-radius: var(--strata-radius-pill);
+  margin-block-start: 2px;
+}
+
+.coverIconYes {
+  background: var(--strata-color-feedback-success-bg);
+  color: var(--strata-color-feedback-success-fg);
+}
+
+.coverIconNo {
+  background: var(--strata-color-surface-sunken);
+  color: var(--strata-color-text-subtle);
+}
+
+.coverLabel {
+  margin: 0;
+  font-size: var(--strata-font-size-md);
+  font-weight: var(--strata-font-weight-medium);
+  color: var(--strata-color-text-default);
+}
+
+.coverDetail {
+  margin: var(--strata-space-1) 0 0;
+  font-size: var(--strata-font-size-sm);
+  color: var(--strata-color-text-subtle);
+}
+
+.documentList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-3);
+}
+
+.documentCard {
+  display: block;
+}
+
+.documentContent {
+  display: flex;
+  align-items: center;
+  gap: var(--strata-space-4);
+}
+
+.documentText {
+  flex: 1;
+  min-inline-size: 0;
+}
+
+.documentName {
+  margin: 0;
+  font-size: var(--strata-font-size-md);
+  font-weight: var(--strata-font-weight-medium);
+  color: var(--strata-color-text-default);
+}
+
+.documentDescription {
+  margin: var(--strata-space-1) 0 0;
+  font-size: var(--strata-font-size-sm);
+  color: var(--strata-color-text-subtle);
+}
+
+.documentMeta {
+  margin: var(--strata-space-1) 0 0;
+  font-size: var(--strata-font-size-xs);
+  color: var(--strata-color-text-subtle);
+}
+
+.nextPaymentCard {
+  inline-size: 100%;
+  box-sizing: border-box;
+}
+
+.nextPaymentContent {
+  display: flex;
+  align-items: center;
+  gap: var(--strata-space-4);
+}
+
+.nextPaymentText {
+  flex: 1;
+  min-inline-size: 0;
+}
+
+.nextPaymentAmount {
+  margin: 0;
+  font-family: var(--strata-font-heading);
+  font-size: var(--strata-font-size-2xl);
+  font-weight: var(--strata-font-weight-semibold);
+  color: var(--strata-color-text-default);
+}
+
+.paymentHistory {
+  display: flex;
+  flex-direction: column;
+}
+
+.paymentList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-2);
+}
+
+.paymentRow {
+  display: flex;
+  align-items: center;
+  gap: var(--strata-space-3);
+  padding: var(--strata-space-3) var(--strata-space-4);
+  border: var(--strata-hairline) solid var(--strata-color-border-subtle);
+  border-radius: var(--strata-radius-container);
+  background: var(--strata-color-surface-raised);
+}
+
+.paymentIcon {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: 32px;
+  block-size: 32px;
+  border-radius: var(--strata-radius-pill);
+  background: var(--strata-color-surface-sunken);
+  color: var(--strata-color-text-subtle);
+}
+
+.paymentText {
+  flex: 1;
+  min-inline-size: 0;
+}
+
+.paymentAmount {
+  font-size: var(--strata-font-size-md);
+  font-weight: var(--strata-font-weight-medium);
+  color: var(--strata-color-text-default);
+  white-space: nowrap;
+}
+
+.allPaymentsLink {
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--strata-space-2);
+}

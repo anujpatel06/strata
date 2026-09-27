@@ -1,0 +1,91 @@
+{
+  "prompt": "17-search-results",
+  "tags": [
+    "a11y"
+  ],
+  "condition": "mcp",
+  "model": "claude-sonnet-5",
+  "repeat": 1,
+  "iteration": "2",
+  "source": {
+    "commit": "dffb1e071736157779c49d2ad358710a973f5a48",
+    "dirty": []
+  },
+  "startedAt": "2026-09-27T18:37:37.340Z",
+  "wallMs": 224188,
+  "exitCode": 0,
+  "timedOut": false,
+  "editedProtectedFiles": [],
+  "toolCalls": {
+    "Read": 7,
+    "Glob": 4,
+    "mcp__strata__list_components": 1,
+    "mcp__strata__get_component": 8,
+    "mcp__strata__get_example": 3,
+    "Grep": 5,
+    "mcp__strata__get_tokens": 2,
+    "Write": 2,
+    "mcp__strata__audit_snippet": 2
+  },
+  "pathsOutsideWorkspace": [],
+  "touchedRepo": false,
+  "usedMemory": false,
+  "readPackages": true,
+  "cli": {
+    "isError": false,
+    "subtype": "success",
+    "turns": 35,
+    "durationMs": 222765,
+    "costUsd": 0.5893332000000001,
+    "usage": {
+      "input_tokens": 32,
+      "cache_creation_input_tokens": 61295,
+      "cache_read_input_tokens": 651646,
+      "output_tokens": 21376,
+      "output_tokens_details": {
+        "thinking_tokens": 13451
+      },
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 61295,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 2,
+          "output_tokens": 211,
+          "cache_read_input_tokens": 68941,
+          "cache_creation_input_tokens": 2839,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 2839
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-sonnet-5": {
+        "inputTokens": 32,
+        "outputTokens": 21376,
+        "cacheReadInputTokens": 651646,
+        "cacheCreationInputTokens": 61295,
+        "webSearchRequests": 0,
+        "costUSD": 0.5893332000000001,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 64000,
+        "thinkingTokens": 13451,
+        "canonicalModel": "claude-sonnet-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "finalMessage": "This looks correct. The screen is complete: `src/screens/Screen.tsx` builds a benefits search using Strata's `Combobox` for keyboard-navigable typeahead suggestions over six mock benefits, revealing a results section of `Card`s (name, category `Tag`, description, and an eligibility `Badge` paired with an icon and words) once a suggestion is chosen, plus a \"no results\" `EmptyState` when the query matches nothing and an initial prompt state before any choice. Styles in `Screen.module.css` use only Strata tokens and logical properties. Both files scored 100 on `audit_snippet` with no findings."
+  }
+}

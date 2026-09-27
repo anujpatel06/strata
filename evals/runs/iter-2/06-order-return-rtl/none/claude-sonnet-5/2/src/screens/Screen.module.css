@@ -1,0 +1,148 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-6);
+}
+
+.backLink {
+  align-self: flex-start;
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-2);
+}
+
+.title {
+  margin: 0;
+  font-size: var(--strata-font-size-3xl);
+  font-weight: var(--strata-font-weight-semibold, 600);
+}
+
+.subtitle {
+  margin: 0;
+  max-inline-size: 60ch;
+  color: var(--strata-color-text-subtle);
+}
+
+.itemList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.itemRow {
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-3);
+  padding-block: var(--strata-space-4);
+  border-block-end: 1px solid var(--strata-color-border-subtle);
+}
+
+.itemRow:last-child {
+  border-block-end: none;
+  padding-block-end: 0;
+}
+
+.itemRow:first-child {
+  padding-block-start: 0;
+}
+
+.itemMain {
+  display: flex;
+  align-items: center;
+  gap: var(--strata-space-4);
+}
+
+.itemInfo {
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-1);
+  flex: 1;
+  min-inline-size: 0;
+}
+
+.itemName {
+  margin: 0;
+  font-weight: var(--strata-font-weight-medium, 500);
+}
+
+.itemMeta {
+  margin: 0;
+  font-size: var(--strata-font-size-sm);
+  color: var(--strata-color-text-subtle);
+}
+
+.itemTotal {
+  flex: none;
+  font-size: var(--strata-font-size-lg);
+}
+
+.itemReason {
+  padding-inline-start: calc(20px + var(--strata-space-4) + 40px + var(--strata-space-4));
+  max-inline-size: 320px;
+}
+
+.summaryContent {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--strata-space-4);
+}
+
+.summaryInfo {
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-2);
+}
+
+.summaryHint {
+  margin: 0;
+  font-size: var(--strata-font-size-sm);
+  color: var(--strata-color-text-subtle);
+  max-inline-size: 42ch;
+}
+
+.summaryAmount {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: var(--strata-space-1);
+}
+
+.summaryAmountLabel {
+  font-size: var(--strata-font-size-sm);
+  color: var(--strata-color-text-subtle);
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--strata-space-4);
+  flex-wrap: wrap;
+}
+
+.actionsHint {
+  margin: 0;
+  font-size: var(--strata-font-size-sm);
+  color: var(--strata-color-text-subtle);
+}
+
+@media (max-width: 640px) {
+  .itemReason {
+    padding-inline-start: 0;
+  }
+
+  .summaryAmount {
+    align-items: flex-start;
+  }
+
+  .actions {
+    justify-content: flex-start;
+  }
+}

@@ -1,0 +1,87 @@
+{
+  "prompt": "02-two-factor-settings",
+  "tags": [
+    "a11y"
+  ],
+  "condition": "none",
+  "model": "claude-sonnet-5",
+  "repeat": 2,
+  "iteration": "2",
+  "source": {
+    "commit": "dffb1e071736157779c49d2ad358710a973f5a48",
+    "dirty": []
+  },
+  "startedAt": "2026-09-27T16:05:27.282Z",
+  "wallMs": 314460,
+  "exitCode": 0,
+  "timedOut": false,
+  "editedProtectedFiles": [],
+  "toolCalls": {
+    "Read": 32,
+    "Glob": 11,
+    "Grep": 19,
+    "Write": 2,
+    "Edit": 8
+  },
+  "pathsOutsideWorkspace": [],
+  "touchedRepo": false,
+  "usedMemory": false,
+  "readPackages": true,
+  "cli": {
+    "isError": false,
+    "subtype": "success",
+    "turns": 73,
+    "durationMs": 313121,
+    "costUsd": 1.0122496,
+    "usage": {
+      "input_tokens": 92,
+      "cache_creation_input_tokens": 71534,
+      "cache_read_input_tokens": 2280798,
+      "output_tokens": 26977,
+      "output_tokens_details": {
+        "thinking_tokens": 12063
+      },
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 71534,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 2,
+          "output_tokens": 189,
+          "cache_read_input_tokens": 77448,
+          "cache_creation_input_tokens": 2552,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 2552
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-sonnet-5": {
+        "inputTokens": 92,
+        "outputTokens": 26977,
+        "cacheReadInputTokens": 2280798,
+        "cacheCreationInputTokens": 71534,
+        "webSearchRequests": 0,
+        "costUSD": 1.0122496,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 64000,
+        "thinkingTokens": 12063,
+        "canonicalModel": "claude-sonnet-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "finalMessage": "This is complete. The screen renders a \"Security settings\" page with a Two-factor authentication card: a Switch (with an On/Off status Badge) that toggles the whole feature, a card-style RadioGroup to choose between authenticator app and text message, and a grid of backup codes with a copy action. Turning the switch off opens an `AlertDialog` confirming the security trade-off before disabling; canceling leaves it on. All data is mocked in `Screen.tsx`, and I only touched `src/screens/Screen.tsx` and `src/screens/Screen.module.css`."
+  }
+}

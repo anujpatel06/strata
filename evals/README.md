@@ -34,6 +34,15 @@ Results: [results.md](results.md). Raw runs: `runs/`.
 
 The second and third rows were found by the first smoke runs, which read a neighbouring workspace and an earlier run's memory notes. Those runs were thrown away.
 
+## Iterations
+
+| Iteration | Status | What it is |
+|---|---|---|
+| 1 | **Invalid.** Don't quote it | The harness linked `node_modules`, and file search doesn't follow links, so runs without context couldn't see Strata. See `runs/iter-1/INVALID.md` |
+| 2 | Valid | The same prompts with the harness fixed. `results.md` reports this one. Its notes are in `runs/iter-2/NOTES.md` |
+
+Three faults were found by reading the runs, not by the numbers looking wrong. Iteration 1's numbers looked good. Before trusting a result, open some of the screens and read what the agents said.
+
 ## What is scored
 
 `score.mjs` rebuilds the app with the files the run wrote. It calls no model.
@@ -71,7 +80,8 @@ node evals/report.mjs --iteration 1
 - `run.mjs` calls a paid model once per run and prints the number of runs first. `--dry` creates the workspaces and prints the commands without calling a model.
 - A run that already has a `result.json` is skipped, so an interrupted eval continues with the same command.
 - Models don't answer the same way twice, so a new run gives different numbers. The runs behind the published numbers are kept in `runs/`.
-- In the two smoke runs on 2026-09-27, a run took 101 and 287 seconds and the CLI reported a cost of 0.31 and 0.71 USD. Two runs are not an estimate; they're why the script prints the run count before it starts.
+- Iteration 2's 100 runs cost 73.96 USD in total as the CLI reports it, with a median wall time of 255 seconds without context and 168 with the server. The script prints the run count before it starts.
+- If the account's usage limit is reached, the eval stops and records nothing for the runs it cut short. Run the same command again to continue.
 
 ## Files
 

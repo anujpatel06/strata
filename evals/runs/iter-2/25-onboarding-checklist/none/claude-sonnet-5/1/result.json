@@ -1,0 +1,90 @@
+{
+  "prompt": "25-onboarding-checklist",
+  "tags": [
+    "multi-brand"
+  ],
+  "condition": "none",
+  "model": "claude-sonnet-5",
+  "repeat": 1,
+  "iteration": "2",
+  "source": {
+    "commit": "dffb1e071736157779c49d2ad358710a973f5a48",
+    "dirty": []
+  },
+  "startedAt": "2026-09-27T18:55:56.392Z",
+  "wallMs": 795721,
+  "exitCode": 0,
+  "timedOut": false,
+  "editedProtectedFiles": [],
+  "toolCalls": {
+    "Read": 30,
+    "Glob": 12,
+    "Grep": 11,
+    "Write": 2,
+    "Edit": 1
+  },
+  "pathsOutsideWorkspace": [
+    "/var/folders/fq/fsw2rcjs6y3frnjl7zs9sf8h0000gn/T/se-10034d6d265b/app/node_modules/react-aria-components/dist/types.d.ts",
+    "/var/folders/fq/fsw2rcjs6y3frnjl7zs9sf8h0000gn/T/se-10034d6d265b/app/node_modules/react-aria/dist/types/useDisclosure.d.ts"
+  ],
+  "touchedRepo": false,
+  "usedMemory": false,
+  "readPackages": true,
+  "cli": {
+    "isError": false,
+    "subtype": "success",
+    "turns": 57,
+    "durationMs": 794498,
+    "costUsd": 1.0006654000000001,
+    "usage": {
+      "input_tokens": 74,
+      "cache_creation_input_tokens": 93474,
+      "cache_read_input_tokens": 2201707,
+      "output_tokens": 18628,
+      "output_tokens_details": {
+        "thinking_tokens": 10507
+      },
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 93474,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 2,
+          "output_tokens": 382,
+          "cache_read_input_tokens": 99201,
+          "cache_creation_input_tokens": 2739,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 2739
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-sonnet-5": {
+        "inputTokens": 74,
+        "outputTokens": 18628,
+        "cacheReadInputTokens": 2201707,
+        "cacheCreationInputTokens": 93474,
+        "webSearchRequests": 0,
+        "costUSD": 1.0006654000000001,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 64000,
+        "thinkingTokens": 10507,
+        "canonicalModel": "claude-sonnet-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "finalMessage": "This looks correct and complete. The component uses `Card`/`Accordion`/`Badge`/`IconTile`/`ProgressBar`/`Button` from `@strata/react`, only tokens from `@strata/tokens`, mock data defined in-file, and logical CSS properties for RTL support. It builds with no edits to disallowed files.\n\nSummary of the onboarding checklist screen (`src/screens/Screen.tsx` + `src/screens/Screen.module.css`):\n- A `ProgressBar` shows overall progress (2 of 5 done, 40%).\n- Five steps in an `Accordion`; each opens to reveal what it involves (a bulleted list) and a \"Start\"/\"Review\" button.\n- Two steps (\"Verify your email\", \"Complete your profile\") start done, shown with a success `Badge` and check icon.\n- \"Turn on security policies\" is locked until \"Connect a payment method\" is done — it shows a \"Locked\" badge, a lock icon, an inline explanation both collapsed and expanded, and a disabled button.\n- Clicking \"Start\" marks a step done locally (mock state), which updates progress and can unlock the locked step."
+  }
+}

@@ -1,0 +1,86 @@
+{
+  "prompt": "02-two-factor-settings",
+  "tags": [
+    "a11y"
+  ],
+  "condition": "none",
+  "model": "claude-sonnet-5",
+  "repeat": 1,
+  "iteration": "2",
+  "source": {
+    "commit": "dffb1e071736157779c49d2ad358710a973f5a48",
+    "dirty": []
+  },
+  "startedAt": "2026-09-27T16:05:15.515Z",
+  "wallMs": 306101,
+  "exitCode": 0,
+  "timedOut": false,
+  "editedProtectedFiles": [],
+  "toolCalls": {
+    "Read": 35,
+    "Glob": 7,
+    "Grep": 4,
+    "Write": 2
+  },
+  "pathsOutsideWorkspace": [],
+  "touchedRepo": false,
+  "usedMemory": false,
+  "readPackages": true,
+  "cli": {
+    "isError": false,
+    "subtype": "success",
+    "turns": 49,
+    "durationMs": 304811,
+    "costUsd": 0.8784044,
+    "usage": {
+      "input_tokens": 54,
+      "cache_creation_input_tokens": 92146,
+      "cache_read_input_tokens": 1287162,
+      "output_tokens": 25228,
+      "output_tokens_details": {
+        "thinking_tokens": 14934
+      },
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 92146,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 2,
+          "output_tokens": 230,
+          "cache_read_input_tokens": 95757,
+          "cache_creation_input_tokens": 4855,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 4855
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-sonnet-5": {
+        "inputTokens": 54,
+        "outputTokens": 25228,
+        "cacheReadInputTokens": 1287162,
+        "cacheCreationInputTokens": 92146,
+        "webSearchRequests": 0,
+        "costUSD": 0.8784044,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 64000,
+        "thinkingTokens": 14934,
+        "canonicalModel": "claude-sonnet-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "finalMessage": "This all looks correct and complete. The screen implements:\n\n- A two-factor authentication section with an on/off `Switch` in the card header, badge-reflecting state.\n- Turning it off opens a `Alert­Dialog` confirmation (danger tone) before actually disabling — turning it on requires no confirmation.\n- A `RadioGroup` to choose between \"Authenticator app\" and \"Text message\" methods, with mock connection/phone info.\n- A backup codes list with mask/reveal toggle, copy-all, and regenerate actions, plus a remaining-codes badge and \"Used\" tags on already-consumed codes.\n- Mock data defined directly in the file; no edits outside `src/screens/`."
+  }
+}

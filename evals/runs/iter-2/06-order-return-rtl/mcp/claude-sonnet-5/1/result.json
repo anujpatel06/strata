@@ -1,0 +1,91 @@
+{
+  "prompt": "06-order-return-rtl",
+  "tags": [
+    "rtl"
+  ],
+  "condition": "mcp",
+  "model": "claude-sonnet-5",
+  "repeat": 1,
+  "iteration": "2",
+  "source": {
+    "commit": "dffb1e071736157779c49d2ad358710a973f5a48",
+    "dirty": []
+  },
+  "startedAt": "2026-09-27T17:55:13.109Z",
+  "wallMs": 153301,
+  "exitCode": 0,
+  "timedOut": false,
+  "editedProtectedFiles": [],
+  "toolCalls": {
+    "Read": 3,
+    "mcp__strata__list_components": 1,
+    "mcp__strata__get_component": 9,
+    "mcp__strata__get_example": 4,
+    "mcp__strata__get_pattern": 1,
+    "Grep": 2,
+    "Write": 2,
+    "mcp__strata__get_tokens": 1,
+    "mcp__strata__audit_snippet": 2
+  },
+  "pathsOutsideWorkspace": [],
+  "touchedRepo": false,
+  "usedMemory": false,
+  "readPackages": true,
+  "cli": {
+    "isError": false,
+    "subtype": "success",
+    "turns": 26,
+    "durationMs": 151979,
+    "costUsd": 0.4201088,
+    "usage": {
+      "input_tokens": 32,
+      "cache_creation_input_tokens": 43124,
+      "cache_read_input_tokens": 556794,
+      "output_tokens": 13619,
+      "output_tokens_details": {
+        "thinking_tokens": 5885
+      },
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 43124,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 2,
+          "output_tokens": 141,
+          "cache_read_input_tokens": 52814,
+          "cache_creation_input_tokens": 795,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 795
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-sonnet-5": {
+        "inputTokens": 32,
+        "outputTokens": 13619,
+        "cacheReadInputTokens": 556794,
+        "cacheCreationInputTokens": 43124,
+        "webSearchRequests": 0,
+        "costUSD": 0.4201088,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 64000,
+        "thinkingTokens": 5885,
+        "canonicalModel": "claude-sonnet-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "finalMessage": "Both files score 100 with no findings. The screen is complete: it lists order items with quantity and price, lets the shopper select items and a reason each via a `CheckboxGroup`/`Select`, shows a live-updating refund total (`Amount`), and has a `Back to order` `Link` with an arrow plus a `Submit return` `Button`. All content uses Strata components and tokens only, with logical CSS properties for RTL support."
+  }
+}

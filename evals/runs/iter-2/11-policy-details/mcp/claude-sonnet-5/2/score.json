@@ -1,0 +1,95 @@
+{
+  "prompt": "11-policy-details",
+  "condition": "mcp",
+  "model": "claude-sonnet-5",
+  "repeat": 2,
+  "tags": [
+    "multi-brand"
+  ],
+  "scoredAt": "2026-09-27T19:26:37.186Z",
+  "built": true,
+  "agentFailed": false,
+  "editedProtectedFiles": [],
+  "leaks": [],
+  "contaminated": false,
+  "touchedRepo": false,
+  "toolCalls": {
+    "Read": 5,
+    "Glob": 6,
+    "mcp__strata__list_components": 1,
+    "mcp__strata__get_pattern": 2,
+    "mcp__strata__get_component": 12,
+    "mcp__strata__get_example": 6,
+    "Grep": 10,
+    "Write": 2,
+    "Edit": 2,
+    "mcp__strata__audit_snippet": 2
+  },
+  "readPackages": true,
+  "files": 2,
+  "lines": 364,
+  "importsStrata": true,
+  "brandNames": 0,
+  "typeErrors": 0,
+  "audit": {
+    "score": 100,
+    "findings": 0,
+    "opportunities": 71,
+    "byRule": {}
+  },
+  "views": [
+    {
+      "name": "light",
+      "query": "tenant=harbor&locale=en-GB",
+      "scheme": "light",
+      "width": 1280,
+      "pageErrors": [],
+      "mounted": true,
+      "textLength": 506,
+      "overflowPx": 0,
+      "axeNodes": 0,
+      "axeRules": {}
+    },
+    {
+      "name": "dark",
+      "query": "tenant=harbor&locale=en-GB",
+      "scheme": "dark",
+      "width": 1280,
+      "pageErrors": [],
+      "mounted": true,
+      "textLength": 506,
+      "overflowPx": 0,
+      "axeNodes": 0,
+      "axeRules": {}
+    },
+    {
+      "name": "narrow",
+      "query": "tenant=harbor&locale=en-GB",
+      "scheme": "light",
+      "width": 390,
+      "pageErrors": [],
+      "mounted": true,
+      "textLength": 506,
+      "overflowPx": 0,
+      "axeNodes": 0,
+      "axeRules": {}
+    },
+    {
+      "name": "brand:care",
+      "query": "tenant=care&locale=en-IN",
+      "scheme": "light",
+      "width": 1280,
+      "pageErrors": [],
+      "mounted": true,
+      "textLength": 506,
+      "overflowPx": 0,
+      "axeNodes": 0,
+      "axeRules": {}
+    }
+  ],
+  "builds": true,
+  "renders": true,
+  "axeNodes": 0,
+  "overflowPx": 0,
+  "onSystem": true
+}

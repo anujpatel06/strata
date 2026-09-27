@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 344" width="760" height="344" role="img" aria-labelledby="t d" font-family="ui-sans-serif, system-ui, sans-serif">
+<title id="t">Agent eval, iteration 2: claude-sonnet-5</title>
+<desc id="d">Runs fully on-system: No context 64%, MCP + AGENTS.md 88%. Runs with no axe violations: No context 92%, MCP + AGENTS.md 98%. Runs that pass typecheck: No context 88%, MCP + AGENTS.md 88%.</desc>
+<rect width="760" height="344" fill="#fdfdff"/>
+<text x="24" y="32" font-size="15" font-weight="600" fill="#1f1f21">Agent eval, iteration 2 · claude-sonnet-5</text>
+<rect x="24" y="46" width="10" height="10" rx="2" fill="#3280dc"/>
+<text x="40" y="55" font-size="12" fill="#5a5a5d">No context (50 runs)</text>
+<rect x="194" y="46" width="10" height="10" rx="2" fill="#ce5604"/>
+<text x="210" y="55" font-size="12" fill="#5a5a5d">MCP + AGENTS.md (50 runs)</text>
+<text x="24" y="78" font-size="12" font-weight="600" fill="#1f1f21">Runs fully on-system</text>
+<line x1="24" x2="244" y1="286" y2="286" stroke="#dfdfe2" stroke-width="1"/>
+<text x="244" y="282" font-size="10" text-anchor="end" fill="#5a5a5d">0%</text>
+<line x1="24" x2="244" y1="198" y2="198" stroke="#dfdfe2" stroke-width="1"/>
+<text x="244" y="194" font-size="10" text-anchor="end" fill="#5a5a5d">50%</text>
+<line x1="24" x2="244" y1="110" y2="110" stroke="#dfdfe2" stroke-width="1"/>
+<text x="244" y="106" font-size="10" text-anchor="end" fill="#5a5a5d">100%</text>
+<path d="M52,286 V177.36 Q52,173.36 56,173.36 H92 Q96,173.36 96,177.36 V286 Z" fill="#3280dc"/>
+<text x="74" y="167.36" font-size="12" font-weight="600" text-anchor="middle" fill="#1f1f21">64%</text>
+<text x="74" y="302" font-size="11" text-anchor="middle" fill="#5a5a5d">No context</text>
+<path d="M116,286 V135.12 Q116,131.12 120,131.12 H156 Q160,131.12 160,135.12 V286 Z" fill="#ce5604"/>
+<text x="138" y="125.12" font-size="12" font-weight="600" text-anchor="middle" fill="#1f1f21">88%</text>
+<text x="138" y="302" font-size="11" text-anchor="middle" fill="#5a5a5d">MCP</text>
+<line x1="24" x2="244" y1="286" y2="286" stroke="#5a5a5d" stroke-width="1"/>
+<text x="274" y="78" font-size="12" font-weight="600" fill="#1f1f21">Runs with no axe violations</text>
+<line x1="274" x2="494" y1="286" y2="286" stroke="#dfdfe2" stroke-width="1"/>
+<text x="494" y="282" font-size="10" text-anchor="end" fill="#5a5a5d">0%</text>
+<line x1="274" x2="494" y1="198" y2="198" stroke="#dfdfe2" stroke-width="1"/>
+<text x="494" y="194" font-size="10" text-anchor="end" fill="#5a5a5d">50%</text>
+<line x1="274" x2="494" y1="110" y2="110" stroke="#dfdfe2" stroke-width="1"/>
+<text x="494" y="106" font-size="10" text-anchor="end" fill="#5a5a5d">100%</text>
+<path d="M302,286 V128.07999999999998 Q302,124.07999999999998 306,124.07999999999998 H342 Q346,124.07999999999998 346,128.07999999999998 V286 Z" fill="#3280dc"/>
+<text x="324" y="118.07999999999998" font-size="12" font-weight="600" text-anchor="middle" fill="#1f1f21">92%</text>
+<text x="324" y="302" font-size="11" text-anchor="middle" fill="#5a5a5d">No context</text>
+<path d="M366,286 V117.52000000000001 Q366,113.52000000000001 370,113.52000000000001 H406 Q410,113.52000000000001 410,117.52000000000001 V286 Z" fill="#ce5604"/>
+<text x="388" y="107.52000000000001" font-size="12" font-weight="600" text-anchor="middle" fill="#1f1f21">98%</text>
+<text x="388" y="302" font-size="11" text-anchor="middle" fill="#5a5a5d">MCP</text>
+<line x1="274" x2="494" y1="286" y2="286" stroke="#5a5a5d" stroke-width="1"/>
+<text x="524" y="78" font-size="12" font-weight="600" fill="#1f1f21">Runs that pass typecheck</text>
+<line x1="524" x2="744" y1="286" y2="286" stroke="#dfdfe2" stroke-width="1"/>
+<text x="744" y="282" font-size="10" text-anchor="end" fill="#5a5a5d">0%</text>
+<line x1="524" x2="744" y1="198" y2="198" stroke="#dfdfe2" stroke-width="1"/>
+<text x="744" y="194" font-size="10" text-anchor="end" fill="#5a5a5d">50%</text>
+<line x1="524" x2="744" y1="110" y2="110" stroke="#dfdfe2" stroke-width="1"/>
+<text x="744" y="106" font-size="10" text-anchor="end" fill="#5a5a5d">100%</text>
+<path d="M552,286 V135.12 Q552,131.12 556,131.12 H592 Q596,131.12 596,135.12 V286 Z" fill="#3280dc"/>
+<text x="574" y="125.12" font-size="12" font-weight="600" text-anchor="middle" fill="#1f1f21">88%</text>
+<text x="574" y="302" font-size="11" text-anchor="middle" fill="#5a5a5d">No context</text>
+<path d="M616,286 V135.12 Q616,131.12 620,131.12 H656 Q660,131.12 660,135.12 V286 Z" fill="#ce5604"/>
+<text x="638" y="125.12" font-size="12" font-weight="600" text-anchor="middle" fill="#1f1f21">88%</text>
+<text x="638" y="302" font-size="11" text-anchor="middle" fill="#5a5a5d">MCP</text>
+<line x1="524" x2="744" y1="286" y2="286" stroke="#5a5a5d" stroke-width="1"/>
+<text x="24" y="332" font-size="10" fill="#5a5a5d">Share of all runs, floored. Source: evals/results.json.</text>
+</svg>

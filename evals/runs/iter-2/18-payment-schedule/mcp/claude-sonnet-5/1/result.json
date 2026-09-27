@@ -1,0 +1,94 @@
+{
+  "prompt": "18-payment-schedule",
+  "tags": [
+    "multi-brand"
+  ],
+  "condition": "mcp",
+  "model": "claude-sonnet-5",
+  "repeat": 1,
+  "iteration": "2",
+  "source": {
+    "commit": "dffb1e071736157779c49d2ad358710a973f5a48",
+    "dirty": []
+  },
+  "startedAt": "2026-09-27T18:40:12.014Z",
+  "wallMs": 430828,
+  "exitCode": 0,
+  "timedOut": false,
+  "editedProtectedFiles": [],
+  "toolCalls": {
+    "Read": 10,
+    "Glob": 8,
+    "mcp__strata__list_components": 1,
+    "mcp__strata__get_pattern": 2,
+    "mcp__strata__get_component": 15,
+    "mcp__strata__get_example": 10,
+    "mcp__strata__get_tokens": 3,
+    "Grep": 8,
+    "Write": 2,
+    "Edit": 6,
+    "mcp__strata__audit_snippet": 2,
+    "mcp__strata__find_token": 1
+  },
+  "pathsOutsideWorkspace": [],
+  "touchedRepo": false,
+  "usedMemory": false,
+  "readPackages": true,
+  "cli": {
+    "isError": false,
+    "subtype": "success",
+    "turns": 69,
+    "durationMs": 428939,
+    "costUsd": 1.4850326,
+    "usage": {
+      "input_tokens": 90,
+      "cache_creation_input_tokens": 110075,
+      "cache_read_input_tokens": 3258813,
+      "output_tokens": 39279,
+      "output_tokens_details": {
+        "thinking_tokens": 23207
+      },
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 110075,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 2,
+          "output_tokens": 1404,
+          "cache_read_input_tokens": 114481,
+          "cache_creation_input_tokens": 6079,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 6079
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-sonnet-5": {
+        "inputTokens": 90,
+        "outputTokens": 39279,
+        "cacheReadInputTokens": 3258813,
+        "cacheCreationInputTokens": 110075,
+        "webSearchRequests": 0,
+        "costUSD": 1.4850326,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 64000,
+        "thinkingTokens": 23207,
+        "canonicalModel": "claude-sonnet-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "finalMessage": "I've built the scheduled payments screen. Summary of what's in `src/screens/Screen.tsx`:\n\n- **Layout**: A page header (Eyebrow + heading + description) with a primary \"Schedule a payment\" button, and a `Card` containing a `DataTable` of six mock payments (payee with `Avatar`, repeat frequency as a `Badge`, next date, status `Badge`, amount via `Amount`, and a per-row `Menu` for actions).\n- **Pause**: reversible, toggled instantly from the row menu (with a toast), no confirmation needed.\n- **Edit**: opens a `Dialog` (triggered from the menu, controlled via state) to change amount, date and frequency.\n- **Cancel**: opens an `AlertDialog` with `tone=\"danger\"`, explicitly stating it can't be restored; on confirm the payment is removed from the list for good.\n- **Schedule a payment**: a `DialogTrigger` + `Dialog` with fields for payee, amount, date and frequency, inserted into the list in date order.\n- All six mock payments, and any added ones, use only Strata components and `var(--strata-*)` tokens (styles in `Screen.module.css`), logical CSS properties, and named controls (icon-only menu buttons get `aria-label`). Both files pass `audit_snippet` with a score of 100.\n\nI couldn't run the dev server per your instructions, so I wasn't able to visually verify it in a browser — worth a manual check across brands/schemes/RTL before shipping."
+  }
+}

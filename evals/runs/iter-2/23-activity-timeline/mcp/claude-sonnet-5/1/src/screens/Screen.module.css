@@ -1,0 +1,132 @@
+.page {
+  display: grid;
+  gap: var(--strata-space-6);
+  max-inline-size: 640px;
+  margin-inline: auto;
+  padding: var(--strata-space-8) var(--strata-space-4);
+}
+
+.pageHeader {
+  display: grid;
+  gap: var(--strata-space-1);
+}
+
+.title {
+  margin: 0;
+  font-family: var(--strata-font-heading);
+  font-size: var(--strata-font-size-xl);
+  font-weight: var(--strata-font-weight-semibold);
+  color: var(--strata-color-text-default);
+}
+
+.subtitle {
+  margin: 0;
+  font-size: var(--strata-font-size-sm);
+  color: var(--strata-color-text-subtle);
+}
+
+.timeline {
+  display: grid;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.event {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: var(--strata-space-4);
+}
+
+.marker {
+  display: grid;
+  grid-template-rows: auto 1fr;
+  justify-items: center;
+}
+
+.markerIcon {
+  display: grid;
+  place-items: center;
+  inline-size: var(--strata-space-8);
+  block-size: var(--strata-space-8);
+  border-radius: var(--strata-radius-pill);
+  flex-shrink: 0;
+}
+
+.markerIcon :global(svg) {
+  inline-size: var(--strata-space-4);
+  block-size: var(--strata-space-4);
+}
+
+.markerIconDone {
+  background: var(--strata-color-feedback-success-bg);
+  color: var(--strata-color-feedback-success-fg);
+}
+
+.markerIconCurrent {
+  background: var(--strata-color-feedback-warning-bg);
+  color: var(--strata-color-feedback-warning-fg);
+}
+
+.markerLine {
+  inline-size: 1px;
+  background: var(--strata-color-border-default);
+  margin-block: var(--strata-space-1);
+}
+
+.event:last-child .markerLine {
+  display: none;
+}
+
+.eventBody {
+  display: grid;
+  gap: var(--strata-space-1);
+  padding-block-end: var(--strata-space-6);
+}
+
+.eventHeadline {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--strata-space-2);
+}
+
+.eventTitle {
+  margin: 0;
+  font-size: var(--strata-font-size-md);
+  font-weight: var(--strata-font-weight-semibold);
+  color: var(--strata-color-text-default);
+}
+
+.eventMeta {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--strata-space-2);
+  font-size: var(--strata-font-size-sm);
+  color: var(--strata-color-text-subtle);
+}
+
+.metaSeparator {
+  color: var(--strata-color-border-strong);
+}
+
+.actor {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--strata-space-2);
+}
+
+.eventDescription {
+  margin: 0;
+  font-size: var(--strata-font-size-sm);
+  color: var(--strata-color-text-default);
+}
+
+.eventAction {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--strata-space-3);
+  margin-block-start: var(--strata-space-2);
+}

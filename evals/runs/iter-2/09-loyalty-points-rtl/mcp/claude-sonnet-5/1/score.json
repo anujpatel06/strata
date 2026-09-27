@@ -1,0 +1,112 @@
+{
+  "prompt": "09-loyalty-points-rtl",
+  "condition": "mcp",
+  "model": "claude-sonnet-5",
+  "repeat": 1,
+  "tags": [
+    "rtl",
+    "multi-brand"
+  ],
+  "scoredAt": "2026-09-27T19:25:51.500Z",
+  "built": true,
+  "agentFailed": false,
+  "editedProtectedFiles": [],
+  "leaks": [],
+  "contaminated": false,
+  "touchedRepo": false,
+  "toolCalls": {
+    "Read": 5,
+    "mcp__strata__list_components": 1,
+    "mcp__strata__get_component": 9,
+    "mcp__strata__get_pattern": 2,
+    "Glob": 8,
+    "Grep": 11,
+    "mcp__strata__get_example": 4,
+    "Write": 2,
+    "Edit": 4,
+    "mcp__strata__get_tokens": 2,
+    "mcp__strata__audit_snippet": 2
+  },
+  "readPackages": true,
+  "files": 2,
+  "lines": 259,
+  "importsStrata": true,
+  "brandNames": 0,
+  "typeErrors": 1,
+  "typeErrorSample": [
+    "src/screens/Screen.tsx(114,29): error TS2322: Type '\"success\" | \"neutral\"' is not assignable to type 'IconTileTint | undefined'."
+  ],
+  "audit": {
+    "score": 100,
+    "findings": 0,
+    "opportunities": 49,
+    "byRule": {}
+  },
+  "views": [
+    {
+      "name": "light",
+      "query": "tenant=qamar&locale=en-IN",
+      "scheme": "light",
+      "width": 1280,
+      "pageErrors": [],
+      "mounted": true,
+      "textLength": 599,
+      "overflowPx": 0,
+      "axeNodes": 0,
+      "axeRules": {}
+    },
+    {
+      "name": "dark",
+      "query": "tenant=qamar&locale=en-IN",
+      "scheme": "dark",
+      "width": 1280,
+      "pageErrors": [],
+      "mounted": true,
+      "textLength": 599,
+      "overflowPx": 0,
+      "axeNodes": 0,
+      "axeRules": {}
+    },
+    {
+      "name": "narrow",
+      "query": "tenant=qamar&locale=en-IN",
+      "scheme": "light",
+      "width": 390,
+      "pageErrors": [],
+      "mounted": true,
+      "textLength": 599,
+      "overflowPx": 0,
+      "axeNodes": 0,
+      "axeRules": {}
+    },
+    {
+      "name": "rtl",
+      "query": "tenant=qamar&locale=ar-AE",
+      "scheme": "light",
+      "width": 1280,
+      "pageErrors": [],
+      "mounted": true,
+      "textLength": 599,
+      "overflowPx": 0,
+      "axeNodes": 0,
+      "axeRules": {}
+    },
+    {
+      "name": "brand:vela",
+      "query": "tenant=vela&locale=en-IN",
+      "scheme": "light",
+      "width": 1280,
+      "pageErrors": [],
+      "mounted": true,
+      "textLength": 599,
+      "overflowPx": 0,
+      "axeNodes": 0,
+      "axeRules": {}
+    }
+  ],
+  "builds": true,
+  "renders": true,
+  "axeNodes": 0,
+  "overflowPx": 0,
+  "onSystem": false
+}

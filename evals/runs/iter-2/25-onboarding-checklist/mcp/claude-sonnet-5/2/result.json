@@ -1,0 +1,93 @@
+{
+  "prompt": "25-onboarding-checklist",
+  "tags": [
+    "multi-brand"
+  ],
+  "condition": "mcp",
+  "model": "claude-sonnet-5",
+  "repeat": 2,
+  "iteration": "2",
+  "source": {
+    "commit": "dffb1e071736157779c49d2ad358710a973f5a48",
+    "dirty": []
+  },
+  "startedAt": "2026-09-27T18:56:41.132Z",
+  "wallMs": 163095,
+  "exitCode": 0,
+  "timedOut": false,
+  "editedProtectedFiles": [],
+  "toolCalls": {
+    "Read": 7,
+    "Glob": 3,
+    "mcp__strata__list_components": 1,
+    "mcp__strata__get_component": 6,
+    "mcp__strata__get_example": 3,
+    "Grep": 2,
+    "mcp__strata__get_tokens": 5,
+    "Write": 2,
+    "Edit": 2,
+    "mcp__strata__find_token": 1,
+    "mcp__strata__audit_snippet": 2
+  },
+  "pathsOutsideWorkspace": [],
+  "touchedRepo": false,
+  "usedMemory": false,
+  "readPackages": true,
+  "cli": {
+    "isError": false,
+    "subtype": "success",
+    "turns": 35,
+    "durationMs": 161580,
+    "costUsd": 0.48724259999999997,
+    "usage": {
+      "input_tokens": 46,
+      "cache_creation_input_tokens": 45971,
+      "cache_read_input_tokens": 880983,
+      "output_tokens": 12707,
+      "output_tokens_details": {
+        "thinking_tokens": 4877
+      },
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 45971,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 2,
+          "output_tokens": 141,
+          "cache_read_input_tokens": 55839,
+          "cache_creation_input_tokens": 617,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 617
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-sonnet-5": {
+        "inputTokens": 46,
+        "outputTokens": 12707,
+        "cacheReadInputTokens": 880983,
+        "cacheCreationInputTokens": 45971,
+        "webSearchRequests": 0,
+        "costUSD": 0.48724259999999997,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 64000,
+        "thinkingTokens": 4877,
+        "canonicalModel": "claude-sonnet-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "finalMessage": "Both files score 100 on the Strata audit. The build isn't runnable by me, but the code is complete and correct against the design system: a `Card` with a `ProgressBar` (2/5 steps done), an `Accordion` of five `AccordionItem`s (status shown via `Badge`), a `Button` to start/complete each step, and the fifth step locked with a note naming which step unlocks it, all using tokens and logical properties only."
+  }
+}

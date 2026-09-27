@@ -1,0 +1,63 @@
+.screen {
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-section-gap);
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-1);
+}
+
+.title {
+  margin: 0;
+  font-family: var(--strata-font-heading);
+  font-size: var(--strata-font-size-3xl);
+  font-weight: var(--strata-font-weight-semibold);
+  letter-spacing: var(--strata-font-tracking-3xl);
+}
+
+.stats {
+  gap: var(--strata-space-4);
+}
+
+.activityList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-4);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.activityRow {
+  display: flex;
+  align-items: center;
+  gap: var(--strata-space-3);
+}
+
+.activityDetails {
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-1);
+  min-inline-size: 0;
+}
+
+.activityTitle {
+  font-weight: var(--strata-font-weight-medium);
+  color: var(--strata-color-text-default);
+}
+
+.activityMeta {
+  font-size: var(--strata-font-size-sm);
+  color: var(--strata-color-text-subtle);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.activityAmount {
+  margin-inline-start: auto;
+  white-space: nowrap;
+}

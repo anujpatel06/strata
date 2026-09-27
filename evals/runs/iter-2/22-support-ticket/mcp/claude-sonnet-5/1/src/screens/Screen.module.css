@@ -1,0 +1,45 @@
+.card {
+  max-inline-size: 640px;
+  margin-inline: auto;
+}
+
+.fields {
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-6);
+}
+
+.confirmation {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: var(--strata-space-3);
+  padding-block: var(--strata-space-8);
+}
+
+.confirmationIcon {
+  inline-size: var(--strata-space-10);
+  block-size: var(--strata-space-10);
+  color: var(--strata-color-feedback-success-fg);
+}
+
+.referenceBlock {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--strata-space-1);
+  margin-block-start: var(--strata-space-4);
+  padding: var(--strata-space-4) var(--strata-space-6);
+  background: var(--strata-color-surface-sunken);
+  border-radius: var(--strata-radius-container);
+}
+
+.referenceNumber {
+  margin: 0;
+  font-family: var(--strata-font-mono);
+  font-size: var(--strata-font-size-xl);
+  font-weight: var(--strata-font-weight-semibold);
+  color: var(--strata-color-text-default);
+  letter-spacing: var(--strata-font-tracking-xl);
+}

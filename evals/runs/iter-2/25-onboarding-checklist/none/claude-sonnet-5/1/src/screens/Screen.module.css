@@ -1,0 +1,85 @@
+.card {
+  max-inline-size: 720px;
+  margin-inline: auto;
+}
+
+.progress {
+  margin-block-end: var(--strata-space-6);
+}
+
+.progressCaption {
+  margin: var(--strata-space-1) 0 0;
+  color: var(--strata-color-text-subtle);
+  font-size: var(--strata-font-size-sm);
+}
+
+.accordion {
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-2);
+}
+
+.stepHeading {
+  display: flex;
+  align-items: center;
+  gap: var(--strata-space-3);
+  inline-size: 100%;
+  text-align: start;
+}
+
+.stepHeadingText {
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-1);
+  flex: 1 1 auto;
+  min-inline-size: 0;
+}
+
+.stepTitle {
+  font-weight: var(--strata-font-weight-semibold);
+  color: var(--strata-color-text-default);
+}
+
+.stepSummary {
+  font-size: var(--strata-font-size-sm);
+  color: var(--strata-color-text-subtle);
+}
+
+.stepBody {
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-3);
+  padding-inline-start: calc(var(--strata-space-8) + var(--strata-space-1));
+}
+
+.stepBodyIntro {
+  margin: 0;
+  font-weight: var(--strata-font-weight-medium);
+  color: var(--strata-color-text-default);
+}
+
+.detailList {
+  margin: 0;
+  padding-inline-start: var(--strata-space-5);
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-1);
+  color: var(--strata-color-text-subtle);
+}
+
+.lockedNote {
+  display: flex;
+  align-items: center;
+  gap: var(--strata-space-2);
+  margin: 0;
+  padding: var(--strata-space-2) var(--strata-space-3);
+  border-radius: var(--strata-radius-field);
+  background: var(--strata-color-surface-sunken);
+  color: var(--strata-color-text-subtle);
+  font-size: var(--strata-font-size-sm);
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+}

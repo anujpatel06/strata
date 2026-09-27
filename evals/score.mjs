@@ -36,6 +36,26 @@ const PLACEHOLDER = readFileSync(path.join(REPO, 'evals/template/src/screens/Scr
 const TENANT_WORDS = /(theme|tenant|brand)[\w-]*\s*(?:===?|!==?|=|:)\s*\{?\s*["'`](vela|harbor|qamar|care|house)["'`]/gi;
 const AXE_TAGS = ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa'];
 
+/**
+ * Paths a run asked for that really are outside its own space. run.mjs records every path it couldn't place inside
+ * the workspace; three kinds of those are the run's own and aren't leaks:
+ *   - a file that doesn't exist inside its workspace (the recorder couldn't resolve the path, so it looked foreign)
+ *   - the folder directly above its workspace, which holds nothing but the workspace
+ *   - Claude Code's own store for a long tool result of this same session
+ * Workspace folders have random names, so one run's paths carry one id. A second id means another run's folder.
+ */
+function leaks(result) {
+  const paths = result.pathsOutsideWorkspace ?? [];
+  const idOf = (p) => /(?:\/|-)se-([0-9a-f]{12})(?:\/|-|$)/.exec(p)?.[1];
+  const own = result.workspaceId ?? [...new Set(paths.map(idOf).filter(Boolean))].find((id, _, all) => all.length === 1);
+  return paths.filter((p) => {
+    const id = idOf(p);
+    if (!id || id !== own) return true;
+    if (p.includes(`${path.sep}.claude${path.sep}projects${path.sep}`)) return !p.includes(`${path.sep}tool-results${path.sep}`);
+    return false;
+  });
+}
+
 function runDirs(dir) {
   if (!existsSync(dir)) return [];
   if (existsSync(path.join(dir, 'result.json'))) return [dir];
@@ -97,8 +117,9 @@ async function scoreRun(dir, browser) {
   score.built = existsSync(screenFile) && readFileSync(screenFile, 'utf8').trim() !== PLACEHOLDER.trim();
   score.agentFailed = result.exitCode !== 0 || result.timedOut || result.cli?.isError === true;
   score.editedProtectedFiles = result.editedProtectedFiles ?? [];
-  // A run that read outside its workspace and the installed packages can't be compared with the others.
-  score.contaminated = (result.pathsOutsideWorkspace ?? []).length > 0;
+  // A run that read outside its workspace can't be compared with the others.
+  score.leaks = leaks(result);
+  score.contaminated = score.leaks.length > 0;
   score.touchedRepo = result.touchedRepo === true;
   score.toolCalls = result.toolCalls ?? {};
   score.readPackages = result.readPackages ?? null;

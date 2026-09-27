@@ -41,12 +41,16 @@ Every number comes from a script. Run the command to reproduce it.
 | Solver adjustments per brand | median 4, max 7 | `pnpm test:themes` |
 | Components / blocks | 53 / 7 | `pnpm check:meta`; blocks listed in `apps/docs/blocks/blocks.json` |
 | Component maturity | 18 alpha · 35 beta · 0 stable | `pnpm check:meta` |
-| Tests passing | 435 components · 219 engine · 245 icons · 8 codemods | `pnpm test` |
+| Tests passing | 443 components · 224 engine · 245 icons · 143 MCP server · 74 auditor · 8 codemods | `pnpm test` |
 | Docs routes swept with axe (light + dark) | 105 × 2, 0 violations | `node scripts/axe-sweep.mjs` (with the built docs site running) |
 | Tenants rendering from one codebase | 5 (one Arabic RTL), including the house theme | `pnpm tokens` |
 | Deprecations shipped with a codemod | 1 | `GOVERNANCE.md` §5; `pnpm --filter @strata/codemods test` |
+| Drift score of the docs app | 98.8, with 60 findings | `pnpm drift apps/docs` |
+| Brand colour kept exactly (primary, 1,000 random brands) | 89.2% light, 80.0% dark | `pnpm test:themes` |
+| Agent eval, fully on-system: no context → with the MCP server | 64% → 88% (50 runs each, `claude-sonnet-5`) | `evals/README.md` |
+| Agent eval, passes typecheck: no context → with the MCP server | 88% → 88% | `evals/README.md` |
 
-Measured 2026-09-27. Known failures on that date, both older than the governance work: the production docs build logs a hydration error on 20 component pages, and `pnpm registry` (internal only) fails on 7 blocks.
+Measured 2026-09-28. The agent eval's first attempt was invalid and is kept on record; its numbers aren't quoted here.
 <!-- numbers:end -->
 
 ## Quick start
@@ -71,6 +75,9 @@ packages/react/          components on React Aria, one meta.json each
 packages/icons/          Strata's own icon set
 packages/tokens/         built tokens for every tenant: CSS, DTCG, Figma
 packages/codemods/       one codemod per breaking change
+packages/audit/          drift auditor: finds off-system code and suggests the fix
+packages/mcp/            MCP server for AI coding agents, read-only
+evals/                   agent eval: prompts, harness, runs and results
 apps/docs/               docs site (Next.js): components, blocks, themes, governance
 apps/generator/          Brand Generator (Vite + React)
 apps/playground/         every example per tenant, scheme, direction and density
@@ -81,7 +88,7 @@ docs/log.md              session log: changed / decided / next
 GOVERNANCE.md            who decides, how a change gets in, deprecation policy
 ```
 
-Coming: `packages/mcp`, `packages/audit`, `AGENTS.md`, `evals/` (Phase 5) · server-driven UI schema, native tokens, Hindi tenant (Phase 5a) · npm release and `/story` (Phase 6).
+Coming: server-driven UI schema, native tokens, Hindi tenant (Phase 5a) · npm release and `/story` (Phase 6).
 
 ## Roadmap
 
@@ -89,8 +96,8 @@ Coming: `packages/mcp`, `packages/audit`, `AGENTS.md`, `evals/` (Phase 5) · ser
 - [x] **1 · Tokens + engine + generator v0** — tiers, tenants, contrast solver + fuzz
 - [x] **2 · Components** — components on React Aria, meta, accessibility, RTL, density
 - [x] **3 · Docs site and blocks** — the docs site and its blocks stand in for the reference product and Storybook the brief planned
-- [ ] **4 · Governance** — GOVERNANCE, RFC flow, Changesets, one real deprecation + codemod *(built, waiting for Anuj's review)*
-- [ ] **5 · MCP + audit + eval** — MCP server, drift auditor, CI gate, per-model agent eval
+- [x] **4 · Governance** — GOVERNANCE, RFC flow, Changesets, one real deprecation + codemod
+- [ ] **5 · MCP + audit + eval** — MCP server, drift auditor, CI gate, per-model agent eval *(built and run, waiting for Anuj's review)*
 - [ ] **5a · Mobile reach** — server-driven UI schema, native token export, Hindi tenant
 - [ ] **6 · Publish** — npm, docs site, `/story` page
 

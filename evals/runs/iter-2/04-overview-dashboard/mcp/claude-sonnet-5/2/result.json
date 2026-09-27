@@ -1,0 +1,92 @@
+{
+  "prompt": "04-overview-dashboard",
+  "tags": [
+    "multi-brand"
+  ],
+  "condition": "mcp",
+  "model": "claude-sonnet-5",
+  "repeat": 2,
+  "iteration": "2",
+  "source": {
+    "commit": "dffb1e071736157779c49d2ad358710a973f5a48",
+    "dirty": []
+  },
+  "startedAt": "2026-09-27T19:19:01.926Z",
+  "wallMs": 219560,
+  "exitCode": 0,
+  "timedOut": false,
+  "editedProtectedFiles": [],
+  "toolCalls": {
+    "Read": 5,
+    "mcp__strata__list_components": 1,
+    "mcp__strata__get_pattern": 4,
+    "mcp__strata__get_component": 8,
+    "mcp__strata__get_example": 4,
+    "Glob": 4,
+    "Grep": 5,
+    "Write": 2,
+    "mcp__strata__get_tokens": 3,
+    "mcp__strata__audit_snippet": 2
+  },
+  "pathsOutsideWorkspace": [],
+  "touchedRepo": false,
+  "usedMemory": false,
+  "readPackages": true,
+  "cli": {
+    "isError": false,
+    "subtype": "success",
+    "turns": 39,
+    "durationMs": 218117,
+    "costUsd": 0.6250246,
+    "usage": {
+      "input_tokens": 52,
+      "cache_creation_input_tokens": 59243,
+      "cache_read_input_tokens": 1148343,
+      "output_tokens": 15828,
+      "output_tokens_details": {
+        "thinking_tokens": 7142
+      },
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 59243,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 2,
+          "output_tokens": 317,
+          "cache_read_input_tokens": 68981,
+          "cache_creation_input_tokens": 747,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 747
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-sonnet-5": {
+        "inputTokens": 52,
+        "outputTokens": 15828,
+        "cacheReadInputTokens": 1148343,
+        "cacheCreationInputTokens": 59243,
+        "webSearchRequests": 0,
+        "costUSD": 0.6250246,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 64000,
+        "thinkingTokens": 7142,
+        "canonicalModel": "claude-sonnet-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "finalMessage": "Both files score 100 with no findings. I can't run the app to visually verify, so I'll stop here as instructed.\n\n**Summary:** Built `src/screens/Screen.tsx` with mock data for an account overview: a `StatTileGroup` of four `StatTile`s (Total balance and Monthly spending up, Savings rate and Open disputes down, each with `positiveIsGood` set correctly and a \"vs last month\" delta label), a `warning` `Alert` banner about a card expiring next month with an \"Order replacement\" action, and a `Card` with the five most recent activities (icon tile, title/meta, status `Badge`, and signed amount) in `src/screens/Screen.module.css`, styled entirely with `--strata-*` tokens and logical properties. Both files pass `audit_snippet` with a score of 100. I couldn't launch the dev server to view it in a browser per the task constraints, so please verify visually across brands/schemes/locale before shipping."
+  }
+}

@@ -1,0 +1,117 @@
+.screen {
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-6);
+  max-inline-size: 640px;
+  margin-inline: auto;
+}
+
+.pageHeader {
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-1);
+}
+
+.pageTitle {
+  margin: 0;
+  font-family: var(--strata-font-heading);
+  font-size: var(--strata-font-size-3xl);
+  font-weight: var(--strata-font-weight-bold);
+  letter-spacing: var(--strata-font-tracking-3xl);
+  color: var(--strata-color-text-default);
+}
+
+.balanceHeaderRow {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--strata-space-4);
+  inline-size: 100%;
+}
+
+.balanceContent {
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-5);
+}
+
+.balanceRow {
+  display: flex;
+  align-items: center;
+  gap: var(--strata-space-4);
+}
+
+.balanceValue {
+  margin: 0;
+  font-family: var(--strata-font-heading);
+  font-size: var(--strata-font-size-4xl);
+  font-weight: var(--strata-font-weight-bold);
+  letter-spacing: var(--strata-font-tracking-4xl);
+  color: var(--strata-color-text-default);
+  font-variant-numeric: tabular-nums;
+}
+
+.balanceUnit {
+  font-size: var(--strata-font-size-lg);
+  font-weight: var(--strata-font-weight-medium);
+  color: var(--strata-color-text-subtle);
+}
+
+.balanceCaption {
+  margin: var(--strata-space-1) 0 0;
+  font-size: var(--strata-font-size-sm);
+  color: var(--strata-color-text-subtle);
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-1);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.listItem {
+  display: flex;
+  align-items: center;
+  gap: var(--strata-space-3);
+  padding-block: var(--strata-space-3);
+}
+
+.listItem + .listItem {
+  border-block-start: 1px solid var(--strata-color-border-subtle);
+}
+
+.listItemBody {
+  flex: 1;
+  min-inline-size: 0;
+}
+
+.listItemDescription {
+  margin: 0;
+  font-size: var(--strata-font-size-md);
+  font-weight: var(--strata-font-weight-medium);
+  color: var(--strata-color-text-default);
+}
+
+.listItemDate {
+  margin: var(--strata-space-1) 0 0;
+  font-size: var(--strata-font-size-xs);
+  color: var(--strata-color-text-subtle);
+}
+
+.amount {
+  flex-shrink: 0;
+  font-size: var(--strata-font-size-md);
+  font-weight: var(--strata-font-weight-semibold);
+  font-variant-numeric: tabular-nums;
+}
+
+.amountEarned {
+  color: var(--strata-color-feedback-success-fg);
+}
+
+.amountSpent {
+  color: var(--strata-color-text-subtle);
+}

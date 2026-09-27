@@ -98,9 +98,9 @@ const GRID = '#dfdfe2';
 const SURFACE = '#fdfdff';
 const SERIES = ['#3280dc', '#ce5604', '#3280dc', '#ce5604'];
 const PANELS = [
-  { key: 'auditMedian', title: 'Median audit score', unit: '', max: 100 },
   { key: 'onSystemPercent', title: 'Runs fully on-system', unit: '%', max: 100 },
   { key: 'axeCleanPercent', title: 'Runs with no axe violations', unit: '%', max: 100 },
+  { key: 'typecheckPassPercent', title: 'Runs that pass typecheck', unit: '%', max: 100 },
 ];
 function chart(model) {
   const W = 760;
@@ -149,7 +149,7 @@ function chart(model) {
     });
     out.push(`<line x1="${x0}" x2="${x0 + panelW}" y1="${base}" y2="${base}" stroke="${SUBTLE}" stroke-width="1"/>`);
   });
-  out.push(`<text x="24" y="${H - 12}" font-size="10" fill="${SUBTLE}">Rates are out of all runs. The audit median is over the screens that were built. Source: evals/results.json.</text>`);
+  out.push(`<text x="24" y="${H - 12}" font-size="10" fill="${SUBTLE}">Share of all runs, floored. Source: evals/results.json.</text>`);
   out.push('</svg>');
   return out.join('\n');
 }
@@ -207,10 +207,12 @@ for (const model of models) {
   if (rules.length === 0) md.push(`| none | ${conditions.map(() => 0).join(' | ')} |`);
   md.push('');
 }
+const notesFile = path.join(root, 'NOTES.md');
+if (existsSync(notesFile)) md.push('## Notes on this iteration', '', `From \`runs/iter-${iteration}/NOTES.md\`, written by hand.`, '', readFileSync(notesFile, 'utf8').replace(/^# .*\n+/, '').trim(), '');
 md.push('## Runs that failed or leaked', '');
 const leaked = runs.filter((r) => r.score.contaminated);
 md.push(leaked.length === 0 ? 'No run read a file outside its workspace and the installed packages.' : `${leaked.length} run(s) read outside their workspace and the installed packages:`, '');
-for (const r of leaked) md.push(`- ${r.result.prompt} · ${CONDITIONS[r.result.condition].label} · #${r.result.repeat}: ${r.result.pathsOutsideWorkspace.map((p) => `\`${p.replace(/^.*\/(\.claude|T)\//, '…/$1/')}\``).join(', ')}`);
+for (const r of leaked) md.push(`- ${r.result.prompt} · ${CONDITIONS[r.result.condition].label} · #${r.result.repeat}: ${r.score.leaks.map((p) => `\`${p.replace(/^.*\/(\.claude|T)\//, '…/$1/')}\``).join(', ')}`);
 if (leaked.length) md.push('');
 const failed = runs.filter((r) => r.score.agentFailed || !r.score.built || !r.score.renders);
 if (failed.length === 0) md.push('None.', '');

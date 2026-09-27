@@ -1,0 +1,87 @@
+{
+  "prompt": "25-onboarding-checklist",
+  "tags": [
+    "multi-brand"
+  ],
+  "condition": "none",
+  "model": "claude-sonnet-5",
+  "repeat": 2,
+  "iteration": "2",
+  "source": {
+    "commit": "dffb1e071736157779c49d2ad358710a973f5a48",
+    "dirty": []
+  },
+  "startedAt": "2026-09-27T18:56:04.034Z",
+  "wallMs": 254691,
+  "exitCode": 0,
+  "timedOut": false,
+  "editedProtectedFiles": [],
+  "toolCalls": {
+    "Read": 26,
+    "Glob": 6,
+    "Grep": 7,
+    "Write": 2,
+    "Edit": 1
+  },
+  "pathsOutsideWorkspace": [],
+  "touchedRepo": false,
+  "usedMemory": false,
+  "readPackages": true,
+  "cli": {
+    "isError": false,
+    "subtype": "success",
+    "turns": 43,
+    "durationMs": 253383,
+    "costUsd": 0.6694304,
+    "usage": {
+      "input_tokens": 48,
+      "cache_creation_input_tokens": 66709,
+      "cache_read_input_tokens": 913892,
+      "output_tokens": 21972,
+      "output_tokens_details": {
+        "thinking_tokens": 12396
+      },
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 66709,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 2,
+          "output_tokens": 242,
+          "cache_read_input_tokens": 70468,
+          "cache_creation_input_tokens": 4707,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 4707
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-sonnet-5": {
+        "inputTokens": 48,
+        "outputTokens": 21972,
+        "cacheReadInputTokens": 913892,
+        "cacheCreationInputTokens": 66709,
+        "webSearchRequests": 0,
+        "costUSD": 0.6694304,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 64000,
+        "thinkingTokens": 12396,
+        "canonicalModel": "claude-sonnet-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "finalMessage": "This looks solid. The screen builds a `Card`-based onboarding checklist with an `Accordion` of five steps (2 done, 2 open, 1 locked behind \"Invite your team\"), an overall `ProgressBar` plus a \"2 of 5\" caption, status `Badge`s and tinted `IconTile`s per row, and a `Button` per step (\"Review\" for done, \"Start\" for open/locked, disabled + an explicit locked note for the gated step). Styling uses logical CSS properties and Strata tokens so it holds up across brands, schemes and the RTL locale.\n\nFiles written: `src/screens/Screen.tsx` and `src/screens/Screen.module.css`, using only mock data in-file. No other files were touched."
+  }
+}

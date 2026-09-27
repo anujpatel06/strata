@@ -1,0 +1,93 @@
+{
+  "prompt": "16-checkout-summary-rtl",
+  "tags": [
+    "rtl"
+  ],
+  "condition": "mcp",
+  "model": "claude-sonnet-5",
+  "repeat": 2,
+  "iteration": "2",
+  "source": {
+    "commit": "dffb1e071736157779c49d2ad358710a973f5a48",
+    "dirty": []
+  },
+  "startedAt": "2026-09-27T18:35:43.317Z",
+  "wallMs": 276737,
+  "exitCode": 0,
+  "timedOut": false,
+  "editedProtectedFiles": [],
+  "toolCalls": {
+    "Read": 5,
+    "mcp__strata__list_components": 1,
+    "mcp__strata__get_component": 10,
+    "mcp__strata__get_pattern": 1,
+    "mcp__strata__get_example": 5,
+    "Glob": 4,
+    "mcp__strata__get_tokens": 4,
+    "Write": 2,
+    "Grep": 16,
+    "Edit": 4,
+    "mcp__strata__audit_snippet": 2
+  },
+  "pathsOutsideWorkspace": [],
+  "touchedRepo": false,
+  "usedMemory": false,
+  "readPackages": true,
+  "cli": {
+    "isError": false,
+    "subtype": "success",
+    "turns": 55,
+    "durationMs": 274963,
+    "costUsd": 0.8178511999999999,
+    "usage": {
+      "input_tokens": 54,
+      "cache_creation_input_tokens": 75498,
+      "cache_read_input_tokens": 1354656,
+      "output_tokens": 24482,
+      "output_tokens_details": {
+        "thinking_tokens": 9725
+      },
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 75498,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 2,
+          "output_tokens": 393,
+          "cache_read_input_tokens": 84838,
+          "cache_creation_input_tokens": 1145,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 1145
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-sonnet-5": {
+        "inputTokens": 54,
+        "outputTokens": 24482,
+        "cacheReadInputTokens": 1354656,
+        "cacheCreationInputTokens": 75498,
+        "webSearchRequests": 0,
+        "costUSD": 0.8178511999999999,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 64000,
+        "thinkingTokens": 9725,
+        "canonicalModel": "claude-sonnet-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "finalMessage": "Both files score 100 with no findings. The screen is complete:\n\n- **Delivery address** card with a \"Change\" link (`Link`, `CardAction`)\n- **Delivery slot** as a `RadioGroup` of three card options (Today 4–6pm / Today 6–8pm / Tomorrow 8–10am)\n- **Items** list, each with an `Amount` price and a quantity stepper built from `Button` (icon-sized outline buttons) since Strata has no dedicated stepper or minus icon — flagged in a code comment\n- **Promo code** `TextField` with a ticket icon prefix and an \"Apply\" button, wired to a mock `FRESH10` code with validation feedback\n- **Price breakdown** (subtotal, delivery, conditional discount, total) using `Amount`, plus a `Separator`\n- **Place order** primary `Button` as the form's submit action\n\nAll copy is in English, no brand/tenant conditionals, only `@strata/react` components and `var(--strata-*)` tokens, and logical CSS properties throughout. I couldn't run the dev server per the task constraints, so this hasn't been visually verified in a browser — only audited against Strata's linting rules."
+  }
+}

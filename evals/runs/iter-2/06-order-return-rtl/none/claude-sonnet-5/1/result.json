@@ -1,0 +1,87 @@
+{
+  "prompt": "06-order-return-rtl",
+  "tags": [
+    "rtl"
+  ],
+  "condition": "none",
+  "model": "claude-sonnet-5",
+  "repeat": 1,
+  "iteration": "2",
+  "source": {
+    "commit": "dffb1e071736157779c49d2ad358710a973f5a48",
+    "dirty": []
+  },
+  "startedAt": "2026-09-27T17:54:23.157Z",
+  "wallMs": 330951,
+  "exitCode": 0,
+  "timedOut": false,
+  "editedProtectedFiles": [],
+  "toolCalls": {
+    "Read": 35,
+    "Glob": 15,
+    "Grep": 12,
+    "Write": 2,
+    "Edit": 6
+  },
+  "pathsOutsideWorkspace": [],
+  "touchedRepo": false,
+  "usedMemory": false,
+  "readPackages": true,
+  "cli": {
+    "isError": false,
+    "subtype": "success",
+    "turns": 71,
+    "durationMs": 329703,
+    "costUsd": 1.1154506,
+    "usage": {
+      "input_tokens": 90,
+      "cache_creation_input_tokens": 88892,
+      "cache_read_input_tokens": 2531463,
+      "output_tokens": 25341,
+      "output_tokens_details": {
+        "thinking_tokens": 11945
+      },
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 88892,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 2,
+          "output_tokens": 91,
+          "cache_read_input_tokens": 92347,
+          "cache_creation_input_tokens": 5011,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 5011
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-sonnet-5": {
+        "inputTokens": 90,
+        "outputTokens": 25341,
+        "cacheReadInputTokens": 2531463,
+        "cacheCreationInputTokens": 88892,
+        "webSearchRequests": 0,
+        "costUSD": 1.1154506,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 64000,
+        "thinkingTokens": 11945,
+        "canonicalModel": "claude-sonnet-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "finalMessage": "This looks complete. The screen is built with mock order data, per-item checkboxes with a reason `Select` that appears once selected, a live-updating refund total, a Back link with a flipping arrow icon for RTL, and a Submit action that's disabled until every selected item has a reason."
+  }
+}

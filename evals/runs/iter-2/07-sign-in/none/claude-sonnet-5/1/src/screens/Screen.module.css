@@ -1,0 +1,67 @@
+.page {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding-block-start: var(--strata-space-12);
+}
+
+.card {
+  inline-size: 100%;
+  max-inline-size: 420px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-5);
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--strata-space-3);
+}
+
+.forgotLink {
+  flex: none;
+}
+
+.submit {
+  inline-size: 100%;
+}
+
+.toggleVisibility {
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: var(--strata-space-6);
+  block-size: var(--strata-space-6);
+  margin: 0;
+  padding: 0;
+  border: none;
+  border-radius: var(--strata-radius-badge);
+  background: transparent;
+  color: var(--strata-color-text-subtle);
+  cursor: pointer;
+}
+
+.toggleVisibility > svg {
+  inline-size: var(--strata-space-4);
+  block-size: var(--strata-space-4);
+}
+
+.toggleVisibility[data-hovered] {
+  background-color: color-mix(in oklab, var(--strata-color-text-default) 6%, transparent);
+  color: var(--strata-color-text-default);
+}
+
+.toggleVisibility[data-pressed] {
+  background-color: color-mix(in oklab, var(--strata-color-text-default) 10%, transparent);
+}
+
+.toggleVisibility[data-focus-visible] {
+  outline: 2px solid var(--strata-color-focus-ring);
+  outline-offset: 2px;
+}

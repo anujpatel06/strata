@@ -1,0 +1,147 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  max-inline-size: 640px;
+  margin-inline: auto;
+}
+
+.backLink {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--strata-space-1);
+  align-self: flex-start;
+  margin-block-end: var(--strata-space-5);
+}
+
+.backIcon {
+  flex-shrink: 0;
+}
+
+.backIcon:dir(rtl) {
+  transform: scaleX(-1);
+}
+
+.header {
+  margin-block-end: var(--strata-space-5);
+}
+
+.title {
+  font-family: var(--strata-font-heading);
+  font-size: var(--strata-font-size-3xl);
+  font-weight: var(--strata-font-weight-bold);
+  margin: 0 0 var(--strata-space-1);
+}
+
+.subtitle {
+  color: var(--strata-color-text-subtle);
+  margin: 0;
+}
+
+.alert {
+  margin-block-end: var(--strata-space-5);
+}
+
+.fieldset {
+  border: none;
+  margin: 0;
+  padding: 0;
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.itemList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.itemRow {
+  padding-block: var(--strata-space-4);
+}
+
+.itemRow:not(:last-child) {
+  border-block-end: 1px solid var(--strata-color-border-subtle);
+}
+
+.itemMain {
+  display: flex;
+  align-items: center;
+  gap: var(--strata-space-3);
+}
+
+.checkbox {
+  flex: 1;
+  min-inline-size: 0;
+}
+
+.itemText {
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-1);
+}
+
+.itemName {
+  display: block;
+  font-weight: var(--strata-font-weight-medium);
+}
+
+.itemDetail {
+  display: block;
+  font-size: var(--strata-font-size-sm);
+  color: var(--strata-color-text-subtle);
+}
+
+.itemPrice {
+  flex-shrink: 0;
+  font-weight: var(--strata-font-weight-medium);
+}
+
+.reasonRow {
+  margin-inline-start: calc(32px + var(--strata-space-3) + var(--strata-space-8));
+  margin-block-start: var(--strata-space-3);
+  max-inline-size: 320px;
+}
+
+.reasonSelect {
+  inline-size: 100%;
+}
+
+.summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--strata-space-4);
+  flex-wrap: wrap;
+}
+
+.summaryLabel {
+  display: flex;
+  flex-direction: column;
+}
+
+.summaryHint {
+  font-size: var(--strata-font-size-sm);
+  color: var(--strata-color-text-subtle);
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-block-start: var(--strata-space-5);
+}
+
+.submitButton {
+  min-inline-size: 220px;
+}

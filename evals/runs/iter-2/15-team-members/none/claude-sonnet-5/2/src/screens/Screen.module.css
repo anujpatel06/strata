@@ -1,0 +1,81 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-6);
+}
+
+.header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--strata-space-4);
+  flex-wrap: wrap;
+}
+
+.title {
+  margin: 0;
+  font-family: var(--strata-font-heading);
+  font-size: var(--strata-font-size-2xl);
+  font-weight: var(--strata-font-weight-semibold);
+  letter-spacing: var(--strata-font-tracking-2xl);
+  color: var(--strata-color-text-default);
+}
+
+.description {
+  margin: var(--strata-space-1) 0 0;
+  color: var(--strata-color-text-subtle);
+  font-size: var(--strata-font-size-md);
+}
+
+.memberCell {
+  display: flex;
+  align-items: center;
+  gap: var(--strata-space-3);
+}
+
+.memberText {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-inline-size: 0;
+}
+
+.memberName {
+  font-weight: var(--strata-font-weight-medium);
+  color: var(--strata-color-text-default);
+}
+
+.memberEmail {
+  font-size: var(--strata-font-size-sm);
+  color: var(--strata-color-text-subtle);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.lastActive {
+  color: var(--strata-color-text-subtle);
+  font-size: var(--strata-font-size-sm);
+}
+
+.srOnly {
+  position: absolute;
+  inline-size: 1px;
+  block-size: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+.inviteForm {
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-4);
+}
+
+.inviteFormActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--strata-space-2);
+  margin-top: var(--strata-space-2);
+}

@@ -1,0 +1,46 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-6);
+  max-inline-size: 640px;
+  margin-inline: auto;
+  padding-block: var(--strata-space-8);
+  padding-inline: var(--strata-space-4);
+}
+
+.accordion {
+  display: block;
+}
+
+.stepTitle {
+  display: flex;
+  align-items: center;
+  gap: var(--strata-space-3);
+  inline-size: 100%;
+}
+
+.stepTitleText {
+  flex: 1;
+  text-align: start;
+}
+
+.stepBody {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--strata-space-3);
+}
+
+.stepDescription {
+  margin: 0;
+  color: var(--strata-color-text-subtle);
+}
+
+.lockedNote {
+  display: flex;
+  align-items: center;
+  gap: var(--strata-space-2);
+  margin: 0;
+  color: var(--strata-color-text-subtle);
+  font-size: var(--strata-font-size-sm);
+}

@@ -1,0 +1,57 @@
+.screen {
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-6);
+  max-width: 1040px;
+  margin: 0 auto;
+  padding: var(--strata-space-8) var(--strata-space-6);
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-1);
+}
+
+.title {
+  font-family: var(--strata-font-heading);
+  font-size: var(--strata-font-size-2xl);
+  font-weight: var(--strata-font-weight-semibold);
+  color: var(--strata-color-text-default);
+  margin: 0;
+}
+
+.subtitle {
+  font-size: var(--strata-font-size-md);
+  color: var(--strata-color-text-subtle);
+  margin: 0;
+}
+
+.notice {
+  align-self: stretch;
+}
+
+.toolbar {
+  align-items: center;
+}
+
+.selectionSummary {
+  display: flex;
+  align-items: center;
+}
+
+.selectionHint {
+  font-size: var(--strata-font-size-sm);
+  color: var(--strata-color-text-subtle);
+}
+
+.toolbarActions {
+  display: flex;
+  gap: var(--strata-space-3);
+}
+
+.empty {
+  padding: var(--strata-space-8);
+  text-align: center;
+  color: var(--strata-color-text-subtle);
+}

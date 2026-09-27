@@ -1,0 +1,87 @@
+{
+  "prompt": "16-checkout-summary-rtl",
+  "tags": [
+    "rtl"
+  ],
+  "condition": "none",
+  "model": "claude-sonnet-5",
+  "repeat": 1,
+  "iteration": "2",
+  "source": {
+    "commit": "dffb1e071736157779c49d2ad358710a973f5a48",
+    "dirty": []
+  },
+  "startedAt": "2026-09-27T18:33:35.388Z",
+  "wallMs": 392876,
+  "exitCode": 0,
+  "timedOut": false,
+  "editedProtectedFiles": [],
+  "toolCalls": {
+    "Read": 39,
+    "Glob": 8,
+    "Grep": 21,
+    "Write": 2,
+    "Edit": 7
+  },
+  "pathsOutsideWorkspace": [],
+  "touchedRepo": false,
+  "usedMemory": false,
+  "readPackages": true,
+  "cli": {
+    "isError": false,
+    "subtype": "success",
+    "turns": 78,
+    "durationMs": 391543,
+    "costUsd": 1.8760496,
+    "usage": {
+      "input_tokens": 112,
+      "cache_creation_input_tokens": 137057,
+      "cache_read_input_tokens": 4981638,
+      "output_tokens": 33127,
+      "output_tokens_details": {
+        "thinking_tokens": 14549
+      },
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 137057,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 2,
+          "output_tokens": 236,
+          "cache_read_input_tokens": 144951,
+          "cache_creation_input_tokens": 572,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 572
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-sonnet-5": {
+        "inputTokens": 112,
+        "outputTokens": 33127,
+        "cacheReadInputTokens": 4981638,
+        "cacheCreationInputTokens": 137057,
+        "webSearchRequests": 0,
+        "costUSD": 1.8760496,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 64000,
+        "thinkingTokens": 14549,
+        "canonicalModel": "claude-sonnet-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "finalMessage": "The checkout screen is complete: `src/screens/Screen.tsx` and `src/screens/Screen.module.css`.\n\nIt includes a delivery address card with a \"Change\" link, a delivery slot picker (three card-style radio options with dynamic free/fee copy), an items list with working quantity steppers that recompute the subtotal live, a promo code field (with an already-applied \"FRESH50\" tag, removable, plus validation for unknown codes), and an order summary sidebar with subtotal/delivery/discount/total and a \"Place order\" button. All copy is in English; layout uses logical CSS properties and locale-aware `Intl`/`Amount` formatting so it holds up under the Arabic (RTL) locale too."
+  }
+}

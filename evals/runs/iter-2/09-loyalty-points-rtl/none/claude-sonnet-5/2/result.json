@@ -1,0 +1,87 @@
+{
+  "prompt": "09-loyalty-points-rtl",
+  "tags": [
+    "rtl",
+    "multi-brand"
+  ],
+  "condition": "none",
+  "model": "claude-sonnet-5",
+  "repeat": 2,
+  "iteration": "2",
+  "source": {
+    "commit": "dffb1e071736157779c49d2ad358710a973f5a48",
+    "dirty": []
+  },
+  "startedAt": "2026-09-27T18:09:09.693Z",
+  "wallMs": 143527,
+  "exitCode": 0,
+  "timedOut": false,
+  "editedProtectedFiles": [],
+  "toolCalls": {
+    "Read": 22,
+    "Glob": 5,
+    "Grep": 6,
+    "Write": 2
+  },
+  "pathsOutsideWorkspace": [],
+  "touchedRepo": false,
+  "usedMemory": false,
+  "readPackages": true,
+  "cli": {
+    "isError": false,
+    "subtype": "success",
+    "turns": 36,
+    "durationMs": 142310,
+    "costUsd": 0.41987900000000006,
+    "usage": {
+      "input_tokens": 32,
+      "cache_creation_input_tokens": 46618,
+      "cache_read_input_tokens": 500865,
+      "output_tokens": 13317,
+      "output_tokens_details": {
+        "thinking_tokens": 5126
+      },
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 46618,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 2,
+          "output_tokens": 420,
+          "cache_read_input_tokens": 53984,
+          "cache_creation_input_tokens": 1100,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 1100
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-sonnet-5": {
+        "inputTokens": 32,
+        "outputTokens": 13317,
+        "cacheReadInputTokens": 500865,
+        "cacheCreationInputTokens": 46618,
+        "webSearchRequests": 0,
+        "costUSD": 0.41987900000000006,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 64000,
+        "thinkingTokens": 5126,
+        "canonicalModel": "claude-sonnet-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "finalMessage": "Good, that confirms Meter works as used (value/maxValue come from react-aria-components MeterProps, both optional with sensible defaults). The implementation looks consistent with my usage. The screen is complete.\n\n## Summary\n\nBuilt `src/screens/Screen.tsx` (default export) with styles in `src/screens/Screen.module.css`, using Strata components (`Card`, `Badge`, `Meter`, `IconTile`, `Button`, `Eyebrow`) and icons (`IconCoins`, `IconTrophy`, `IconGift`, `IconArrowUp/Down`):\n\n- **Balance card**: points balance (12,480 pts), current tier badge (Gold), a `Meter` showing progress to the next tier (Platinum), and a \"Redeem points\" primary action.\n- **Activity card**: a list of 6 recent point changes, each with a description, date, and a signed amount (earned in green, spent in muted grey), with directional arrow icons.\n\nAll layout uses logical CSS properties (`margin-inline`, `padding-block`, `border-block-start`, etc.) and Strata design tokens so it mirrors correctly for the Arabic (RTL) locale and adapts across brands/light-dark automatically, while the copy itself stays in English as requested."
+  }
+}

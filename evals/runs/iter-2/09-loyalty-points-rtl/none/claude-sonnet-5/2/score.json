@@ -1,0 +1,45 @@
+{
+  "prompt": "09-loyalty-points-rtl",
+  "condition": "none",
+  "model": "claude-sonnet-5",
+  "repeat": 2,
+  "tags": [
+    "rtl",
+    "multi-brand"
+  ],
+  "scoredAt": "2026-09-27T19:26:10.567Z",
+  "built": true,
+  "agentFailed": false,
+  "editedProtectedFiles": [],
+  "leaks": [],
+  "contaminated": false,
+  "touchedRepo": false,
+  "toolCalls": {
+    "Read": 22,
+    "Glob": 5,
+    "Grep": 6,
+    "Write": 2
+  },
+  "readPackages": true,
+  "files": 2,
+  "lines": 282,
+  "importsStrata": true,
+  "brandNames": 0,
+  "typeErrors": 1,
+  "typeErrorSample": [
+    "src/screens/Screen.tsx(14,10): error TS2724: '\"@strata/icons\"' has no exported member named 'IconArrowDown'. Did you mean 'IconArrowDownLeft'?"
+  ],
+  "audit": {
+    "score": 100,
+    "findings": 0,
+    "opportunities": 55,
+    "byRule": {}
+  },
+  "views": [],
+  "builds": false,
+  "buildError": "✗ Build failed in 130ms\nerror during build:\nBuild failed with 1 error:\n\n\u001b[31m[MISSING_EXPORT] \u001b[0m\"IconArrowDown\" is not exported by \"../../strata-evals-prepared/app/node_modules/@strata/icons/src/index.ts\".\n   \u001b[38;5;246m╭\u001b[0m\u001b[38;5;246m─\u001b[0m\u001b[38;5;246m[\u001b[0m src/screens/Screen.tsx:2:10 \u001b[38;5;246m]\u001b[0m\n   \u001b[38;5;246m│\u001b[0m\n \u001b[38;5;246m2 │\u001b[0m \u001b[38;5;249mi\u001b[0m\u001b[38;5;249mm\u001b[0m\u001b[38;5;249mp\u001b[0m\u001b[38;5;249mo\u001b[0m\u001b[38;5;249mr\u001b[0m\u001b[38;5;249mt\u001b[0m\u001b[38;5;249m \u001b[0m\u001b[38;5;249m{\u001b[0m\u001b[38;5;249m \u001b[0mIconArrowDown\u001b[38;5;249m,\u001b[0m\u001b[38;5;249m \u001b[0m\u001b[38;5;249mI\u001b[0m\u001b[38;5;249mc\u001b[0m\u001b[38;5;249mo\u001b[0m\u001b[38;5;249mn\u001b[0m\u001b[",
+  "renders": false,
+  "axeNodes": null,
+  "overflowPx": null,
+  "onSystem": false
+}

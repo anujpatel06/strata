@@ -1,0 +1,32 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-6);
+}
+
+.header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--strata-space-4);
+}
+
+.title {
+  margin: 0;
+  font-family: var(--strata-font-heading);
+  font-size: var(--strata-font-size-2xl);
+  font-weight: var(--strata-font-weight-semibold);
+  letter-spacing: var(--strata-font-tracking-2xl);
+  color: var(--strata-color-text-default);
+}
+
+.card {
+  inline-size: 100%;
+}
+
+.categoryList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-5);
+}

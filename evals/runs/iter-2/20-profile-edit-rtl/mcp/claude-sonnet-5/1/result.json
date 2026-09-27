@@ -1,0 +1,94 @@
+{
+  "prompt": "20-profile-edit-rtl",
+  "tags": [
+    "rtl",
+    "a11y"
+  ],
+  "condition": "mcp",
+  "model": "claude-sonnet-5",
+  "repeat": 1,
+  "iteration": "2",
+  "source": {
+    "commit": "dffb1e071736157779c49d2ad358710a973f5a48",
+    "dirty": []
+  },
+  "startedAt": "2026-09-27T18:46:55.716Z",
+  "wallMs": 252109,
+  "exitCode": 0,
+  "timedOut": false,
+  "editedProtectedFiles": [],
+  "toolCalls": {
+    "Read": 7,
+    "Glob": 5,
+    "mcp__strata__list_components": 1,
+    "mcp__strata__get_pattern": 2,
+    "mcp__strata__get_component": 10,
+    "mcp__strata__get_example": 6,
+    "mcp__strata__get_tokens": 1,
+    "Write": 2,
+    "mcp__strata__audit_snippet": 3,
+    "Grep": 1,
+    "Edit": 4
+  },
+  "pathsOutsideWorkspace": [],
+  "touchedRepo": false,
+  "usedMemory": false,
+  "readPackages": true,
+  "cli": {
+    "isError": false,
+    "subtype": "success",
+    "turns": 43,
+    "durationMs": 249376,
+    "costUsd": 0.8295756000000001,
+    "usage": {
+      "input_tokens": 50,
+      "cache_creation_input_tokens": 78521,
+      "cache_read_input_tokens": 1443708,
+      "output_tokens": 22665,
+      "output_tokens_details": {
+        "thinking_tokens": 10030
+      },
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 78521,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 2,
+          "output_tokens": 502,
+          "cache_read_input_tokens": 85253,
+          "cache_creation_input_tokens": 3753,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 3753
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-sonnet-5": {
+        "inputTokens": 50,
+        "outputTokens": 22665,
+        "cacheReadInputTokens": 1443708,
+        "cacheCreationInputTokens": 78521,
+        "webSearchRequests": 0,
+        "costUSD": 0.8295756000000001,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 64000,
+        "thinkingTokens": 10030,
+        "canonicalModel": "claude-sonnet-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "finalMessage": "This looks complete and correct. Since I can't run the dev server to visually verify, I'll note that explicitly.\n\nI've built the edit profile screen in `src/screens/Screen.tsx` with styles in `src/screens/Screen.module.css`, using only Strata components (`Card`, `TextField`, `DatePicker`, `Select`, `Avatar`, `Button`, `Badge`, `ToastRegion`) and tokens. Summary of behavior:\n\n- **Photo**: change via drag-drop or the \"Change photo\" button (PNG/JPEG, ≤5MB), shown as an `Avatar`.\n- **Fields**: full name, email, phone, date of birth, preferred language — all controlled and compared against the last-saved snapshot.\n- **Change tracking**: each changed field's label gets a \"Changed\" badge (text, not colour-only), and the card description summarizes how many fields changed since the last save.\n- **Cancel**/**Save**: both disabled when nothing has changed; Cancel reverts to the last save, Save commits the snapshot and shows a success toast (\"Profile saved\").\n- Copy is English-only; layout uses logical properties/tokens so it will mirror correctly in the app's Arabic/RTL mode via `ThemeScope`.\n\nBoth files scored 100 on `audit_snippet` with no findings. I could not run the dev server per the task constraints, so this hasn't been visually verified in a browser — worth a manual check, especially the RTL rendering and the date picker's locale formatting."
+  }
+}

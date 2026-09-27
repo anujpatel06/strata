@@ -1,0 +1,102 @@
+.card {
+  inline-size: 100%;
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-3);
+}
+
+.progressRow {
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-1);
+  margin-block-start: var(--strata-space-2);
+}
+
+.progressCaption {
+  font-size: var(--strata-font-size-sm);
+  color: var(--strata-color-text-subtle);
+}
+
+.accordion {
+  inline-size: 100%;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: var(--strata-space-3);
+  inline-size: 100%;
+  min-inline-size: 0;
+  text-align: start;
+}
+
+.rowText {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1 1 auto;
+  min-inline-size: 0;
+}
+
+.rowTitle {
+  font-weight: var(--strata-font-weight-semibold);
+  color: var(--strata-color-text-default);
+}
+
+.rowSummary {
+  font-size: var(--strata-font-size-sm);
+  font-weight: var(--strata-font-weight-regular);
+  color: var(--strata-color-text-subtle);
+}
+
+.badgeSlot {
+  flex-shrink: 0;
+}
+
+.body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-3);
+}
+
+.detail {
+  margin: 0;
+  color: var(--strata-color-text-subtle);
+}
+
+.involvesLabel {
+  margin: 0;
+  font-size: var(--strata-font-size-sm);
+  font-weight: var(--strata-font-weight-semibold);
+  color: var(--strata-color-text-default);
+}
+
+.taskList {
+  margin: 0;
+  padding-inline-start: var(--strata-space-5);
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-1);
+  font-size: var(--strata-font-size-sm);
+  color: var(--strata-color-text-subtle);
+}
+
+.lockNote {
+  display: flex;
+  align-items: center;
+  gap: var(--strata-space-2);
+  margin: 0;
+  padding: var(--strata-space-2) var(--strata-space-3);
+  border-radius: var(--strata-radius-container);
+  background: var(--strata-color-surface-sunken);
+  color: var(--strata-color-text-subtle);
+  font-size: var(--strata-font-size-sm);
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+}

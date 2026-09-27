@@ -1,0 +1,118 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-6);
+}
+
+.headerRow {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--strata-space-4);
+}
+
+.heading {
+  margin: 0;
+  font-family: var(--strata-font-heading);
+  font-size: var(--strata-font-size-2xl);
+  font-weight: var(--strata-font-weight-semibold);
+  letter-spacing: var(--strata-font-tracking-2xl);
+}
+
+.subheading {
+  margin: var(--strata-space-1) 0 0;
+  color: var(--strata-color-text-subtle);
+  font-size: var(--strata-font-size-sm);
+}
+
+.filters {
+  overflow-x: auto;
+}
+
+.card {
+  overflow: hidden;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-6);
+}
+
+.group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-3);
+}
+
+.groupTitle {
+  margin: 0;
+  color: var(--strata-color-text-subtle);
+  font-size: var(--strata-font-size-xs);
+  font-weight: var(--strata-font-weight-semibold);
+  text-transform: uppercase;
+  letter-spacing: var(--strata-font-tracking-caps);
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.row {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--strata-space-3);
+  padding: var(--strata-space-3);
+  border-radius: var(--strata-radius-container);
+  border: 1px solid transparent;
+}
+
+.row.unread {
+  background: var(--strata-color-surface-selected);
+  border-color: var(--strata-color-border-subtle);
+}
+
+.rowBody {
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-1);
+  flex: 1;
+  min-inline-size: 0;
+}
+
+.rowHeader {
+  display: flex;
+  align-items: center;
+  gap: var(--strata-space-2);
+}
+
+.title {
+  margin: 0;
+  font-weight: var(--strata-font-weight-semibold);
+  color: var(--strata-color-text-default);
+}
+
+.detail {
+  margin: 0;
+  color: var(--strata-color-text-subtle);
+  font-size: var(--strata-font-size-sm);
+}
+
+.rowMeta {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: var(--strata-space-1);
+  flex-shrink: 0;
+}
+
+.time {
+  color: var(--strata-color-text-subtle);
+  font-size: var(--strata-font-size-xs);
+  white-space: nowrap;
+}

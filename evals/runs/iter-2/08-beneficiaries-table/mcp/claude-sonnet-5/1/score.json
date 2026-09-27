@@ -1,0 +1,86 @@
+{
+  "prompt": "08-beneficiaries-table",
+  "condition": "mcp",
+  "model": "claude-sonnet-5",
+  "repeat": 1,
+  "tags": [
+    "a11y"
+  ],
+  "scoredAt": "2026-09-27T19:25:30.900Z",
+  "built": true,
+  "agentFailed": false,
+  "editedProtectedFiles": [],
+  "leaks": [],
+  "contaminated": false,
+  "touchedRepo": false,
+  "toolCalls": {
+    "Read": 1,
+    "Glob": 3,
+    "mcp__strata__list_components": 1,
+    "mcp__strata__get_component": 7,
+    "mcp__strata__get_example": 4,
+    "Grep": 6,
+    "mcp__strata__get_tokens": 3,
+    "Write": 2,
+    "mcp__strata__audit_snippet": 2
+  },
+  "readPackages": true,
+  "files": 2,
+  "lines": 255,
+  "importsStrata": true,
+  "brandNames": 0,
+  "typeErrors": 2,
+  "typeErrorSample": [
+    "src/screens/Screen.tsx(142,7): error TS2322: Type '(r: any) => any' is not assignable to type 'string'.",
+    "src/screens/Screen.tsx(142,19): error TS7006: Parameter 'r' implicitly has an 'any' type."
+  ],
+  "audit": {
+    "score": 100,
+    "findings": 0,
+    "opportunities": 41,
+    "byRule": {}
+  },
+  "views": [
+    {
+      "name": "light",
+      "query": "tenant=vela&locale=en-IN",
+      "scheme": "light",
+      "width": 1280,
+      "pageErrors": [],
+      "mounted": true,
+      "textLength": 596,
+      "overflowPx": 0,
+      "axeNodes": 0,
+      "axeRules": {}
+    },
+    {
+      "name": "dark",
+      "query": "tenant=vela&locale=en-IN",
+      "scheme": "dark",
+      "width": 1280,
+      "pageErrors": [],
+      "mounted": true,
+      "textLength": 596,
+      "overflowPx": 0,
+      "axeNodes": 0,
+      "axeRules": {}
+    },
+    {
+      "name": "narrow",
+      "query": "tenant=vela&locale=en-IN",
+      "scheme": "light",
+      "width": 390,
+      "pageErrors": [],
+      "mounted": true,
+      "textLength": 596,
+      "overflowPx": 0,
+      "axeNodes": 0,
+      "axeRules": {}
+    }
+  ],
+  "builds": true,
+  "renders": true,
+  "axeNodes": 0,
+  "overflowPx": 0,
+  "onSystem": false
+}

@@ -1,0 +1,92 @@
+{
+  "prompt": "16-checkout-summary-rtl",
+  "tags": [
+    "rtl"
+  ],
+  "condition": "mcp",
+  "model": "claude-sonnet-5",
+  "repeat": 1,
+  "iteration": "2",
+  "source": {
+    "commit": "dffb1e071736157779c49d2ad358710a973f5a48",
+    "dirty": []
+  },
+  "startedAt": "2026-09-27T18:34:25.576Z",
+  "wallMs": 276680,
+  "exitCode": 0,
+  "timedOut": false,
+  "editedProtectedFiles": [],
+  "toolCalls": {
+    "Read": 5,
+    "Glob": 3,
+    "mcp__strata__list_components": 2,
+    "mcp__strata__get_pattern": 1,
+    "mcp__strata__get_component": 8,
+    "mcp__strata__get_example": 4,
+    "Grep": 6,
+    "mcp__strata__get_tokens": 4,
+    "Write": 2,
+    "mcp__strata__audit_snippet": 2
+  },
+  "pathsOutsideWorkspace": [],
+  "touchedRepo": false,
+  "usedMemory": false,
+  "readPackages": true,
+  "cli": {
+    "isError": false,
+    "subtype": "success",
+    "turns": 38,
+    "durationMs": 275281,
+    "costUsd": 0.6894705999999999,
+    "usage": {
+      "input_tokens": 44,
+      "cache_creation_input_tokens": 62483,
+      "cache_read_input_tokens": 871503,
+      "output_tokens": 26515,
+      "output_tokens_details": {
+        "thinking_tokens": 13754
+      },
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 62483,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 2,
+          "output_tokens": 713,
+          "cache_read_input_tokens": 71157,
+          "cache_creation_input_tokens": 1811,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 1811
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-sonnet-5": {
+        "inputTokens": 44,
+        "outputTokens": 26515,
+        "cacheReadInputTokens": 871503,
+        "cacheCreationInputTokens": 62483,
+        "webSearchRequests": 0,
+        "costUSD": 0.6894705999999999,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 64000,
+        "thinkingTokens": 13754,
+        "canonicalModel": "claude-sonnet-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "finalMessage": "Built the checkout summary screen in `src/screens/Screen.tsx` with styles in `src/screens/Screen.module.css`. It uses Strata's `Card`, `RadioGroup`/`Radio`, `TextField`, `Amount`, `Badge`, `Link`, `Separator` and `Button` components, all token-styled with logical properties, and covers:\n\n- Delivery address card with a \"Change\" link\n- Delivery slot as a 3-option card `RadioGroup`\n- Items list, each with a quantity stepper (built from two icon `Button`s + a live count, since Strata has no stepper component — flagged with an inline comment)\n- Promo code `TextField` with an `Apply` button in its suffix, wired to mock codes `SAVE10`/`WELCOME5`\n- Price breakdown (subtotal, delivery, discount, total) using `Amount`\n- A \"Place order\" primary button\n\nBoth files passed `audit_snippet` with a score of 100 and no findings. I couldn't run the app to visually verify per the instructions, so this is verified statically only."
+  }
+}

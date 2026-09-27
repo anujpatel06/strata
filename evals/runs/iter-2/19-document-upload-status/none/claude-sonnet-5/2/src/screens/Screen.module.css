@@ -1,0 +1,142 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-6);
+  max-width: 920px;
+  margin: 0 auto;
+  padding: var(--strata-space-8) var(--strata-space-6) var(--strata-space-16);
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-2);
+}
+
+.title {
+  margin: 0;
+  font-family: var(--strata-font-heading);
+  font-size: var(--strata-font-size-2xl);
+  font-weight: var(--strata-font-weight-semibold);
+  letter-spacing: var(--strata-font-tracking-2xl);
+  color: var(--strata-color-text-default);
+}
+
+.description {
+  margin: 0;
+  font-size: var(--strata-font-size-md);
+  color: var(--strata-color-text-subtle);
+  max-width: 60ch;
+}
+
+.progressCard {
+  width: 100%;
+}
+
+.progressContent {
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-2);
+}
+
+.progressMeta {
+  margin: 0;
+  font-size: var(--strata-font-size-sm);
+  color: var(--strata-color-text-subtle);
+}
+
+.summaryAlert {
+  width: 100%;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: var(--strata-space-4);
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+}
+
+.cardHeader {
+  padding-bottom: 0;
+}
+
+.cardHeaderMain {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--strata-space-3);
+}
+
+.cardTitleRow {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--strata-space-2);
+}
+
+.cardTitle {
+  margin: 0;
+  font-family: var(--strata-font-heading);
+  font-size: var(--strata-font-size-lg);
+  font-weight: var(--strata-font-weight-semibold);
+  color: var(--strata-color-text-default);
+}
+
+.cardDescription {
+  margin: var(--strata-space-1) 0 0;
+  font-size: var(--strata-font-size-sm);
+  color: var(--strata-color-text-subtle);
+}
+
+.cardContent {
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-3);
+}
+
+.reasonAlert {
+  width: 100%;
+}
+
+.fileRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--strata-space-3);
+  padding: var(--strata-space-3);
+  border-radius: var(--strata-radius-field);
+  background: var(--strata-color-surface-sunken);
+  border: 1px solid var(--strata-color-border-subtle);
+}
+
+.fileInfo {
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-1);
+  min-width: 0;
+}
+
+.fileName {
+  font-size: var(--strata-font-size-sm);
+  font-weight: var(--strata-font-weight-medium);
+  color: var(--strata-color-text-default);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.fileMeta {
+  font-size: var(--strata-font-size-xs);
+  color: var(--strata-color-text-subtle);
+}
+
+.uploader {
+  width: 100%;
+}
+
+.cancelReplace {
+  align-self: flex-start;
+}

@@ -1,0 +1,82 @@
+{
+  "prompt": "08-beneficiaries-table",
+  "condition": "none",
+  "model": "claude-sonnet-5",
+  "repeat": 2,
+  "tags": [
+    "a11y"
+  ],
+  "scoredAt": "2026-09-27T19:25:46.264Z",
+  "built": true,
+  "agentFailed": false,
+  "editedProtectedFiles": [],
+  "leaks": [],
+  "contaminated": false,
+  "touchedRepo": false,
+  "toolCalls": {
+    "Read": 43,
+    "Glob": 18,
+    "Grep": 32,
+    "Write": 2,
+    "Edit": 9
+  },
+  "readPackages": true,
+  "files": 2,
+  "lines": 438,
+  "importsStrata": true,
+  "brandNames": 0,
+  "typeErrors": 2,
+  "typeErrorSample": [
+    "src/screens/Screen.tsx(134,85): error TS2322: Type '{ children: Element; size: \"icon\"; variant: \"ghost\"; \"aria-label\": string; title: string; }' is not assignable to type 'IntrinsicAttributes & ButtonProps'.",
+    "src/screens/Screen.tsx(142,101): error TS2322: Type '{ children: Element; size: \"icon\"; variant: \"ghost\"; tone: \"danger\"; \"aria-label\": string; title: string; }' is not assignable to type 'IntrinsicAttributes & ButtonProps'."
+  ],
+  "audit": {
+    "score": 100,
+    "findings": 0,
+    "opportunities": 62,
+    "byRule": {}
+  },
+  "views": [
+    {
+      "name": "light",
+      "query": "tenant=vela&locale=en-IN",
+      "scheme": "light",
+      "width": 1280,
+      "pageErrors": [],
+      "mounted": true,
+      "textLength": 641,
+      "overflowPx": 0,
+      "axeNodes": 0,
+      "axeRules": {}
+    },
+    {
+      "name": "dark",
+      "query": "tenant=vela&locale=en-IN",
+      "scheme": "dark",
+      "width": 1280,
+      "pageErrors": [],
+      "mounted": true,
+      "textLength": 641,
+      "overflowPx": 0,
+      "axeNodes": 0,
+      "axeRules": {}
+    },
+    {
+      "name": "narrow",
+      "query": "tenant=vela&locale=en-IN",
+      "scheme": "light",
+      "width": 390,
+      "pageErrors": [],
+      "mounted": true,
+      "textLength": 641,
+      "overflowPx": 0,
+      "axeNodes": 0,
+      "axeRules": {}
+    }
+  ],
+  "builds": true,
+  "renders": true,
+  "axeNodes": 0,
+  "overflowPx": 0,
+  "onSystem": false
+}

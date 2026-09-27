@@ -1,0 +1,83 @@
+{
+  "prompt": "01-transactions-filters",
+  "condition": "none",
+  "model": "claude-sonnet-5",
+  "repeat": 2,
+  "tags": [
+    "a11y"
+  ],
+  "scoredAt": "2026-09-27T19:23:23.592Z",
+  "built": true,
+  "agentFailed": false,
+  "editedProtectedFiles": [],
+  "leaks": [],
+  "contaminated": false,
+  "touchedRepo": false,
+  "toolCalls": {
+    "Read": 25,
+    "Glob": 11,
+    "Grep": 20,
+    "Write": 2,
+    "Edit": 1
+  },
+  "readPackages": true,
+  "files": 2,
+  "lines": 295,
+  "importsStrata": true,
+  "brandNames": 0,
+  "typeErrors": 1,
+  "typeErrorSample": [
+    "src/screens/Screen.tsx(197,17): error TS2322: Type 'Dispatch<SetStateAction<Key>>' is not assignable to type '(key: Key | null) => void'."
+  ],
+  "audit": {
+    "score": 97.8,
+    "findings": 1,
+    "opportunities": 25,
+    "byRule": {
+      "raw-font-weight": 1
+    }
+  },
+  "views": [
+    {
+      "name": "light",
+      "query": "tenant=vela&locale=en-IN",
+      "scheme": "light",
+      "width": 1280,
+      "pageErrors": [],
+      "mounted": true,
+      "textLength": 1186,
+      "overflowPx": 0,
+      "axeNodes": 0,
+      "axeRules": {}
+    },
+    {
+      "name": "dark",
+      "query": "tenant=vela&locale=en-IN",
+      "scheme": "dark",
+      "width": 1280,
+      "pageErrors": [],
+      "mounted": true,
+      "textLength": 1186,
+      "overflowPx": 0,
+      "axeNodes": 0,
+      "axeRules": {}
+    },
+    {
+      "name": "narrow",
+      "query": "tenant=vela&locale=en-IN",
+      "scheme": "light",
+      "width": 390,
+      "pageErrors": [],
+      "mounted": true,
+      "textLength": 1186,
+      "overflowPx": 0,
+      "axeNodes": 0,
+      "axeRules": {}
+    }
+  ],
+  "builds": true,
+  "renders": true,
+  "axeNodes": 0,
+  "overflowPx": 0,
+  "onSystem": false
+}

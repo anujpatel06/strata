@@ -1,0 +1,86 @@
+{
+  "prompt": "21-pricing-plans",
+  "tags": [
+    "multi-brand"
+  ],
+  "condition": "none",
+  "model": "claude-sonnet-5",
+  "repeat": 2,
+  "iteration": "2",
+  "source": {
+    "commit": "dffb1e071736157779c49d2ad358710a973f5a48",
+    "dirty": []
+  },
+  "startedAt": "2026-09-27T18:47:26.134Z",
+  "wallMs": 546840,
+  "exitCode": 0,
+  "timedOut": false,
+  "editedProtectedFiles": [],
+  "toolCalls": {
+    "Read": 27,
+    "Glob": 12,
+    "Grep": 4,
+    "Write": 2
+  },
+  "pathsOutsideWorkspace": [],
+  "touchedRepo": false,
+  "usedMemory": false,
+  "readPackages": true,
+  "cli": {
+    "isError": false,
+    "subtype": "success",
+    "turns": 46,
+    "durationMs": 545457,
+    "costUsd": 0.8443116000000002,
+    "usage": {
+      "input_tokens": 52,
+      "cache_creation_input_tokens": 87711,
+      "cache_read_input_tokens": 1408818,
+      "output_tokens": 21160,
+      "output_tokens_details": {
+        "thinking_tokens": 12564
+      },
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 87711,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 2,
+          "output_tokens": 136,
+          "cache_read_input_tokens": 94462,
+          "cache_creation_input_tokens": 1715,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 1715
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-sonnet-5": {
+        "inputTokens": 52,
+        "outputTokens": 21160,
+        "cacheReadInputTokens": 1408818,
+        "cacheCreationInputTokens": 87711,
+        "webSearchRequests": 0,
+        "costUSD": 0.8443116000000002,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 64000,
+        "thinkingTokens": 12564,
+        "canonicalModel": "claude-sonnet-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "finalMessage": "Good, `aria-label` is optional (`AriaLabelingProps`), so our usage is fine. Everything type-checks against the component APIs. The screen is complete: a three-plan comparison with name, monthly/yearly-toggle price, one-line summary, six included/excluded features, and a highlighted recommended plan, all built from mock data in `Screen.tsx` using only Strata design-system components and tokens."
+  }
+}

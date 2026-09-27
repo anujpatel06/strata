@@ -1,0 +1,59 @@
+.person {
+  display: flex;
+  align-items: center;
+  gap: var(--strata-space-2);
+}
+
+.account {
+  font-variant-numeric: tabular-nums;
+  color: var(--strata-color-text-subtle);
+  letter-spacing: 0.02em;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--strata-space-1);
+}
+
+.selectionBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--strata-space-4);
+  padding: var(--strata-space-3) var(--strata-space-4);
+  margin-block-end: var(--strata-space-4);
+  background: var(--strata-color-surface-selected);
+  border-radius: var(--strata-radius-field);
+  flex-wrap: wrap;
+}
+
+.selectionCount {
+  font-weight: var(--strata-font-weight-medium);
+  color: var(--strata-color-text-default);
+}
+
+.selectionActions {
+  display: flex;
+  align-items: center;
+  gap: var(--strata-space-2);
+}
+
+.editForm {
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-4);
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}

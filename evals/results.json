@@ -1,0 +1,251 @@
+{
+  "iteration": "2",
+  "generatedAt": "2026-09-27T19:33:10.019Z",
+  "source": {
+    "commit": "dffb1e071736157779c49d2ad358710a973f5a48",
+    "dirty": [],
+    "clean": true,
+    "root": "/var/folders/fq/fsw2rcjs6y3frnjl7zs9sf8h0000gn/T/strata-evals-prepared/source",
+    "packs": {
+      "react": "file:/var/folders/fq/fsw2rcjs6y3frnjl7zs9sf8h0000gn/T/strata-evals-prepared/packs/strata-react-0.1.0.tgz",
+      "icons": "file:/var/folders/fq/fsw2rcjs6y3frnjl7zs9sf8h0000gn/T/strata-evals-prepared/packs/strata-icons-0.1.0.tgz",
+      "tokens": "file:/var/folders/fq/fsw2rcjs6y3frnjl7zs9sf8h0000gn/T/strata-evals-prepared/packs/strata-tokens-0.1.0.tgz"
+    },
+    "preparedAt": "2026-09-27T15:57:21.839Z",
+    "node": "v26.8.1"
+  },
+  "models": {
+    "claude-sonnet-5": {
+      "overall": {
+        "none": {
+          "runs": 50,
+          "agentFailed": 1,
+          "contaminated": 0,
+          "importsStrata": 50,
+          "readPackages": 50,
+          "built": 50,
+          "rendersPercent": 98,
+          "typecheckPassPercent": 88,
+          "onSystemPercent": 64,
+          "axeCleanPercent": 92,
+          "noOverflowPercent": 98,
+          "noBrandNamesPercent": 100,
+          "auditMedian": 100,
+          "auditMin": 91.6,
+          "auditMax": 100,
+          "axeMeanPerScreen": 0.1,
+          "findingsByRule": {
+            "raw-font-weight": 2,
+            "off-scale-space": 4,
+            "physical-property": 6,
+            "raw-color": 1,
+            "off-scale-font-size": 1,
+            "native-element": 3,
+            "missing-accessible-name": 2
+          },
+          "turnsMedian": 57,
+          "costUsdMedian": 0.85,
+          "wallSecondsMedian": 255,
+          "outputTokensMedian": 20215
+        },
+        "mcp": {
+          "runs": 50,
+          "agentFailed": 0,
+          "contaminated": 0,
+          "importsStrata": 50,
+          "readPackages": 37,
+          "built": 50,
+          "rendersPercent": 98,
+          "typecheckPassPercent": 88,
+          "onSystemPercent": 88,
+          "axeCleanPercent": 98,
+          "noOverflowPercent": 92,
+          "noBrandNamesPercent": 100,
+          "auditMedian": 100,
+          "auditMin": 100,
+          "auditMax": 100,
+          "axeMeanPerScreen": 0,
+          "findingsByRule": {},
+          "turnsMedian": 33.5,
+          "costUsdMedian": 0.513,
+          "wallSecondsMedian": 168,
+          "outputTokensMedian": 14653
+        }
+      },
+      "byTag": {
+        "a11y": {
+          "none": {
+            "runs": 30,
+            "agentFailed": 0,
+            "contaminated": 0,
+            "importsStrata": 30,
+            "readPackages": 30,
+            "built": 30,
+            "rendersPercent": 100,
+            "typecheckPassPercent": 86.6,
+            "onSystemPercent": 63.3,
+            "axeCleanPercent": 93.3,
+            "noOverflowPercent": 100,
+            "noBrandNamesPercent": 100,
+            "auditMedian": 100,
+            "auditMin": 91.6,
+            "auditMax": 100,
+            "axeMeanPerScreen": 0.1,
+            "findingsByRule": {
+              "raw-font-weight": 2,
+              "physical-property": 3,
+              "raw-color": 1,
+              "missing-accessible-name": 2,
+              "native-element": 2
+            },
+            "turnsMedian": 58,
+            "costUsdMedian": 0.882,
+            "wallSecondsMedian": 255,
+            "outputTokensMedian": 20217
+          },
+          "mcp": {
+            "runs": 30,
+            "agentFailed": 0,
+            "contaminated": 0,
+            "importsStrata": 30,
+            "readPackages": 19,
+            "built": 30,
+            "rendersPercent": 100,
+            "typecheckPassPercent": 93.3,
+            "onSystemPercent": 93.3,
+            "axeCleanPercent": 100,
+            "noOverflowPercent": 93.3,
+            "noBrandNamesPercent": 100,
+            "auditMedian": 100,
+            "auditMin": 100,
+            "auditMax": 100,
+            "axeMeanPerScreen": 0,
+            "findingsByRule": {},
+            "turnsMedian": 30,
+            "costUsdMedian": 0.463,
+            "wallSecondsMedian": 143,
+            "outputTokensMedian": 12568
+          }
+        },
+        "multi-brand": {
+          "none": {
+            "runs": 16,
+            "agentFailed": 1,
+            "contaminated": 0,
+            "importsStrata": 16,
+            "readPackages": 16,
+            "built": 16,
+            "rendersPercent": 93.7,
+            "typecheckPassPercent": 87.5,
+            "onSystemPercent": 81.2,
+            "axeCleanPercent": 87.5,
+            "noOverflowPercent": 93.7,
+            "noBrandNamesPercent": 100,
+            "auditMedian": 100,
+            "auditMin": 98.5,
+            "auditMax": 100,
+            "axeMeanPerScreen": 0.13,
+            "findingsByRule": {
+              "physical-property": 1
+            },
+            "turnsMedian": 46,
+            "costUsdMedian": 0.844,
+            "wallSecondsMedian": 231,
+            "outputTokensMedian": 18312
+          },
+          "mcp": {
+            "runs": 16,
+            "agentFailed": 0,
+            "contaminated": 0,
+            "importsStrata": 16,
+            "readPackages": 14,
+            "built": 16,
+            "rendersPercent": 93.7,
+            "typecheckPassPercent": 75,
+            "onSystemPercent": 75,
+            "axeCleanPercent": 93.7,
+            "noOverflowPercent": 93.7,
+            "noBrandNamesPercent": 100,
+            "auditMedian": 100,
+            "auditMin": 100,
+            "auditMax": 100,
+            "axeMeanPerScreen": 0,
+            "findingsByRule": {},
+            "turnsMedian": 37,
+            "costUsdMedian": 0.551,
+            "wallSecondsMedian": 193,
+            "outputTokensMedian": 15559
+          }
+        },
+        "rtl": {
+          "none": {
+            "runs": 12,
+            "agentFailed": 0,
+            "contaminated": 0,
+            "importsStrata": 12,
+            "readPackages": 12,
+            "built": 12,
+            "rendersPercent": 91.6,
+            "typecheckPassPercent": 91.6,
+            "onSystemPercent": 41.6,
+            "axeCleanPercent": 83.3,
+            "noOverflowPercent": 91.6,
+            "noBrandNamesPercent": 100,
+            "auditMedian": 99.5,
+            "auditMin": 91.6,
+            "auditMax": 100,
+            "axeMeanPerScreen": 0.09,
+            "findingsByRule": {
+              "off-scale-space": 4,
+              "off-scale-font-size": 1,
+              "physical-property": 2,
+              "native-element": 3,
+              "missing-accessible-name": 2
+            },
+            "turnsMedian": 59.5,
+            "costUsdMedian": 0.842,
+            "wallSecondsMedian": 254,
+            "outputTokensMedian": 20257.5
+          },
+          "mcp": {
+            "runs": 12,
+            "agentFailed": 0,
+            "contaminated": 0,
+            "importsStrata": 12,
+            "readPackages": 8,
+            "built": 12,
+            "rendersPercent": 91.6,
+            "typecheckPassPercent": 83.3,
+            "onSystemPercent": 83.3,
+            "axeCleanPercent": 91.6,
+            "noOverflowPercent": 83.3,
+            "noBrandNamesPercent": 100,
+            "auditMedian": 100,
+            "auditMin": 100,
+            "auditMax": 100,
+            "axeMeanPerScreen": 0,
+            "findingsByRule": {},
+            "turnsMedian": 36,
+            "costUsdMedian": 0.535,
+            "wallSecondsMedian": 198,
+            "outputTokensMedian": 17288
+          }
+        }
+      },
+      "spread": {
+        "none": {
+          "prompts": 25,
+          "auditRangeMedian": 0,
+          "auditRangeMax": 4.3,
+          "onSystemDisagreed": 10
+        },
+        "mcp": {
+          "prompts": 25,
+          "auditRangeMedian": 0,
+          "auditRangeMax": 0,
+          "onSystemDisagreed": 6
+        }
+      }
+    }
+  }
+}

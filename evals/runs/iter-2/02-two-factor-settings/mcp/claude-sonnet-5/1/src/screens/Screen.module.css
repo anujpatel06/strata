@@ -1,0 +1,61 @@
+.page {
+  max-inline-size: 640px;
+  margin-inline: auto;
+  padding-block: var(--strata-space-8);
+  padding-inline: var(--strata-space-6);
+}
+
+.card {
+  inline-size: 100%;
+}
+
+.content {
+  display: grid;
+  gap: var(--strata-space-5);
+}
+
+.backupHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--strata-space-4);
+  flex-wrap: wrap;
+}
+
+.backupActions {
+  display: flex;
+  gap: var(--strata-space-2);
+  flex-wrap: wrap;
+}
+
+.backupTitle {
+  margin: 0;
+  font-family: var(--strata-font-heading);
+  font-size: var(--strata-font-size-md);
+  font-weight: var(--strata-font-weight-semibold);
+  color: var(--strata-color-text-default);
+}
+
+.backupDescription {
+  margin: 0;
+  margin-block-start: var(--strata-space-1);
+  font-family: var(--strata-font-body);
+  font-size: var(--strata-font-size-sm);
+  color: var(--strata-color-text-subtle);
+}
+
+.codesList {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--strata-space-2) var(--strata-space-4);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.code {
+  font-family: var(--strata-font-mono);
+  font-size: var(--strata-font-size-sm);
+  color: var(--strata-color-text-default);
+  padding-block: var(--strata-space-1);
+}

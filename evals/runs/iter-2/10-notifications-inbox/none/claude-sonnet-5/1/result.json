@@ -1,0 +1,87 @@
+{
+  "prompt": "10-notifications-inbox",
+  "tags": [
+    "a11y"
+  ],
+  "condition": "none",
+  "model": "claude-sonnet-5",
+  "repeat": 1,
+  "iteration": "2",
+  "source": {
+    "commit": "dffb1e071736157779c49d2ad358710a973f5a48",
+    "dirty": []
+  },
+  "startedAt": "2026-09-27T18:13:57.848Z",
+  "wallMs": 242860,
+  "exitCode": 0,
+  "timedOut": false,
+  "editedProtectedFiles": [],
+  "toolCalls": {
+    "Read": 28,
+    "Glob": 14,
+    "Grep": 11,
+    "Write": 2,
+    "Edit": 4
+  },
+  "pathsOutsideWorkspace": [],
+  "touchedRepo": false,
+  "usedMemory": false,
+  "readPackages": true,
+  "cli": {
+    "isError": false,
+    "subtype": "success",
+    "turns": 60,
+    "durationMs": 241563,
+    "costUsd": 0.9054042,
+    "usage": {
+      "input_tokens": 76,
+      "cache_creation_input_tokens": 77567,
+      "cache_read_input_tokens": 2169471,
+      "output_tokens": 16109,
+      "output_tokens_details": {
+        "thinking_tokens": 3839
+      },
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 77567,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 2,
+          "output_tokens": 547,
+          "cache_read_input_tokens": 85768,
+          "cache_creation_input_tokens": 265,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 265
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-sonnet-5": {
+        "inputTokens": 76,
+        "outputTokens": 16109,
+        "cacheReadInputTokens": 2169471,
+        "cacheCreationInputTokens": 77567,
+        "webSearchRequests": 0,
+        "costUSD": 0.9054042,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 64000,
+        "thinkingTokens": 3839,
+        "canonicalModel": "claude-sonnet-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "finalMessage": "Built the notifications inbox in `src/screens/Screen.tsx` with styles in `src/screens/Screen.module.css`, using Strata components (`Badge`, `Button`, `IconTile`, `ToggleButtonGroup`, `Separator`) and icons for each type.\n\n- 8 mock notifications grouped into **Today** (4) and **Earlier** (4), spanning all four types.\n- Unread items get a highlighted background, a dot, and a bold title.\n- \"Mark as read\" per item, \"Mark all as read\" (disabled when nothing's unread), and a segmented filter (All/Payment/Security/Policy/Reminder) that filters both groups, with an empty state if a filter yields nothing.\n- Used CSS logical properties and Strata design tokens so it holds up across brands, light/dark, and RTL."
+  }
+}

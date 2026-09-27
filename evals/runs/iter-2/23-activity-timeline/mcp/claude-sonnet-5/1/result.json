@@ -1,0 +1,93 @@
+{
+  "prompt": "23-activity-timeline",
+  "tags": [
+    "multi-brand",
+    "rtl"
+  ],
+  "condition": "mcp",
+  "model": "claude-sonnet-5",
+  "repeat": 1,
+  "iteration": "2",
+  "source": {
+    "commit": "dffb1e071736157779c49d2ad358710a973f5a48",
+    "dirty": []
+  },
+  "startedAt": "2026-09-27T18:53:14.468Z",
+  "wallMs": 166328,
+  "exitCode": 0,
+  "timedOut": false,
+  "editedProtectedFiles": [],
+  "toolCalls": {
+    "Read": 5,
+    "Glob": 2,
+    "mcp__strata__list_components": 1,
+    "mcp__strata__get_pattern": 2,
+    "mcp__strata__get_component": 8,
+    "mcp__strata__get_example": 2,
+    "mcp__strata__get_tokens": 3,
+    "Write": 2,
+    "mcp__strata__audit_snippet": 2,
+    "Edit": 4
+  },
+  "pathsOutsideWorkspace": [],
+  "touchedRepo": false,
+  "usedMemory": false,
+  "readPackages": false,
+  "cli": {
+    "isError": false,
+    "subtype": "success",
+    "turns": 32,
+    "durationMs": 164705,
+    "costUsd": 0.5145009999999999,
+    "usage": {
+      "input_tokens": 32,
+      "cache_creation_input_tokens": 56496,
+      "cache_read_input_tokens": 715765,
+      "output_tokens": 14530,
+      "output_tokens_details": {
+        "thinking_tokens": 6223
+      },
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 56496,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 2,
+          "output_tokens": 354,
+          "cache_read_input_tokens": 64764,
+          "cache_creation_input_tokens": 2217,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 2217
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-sonnet-5": {
+        "inputTokens": 32,
+        "outputTokens": 14530,
+        "cacheReadInputTokens": 715765,
+        "cacheCreationInputTokens": 56496,
+        "webSearchRequests": 0,
+        "costUSD": 0.5145009999999999,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 64000,
+        "thinkingTokens": 6223,
+        "canonicalModel": "claude-sonnet-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "finalMessage": "This all looks correct — logical properties throughout, tokens only, no raw colors/pixels beyond `1px`. The screen is complete:\n\n- **`src/screens/Screen.tsx`** — a 7-event claim timeline (newest → oldest), built from `Card`, `Avatar`, `Badge`, and `Button` since Strata has no dedicated timeline component (noted in a comment, per the gap-handling rule). Each event shows a time (`<time>`), an icon marker, who acted (`Avatar` + name + role), and what happened. The current stage carries a \"Current stage\" badge, and the one event needing action shows an \"Action needed\" badge plus an \"Upload repair estimate\" button.\n- **`src/screens/Screen.module.css`** — logical properties only, all colors/spacing/radii from `--strata-*` tokens, connector line between markers in CSS.\n\nBoth passed `audit_snippet` with a score of 100 and no findings. I can't run the dev server to visually verify, so you'll want to check it renders correctly across brands/schemes/locales before shipping."
+  }
+}

@@ -1,0 +1,57 @@
+.page {
+  display: flex;
+  justify-content: center;
+  padding-block: var(--strata-space-10);
+  padding-inline: var(--strata-space-4);
+}
+
+.card {
+  inline-size: 100%;
+  max-inline-size: 640px;
+}
+
+.progressRow {
+  margin-block-end: var(--strata-space-6);
+}
+
+.accordion {
+  display: flex;
+  flex-direction: column;
+}
+
+.stepTitle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--strata-space-3);
+  inline-size: 100%;
+}
+
+.stepBody {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--strata-space-3);
+}
+
+.stepDescription {
+  color: var(--strata-color-text-subtle);
+  font-size: var(--strata-font-size-sm);
+  line-height: var(--strata-line-height-normal);
+  margin: 0;
+}
+
+.lockNote {
+  display: flex;
+  align-items: center;
+  gap: var(--strata-space-2);
+  color: var(--strata-color-text-subtle);
+  font-size: var(--strata-font-size-sm);
+  margin: 0;
+}
+
+.lockNote svg {
+  inline-size: var(--strata-space-4);
+  block-size: var(--strata-space-4);
+  flex-shrink: 0;
+}

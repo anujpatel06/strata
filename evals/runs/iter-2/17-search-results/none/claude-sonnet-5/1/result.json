@@ -1,0 +1,87 @@
+{
+  "prompt": "17-search-results",
+  "tags": [
+    "a11y"
+  ],
+  "condition": "none",
+  "model": "claude-sonnet-5",
+  "repeat": 1,
+  "iteration": "2",
+  "source": {
+    "commit": "dffb1e071736157779c49d2ad358710a973f5a48",
+    "dirty": []
+  },
+  "startedAt": "2026-09-27T18:36:02.899Z",
+  "wallMs": 709114,
+  "exitCode": 0,
+  "timedOut": false,
+  "editedProtectedFiles": [],
+  "toolCalls": {
+    "Read": 19,
+    "Glob": 12,
+    "Grep": 8,
+    "Write": 2,
+    "Edit": 1
+  },
+  "pathsOutsideWorkspace": [],
+  "touchedRepo": false,
+  "usedMemory": false,
+  "readPackages": true,
+  "cli": {
+    "isError": false,
+    "subtype": "success",
+    "turns": 43,
+    "durationMs": 707672,
+    "costUsd": 0.6042594000000001,
+    "usage": {
+      "input_tokens": 48,
+      "cache_creation_input_tokens": 52650,
+      "cache_read_input_tokens": 967617,
+      "output_tokens": 20004,
+      "output_tokens_details": {
+        "thinking_tokens": 11921
+      },
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 52650,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 2,
+          "output_tokens": 370,
+          "cache_read_input_tokens": 60421,
+          "cache_creation_input_tokens": 695,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 695
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-sonnet-5": {
+        "inputTokens": 48,
+        "outputTokens": 20004,
+        "cacheReadInputTokens": 967617,
+        "cacheCreationInputTokens": 52650,
+        "webSearchRequests": 0,
+        "costUSD": 0.6042594000000001,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 64000,
+        "thinkingTokens": 11921,
+        "canonicalModel": "claude-sonnet-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "finalMessage": "Good, `IconSearch` is exported from `icons/core`. Everything checks out—types, component APIs, and data flow all align correctly.\n\nThe screen is complete:\n\n- **`src/screens/Screen.tsx`** — a `Combobox` search field (label \"Search benefits\") backed by 8 mock suggestions; typing filters them, arrow keys move through them, Enter/click selects one. Selecting a suggestion filters a 6-item mock `BENEFITS` dataset (name, category, description, eligibility) and renders result `Card`s with a `Tag` for category and a status `Badge` for eligibility. The \"Childcare assistance\" suggestion intentionally matches nothing, exercising an `EmptyState` \"No benefits found\" view; before any selection, a hint prompts the user to start typing.\n- **`src/screens/Screen.module.css`** — layout, typography and spacing using Strata design tokens, with a responsive two-column result grid that collapses to one column on narrow screens.\n\nNo other files were touched. I couldn't run the app to visually verify per the instructions, so please check it against `pnpm dev` on your end."
+  }
+}

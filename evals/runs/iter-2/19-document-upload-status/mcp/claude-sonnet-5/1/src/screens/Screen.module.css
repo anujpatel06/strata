@@ -1,0 +1,64 @@
+.page {
+  display: grid;
+  gap: var(--strata-space-6);
+  max-inline-size: 960px;
+  margin-inline: auto;
+  padding-block: var(--strata-space-8);
+  padding-inline: var(--strata-space-4);
+}
+
+.header {
+  display: grid;
+  gap: var(--strata-space-2);
+}
+
+.title {
+  margin: 0;
+  font-family: var(--strata-font-heading);
+  font-size: var(--strata-font-size-xl);
+  font-weight: var(--strata-font-weight-semibold);
+  line-height: var(--strata-line-height-tight);
+  color: var(--strata-color-text-default);
+}
+
+.intro {
+  margin: 0;
+  max-inline-size: 60ch;
+  color: var(--strata-color-text-subtle);
+  font-size: var(--strata-font-size-md);
+}
+
+.progressContent {
+  display: grid;
+  gap: var(--strata-space-4);
+}
+
+.summary {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--strata-space-2);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: var(--strata-space-6);
+  align-items: start;
+}
+
+.cardHeading {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--strata-space-3);
+}
+
+.cardContent {
+  display: grid;
+  gap: var(--strata-space-3);
+}
+
+.meta {
+  margin: 0;
+  font-size: var(--strata-font-size-sm);
+  color: var(--strata-color-text-subtle);
+}

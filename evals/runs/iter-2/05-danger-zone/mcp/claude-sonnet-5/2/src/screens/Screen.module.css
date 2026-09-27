@@ -1,0 +1,126 @@
+.root {
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-10);
+  max-width: 960px;
+  margin-inline: auto;
+  padding: var(--strata-space-8) var(--strata-space-6);
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-2);
+}
+
+.title {
+  font-family: var(--strata-font-heading);
+  font-size: var(--strata-font-size-3xl);
+  font-weight: var(--strata-font-weight-semibold);
+  letter-spacing: var(--strata-font-heading-tracking);
+  color: var(--strata-color-text-default);
+  margin: 0;
+}
+
+.description {
+  font-family: var(--strata-font-body);
+  font-size: var(--strata-font-size-md);
+  color: var(--strata-color-text-subtle);
+  margin: 0;
+}
+
+.section {
+  display: grid;
+  grid-template-columns: minmax(0, 240px) minmax(0, 1fr);
+  gap: var(--strata-space-8);
+}
+
+.aside {
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-1);
+}
+
+.sectionTitle {
+  font-family: var(--strata-font-heading);
+  font-size: var(--strata-font-size-lg);
+  font-weight: var(--strata-font-weight-semibold);
+  color: var(--strata-color-text-default);
+  margin: 0;
+}
+
+.sectionDescription {
+  font-family: var(--strata-font-body);
+  font-size: var(--strata-font-size-sm);
+  color: var(--strata-color-text-subtle);
+  margin: 0;
+}
+
+.sectionBody {
+  min-width: 0;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+}
+
+.fieldGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--strata-space-4);
+}
+
+.switches {
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-4);
+}
+
+.switch {
+  padding-block: var(--strata-space-1);
+}
+
+.footerEnd {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--strata-space-4);
+}
+
+.rowDescription {
+  font-family: var(--strata-font-body);
+  font-size: var(--strata-font-size-sm);
+  color: var(--strata-color-text-subtle);
+  margin: 0;
+}
+
+.dialogIntro {
+  font-family: var(--strata-font-body);
+  font-size: var(--strata-font-size-md);
+  color: var(--strata-color-text-default);
+  margin: 0 0 var(--strata-space-2) 0;
+}
+
+.dialogList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-1);
+  margin: 0;
+  padding-inline-start: var(--strata-space-5);
+  font-family: var(--strata-font-body);
+  font-size: var(--strata-font-size-sm);
+  color: var(--strata-color-text-subtle);
+}
+
+@media (max-width: 640px) {
+  .section {
+    grid-template-columns: 1fr;
+    gap: var(--strata-space-3);
+  }
+}

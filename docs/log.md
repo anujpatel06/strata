@@ -6,6 +6,70 @@ Numbers only with the command that produced them. Design trade-offs get an ADR i
 
 ---
 
+## 2026-09-28 (Phase 5, eval) — the agent eval ran; the first attempt was thrown out
+
+**Changed**
+- Ran the agent eval twice. Iteration 1 is invalid and kept on record (`evals/runs/iter-1/INVALID.md`). Iteration 2 is the result (`evals/results.md`).
+- Harness fixes, each found by reading runs:
+  - `node_modules` is copied into each workspace, not linked. File search doesn't follow links, so in iteration 1 only 2 of 50 runs without context imported from `@strata/react`, and 31 said the packages weren't installed.
+  - The eval stops at the account's usage limit and records nothing for the runs it cuts short. In iteration 2 the limit produced 84 empty runs and 3 half-finished ones; all 87 were thrown away and run again.
+  - The leak check no longer flags a run's own files. Its first 5 reports were all false.
+  - Each result records whether the run read the installed packages, and whether the screen imports from `@strata/react`.
+- CI runs the drift gate, `pnpm drift apps/docs --min-score 95`.
+- Docs: the MCP page shows the eval's results with their limits.
+
+**Decided**
+- Re-run all 100 runs after the harness fault, within the 200 runs Anuj approved — **Claude**, told to Anuj at the time.
+- 8 runs at a time, up from 3 — **Anuj** ("run multiple agents and do this fast").
+- Keep iteration 1 in the repo with a note, not delete it — **Claude**.
+- A run that times out counts as a run. It isn't re-run to improve the numbers — **Claude**.
+- Don't fix the gaps the eval found before reporting it. Fixes and a third iteration are Anuj's call — **Claude**.
+
+**Results** — iteration 2, 50 runs per condition, `claude-sonnet-5`; `node evals/score.mjs --iteration 2 && node evals/report.mjs --iteration 2`
+
+| Measure | No context | MCP + AGENTS.md |
+|---|---|---|
+| Fully on-system, % of runs | 64 | 88 |
+| Audit findings, all runs | 19 | 0 |
+| No axe violations, % of runs | 92 | 98 |
+| Passes typecheck, % of runs | 88 | 88 |
+| Renders in every view, % of runs | 98 | 98 |
+| No horizontal scroll at 390px, % of runs | 98 | 92 |
+| Median turns | 57 | 33.5 |
+| Median cost per run, USD, as the CLI reports it | 0.85 | 0.513 |
+
+- By tag, fully on-system: `a11y` 63.3 → 93.3 (30 runs each); `rtl` 41.6 → 83.3 (12 each); `multi-brand` 81.2 → 75 (16 each).
+- Repeats disagreed on "fully on-system" for 10 of 25 prompts without context and 6 of 25 with the server.
+- Total cost as the CLI reports it: 73.96 USD for iteration 2's 100 runs. Iteration 1, the discarded runs and the smoke runs cost more on top; that total wasn't summed.
+
+**Verification** (2026-09-28, after the eval)
+- `pnpm typecheck`: clean, 10 packages.
+- `pnpm test`: 443 components · 224 engine · 245 icons · 143 MCP server · 74 auditor · 8 codemods, all passing.
+- `pnpm test:themes`: 118,000 / 118,000 checks; 2,000 / 2,000 chart palettes; adjustments per brand median 4, max 7.
+- `pnpm check:meta`: 53 / 53. `pnpm registry`: 71 items, all ok.
+- `pnpm drift apps/docs --min-score 95`: passes, score 98.8, 60 findings.
+- `pnpm --filter @strata/docs build`: 80 pages. `node scripts/check-ssr-tabs.mjs`: 0 of 79 pages with a tab list missing its panel.
+- `STRATA_BASE_URL=http://localhost:3010 node scripts/axe-sweep.mjs`: 105 routes × light/dark, 0 violation nodes, 0 page errors.
+
+**What the eval says, and doesn't**
+- With Strata installed and readable, the agent used it in every run, in both conditions. The baseline is already strong.
+- The server's clearest effect is on drift (19 findings to 0) and on effort (fewer turns, lower cost).
+- It made no difference to type errors and did worse on narrow screens.
+- One model, one agent, 50 runs a side. No claim here holds for another model.
+
+**Known gaps**
+- The server can't look up icons. Both conditions imported an icon that doesn't exist.
+- `get_component` doesn't describe React Aria types (`Key`), a DataTable column's cell function, or that date components need `@internationalized/date`.
+- BRIEF §8's recorded run of Claude Code building a screen with only the MCP server isn't done. Iteration 2's 50 server runs are the closest evidence.
+- The `agents` and `llms` conditions and a second model haven't been run.
+- The concurrency changed part-way through iteration 2.
+
+**Next**
+- Anuj: review Phase 5. Decide whether to fix the gaps above and run a third iteration to measure the change.
+- Then Phase 5a: server-driven UI schema, native token export, Hindi tenant.
+
+---
+
 ## 2026-09-27 (showcase card) — the case-study card face on Blocks and the home showcase; the axe sweep waits for hydration
 
 **Changed**

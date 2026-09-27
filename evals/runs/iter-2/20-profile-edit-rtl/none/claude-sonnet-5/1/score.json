@@ -1,0 +1,102 @@
+{
+  "prompt": "20-profile-edit-rtl",
+  "condition": "none",
+  "model": "claude-sonnet-5",
+  "repeat": 1,
+  "tags": [
+    "rtl",
+    "a11y"
+  ],
+  "scoredAt": "2026-09-27T19:29:55.016Z",
+  "built": true,
+  "agentFailed": false,
+  "editedProtectedFiles": [],
+  "leaks": [],
+  "contaminated": false,
+  "touchedRepo": false,
+  "toolCalls": {
+    "Read": 34,
+    "Glob": 18,
+    "Grep": 28,
+    "Write": 2,
+    "Edit": 6
+  },
+  "readPackages": true,
+  "files": 2,
+  "lines": 362,
+  "importsStrata": true,
+  "brandNames": 0,
+  "typeErrors": 0,
+  "audit": {
+    "score": 91.6,
+    "findings": 2,
+    "opportunities": 36,
+    "byRule": {
+      "missing-accessible-name": 1,
+      "native-element": 1
+    }
+  },
+  "views": [
+    {
+      "name": "light",
+      "query": "tenant=qamar&locale=en-IN",
+      "scheme": "light",
+      "width": 1280,
+      "pageErrors": [],
+      "mounted": true,
+      "textLength": 294,
+      "overflowPx": 0,
+      "axeNodes": 1,
+      "axeRules": {
+        "label": 1
+      }
+    },
+    {
+      "name": "dark",
+      "query": "tenant=qamar&locale=en-IN",
+      "scheme": "dark",
+      "width": 1280,
+      "pageErrors": [],
+      "mounted": true,
+      "textLength": 294,
+      "overflowPx": 0,
+      "axeNodes": 1,
+      "axeRules": {
+        "label": 1
+      }
+    },
+    {
+      "name": "narrow",
+      "query": "tenant=qamar&locale=en-IN",
+      "scheme": "light",
+      "width": 390,
+      "pageErrors": [],
+      "mounted": true,
+      "textLength": 294,
+      "overflowPx": 0,
+      "axeNodes": 1,
+      "axeRules": {
+        "label": 1
+      }
+    },
+    {
+      "name": "rtl",
+      "query": "tenant=qamar&locale=ar-AE",
+      "scheme": "light",
+      "width": 1280,
+      "pageErrors": [],
+      "mounted": true,
+      "textLength": 296,
+      "overflowPx": 0,
+      "axeNodes": 1,
+      "axeRules": {
+        "label": 1
+      }
+    }
+  ],
+  "builds": true,
+  "renders": true,
+  "axeNodes": 1,
+  "overflowPx": 0,
+  "onSystem": false
+}

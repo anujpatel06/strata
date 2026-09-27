@@ -1,0 +1,89 @@
+{
+  "prompt": "11-policy-details",
+  "tags": [
+    "multi-brand"
+  ],
+  "condition": "none",
+  "model": "claude-sonnet-5",
+  "repeat": 1,
+  "iteration": "2",
+  "source": {
+    "commit": "dffb1e071736157779c49d2ad358710a973f5a48",
+    "dirty": []
+  },
+  "startedAt": "2026-09-27T18:19:34.249Z",
+  "wallMs": 124646,
+  "exitCode": 0,
+  "timedOut": false,
+  "editedProtectedFiles": [],
+  "toolCalls": {
+    "Read": 23,
+    "Glob": 6,
+    "Grep": 3,
+    "Write": 2,
+    "Edit": 6
+  },
+  "pathsOutsideWorkspace": [
+    "/Users/anujpatel/.claude/projects/-private-var-folders-fq-fsw2rcjs6y3frnjl7zs9sf8h0000gn-T-se-d50b131b6bf4-app/97d55b1f-0e65-46f3-bc5a-23d34bc8855f/tool-results/toolu_012rNBdrKF49P8Ea5rskA1UY.txt"
+  ],
+  "touchedRepo": false,
+  "usedMemory": true,
+  "readPackages": true,
+  "cli": {
+    "isError": false,
+    "subtype": "success",
+    "turns": 41,
+    "durationMs": 123401,
+    "costUsd": 0.6390487999999999,
+    "usage": {
+      "input_tokens": 42,
+      "cache_creation_input_tokens": 79190,
+      "cache_read_input_tokens": 1078724,
+      "output_tokens": 10646,
+      "output_tokens_details": {
+        "thinking_tokens": 1236
+      },
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 79190,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 2,
+          "output_tokens": 133,
+          "cache_read_input_tokens": 87372,
+          "cache_creation_input_tokens": 284,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 284
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-sonnet-5": {
+        "inputTokens": 42,
+        "outputTokens": 10646,
+        "cacheReadInputTokens": 1078724,
+        "cacheCreationInputTokens": 79190,
+        "webSearchRequests": 0,
+        "costUSD": 0.6390487999999999,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 64000,
+        "thinkingTokens": 1236,
+        "canonicalModel": "claude-sonnet-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "finalMessage": "This completes the screen. It's built with `Badge`, `Card`, `IconTile`, `Tabs`, `Button`, and `Link` from `@strata/react`, using only theme tokens (no hardcoded colors) so it works across all five brands, both color schemes, and RTL. Mock data covers the policy header, four cover items each for included/excluded, four downloadable documents, and next + last three payments."
+  }
+}

@@ -11,8 +11,8 @@ Seed **2026** (mulberry32) · **1,000** random brands: random primary, random ac
 | Passed | 118,000 |
 | Failed | 0 |
 | Pass rate | 100.00% |
-| Median generation time | 1.12 ms |
-| p95 generation time | 12.94 ms |
+| Median generation time | 0.62 ms |
+| p95 generation time | 0.95 ms |
 | Adjustments per brand (min / median / max) | 0 / 4 / 7 |
 
 Timing measured with `performance.now()` around each `generateTheme` call on Apple M1, Node v26.8.1 (darwin-arm64); it varies by machine.

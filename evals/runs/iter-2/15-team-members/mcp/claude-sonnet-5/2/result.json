@@ -1,0 +1,92 @@
+{
+  "prompt": "15-team-members",
+  "tags": [
+    "a11y"
+  ],
+  "condition": "mcp",
+  "model": "claude-sonnet-5",
+  "repeat": 2,
+  "iteration": "2",
+  "source": {
+    "commit": "dffb1e071736157779c49d2ad358710a973f5a48",
+    "dirty": []
+  },
+  "startedAt": "2026-09-27T18:33:00.855Z",
+  "wallMs": 178511,
+  "exitCode": 0,
+  "timedOut": false,
+  "editedProtectedFiles": [],
+  "toolCalls": {
+    "Read": 2,
+    "Glob": 2,
+    "mcp__strata__list_components": 1,
+    "mcp__strata__get_pattern": 1,
+    "mcp__strata__get_component": 9,
+    "mcp__strata__get_example": 4,
+    "mcp__strata__get_tokens": 3,
+    "Grep": 3,
+    "Write": 2,
+    "mcp__strata__audit_snippet": 2
+  },
+  "pathsOutsideWorkspace": [],
+  "touchedRepo": false,
+  "usedMemory": false,
+  "readPackages": true,
+  "cli": {
+    "isError": false,
+    "subtype": "success",
+    "turns": 30,
+    "durationMs": 177152,
+    "costUsd": 0.5514084,
+    "usage": {
+      "input_tokens": 30,
+      "cache_creation_input_tokens": 60114,
+      "cache_read_input_tokens": 653462,
+      "output_tokens": 18020,
+      "output_tokens_details": {
+        "thinking_tokens": 9247
+      },
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 60114,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 2,
+          "output_tokens": 430,
+          "cache_read_input_tokens": 70086,
+          "cache_creation_input_tokens": 513,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 513
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-sonnet-5": {
+        "inputTokens": 30,
+        "outputTokens": 18020,
+        "cacheReadInputTokens": 653462,
+        "cacheCreationInputTokens": 60114,
+        "webSearchRequests": 0,
+        "costUSD": 0.5514084,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 64000,
+        "thinkingTokens": 9247,
+        "canonicalModel": "claude-sonnet-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "finalMessage": "Both files pass the Strata audit clean (score 100, no findings).\n\n**Summary of the build** (`src/screens/Screen.tsx` + `src/screens/Screen.module.css`):\n\n- Seven mock members (an owner, two admins, four members) with name, email, role and last-active timestamps, rendered in a `DataTable` (avatar + name as row header, email, role `Badge`, relative \"last active\" text, and a row actions menu).\n- Each non-owner row has a `MenuTrigger` → `Menu` with \"Make admin\"/\"Make member\" (toggles based on current role) and a danger \"Remove from team\" item; the owner row has no actions, protecting the sole owner.\n- Removal opens a controlled `AlertDialog` (destructive-action confirmation) naming the person before removing them from state.\n- \"Invite\" is a `DialogTrigger` → `Dialog` with an email `TextField` and a role `Select` (Admin/Member); submitting adds a new member with no last-active date (\"Never — invited\").\n- All colours/spacing/typography use `var(--strata-*)` tokens, logical properties only, and every icon-only control has an `aria-label`.\n\nI can't run the app to verify interactively, so this hasn't been visually tested in a browser — only checked against the Strata auditor and component docs."
+  }
+}

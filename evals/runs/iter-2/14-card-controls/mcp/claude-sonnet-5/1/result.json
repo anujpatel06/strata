@@ -1,0 +1,93 @@
+{
+  "prompt": "14-card-controls",
+  "tags": [
+    "a11y"
+  ],
+  "condition": "mcp",
+  "model": "claude-sonnet-5",
+  "repeat": 1,
+  "iteration": "2",
+  "source": {
+    "commit": "dffb1e071736157779c49d2ad358710a973f5a48",
+    "dirty": []
+  },
+  "startedAt": "2026-09-27T18:28:54.581Z",
+  "wallMs": 130380,
+  "exitCode": 0,
+  "timedOut": false,
+  "editedProtectedFiles": [],
+  "toolCalls": {
+    "Read": 4,
+    "Glob": 2,
+    "mcp__strata__list_components": 1,
+    "mcp__strata__get_component": 8,
+    "mcp__strata__get_example": 6,
+    "mcp__strata__get_pattern": 1,
+    "Grep": 3,
+    "mcp__strata__get_tokens": 2,
+    "Write": 2,
+    "Edit": 1,
+    "mcp__strata__audit_snippet": 2
+  },
+  "pathsOutsideWorkspace": [],
+  "touchedRepo": false,
+  "usedMemory": false,
+  "readPackages": true,
+  "cli": {
+    "isError": false,
+    "subtype": "success",
+    "turns": 33,
+    "durationMs": 129003,
+    "costUsd": 0.3972016,
+    "usage": {
+      "input_tokens": 34,
+      "cache_creation_input_tokens": 42241,
+      "cache_read_input_tokens": 588048,
+      "output_tokens": 11056,
+      "output_tokens_details": {
+        "thinking_tokens": 4974
+      },
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 42241,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 2,
+          "output_tokens": 269,
+          "cache_read_input_tokens": 51010,
+          "cache_creation_input_tokens": 1716,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 1716
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-sonnet-5": {
+        "inputTokens": 34,
+        "outputTokens": 11056,
+        "cacheReadInputTokens": 588048,
+        "cacheCreationInputTokens": 42241,
+        "webSearchRequests": 0,
+        "costUSD": 0.3972016,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 64000,
+        "thinkingTokens": 4974,
+        "canonicalModel": "claude-sonnet-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "finalMessage": "Both files score 100 on the Strata audit with no findings.\n\nSummary of the screen (`src/screens/Screen.tsx` + `Screen.module.css`):\n- A `Card` shows the cardholder name, network and last four digits (with an `IconTile`) plus an `Active`/`Frozen` status `Badge`.\n- A `Freeze card` `Switch` controls a `isFrozen` state; when on, a warning `Alert` explains the other controls don't apply, and the online payments, contactless, and international use switches plus the daily limit `Slider` all become `isDisabled`.\n- The daily spending limit uses a `Slider` formatted as INR currency.\n\nI can't run the app to visually verify, so I'd recommend spinning up the dev server to confirm layout and the frozen/disabled states render as expected."
+  }
+}

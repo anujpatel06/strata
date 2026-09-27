@@ -1,0 +1,109 @@
+.screen {
+  display: grid;
+  gap: var(--strata-space-6);
+  max-inline-size: 720px;
+  margin-inline: auto;
+  padding: var(--strata-space-6) var(--strata-space-4);
+}
+
+.backLink {
+  justify-self: start;
+}
+
+.backLink svg {
+  margin-inline-end: var(--strata-space-1);
+}
+
+.header {
+  display: grid;
+  gap: var(--strata-space-1);
+}
+
+.title {
+  margin: 0;
+  font-family: var(--strata-font-heading);
+  font-size: var(--strata-font-size-3xl);
+  font-weight: var(--strata-font-weight-semibold);
+  letter-spacing: var(--strata-font-tracking-3xl);
+  color: var(--strata-color-text-default);
+}
+
+.subtitle {
+  margin: 0;
+  font-size: var(--strata-font-size-md);
+  color: var(--strata-color-text-subtle);
+}
+
+.itemList {
+  display: grid;
+  gap: var(--strata-space-5);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.itemRow {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 220px) auto;
+  align-items: start;
+  gap: var(--strata-space-4);
+  padding-block-end: var(--strata-space-5);
+  border-block-end: 1px solid var(--strata-color-border-subtle);
+}
+
+.itemRow:last-child {
+  padding-block-end: 0;
+  border-block-end: none;
+}
+
+.itemMain {
+  display: grid;
+  gap: var(--strata-space-1);
+  min-inline-size: 0;
+}
+
+.itemMeta {
+  margin: 0;
+  padding-inline-start: var(--strata-space-6);
+  font-size: var(--strata-font-size-sm);
+  color: var(--strata-color-text-subtle);
+}
+
+.itemReason {
+  min-inline-size: 0;
+}
+
+.itemAmount {
+  justify-self: end;
+  padding-block-start: var(--strata-space-1);
+}
+
+.footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--strata-space-4);
+}
+
+.refund {
+  display: grid;
+  gap: var(--strata-space-1);
+}
+
+.refundLabel {
+  font-size: var(--strata-font-size-sm);
+  font-weight: var(--strata-font-weight-medium);
+  color: var(--strata-color-text-subtle);
+}
+
+@media (max-width: 560px) {
+  .itemRow {
+    grid-template-columns: 1fr;
+  }
+
+  .itemAmount {
+    justify-self: start;
+    padding-inline-start: var(--strata-space-6);
+  }
+}

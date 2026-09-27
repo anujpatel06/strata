@@ -1,0 +1,91 @@
+{
+  "prompt": "05-danger-zone",
+  "tags": [
+    "a11y"
+  ],
+  "condition": "mcp",
+  "model": "claude-sonnet-5",
+  "repeat": 1,
+  "iteration": "2",
+  "source": {
+    "commit": "dffb1e071736157779c49d2ad358710a973f5a48",
+    "dirty": []
+  },
+  "startedAt": "2026-09-27T17:50:55.472Z",
+  "wallMs": 93578,
+  "exitCode": 0,
+  "timedOut": false,
+  "editedProtectedFiles": [],
+  "toolCalls": {
+    "Read": 3,
+    "Glob": 2,
+    "mcp__strata__get_pattern": 2,
+    "mcp__strata__list_components": 1,
+    "mcp__strata__get_component": 6,
+    "mcp__strata__get_example": 2,
+    "mcp__strata__get_tokens": 2,
+    "Write": 2,
+    "mcp__strata__audit_snippet": 2
+  },
+  "pathsOutsideWorkspace": [],
+  "touchedRepo": false,
+  "usedMemory": false,
+  "readPackages": false,
+  "cli": {
+    "isError": false,
+    "subtype": "success",
+    "turns": 23,
+    "durationMs": 92164,
+    "costUsd": 0.38399300000000003,
+    "usage": {
+      "input_tokens": 22,
+      "cache_creation_input_tokens": 54304,
+      "cache_read_input_tokens": 358015,
+      "output_tokens": 9513,
+      "output_tokens_details": {
+        "thinking_tokens": 1747
+      },
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 54304,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 2,
+          "output_tokens": 290,
+          "cache_read_input_tokens": 51103,
+          "cache_creation_input_tokens": 3201,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 3201
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-sonnet-5": {
+        "inputTokens": 22,
+        "outputTokens": 9513,
+        "cacheReadInputTokens": 358015,
+        "cacheCreationInputTokens": 54304,
+        "webSearchRequests": 0,
+        "costUSD": 0.38399300000000003,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 64000,
+        "thinkingTokens": 1747,
+        "canonicalModel": "claude-sonnet-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "finalMessage": "Both files score 100 on the Strata audit with no findings.\n\nThe account settings screen is built in `src/screens/Screen.tsx` (styles in `Screen.module.css`), with three sections:\n\n- **Profile details** — Name, Email, Phone `TextField`s in a `Card`, saved via a submit button.\n- **Notification preferences** — four `Switch` toggles (product updates, security alerts, billing notices, marketing offers) with descriptions.\n- **Close account** — a quiet row with an outline `tone=\"danger\"` button that opens an `AlertDialog` (`tone=\"danger\"`) naming exactly what's lost (profile/history, subscriptions, stored files) before confirming; on confirm the screen shows a \"closed\" state.\n\nAll copy/data is mock, defined in the file; only Strata components and tokens are used, and I couldn't run the app to test it live as instructed."
+  }
+}

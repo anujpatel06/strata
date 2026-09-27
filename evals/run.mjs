@@ -14,6 +14,7 @@
  * `--strict-mcp-config` is set in every condition, so no MCP server from the user's own setup leaks in.
  *
  * A run that already has a result.json is skipped, so an interrupted eval can be continued with the same command.
+ * If the account's usage limit is reached, the eval stops, records nothing for the runs it cut short, and exits 3.
  * `--dry` creates the workspaces and prints the commands without calling the model.
  * This script calls a paid model once per run. It prints the number of runs first.
  */
@@ -113,6 +114,8 @@ function commandFor(job, mcpConfig) {
 
 function runOne(job) {
   return new Promise((resolve) => {
+    // Checked again here, so a second runner started beside this one never repeats a finished run.
+    if (!dry && existsSync(path.join(job.dir, 'result.json'))) return resolve();
     const { ws, mcpConfig } = makeWorkspace(job);
     const args = commandFor(job, mcpConfig);
     const label = `${job.prompt.id} · ${job.condition} · ${job.model} · #${job.rep}`;
@@ -149,17 +152,34 @@ function runOne(job) {
           for (const key of ['file_path', 'path']) if (typeof block.input?.[key] === 'string') paths.add(block.input[key]);
         }
       }
+      // Resolve links through the nearest folder that exists, so a path to a file that isn't there still lands
+      // where it would be. Iteration 2 showed such paths as foreign because /var is a link to /private/var.
       const real = (p) => {
-        const abs = path.resolve(ws, p);
-        try {
-          return realpathSync(abs);
-        } catch {
-          return abs;
+        let head = path.resolve(ws, p);
+        const tail = [];
+        while (head !== path.dirname(head)) {
+          try {
+            return path.join(realpathSync(head), ...tail);
+          } catch {
+            tail.unshift(path.basename(head));
+            head = path.dirname(head);
+          }
         }
+        return path.resolve(ws, p);
       };
       const wsReal = realpathSync(ws);
       // Everything a run may read is inside its workspace, the installed packages included.
       const outside = [...paths].map(real).filter((p) => !p.startsWith(wsReal));
+      // A usage limit isn't a result. Record nothing, stop starting new runs, and say so. Found in iteration 2,
+      // where 84 runs "finished" in seconds with this message and would have counted as failures.
+      // Two shapes were seen: the CLI's own message, and a run that was cut off part-way and said so in its last words.
+      if (/usage limit|session limit|hit (my|your|the) [^.]{0,30}limit/i.test(String(cli?.result ?? '')) || cli?.subtype === 'rate_limit') {
+        if (!limited) console.log(`STOP usage limit reached: ${String(cli?.result ?? '').slice(0, 120)}`);
+        limited = true;
+        rmSync(path.dirname(ws), { recursive: true, force: true });
+        if (mcpConfig) rmSync(mcpConfig, { force: true });
+        return resolve();
+      }
       mkdirSync(job.dir, { recursive: true });
       const screens = path.join(ws, 'src/screens');
       rmSync(path.join(job.dir, 'src'), { recursive: true, force: true });
@@ -181,6 +201,7 @@ function runOne(job) {
         exitCode: code,
         timedOut: signal === 'SIGTERM',
         editedProtectedFiles: touched,
+        workspaceId: path.basename(path.dirname(ws)).replace(/^se-/, ''),
         toolCalls,
         // Paths the run asked for that are neither in its workspace nor in the installed packages.
         pathsOutsideWorkspace: outside,
@@ -205,10 +226,14 @@ function runOne(job) {
   });
 }
 
+let limited = false;
 let next = 0;
 await Promise.all(
   Array.from({ length: Math.min(concurrency, todo.length) }, async () => {
-    while (next < todo.length) await runOne(todo[next++]);
+    while (next < todo.length && !limited) await runOne(todo[next++]);
   }),
 );
-console.log(dry ? 'Dry run finished. Nothing was sent to a model.' : `Finished. Score with: node evals/score.mjs --iteration ${iteration}`);
+if (limited) {
+  console.log('Stopped at the usage limit. Nothing was recorded for the runs it cut short. Run the same command again to continue.');
+  process.exitCode = 3;
+} else console.log(dry ? 'Dry run finished. Nothing was sent to a model.' : `Finished. Score with: node evals/score.mjs --iteration ${iteration}`);

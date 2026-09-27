@@ -1,0 +1,92 @@
+{
+  "prompt": "12-address-form",
+  "tags": [
+    "a11y",
+    "rtl"
+  ],
+  "condition": "mcp",
+  "model": "claude-sonnet-5",
+  "repeat": 1,
+  "iteration": "2",
+  "source": {
+    "commit": "dffb1e071736157779c49d2ad358710a973f5a48",
+    "dirty": []
+  },
+  "startedAt": "2026-09-27T18:23:56.064Z",
+  "wallMs": 78925,
+  "exitCode": 0,
+  "timedOut": false,
+  "editedProtectedFiles": [],
+  "toolCalls": {
+    "Read": 4,
+    "mcp__strata__list_components": 1,
+    "Glob": 2,
+    "mcp__strata__get_component": 5,
+    "mcp__strata__get_example": 3,
+    "Write": 2,
+    "Edit": 2,
+    "mcp__strata__get_tokens": 1,
+    "mcp__strata__audit_snippet": 2
+  },
+  "pathsOutsideWorkspace": [],
+  "touchedRepo": false,
+  "usedMemory": false,
+  "readPackages": false,
+  "cli": {
+    "isError": false,
+    "subtype": "success",
+    "turns": 23,
+    "durationMs": 77412,
+    "costUsd": 0.27217820000000004,
+    "usage": {
+      "input_tokens": 28,
+      "cache_creation_input_tokens": 30097,
+      "cache_read_input_tokens": 396121,
+      "output_tokens": 7251,
+      "output_tokens_details": {
+        "thinking_tokens": 610
+      },
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 30097,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 2,
+          "output_tokens": 184,
+          "cache_read_input_tokens": 40253,
+          "cache_creation_input_tokens": 329,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 329
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-sonnet-5": {
+        "inputTokens": 28,
+        "outputTokens": 7251,
+        "cacheReadInputTokens": 396121,
+        "cacheCreationInputTokens": 30097,
+        "webSearchRequests": 0,
+        "costUSD": 0.27217820000000004,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 64000,
+        "thinkingTokens": 610,
+        "canonicalModel": "claude-sonnet-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "finalMessage": "Both files pass audit with a 100 score. The delivery address form is built in `src/screens/Screen.tsx` (with `Screen.module.css`), using Strata's `TextField`, `Select`, `TextArea`, `Card` and `Button`. Mock data has Full name, Emirate, Area, Building and Delivery notes pre-filled; Phone is empty and Flat number is `12B-`, so their errors show since the record starts in a submitted/touched state. All copy is in English, with logical CSS properties and token-based spacing/sizing throughout."
+  }
+}

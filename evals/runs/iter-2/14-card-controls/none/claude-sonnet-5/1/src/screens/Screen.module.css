@@ -1,0 +1,171 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-6);
+  max-inline-size: 480px;
+  margin-inline: auto;
+}
+
+.pageHeader {
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-1);
+}
+
+.pageTitle {
+  margin: 0;
+  font-family: var(--strata-font-heading);
+  font-size: var(--strata-font-size-2xl);
+  font-weight: var(--strata-font-weight-semibold);
+  letter-spacing: var(--strata-font-tracking-2xl);
+  color: var(--strata-color-text-default);
+}
+
+.pageSubtitle {
+  margin: 0;
+  font-size: var(--strata-font-size-md);
+  color: var(--strata-color-text-subtle);
+}
+
+/* Card visual */
+
+.cardVisual {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: var(--strata-space-6);
+  block-size: 190px;
+  padding: var(--strata-space-5);
+  border-radius: var(--strata-radius-container);
+  background: linear-gradient(
+    135deg,
+    var(--strata-color-action-primary-bg),
+    color-mix(in srgb, var(--strata-color-action-primary-bg) 55%, black)
+  );
+  color: var(--strata-color-action-primary-fg);
+  box-shadow: var(--strata-shadow-raised);
+  overflow: hidden;
+  transition: filter var(--strata-motion-duration-normal) var(--strata-motion-easing);
+}
+
+.cardVisual[data-frozen] {
+  filter: grayscale(0.7);
+}
+
+.cardVisualTop {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--strata-space-3);
+}
+
+.cardNetwork {
+  font-family: var(--strata-font-heading);
+  font-size: var(--strata-font-size-lg);
+  font-weight: var(--strata-font-weight-bold);
+  letter-spacing: var(--strata-font-tracking-caps);
+  text-transform: uppercase;
+}
+
+.cardChip {
+  inline-size: 40px;
+  block-size: 28px;
+  border-radius: var(--strata-space-1);
+  background: color-mix(in srgb, var(--strata-color-action-primary-fg) 35%, transparent);
+}
+
+.cardNumber {
+  margin: 0;
+  font-family: var(--strata-font-mono);
+  font-size: var(--strata-font-size-xl);
+  letter-spacing: 0.06em;
+}
+
+.cardVisualBottom {
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-1);
+}
+
+.cardHolder {
+  font-size: var(--strata-font-size-md);
+  font-weight: var(--strata-font-weight-semibold);
+}
+
+.cardNickname {
+  font-size: var(--strata-font-size-sm);
+  color: color-mix(in srgb, var(--strata-color-action-primary-fg) 75%, transparent);
+}
+
+.frozenOverlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--strata-space-2);
+  background: color-mix(in srgb, var(--strata-color-surface-inverse) 45%, transparent);
+  font-size: var(--strata-font-size-lg);
+  font-weight: var(--strata-font-weight-semibold);
+  letter-spacing: var(--strata-font-tracking-lg);
+  text-transform: uppercase;
+}
+
+/* Controls card */
+
+.controlsCard {
+  inline-size: 100%;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-5);
+}
+
+.switchLabel {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--strata-space-2);
+  font-weight: var(--strata-font-weight-medium);
+}
+
+.fieldset {
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-4);
+  margin: 0;
+  padding: 0;
+  border: none;
+}
+
+.fieldset[disabled] {
+  opacity: 0.55;
+}
+
+.legend {
+  padding: 0;
+  margin-block-end: var(--strata-space-1);
+  font-size: var(--strata-font-size-sm);
+  font-weight: var(--strata-font-weight-semibold);
+  color: var(--strata-color-text-subtle);
+  text-transform: uppercase;
+  letter-spacing: var(--strata-font-tracking-caps);
+}
+
+.limitSection {
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-2);
+}
+
+.slider {
+  inline-size: 100%;
+}
+
+.limitHint {
+  margin: 0;
+  font-size: var(--strata-font-size-sm);
+  color: var(--strata-color-text-subtle);
+}

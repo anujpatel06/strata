@@ -1,0 +1,37 @@
+.screen {
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-5);
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-1);
+}
+
+.title {
+  margin: 0;
+  font-family: var(--strata-font-heading);
+  font-size: var(--strata-font-size-3xl);
+  font-weight: var(--strata-font-weight-semibold);
+  color: var(--strata-color-text-default);
+}
+
+.subtitle {
+  margin: 0;
+  color: var(--strata-color-text-subtle);
+  font-size: var(--strata-font-size-md);
+  max-inline-size: 60ch;
+}
+
+.selectionSummary {
+  color: var(--strata-color-text-subtle);
+  font-size: var(--strata-font-size-sm);
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: var(--strata-space-2);
+}

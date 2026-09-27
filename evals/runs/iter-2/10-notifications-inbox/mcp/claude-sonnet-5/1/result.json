@@ -1,0 +1,92 @@
+{
+  "prompt": "10-notifications-inbox",
+  "tags": [
+    "a11y"
+  ],
+  "condition": "mcp",
+  "model": "claude-sonnet-5",
+  "repeat": 1,
+  "iteration": "2",
+  "source": {
+    "commit": "dffb1e071736157779c49d2ad358710a973f5a48",
+    "dirty": []
+  },
+  "startedAt": "2026-09-27T18:18:04.083Z",
+  "wallMs": 131127,
+  "exitCode": 0,
+  "timedOut": false,
+  "editedProtectedFiles": [],
+  "toolCalls": {
+    "Read": 8,
+    "Glob": 2,
+    "mcp__strata__list_components": 1,
+    "mcp__strata__get_pattern": 2,
+    "mcp__strata__get_component": 7,
+    "Grep": 6,
+    "mcp__strata__get_example": 4,
+    "mcp__strata__get_tokens": 3,
+    "Write": 2,
+    "mcp__strata__audit_snippet": 2
+  },
+  "pathsOutsideWorkspace": [],
+  "touchedRepo": false,
+  "usedMemory": false,
+  "readPackages": true,
+  "cli": {
+    "isError": false,
+    "subtype": "success",
+    "turns": 38,
+    "durationMs": 129697,
+    "costUsd": 0.520981,
+    "usage": {
+      "input_tokens": 32,
+      "cache_creation_input_tokens": 63909,
+      "cache_read_input_tokens": 687305,
+      "output_tokens": 12782,
+      "output_tokens_details": {
+        "thinking_tokens": 4326
+      },
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 63909,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 2,
+          "output_tokens": 160,
+          "cache_read_input_tokens": 72458,
+          "cache_creation_input_tokens": 1936,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 1936
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-sonnet-5": {
+        "inputTokens": 32,
+        "outputTokens": 12782,
+        "cacheReadInputTokens": 687305,
+        "cacheCreationInputTokens": 63909,
+        "webSearchRequests": 0,
+        "costUSD": 0.520981,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 64000,
+        "thinkingTokens": 4326,
+        "canonicalModel": "claude-sonnet-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "finalMessage": "Both audits score 100 with no findings. The screen is complete: `src/screens/Screen.tsx` renders a notifications inbox (Card, ToggleButtonGroup filter by type, Eyebrow-labeled Today/Earlier sections, IconTile + Badge per row) with mock data for 8 notifications, unread marking, per-row \"mark as read,\" and \"mark all as read,\" styled via `src/screens/Screen.module.css` using only Strata tokens and logical properties."
+  }
+}

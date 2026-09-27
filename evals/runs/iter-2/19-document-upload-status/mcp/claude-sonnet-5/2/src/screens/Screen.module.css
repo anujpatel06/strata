@@ -1,0 +1,136 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-8);
+  max-inline-size: 960px;
+  margin-inline: auto;
+  padding-block: var(--strata-space-8);
+  padding-inline: var(--strata-space-6);
+}
+
+.intro {
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-2);
+}
+
+.title {
+  margin: 0;
+  font-family: var(--strata-font-heading);
+  font-size: var(--strata-font-size-3xl);
+  font-weight: var(--strata-font-weight-semibold);
+  color: var(--strata-color-text-default);
+  text-align: start;
+}
+
+.subtitle {
+  margin: 0;
+  max-inline-size: 64ch;
+  font-size: var(--strata-font-size-md);
+  color: var(--strata-color-text-subtle);
+  text-align: start;
+}
+
+.progressCard {
+  inline-size: 100%;
+}
+
+.progressContent {
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-4);
+}
+
+.summaryList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--strata-space-2) var(--strata-space-4);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.summaryItem {
+  display: flex;
+  align-items: center;
+  gap: var(--strata-space-2);
+}
+
+.summaryLabel {
+  font-size: var(--strata-font-size-sm);
+  color: var(--strata-color-text-subtle);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: var(--strata-space-6);
+}
+
+.docCard {
+  display: flex;
+  flex-direction: column;
+}
+
+.docHeading {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--strata-space-3);
+}
+
+.docHeadingText {
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-1);
+  min-inline-size: 0;
+}
+
+.docContent {
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-4);
+  flex: 1;
+}
+
+.docFooter {
+  justify-content: flex-end;
+}
+
+.fileSummary {
+  display: flex;
+  align-items: center;
+  gap: var(--strata-space-3);
+  padding: var(--strata-space-3);
+  border: 1px solid var(--strata-color-border-default);
+  border-radius: var(--strata-radius-container);
+}
+
+.fileIcon {
+  flex-shrink: 0;
+  color: var(--strata-color-text-subtle);
+}
+
+.fileMeta {
+  display: flex;
+  flex-direction: column;
+  gap: var(--strata-space-1);
+  min-inline-size: 0;
+}
+
+.fileName {
+  margin: 0;
+  overflow: hidden;
+  font-size: var(--strata-font-size-sm);
+  font-weight: var(--strata-font-weight-medium);
+  color: var(--strata-color-text-default);
+  text-align: start;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.fileDate {
+  margin: 0;
+  font-size: var(--strata-font-size-xs);
+  color: var(--strata-color-text-subtle);
+  text-align: start;
+}

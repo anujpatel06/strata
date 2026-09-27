@@ -1,0 +1,80 @@
+.root {
+  display: grid;
+  gap: var(--strata-space-6);
+  max-inline-size: 960px;
+  margin-inline: auto;
+  padding-block: var(--strata-space-8);
+  padding-inline: var(--strata-space-4);
+}
+
+.header {
+  display: grid;
+  gap: var(--strata-space-1);
+}
+
+.title {
+  margin: 0;
+  font-family: var(--strata-font-heading);
+  font-size: var(--strata-font-size-2xl);
+  font-weight: var(--strata-font-weight-semibold);
+  letter-spacing: var(--strata-font-tracking-2xl);
+  color: var(--strata-color-text-default);
+}
+
+.subtitle {
+  margin: 0;
+  font-family: var(--strata-font-body);
+  font-size: var(--strata-font-size-md);
+  color: var(--strata-color-text-subtle);
+}
+
+.stats {
+  inline-size: 100%;
+}
+
+.activityList {
+  display: grid;
+  gap: var(--strata-space-4);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.activityRow {
+  display: flex;
+  align-items: center;
+  gap: var(--strata-space-3);
+}
+
+.activityDesc {
+  display: grid;
+  gap: var(--strata-space-1);
+  flex: 1;
+  min-inline-size: 0;
+}
+
+.activityTitle {
+  font-family: var(--strata-font-body);
+  font-size: var(--strata-font-size-sm);
+  font-weight: var(--strata-font-weight-medium);
+  color: var(--strata-color-text-default);
+}
+
+.activityMeta {
+  font-family: var(--strata-font-body);
+  font-size: var(--strata-font-size-xs);
+  color: var(--strata-color-text-subtle);
+}
+
+.activityAmount {
+  font-family: var(--strata-font-body);
+  font-size: var(--strata-font-size-sm);
+  font-weight: var(--strata-font-weight-semibold);
+  font-variant-numeric: tabular-nums;
+  color: var(--strata-color-text-default);
+  white-space: nowrap;
+}
+
+.activityAmountIn {
+  color: var(--strata-color-feedback-success-fg);
+}

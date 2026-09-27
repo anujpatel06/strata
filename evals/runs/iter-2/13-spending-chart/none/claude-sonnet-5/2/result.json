@@ -1,0 +1,86 @@
+{
+  "prompt": "13-spending-chart",
+  "tags": [
+    "multi-brand"
+  ],
+  "condition": "none",
+  "model": "claude-sonnet-5",
+  "repeat": 2,
+  "iteration": "2",
+  "source": {
+    "commit": "dffb1e071736157779c49d2ad358710a973f5a48",
+    "dirty": []
+  },
+  "startedAt": "2026-09-27T18:28:40.896Z",
+  "wallMs": 418435,
+  "exitCode": 0,
+  "timedOut": false,
+  "editedProtectedFiles": [],
+  "toolCalls": {
+    "Read": 41,
+    "Glob": 12,
+    "Grep": 13,
+    "Write": 2
+  },
+  "pathsOutsideWorkspace": [],
+  "touchedRepo": false,
+  "usedMemory": false,
+  "readPackages": true,
+  "cli": {
+    "isError": false,
+    "subtype": "success",
+    "turns": 69,
+    "durationMs": 417101,
+    "costUsd": 1.5806755999999997,
+    "usage": {
+      "input_tokens": 96,
+      "cache_creation_input_tokens": 122718,
+      "cache_read_input_tokens": 3759258,
+      "output_tokens": 33776,
+      "output_tokens_details": {
+        "thinking_tokens": 20632
+      },
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 122718,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 2,
+          "output_tokens": 331,
+          "cache_read_input_tokens": 127153,
+          "cache_creation_input_tokens": 4031,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 4031
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-sonnet-5": {
+        "inputTokens": 96,
+        "outputTokens": 33776,
+        "cacheReadInputTokens": 3759258,
+        "cacheCreationInputTokens": 122718,
+        "webSearchRequests": 0,
+        "costUSD": 1.5806755999999997,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 64000,
+        "thinkingTokens": 20632,
+        "canonicalModel": "claude-sonnet-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "finalMessage": "This looks complete and correct. The screen builds a spending summary with:\n\n- A header with title/subtitle and a 3/6/12-month `ToggleButtonGroup` that drives both sections.\n- A \"Monthly spending\" card: a `StatTile` showing the total (with a period-over-period delta when history allows) plus a `BarChart` of monthly totals, current month highlighted.\n- A \"Top categories\" card: the 5 largest categories (from 8 mock categories across 12 months of data) each with an icon, a `Meter` share bar, the `Amount`, and a percentage `Badge`, plus a footer summarizing the remaining categories' share.\n\nAll data is mock and generated in-file (deterministic per-category monthly figures, aggregated by the selected range), uses only `@strata/react`/`@strata/icons`/tokens, and relies on locale/RTL-aware formatting via `useLocale` and CSS logical properties so it should adapt across brands, color schemes, and the `ar-AE` locale."
+  }
+}

@@ -1,0 +1,87 @@
+{
+  "prompt": "24-bulk-approve",
+  "tags": [
+    "a11y"
+  ],
+  "condition": "none",
+  "model": "claude-sonnet-5",
+  "repeat": 2,
+  "iteration": "2",
+  "source": {
+    "commit": "dffb1e071736157779c49d2ad358710a973f5a48",
+    "dirty": []
+  },
+  "startedAt": "2026-09-27T18:54:09.521Z",
+  "wallMs": 372888,
+  "exitCode": 0,
+  "timedOut": false,
+  "editedProtectedFiles": [],
+  "toolCalls": {
+    "Read": 35,
+    "Glob": 16,
+    "Grep": 20,
+    "Write": 2,
+    "Edit": 8
+  },
+  "pathsOutsideWorkspace": [],
+  "touchedRepo": false,
+  "usedMemory": false,
+  "readPackages": true,
+  "cli": {
+    "isError": false,
+    "subtype": "success",
+    "turns": 82,
+    "durationMs": 371569,
+    "costUsd": 1.399126,
+    "usage": {
+      "input_tokens": 114,
+      "cache_creation_input_tokens": 93910,
+      "cache_read_input_tokens": 3548090,
+      "output_tokens": 31364,
+      "output_tokens_details": {
+        "thinking_tokens": 13979
+      },
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 93910,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 2,
+          "output_tokens": 179,
+          "cache_read_input_tokens": 100008,
+          "cache_creation_input_tokens": 2368,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 2368
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-sonnet-5": {
+        "inputTokens": 114,
+        "outputTokens": 31364,
+        "cacheReadInputTokens": 3548090,
+        "cacheCreationInputTokens": 93910,
+        "webSearchRequests": 0,
+        "costUSD": 1.399126,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 64000,
+        "thinkingTokens": 13979,
+        "canonicalModel": "claude-sonnet-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "finalMessage": "The screen is complete. `src/screens/Screen.tsx` renders 10 mock expense requests in a `DataTable` (employee, category, amount, date submitted, a receipt link, and status), with multi-select checkboxes. A toolbar shows the selection count and Approve/Reject buttons; Reject opens a dialog requiring a reason before it's enabled. After either action, a dismissible summary banner and a toast report how many requests were approved or rejected, and those rows lock (via `disabledKeys`) so they can't be re-actioned."
+  }
+}

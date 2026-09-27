@@ -1,0 +1,22 @@
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: var(--strata-space-3);
+  flex: 1 1 auto;
+}
+
+.search {
+  flex: 1 1 220px;
+  min-inline-size: 200px;
+}
+
+.categoryField {
+  flex: 0 1 180px;
+  min-inline-size: 160px;
+}
+
+.dateField {
+  flex: 0 1 260px;
+  min-inline-size: 220px;
+}
