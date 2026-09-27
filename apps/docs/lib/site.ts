@@ -26,6 +26,7 @@ export const MAIN_NAV: readonly NavLink[] = [
   { href: '/blocks', label: 'Blocks' },
   { href: '/themes', label: 'Themes' },
   { href: '/colors', label: 'Colors' },
+  { href: '/docs/icons', label: 'Icons' },
 ];
 
 /** Returns the MAIN_NAV href that owns a pathname (longest prefix wins), or undefined. */

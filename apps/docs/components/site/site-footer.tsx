@@ -26,6 +26,7 @@ const COLUMNS: ReadonlyArray<{ title: string; links: ReadonlyArray<{ href: strin
     links: [
       { href: '/themes', label: 'Themes' },
       { href: '/colors', label: 'Colors' },
+      { href: '/docs/icons', label: 'Icons' },
       { href: '/docs/accessibility', label: 'Accessibility' },
     ],
   },
