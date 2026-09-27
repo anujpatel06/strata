@@ -10,7 +10,7 @@
  *   <id>/<id>.tokens.json       W3C DTCG 2025.10
  *   <id>/figma/*.tokens.json    Figma-variables import: Brand.<Name>, Semantic.{Light,Dark}, Density.*, Shape.<Name>, Type.<Name>
  *   <id>/figma-starter/*.tokens.json  the same for Figma Starter (one mode per collection): "<Name> · Light|Dark|Size|Size <other>".Value
- *   <id>/contrast-report.json   every contrast check + every solver adjustment
+ *   <id>/contrast-report.json   every contrast check + every solver adjustment + brand fidelity
  *
  * Options: --tenants <dir> (default <repo>/tenants), --out <dir> (default packages/tokens/dist).
  * Exits 1 if any contrast check fails, a brand.json is invalid, the DTCG token count
@@ -20,7 +20,7 @@ import { existsSync, mkdirSync, readFileSync, readdirSync, rmSync, writeFileSync
 import { dirname, join, relative, resolve } from 'node:path';
 import { performance } from 'node:perf_hooks';
 import { fileURLToPath } from 'node:url';
-import { generateTheme, toCSS, toDTCG, toFigmaFiles } from '@strata/theme-engine';
+import { brandFidelity, generateTheme, toCSS, toDTCG, toFigmaFiles } from '@strata/theme-engine';
 import type { BrandInput, Theme } from '@strata/theme-engine';
 
 const here = dirname(fileURLToPath(import.meta.url));
@@ -100,6 +100,8 @@ function buildTenant(id: string): Built {
         failed: theme.summary.failed,
         adjustments: theme.summary.adjustments,
       },
+      // How far each brand fill is from the colour the brand asked for (OKLab ΔE × 100; 0 = exact).
+      fidelity: brandFidelity(theme),
       checks: theme.checks,
       adjustments: theme.adjustments,
     }),

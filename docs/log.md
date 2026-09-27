@@ -6,6 +6,52 @@ Numbers only with the command that produced them. Design trade-offs get an ADR i
 
 ---
 
+## 2026-09-27 (Phase 5, build) — auditor, MCP server, brand fidelity, eval harness
+
+**Changed**
+- `packages/audit` (new): the drift auditor. Ten rules, a fix on every finding, `--fix` for the safe ones, text, JSON and HTML reports, `--min-score` for CI. `pnpm drift <path>`.
+- `packages/mcp` (new): a read-only MCP server over stdio with seven tools and two resources. `audit_snippet` and `find_token` run the auditor's engine.
+- `packages/theme-engine`: `brandFidelity(theme)`, the distance between each brand input and the fill that carries it. In the fuzz report and in each tenant's `contrast-report.json`.
+- `AGENTS.md` (root) and `.github/CODEOWNERS`.
+- `evals/` (new): 25 prompts, the template app, `setup`, `run`, `score` and `report` scripts, and a README with the method and its limits.
+- `packages/tokens`: `@strata/theme-engine` moved to dev dependencies. The eval's setup found that installing the packed package tried to fetch the engine from npm.
+- CI runs the drift gate: `pnpm drift apps/docs --min-score 95`.
+- Docs: the MCP page describes the real server.
+
+**Decided**
+- Eval size "Standard" and model Sonnet 5 — **Anuj**. With one model that is 100 runs, not 200 (ADR-022).
+- Auditor and MCP server built in parallel by two subagents with separate files — **Anuj**.
+- Score formula and weights, safe-fix rule, `get_example` as a seventh tool, eval isolation rules (ADR-022) — **Claude** (pending Anuj).
+- Colours inside `mask-image` aren't checked: a mask is read for alpha only — **Claude** (the auditor subagent's call, accepted by the lead).
+- Native elements in the docs app (a skip link, anchors, two tables) stay as findings. No exemptions were added to raise the score — **Claude**.
+
+**Results**
+- `pnpm --filter @strata/audit test`: 74 passing. `pnpm --filter @strata/mcp test`: 143 passing, including 3 against the real auditor. `pnpm --filter @strata/theme-engine test`: 224 passing.
+- `pnpm drift apps/docs`: score 98.8. 60 findings (24 errors, 36 warnings) in 4,598 places looked at; 34 have a safe fix. By rule: 35 off-scale space, 23 native elements, 1 off-scale radius, 1 physical property.
+- `pnpm drift packages/react/src/ui`: score 99.9. 1 finding, the `<table>` in `chart.tsx`.
+- Brand fidelity over 1,000 random brands (`pnpm test:themes`), ΔE in OKLab × 100:
+  - primary, light: kept exactly 89.2%, p95 3.5, largest 5.8
+  - primary, dark: kept exactly 80.0%, p95 7.1, largest 29.0
+  - accent, light: kept exactly 88.4%, p95 3.1, largest 5.6
+  - accent, dark: kept exactly 77.5%, p95 8.0, largest 25.0
+- Tenants (`pnpm tokens`): Vela, Harbor, Qamar and Care keep both brand colours exactly in both schemes. The house theme's near-black `#18181b` ships as `#4a4a4e` in dark, a distance of 20.0.
+- MCP response sizes: see the MCP docs page; `pnpm --filter @strata/mcp test sizes`.
+- Smoke runs of the eval, one prompt: two early runs leaked (one read a neighbouring workspace, one read an earlier run's memory notes) and were thrown away. After the fix, neither of the two runs read anything outside its workspace. They're not results and aren't kept.
+
+**Known gaps**
+- The eval itself hasn't run yet. There is no headline number.
+- BRIEF §8's recorded run of Claude Code building a screen with only the MCP server isn't done.
+- The Cursor and VS Code setup snippets haven't been tried in those clients.
+- CODEOWNERS only blocks a merge once branch protection requires code-owner review. That's a GitHub setting for Anuj.
+- The dark-scheme fidelity tail (up to 29.0) is measured, not yet examined.
+- `meta.json` token lists name some tokens two ways (`icon.stroke` and `icon-stroke`). `check:meta` doesn't catch it.
+- A DatePicker test timed out once under load and passed when rerun alone.
+
+**Next**
+- Commit, run `node evals/setup.mjs --clean`, then the 100 runs.
+
+---
+
 ## 2026-09-27 (Phase 4) — governance, and the first deprecation done end to end
 
 **Changed**

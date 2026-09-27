@@ -16,7 +16,12 @@
     "tokens": "pnpm --filter @strata/tokens build",
     "screenshots": "node scripts/screenshots.mjs",
     "registry": "node packages/react/scripts/build-registry.mjs",
-    "check:meta": "node packages/react/scripts/check-meta.mjs"
+    "check:meta": "node packages/react/scripts/check-meta.mjs",
+    "drift": "node packages/audit/bin/cli.mjs",
+    "eval:setup": "node evals/setup.mjs",
+    "eval:run": "node evals/run.mjs",
+    "eval:score": "node evals/score.mjs",
+    "eval:report": "node evals/report.mjs"
   },
   "devDependencies": {
     "@changesets/cli": "^2.29.0",

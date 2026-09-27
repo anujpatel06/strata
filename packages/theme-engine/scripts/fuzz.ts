@@ -12,6 +12,7 @@ import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { contrastRatio, formatRatio } from '../src/color';
 import { CHART_AXIS_ROLE, CHART_GRID_ROLE, CHART_SERIES, CHART_SURFACES, chartCvdDeltaE, chartDeltaE, chartPaletteProblems } from '../src/chart';
+import { brandFidelity, type BrandColorInput } from '../src/fidelity';
 import { GLASS_TEXT_ROLES, glassWorstRatio } from '../src/glass';
 import { BASE_STEP, RAMP_NAMES } from '../src/ramps';
 import { CONTRAST_PAIRS } from '../src/roles';
@@ -221,6 +222,24 @@ export interface FuzzResult {
   adjustmentsPerTheme: { min: number; median: number; max: number };
   interventions: Intervention[];
   chart: ChartStats;
+  /** Brand fidelity (src/fidelity.ts): one row per brand colour and scheme. */
+  fidelity: FidelityStats[];
+}
+
+/** How far the shipped brand fill is from the colour the brand asked for, across every brand. OKLab ΔE × 100. */
+export interface FidelityStats {
+  input: BrandColorInput;
+  scheme: Scheme;
+  role: Role;
+  /** Brands whose colour is shipped exactly as given. */
+  exact: number;
+  /** Floored to 1 decimal. */
+  exactPercent: number;
+  median: number;
+  p95: number;
+  max: number;
+  /** The brand that moved furthest. */
+  worst: { theme: number; asked: string; shipped: string };
 }
 
 /** Chart palette results across every brand × scheme. */
@@ -262,6 +281,7 @@ export function runFuzz(inputs: BrandInput[] = fuzzInputs(), seed = FUZZ_SEED): 
   let totalChecks = 0;
   let passed = 0;
   let checksPerTheme = 0;
+  const fidelity = new Map<string, { input: BrandColorInput; scheme: Scheme; role: Role; values: number[]; exact: number; worst: FidelityStats['worst']; worstDeltaE: number }>();
   const chart: ChartStats = { palettes: 0, passed: 0, passRatePercent: 0, withNotes: {}, minCvdDeltaE: Infinity, minNormalDeltaE: Infinity, minContrast: Infinity };
 
   inputs.forEach((input, i) => {
@@ -311,6 +331,18 @@ export function runFuzz(inputs: BrandInput[] = fuzzInputs(), seed = FUZZ_SEED): 
       });
     }
 
+    for (const f of brandFidelity(theme)) {
+      const key = `${f.input}|${f.scheme}`;
+      let row = fidelity.get(key);
+      if (!row) fidelity.set(key, (row = { input: f.input, scheme: f.scheme, role: f.role, values: [], exact: 0, worst: { theme: i, asked: f.asked, shipped: f.shipped }, worstDeltaE: -1 }));
+      row.values.push(f.deltaE);
+      if (f.exact) row.exact++;
+      if (f.deltaE > row.worstDeltaE) {
+        row.worstDeltaE = f.deltaE;
+        row.worst = { theme: i, asked: f.asked, shipped: f.shipped };
+      }
+    }
+
     const problems = validateTheme(theme);
     if (problems.length) invariantViolations.push({ theme: i, input, problems });
 
@@ -350,6 +382,20 @@ export function runFuzz(inputs: BrandInput[] = fuzzInputs(), seed = FUZZ_SEED): 
     adjustmentsPerTheme: { min: sortedAdj[0] ?? 0, median: median(sortedAdj), max: sortedAdj[sortedAdj.length - 1] ?? 0 },
     interventions,
     chart: { ...chart, passRatePercent: chart.palettes === 0 ? 0 : Math.floor((chart.passed / chart.palettes) * 10000) / 100 },
+    fidelity: [...fidelity.values()].map((row) => {
+      const sorted = [...row.values].sort((a, b) => a - b);
+      return {
+        input: row.input,
+        scheme: row.scheme,
+        role: row.role,
+        exact: row.exact,
+        exactPercent: sorted.length === 0 ? 0 : Math.floor((row.exact / sorted.length) * 1000) / 10,
+        median: median(sorted),
+        p95: quantile(sorted, 0.95),
+        max: sorted[sorted.length - 1] ?? 0,
+        worst: row.worst,
+      };
+    }),
   };
 }
 
@@ -366,6 +412,8 @@ const fmtMs = (n: number) => n.toFixed(2);
 /** Margins are floored to 3 decimals so a tight pass is never shown as looser than it is. */
 /** ΔE floored to 1 decimal (never shown looser than it is). */
 const fmtFloor1 = (n: number) => (Math.floor(n * 10 + 1e-9) / 10).toFixed(1);
+/** Distances the solver moved a colour are rounded up to 1 decimal: a move is never shown smaller than it is. */
+const fmtCeil1 = (n: number) => (Math.ceil(n * 10 - 1e-9) / 10).toFixed(1);
 const fmtMargin = (n: number) => (Math.floor(n * 1000 + 1e-9) / 1000).toFixed(3);
 
 function environment() {
@@ -428,6 +476,19 @@ export function toMarkdown(r: FuzzResult, env = environment()): string {
   for (const [kind, n] of Object.entries(c.withNotes)) lines.push(`| Solver notes: ${kind} | ${fmtInt(n)} palettes |`);
   lines.push('');
 
+  lines.push('## Brand fidelity', '');
+  lines.push(
+    'How far the colour on screen is from the colour the brand asked for. For each brand colour and scheme, the input hex is compared with the fill that carries it. Distance is Euclidean in OKLab × 100; 0 means the brand colour is shipped exactly. As a guide, not a threshold: under 2 is hard to see side by side, over 10 reads as a different colour. Distances are rounded up to 1 decimal, so a move is never shown smaller than it is.',
+    '',
+  );
+  lines.push('| Brand colour | Scheme | Role | Kept exactly | Median ΔE | p95 ΔE | Largest ΔE | Furthest brand |', '|---|---|---|---|---|---|---|---|');
+  for (const f of r.fidelity) {
+    lines.push(
+      `| ${f.input} | ${f.scheme} | \`${f.role}\` | ${fmtInt(f.exact)} (${f.exactPercent.toFixed(1)}%) | ${fmtCeil1(f.median)} | ${fmtCeil1(f.p95)} | ${fmtCeil1(f.max)} | #${f.worst.theme + 1} ${f.worst.asked} → ${f.worst.shipped} |`,
+    );
+  }
+  lines.push('');
+
   lines.push('## Structural invariants', '');
   lines.push(
     r.invariantViolations.length === 0
@@ -470,6 +531,7 @@ function main(): void {
     m45 ? `  4.5:1    lowest ${m45.minRatio.toFixed(4)} (margin ${fmtMargin(m45.margin)}) — ${m45.scheme} ${m45.fg} on ${m45.bg}` : '',
     m3 ? `  3:1      lowest ${m3.minRatio.toFixed(4)} (margin ${fmtMargin(m3.margin)}) — ${m3.scheme} ${m3.fg} on ${m3.bg}` : '',
     `  chart    ${fmtInt(result.chart.passed)}/${fmtInt(result.chart.palettes)} palettes pass (${result.chart.passRatePercent.toFixed(2)}%)  min CVD ΔE ${fmtFloor1(result.chart.minCvdDeltaE)}  min normal ΔE ${fmtFloor1(result.chart.minNormalDeltaE)}  min contrast ${result.chart.minContrast.toFixed(4)}`,
+    ...result.fidelity.map((f) => `  fidelity ${f.input.padEnd(7)} ${f.scheme.padEnd(5)} kept exactly ${f.exactPercent.toFixed(1)}%  ΔE median ${fmtCeil1(f.median)}  p95 ${fmtCeil1(f.p95)}  max ${fmtCeil1(f.max)}`),
     `  invariants  ${result.invariantViolations.length === 0 ? 'all brands valid' : `${result.invariantViolations.length} brand(s) with violations`}`,
     `  adjustments per brand  min ${result.adjustmentsPerTheme.min} / median ${result.adjustmentsPerTheme.median} / max ${result.adjustmentsPerTheme.max}`,
     '  most frequent interventions:',

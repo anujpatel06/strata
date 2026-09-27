@@ -1,0 +1,33 @@
+{
+  "name": "strata-eval-app",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "packageManager": "pnpm@10.28.0",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "dependencies": {
+    "@strata/icons": "__PACK_ICONS__",
+    "@strata/react": "__PACK_REACT__",
+    "@strata/tokens": "__PACK_TOKENS__",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0"
+  },
+  "devDependencies": {
+    "@types/react": "^19.2.0",
+    "@types/react-dom": "^19.2.0",
+    "@vitejs/plugin-react": "^6.0.0",
+    "typescript": "~5.9.0",
+    "vite": "^8.0.0"
+  },
+  "pnpm": {
+    "overrides": {
+      "@strata/icons": "__PACK_ICONS__",
+      "@strata/react": "__PACK_REACT__",
+      "@strata/tokens": "__PACK_TOKENS__"
+    }
+  }
+}

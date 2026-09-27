@@ -1,14 +1,12 @@
-A Strata MCP server is planned for Phase 5. It will let AI coding agents look up components, tokens and usage rules while they write code.
+The Strata MCP server lets AI coding agents look up components, tokens and usage rules while they write code, and check their own work. It reads the same `meta.json` files as these pages.
 
-## The planned server
-
-<Callout tone="neutral" title="Planned — Phase 5">
-  Nothing below ships yet. The tool list is the design in the project brief.
+<Callout tone="info" title="Not published yet">
+  The server works from a checkout of the repo today. `npx @strata/mcp` arrives with the npm release. The agent eval that measures whether the server helps is running; its results will be linked here, whatever they show.
 </Callout>
 
-The Strata MCP server will read the same `meta.json` files as these pages and return compact JSON:
+## What it does
 
-<Table aria-label="Planned MCP tools">
+<Table aria-label="MCP tools">
   <thead>
     <tr>
       <th scope="col">Tool</th>
@@ -16,13 +14,78 @@ The Strata MCP server will read the same `meta.json` files as these pages and re
     </tr>
   </thead>
   <tbody>
-    <tr><td>`list_components()`</td><td>Name, maturity and one-line purpose of every component.</td></tr>
-    <tr><td>`get_component(name)`</td><td>Props, variants, states, guidelines, accessibility notes and a minimal example.</td></tr>
-    <tr><td>`get_tokens(category?, tenant?, mode?)`</td><td>Resolved token values.</td></tr>
-    <tr><td>`find_token(value)`</td><td>The nearest semantic token for a raw value, with the reason.</td></tr>
-    <tr><td>`get_pattern(name)`</td><td>Page-level patterns: multi-step form, overview dashboard, settings with a danger zone.</td></tr>
-    <tr><td>`audit_snippet(code)`</td><td>Off-system usage in a snippet, each with the fix.</td></tr>
+    <tr><td>`list_components`</td><td>Name, maturity and one-line purpose of every component.</td></tr>
+    <tr><td>`get_component`</td><td>Props, deprecations with their replacement, keyboard, accessibility notes, do and don’t, tokens and a usage snippet.</td></tr>
+    <tr><td>`get_example`</td><td>The source of one example from these docs.</td></tr>
+    <tr><td>`get_tokens`</td><td>Resolved token values for a category, tenant and scheme.</td></tr>
+    <tr><td>`find_token`</td><td>The nearest token for a raw value, with the distance and the reason.</td></tr>
+    <tr><td>`get_pattern`</td><td>Page-level patterns: which components a block composes, and its structure.</td></tr>
+    <tr><td>`audit_snippet`</td><td>Off-system code in a snippet, each finding with its fix, and a score.</td></tr>
   </tbody>
 </Table>
 
-It will also serve `AGENTS.md`, which sets what an agent may change on its own and what needs a person — see the trust levels in [Governance](/docs/governance#agent-trust-levels). Whether it helps is an experiment, not an assumption: the Phase 5 eval runs the same prompts with and without it and reports the difference either way.
+`get_example` is an addition to the six tools in the project brief. Agents copy working code more reliably than they read prop tables.
+
+It also serves two files as resources: `strata://agents` (`AGENTS.md`, the rules for agents) and `strata://governance`.
+
+## Read-only
+
+No tool writes a file. `audit_snippet` returns each fix marked `safe: true` or `safe: false`. A safe fix has one right answer, such as the exact token for a raw value. An agent may apply safe fixes on its own; everything else is a suggestion for a person. See the trust levels in [Governance](/docs/governance#agent-trust-levels).
+
+## Set it up
+
+Run `pnpm install` in a checkout of the repo, then point your client at the server. Replace `/path/to/strata` with the path of your checkout.
+
+```sh
+claude mcp add strata -- node /path/to/strata/packages/mcp/bin/cli.mjs
+```
+
+For Cursor (`.cursor/mcp.json`) and other clients that use the same format:
+
+```json
+{
+  "mcpServers": {
+    "strata": {
+      "command": "node",
+      "args": ["/path/to/strata/packages/mcp/bin/cli.mjs"]
+    }
+  }
+}
+```
+
+VS Code uses `.vscode/mcp.json` with a `servers` key; the full snippet is in the package’s README. The Cursor and VS Code snippets follow those clients’ documented formats and haven’t been tried against the clients themselves.
+
+## Response sizes
+
+Agents pay for every token, so responses are compact JSON with no prose around them. A test fails if one grows past its budget.
+
+<Table aria-label="Measured response sizes">
+  <thead>
+    <tr>
+      <th scope="col">Response</th>
+      <th scope="col">Bytes</th>
+      <th scope="col">Budget</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>`list_components`, all 53</td><td>8,699</td><td>12,000</td></tr>
+    <tr><td>`get_component` for Button</td><td>5,917</td><td>8,000</td></tr>
+    <tr><td>`get_component` for Sidebar, the largest</td><td>12,547</td><td>16,000</td></tr>
+    <tr><td>`get_tokens` for colour</td><td>4,795</td><td>5,500</td></tr>
+    <tr><td>`get_example` for Button</td><td>562</td><td>1,500</td></tr>
+  </tbody>
+</Table>
+
+Measured on 2026-09-27 with `pnpm --filter @strata/mcp test sizes`. These are bytes, not tokens.
+
+## The drift auditor
+
+`audit_snippet` runs the same engine as the command-line auditor:
+
+```sh
+pnpm drift src --format text
+```
+
+It looks for raw colours, sizes off the scale, written-out fonts, native elements where a component exists, physical properties, controls with no accessible name, and deprecated APIs. Every finding says what to write instead. `--fix` applies the safe ones.
+
+The auditor reads one file at a time, so it can’t see a name or a value that arrives through props. Its limits are listed in the package’s README.

@@ -1,0 +1,66 @@
+.fires {
+  padding: 8px 10px; /* expect: off-scale-space, off-scale-space */
+  margin-block-start: 1rem; /* expect: off-scale-space */
+  gap: 24px; /* expect: off-scale-space */
+  inset-inline-end: -4px; /* expect: off-scale-space */
+  padding-inline: calc(100% - 24px); /* expect: off-scale-space */
+  margin-inline: 0.5px; /* expect: off-scale-space */
+  border-radius: 8px; /* expect: off-scale-radius */
+  border-start-start-radius: 6px; /* expect: off-scale-radius */
+  font-size: 14px; /* expect: off-scale-font-size */
+}
+.fires-more {
+  font-size: clamp(14px, 2vw, 1.5rem); /* expect: off-scale-font-size, off-scale-font-size */
+  font-size: 2px; /* expect: off-scale-font-size */
+  font-weight: 600; /* expect: raw-font-weight */
+}
+.fires-weights {
+  font-weight: bold; /* expect: raw-font-weight */
+}
+.fires-weights-2 {
+  font-weight: 450; /* expect: raw-font-weight */
+}
+.fires-weights-3 {
+  font-weight: bolder; /* expect: raw-font-weight */
+}
+.fires-family {
+  font-family: Arial, sans-serif; /* expect: font-family-literal */
+}
+.fires-family-2 {
+  font-family: var(--_mono, 'Courier New'); /* expect: font-family-literal */
+}
+.fires-family-3 {
+  font: 12px/1.2 Georgia; /* expect: font-family-literal */
+}
+
+.passes {
+  padding: 0;
+  margin: 0 auto;
+  gap: var(--strata-space-2);
+  padding-inline: calc(var(--strata-space-1) * 1.5);
+  padding-block: 1px 2px;
+  margin-inline-start: -1px;
+  inset: 50% 0;
+  inset-block-start: 0.25em;
+  margin-block: 10vh;
+  border-radius: 50%;
+  border-radius: var(--strata-radius-container);
+  border-radius: calc(var(--_radius) - 1px);
+  border-end-end-radius: 2px;
+  font-size: var(--strata-font-size-md);
+  font-size: 0.6em;
+  font-size: inherit;
+  font-weight: var(--strata-font-weight-medium);
+  font-weight: inherit;
+  font-family: var(--strata-font-mono);
+  font-family: inherit;
+  font-family: var(--_family);
+  font: inherit;
+  outline: 2px solid var(--strata-color-focus-ring);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 4px color-mix(in oklab, var(--strata-color-focus-ring) 18%, transparent);
+  translate: 0 4px;
+  inline-size: 320px;
+  line-height: 1.5;
+  grid-template-columns: 1fr 2fr;
+}

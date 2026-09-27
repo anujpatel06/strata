@@ -11,10 +11,8 @@
     "build": "tsx scripts/build.ts",
     "typecheck": "tsc -p tsconfig.json"
   },
-  "dependencies": {
-    "@strata/theme-engine": "workspace:*"
-  },
   "devDependencies": {
+    "@strata/theme-engine": "workspace:*",
     "tsx": "^4.20.0",
     "typescript": "~5.9.0",
     "@types/node": "^22.0.0"

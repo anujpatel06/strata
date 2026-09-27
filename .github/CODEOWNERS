@@ -1,0 +1,17 @@
+# Who must review what (GOVERNANCE.md §2 and §6, ADR-008).
+# This file names the reviewer. It only blocks a merge once branch protection on main requires
+# code-owner review, which is a repository setting and can't be turned on from a file.
+
+# Default: the maintainer reviews everything.
+*                                   @anujpatel06
+
+# Hard gate: what the system guarantees, and how it changes.
+/packages/theme-engine/             @anujpatel06
+/packages/react/src/                @anujpatel06
+/packages/react/meta/schema.ts      @anujpatel06
+/tenants/                           @anujpatel06
+/GOVERNANCE.md                      @anujpatel06
+/AGENTS.md                          @anujpatel06
+/docs/adr/                          @anujpatel06
+/docs/rfcs/                         @anujpatel06
+/.github/                           @anujpatel06

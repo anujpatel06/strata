@@ -1,0 +1,13 @@
+.card {
+  color: #5a5a5d;
+  background: #ffffff;
+  margin-left: 8px;
+  padding: 4px 10px 1rem 12px;
+  inset-inline-end: -4px;
+  border-radius: 8px;
+  border-top-left-radius: 12px;
+  font-size: 14px;
+  font-weight: bold;
+  text-align: right;
+  float: left;
+}

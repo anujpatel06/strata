@@ -1,0 +1,36 @@
+{
+  "name": "@strata/mcp",
+  "version": "0.0.0",
+  "description": "Strata's MCP server: AI coding agents read components, tokens and usage rules from the same source people do.",
+  "type": "module",
+  "license": "MIT",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "bin": {
+    "strata-mcp": "./bin/cli.mjs"
+  },
+  "files": [
+    "bin",
+    "src"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "test": "vitest run",
+    "typecheck": "tsc -p tsconfig.json"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.30.0",
+    "@strata/audit": "workspace:*",
+    "@strata/theme-engine": "workspace:*",
+    "tsx": "^4.20.0",
+    "zod": "^4.6.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "typescript": "~5.9.0",
+    "vitest": "^5.0.0"
+  }
+}

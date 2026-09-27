@@ -15,9 +15,9 @@
   "failures": [],
   "invariantViolations": [],
   "generationMs": {
-    "median": 0.7452494999999999,
-    "p95": 1.291915999999901,
-    "max": 8.594542000000047
+    "median": 1.1227085000000443,
+    "p95": 12.935665999999856,
+    "max": 284.65870799999993
   },
   "minMargin": {
     "3": {
@@ -176,5 +176,67 @@
     "minCvdDeltaE": 8.000081602736584,
     "minNormalDeltaE": 15.000781642118403,
     "minContrast": 3.000059863215302
-  }
+  },
+  "fidelity": [
+    {
+      "input": "primary",
+      "scheme": "light",
+      "role": "action.primary.bg",
+      "exact": 892,
+      "exactPercent": 89.2,
+      "median": 0,
+      "p95": 3.4135801059573123,
+      "max": 5.717863107140188,
+      "worst": {
+        "theme": 882,
+        "asked": "#fa3d0e",
+        "shipped": "#e03100"
+      }
+    },
+    {
+      "input": "primary",
+      "scheme": "dark",
+      "role": "action.primary.bg",
+      "exact": 800,
+      "exactPercent": 80,
+      "median": 0,
+      "p95": 7.089698650606184,
+      "max": 28.966717275068344,
+      "worst": {
+        "theme": 938,
+        "asked": "#0f030f",
+        "shipped": "#594658"
+      }
+    },
+    {
+      "input": "accent",
+      "scheme": "light",
+      "role": "accent.bg",
+      "exact": 884,
+      "exactPercent": 88.4,
+      "median": 0,
+      "p95": 3.085783803294634,
+      "max": 5.56227735489689,
+      "worst": {
+        "theme": 39,
+        "asked": "#2e91a7",
+        "shipped": "#148096"
+      }
+    },
+    {
+      "input": "accent",
+      "scheme": "dark",
+      "role": "accent.bg",
+      "exact": 775,
+      "exactPercent": 77.5,
+      "median": 0,
+      "p95": 7.960040163494949,
+      "max": 24.9345146532284,
+      "worst": {
+        "theme": 881,
+        "asked": "#050041",
+        "shipped": "#36488c"
+      }
+    }
+  ]
 }

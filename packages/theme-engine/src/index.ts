@@ -18,6 +18,7 @@ export {
 export { TYPE_PAIRS, googleFontsHref } from './type-pairs';
 export { FOUNDATIONS, radiusForShape } from './foundations';
 export { CHART_CANDIDATES, chartPaletteProblems, solveChartSeries } from './chart';
+export { FIDELITY_ROLES, brandFidelity, type BrandColorInput, type FidelityRecord } from './fidelity';
 
 // Exporters
 export { toCssVariables } from './css-vars';

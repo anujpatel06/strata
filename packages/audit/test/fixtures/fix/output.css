@@ -1,0 +1,13 @@
+.card {
+  color: var(--strata-color-text-subtle);
+  background: #ffffff;
+  margin-inline-start: var(--strata-space-2);
+  padding: var(--strata-space-1) 10px 1rem var(--strata-space-3);
+  inset-inline-end: calc(var(--strata-space-1) * -1);
+  border-radius: var(--strata-radius-badge);
+  border-start-start-radius: 12px;
+  font-size: var(--strata-font-size-md);
+  font-weight: var(--strata-font-weight-bold);
+  text-align: end;
+  float: inline-start;
+}

@@ -11,8 +11,8 @@ Seed **2026** (mulberry32) · **1,000** random brands: random primary, random ac
 | Passed | 118,000 |
 | Failed | 0 |
 | Pass rate | 100.00% |
-| Median generation time | 0.75 ms |
-| p95 generation time | 1.29 ms |
+| Median generation time | 1.12 ms |
+| p95 generation time | 12.94 ms |
 | Adjustments per brand (min / median / max) | 0 / 4 / 7 |
 
 Timing measured with `performance.now()` around each `generateTheme` call on Apple M1, Node v26.8.1 (darwin-arm64); it varies by machine.
@@ -59,6 +59,17 @@ Every brand × scheme gets 4 chart series from `src/chart.ts`. Checked on the fi
 | Lowest normal-vision ΔE, any pair (needs 15) | 15.0 |
 | Lowest contrast on a surface (needs 3:1) | 3.0:1 (3.0001) |
 | Solver notes: near-grey brand | 40 palettes |
+
+## Brand fidelity
+
+How far the colour on screen is from the colour the brand asked for. For each brand colour and scheme, the input hex is compared with the fill that carries it. Distance is Euclidean in OKLab × 100; 0 means the brand colour is shipped exactly. As a guide, not a threshold: under 2 is hard to see side by side, over 10 reads as a different colour. Distances are rounded up to 1 decimal, so a move is never shown smaller than it is.
+
+| Brand colour | Scheme | Role | Kept exactly | Median ΔE | p95 ΔE | Largest ΔE | Furthest brand |
+|---|---|---|---|---|---|---|---|
+| primary | light | `action.primary.bg` | 892 (89.2%) | 0.0 | 3.5 | 5.8 | #883 #fa3d0e → #e03100 |
+| primary | dark | `action.primary.bg` | 800 (80.0%) | 0.0 | 7.1 | 29.0 | #939 #0f030f → #594658 |
+| accent | light | `accent.bg` | 884 (88.4%) | 0.0 | 3.1 | 5.6 | #40 #2e91a7 → #148096 |
+| accent | dark | `accent.bg` | 775 (77.5%) | 0.0 | 8.0 | 25.0 | #882 #050041 → #36488c |
 
 ## Structural invariants
 

@@ -1,0 +1,35 @@
+{
+  "name": "@strata/audit",
+  "version": "0.0.0",
+  "description": "Strata's drift auditor: finds off-system code, scores it 0–100, and suggests the exact token or component to use.",
+  "type": "module",
+  "license": "MIT",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "bin": {
+    "strata-audit": "./bin/cli.mjs"
+  },
+  "files": [
+    "bin",
+    "src"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "test": "vitest run",
+    "typecheck": "tsc -p tsconfig.json"
+  },
+  "dependencies": {
+    "@strata/theme-engine": "workspace:*",
+    "postcss": "^8.5.0",
+    "postcss-value-parser": "^4.2.0",
+    "tsx": "^4.20.0",
+    "typescript": "~5.9.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "vitest": "^5.0.0"
+  }
+}

@@ -1,0 +1,38 @@
+.fires {
+  color: #1f56e0; /* expect: raw-color */
+  background: #FFF; /* expect: raw-color */
+  border: 1px solid rgb(0 0 0 / 0.2); /* expect: raw-color */
+  outline-color: hsl(210, 50%, 40%); /* expect: raw-color */
+  fill: oklch(0.6 0.2 250); /* expect: raw-color */
+  stroke: oklab(0.6 0.1 -0.1); /* expect: raw-color */
+  caret-color: rebeccapurple; /* expect: raw-color */
+  box-shadow: 0 0 0 4px color-mix(in oklab, var(--strata-color-focus-ring) 18%, white); /* expect: raw-color */
+  background-image: linear-gradient(to right, red, var(--strata-color-surface-default)); /* expect: raw-color */
+  --_face: #18181b; /* expect: raw-color */
+  --_tint: tomato; /* expect: raw-color */
+  border-color: var(--undefined-thing, #abcdef); /* expect: raw-color */
+}
+
+.passes {
+  color: var(--strata-color-text-default);
+  background: transparent;
+  border: 1px solid currentColor;
+  outline-color: inherit;
+  fill: none;
+  box-shadow: 0 0 0 4px color-mix(in oklab, var(--strata-color-focus-ring) 18%, transparent);
+  background-image: linear-gradient(135deg, var(--strata-rim), transparent 60%);
+  --_face: var(--strata-color-surface-raised);
+  --_names: red green;
+  font-family: var(--strata-font-body);
+  animation-name: red;
+  grid-area: tan;
+  content: '#fff';
+  background: url('#gold') no-repeat;
+  mask-image: linear-gradient(to bottom, black 55%, transparent);
+  -webkit-mask-image: radial-gradient(closest-side, black 60%, transparent);
+  transition: color var(--strata-motion-duration-fast) var(--strata-motion-easing);
+}
+
+@media (forced-colors: active) {
+  .passes { border-color: CanvasText; background: Canvas; }
+}

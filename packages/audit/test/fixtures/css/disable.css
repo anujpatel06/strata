@@ -1,0 +1,16 @@
+.a {
+  /* strata-audit-disable-next-line raw-color -- the partner's logo colour, fixed by contract */
+  color: #ff6600;
+  /* strata-audit-disable-next-line raw-color, physical-property -- a physical light source */
+
+  border-left: 1px solid #ffffff;
+  /* strata-audit-disable-next-line raw-color */ /* expect: raw-color */
+  color: #ff6600; /* expect: raw-color */
+  /* strata-audit-disable-next-line physical-property -- the wrong rule is named */
+  color: #ff6600; /* expect: raw-color */
+  /* strata-audit-disable-next-line no-such-rule -- a reason */
+  color: #ff6600; /* expect: raw-color */
+  /* strata-audit-disable-next-line raw-color -- only the next line */
+  color: var(--strata-color-text-default);
+  color: #ff6600; /* expect: raw-color */
+}
