@@ -1,4 +1,4 @@
-import { render, screen, waitFor } from '@testing-library/react';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { IconCopy } from '@strata/icons';
 import { Button } from '../src/ui/button';
@@ -67,5 +67,40 @@ describe('Tooltip', () => {
     expect(tooltip).toHaveAttribute('data-strata-theme', 'vela');
     expect(tooltip).toHaveAttribute('data-strata-scheme', 'dark');
     expect(tooltip).toHaveAttribute('dir', 'rtl');
+  });
+
+  it('unmounts when keyboard focus moves from one tooltip trigger to the next', async () => {
+    // The browser-level check for tooltips that stay mounted is scripts/check-overlay-exit.mjs; jsdom can't show that fault.
+    const user = userEvent.setup();
+    render(
+      <>
+        {['Bold', 'Italic', 'Underline'].map((label) => (
+          <TooltipTrigger key={label}>
+            <Button aria-label={label}>{label[0]}</Button>
+            <Tooltip>{label}</Tooltip>
+          </TooltipTrigger>
+        ))}
+        <Button>Save</Button>
+      </>,
+    );
+    for (const label of ['Bold', 'Italic', 'Underline']) {
+      await user.tab();
+      await waitFor(() => expect(screen.getAllByRole('tooltip').map((t) => t.textContent)).toEqual([label]));
+    }
+    await user.tab();
+    await waitFor(() => expect(screen.queryByRole('tooltip')).not.toBeInTheDocument());
+  });
+
+  it('stays open when keyboard focus scrolls the page, and closes when the person scrolls', async () => {
+    const user = userEvent.setup();
+    render(<Example />);
+    await user.tab();
+    await screen.findByRole('tooltip');
+    // The browser scrolling the focused control into view: a scroll with no input before it.
+    fireEvent.scroll(document);
+    expect(screen.getByRole('tooltip')).toBeInTheDocument();
+    fireEvent.wheel(document.body);
+    fireEvent.scroll(document);
+    await waitFor(() => expect(screen.queryByRole('tooltip')).not.toBeInTheDocument());
   });
 });

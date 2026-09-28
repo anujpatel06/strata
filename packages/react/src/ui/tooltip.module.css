@@ -52,12 +52,13 @@
 
 /* Motion (Tactile style). Tooltips should never feel slow: a fast fade with easing-out and a 4px slide from the
    trigger's side (--tooltip-shift, set per placement above). No spring, no scale: it's a label, not a surface.
-   Everything lives in the no-preference block, so with reduced motion the tooltip simply appears. */
+   Everything lives in the no-preference block, so with reduced motion the tooltip simply appears.
+   [data-instant] marks a swap from one tooltip straight to the next: neither one animates. */
 @media (prefers-reduced-motion: no-preference) {
-  .tooltip[data-entering] {
+  .tooltip[data-entering]:not([data-instant]) {
     animation: pop var(--strata-motion-duration-fast) var(--strata-motion-easing-out);
   }
-  .tooltip[data-exiting] {
+  .tooltip[data-exiting]:not([data-instant]) {
     animation: fade var(--strata-motion-duration-fast) var(--strata-motion-easing) reverse;
   }
 

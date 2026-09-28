@@ -6,6 +6,37 @@ Numbers only with the command that produced them. Design trade-offs get an ADR i
 
 ---
 
+## 2026-09-28 (fix) — tooltips stayed on the page after keyboard focus moved on
+
+**Changed**
+- `Tooltip` (`packages/react/src/ui/tooltip.tsx`, `tooltip.module.css`): a tooltip closed by a swap to the next tooltip now unmounts.
+  - Cause: a fault in React Aria 1.21.1, reproduced with its own components and no Strata code. Tooltips on the buttons of a `ToggleButtonGroup` stay mounted when Tab leaves the group. On Tab the group moves focus to its last item, that item's tooltip replaces the open one with `shouldSkipAnimation`, and the closed tooltip ends up mounted as `[data-exiting]` with no position, at 0,0. Tooltips on plain buttons don't do it. It isn't the CSS animation: it happens with reduced motion and with no CSS at all.
+  - Fix: the component hands React Aria a trigger state with `shouldSkipAnimation: false`, so the tooltip always takes the path that ends. The swap stays instant: the tooltip gets `data-instant`, and the CSS skips the enter and exit animation for it.
+- `Tooltip`: no fade for a tooltip that never appeared. A toggle group moves focus to its last item on Tab so that the browser's Tab leaves the group. That item's tooltip opened and closed before the first paint, then faded out for 120ms ("Compact" on the preview toolbar). The component now marks a tooltip that closes before its first frame as `data-instant`.
+- `Tooltip`: a tooltip opened by keyboard focus stays open when that focus scrolls the page. React Aria closes tooltips on any scroll, so "Copy code" on the component pages closed as soon as it opened. While the trigger has keyboard focus, only a scroll the person made (wheel, touch, pointer or key) closes it.
+- Draft report for React Aria: `docs/upstream/react-aria-tooltip-stays-mounted.md`. Not posted.
+- New browser check, `scripts/check-overlay-exit.mjs`, added to `/verify` step 9. It tabs through three component pages and opens a Menu and a Popover, with and without reduced motion.
+- `tooltip.test.tsx`: two more cases. Focus moving across three tooltip triggers passes before and after the fix, because jsdom can't show that fault; the browser check is its regression test. The scroll case fails without the fix.
+- Changeset: `tooltip-unmounts-on-swap` (patch).
+
+**Decided**
+- Keep a focus-opened tooltip open through the scroll that focus causes — **Anuj** ("fix these"). ADR-027.
+- Keep the instant swap between tooltips (React Aria's behaviour) and don't fade each one out — **Claude**, delegated by Anuj ("whatever you feel is best"). ADR-027. No API change, so GOVERNANCE §5 doesn't apply.
+- Fix it in the component, not with a patched dependency. 1.21.1 is the newest `react-aria-components` (`npm view react-aria-components version`) — **Claude**.
+
+**Results**
+- Stale tooltips: 802 failures before the fix, 0 after (first version of the check). Pass-through flashes: 5 failures with only the first fix, 0 with both. Final: `tooltips checked: 88; menus and popovers checked: 4; failures: 0` — `STRATA_BASE_URL=http://localhost:3010 node scripts/check-overlay-exit.mjs`, on the production build.
+- With `/docs/server-driven-ui` included (working tree, built to `.next-tooltipfix`): `tooltips checked: 98; menus and popovers checked: 4; failures: 0` — `STRATA_BASE_URL=http://localhost:3011 node scripts/check-overlay-exit.mjs`.
+- Scroll: 8 failures without the fix, 0 with it. Final check on the scratch build: `tooltips checked: 96; menus and popovers checked: 4; failures: 0`.
+- Menu and Popover don't have the fault: they passed on the build without the fix too.
+- `/verify`, all steps pass: `pnpm typecheck`; `pnpm test` (react 445, theme-engine 224, icons 245, mcp 143, audit 74, codemods 8); `pnpm test:themes` 118,000 / 118,000; `pnpm check:meta` 53/53; `pnpm registry` 71 items; docs build 80 pages; `node scripts/check-ssr-tabs.mjs` 0 of 79 pages; `node scripts/axe-sweep.mjs` 0 violation nodes on 105 routes × 2 schemes.
+
+**Next**
+- Report the fault to React Aria, then remove the workaround when a release fixes it.
+- Anuj: post the React Aria report if it reads right.
+
+---
+
 ## 2026-09-28 (Phase 5, eval) — the agent eval ran; the first attempt was thrown out
 
 **Changed**
