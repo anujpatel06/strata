@@ -6,6 +6,178 @@ Numbers only with the command that produced them. Design trade-offs get an ADR i
 
 ---
 
+## 2026-09-28 (live) — static export on Cloudflare, honest install copy, and no glyph clipping left
+
+**Changed — going live**
+
+- **The site is a static export** (`output: 'export'`), so Cloudflare Pages serves plain files: no adapter, no Workers
+  runtime, nothing that can 500. `/themes` was the only server-rendered route, because it read the theme out of
+  `searchParams`; it now reads the address on the client after hydration and dispatches a new `replace` action
+  (ADR-030). `docs/deploy.md` has the Pages settings. `apps/docs/public/_headers` adds security headers and immutable
+  caching for `/_next/static/*`.
+- **`next start` no longer works with an export.** `pnpm --filter @syntara/docs start` serves `apps/docs/out` instead,
+  and `/verify` step 9, CI and every script comment say so. `serve` is pinned as a devDependency rather than `npx`'d.
+- **`scripts/check-theme-links.mjs`** (new): opens five shared `/themes` links, including a malformed one, and fails if
+  the theme doesn't come back. The client-side read is easy to break silently; this is what notices.
+
+**Changed — honest claims**
+
+- The homepage's hero told visitors to run `npm install @syntara/react`, which 404s: nothing is published and the
+  `@syntara` scope is unclaimed. It now carries a note and a link to the by-hand instructions. The "Ship it your way"
+  cards already had a "Not on npm yet" badge; the hero did not.
+- The install page said a component's dependencies are "usually `react-aria-components` and `@tabler/icons-react`".
+  `@tabler/icons-react` is not a dependency of `@syntara/react` at all — the real counts, from `meta.json`, are
+  react-aria-components ×44, `@syntara/icons` ×23, `@internationalized/date` ×2.
+- The homepage said "in three tenants" while rendering five; it now counts them. The docs index listed four tenants and
+  omitted Haat; governance said "all five tenants" when there are six.
+- Three examples imported `Key`, `Selection` and `useLocale` from `react-aria-components`, which someone installing
+  `@syntara/react` does not have. `Key` and `Selection` were already re-exported; `useLocale` now is too, from
+  `theme-scope.tsx`, where the locale is set.
+
+**Changed — the clipping, fixed (ADR-031)**
+
+- Six type pairs carry their own measured line heights. **0 clipped in 42,768 cases, down from 5,209**, and
+  `check-script-clipping.mjs` exits 0. Both Arabic pairs go to 1.8 (they were cutting vowelled text by up to 12px);
+  friendly, editorial, calm and technical get 1.3–1.35 for descenders. `precise` and `modern` clipped nothing and are
+  untouched — their exporter hashes are byte-identical, which is how the test proves the change is confined.
+- `ScriptTypeTokens` widens to `'devanagari' | 'arabic' | 'latin'`, with `minFontSize` and `capsTracking` optional.
+
+**Decided**
+
+- **Static export over the Cloudflare adapter — Anuj.** A shared `/themes` link now paints the default preset for one
+  frame. The pre-paint script that would have hidden it was measured and rejected: the theme is the output of
+  `generateTheme()`, so the script would have to inline the whole engine, blocking, on every visit (ADR-030).
+- **Per-pair line heights, not a higher shared default — Claude.** Raising the shared 1.2 would loosen the two pairs
+  that clip nothing and the house theme the site is set in, to fix four that do (ADR-031).
+- **Clipping is not monotonic in line height — measured.** `editorial` clips 10 cases at 1.22 and 31 at 1.25, then none
+  at 1.3. Sub-pixel rounding. A value is only known good at exactly the value measured; this is in the type's doc.
+
+**Results** (build `m3flFb_Tudn9IxbFF7LyO`, served by `pnpm --filter @syntara/docs start`)
+
+- `pnpm typecheck`: clean, 11 packages. `pnpm test`: 1,447 passing (309 engine — 8 new lock the measured line heights).
+- `pnpm test:themes`: 118,000 / 118,000, 0 failed. `pnpm tokens`: 6 tenants, 118/118 and 236/236 each.
+- `node scripts/check-script-clipping.mjs`: **0 clipped across 42,768 cases, 9 type pairs** (was 5,209); exits 0.
+- `node scripts/check-hydration.mjs`: 113 routes × 2 schemes, 226 loaded, 0 hydration failures.
+- `node scripts/check-theme-links.mjs`: 5 shared links, 0 failures. `node scripts/check-ssr-tabs.mjs`: 81 pages, 326 tab
+  lists, 0 missing a panel.
+- `node scripts/axe-sweep.mjs`: 113 × 2, 0 violation nodes, no page errors.
+- `node scripts/check-overlay-exit.mjs`: 108 tooltips, 4 menus and popovers, 0 failures.
+- `pnpm drift apps/docs --min-score 95`: 98.5. `node scripts/check-override-weight.mjs`: 0.
+- Qamar and Care were screenshotted at 1,440px after the line-height change; both read correctly, nothing clipped or
+  reflowed badly. Only qamar, care and harbor move — vela, haat and the house theme keep their pairs' values.
+
+**Changed — the last four Phase 5a gaps (ADR-032)**
+
+Measuring them first changed what three of them were.
+
+- **"Nine components set `line-height: 1`" was one component.** That rule only cuts anything where the same element
+  also clips its overflow; elsewhere the ink renders outside the line box and nothing is lost. Checking every element
+  on seven blocks in Hindi, Arabic and Latin for `overflow-y: hidden` with content taller than its box found exactly
+  one — `PersonChip`'s `.name`, losing 4px off "रेखा", "सुनील", "परी" and "कमला". It now takes `margin-block: -0.3em;
+  padding-block: 0.3em`: the clip box grows, the chip's height does not. Raising its line height to the token would
+  have made Arabic chips much taller to fix a Hindi fault, and Arabic was not clipping. Now 0 elements clip in all
+  three tenants.
+- **Avatar initials take the base letter in Brahmic scripts.** A grapheme cluster there is a whole syllable, so one
+  per word ran together as a word: "रेखा यादव" → "रेया". Marks are dropped and a conjunct gives the consonant it
+  starts with: "रय", "कश" for "क्षमा शर्मा", "अ" for "अंजलि". Bengali, Tamil, Telugu and the rest included. Latin,
+  Arabic and emoji are untouched.
+- **The hi-IN date field reads "दिन / माह / वर्ष".** React Aria ships segment placeholders for 34 locales; `ar-AE` is
+  one, `hi-IN` is not, so it fell back to English. `DatePicker` now fills that gap from
+  `Intl.DisplayNames(locale, {type: 'dateTimeField'})` — for every locale React Aria has not got to, not Hindi alone.
+  Only where its placeholder came back as plain ASCII on a non-Latin locale, so React Aria's own strings still win
+  where it has them (a date input wants "dd", not "day").
+- **The activity table's title wraps on a phone instead of truncating.** "बच्चों के स्पोर्ट्स जूते" was cut to
+  "…स्पोर्ट्…" — a dead consonant with a trailing virama. CSS has no grapheme-aware truncation and the title missed
+  fitting by 11px, so it wraps below 480px; the meta line still truncates, and cuts at an order number.
+
+**Results — the four gaps** (build `rWCWlV4IaE6bWWXNndWdA`)
+
+- Elements clipping content vertically, seven blocks × {haat, qamar, care}: **0** (was 4, all PersonChip in Hindi).
+- Date segments: haat `["दिन","माह","वर्ष"]`, qamar `["يوم","شهر","سنة"]`, vela/harbor/care `["dd","mm","yyyy"]`.
+- Initials: `getInitials('रेखा यादव','hi-IN')` → `"रय"`; 5 new cases in `avatar.test.tsx`; 469 component tests pass.
+- Titles still truncated at 390px in Haat's activity table: **0** (was 3).
+- Re-run after the fixes: clipping 0 / 42,768 · hydration 0 / 226 · theme links 0 / 5 · axe 0 nodes · overlays 0 ·
+  SSR tabs 0 · drift 98.5 · override weight 0 · 1,448 tests pass.
+
+**Next**
+
+- **Anuj:** reserve the `@syntara` npm scope (it is unclaimed, and the rename spent 11,063 occurrences on the name);
+  create the Cloudflare Pages project with the settings in `docs/deploy.md` and set `NEXT_PUBLIC_SITE_URL`.
+- **Anuj:** look at Qamar. 1.8 is the value at which fully vowelled Arabic stops clipping; if Qamar's copy is never
+  vowelled, a tighter value would look better and still be safe for that content (ADR-031).
+- **Anuj:** the initials rule (ADR-032) is a judgement about how Hindi names read. "रय" over "रेया" — overrule it if
+  you read it differently.
+- Not fixed, and now the only known one left: truncation is grapheme-aware nowhere. The activity table wraps instead,
+  but any other component that truncates Indic text can still stop inside a cluster. It needs measurement and a
+  ResizeObserver, so it is an RFC, not a patch.
+
+---
+
+## 2026-09-28 (hydration) — the eight React 418s could not be reproduced, and the sweep could not have told us
+
+**The report**: React error #418 on `/`, `/blocks`, `/themes` and `/docs/components/amount`, in both schemes — eight
+occurrences — from `node scripts/axe-sweep.mjs` against a production build, reproduced on `3a42138` as well.
+
+**What was measured**
+
+- At `ba85fb6`, in a clean worktree with its own `pnpm install` and `pnpm --filter @syntara/docs build`, **none of the
+  four routes fails**. The same sweep the report came from prints `routes: 113 × 2 schemes; violation nodes: 0` and an
+  empty summary — no `pageerror` key at all. A second, dedicated check agrees: 226 page loads, 0 hydration failures.
+- `#418` **does** reach `page.on('pageerror')`, so `axe-sweep.mjs` is a real detector and its silence here means
+  something. That was confirmed by injecting a mismatch, not assumed.
+- The four routes were not the ones at fault in the obvious places. Every `<Amount>` in the site passes an explicit
+  `locale`, so `useLocale()` is never consulted; `request-flow`'s `today(getLocalTimeZone())` is used only in
+  validation and never rendered; `ThemeStats`' `generationMs` already carries `suppressHydrationWarning`. The one real
+  server/client difference on those pages — a chart's axis ticks — is by design: `useChartSize` returns 0×0 until
+  mounted, so SSR draws no marks and the ticks arrive after hydration, which is a state update, not a mismatch.
+
+**The likely cause of the report, not proven**
+
+`/verify` step 9 said to start the site with `cd apps/docs && npx next start -p 3000 &`. When something already holds
+port 3000 that command exits with `EADDRINUSE`, and because it is backgrounded the failure is easy to miss — the old
+server keeps answering. Demonstrated here: a second `next start -p 3000` died with `EADDRINUSE` while `curl
+localhost:3000` still returned 200 from the first. `axe-sweep.mjs` defaulted to `http://localhost:3000` and never
+checked which build answered, so a sweep run that way describes whatever was already on the port. That also explains
+the detail offered as confirmation — that `3a42138` in a separate worktree gave *identical* eight errors. Two
+different codebases agreeing to the route and the scheme is the signature of both sweeps reaching one stale server,
+not of a bug surviving a rename. The server is gone, so this is the best-supported explanation, not a proven one.
+
+**Changed**
+
+- `scripts/check-hydration.mjs` (new): loads every prerendered route in Chromium, in both schemes, and fails on a
+  React hydration error. `check-ssr-tabs.mjs` catches one known shape of this fault by reading the HTML; React only
+  reports the rest in a browser, at hydration time, and a production build says no more than "Minified React error
+  #418". In `/verify` step 9 and in CI after the build.
+- `scripts/served-build.mjs` (new): compares the build id the server is serving with `apps/docs/.next/BUILD_ID` and
+  stops with an explanation if they differ. Wired into `check-hydration.mjs`, `axe-sweep.mjs` and
+  `check-overlay-exit.mjs`, so none of the three can silently measure someone else's port again.
+- `scripts/docs-routes.mjs` (new): the route list, shared by the sweeps so they cannot drift on what counts as covered.
+- `/verify` step 9 and `.github/workflows/ci.yml` run the hydration check; the skill spells out the `EADDRINUSE` trap.
+
+**Decided**
+
+- **No component or page was changed — Claude.** Nothing was found to fix, and changing code to chase an error that
+  does not reproduce would have been worse than leaving it. What is durable here is the check and the guard.
+
+**Results** (all against build `ZPIwNxPIvQIyLLA1dYc76`, served by a `next start -p 3000` whose PID was noted)
+
+- `pnpm --filter @syntara/docs build`: clean.
+- `node scripts/check-ssr-tabs.mjs`: pages 80; tab lists 325; 0 missing a panel.
+- `node scripts/check-hydration.mjs`: 113 routes × 2 schemes; 226 loaded; **0 hydration failures**; 2m44s.
+- `node scripts/axe-sweep.mjs`: 113 × 2; 0 violation nodes; empty summary (no page errors).
+- `node scripts/check-overlay-exit.mjs`: 108 tooltips, 4 menus and popovers; 0 failures.
+- Detector proved, not assumed: rendering `typeof window === 'undefined' ? 'server' : 'client'` in the homepage
+  showcase made `check-hydration.mjs` report `light /` and `dark /` with "Minified React error #418" and exit 1. The
+  guard was proved the same way — pointed at a build id that was not the served one, it exits 1 and names both.
+  Both edits reverted; the numbers above are from the rebuild after reverting.
+
+**Next**
+
+- If the eight errors ever come back, capture the failing build id and keep the server alive: `check-hydration.mjs`
+  names the build, so a repeat can be tied to a commit instead of a port.
+
+---
+
 ## 2026-09-28 (rename) — the project is Syntara
 
 **Changed**
