@@ -1,13 +1,12 @@
-import { chromium } from 'playwright';
 import { launchBrowser } from './launch-browser.mjs';
 import { AxeBuilder } from '@axe-core/playwright';
-import { readdirSync } from 'node:fs';
+import { assertServedBuild } from './served-build.mjs';
+import { docsRoutes } from './docs-routes.mjs';
 // SYNTARA_BASE_URL lets the sweep run against a server on another port when 3000 is taken.
 const base = process.env.SYNTARA_BASE_URL ?? 'http://localhost:3000';
-const comps = readdirSync('packages/react/meta').filter((f) => f.endsWith('.meta.json')).map((f) => f.replace('.meta.json', ''));
-const docs = readdirSync('apps/docs/content/docs').filter((f) => f.endsWith('.mdx')).map((f) => f.replace('.mdx', '')).filter((s) => s !== 'index');
-const blocks = ['benefits-overview', 'portfolio', 'dashboard-overview', 'request-flow', 'settings', 'sign-in', 'activity-table'];
-const routes = ['/', '/docs', '/docs/components', '/blocks', '/themes', '/colors', ...docs.map((d) => `/docs/${d}`), ...comps.map((c) => `/docs/components/${c}`), ...blocks.flatMap((b) => ['vela', 'harbor', 'qamar', 'care', 'haat', 'house'].map((t) => `/blocks/${b}/view?tenant=${t}`))];
+const routes = docsRoutes();
+// Refuse to sweep a server that is not running this build, or the result describes someone else's port.
+await assertServedBuild(base);
 const browser = await launchBrowser();
 const summary = {};
 let total = 0;
