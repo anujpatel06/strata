@@ -14,7 +14,8 @@
  * `--strict-mcp-config` is set in every condition, so no MCP server from the user's own setup leaks in.
  *
  * A run that already has a result.json is skipped, so an interrupted eval can be continued with the same command.
- * If the account's usage limit is reached, the eval stops, records nothing for the runs it cut short, and exits 3.
+ * If the account's usage limit is reached or the CLI's sign-in has expired, the eval stops, records nothing for the
+ * runs it cut short, and exits 3.
  * `--dry` creates the workspaces and prints the commands without calling the model.
  * This script calls a paid model once per run. It prints the number of runs first.
  */
@@ -173,8 +174,9 @@ function runOne(job) {
       // A usage limit isn't a result. Record nothing, stop starting new runs, and say so. Found in iteration 2,
       // where 84 runs "finished" in seconds with this message and would have counted as failures.
       // Two shapes were seen: the CLI's own message, and a run that was cut off part-way and said so in its last words.
-      if (/usage limit|session limit|hit (my|your|the) [^.]{0,30}limit/i.test(String(cli?.result ?? '')) || cli?.subtype === 'rate_limit') {
-        if (!limited) console.log(`STOP usage limit reached: ${String(cli?.result ?? '').slice(0, 120)}`);
+      // A third shape, from iteration 3: the CLI's sign-in had expired, and all 50 runs "finished" in seconds.
+      if (/usage limit|session limit|hit (my|your|the) [^.]{0,30}limit|failed to authenticate|session expired|not logged in|invalid api key/i.test(String(cli?.result ?? '')) || cli?.subtype === 'rate_limit') {
+        if (!limited) console.log(`STOP the model couldn't be reached: ${String(cli?.result ?? '').slice(0, 120)}`);
         limited = true;
         rmSync(path.dirname(ws), { recursive: true, force: true });
         if (mcpConfig) rmSync(mcpConfig, { force: true });
@@ -234,6 +236,6 @@ await Promise.all(
   }),
 );
 if (limited) {
-  console.log('Stopped at the usage limit. Nothing was recorded for the runs it cut short. Run the same command again to continue.');
+  console.log('Stopped: the model couldn’t be reached (a usage limit or an expired sign-in). Nothing was recorded for the runs it cut short. Fix the cause, then run the same command again to continue.');
   process.exitCode = 3;
 } else console.log(dry ? 'Dry run finished. Nothing was sent to a model.' : `Finished. Score with: node evals/score.mjs --iteration ${iteration}`);
