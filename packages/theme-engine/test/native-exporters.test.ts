@@ -380,17 +380,36 @@ const kotlinc = await which('kotlinc');
 const work = mkdtempSync(join(tmpdir(), 'syntara-native-'));
 afterAll(() => rmSync(work, { recursive: true, force: true }));
 
+const swiftTarget = `${process.arch === 'arm64' ? 'arm64' : 'x86_64'}-apple-macos14.0`;
+
+/**
+ * Having `swiftc` is not the same as being able to build for Apple platforms. The Linux CI runner ships a Swift
+ * toolchain but no Apple SDKs, so every `-target *-apple-macos*` invocation fails with "unable to load standard
+ * library" — a fact about the machine, not about the files under test. Ask the toolchain whether it can build for
+ * the target before deciding whether the check can run at all.
+ */
+const canTargetMacOS = await (async (): Promise<boolean> => {
+  if (!swiftc) return false;
+  const probe = join(work, 'probe.swift');
+  writeFileSync(probe, 'let probe = 1\n');
+  try {
+    await run(swiftc, ['-typecheck', '-target', swiftTarget, probe]);
+    return true;
+  } catch {
+    return false;
+  }
+})();
+
 describe('compilers', () => {
-  it.skipIf(!swiftc)(
+  it.skipIf(!canTargetMacOS)(
     'swiftc type-checks every tenant\'s Swift file (Swift 6 language mode, warnings as errors, macOS SDK)',
     async () => {
-      const arch = process.arch === 'arm64' ? 'arm64' : 'x86_64';
       const results = await Promise.all(
         built.map(async ({ id, swift }) => {
           const file = join(work, `${id}.swift`);
           writeFileSync(file, swift);
           try {
-            await run(swiftc!, ['-typecheck', '-swift-version', '6', '-warnings-as-errors', '-target', `${arch}-apple-macos14.0`, file]);
+            await run(swiftc!, ['-typecheck', '-swift-version', '6', '-warnings-as-errors', '-target', swiftTarget, file]);
             return { id, ok: true, err: '' };
           } catch (err) {
             return { id, ok: false, err: String((err as { stderr?: string }).stderr ?? err) };
@@ -400,6 +419,13 @@ describe('compilers', () => {
       expect(results.filter((r) => !r.ok)).toEqual([]);
     },
     300_000,
+  );
+
+  it.skipIf(canTargetMacOS)(
+    `Swift is NOT compiled here: this toolchain cannot build for ${swiftTarget} (structure is checked above instead)`,
+    () => {
+      expect(canTargetMacOS).toBe(false);
+    },
   );
 
   it.skipIf(!!kotlinc)('Kotlin is NOT compiled here: no kotlinc on this machine (structure is checked above instead)', () => {
