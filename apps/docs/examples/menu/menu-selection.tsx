@@ -1,8 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import type { Selection } from 'react-aria-components';
-import { Button, Menu, MenuItem, MenuSection, MenuSeparator, MenuTrigger } from '@syntara/react';
+import { Button, Menu, MenuItem, MenuSection, MenuSeparator, MenuTrigger, type Selection } from '@syntara/react';
 import { IconArrowsSort } from '@syntara/icons';
 
 export default function Example() {

@@ -18,6 +18,12 @@ export interface ThemeScopeProps extends HTMLAttributes<HTMLDivElement> {
   locale?: string;
 }
 
+/**
+ * Read the scope's locale and direction. Re-exported here because a consumer installs @syntara/react, not
+ * react-aria-components, and ThemeScope is what sets the locale they would be reading.
+ */
+export { useLocale } from 'react-aria-components';
+
 const RTL_LANGUAGES = new Set(['ar', 'he', 'fa', 'ur', 'ps', 'yi', 'dv', 'ku', 'sd', 'ug']);
 
 /**

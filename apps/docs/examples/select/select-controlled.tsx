@@ -1,8 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import type { Key } from 'react-aria-components';
-import { Select, SelectItem } from '@syntara/react';
+import { Select, SelectItem, type Key } from '@syntara/react';
 
 const statuses = [
   { id: 'open', name: 'Open' },
