@@ -87,7 +87,15 @@ export function Hero() {
           Browse components
         </ButtonLink>
       </div>
-      <InstallCommand command="npm install @syntara/react" />
+      <InstallCommand
+        command="npm install @syntara/react"
+        note={
+          <>
+            Not on npm yet — it publishes in Phase 6. Until then,{' '}
+            <TextLink href="/docs/installation#by-hand">copy a component’s source</TextLink>.
+          </>
+        }
+      />
     </section>
   );
 }
@@ -108,13 +116,17 @@ function tenantFacts(t: TenantOverview): string[] {
   ];
 }
 
+/** Spelled out so the copy reads as prose; counted from the tenants on disk so it cannot go stale. */
+const COUNT_WORD = ['no', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten'];
+const countWord = (n: number) => COUNT_WORD[n] ?? String(n);
+
 export function BrandsSection() {
   const tenants = getTenantOverviews();
   return (
     <section className={styles.section} aria-labelledby="brands-title">
       <SectionHeader id="brands-title" title="One system, every brand">
-        The same card from the same code, in three tenants. A tenant is one brand.json and one content.json: it
-        changes tokens and copy, never components.
+        The same card from the same code, in {countWord(tenants.length)} tenants. A tenant is one brand.json and one
+        content.json: it changes tokens and copy, never components.
       </SectionHeader>
       <div className={styles.tenantGrid}>
         {tenants.map((t) => (

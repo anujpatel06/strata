@@ -52,3 +52,26 @@
 .copy.copy {
   flex: none;
 }
+
+/* The command plus a caveat under it. Inline-size hugs the command so the note wraps to the same width. */
+.withNote {
+  display: inline-flex;
+  flex-direction: column;
+  gap: var(--syntara-space-2);
+  align-items: start;
+  max-inline-size: 100%;
+  min-inline-size: 0;
+}
+.withNote[data-block] {
+  display: flex;
+  inline-size: 100%;
+}
+
+.note {
+  margin: 0;
+  color: var(--syntara-color-text-subtle);
+  font-size: var(--syntara-font-size-sm);
+  line-height: var(--syntara-line-height-snug);
+  text-align: start;
+  text-wrap: pretty;
+}

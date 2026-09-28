@@ -1,8 +1,7 @@
 'use client';
 
 import { isWeekend, parseDate, type DateValue } from '@internationalized/date';
-import { useLocale } from 'react-aria-components';
-import { Calendar } from '@syntara/react';
+import { Calendar, useLocale } from '@syntara/react';
 
 export default function Example() {
   const { locale } = useLocale();

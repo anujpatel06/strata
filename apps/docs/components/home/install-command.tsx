@@ -1,5 +1,6 @@
 'use client';
 
+import type { ReactNode } from 'react';
 import { CopyButton } from '@/components/mdx/code-frame';
 import styles from './install-command.module.css';
 
@@ -8,13 +9,19 @@ export function InstallCommand({
   command,
   label = 'Copy command',
   block = false,
+  note,
 }: {
   command: string;
   label?: string;
   /** Fill the container's width instead of hugging the command. */
   block?: boolean;
+  /**
+   * Shown under the command. Say so here when the command does not work yet: a copy button on a command that
+   * fails is worse than no command, because the reader finds out in their terminal.
+   */
+  note?: ReactNode;
 }) {
-  return (
+  const box = (
     <div className={styles.command} data-block={block || undefined}>
       <code className={styles.code}>
         <span className={styles.prompt} aria-hidden>
@@ -30,6 +37,13 @@ export function InstallCommand({
         </span>
       </code>
       <CopyButton getText={() => command} label={label} className={styles.copy} />
+    </div>
+  );
+  if (!note) return box;
+  return (
+    <div className={styles.withNote} data-block={block || undefined}>
+      {box}
+      <p className={styles.note}>{note}</p>
     </div>
   );
 }
