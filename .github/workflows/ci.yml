@@ -44,6 +44,17 @@ jobs:
       # Prerendered docs pages must have a selected tab in every tab list, or hydration fails
       - run: node scripts/check-ssr-tabs.mjs
 
+      # React only reports a hydration mismatch in a browser, as it hydrates, and a production build says no more
+      # than "Minified React error #418". Reading the HTML cannot find it, so the check drives the real site.
+      - run: npx playwright install --with-deps chromium
+      - name: Prerendered docs pages must hydrate
+        run: |
+          pnpm --filter @syntara/docs start &
+          for _ in $(seq 1 60); do curl -sf -o /dev/null http://localhost:3000/ && break; sleep 2; done
+          node scripts/check-hydration.mjs
+      # /themes keeps its state in the address and reads it on the client, so shared links are easy to break
+      - run: node scripts/check-theme-links.mjs
+
       - name: Upload theme reports
         if: always()
         uses: actions/upload-artifact@v4
