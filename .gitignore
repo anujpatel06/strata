@@ -10,6 +10,8 @@ playwright-report
 .next
 .next-*
 next-env.d.ts.bak
+# `output: 'export'` writes the whole site here (ADR-030); it is a build artefact, not source.
+apps/docs/out
 .claude/settings.local.json
 
 packages/react/registry/

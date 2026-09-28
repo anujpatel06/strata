@@ -9,7 +9,7 @@
     "dev": "next dev --port 3000",
     "prebuild": "node scripts/prebuild.mjs",
     "build": "next build",
-    "start": "next start --port 3000",
+    "start": "serve out -l 3000",
     "typecheck": "node scripts/gen-examples.mjs && tsc -p tsconfig.json --noEmit"
   },
   "dependencies": {
@@ -33,6 +33,7 @@
     "@types/node": "^22.0.0",
     "@types/react": "^19.2.0",
     "@types/react-dom": "^19.2.0",
+    "serve": "14.2.6",
     "typescript": "~5.9.0"
   },
   "browserslist": [
