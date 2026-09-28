@@ -77,6 +77,14 @@
   overflow: hidden;
   min-inline-size: 0;
   text-overflow: ellipsis;
+  /*
+   * The ellipsis needs `overflow: hidden`, which makes this element a clipping box exactly as tall as its line —
+   * and the chip sets `line-height: 1`. Scripts that put marks above and below the letters then get shaved: Hindi
+   * names lost 4px ("रेखा", "सुनील"). Give the box room and take the same amount back with a negative margin, so
+   * nothing is cut and the chip's height is unchanged. In em, because the room a script needs scales with the text.
+   */
+  margin-block: -0.3em;
+  padding-block: 0.3em;
 }
 
 /* ---- placeholder -------------------------------------------------------- */

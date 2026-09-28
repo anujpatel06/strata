@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef, type JSX, type ReactNode } from 'react';
+import { useMemo, useRef, type JSX, type ReactNode } from 'react';
 import {
   Button as RACButton,
   DateInput,
@@ -12,6 +12,8 @@ import {
   composeRenderProps,
   type DatePickerProps as RACDatePickerProps,
   type DateRangePickerProps as RACDateRangePickerProps,
+  useLocale,
+  type DateSegmentProps,
   type DateValue,
   type ValidationResult,
 } from 'react-aria-components';
@@ -52,11 +54,69 @@ interface FieldTextProps {
 
 export interface DatePickerProps<T extends DateValue> extends RACDatePickerProps<T>, FieldTextProps {}
 
+/**
+ * React Aria ships segment placeholders ("dd", "mm", "yyyy") for 34 locales. A locale outside that list falls back
+ * to the English ones, so a Hindi field reads "dd/mm/yyyy" — Latin letters in a Devanagari interface. Intl knows the
+ * field names for every locale, so fill the gap from there: `Intl.DisplayNames(locale, {type: 'dateTimeField'})`
+ * gives "दिन", "माह", "वर्ष".
+ *
+ * Only the gap. Where React Aria has strings they are better than Intl's, because a date input wants the shape of
+ * the value ("dd") and not the name of the field ("day"). The test is the locale's script: a non-Latin locale whose
+ * placeholder came back as plain ASCII got the English fallback, and nothing else does.
+ */
+const FIELD_OF: Partial<Record<string, 'day' | 'month' | 'year' | 'hour' | 'minute' | 'second'>> = {
+  day: 'day',
+  month: 'month',
+  year: 'year',
+  hour: 'hour',
+  minute: 'minute',
+  second: 'second',
+};
+
+function localePlaceholders(locale: string): ((type: string) => string | undefined) | undefined {
+  let script: string | undefined;
+  try {
+    script = new Intl.Locale(locale).maximize().script;
+  } catch {
+    return undefined;
+  }
+  if (!script || script === 'Latn') return undefined;
+  let names: Intl.DisplayNames;
+  try {
+    names = new Intl.DisplayNames([locale], { type: 'dateTimeField' });
+  } catch {
+    return undefined;
+  }
+  return (type) => {
+    const field = FIELD_OF[type];
+    if (!field) return undefined;
+    try {
+      return names.of(field);
+    } catch {
+      return undefined;
+    }
+  };
+}
+
+/** True when the placeholder is plain ASCII, i.e. React Aria had no strings for this locale. */
+const isAsciiFallback = (s: string) => /^[\x20-\x7E]+$/.test(s);
+
 function renderDateInput(slot?: 'start' | 'end'): JSX.Element {
   return (
     <DateInput slot={slot} className={styles.input}>
-      {(segment) => <DateSegment segment={segment} className={styles.segment} />}
+      {(segment) => <LocalizedSegment segment={segment} />}
     </DateInput>
+  );
+}
+
+/** One segment, with the placeholder filled in from Intl when React Aria had none for this locale. */
+function LocalizedSegment({ segment }: { segment: DateSegmentProps['segment'] }): JSX.Element {
+  const { locale } = useLocale();
+  const names = useMemo(() => localePlaceholders(locale), [locale]);
+  return (
+    <DateSegment segment={segment} className={styles.segment}>
+      {({ isPlaceholder, text, type }) => (!isPlaceholder || !names || !isAsciiFallback(text) ? text : (names(type) ?? text))}
+    </DateSegment>
   );
 }
 

@@ -53,15 +53,30 @@ const GroupContext = createContext<{ size?: AvatarSize; shape?: AvatarShape } | 
 /** Scripts whose letters join; initials get a zero-width non-joiner so they stay two separate letters. */
 const JOINING = /[\p{Script=Arabic}\p{Script=Syriac}\p{Script=Nko}\p{Script=Mongolian}\p{Script=Adlam}]/u;
 
-function firstGrapheme(word: string, locale: string): string {
-  if (typeof Intl !== 'undefined' && 'Segmenter' in Intl) {
-    const first = new Intl.Segmenter(locale, { granularity: 'grapheme' }).segment(word)[Symbol.iterator]().next();
-    if (!first.done) return first.value.segment;
-  }
-  return Array.from(word)[0] ?? '';
+/**
+ * Brahmic scripts write a syllable as a consonant plus dependent vowel signs, so the first grapheme cluster of
+ * "रेखा" is the whole syllable "रे", not a letter. Two of those together read as a word — "रेखा यादव" came out as
+ * "रेया" — and "रे" alone at avatar size is easily taken for ₹, which is built on the same letter. Keep the base
+ * letter and drop the marks, the way a Latin initial is a bare letter: "रेखा यादव" → "रय".
+ */
+const BRAHMIC =
+  /[\p{Script=Devanagari}\p{Script=Bengali}\p{Script=Gurmukhi}\p{Script=Gujarati}\p{Script=Oriya}\p{Script=Tamil}\p{Script=Telugu}\p{Script=Kannada}\p{Script=Malayalam}\p{Script=Sinhala}]/u;
+
+/** The letter a Brahmic syllable is built on: marks removed, and for a conjunct ("क्ष") the first consonant. */
+function brahmicBase(grapheme: string): string {
+  return Array.from(grapheme.replace(/\p{M}/gu, ''))[0] ?? grapheme;
 }
 
-/** "Priya Raman" → "PR", "Ana María de la Cruz" → "AC", "محمد علي" → "م‌ع". Grapheme-safe (emoji, accents). */
+function firstGrapheme(word: string, locale: string): string {
+  let grapheme = Array.from(word)[0] ?? '';
+  if (typeof Intl !== 'undefined' && 'Segmenter' in Intl) {
+    const first = new Intl.Segmenter(locale, { granularity: 'grapheme' }).segment(word)[Symbol.iterator]().next();
+    if (!first.done) grapheme = first.value.segment;
+  }
+  return BRAHMIC.test(grapheme) ? brahmicBase(grapheme) : grapheme;
+}
+
+/** "Priya Raman" → "PR", "Ana María de la Cruz" → "AC", "محمد علي" → "م‌ع", "रेखा यादव" → "रय". Grapheme-safe. */
 /**
  * Arabic names often carry the definite article "ال" (e.g. "المنصوري"); the initial is the letter after it.
  * Only stripped when letters follow, so a bare "ال" is kept.

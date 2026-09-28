@@ -24,6 +24,19 @@ describe('getInitials', () => {
   it('keeps joining-script initials as separate letters', () => {
     expect(getInitials('محمد علي')).toBe('م‌ع');
   });
+
+  it('takes the letter, not the whole syllable, in Brahmic scripts', () => {
+    // A grapheme cluster here is a consonant plus its vowel signs, so cluster-per-word read as a word ("रेया")
+    // and a lone "रे" looks like ₹. The base letters do not.
+    expect(getInitials('रेखा यादव', 'hi-IN')).toBe('रय');
+    expect(getInitials('प्रिया रमण', 'hi-IN')).toBe('पर');
+    // A conjunct ("क्ष" = क + virama + ष) gives the consonant it starts with.
+    expect(getInitials('क्षमा शर्मा', 'hi-IN')).toBe('कश');
+    // One name, and a leading vowel carrying anusvara.
+    expect(getInitials('अंजलि', 'hi-IN')).toBe('अ');
+    // Not Devanagari-only: the same rule across Brahmic scripts.
+    expect(getInitials('রেখা দাস', 'bn-IN')).toBe('রদ');
+  });
 });
 
 describe('Avatar', () => {
