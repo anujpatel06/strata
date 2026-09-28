@@ -274,6 +274,21 @@
   white-space: nowrap;
 }
 
+/*
+ * `text-overflow: ellipsis` cuts by character, not by syllable, so in Devanagari it can stop inside a cluster and
+ * leave a dead consonant: "बच्चों के स्पोर्ट्स जूते" came out as "…स्पोर्ट्…", which is not a word. CSS has no
+ * grapheme-aware truncation. On a phone the title missed fitting by 11px, so let it wrap there instead — the row
+ * grows by a line and the name stays readable. The meta line under it still truncates, and cuts at an order number.
+ * This has to sit after the rule above, not with the other narrow-width rules: same specificity, so order decides.
+ */
+@container activity-table (max-width: 479.98px) {
+  .descTitle {
+    overflow: visible;
+    text-overflow: clip;
+    white-space: normal;
+  }
+}
+
 .descMeta {
   overflow: hidden;
   color: var(--syntara-color-text-subtle);
