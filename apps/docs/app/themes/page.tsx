@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { checkCopyReview } from '@/components/page/draft-copy-note';
 import { PageShell } from '@/components/page/page-shell';
-import { readState, toQuery, type ThemePreset } from '@/components/themes/state';
+import { readState, type ThemePreset } from '@/components/themes/state';
 import { ThemeStats } from '@/components/themes/theme-stats';
 import { ThemesProvider } from '@/components/themes/themes-provider';
 import { ThemesWorkspace } from '@/components/themes/themes-workspace';
@@ -47,9 +47,14 @@ function getPresets(): ThemePreset[] {
   return [...tenants, house];
 }
 
-export default async function Themes({ searchParams }: { searchParams: Promise<Record<string, string | string[] | undefined>> }) {
+/**
+ * Prerendered, with no reference to the query string: reading `searchParams` here would opt the page into
+ * server rendering on demand, and the site is a static export. ThemesProvider reads the address on the client
+ * after hydration instead, so `?tenant=…&primary=…` links still work.
+ */
+export default function Themes() {
   const presets = getPresets();
-  const initial = readState(toQuery(await searchParams), presets);
+  const initial = readState(new URLSearchParams(), presets);
 
   return (
     <ThemesProvider presets={presets} initial={initial}>

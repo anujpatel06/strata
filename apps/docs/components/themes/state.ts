@@ -69,6 +69,8 @@ export interface ThemesState {
 }
 
 export type ThemesAction =
+  /** The whole state at once, read from the address after hydration. See ThemesProvider. */
+  | { type: 'replace'; state: ThemesState }
   | { type: 'selectPreset'; preset: ThemePreset }
   | { type: 'reset'; preset: ThemePreset }
   | { type: 'setPrimary'; hex: string }
@@ -219,6 +221,8 @@ export function toSearch(state: ThemesState, presets: readonly ThemePreset[], ex
 
 export function reducer(state: ThemesState, action: ThemesAction): ThemesState {
   switch (action.type) {
+    case 'replace':
+      return action.state;
     case 'selectPreset':
       return { ...state, tenant: action.preset.id, brand: presetBrand(action.preset) };
     case 'reset':

@@ -12,7 +12,7 @@ import {
   type Dispatch,
   type ReactNode,
 } from 'react';
-import { brandDiff, findPreset, reducer, toSearch, type ThemePreset, type ThemesAction, type ThemesState } from './state';
+import { brandDiff, findPreset, readState, reducer, toSearch, type ThemePreset, type ThemesAction, type ThemesState } from './state';
 
 interface ThemesContextValue {
   state: ThemesState;
@@ -83,9 +83,14 @@ export function useDebouncedAnnouncement(message: string, delayMs = 600): string
 }
 
 /**
- * Owns the /themes state. Initialised from the query string on the server, then mirrored back with
- * history.replaceState — Next's router picks that up without a server round trip, so typing a hex
- * doesn't refetch the page, and the scroll position never moves.
+ * Owns the /themes state, and mirrors it back into the address with history.replaceState — Next's router picks
+ * that up without a server round trip, so typing a hex doesn't refetch the page and the scroll never moves.
+ *
+ * The address is read on the client, after hydration, not during render. The page is prerendered at build time
+ * (the site is a static export), so there is no server that could have seen the query string; reading it while
+ * rendering would make the first client render differ from the prerendered HTML, which is React error #418.
+ * The cost is that a shared link paints the default preset in the preview panel for one frame before the shared
+ * theme replaces it. Only the preview is scoped to the generated theme, so the rest of the page never flickers.
  */
 export function ThemesProvider({
   presets,
@@ -97,7 +102,18 @@ export function ThemesProvider({
   children: ReactNode;
 }) {
   const [state, dispatch] = useReducer(reducer, initial);
+  // Until the address has been read, writing it back would erase the very parameters we came here to load.
+  const [addressRead, setAddressRead] = useState(false);
   const preset = findPreset(presets, state.tenant);
+
+  useEffect(() => {
+    try {
+      dispatch({ type: 'replace', state: readState(new URLSearchParams(window.location.search), presets) });
+    } catch {
+      // A malformed address just leaves the default preset in place.
+    }
+    setAddressRead(true);
+  }, [presets]);
 
   const presetThemes = useMemo(() => {
     const out: Record<string, Theme> = {};
@@ -119,6 +135,7 @@ export function ThemesProvider({
   useTypePairFont(theme);
 
   useEffect(() => {
+    if (!addressRead) return;
     try {
       const { pathname, search, hash } = window.location;
       const next = toSearch(state, presets, search);
@@ -127,7 +144,7 @@ export function ThemesProvider({
     } catch {
       // Sandboxed frames can refuse history access. The page still works; the link just won't update.
     }
-  }, [state, presets]);
+  }, [state, presets, addressRead]);
 
   const edited = brandDiff(state.brand, preset).length > 0;
 

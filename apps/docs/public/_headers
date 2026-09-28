@@ -1,0 +1,15 @@
+# Cloudflare Pages reads this from the deployed root. Next copies apps/docs/public/* into the export unchanged.
+
+/*
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  X-Frame-Options: DENY
+  Cross-Origin-Opener-Policy: same-origin
+  # The docs site has no forms, no auth and no third-party scripts. Fonts come from Google Fonts; everything
+  # else is same-origin. style-src needs 'unsafe-inline' because /themes writes a generated theme into a
+  # <style> tag on every keystroke, and each preview scopes its own tokens the same way.
+  Content-Security-Policy: default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; img-src 'self' data:; font-src 'self' https://fonts.gstatic.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; script-src 'self' 'unsafe-inline'
+
+# Hashed assets: the name changes when the bytes do, so they can be cached forever.
+/_next/static/*
+  Cache-Control: public, max-age=31536000, immutable

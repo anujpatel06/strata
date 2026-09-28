@@ -38,6 +38,10 @@ const nextConfig = {
   modularizeImports: {
     '@syntara/react': { transform: syntaraImportMap(), skipDefaultConversion: true },
   },
+  // The site is plain files on Cloudflare Pages: no server, no adapter, no runtime to keep alive. Every route
+  // prerenders, so nothing may read `searchParams`, `cookies()` or `headers()` while rendering — /themes reads
+  // the address on the client instead (see components/themes/themes-provider.tsx).
+  output: 'export',
   reactStrictMode: true,
   poweredByHeader: false,
   // Lets parallel builds in one checkout use separate output folders: NEXT_DIST_DIR=.next-b1 next build
