@@ -172,6 +172,12 @@
       "Don't put a contrast and a primary button side by side: that's two loud actions. Pair either with outline or ghost."
     ]
   },
+  "typeNotes": [
+    {
+      "note": "Button has no title prop. An icon-only button is named by aria-label; for a hover hint, wrap it in TooltipTrigger with a Tooltip.",
+      "example": "<TooltipTrigger><Button size=\"icon\" aria-label=\"Edit\"><IconPencil aria-hidden /></Button><Tooltip>Edit</Tooltip></TooltipTrigger>"
+    }
+  ],
   "tokens": [
     "color.action.primary.bg",
     "color.action.primary.border",

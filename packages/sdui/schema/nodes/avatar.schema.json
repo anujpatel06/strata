@@ -1,0 +1,141 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:strata:sdui:v1:node:Avatar",
+  "title": "Avatar",
+  "description": "A person or entity shown as a photo, or as initials on a soft tint when there is no photo. Also an empty seat: \"+\" to add someone, \"?\" for someone not added yet.",
+  "x-strata": {
+    "node": "Avatar",
+    "component": "avatar",
+    "export": "Avatar",
+    "maturity": "beta",
+    "schemaVersion": "1.0.0",
+    "source": "meta"
+  },
+  "type": "object",
+  "required": [
+    "type"
+  ],
+  "properties": {
+    "type": {
+      "const": "Avatar"
+    },
+    "id": {
+      "$ref": "urn:strata:sdui:v1:defs#/$defs/NodeId"
+    },
+    "props": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "description": "Used for initials, the tint and the accessible name.",
+          "type": "string"
+        },
+        "src": {
+          "description": "Image URL. Initials show while it loads and if it fails.",
+          "$ref": "urn:strata:sdui:v1:defs#/$defs/ImageUrl"
+        },
+        "alt": {
+          "description": "Accessible name; defaults to name. Pass \"\" when the name is already visible next to the avatar.",
+          "type": "string"
+        },
+        "size": {
+          "description": "24, 32 or 40px. Inherits from AvatarGroup.",
+          "type": "string",
+          "enum": [
+            "sm",
+            "md",
+            "lg"
+          ],
+          "default": "md"
+        },
+        "shape": {
+          "description": "square follows the brand's button radius (capped at 30%).",
+          "type": "string",
+          "enum": [
+            "circle",
+            "square"
+          ],
+          "default": "circle"
+        },
+        "tint": {
+          "description": "Initials colour. auto hashes name (case- and space-insensitive) into brand, accent, info, warning or success, so a person keeps their colour everywhere; danger is never auto-picked. none is an untinted neutral. Every option is a background/foreground pair the theme engine contrast-checks.",
+          "type": "string",
+          "enum": [
+            "auto",
+            "none",
+            "brand",
+            "accent",
+            "info",
+            "success",
+            "warning",
+            "danger"
+          ],
+          "default": "auto"
+        },
+        "placeholder": {
+          "description": "An empty seat: a dashed circle with \"+\" (add) or \"?\" (unknown, e.g. not added yet) in text.subtle. Ignores src and tint; still named by alt ?? name.",
+          "type": "string",
+          "enum": [
+            "add",
+            "unknown"
+          ]
+        }
+      }
+    },
+    "fallback": {
+      "description": "Rendered instead of this node by a client that doesn't know its type. Must be a node that client knows.",
+      "$ref": "urn:strata:sdui:v1:screen#/$defs/Node"
+    }
+  },
+  "additionalProperties": false,
+  "allOf": [
+    {
+      "x-strata-rule": {
+        "id": "avatar-name",
+        "message": "An Avatar needs props.name or props.alt. alt \"\" marks it decorative (the name is shown next to it), and still needs name for the initials."
+      },
+      "anyOf": [
+        {
+          "type": "object",
+          "required": [
+            "props"
+          ],
+          "properties": {
+            "props": {
+              "type": "object",
+              "required": [
+                "name"
+              ],
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "pattern": "\\S"
+                }
+              }
+            }
+          }
+        },
+        {
+          "type": "object",
+          "required": [
+            "props"
+          ],
+          "properties": {
+            "props": {
+              "type": "object",
+              "required": [
+                "alt"
+              ],
+              "properties": {
+                "alt": {
+                  "type": "string",
+                  "pattern": "\\S"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,102 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:strata:sdui:v1:node:Tag",
+  "title": "Tag",
+  "description": "A quiet, static label for an attribute or category, such as \"Cashless\" or \"Home collection\".",
+  "x-strata": {
+    "node": "Tag",
+    "component": "tag",
+    "export": "Tag",
+    "maturity": "beta",
+    "schemaVersion": "1.0.0",
+    "source": "meta"
+  },
+  "type": "object",
+  "required": [
+    "type",
+    "children"
+  ],
+  "properties": {
+    "type": {
+      "const": "Tag"
+    },
+    "id": {
+      "$ref": "urn:strata:sdui:v1:defs#/$defs/NodeId"
+    },
+    "props": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "tone": {
+          "description": "Colour. Soft tags use contrast-checked pairs: text.subtle/surface.sunken (neutral), action.secondary.fg/bg (brand), accent.text/accent.subtle (accent), feedback.*.fg/bg.",
+          "type": "string",
+          "enum": [
+            "neutral",
+            "brand",
+            "accent",
+            "info",
+            "success",
+            "warning",
+            "danger"
+          ],
+          "default": "neutral"
+        },
+        "variant": {
+          "description": "soft = tinted fill (neutral adds a hairline edge), outline = hairline edge only, dashed = a placeholder or optional attribute.",
+          "type": "string",
+          "enum": [
+            "soft",
+            "outline",
+            "dashed"
+          ],
+          "default": "soft"
+        },
+        "size": {
+          "description": "md is 24px tall, sm is 20px.",
+          "type": "string",
+          "enum": [
+            "sm",
+            "md"
+          ],
+          "default": "md"
+        },
+        "uppercase": {
+          "description": "Small-caps style: uppercase, ~10% smaller, semibold, tracked open (0 tracking for Arabic-capable type pairs). Visual only: the DOM text keeps its case.",
+          "type": "boolean",
+          "default": false
+        },
+        "leading": {
+          "description": "Leading icon or small Avatar, sized to the tag. Decorative (aria-hidden).",
+          "$ref": "urn:strata:sdui:v1:defs#/$defs/IconRef"
+        }
+      }
+    },
+    "children": {
+      "description": "The label: one to three words. Long labels truncate with an ellipsis. On the wire: a string.",
+      "type": "string"
+    },
+    "fallback": {
+      "description": "Rendered instead of this node by a client that doesn't know its type. Must be a node that client knows.",
+      "$ref": "urn:strata:sdui:v1:screen#/$defs/Node"
+    }
+  },
+  "additionalProperties": false,
+  "allOf": [
+    {
+      "x-strata-rule": {
+        "id": "tag-text",
+        "message": "A Tag needs text in children: colour alone says nothing."
+      },
+      "type": "object",
+      "required": [
+        "children"
+      ],
+      "properties": {
+        "children": {
+          "type": "string",
+          "pattern": "\\S"
+        }
+      }
+    }
+  ]
+}

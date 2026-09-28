@@ -50,6 +50,12 @@ export function mulberry32(seed: number): () => number {
 
 const NEUTRALS: NeutralTemperature[] = ['cool', 'neutral', 'warm', 'paper'];
 const SHAPES: Shape[] = ['sharp', 'soft', 'round'];
+/**
+ * Frozen: the pairs that existed when the published numbers were first run. Appending one (bilingual-devanagari,
+ * ADR-020) would re-map the pair 487 of the 1,000 brands draw. It changes no colour output or fuzz number (the pair
+ * isn't an input to colour), but it would change the brands themselves, so new pairs are covered by
+ * test/script-type.test.ts instead.
+ */
 const TYPE_PAIR_IDS: TypePairId[] = ['precise', 'calm', 'friendly', 'technical', 'bilingual-round', 'bilingual-classic', 'editorial', 'modern'];
 const DENSITIES: Density[] = ['comfortable', 'compact'];
 

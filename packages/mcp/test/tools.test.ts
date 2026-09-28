@@ -119,6 +119,60 @@ describe('get_component', () => {
     for (const e of meta.exports) expect(r.json.import).toContain(e);
   });
 
+  it('lists the other packages a date component needs, as an import line with the reason', async () => {
+    const r = await h.call('get_component', { name: 'date-picker' });
+    expect(r.json.imports).toEqual([
+      {
+        line: "import { parseDate, parseDateTime, today, getLocalTimeZone, type DateValue } from '@internationalized/date';",
+        why: expect.stringContaining('DateValue objects'),
+      },
+    ]);
+    expect((await h.call('get_component', { name: 'calendar' })).json.imports[0].line).toContain("from '@internationalized/date'");
+  });
+
+  it('returns type notes with the prop and one correct line', async () => {
+    const r = await h.call('get_component', { name: 'toggle-group' });
+    expect(r.json.typeNotes[0]).toEqual({
+      prop: 'onSelectionChange',
+      note: expect.stringContaining('Set<Key>'),
+      example: "onSelectionChange={(keys) => setFilter(String([...keys][0] ?? 'all'))}",
+    });
+    const general = r.json.typeNotes.find((t: { prop?: string }) => t.prop === undefined);
+    expect(general.note).toContain("React's Key");
+  });
+
+  it('leaves out imports and typeNotes when a component has none', async () => {
+    const r = await h.call('get_component', { name: 'badge' });
+    expect('imports' in r.json).toBe(false);
+    expect('typeNotes' in r.json).toBe(false);
+    expect('imports' in (await h.call('get_component', { name: 'button' })).json).toBe(false);
+  });
+
+  it('returns imports and typeNotes exactly as every meta file has them', async () => {
+    const names: string[] = (await h.call('list_components')).json.components.map((c: { name: string }) => c.name);
+    let withImports = 0;
+    let withNotes = 0;
+    for (const name of names) {
+      const meta = JSON.parse(readFileSync(join(root, `packages/react/meta/${name}.meta.json`), 'utf8'));
+      const r = await h.call('get_component', { name });
+      if (meta.imports) {
+        withImports++;
+        expect(r.json.imports, name).toEqual(
+          meta.imports.map((i: { package: string; names: string[]; why: string }) => ({
+            line: `import { ${i.names.join(', ')} } from '${i.package}';`,
+            why: i.why,
+          })),
+        );
+      } else expect(r.json.imports, name).toBeUndefined();
+      if (meta.typeNotes) {
+        withNotes++;
+        expect(r.json.typeNotes, name).toEqual(meta.typeNotes);
+      } else expect(r.json.typeNotes, name).toBeUndefined();
+    }
+    expect(withImports).toBeGreaterThan(0);
+    expect(withNotes).toBeGreaterThan(0);
+  });
+
   it('says which export a prop belongs to when there is more than one', async () => {
     const r = await h.call('get_component', { name: 'card' });
     expect(r.json.props.every((p: { component?: string }) => typeof p.component === 'string')).toBe(true);

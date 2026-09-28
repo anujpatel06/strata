@@ -303,6 +303,18 @@
       "Don't use a DataTable for page layout or for fewer than about three rows of simple data — use a list."
     ]
   },
+  "typeNotes": [
+    {
+      "prop": "columns",
+      "note": "In a DataTableColumn<T>, cell is the only function of the row. textValue is a plain string that names the header for screen readers when header isn't text.",
+      "example": "{ id: 'name', header: 'Name', isRowHeader: true, cell: (row) => row.name }"
+    },
+    {
+      "prop": "onSelectionChange",
+      "note": "Called with a DataTableSelection: 'all' when select-all is on, otherwise a Set of row ids. Check for 'all' before reading ids.",
+      "example": "const ids = selected === 'all' ? rows.map((r) => r.id) : [...selected];"
+    }
+  ],
   "tokens": [
     "table-row-height",
     "control-height",

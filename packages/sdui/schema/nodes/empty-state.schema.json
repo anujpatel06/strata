@@ -1,0 +1,132 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:strata:sdui:v1:node:EmptyState",
+  "title": "EmptyState",
+  "description": "What to show when there is nothing to show: no data yet, no results, or nothing left to do.",
+  "x-strata": {
+    "node": "EmptyState",
+    "component": "empty-state",
+    "export": "EmptyState",
+    "maturity": "beta",
+    "schemaVersion": "1.0.0",
+    "source": "meta"
+  },
+  "type": "object",
+  "required": [
+    "type",
+    "props"
+  ],
+  "properties": {
+    "type": {
+      "const": "EmptyState"
+    },
+    "id": {
+      "$ref": "urn:strata:sdui:v1:defs#/$defs/NodeId"
+    },
+    "props": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "title": {
+          "description": "What is empty, in plain words.",
+          "type": "string"
+        },
+        "description": {
+          "description": "Why it is empty and what to do next. Wraps at 48 characters.",
+          "type": "string"
+        },
+        "icon": {
+          "description": "Decorative icon shown in a small raised tile above the title.",
+          "$ref": "urn:strata:sdui:v1:defs#/$defs/IconRef"
+        },
+        "size": {
+          "description": "sm for cards, tables and popovers; md for pages and sections.",
+          "type": "string",
+          "enum": [
+            "sm",
+            "md"
+          ],
+          "default": "md"
+        },
+        "level": {
+          "description": "Heading level of the title.",
+          "type": "integer",
+          "enum": [
+            2,
+            3,
+            4,
+            5,
+            6
+          ],
+          "default": 3
+        }
+      },
+      "required": [
+        "title"
+      ]
+    },
+    "slots": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "action": {
+          "description": "The next step: usually one Button, optionally with a Link.",
+          "type": "object",
+          "required": [
+            "type"
+          ],
+          "properties": {
+            "type": {
+              "type": "string"
+            }
+          },
+          "discriminator": {
+            "propertyName": "type"
+          },
+          "oneOf": [
+            {
+              "$ref": "urn:strata:sdui:v1:node:Button"
+            },
+            {
+              "$ref": "urn:strata:sdui:v1:node:Link"
+            },
+            {
+              "$ref": "urn:strata:sdui:v1:node:Inline"
+            }
+          ]
+        }
+      }
+    },
+    "fallback": {
+      "description": "Rendered instead of this node by a client that doesn't know its type. Must be a node that client knows.",
+      "$ref": "urn:strata:sdui:v1:screen#/$defs/Node"
+    }
+  },
+  "additionalProperties": false,
+  "allOf": [
+    {
+      "x-strata-rule": {
+        "id": "empty-state-title",
+        "message": "An EmptyState needs props.title: it is the heading that says what is empty."
+      },
+      "type": "object",
+      "required": [
+        "props"
+      ],
+      "properties": {
+        "props": {
+          "type": "object",
+          "required": [
+            "title"
+          ],
+          "properties": {
+            "title": {
+              "type": "string",
+              "pattern": "\\S"
+            }
+          }
+        }
+      }
+    }
+  ]
+}

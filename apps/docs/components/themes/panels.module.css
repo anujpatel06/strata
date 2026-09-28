@@ -363,10 +363,10 @@
   gap: var(--strata-space-2);
 }
 
-.adjustedBadge {
+.adjustedBadge.adjustedBadge {
   cursor: help;
 }
-.adjustedBadge:focus-visible {
+.adjustedBadge.adjustedBadge:focus-visible {
   outline: 2px solid var(--strata-color-focus-ring);
   outline-offset: 2px;
 }
@@ -416,7 +416,7 @@
   justify-content: flex-start;
   min-inline-size: 0;
 }
-.fileItem svg {
+.fileItem.fileItem svg {
   flex: none;
 }
 

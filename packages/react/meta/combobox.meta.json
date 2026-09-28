@@ -235,6 +235,17 @@
       "Don't hide the label behind the placeholder."
     ]
   },
+  "typeNotes": [
+    {
+      "prop": "onSelectionChange",
+      "note": "Called with Key | null; null when the selection is cleared. A handler typed (key: string) => void, or the setter of useState<string>, fails the type check.",
+      "example": "onSelectionChange={(key) => setPick(key === null ? null : String(key))}"
+    },
+    {
+      "note": "Key is React Aria's Key: string | number. React's Key also allows bigint, so state typed with it fails the check. Import Key from @strata/react instead: import { type Key } from '@strata/react'. String ids work too.",
+      "example": "const [pick, setPick] = useState<Key | null>(null);"
+    }
+  ],
   "tokens": [
     "space.2",
     "space.1",

@@ -460,6 +460,78 @@ const AR: PortfolioLabels = {
   },
 };
 
+/** Hindi (hi-IN), everyday usage: English loanwords where Hindi speakers use them (फ़ंड, इक्विटी, डिपॉज़िट). Draft. */
+const HI: PortfolioLabels = {
+  subtitle: 'बचत और निवेश',
+  nav: {
+    label: 'मुख्य मेन्यू',
+    open: 'मेन्यू खोलें',
+    overview: 'ओवरव्यू',
+    dashboard: 'डैशबोर्ड',
+    holdings: 'निवेश',
+    markets: 'बाज़ार',
+    marketsBadge: 'नया',
+    money: 'पैसे',
+    transfers: 'ट्रांसफ़र',
+    statements: 'स्टेटमेंट',
+    goals: 'लक्ष्य',
+    account: 'अकाउंट',
+    alerts: 'अलर्ट',
+    settings: 'सेटिंग्स',
+    personal: 'निजी अकाउंट',
+  },
+  greeting: 'नमस्ते, {name}',
+  intro: 'इस महीने आपके निवेश में {change} का बदलाव हुआ।',
+  search: { label: 'खोजें', placeholder: 'फ़ंड और लेन-देन खोजें' },
+  notifications: 'सूचनाएँ',
+  kpi: {
+    netWorth: 'कुल जमा',
+    netWorthDelta: 'इस महीने',
+    today: 'आज',
+    todayDelta: '24 घंटे में',
+    returns: 'कुल रिटर्न',
+    returnsDelta: 'लगाए गए पैसे पर',
+    invested: 'इस महीने निवेश',
+    investedDelta: '{month} के मुकाबले',
+  },
+  chart: {
+    title: 'निवेश की कीमत',
+    period: 'अवधि',
+    periods: { '24h': '24 घं', '7d': '7 दिन', '1m': '1 महीना', '1y': '1 साल' },
+    versus: { '24h': '24 घंटे में', '7d': '7 दिन में', '1m': 'एक महीने में', '1y': 'एक साल में' },
+    series: 'कीमत',
+    x: { '24h': 'समय', '7d': 'दिन', '1m': 'तारीख', '1y': 'महीना' },
+  },
+  allocation: { title: 'पैसा कहाँ लगा है', share: 'निवेश का {percent}' },
+  contributions: { title: 'हर महीने का निवेश', caption: '{month} में निवेश', series: 'निवेश', x: 'महीना' },
+  promo: {
+    eyebrow: 'निवेश के लिए तैयार नकद',
+    title: 'खाली पड़े पैसे को काम पर लगाएँ',
+    body: 'कुछ ही सेकंड में पैसा डालें या निकालें। डाला गया पैसा अगले कारोबारी दिन निवेश होता है।',
+    cash: 'उपलब्ध नकद',
+    next: 'अगला ऑटो-निवेश',
+    deposit: 'पैसा डालें',
+    withdraw: 'निकालें',
+  },
+  activity: {
+    title: 'हाल के लेन-देन',
+    viewAll: 'सब देखें',
+    kinds: { buy: 'खरीदा', sell: 'बेचा', dividend: 'डिविडेंड', deposit: 'जमा', withdrawal: 'निकासी' },
+  },
+  holdings: {
+    title: 'निवेश',
+    asset: 'फ़ंड',
+    price: 'कीमत',
+    change: '7 दिन',
+    trend: 'पिछले 7 दिन',
+    holding: 'यूनिट',
+    value: 'कुल कीमत',
+    allocation: 'हिस्सा',
+    units: '{units} यूनिट',
+    trendLabel: '{name}: 7 दिन में {change}',
+  },
+};
+
 type TenantCopy = Pick<PortfolioContent, 'portfolio'>;
 
 /** Sample copy per docs tenant (see the note at the top). Keys are tenant folder names. */
@@ -529,6 +601,34 @@ export const portfolioTenantCopy: Record<string, TenantCopy> = {
           withdraw: 'Take out',
         },
       },
+    ),
+  },
+  /**
+   * Haat is a reseller-commerce app (hi-IN): a savings pot where resellers invest part of their earnings, in rupees.
+   * Hindi copy is a draft until a Hindi reader reviews it (tenants/haat/content.json `copyReview`).
+   */
+  haat: {
+    portfolio: scaled(
+      83,
+      0.04,
+      {
+        holdings: {
+          geqx: 'ग्लोबल इक्विटी इंडेक्स',
+          tlfd: 'टेक लीडर्स फ़ंड',
+          clen: 'क्लीन एनर्जी फ़ंड',
+          bndl: 'सरकारी बॉन्ड लैडर',
+          aurm: 'गोल्ड रिज़र्व',
+        },
+        activity: {
+          a1: 'ग्लोबल इक्विटी इंडेक्स',
+          a2: 'सरकारी बॉन्ड लैडर',
+          a3: 'हाट वॉलेट •• 6614 से',
+          a4: 'क्लीन एनर्जी फ़ंड',
+          a5: 'बैंक खाता •• 3308 में',
+        },
+        classes: { equity: 'इक्विटी', bonds: 'बॉन्ड', gold: 'सोना', cash: 'नकद' },
+      },
+      HI,
     ),
   },
 };

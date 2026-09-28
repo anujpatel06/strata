@@ -1,6 +1,9 @@
 import { render, screen, within } from '@testing-library/react';
 import { I18nProvider } from 'react-aria-components';
+import { generateTheme, type BrandInput } from '@strata/theme-engine';
+import { contrastRatio } from '../../theme-engine/src/color';
 import { StatTile, StatTileGroup, formatDelta } from '../src/ui/stat-tile';
+import { TENANTS, loadFuzzInputs, readUiCss } from './status-icon-contrast';
 
 const MINUS = '−';
 
@@ -115,4 +118,95 @@ describe('StatTile', () => {
     expect(tile.children[1]).toHaveTextContent('−42%');
     expect(within(container.firstElementChild as HTMLElement).getAllByRole('definition')).toHaveLength(2);
   });
+});
+
+describe('StatTile: good or bad news is not shown by colour alone (WCAG 1.4.1)', () => {
+  const pill = (text: string) => screen.getByText(text).closest('[data-tone]') as HTMLElement;
+  const mark = (el: HTMLElement) => el.querySelector('[data-strata-icon]')?.getAttribute('data-strata-icon') ?? null;
+
+  it('good news keeps the trend arrow; bad news shows an alert mark instead; no change shows neither', () => {
+    const { rerender } = render(<StatTile label="Revenue" value="₹12,48,300" delta={0.064} />);
+    expect(mark(pill('+6.4%'))).toBe('trending-up');
+    rerender(<StatTile label="Refunds" value="₹38,420" delta={0.064} positiveIsGood={false} />);
+    expect(mark(pill('+6.4%'))).toBe('alert-circle-filled');
+    rerender(<StatTile label="Failed payments" value="42" delta={-0.12} positiveIsGood={false} />);
+    expect(mark(pill(`${MINUS}12%`))).toBe('trending-down');
+    rerender(<StatTile label="Revenue" value="₹9,10,000" delta={-0.12} />);
+    expect(mark(pill(`${MINUS}12%`))).toBe('alert-circle-filled');
+    rerender(<StatTile label="Active cards" value="1,286" delta={0} />);
+    expect(mark(pill('0%'))).toBeNull();
+  });
+
+  it('the same rise, good and bad, differs in more than colour', () => {
+    render(
+      <StatTileGroup>
+        <StatTile label="Revenue" value="1" delta={0.031} />
+        <StatTile label="Refunds" value="2" delta={0.031} positiveIsGood={false} />
+      </StatTileGroup>,
+    );
+    const [good, bad] = screen.getAllByText('+3.1%').map((t) => t.closest('[data-tone]')!);
+    // Strip the colour signal and the words for screen readers: what's left must still differ (the mark's shape).
+    const shape = (el: Element) => {
+      const c = el.cloneNode(true) as Element;
+      c.removeAttribute('data-tone');
+      c.querySelector('.srOnly')?.remove();
+      return c.outerHTML;
+    };
+    expect(shape(good!)).not.toBe(shape(bad!));
+  });
+
+  it('says better or worse to screen readers, from translatable props, and nothing for no change', () => {
+    const { rerender } = render(<StatTile label="Revenue" value="1" delta={0.064} deltaLabel="vs last month" />);
+    expect(pill('+6.4%')).toHaveTextContent(/^\+6\.4% better$/);
+    rerender(<StatTile label="Refunds" value="1" delta={0.031} positiveIsGood={false} deltaLabel="vs last month" />);
+    expect(pill('+3.1%')).toHaveTextContent(/^\+3\.1% worse$/);
+    expect(screen.getByText('worse')).toHaveClass('srOnly');
+    // The definition reads "+3.1% worse", then "vs last month" (the pill and the label are separate flex items).
+    expect(pill('+3.1%').closest('dd')).toHaveTextContent(/^\+3\.1% worse\s*vs last month$/);
+    rerender(<StatTile label="Refunds" value="1" delta={0.031} positiveIsGood={false} betterLabel="أفضل" worseLabel="أسوأ" />);
+    expect(pill('+3.1%')).toHaveTextContent(/أسوأ$/);
+    rerender(<StatTile label="Wallet" value="1" delta={0} />);
+    expect(pill('0%')).toHaveTextContent(/^0%$/);
+    expect(document.querySelector('.srOnly')).toBeNull();
+  });
+});
+
+describe('StatTile: delta marks meet contrast on the pill, every tenant and 1,000 fuzz brands', () => {
+  const css = readUiCss('stat-tile.module.css');
+  const badgeCss = readUiCss('badge.module.css');
+
+  it('reads the roles it proves from the CSS', () => {
+    // The pill is a soft Badge: the mark is its text colour (fg) on its face (bg); the alert's "!" is knocked out to bg.
+    for (const t of ['success', 'danger']) {
+      expect(badgeCss).toContain(`.badge[data-variant='soft'][data-tone='${t}'] {\n  --_bg: var(--strata-color-feedback-${t}-bg);\n  --_fg: var(--strata-color-feedback-${t}-fg);`);
+    }
+    expect(css).toMatch(/\.delta\[data-tone='danger'\] \{\n  --strata-icon-on: var\(--strata-color-feedback-danger-bg\);/);
+  });
+
+  function worst(inputs: BrandInput[], names?: string[]) {
+    const w = { arrow: Infinity, alert: Infinity, glyph: Infinity, at: '' };
+    inputs.forEach((input, i) => {
+      const theme = generateTheme(input);
+      for (const scheme of ['light', 'dark'] as const) {
+        const r = theme.schemes[scheme].roles;
+        // Good news: the trend arrow (stroke, feedback.success.fg) on the pill's face (feedback.success.bg).
+        w.arrow = Math.min(w.arrow, contrastRatio(r['feedback.success.fg'].hex, r['feedback.success.bg'].hex));
+        // Bad news: the alert disc (feedback.danger.fg) on the face, and the knocked-out "!" (the face) on the disc.
+        const alert = contrastRatio(r['feedback.danger.fg'].hex, r['feedback.danger.bg'].hex);
+        if (alert < w.alert) Object.assign(w, { alert, at: `${names?.[i] ?? `fuzz#${i}`} ${scheme}` });
+        w.glyph = Math.min(w.glyph, contrastRatio(r['feedback.danger.bg'].hex, r['feedback.danger.fg'].hex));
+      }
+    });
+    return w;
+  }
+
+  it('arrow and alert disc ≥ 3:1 on the pill (WCAG 1.4.11), the knocked-out "!" ≥ 4.5:1 on the disc', async () => {
+    const tenants = worst(Object.values(TENANTS), Object.keys(TENANTS));
+    const fuzz = worst(await loadFuzzInputs());
+    // Measured 2026-09-28: arrow ≥ 5.43:1, alert disc ≥ 6.18:1, "!" ≥ 6.18:1 (worst: light), tenants and fuzz alike:
+    // the feedback hues don't follow the brand. Truncated, never rounded up.
+    expect(Math.min(tenants.arrow, fuzz.arrow)).toBeGreaterThanOrEqual(3);
+    expect(Math.min(tenants.alert, fuzz.alert)).toBeGreaterThanOrEqual(3);
+    expect(Math.min(tenants.glyph, fuzz.glyph)).toBeGreaterThanOrEqual(4.5);
+  }, 60_000);
 });

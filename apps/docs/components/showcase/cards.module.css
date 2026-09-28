@@ -5,7 +5,7 @@
   display: contents;
 }
 
-.fields {
+.fields.fields {
   display: grid;
   align-content: start;
   gap: var(--strata-field-gap);
@@ -18,7 +18,7 @@
 }
 
 /* Money in the input lines up like money everywhere else. */
-.amount input {
+.amount.amount input {
   font-variant-numeric: tabular-nums;
 }
 
@@ -29,22 +29,22 @@
   max-inline-size: none;
 }
 
-.switches {
+.switches.switches {
   display: grid;
   align-content: start;
   gap: var(--strata-space-4);
 }
 
-.meters {
+.meters.meters {
   display: grid;
   gap: var(--strata-space-3);
 }
 
-.between {
+.between.between {
   justify-content: space-between;
 }
 
-.center {
+.center.center {
   display: flex;
   justify-content: center;
 }
@@ -90,7 +90,7 @@
 
 /* ---- Revenue ---- */
 
-.revenue {
+.revenue.revenue {
   display: grid;
   gap: var(--strata-space-4);
 }
@@ -141,14 +141,14 @@
   line-height: var(--strata-line-height-tight);
 }
 
-.promoFigure {
+.promoFigure.promoFigure {
   display: grid;
   align-content: end;
   gap: var(--strata-space-1);
   flex: 1;
 }
 
-.promoActions {
+.promoActions.promoActions {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: var(--strata-space-2);
@@ -175,7 +175,7 @@
   gap: var(--strata-space-3);
 }
 
-.pairFooter {
+.pairFooter.pairFooter {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: var(--strata-space-2);
@@ -252,7 +252,7 @@
   container-type: inline-size;
 }
 @container (max-width: 300px) {
-  .accounts .spark {
+  .accounts .spark.spark {
     display: none;
   }
 }
@@ -264,7 +264,7 @@
 
 /* ---- Schedule ---- */
 
-.schedule {
+.schedule.schedule {
   display: grid;
   gap: var(--strata-space-2);
   font-size: var(--strata-font-size-sm);

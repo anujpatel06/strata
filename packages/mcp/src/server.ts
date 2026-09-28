@@ -1,5 +1,5 @@
 /**
- * The Strata MCP server: seven read-only tools and two resources (BRIEF §8, ADR-008).
+ * The Strata MCP server: eight read-only tools and two resources (BRIEF §8, ADR-008).
  *
  * Every tool returns one text block of compact JSON. Errors are tool errors (`isError: true`) whose message
  * says what to do next. No tool writes a file.
@@ -14,6 +14,7 @@ import { z } from 'zod';
 import { AuditorUnavailable, audit, nearestToken } from './audit-bridge';
 import { CATEGORIES, getComponent, listComponents } from './components';
 import { getExample } from './examples';
+import { DEFAULT_ICON_LIMIT, findIcon } from './icons';
 import { getPattern, listPatterns } from './patterns';
 import { ToolError, assertRoot, findRoot, inside, SAFE_NAME_MESSAGE } from './root';
 import { TOKEN_CATEGORIES, getTokens, requireTenant } from './tokens';
@@ -29,6 +30,8 @@ export const INSTRUCTIONS = [
   'Strata is a multi-brand design system: React components from @strata/react, styled only with var(--strata-*) tokens.',
   'This server is read-only. It has no tool that writes files; you make the edits.',
   'Before writing UI: list_components, then get_component or get_example for each component you use. Use get_pattern for a whole screen.',
+  'get_component lists imports (other packages the component needs, with exact names) and typeNotes (types that are easy to get wrong). No imports means @strata/react is all you need.',
+  'Icons: look up every name with find_icon before you import it from @strata/icons. Never guess a name; if nothing fits, use no icon.',
   'Never write a raw colour, size, radius or font weight. Use find_token to turn a raw value into a token.',
   'After writing UI: audit_snippet. Each finding has a fix with safe: true or false.',
   'Trust levels: you may apply fixes with safe: true yourself (ambient level). Every other fix, and anything that adds a component, changes a token or breaks an API, needs a person to decide. Read strata://agents for the rules.',
@@ -42,6 +45,7 @@ export const TOOL_NAMES = [
   'get_pattern',
   'audit_snippet',
   'get_example',
+  'find_icon',
 ] as const;
 
 export const RESOURCES = {
@@ -124,7 +128,7 @@ export function createServer(options: ServerOptions = {}): McpServer {
     'get_component',
     {
       description:
-        'Returns one component\'s import line, props, deprecations, keyboard and accessibility notes, do and don\'t, tokens and a usage snippet. Call it before you write code that uses the component.',
+        'Returns one component\'s import line, other imports it needs, props, type notes, deprecations, keyboard and accessibility notes, do and don\'t, tokens and a usage snippet. Call it before you write code that uses the component.',
       inputSchema: {
         name: nameInput('Component name in kebab-case, e.g. "button" or "date-picker". Names come from list_components.'),
       },
@@ -244,6 +248,20 @@ export function createServer(options: ServerOptions = {}): McpServer {
       annotations: READ_ONLY,
     },
     ({ component, example }) => run(root, () => getExample(root, toKebab(component), example)),
+  );
+
+  server.registerTool(
+    'find_icon',
+    {
+      description:
+        'Finds icons in @strata/icons by name or meaning, best first, with the group each belongs to. Call it for every icon before you import it; when nothing matches it says so and lists the closest real names.',
+      inputSchema: {
+        query: z.string().min(1).max(64).describe('What the icon shows, e.g. "trash", "arrow down", "award", or a name you expect such as "IconMailOpened".'),
+        limit: z.number().int().min(1).max(30).optional().describe(`How many icons to return, 1 to 30. Default ${DEFAULT_ICON_LIMIT}.`),
+      },
+      annotations: READ_ONLY,
+    },
+    ({ query, limit }) => run(root, () => findIcon(root, query, limit ?? DEFAULT_ICON_LIMIT)),
   );
 
   for (const [name, r] of Object.entries(RESOURCES)) {

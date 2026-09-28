@@ -1,0 +1,174 @@
+{
+  "schemaVersion": "1.0.0",
+  "screen": { "id": "account-overview", "title": "Account overview", "locale": "en-IN" },
+  "root": {
+    "type": "Stack",
+    "props": { "gap": "section-gap" },
+    "children": [
+      {
+        "type": "Stack",
+        "id": "header",
+        "props": { "gap": "space-1" },
+        "children": [
+          { "type": "Eyebrow", "children": "Savings account ending 4821" },
+          { "type": "Heading", "props": { "level": 1 }, "children": "Good morning, Priya" }
+        ]
+      },
+      {
+        "type": "StatTileGroup",
+        "id": "figures",
+        "children": [
+          {
+            "type": "StatTile",
+            "id": "balance",
+            "props": {
+              "label": "Available balance",
+              "value": "₹1,84,250",
+              "delta": 0.064,
+              "deltaLabel": "vs last month",
+              "icon": { "icon": "wallet" }
+            }
+          },
+          {
+            "type": "StatTile",
+            "id": "spent",
+            "props": {
+              "label": "Spent this month",
+              "value": "₹32,480",
+              "delta": 0.12,
+              "deltaLabel": "vs last month",
+              "positiveIsGood": false,
+              "sparkline": [24100, 26800, 25200, 29900, 28950, 32480]
+            }
+          },
+          {
+            "type": "StatTile",
+            "id": "rewards",
+            "props": { "label": "Reward points", "value": "2,140", "caption": "Worth ₹535 on your next bill" }
+          }
+        ]
+      },
+      {
+        "type": "Alert",
+        "id": "kyc",
+        "props": { "tone": "warning", "title": "Update your KYC by 15 October" },
+        "children": "Your PAN details need a fresh check. UPI payments pause after the due date until it's done.",
+        "slots": {
+          "action": {
+            "type": "Button",
+            "props": { "size": "sm", "variant": "contrast" },
+            "children": "Update now",
+            "action": { "type": "event", "name": "kyc.start", "payload": { "reason": "annual-review" } }
+          }
+        }
+      },
+      {
+        "type": "Card",
+        "id": "activity",
+        "children": [
+          {
+            "type": "CardHeader",
+            "props": { "divider": true },
+            "children": [
+              { "type": "CardTitle", "props": { "level": 2 }, "children": "Recent activity" },
+              { "type": "CardDescription", "children": "Last 3 transactions" },
+              {
+                "type": "CardAction",
+                "children": [
+                  {
+                    "type": "Link",
+                    "props": { "variant": "standalone" },
+                    "children": ["View all", { "icon": "chevron-right" }],
+                    "action": { "type": "navigate", "href": "/accounts/4821/activity" }
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "CardContent",
+            "children": [
+              {
+                "type": "Stack",
+                "props": { "gap": "space-3" },
+                "children": [
+                  {
+                    "type": "Inline",
+                    "id": "txn-1",
+                    "props": { "justify": "between", "gap": "space-3", "wrap": false },
+                    "children": [
+                      {
+                        "type": "Inline",
+                        "props": { "gap": "space-3", "wrap": false },
+                        "children": [
+                          { "type": "IconTile", "props": { "tint": "success", "size": "sm" }, "children": { "icon": "shopping-cart" } },
+                          {
+                            "type": "Stack",
+                            "props": { "gap": "space-0" },
+                            "children": [
+                              { "type": "Text", "props": { "weight": "medium" }, "children": "Groceries" },
+                              { "type": "Text", "props": { "size": "sm", "tone": "subtle" }, "children": "Today, 09:12 · UPI" }
+                            ]
+                          }
+                        ]
+                      },
+                      { "type": "Text", "props": { "numeric": true, "weight": "medium" }, "children": "−₹1,240" }
+                    ]
+                  },
+                  { "type": "Separator" },
+                  {
+                    "type": "Inline",
+                    "id": "txn-2",
+                    "props": { "justify": "between", "gap": "space-3", "wrap": false },
+                    "children": [
+                      {
+                        "type": "Inline",
+                        "props": { "gap": "space-3", "wrap": false },
+                        "children": [
+                          { "type": "IconTile", "props": { "tint": "info", "size": "sm" }, "children": { "icon": "arrows-exchange" } },
+                          {
+                            "type": "Stack",
+                            "props": { "gap": "space-0" },
+                            "children": [
+                              { "type": "Text", "props": { "weight": "medium" }, "children": "Salary credited" },
+                              { "type": "Text", "props": { "size": "sm", "tone": "subtle" }, "children": "1 Oct · NEFT" }
+                            ]
+                          }
+                        ]
+                      },
+                      { "type": "Text", "props": { "numeric": true, "weight": "medium" }, "children": "+₹96,500" }
+                    ]
+                  },
+                  { "type": "Separator" },
+                  {
+                    "type": "Inline",
+                    "id": "txn-3",
+                    "props": { "justify": "between", "gap": "space-3", "wrap": false },
+                    "children": [
+                      {
+                        "type": "Inline",
+                        "props": { "gap": "space-3", "wrap": false },
+                        "children": [
+                          { "type": "IconTile", "props": { "tint": "warning", "size": "sm" }, "children": { "icon": "bolt" } },
+                          {
+                            "type": "Stack",
+                            "props": { "gap": "space-0" },
+                            "children": [
+                              { "type": "Text", "props": { "weight": "medium" }, "children": "Electricity bill" },
+                              { "type": "Text", "props": { "size": "sm", "tone": "subtle" }, "children": "29 Sep · Autopay" }
+                            ]
+                          }
+                        ]
+                      },
+                      { "type": "Text", "props": { "numeric": true, "weight": "medium" }, "children": "−₹2,318" }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}

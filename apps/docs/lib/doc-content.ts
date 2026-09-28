@@ -7,6 +7,7 @@ export const DOC_CONTENT: Record<string, () => Promise<MdxModule>> = {
   index: () => import('../content/docs/index.mdx'),
   installation: () => import('../content/docs/installation.mdx'),
   mcp: () => import('../content/docs/mcp.mdx'),
+  'server-driven-ui': () => import('../content/docs/server-driven-ui.mdx'),
   figma: () => import('../content/docs/figma.mdx'),
   theming: () => import('../content/docs/theming.mdx'),
   color: () => import('../content/docs/color.mdx'),

@@ -23,6 +23,7 @@ import {
   type Shape,
   type TypePairId,
 } from '@strata/theme-engine';
+import type { CopyReview } from '@/components/page/draft-copy-note';
 
 /** A starting point: a tenant's brand.json plus what the preview needs from its content.json. */
 export interface ThemePreset {
@@ -37,6 +38,8 @@ export interface ThemePreset {
   /** Industry in the tenant's own language, with its language tag. */
   industry: string;
   industryLang: string;
+  /** content.json `copyReview`: the preset card shows the tenant's industry in its own words, so a draft is marked. */
+  copyReview?: CopyReview;
 }
 
 export const TABS = ['preview', 'accessibility', 'tokens', 'export'] as const;

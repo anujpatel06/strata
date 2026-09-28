@@ -1,0 +1,412 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:strata:sdui:v1:defs",
+  "title": "Strata SDUI shared definitions",
+  "description": "Actions, icons, links, images and layout tokens shared by every node schema.",
+  "x-strata": {
+    "schemaVersion": "1.0.0",
+    "source": "sdui"
+  },
+  "$defs": {
+    "NodeId": {
+      "description": "Identifies a node among its siblings (a stable React key) and is passed back with its actions. Never rendered as a DOM id.",
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,63}$"
+    },
+    "IconName": {
+      "description": "An icon from @strata/icons, by its kebab-case name. Generated from the package's exports.",
+      "type": "string",
+      "enum": [
+        "accessible",
+        "adjustments-horizontal",
+        "alarm",
+        "alert-circle",
+        "alert-circle-filled",
+        "alert-triangle",
+        "alert-triangle-filled",
+        "ambulance",
+        "anchor",
+        "api",
+        "apple",
+        "archive",
+        "arrow-down-left",
+        "arrow-down-right",
+        "arrow-left",
+        "arrow-narrow-right",
+        "arrow-right",
+        "arrow-up",
+        "arrow-up-right",
+        "arrows-exchange",
+        "arrows-sort",
+        "at",
+        "baby",
+        "bandage",
+        "barcode",
+        "baseline-density-medium",
+        "baseline-density-small",
+        "battery",
+        "bed",
+        "bell",
+        "bell-off",
+        "bike",
+        "bluetooth",
+        "bolt",
+        "book",
+        "bookmark",
+        "brain",
+        "briefcase",
+        "broadcast",
+        "bug",
+        "building",
+        "building-bank",
+        "building-store",
+        "buildings",
+        "bus",
+        "calculator",
+        "calendar",
+        "calendar-event",
+        "camera",
+        "capsule",
+        "car",
+        "cash",
+        "chart-bar",
+        "chart-line",
+        "chart-pie",
+        "check",
+        "chevron-down",
+        "chevron-left",
+        "chevron-right",
+        "circle-check",
+        "circle-check-filled",
+        "circle-x",
+        "circle-x-filled",
+        "clock",
+        "cloud",
+        "cloud-rain",
+        "cloud-upload",
+        "code",
+        "coin",
+        "coins",
+        "command",
+        "compass",
+        "components",
+        "copy",
+        "cpu",
+        "credit-card",
+        "cube",
+        "currency-dollar",
+        "currency-euro",
+        "currency-rupee",
+        "database",
+        "device-desktop",
+        "device-mobile",
+        "device-tablet",
+        "discount",
+        "dna",
+        "dots",
+        "dots-vertical",
+        "download",
+        "droplet",
+        "dumbbell",
+        "exclamation-mark",
+        "external-link",
+        "eye",
+        "eye-off",
+        "face-mask",
+        "file",
+        "file-code",
+        "file-invoice",
+        "file-text",
+        "file-type-css",
+        "file-type-tsx",
+        "filter",
+        "fingerprint",
+        "first-aid-kit",
+        "flag",
+        "flame",
+        "folder",
+        "gift",
+        "git-branch",
+        "git-merge",
+        "git-pull-request",
+        "glasses",
+        "hand-coin",
+        "headphones",
+        "heart",
+        "heart-pulse",
+        "help-circle",
+        "history",
+        "home",
+        "hospital",
+        "hourglass",
+        "inbox",
+        "info-circle",
+        "info-circle-filled",
+        "info-small",
+        "json",
+        "key",
+        "keyboard",
+        "layout-dashboard",
+        "layout-grid",
+        "layout-list",
+        "layout-rows",
+        "layout-sidebar",
+        "leaf",
+        "link",
+        "lock",
+        "lock-open",
+        "logout",
+        "luggage",
+        "lungs",
+        "mail",
+        "map",
+        "map-pin",
+        "menu-2",
+        "message",
+        "message-dots",
+        "microphone",
+        "microphone-off",
+        "microscope",
+        "mood-smile",
+        "moon",
+        "mountain",
+        "movie",
+        "music",
+        "news",
+        "package",
+        "paperclip",
+        "pencil",
+        "percentage",
+        "phone",
+        "phone-call",
+        "photo",
+        "piggy-bank",
+        "pill",
+        "pin",
+        "plane",
+        "player-pause",
+        "player-play",
+        "player-skip-forward",
+        "player-stop",
+        "plug",
+        "plus",
+        "power",
+        "prescription",
+        "printer",
+        "qrcode",
+        "receipt",
+        "receipt-refund",
+        "refresh",
+        "robot",
+        "rotate",
+        "route",
+        "rss",
+        "safe",
+        "scale",
+        "seal-check-filled",
+        "search",
+        "selector",
+        "send",
+        "server",
+        "settings",
+        "share",
+        "shield-check",
+        "shield-lock",
+        "shopping-bag",
+        "shopping-cart",
+        "snowflake",
+        "sparkles",
+        "square-small",
+        "star",
+        "stethoscope",
+        "stopwatch",
+        "sun",
+        "sunrise",
+        "syringe",
+        "table",
+        "tag",
+        "terminal-2",
+        "test-tube",
+        "text-direction-ltr",
+        "text-direction-rtl",
+        "thermometer",
+        "thumb-up",
+        "ticket",
+        "toggle",
+        "tooth",
+        "train",
+        "trash",
+        "tree",
+        "trending-down",
+        "trending-up",
+        "trophy",
+        "truck",
+        "umbrella",
+        "upload",
+        "user",
+        "user-plus",
+        "users",
+        "video",
+        "virus",
+        "volume",
+        "volume-off",
+        "walk",
+        "wallet",
+        "wand",
+        "webhook",
+        "wheelchair",
+        "wifi",
+        "wifi-off",
+        "wind",
+        "world",
+        "x"
+      ]
+    },
+    "IconRef": {
+      "description": "An icon. Always decorative: the text next to it carries the meaning.",
+      "type": "object",
+      "required": [
+        "icon"
+      ],
+      "properties": {
+        "icon": {
+          "$ref": "#/$defs/IconName"
+        }
+      },
+      "additionalProperties": false
+    },
+    "InlineContent": {
+      "description": "A label: a string, or an array of strings and icons in reading order. Strings are always rendered as text, never as markup.",
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "$ref": "#/$defs/IconRef"
+              }
+            ],
+            "x-strata-message": "must be a string or { \"icon\": \"<name>\" }."
+          }
+        }
+      ],
+      "x-strata-message": "must be a string, or a non-empty array of strings and { \"icon\": \"<name>\" } references."
+    },
+    "Href": {
+      "description": "An https:// URL, or a path in the app that starts with a single \"/\".",
+      "type": "string",
+      "pattern": "^(?:https://[^\\s\\\\\\x00-\\x1f\\x7f/?#@][^\\s\\\\\\x00-\\x1f\\x7f]*|/(?![/\\\\])[^\\s\\\\\\x00-\\x1f\\x7f]*)$",
+      "x-strata-message": "must be an https:// URL or an app path that starts with one \"/\". javascript:, data:, http:, mailto:, tel: and \"//host\" links are rejected; send an event action for anything the app should decide."
+    },
+    "ImageUrl": {
+      "description": "An image URL. https only.",
+      "type": "string",
+      "pattern": "^https://[^\\s\\\\\\x00-\\x1f\\x7f/?#@][^\\s\\\\\\x00-\\x1f\\x7f]*$",
+      "x-strata-message": "must be an https:// URL. data:, http: and relative image URLs are rejected."
+    },
+    "NavigateAction": {
+      "description": "Go to a destination. The host app decides how (router, in-app browser, system browser).",
+      "type": "object",
+      "required": [
+        "type",
+        "href"
+      ],
+      "properties": {
+        "type": {
+          "const": "navigate"
+        },
+        "href": {
+          "$ref": "#/$defs/Href"
+        }
+      },
+      "additionalProperties": false
+    },
+    "EventAction": {
+      "description": "Tell the host app that something happened. The app decides what to do.",
+      "type": "object",
+      "required": [
+        "type",
+        "name"
+      ],
+      "properties": {
+        "type": {
+          "const": "event"
+        },
+        "name": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9]*(?:[._-][a-z0-9]+)*$",
+          "description": "e.g. \"order.track\"."
+        },
+        "payload": {
+          "description": "Flat data for the handler: strings, numbers, booleans and null. Never rendered.",
+          "type": "object",
+          "maxProperties": 32,
+          "additionalProperties": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "number"
+              },
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "Action": {
+      "type": "object",
+      "required": [
+        "type"
+      ],
+      "properties": {
+        "type": {
+          "type": "string"
+        }
+      },
+      "discriminator": {
+        "propertyName": "type"
+      },
+      "oneOf": [
+        {
+          "$ref": "#/$defs/NavigateAction"
+        },
+        {
+          "$ref": "#/$defs/EventAction"
+        }
+      ]
+    },
+    "Gap": {
+      "description": "A space token (--strata-space-*), or section-gap, which follows the client's density.",
+      "type": "string",
+      "enum": [
+        "space-0",
+        "space-1",
+        "space-2",
+        "space-3",
+        "space-4",
+        "space-5",
+        "space-6",
+        "space-8",
+        "space-10",
+        "space-12",
+        "space-16",
+        "section-gap"
+      ]
+    }
+  }
+}

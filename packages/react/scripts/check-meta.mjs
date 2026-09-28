@@ -8,7 +8,8 @@
  * by the component's .tsx · props[].component is a listed export · examples exist in apps/docs/examples/<name>/ and
  * the first is <name>-demo · registryDependencies have metas · imports match dependencies/registryDependencies
  * (the same rules the registry build enforces) · deprecation records are complete and the codemod and RFC they name
- * exist (GOVERNANCE.md §5). Also flags src/ui/*.tsx files with no meta.
+ * exist (GOVERNANCE.md §5) · optional `imports` name a listed dependency and names it exports · optional `typeNotes`
+ * are short and name a documented prop. Also flags src/ui/*.tsx files with no meta.
  * Prints a table, then every problem. Exit 1 on any error. Options: --pkg <dir>, --examples <dir>.
  *
  * Maturity criteria (the "Maturity" section of apps/docs/content/docs/governance.mdx; keep the two in step):
@@ -20,6 +21,7 @@
  * page, light and dark) and the five-tenant render are browser checks: scripts/axe-sweep.mjs and the playground, not this file.
  */
 import { existsSync, readFileSync, readdirSync } from 'node:fs';
+import { createRequire } from 'node:module';
 import path from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { REPO_ROOT, importProblems, listMeta, readJson } from './build-registry.mjs';
@@ -154,6 +156,92 @@ export function deprecationProblems(d, where) {
   return out;
 }
 
+const IDENT = /^(type )?[A-Za-z_$][\w$]*$/;
+const MAX_WHY = 200;
+const MAX_NOTE = 300;
+const MAX_EXAMPLE = 200;
+
+/**
+ * What a package exports, as seen from packages/react: `runtime` holds the names of the module it resolves to, and
+ * `types` is the text of its declaration file (type-only names are looked for there). null when not installed.
+ */
+export function packageLookup(dir) {
+  const require = createRequire(path.join(dir, 'package.json'));
+  const cache = new Map();
+  return (pkg) => {
+    if (cache.has(pkg)) return cache.get(pkg);
+    let found = null;
+    try {
+      const runtime = new Set(Object.keys(require(pkg)));
+      const manifest = path.join(dir, 'node_modules', pkg, 'package.json');
+      const typesField = existsSync(manifest) ? (readJson(manifest).types ?? readJson(manifest).typings) : undefined;
+      const typesFile = typesField ? path.join(dir, 'node_modules', pkg, typesField) : null;
+      found = { runtime, types: typesFile && existsSync(typesFile) ? readFileSync(typesFile, 'utf8') : null };
+    } catch {
+      found = null;
+    }
+    cache.set(pkg, found);
+    return found;
+  };
+}
+
+/**
+ * meta.imports (meta/schema.ts `ImportDoc`): packages a consumer imports next to the component. Each package must be
+ * one of the component's dependencies (so it is installed with @strata/react, at a version that matches), and every
+ * name must be exported by it: runtime names by the module, "type X" names by its declaration file.
+ */
+export function consumerImportsProblems(imports, dependencies, lookup) {
+  if (!Array.isArray(imports) || imports.length === 0) return ['imports: must be a non-empty array when present'];
+  const out = [];
+  imports.forEach((imp, i) => {
+    const at = `imports[${i}]`;
+    if (typeof imp !== 'object' || imp === null) return out.push(`${at}: must be an object`);
+    if (!isStr(imp.package)) out.push(`${at}.package: required non-empty string`);
+    else if (imp.package === '@strata/react') out.push(`${at}.package: @strata/react is already the import line; list other packages only`);
+    else if (!(dependencies ?? []).includes(imp.package)) out.push(`${at}.package: ${imp.package} isn't in dependencies, so it isn't installed with the component`);
+    if (!isStr(imp.why)) out.push(`${at}.why: required non-empty string`);
+    else if (imp.why.length > MAX_WHY) out.push(`${at}.why: ${imp.why.length} characters; keep it under ${MAX_WHY}`);
+    if (!isStrArr(imp.names) || imp.names.length === 0) return out.push(`${at}.names: required non-empty string[]`);
+    const bare = imp.names.map((n) => n.replace(/^type /, ''));
+    if (new Set(bare).size !== bare.length) out.push(`${at}.names: lists a name twice`);
+    const bad = imp.names.filter((n) => !IDENT.test(n));
+    if (bad.length) out.push(`${at}.names: ${bad.join(', ')} isn't a name, or "type Name" for a type`);
+    if (!isStr(imp.package) || bad.length) return;
+    const exported = lookup(imp.package);
+    if (exported === null) return out.push(`${at}.package: ${imp.package} can't be resolved from packages/react`);
+    for (const n of imp.names) {
+      const typeOnly = n.startsWith('type ');
+      const bareName = n.replace(/^type /, '');
+      const ok = typeOnly ? exported.types !== null && new RegExp(`\\b${bareName}\\b`).test(exported.types) : exported.runtime.has(bareName);
+      if (!ok) out.push(`${at}.names: ${imp.package} doesn't export ${typeOnly ? `the type ${bareName}` : bareName}`);
+    }
+  });
+  return out;
+}
+
+/** meta.typeNotes (meta/schema.ts `TypeNote`): short, and `prop` names a prop the meta documents. */
+export function typeNoteProblems(notes, props) {
+  if (!Array.isArray(notes) || notes.length === 0) return ['typeNotes: must be a non-empty array when present'];
+  // "selectedKeys / defaultSelectedKeys" documents two props; either name counts.
+  const known = new Set((Array.isArray(props) ? props : []).flatMap((p) => (isStr(p?.name) ? p.name.split(/\s*[/,]\s*/) : [])));
+  const out = [];
+  notes.forEach((n, i) => {
+    const at = `typeNotes[${i}]`;
+    if (typeof n !== 'object' || n === null) return out.push(`${at}: must be an object`);
+    if (!isStr(n.note)) out.push(`${at}.note: required non-empty string`);
+    else if (n.note.length > MAX_NOTE) out.push(`${at}.note: ${n.note.length} characters; keep it under ${MAX_NOTE}`);
+    if (n.prop !== undefined && (!isStr(n.prop) || !known.has(n.prop))) out.push(`${at}.prop: "${n.prop}" isn't a prop listed in props`);
+    if (n.example !== undefined) {
+      if (!isStr(n.example)) out.push(`${at}.example: must be a non-empty string when present`);
+      else if (n.example.includes('\n')) out.push(`${at}.example: must be one line`);
+      else if (n.example.length > MAX_EXAMPLE) out.push(`${at}.example: ${n.example.length} characters; keep it under ${MAX_EXAMPLE}`);
+    }
+  });
+  return out;
+}
+
+const lookupFromPkg = packageLookup(pkgDir);
+
 function checkMeta(name, file) {
   const errors = [];
   const warnings = [];
@@ -209,6 +297,8 @@ function checkMeta(name, file) {
     else if (date !== undefined && (!/^\d{4}-\d{2}-\d{2}$/.test(date) || Number.isNaN(Date.parse(date)))) errors.push(`review.a11y: "${date}" must be a YYYY-MM-DD date`);
     else if (date !== undefined && Date.parse(date) > Date.now()) errors.push(`review.a11y: ${date} is in the future`);
   }
+  if (meta.imports !== undefined) errors.push(...consumerImportsProblems(meta.imports, meta.dependencies, lookupFromPkg));
+  if (meta.typeNotes !== undefined) errors.push(...typeNoteProblems(meta.typeNotes, meta.props));
 
   // Identity.
   if (meta.name !== name) errors.push(`name: "${meta.name}" must equal the file name "${name}"`);

@@ -1,6 +1,6 @@
 /* /themes — live preview frame. Everything inside .stage resolves the generated theme's tokens. */
 
-.stage {
+.stage.stage {
   padding: var(--strata-space-6);
   border: 1px solid var(--strata-color-border-subtle);
   border-radius: var(--strata-radius-container);
@@ -9,7 +9,7 @@
 }
 
 @media (max-width: 639.98px) {
-  .stage {
+  .stage.stage {
     padding: var(--strata-space-4);
   }
 }

@@ -22,6 +22,7 @@ import {
 } from '@strata/react';
 import { Component, useEffect, useId, useState, type ReactNode } from 'react';
 import type { Key } from 'react-aria-components';
+import { DraftCopyNote } from '@/components/page/draft-copy-note';
 import { BLOCK_COMPONENTS } from './block-components';
 import type { BlockTenant } from './block-data';
 import styles from './block-viewer.module.css';
@@ -231,6 +232,11 @@ export function BlockViewerClient({ name, title, description, tenants, contents,
         </div>
 
         <TabPanel id="preview" shouldForceMount className={styles.panel}>
+          {/* Docs chrome, outside the tenant's screen: says so when this tenant's copy is an unreviewed draft. A
+              polite live region, so picking that tenant announces it; empty (and sizeless) for every other tenant. */}
+          <div role="status" className={styles.copyStatus}>
+            <DraftCopyNote review={tenant?.copyReview} />
+          </div>
           <div className={styles.frame}>
             <div className={styles.viewport} data-viewport={viewport}>
               <ThemeScope

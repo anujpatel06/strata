@@ -1,0 +1,90 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:strata:sdui:v1:node:Link",
+  "title": "Link",
+  "description": "Navigates to another page or section, inline in text or as a standalone link.",
+  "x-strata": {
+    "node": "Link",
+    "component": "link",
+    "export": "Link",
+    "maturity": "beta",
+    "schemaVersion": "1.0.0",
+    "source": "meta"
+  },
+  "type": "object",
+  "required": [
+    "type",
+    "children",
+    "action"
+  ],
+  "properties": {
+    "type": {
+      "const": "Link"
+    },
+    "id": {
+      "$ref": "urn:strata:sdui:v1:defs#/$defs/NodeId"
+    },
+    "props": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "variant": {
+          "description": "inline sits in text and is always underlined; standalone is medium weight and underlines on hover.",
+          "type": "string",
+          "enum": [
+            "inline",
+            "standalone"
+          ],
+          "default": "inline"
+        },
+        "isDisabled": {
+          "description": "Disables the link (aria-disabled).",
+          "type": "boolean",
+          "default": false
+        }
+      }
+    },
+    "children": {
+      "description": "Link text; a standalone link may end with a Tabler icon. On the wire: a string, or an array of strings and { icon } references in reading order. Icons are decorative.",
+      "$ref": "urn:strata:sdui:v1:defs#/$defs/InlineContent"
+    },
+    "action": {
+      "description": "What happens on press. The renderer calls the host app's onAction with it.",
+      "$ref": "urn:strata:sdui:v1:defs#/$defs/NavigateAction"
+    },
+    "fallback": {
+      "description": "Rendered instead of this node by a client that doesn't know its type. Must be a node that client knows.",
+      "$ref": "urn:strata:sdui:v1:screen#/$defs/Node"
+    }
+  },
+  "additionalProperties": false,
+  "allOf": [
+    {
+      "x-strata-rule": {
+        "id": "link-text",
+        "message": "A Link needs text in its children: it has no other accessible name."
+      },
+      "type": "object",
+      "required": [
+        "children"
+      ],
+      "properties": {
+        "children": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "\\S"
+            },
+            {
+              "type": "array",
+              "contains": {
+                "type": "string",
+                "pattern": "\\S"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

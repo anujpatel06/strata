@@ -1,0 +1,147 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:strata:sdui:v1:node:Meter",
+  "title": "Meter",
+  "description": "A quantity within a known range, such as wallet usage, storage or a limit, with a label, a readout and a slim track.",
+  "x-strata": {
+    "node": "Meter",
+    "component": "meter",
+    "export": "Meter",
+    "maturity": "beta",
+    "schemaVersion": "1.0.0",
+    "source": "meta"
+  },
+  "type": "object",
+  "required": [
+    "type"
+  ],
+  "properties": {
+    "type": {
+      "const": "Meter"
+    },
+    "id": {
+      "$ref": "urn:strata:sdui:v1:defs#/$defs/NodeId"
+    },
+    "props": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "label": {
+          "description": "Visible label. Without one, pass aria-label or aria-labelledby (required by the types).",
+          "type": "string"
+        },
+        "value": {
+          "description": "Current value, clamped to minValue–maxValue.",
+          "type": "number",
+          "default": 0
+        },
+        "minValue": {
+          "description": "Start of the range.",
+          "type": "number",
+          "default": 0
+        },
+        "maxValue": {
+          "description": "End of the range.",
+          "type": "number",
+          "default": 100
+        },
+        "valueLabel": {
+          "description": "The value as shown and announced (aria-valuetext), e.g. \"₹7,400 used\".",
+          "type": "string"
+        },
+        "showValue": {
+          "description": "Shows the value in the label row.",
+          "type": "boolean",
+          "default": true
+        },
+        "caption": {
+          "description": "Quiet context after the value: the limit or the pool (\"of ₹18,000\", \"from ₹18K wallet\"). Announced as the meter's description.",
+          "type": "string"
+        },
+        "tone": {
+          "description": "Fill colour: text.brand, accent.text, text.subtle or the feedback fg role. Every tone reaches 3:1 against the track.",
+          "type": "string",
+          "enum": [
+            "brand",
+            "accent",
+            "neutral",
+            "info",
+            "success",
+            "warning",
+            "danger"
+          ],
+          "default": "brand"
+        },
+        "variant": {
+          "description": "card sets the meter in an inset surface.sunken panel: the value leads, the caption answers from the far end, the label (if any) sits above in text.subtle.",
+          "type": "string",
+          "enum": [
+            "default",
+            "card"
+          ],
+          "default": "default"
+        },
+        "ariaLabel": {
+          "description": "Accessible name, for when there is no visible label.",
+          "type": "string",
+          "pattern": "\\S"
+        }
+      }
+    },
+    "fallback": {
+      "description": "Rendered instead of this node by a client that doesn't know its type. Must be a node that client knows.",
+      "$ref": "urn:strata:sdui:v1:screen#/$defs/Node"
+    }
+  },
+  "additionalProperties": false,
+  "allOf": [
+    {
+      "x-strata-rule": {
+        "id": "meter-name",
+        "message": "A Meter needs a name: props.label (shown) or props.ariaLabel (read by screen readers only)."
+      },
+      "anyOf": [
+        {
+          "type": "object",
+          "required": [
+            "props"
+          ],
+          "properties": {
+            "props": {
+              "type": "object",
+              "required": [
+                "label"
+              ],
+              "properties": {
+                "label": {
+                  "type": "string",
+                  "pattern": "\\S"
+                }
+              }
+            }
+          }
+        },
+        {
+          "type": "object",
+          "required": [
+            "props"
+          ],
+          "properties": {
+            "props": {
+              "type": "object",
+              "required": [
+                "ariaLabel"
+              ],
+              "properties": {
+                "ariaLabel": {
+                  "type": "string",
+                  "pattern": "\\S"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

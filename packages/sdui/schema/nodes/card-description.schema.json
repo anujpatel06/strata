@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:strata:sdui:v1:node:CardDescription",
+  "title": "CardDescription",
+  "description": "One or two quiet lines under the card title.",
+  "x-strata": {
+    "node": "CardDescription",
+    "component": "card",
+    "export": "CardDescription",
+    "maturity": "beta",
+    "schemaVersion": "1.0.0",
+    "source": "meta"
+  },
+  "type": "object",
+  "required": [
+    "type",
+    "children"
+  ],
+  "properties": {
+    "type": {
+      "const": "CardDescription"
+    },
+    "id": {
+      "$ref": "urn:strata:sdui:v1:defs#/$defs/NodeId"
+    },
+    "children": {
+      "description": "On the wire: a string.",
+      "type": "string"
+    },
+    "fallback": {
+      "description": "Rendered instead of this node by a client that doesn't know its type. Must be a node that client knows.",
+      "$ref": "urn:strata:sdui:v1:screen#/$defs/Node"
+    }
+  },
+  "additionalProperties": false
+}

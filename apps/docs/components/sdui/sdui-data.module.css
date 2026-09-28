@@ -1,0 +1,23 @@
+/* Data tables on /docs/server-driven-ui. Tokens only. */
+.subtle {
+  color: var(--strata-color-text-subtle);
+}
+
+.rules {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--strata-space-1);
+}
+
+.num {
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+/* Code names never break mid-word; the table scrolls inside its own box instead. */
+.nowrap,
+.nowrap code {
+  white-space: nowrap;
+  overflow-wrap: normal;
+  word-break: normal;
+}

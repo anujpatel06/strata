@@ -5,6 +5,7 @@
  * the same shapes from its side.
  */
 import care from '../../../tenants/care/content.json';
+import haat from '../../../tenants/haat/content.json';
 import harbor from '../../../tenants/harbor/content.json';
 import qamar from '../../../tenants/qamar/content.json';
 import vela from '../../../tenants/vela/content.json';
@@ -40,7 +41,7 @@ type AllBlocks = DashboardOverviewContent &
   Omit<BenefitsOverviewContent, 'benefitsOverview'> &
   Partial<Pick<BenefitsOverviewContent, 'benefitsOverview'>>;
 
-export const tenantBlockContent = [vela, harbor, qamar, care] satisfies Widen<AllBlocks>[];
+export const tenantBlockContent = [vela, harbor, qamar, care, haat] satisfies Widen<AllBlocks>[];
 
 /** Every tenant the docs render has benefits-overview copy, and the tenant's JSON plus that copy is a full content object. */
 export const benefitsOverviewTenants = (
@@ -49,5 +50,6 @@ export const benefitsOverviewTenants = (
     ['harbor', harbor],
     ['qamar', qamar],
     ['care', care],
+    ['haat', haat],
   ] as const
 ).map(([id, json]) => ({ ...json, ...benefitsOverviewTenantCopy[id]! }) satisfies Widen<BenefitsOverviewContent>);

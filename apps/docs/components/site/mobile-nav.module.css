@@ -1,4 +1,4 @@
-.trigger {
+.trigger.trigger {
   margin-inline-start: calc(var(--strata-space-2) * -1);
 }
 @media (min-width: 768px) {
@@ -7,7 +7,7 @@
   }
 }
 
-.sheet {
+.sheet.sheet {
   max-inline-size: calc(var(--strata-space-16) * 5);
 }
 

@@ -19,6 +19,7 @@
     "@next/mdx": "^16.3.0",
     "@strata/icons": "workspace:*",
     "@strata/react": "workspace:*",
+    "@strata/sdui": "workspace:*",
     "@strata/theme-engine": "workspace:*",
     "@tabler/icons-react": "^3.30.0",
     "next": "^16.3.0",

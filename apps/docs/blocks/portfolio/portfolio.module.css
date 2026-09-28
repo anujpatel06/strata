@@ -76,12 +76,12 @@
 
 /* ------------------------------------------------------------------ sidebar */
 
-.sidebar {
+.sidebar.sidebar {
   display: none;
 }
 
 /* In the Sheet, the Sheet is the panel. */
-.sheetNav {
+.sheetNav.sheetNav {
   inline-size: 100%;
   padding-block: 0;
   background: transparent;
@@ -95,7 +95,7 @@
     padding: var(--strata-space-4);
   }
 
-  .sidebar {
+  .sidebar.sidebar {
     display: flex;
     position: sticky;
     inset-block-start: var(--strata-space-4);
@@ -104,7 +104,7 @@
     min-block-size: calc(var(--strata-space-16) * 9);
   }
 
-  .menuButton {
+  .menuButton.menuButton {
     display: none;
   }
 }
@@ -166,24 +166,24 @@
   max-inline-size: calc(var(--strata-space-16) * 6);
 }
 
-.search {
+.search.search {
   flex: 1;
   min-inline-size: 0;
 }
 
-.menuButton,
-.bell {
+.menuButton.menuButton,
+.bell.bell {
   flex: none;
 }
 
 /* ------------------------------------------------------------------ KPI row */
 
-.kpis {
+.kpis.kpis {
   margin: 0;
 }
 
 /* The tiles are rim-lit like the cards (same background-clip trick as Card rim; CONVENTIONS, Rim light). */
-.kpis .kpi {
+.kpis.kpis .kpi.kpi {
   --_face: var(--strata-color-surface-raised);
   border: 1px solid transparent;
   background:
@@ -206,22 +206,22 @@
   gap: var(--strata-space-4);
 }
 
-.hero {
+.hero.hero {
   grid-area: hero;
 }
-.promo {
+.promo.promo {
   grid-area: promo;
 }
-.allocation {
+.allocation.allocation {
   grid-area: allocation;
 }
-.contributions {
+.contributions.contributions {
   grid-area: contributions;
 }
-.activity {
+.activity.activity {
   grid-area: activity;
 }
-.holdings {
+.holdings.holdings {
   grid-area: holdings;
 }
 
@@ -249,13 +249,13 @@
 
 /* ------------------------------------------------------------------ hero chart */
 
-.hero {
+.hero.hero {
   display: flex;
   flex-direction: column;
   min-inline-size: 0;
 }
 
-.heroHead {
+.heroHead.heroHead {
   row-gap: var(--strata-space-3);
 }
 
@@ -266,7 +266,7 @@
 }
 
 /* The card title reads as a quiet label; the figure under it is the view's one hero number. */
-.eyebrowTitle {
+.eyebrowTitle.eyebrowTitle {
   color: var(--strata-color-text-subtle);
   font-family: var(--strata-font-body);
   font-size: var(--strata-font-size-sm);
@@ -274,7 +274,7 @@
   letter-spacing: var(--strata-font-tracking-sm);
 }
 
-.heroAmount {
+.heroAmount.heroAmount {
   font-size: var(--strata-font-size-5xl);
   letter-spacing: var(--strata-font-tracking-5xl);
 }
@@ -293,28 +293,28 @@
   letter-spacing: var(--strata-font-tracking-sm);
 }
 
-.heroAction {
+.heroAction.heroAction {
   align-self: start;
 }
 
-.heroChart {
+.heroChart.heroChart {
   flex: 1;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
 }
 
-.areaChart {
+.areaChart.areaChart {
   inline-size: 100%;
 }
 
-.chip {
+.chip.chip {
   font-variant-numeric: tabular-nums;
 }
 
 /* ------------------------------------------------------------------ promo */
 
-.promo {
+.promo.promo {
   display: flex;
   flex-direction: column;
 }
@@ -326,18 +326,18 @@
   margin-block-end: var(--strata-space-3);
 }
 
-.promoTitle {
+.promoTitle.promoTitle {
   font-size: var(--strata-font-size-2xl);
   letter-spacing: var(--strata-font-tracking-2xl);
   line-height: var(--strata-line-height-tight);
   text-wrap: balance;
 }
 
-.promoBody {
+.promoBody.promoBody {
   max-inline-size: 36ch;
 }
 
-.promoCash {
+.promoCash.promoCash {
   display: grid;
   gap: var(--strata-space-1);
   margin-block-start: auto;
@@ -373,13 +373,13 @@
   gap: calc(var(--strata-space-1) / 2);
 }
 
-.promoActions {
+.promoActions.promoActions {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(calc(var(--strata-space-16) * 2), 1fr));
   gap: var(--strata-space-2);
 }
 
-.promoButton {
+.promoButton.promoButton {
   inline-size: 100%;
 }
 
@@ -392,7 +392,7 @@
   font-variant-numeric: tabular-nums;
 }
 
-.allocationBody {
+.allocationBody.allocationBody {
   display: grid;
   gap: var(--strata-space-4);
 }
@@ -474,7 +474,10 @@
   background: var(--_c);
 }
 
-.rowSpark {
+/* Doubled: this sizes a Sparkline, whose own rule sets inline-size: 100% with the same weight. Which of two equal
+   rules wins depends on the order the bundler emits the stylesheets, and that order changed when the site gained a
+   new importer of @strata/react. Doubling makes the block's rule win in any order. */
+.rowSpark.rowSpark {
   flex: none;
   inline-size: var(--strata-space-16);
   min-inline-size: 0;
@@ -528,7 +531,7 @@
   font-variant-numeric: tabular-nums;
 }
 
-.tableSpark {
+.tableSpark.tableSpark {
   inline-size: calc(var(--strata-space-16) * 1.75);
   block-size: var(--strata-space-6);
   /* The ring round the end dot matches the inset surface the table sits on. */
@@ -547,12 +550,12 @@
     max-inline-size: none;
   }
 
-  .heroAmount {
+  .heroAmount.heroAmount {
     font-size: var(--strata-font-size-4xl);
     letter-spacing: var(--strata-font-tracking-4xl);
   }
 
-  .rowSpark {
+  .rowSpark.rowSpark {
     display: none;
   }
 }
@@ -561,7 +564,7 @@
 
 @media (prefers-reduced-motion: no-preference) {
   /* Cards fade up in reading order on first paint (staggered by --_i). */
-  .rise {
+  .rise.rise {
     animation: rise var(--strata-motion-duration-slow) var(--strata-motion-easing-out) both;
     animation-delay: calc(var(--_i, 0) * var(--strata-motion-duration-fast) / 3);
   }

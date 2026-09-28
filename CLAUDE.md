@@ -11,11 +11,13 @@ Anuj owns design decisions. You pair on engineering and push back when he's wron
 
 ## Status
 
-- **Done:** Phase 0–4.
+- **Done:** Phase 0–5, and Phase 5a built (waiting for Anuj's review).
   - The theme engine and contrast solver, 53 components, 7 blocks, `@strata/icons`, the docs site (Home, Docs, Components, Blocks, Themes, Colors, Icons, ⌘K) and the npm build. No shadcn anywhere users look (ADR-011 revision).
   - Governance (Phase 4): `GOVERNANCE.md`, RFCs in `docs/rfcs/`, deprecation records in `meta.json`, `packages/codemods`. First deprecation: `Button variant="danger"` → `tone="danger"` (RFC-001, ADR-021).
-- **Next:** Phase 5: MCP server, drift auditor with autofix, per-model agent eval, root `AGENTS.md` (BRIEF §8–10, ADR-008, ADR-018). Then Phase 5a: server-driven UI schema, native token export, Hindi tenant (BRIEF §10a, ADR-019, ADR-020).
-- **Waiting on Anuj:** deploy the docs to Vercel; the Hindi tenant's name, industry and brand inputs (ADR-020).
+  - Agents (Phase 5): `packages/audit` (`pnpm drift`), `packages/mcp`, `AGENTS.md`, `evals/` (results in `evals/results.md`; iteration 1 is invalid and kept on record).
+  - Mobile reach (Phase 5a): `packages/sdui`, native token files from `pnpm tokens`, tenant Haat (hi-IN). No native components.
+- **Next:** Phase 6, publish (BRIEF §13).
+- **Waiting on Anuj:** deploy the docs to Vercel; review Haat's Hindi copy; ADR-024, 025 and 026; the clipping found in the Arabic and Latin type pairs.
 - **Known gaps:** listed at the end of the latest entry in `docs/log.md`.
 
 ## Run it
@@ -44,13 +46,17 @@ Use `/verify` before saying work is done, and `/screenshots` after any UI change
 | `packages/theme-engine` | OKLCH ramps, 48 semantic roles, contrast solver, exporters (CSS, DTCG 2025.10, Figma, shadcn). Zero runtime deps. |
 | `packages/react` | Components: `src/ui/<name>.tsx` + `.module.css` (flat; sibling imports only), `meta/<name>.meta.json`, `test/`. `src/index.ts` is generated (`pnpm --filter @strata/react gen:index`). |
 | `packages/tokens` | Builds token files for every `tenants/*/brand.json`. |
+| `packages/audit` | Drift auditor: ten rules, a fix on every finding, `--fix` for the safe ones. `pnpm drift <path>`. |
+| `packages/mcp` | Read-only MCP server over stdio. Reads `meta.json`, tenants, blocks and examples at request time. |
+| `packages/sdui` | Server-driven UI: schemas generated from `meta.json` (`pnpm --filter @strata/sdui generate`), validator, web renderer. The schema has its own version. |
+| `evals/` | Agent eval: prompts, harness, runs and results. `run.mjs` calls a paid model once per run. |
 | `packages/codemods` | One jscodeshift transform per breaking change, with fixture tests. `npx @strata/codemods <transform> <path>`. |
 | `packages/icons` | `@strata/icons`: our own icon set (ADR-014). Style spec in `src/create-icon.tsx`; `pnpm --filter @strata/icons sheet` renders the review sheet. |
 | `apps/docs` | Next.js 16 site. Examples in `examples/<component>/`; blocks in `blocks/<name>/`; pages in `app/`; MDX in `content/docs/`. |
 | `apps/generator` | Phase 1 Brand Generator (Vite; single-file build for hosted demos). |
 | `apps/playground` | Renders `apps/docs/examples/<c>/*` per tenant, scheme, dir and density for visual QA. |
-| `tenants/<id>` | `brand.json` (6 inputs) + `content.json` (copy). Vela (en-IN), Harbor (en-GB), Qamar (ar-AE, RTL), Care (en-IN, editorial, ADR-015), house (the site, Geist). |
-| `scripts/` | `screenshots.mjs`, `shoot.mjs` (one URL → PNG), `axe-sweep.mjs` (every docs route, light + dark). |
+| `tenants/<id>` | `brand.json` (6 inputs) + `content.json` (copy). Vela (en-IN), Harbor (en-GB), Qamar (ar-AE, RTL), Care (en-IN, editorial, ADR-015), Haat (hi-IN, Devanagari, ADR-024), house (the site, Geist). |
+| `scripts/` | `screenshots.mjs`, `shoot.mjs` (one URL → PNG), `axe-sweep.mjs` (every docs route, light + dark), `check-override-weight.mjs`, `check-script-clipping.mjs` (glyph clipping per type pair). |
 
 ## Conventions (non-negotiable)
 
@@ -80,6 +86,7 @@ When parallelising, give each agent exact file ownership and these rules: no dep
   - Turbopack is the default. Keep MDX plugin lists empty.
   - `next dev` rewrites `apps/docs/AGENTS.md`/`CLAUDE.md` (committed on purpose) and `next-env.d.ts` (restore it if a custom `NEXT_DIST_DIR` build changes it).
 - **Docs CSS:** `apps/docs/package.json` has a `browserslist`, so Lightning CSS doesn't polyfill `:dir()` or `light-dark()` (the polyfills broke RTL and backdrops).
+- **Docs CSS that restyles a Strata component doubles the class** (`.promo.promo`). A single class weighs the same as the component's own rule, so stylesheet order decides which wins, and that order changes when the import graph does. `node scripts/check-override-weight.mjs` checks it; `--fix` doubles them.
 - **Docs examples use fixed dates** (`parseDate('2026-10-05')`), so statically built pages hydrate the same on any day.
 - **Stopping servers:** `pgrep -f "next start"` also matches your own shell command. Kill by the PID you started instead.
 - **Offline sandboxes** can't reach Google Fonts. Screenshot scripts accept `STRATA_LOCAL_FONTS=<node_modules with @fontsource/*>`. You don't need this on a normal Mac.

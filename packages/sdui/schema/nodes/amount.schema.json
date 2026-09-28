@@ -1,0 +1,90 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:strata:sdui:v1:node:Amount",
+  "title": "Amount",
+  "description": "Money set as typography: a locale-grouped figure in the heading face with a small raised currency sign.",
+  "x-strata": {
+    "node": "Amount",
+    "component": "amount",
+    "export": "Amount",
+    "maturity": "beta",
+    "schemaVersion": "1.0.0",
+    "source": "meta"
+  },
+  "type": "object",
+  "required": [
+    "type",
+    "props"
+  ],
+  "properties": {
+    "type": {
+      "const": "Amount"
+    },
+    "id": {
+      "$ref": "urn:strata:sdui:v1:defs#/$defs/NodeId"
+    },
+    "props": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "value": {
+          "description": "The amount in major units (18000 = ₹18,000).",
+          "type": "number"
+        },
+        "currency": {
+          "description": "ISO 4217 code, e.g. \"INR\", \"GBP\", \"AED\".",
+          "type": "string",
+          "pattern": "^[A-Z]{3}$"
+        },
+        "size": {
+          "description": "sm = font-size 2xl, md = 3xl, lg = 4xl, xl = 5xl, each with its own tracking. sm is medium weight; md and up are regular.",
+          "type": "string",
+          "enum": [
+            "sm",
+            "md",
+            "lg",
+            "xl"
+          ],
+          "default": "md"
+        },
+        "symbol": {
+          "description": "raised: the currency sign at ~45% size in text.subtle, aligned to the top of the digits (60% for multi-character signs such as US$ or د.إ.), and minor units set smaller. inline: plain text, sign in text.subtle.",
+          "type": "string",
+          "enum": [
+            "raised",
+            "inline"
+          ],
+          "default": "raised"
+        },
+        "tone": {
+          "description": "Colour of the figure: text.default, text.brand, accent.text or the feedback fg role. The sign and fraction stay text.subtle.",
+          "type": "string",
+          "enum": [
+            "neutral",
+            "brand",
+            "accent",
+            "info",
+            "success",
+            "warning",
+            "danger"
+          ],
+          "default": "neutral"
+        },
+        "compact": {
+          "description": "Compact notation with at most one decimal (₹18K, ₹1.8L, £240k).",
+          "type": "boolean",
+          "default": false
+        }
+      },
+      "required": [
+        "value",
+        "currency"
+      ]
+    },
+    "fallback": {
+      "description": "Rendered instead of this node by a client that doesn't know its type. Must be a node that client knows.",
+      "$ref": "urn:strata:sdui:v1:screen#/$defs/Node"
+    }
+  },
+  "additionalProperties": false
+}

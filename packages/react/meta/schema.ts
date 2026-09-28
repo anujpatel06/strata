@@ -87,4 +87,34 @@ export interface ComponentMeta {
   guidelines: { do: string[]; dont: string[] };
   /** Tokens this component reads, e.g. ["color.action.primary.*", "radius.button", "control-height"]. */
   tokens: string[];
+  /**
+   * Other packages a consumer imports to use this component, beyond '@strata/react'. Leave it out when there are none.
+   * The MCP server's get_component returns it. `pnpm check:meta` checks each package is in `dependencies` and each name is exported.
+   */
+  imports?: ImportDoc[];
+  /**
+   * Types that agents get wrong, each based on a real type error or on the component's own types. Leave it out when
+   * there are none. The MCP server's get_component returns it.
+   */
+  typeNotes?: TypeNote[];
+}
+
+/** A package the consumer imports alongside the component, e.g. '@internationalized/date' for date values. */
+export interface ImportDoc {
+  /** npm package name. Must be one of the component's `dependencies`. */
+  package: string;
+  /** Exact named exports to import. Prefix type-only names with "type ", e.g. "type DateValue". */
+  names: string[];
+  /** One sentence: why the consumer needs them. */
+  why: string;
+}
+
+/** A short note on a type that is easy to get wrong. */
+export interface TypeNote {
+  /** The prop it is about, as written in `props[].name` (one of the names when that lists several). Leave it out for a general note. */
+  prop?: string;
+  /** What the type is and what goes wrong. Plain words, at most 300 characters. */
+  note: string;
+  /** One line of correct TSX that type-checks, at most 200 characters. */
+  example?: string;
 }

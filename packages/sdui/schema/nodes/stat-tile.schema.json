@@ -1,0 +1,141 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:strata:sdui:v1:node:StatTile",
+  "title": "StatTile",
+  "description": "One headline number with its label, change and optional trend line.",
+  "x-strata": {
+    "node": "StatTile",
+    "component": "stat-tile",
+    "export": "StatTile",
+    "maturity": "beta",
+    "schemaVersion": "1.0.0",
+    "source": "meta"
+  },
+  "type": "object",
+  "required": [
+    "type",
+    "props"
+  ],
+  "properties": {
+    "type": {
+      "const": "StatTile"
+    },
+    "id": {
+      "$ref": "urn:strata:sdui:v1:defs#/$defs/NodeId"
+    },
+    "props": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "label": {
+          "description": "What the number measures.",
+          "type": "string"
+        },
+        "value": {
+          "description": "The figure, already formatted (currency, units, compact notation).",
+          "type": "string"
+        },
+        "delta": {
+          "description": "Change as a fraction: 0.064 → +6.4%. Shown as a signed pill: good news with a trend arrow, bad news with an alert mark, no change with no mark.",
+          "type": "number"
+        },
+        "deltaLabel": {
+          "description": "What the change is measured against, e.g. \"vs last month\".",
+          "type": "string"
+        },
+        "positiveIsGood": {
+          "description": "Whether an increase is good news. false for costs, churn, wait times.",
+          "type": "boolean",
+          "default": true
+        },
+        "betterLabel": {
+          "description": "Read by screen readers after a change that is good news (\"+6.4% better\"). Translate it with the page.",
+          "type": "string",
+          "default": "better"
+        },
+        "worseLabel": {
+          "description": "Read by screen readers after a change that is bad news (\"+3.1% worse\"). Translate it with the page.",
+          "type": "string",
+          "default": "worse"
+        },
+        "caption": {
+          "description": "A quiet line under the value, used instead of a delta.",
+          "type": "string"
+        },
+        "icon": {
+          "description": "Decorative icon at the top inline-end.",
+          "$ref": "urn:strata:sdui:v1:defs#/$defs/IconRef"
+        },
+        "sparkline": {
+          "description": "Recent values, oldest first (≥2 finite points). Decorative line with a 12% area fill and an end dot.",
+          "type": "array",
+          "items": {
+            "type": "number"
+          },
+          "minItems": 2
+        },
+        "size": {
+          "description": "Value size: xl, 2xl or 3xl.",
+          "type": "string",
+          "enum": [
+            "sm",
+            "md",
+            "lg"
+          ],
+          "default": "md"
+        },
+        "variant": {
+          "description": "Same chrome options as Card; ghost for tiles inside a card. editorial = a quiet inset figure for a card (a showcase card's results): the number first, large and regular weight, the label beneath, a hairline edge on a slightly lifted face (surface.canvas light, surface.default dark), no shadow; its corner follows the card's.",
+          "type": "string",
+          "enum": [
+            "default",
+            "outline",
+            "ghost",
+            "editorial"
+          ],
+          "default": "default"
+        }
+      },
+      "required": [
+        "label",
+        "value"
+      ]
+    },
+    "fallback": {
+      "description": "Rendered instead of this node by a client that doesn't know its type. Must be a node that client knows.",
+      "$ref": "urn:strata:sdui:v1:screen#/$defs/Node"
+    }
+  },
+  "additionalProperties": false,
+  "allOf": [
+    {
+      "x-strata-rule": {
+        "id": "stat-tile-text",
+        "message": "A StatTile needs props.label and props.value as text: the figure means nothing without its label."
+      },
+      "type": "object",
+      "required": [
+        "props"
+      ],
+      "properties": {
+        "props": {
+          "type": "object",
+          "required": [
+            "label",
+            "value"
+          ],
+          "properties": {
+            "label": {
+              "type": "string",
+              "pattern": "\\S"
+            },
+            "value": {
+              "type": "string",
+              "pattern": "\\S"
+            }
+          }
+        }
+      }
+    }
+  ]
+}

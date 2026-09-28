@@ -10,6 +10,8 @@ const SERIF_FALLBACK = 'Georgia, Cambria, "Times New Roman", Times, serif';
 const MONO_FALLBACK = 'ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace';
 /** Tahoma and Segoe UI ship Arabic glyphs on Windows; system-ui covers macOS/iOS/Android. */
 const ARABIC_FALLBACK = 'system-ui, -apple-system, "Segoe UI", Tahoma, "Geeza Pro", sans-serif';
+/** Nirmala UI ships Devanagari on Windows, Kohinoor Devanagari on macOS/iOS; Android's system-ui is Noto. */
+const DEVANAGARI_FALLBACK = 'system-ui, -apple-system, "Segoe UI", "Nirmala UI", "Kohinoor Devanagari", sans-serif';
 
 const q = (family: string) => `"${family}"`;
 
@@ -101,6 +103,33 @@ export const TYPE_PAIRS: Record<TypePairId, TypePair> = {
     headingTracking: '-0.01em',
     supportsArabic: false,
     googleFamilies: ['Geist', 'Geist Mono'],
+  },
+  // Devanagari + Latin (ADR-020): Hindi product copy mixes both (prices, SKUs, English brand words). Mukta (Ek Type, SIL OFL)
+  // over Noto Sans Devanagari, Hind, Anek Devanagari, Poppins and Baloo 2, measured with scripts/check-script-clipping.mjs:
+  // the lowest line height with no clipped ink, and Chrome's text-overflow ellipsis never leaves a half letter.
+  // Claude recommended, pending Anuj.
+  'bilingual-devanagari': {
+    id: 'bilingual-devanagari',
+    label: 'Bilingual Devanagari — Mukta',
+    heading: `${q('Mukta')}, ${DEVANAGARI_FALLBACK}`,
+    body: `${q('Mukta')}, ${DEVANAGARI_FALLBACK}`,
+    mono: `${q('JetBrains Mono')}, ${MONO_FALLBACK}`,
+    headingTracking: '-0.01em',
+    supportsArabic: false,
+    googleFamilies: ['Mukta', 'JetBrains Mono'],
+    // Measured, not chosen: `node scripts/check-script-clipping.mjs --pairs=bilingual-devanagari --lh=<value>` renders
+    // stacked conjuncts, matras above and below and mixed Latin at every size (12–48px), 400 and 700, DPR 1 and 2, four
+    // sub-pixel positions. 1.43 clips (11 cases, ai-matra and reph tops at 12–14px); 1.44 is the smallest value with no
+    // ink outside the line box (worst margin 0 px, 13px at DPR 1), and every value from 1.44 to 1.52 passes. So tight and
+    // snug are 1.44 (both below it clip); normal keeps the Latin 1.5 (passes). Min size: the anusvara and nukta stay
+    // separate from their letter down to 10px at DPR 2, so the scale's 12px floor stands. Caps tracking 0: 0.08em breaks
+    // the headline 9 times in 5 words at 12px; the size curve (≤ 0.001em) breaks none.
+    script: {
+      name: 'devanagari',
+      lineHeight: { tight: 1.44, snug: 1.44, normal: 1.5 },
+      minFontSize: 12,
+      capsTracking: '0',
+    },
   },
 };
 

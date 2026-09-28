@@ -1,0 +1,161 @@
+{
+  "schemaVersion": "1.0.0",
+  "screen": { "id": "order-status", "title": "Order status", "locale": "en-IN" },
+  "root": {
+    "type": "Stack",
+    "props": { "gap": "section-gap" },
+    "children": [
+      {
+        "type": "Stack",
+        "id": "header",
+        "props": { "gap": "space-3" },
+        "children": [
+          {
+            "type": "Inline",
+            "props": { "justify": "between" },
+            "children": [
+              { "type": "Eyebrow", "props": { "as": "span" }, "children": "Order 58-2931" },
+              { "type": "Badge", "props": { "tone": "success", "variant": "status" }, "children": "Paid" }
+            ]
+          },
+          { "type": "Heading", "props": { "level": 1 }, "children": "Arriving in about 12 minutes" },
+          {
+            "type": "ProgressBar",
+            "props": { "label": "Delivery progress", "value": 70, "showValue": true, "valueLabel": "Out for delivery" }
+          }
+        ]
+      },
+      {
+        "type": "Alert",
+        "id": "substitution",
+        "props": { "tone": "info", "title": "One item was replaced" },
+        "children": "Toned milk 500 ml was out of stock, so we packed the 1 litre pack at the same price.",
+        "slots": {
+          "action": {
+            "type": "Button",
+            "props": { "size": "sm", "variant": "outline" },
+            "children": "Review",
+            "action": { "type": "event", "name": "order.review_substitution", "payload": { "orderId": "58-2931", "itemId": "milk-500" } }
+          }
+        }
+      },
+      {
+        "type": "Card",
+        "id": "partner",
+        "children": [
+          {
+            "type": "CardHeader",
+            "children": [
+              { "type": "CardTitle", "props": { "level": 2 }, "children": "Your delivery partner" },
+              { "type": "CardDescription", "children": "On a bike, 1.2 km away" }
+            ]
+          },
+          {
+            "type": "CardContent",
+            "children": [
+              {
+                "type": "Inline",
+                "props": { "gap": "space-3", "wrap": false },
+                "children": [
+                  { "type": "Avatar", "props": { "name": "Ravi Kumar", "alt": "", "size": "lg" } },
+                  {
+                    "type": "Stack",
+                    "props": { "gap": "space-0" },
+                    "children": [
+                      { "type": "Text", "props": { "weight": "medium" }, "children": "Ravi Kumar" },
+                      { "type": "Text", "props": { "size": "sm", "tone": "subtle" }, "children": "4.9 rating · 1,200 deliveries" }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "CardFooter",
+            "props": { "divider": true },
+            "children": [
+              {
+                "type": "Button",
+                "id": "call",
+                "props": { "variant": "outline", "size": "sm" },
+                "children": [{ "icon": "phone" }, "Call"],
+                "action": { "type": "event", "name": "order.call_partner", "payload": { "orderId": "58-2931" } }
+              },
+              {
+                "type": "Button",
+                "id": "chat",
+                "props": { "variant": "ghost", "size": "sm" },
+                "children": [{ "icon": "message" }, "Chat"],
+                "action": { "type": "event", "name": "order.chat_partner", "payload": { "orderId": "58-2931" } }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "Card",
+        "id": "bill",
+        "props": { "variant": "outline" },
+        "children": [
+          {
+            "type": "CardHeader",
+            "children": [
+              { "type": "CardTitle", "props": { "level": 2 }, "children": "Bill summary" },
+              { "type": "CardAction", "children": [{ "type": "Tag", "props": { "size": "sm" }, "children": "8 items" }] }
+            ]
+          },
+          {
+            "type": "CardContent",
+            "children": [
+              {
+                "type": "Stack",
+                "props": { "gap": "space-2" },
+                "children": [
+                  {
+                    "type": "Inline",
+                    "props": { "justify": "between" },
+                    "children": [
+                      { "type": "Text", "props": { "tone": "subtle" }, "children": "Item total" },
+                      { "type": "Text", "props": { "numeric": true }, "children": "₹642" }
+                    ]
+                  },
+                  {
+                    "type": "Inline",
+                    "props": { "justify": "between" },
+                    "children": [
+                      { "type": "Text", "props": { "tone": "subtle" }, "children": "Delivery fee" },
+                      { "type": "Text", "children": "Free" }
+                    ]
+                  },
+                  {
+                    "type": "Inline",
+                    "props": { "justify": "between" },
+                    "children": [
+                      { "type": "Text", "props": { "tone": "subtle" }, "children": "Handling charge" },
+                      { "type": "Text", "props": { "numeric": true }, "children": "₹4" }
+                    ]
+                  },
+                  { "type": "Separator" },
+                  {
+                    "type": "Inline",
+                    "props": { "justify": "between" },
+                    "children": [
+                      { "type": "Text", "props": { "weight": "semibold" }, "children": "Paid by UPI" },
+                      { "type": "Text", "props": { "weight": "semibold", "numeric": true }, "children": "₹646" }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "Link",
+        "props": { "variant": "standalone" },
+        "children": ["Get help with this order", { "icon": "chevron-right" }],
+        "action": { "type": "navigate", "href": "/help/orders/58-2931" }
+      }
+    ]
+  }
+}

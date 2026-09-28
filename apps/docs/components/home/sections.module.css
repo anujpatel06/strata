@@ -335,11 +335,11 @@
   }
 }
 
-.tenantCard {
+.tenantCard.tenantCard {
   block-size: 100%;
 }
 
-.tenantBody {
+.tenantBody.tenantBody {
   flex: 1;
   display: grid;
   align-content: start;
@@ -367,6 +367,12 @@
   gap: 0 var(--strata-space-1);
 }
 
+/* The draft-copy note (DraftCopyNote) under the facts, in the caption: about the card, not part of it. */
+.copyNote {
+  justify-self: start;
+  margin-block-start: var(--strata-space-1);
+}
+
 /* ---- Accessible by construction ---- */
 
 .figures.figures {
@@ -375,7 +381,7 @@
 }
 /* Same corner as every other card on the page (StatTile already uses the container radius; this pins it to the
    house value even if the component's default changes). */
-.figures > * {
+.figures.figures > * {
   border-radius: var(--docs-card-radius);
 }
 
@@ -520,7 +526,7 @@
   gap: var(--strata-space-2);
 }
 
-.shipCode {
+.shipCode.shipCode {
   flex: 1;
 }
 
@@ -590,7 +596,7 @@
     .sectionHeader,
     .commandRow,
     .tenantFigure,
-    .figures > *,
+    .figures.figures > *,
     .quote,
     .shipCard.shipCard,
     .excerpt,
@@ -602,7 +608,7 @@
       animation-range: entry var(--_from) entry calc(var(--_from) + var(--strata-space-16) * 3);
     }
     .tenantFigure:nth-child(2),
-    .figures > :nth-child(2n),
+    .figures.figures > :nth-child(2n),
     .shipCard.shipCard:nth-child(2) {
       --_i: 1;
     }
@@ -629,7 +635,7 @@
   --_lift: calc(var(--strata-space-1) / -2);
   transition: box-shadow var(--strata-motion-duration-normal) var(--strata-motion-easing);
 }
-.tenantFrame:hover .tenantScope {
+.tenantFrame:hover .tenantScope.tenantScope {
   box-shadow: 0 0 0 var(--strata-hairline) var(--strata-color-border-default), var(--strata-shadow-overlay);
 }
 .shipCard.shipCard:hover {

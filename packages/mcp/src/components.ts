@@ -29,6 +29,18 @@ interface PropDoc {
   deprecatedValues?: Array<DeprecationRecord & { value: string }>;
 }
 
+interface ImportDoc {
+  package: string;
+  names: string[];
+  why: string;
+}
+
+interface TypeNote {
+  prop?: string;
+  note: string;
+  example?: string;
+}
+
 /** The fields of ComponentMeta (packages/react/meta/schema.ts) that this server reads. */
 export interface ComponentMeta {
   name: string;
@@ -43,6 +55,8 @@ export interface ComponentMeta {
   accessibility: { keyboard: Array<{ keys: string; action: string }>; notes: string[] };
   guidelines: { do: string[]; dont: string[] };
   tokens: string[];
+  imports?: ImportDoc[];
+  typeNotes?: TypeNote[];
 }
 
 export interface Deprecation {
@@ -158,6 +172,11 @@ export function requireComponent(root: string, name: string): ComponentMeta {
   return readMeta(root, name);
 }
 
+/** `{ package, names }` → the import line a consumer writes, e.g. `import { parseDate, type DateValue } from '@internationalized/date';`. */
+export function importLine(doc: ImportDoc): string {
+  return `import { ${doc.names.join(', ')} } from '${doc.package}';`;
+}
+
 export function getComponent(root: string, name: string): Record<string, unknown> {
   const m = requireComponent(root, name);
   const many = m.exports.length > 1;
@@ -167,6 +186,8 @@ export function getComponent(root: string, name: string): Record<string, unknown
     maturity: m.maturity,
     purpose: m.description,
     import: `import { ${m.exports.join(', ')} } from '@strata/react';`,
+    // Only present when the component needs another package. Absent means '@strata/react' is enough.
+    ...(m.imports?.length ? { imports: m.imports.map((i) => ({ line: importLine(i), why: i.why })) } : {}),
     props: m.props.map((p) => ({
       // Which export the prop belongs to only matters when there is more than one.
       ...(many ? { component: p.component } : {}),
@@ -176,6 +197,15 @@ export function getComponent(root: string, name: string): Record<string, unknown
       ...(p.required ? { required: true } : {}),
       description: p.description,
     })),
+    ...(m.typeNotes?.length
+      ? {
+          typeNotes: m.typeNotes.map((t) => ({
+            ...(t.prop !== undefined ? { prop: t.prop } : {}),
+            note: t.note,
+            ...(t.example !== undefined ? { example: t.example } : {}),
+          })),
+        }
+      : {}),
     deprecations: deprecationsOf(m),
     keyboard: m.accessibility.keyboard,
     accessibility: m.accessibility.notes,

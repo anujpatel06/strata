@@ -1,6 +1,6 @@
 # @strata/mcp
 
-Strata's MCP server. AI coding agents read components, tokens, patterns and usage rules from the same files the docs site reads, and check their own code with the drift auditor.
+Strata's MCP server. AI coding agents read components, tokens, patterns, icons and usage rules from the same files the docs site reads, and check their own code with the drift auditor.
 
 - Transport: stdio.
 - Server name: `strata`. The version comes from `package.json`.
@@ -17,6 +17,7 @@ The server reads the repo when a tool is called. There is no build step.
 | Tokens | `@strata/theme-engine` run on `tenants/<id>/brand.json` |
 | Patterns | `apps/docs/blocks/blocks.json` and `apps/docs/blocks/<name>/<name>.tsx` |
 | Examples | `apps/docs/examples/<component>/*.tsx` |
+| Icons | `packages/icons/src/index.ts` and the files it re-exports from `packages/icons/src/icons/` |
 | Audit and token matching | `@strata/audit` |
 
 A file is read again when its modified time or size changes, so an edit to a meta file shows up on the next call.
@@ -28,14 +29,33 @@ The repo root is three folders up from this package. Set `STRATA_ROOT` to use an
 | Tool | Input | Returns |
 |---|---|---|
 | `list_components` | `{ category? }` | `name`, `title`, `maturity`, `purpose`, and `deprecations: n` when the component has any |
-| `get_component` | `{ name }` | import line, props, deprecations (what, replacement, since, removal, codemod), keyboard, accessibility notes, do, don't, tokens, usage snippet, example names |
+| `get_component` | `{ name }` | import line, `imports` (other packages it needs), props, `typeNotes`, deprecations (what, replacement, since, removal, codemod), keyboard, accessibility notes, do, don't, tokens, usage snippet, example names |
 | `get_tokens` | `{ category?, tenant?, scheme? }` | With a category: `{ token, cssVar, value }` for each token. With none: a count for each category |
 | `find_token` | `{ value, tenant?, scheme?, category? }` | The nearest token for a raw value, with its distance and the reason. From `findToken` in `@strata/audit` |
 | `get_pattern` | `{ name?, includeSource? }` | With no name: the list of patterns. With a name: components, structure, source path. The code only with `includeSource: true` |
 | `audit_snippet` | `{ code, language?, tenant? }` | `score` (0–100) and findings: rule, severity, line, message, fix. From `auditSource` and `scoreOf` in `@strata/audit` |
 | `get_example` | `{ component, example? }` | The source of one docs example. Default: the component's `-demo` example |
+| `find_icon` | `{ query, limit? }` | Icons from `@strata/icons` that match, best first: `name`, `group`, and `synonymOf` when a synonym led there. With no match: `icons: []`, the `closest` names and a `note` that says so |
 
-`get_example` is an addition to the six tools in BRIEF §8. Agents copy working code more reliably than they read prop tables, and these are the files the docs site renders.
+`get_example` and `find_icon` are additions to the six tools in BRIEF §8. Agents copy working code more reliably than they read prop tables, and these are the files the docs site renders. In the agent eval, runs with the server imported icons that don't exist (`IconAward`, `IconMinus`, `IconClipboardCheck` and others; `evals/runs/iter-1/INVALID.md`, `evals/runs/iter-2/NOTES.md`), because the server had no way to look one up.
+
+### `get_component`: `imports` and `typeNotes`
+
+Both come from the component's meta file (`packages/react/meta/schema.ts`: `ImportDoc`, `TypeNote`), so the docs and the server can't disagree. `pnpm check:meta` validates them.
+
+- **`imports`**: `[{ line, why }]`. The exact import line for another package the consumer needs, e.g. `import { parseDate, parseDateTime, today, getLocalTimeZone, type DateValue } from '@internationalized/date';` for `date-picker`. **The consumer must have that package installed** (`pnpm add @internationalized/date`). `@strata/react` depends on it, but a consumer's own code can only import packages in its own `package.json`: under pnpm's default layout the import fails otherwise, as it did in the eval's first iteration. The package must be one of the component's `dependencies`, and `check:meta` checks that it exports every name.
+- **`typeNotes`**: `[{ prop?, note, example? }]`. A type that is easy to get wrong, with one line of code that type-checks. Each note is based on a type error an eval run hit, or on the component's own types.
+- A component without them has neither key. No `imports` means `@strata/react` is all it needs.
+
+Filled today: `imports` for `date-picker` and `calendar`; `typeNotes` for `button`, `chip`, `combobox`, `data-table`, `empty-state`, `icon-tile`, `menu`, `select`, `tabs` and `toggle-group`.
+
+### `find_icon`
+
+- Names are read from the icon package's source when the tool is called, so a new icon shows up without a restart. The group is the file an icon comes from (`core`, `navigation`, `status`, …).
+- It matches the words of the query against the words of each name (`IconArrowDownLeft` → arrow, down, left), including plurals and prefixes of three letters or more. Rarer words count a little more, and names with fewer extra words rank higher.
+- `SYNONYMS` in `src/icons.ts` maps product words to icons, e.g. award → `IconTrophy`, tv → `IconDeviceDesktop`. It is the only hand-kept list. `test/icons.test.ts` checks every target against the real package. A word with no fitting icon is left out on purpose: the set has no minus sign, so `minus` finds nothing.
+- A query written as an export name that doesn't exist, such as `IconMailOpened`, gets a note saying so.
+- Every name it returns is exported. The test imports the package and checks every result for every icon name and synonym.
 
 Defaults: tenant `house`, scheme `light`, language `tsx`.
 
@@ -130,7 +150,17 @@ printf '%s\n' \
   | node packages/mcp/bin/cli.mjs
 ```
 
-It prints two lines of JSON: the server's name and instructions, then the seven tools.
+It prints two lines of JSON: the server's name and instructions, then the eight tools.
+
+To call a tool, add a `tools/call` line:
+
+```sh
+printf '%s\n' \
+  '{"jsonrpc":"2.0","id":1,"method":"initialize","params":{"protocolVersion":"2025-06-18","capabilities":{},"clientInfo":{"name":"manual","version":"0"}}}' \
+  '{"jsonrpc":"2.0","method":"notifications/initialized"}' \
+  '{"jsonrpc":"2.0","id":2,"method":"tools/call","params":{"name":"find_icon","arguments":{"query":"IconAward"}}}' \
+  | node packages/mcp/bin/cli.mjs
+```
 
 ## Read-only
 
@@ -147,7 +177,7 @@ The server states these rules. It can't enforce what an agent does with its own 
 
 ## Response sizes
 
-Measured on 2026-09-27 with:
+Measured on 2026-09-28 with:
 
 ```sh
 pnpm --filter @strata/mcp test sizes
@@ -158,7 +188,11 @@ Sizes are UTF-8 bytes of the JSON text. The test fails if a response goes over i
 | Response | Bytes | Budget |
 |---|---|---|
 | `list_components`, all 53 | 8,699 | 12,000 |
-| `get_component` button | 5,917 | 8,000 |
+| `get_component` button | 6,218 | 8,000 |
+| `get_component` date-picker | 6,396 | 8,000 |
+| `get_component` toggle-group | 5,112 | 6,500 |
+| `get_component` select | 7,406 | 9,000 |
+| `get_component` data-table | 10,287 | 12,500 |
 | `get_component` sidebar (the largest) | 12,547 | 16,000 |
 | `get_tokens`, no category | 261 | 400 |
 | `get_tokens` color | 4,795 | 5,500 |
@@ -166,10 +200,17 @@ Sizes are UTF-8 bytes of the JSON text. The test fails if a response goes over i
 | `get_pattern`, list | 1,691 | 2,500 |
 | `get_pattern` settings | 707 | 1,500 |
 | `get_example` button | 562 | 1,500 |
+| `find_icon` award | 213 | 400 |
+| `find_icon` arrow (8 icons, the default limit) | 412 | 700 |
+| `find_icon` IconArrowDown | 511 | 800 |
+| `find_icon` IconMinus (no match) | 290 | 500 |
+| `find_icon` with 28 icons at limit 30 | 1,447 | 2,000 |
+
+`imports` and `typeNotes` added 4,259 bytes across the 12 components that have them (68,995 → 73,254). Button grew by 301 bytes (5,917 → 6,218), the most any component grew was 549 (toggle-group). No budget was raised. Measured by calling `getComponent` on a copy of the meta files at `9061227` and on the working tree.
 
 These are bytes, not tokens. Token counts depend on the model and haven't been measured.
 
-`audit_snippet` and `find_token` aren't in the table: their sizes depend on the input.
+`audit_snippet` and `find_token` aren't in the table: their sizes depend on the input. `find_icon` does too; the test also checks every icon name and synonym at limit 30 stays under 2,000 bytes.
 
 ## Tests
 
@@ -179,6 +220,7 @@ pnpm --filter @strata/mcp typecheck
 ```
 
 - `test/tools.test.ts`: every tool, with the auditor mocked.
+- `test/icons.test.ts`: `find_icon`, checked against the real `@strata/icons` exports.
 - `test/protocol.test.ts`: the server through the SDK's in-memory transport, and `bin/cli.mjs` over stdio.
 - `test/sizes.test.ts`: the byte budgets.
 - `test/audit.integration.test.ts`: the real auditor. It is skipped, and prints why, while `@strata/audit` doesn't export `auditSource`, `scoreOf` and `findToken`.
@@ -190,6 +232,8 @@ pnpm --filter @strata/mcp typecheck
 - **Density tokens use the tenant's own density.** There is no `density` input.
 - **A pattern's `structure` is the first paragraph of the comment at the top of its source**, up to six sentences. It is as good as that comment.
 - **A pattern's `components` come from its import of `@strata/react`.** Icons and other packages aren't listed.
+- **`find_icon` matches words, not drawings.** Beyond the synonym list it can't tell what an icon looks like. `synonymOf` marks a match by meaning, so the agent can judge it.
+- **`imports` and `typeNotes` are only as complete as the meta files.** They cover the traps the eval found and the same traps confirmed in other components' types.
 - **`audit_snippet` accepts up to 100,000 characters** of `tsx` or `css`.
 - **`find_token` and `audit_snippet` depend on `@strata/audit`.** If it can't be loaded they return an error and the other tools keep working. The auditor finds tenants on its own; `STRATA_ROOT` is not passed to it.
 - **No recorded agent run yet.** BRIEF §8 asks for a recorded run where Claude Code builds a screen using only this server. That hasn't been done.

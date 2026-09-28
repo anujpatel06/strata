@@ -78,7 +78,7 @@
     box-shadow: none;
   }
 
-  .cardHeader .logoMark {
+  .cardHeader.cardHeader .logoMark {
     display: none;
   }
 }
@@ -295,7 +295,7 @@
 
 /* Editorial emphasis: the heading face's italic in the brand's text colour (checked on surface.sunken). */
 .headline em,
-.title em {
+.title.title em {
   font-style: italic;
   font-weight: var(--strata-font-weight-regular);
   color: var(--strata-color-text-brand);

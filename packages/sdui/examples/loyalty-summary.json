@@ -1,0 +1,133 @@
+{
+  "schemaVersion": "1.0.0",
+  "screen": { "id": "loyalty-summary", "title": "Rewards", "locale": "en-IN" },
+  "root": {
+    "type": "Stack",
+    "props": { "gap": "section-gap" },
+    "children": [
+      {
+        "type": "Stack",
+        "id": "header",
+        "props": { "gap": "space-1" },
+        "children": [
+          { "type": "Eyebrow", "props": { "tone": "brand", "icon": { "icon": "trophy" } }, "children": "Gold member since March 2025" },
+          { "type": "Heading", "props": { "level": 1 }, "children": "Your rewards" }
+        ]
+      },
+      {
+        "type": "Card",
+        "id": "tier",
+        "children": [
+          {
+            "type": "CardHeader",
+            "children": [
+              { "type": "CardTitle", "props": { "level": 2 }, "children": "Cashback earned this year" },
+              { "type": "CardDescription", "children": "Credited to your wallet within 7 days of each order" }
+            ]
+          },
+          {
+            "type": "CardContent",
+            "children": [
+              {
+                "type": "Stack",
+                "props": { "gap": "space-5" },
+                "children": [
+                  { "type": "Amount", "props": { "value": 1840, "currency": "INR", "size": "lg" } },
+                  {
+                    "type": "Meter",
+                    "props": {
+                      "label": "Points to Platinum",
+                      "value": 3200,
+                      "maxValue": 5000,
+                      "valueLabel": "3,200 of 5,000 points",
+                      "tone": "brand"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "Stack",
+        "id": "benefits",
+        "props": { "gap": "space-3" },
+        "children": [
+          { "type": "Heading", "props": { "level": 2 }, "children": "Your Gold benefits" },
+          {
+            "type": "Inline",
+            "props": { "gap": "space-2" },
+            "children": [
+              { "type": "Tag", "props": { "tone": "brand", "leading": { "icon": "truck" } }, "children": "Free delivery over ₹199" },
+              { "type": "Tag", "props": { "tone": "brand", "leading": { "icon": "sparkles" } }, "children": "Early sale access" },
+              { "type": "Tag", "props": { "leading": { "icon": "headphones" } }, "children": "Priority support" }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "StatTileGroup",
+        "id": "year",
+        "children": [
+          { "type": "StatTile", "props": { "label": "Orders this year", "value": "46", "size": "sm", "variant": "outline" } },
+          {
+            "type": "StatTile",
+            "props": { "label": "Saved with offers", "value": "₹3,920", "caption": "Across 19 orders", "size": "sm", "variant": "outline" }
+          }
+        ]
+      },
+      {
+        "type": "Card",
+        "id": "vouchers",
+        "children": [
+          {
+            "type": "CardHeader",
+            "props": { "divider": true },
+            "children": [{ "type": "CardTitle", "props": { "level": 2 }, "children": "Vouchers" }]
+          },
+          {
+            "type": "CardContent",
+            "children": [
+              {
+                "type": "EmptyState",
+                "props": {
+                  "size": "sm",
+                  "level": 3,
+                  "icon": { "icon": "gift" },
+                  "title": "No vouchers yet",
+                  "description": "Vouchers you win in the weekly draw show up here. Every order over ₹299 is one entry."
+                },
+                "slots": {
+                  "action": {
+                    "type": "Button",
+                    "props": { "variant": "outline", "size": "sm" },
+                    "children": "See this week's draw",
+                    "action": { "type": "navigate", "href": "/rewards/draw" }
+                  }
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "Inline",
+        "props": { "gap": "space-3" },
+        "children": [
+          {
+            "type": "Button",
+            "children": "View all benefits",
+            "action": { "type": "navigate", "href": "/rewards/benefits" }
+          },
+          {
+            "type": "Button",
+            "props": { "variant": "ghost", "size": "icon", "ariaLabel": "Share your referral code" },
+            "children": [{ "icon": "share" }],
+            "action": { "type": "event", "name": "rewards.share_referral" }
+          }
+        ]
+      }
+    ]
+  }
+}

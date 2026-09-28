@@ -3,6 +3,7 @@
 import { IconArrowUpRight } from '@strata/icons';
 import { Card, CardDescription, CardFooter, CardHeader, CardMedia, CardTitle, Link, ThemeScope } from '@strata/react';
 import { BLOCK_COMPONENTS } from './block-components';
+import { DraftCopyNote } from '@/components/page/draft-copy-note';
 import type { BlockTenant } from './block-data';
 import styles from './block-overview.module.css';
 
@@ -60,6 +61,9 @@ export function BlockOverview({ items }: { items: BlockOverviewItem[] }) {
                     <a href={`#${item.name}`}>{item.title}</a>
                   </CardTitle>
                   <CardDescription className={styles.description}>{item.description}</CardDescription>
+                  {/* In the card's text (site chrome), not on the thumbnail: the footer stays one line so the rails
+                      still line up across the row. */}
+                  <DraftCopyNote review={item.tenant.copyReview} className={styles.copyNote} />
                 </CardHeader>
                 <CardFooter divider>
                   <span>Shown in {item.tenant.name}</span>

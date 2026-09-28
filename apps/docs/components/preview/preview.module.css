@@ -94,10 +94,10 @@
   .dot {
     transition: scale var(--strata-motion-duration-spring) var(--strata-motion-spring);
   }
-  .dotToggle[data-pressed] .dot {
+  .dotToggle.dotToggle[data-pressed] .dot {
     scale: 0.8;
   }
-  .dotToggle[data-selected] .dot {
+  .dotToggle.dotToggle[data-selected] .dot {
     animation: dot-pop var(--strata-motion-duration-spring) var(--strata-motion-spring);
   }
 }
@@ -125,7 +125,7 @@
 }
 
 /* The stage is a ThemeScope: everything inside uses the chosen tenant's tokens. */
-.stage {
+.stage.stage {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -143,11 +143,11 @@
     var(--strata-space-4) var(--strata-space-4);
   background-position: center;
 }
-.stage[data-align='start'] {
+.stage.stage[data-align='start'] {
   align-items: flex-start;
 }
 @media (min-width: 768px) {
-  .stage {
+  .stage.stage {
     padding-inline: var(--strata-space-10);
   }
 }
@@ -161,7 +161,7 @@
   inline-size: 100%;
   min-inline-size: 0;
 }
-.stage[data-align='start'] .example {
+.stage.stage[data-align='start'] .example {
   justify-content: flex-start;
 }
 

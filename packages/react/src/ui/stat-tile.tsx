@@ -2,7 +2,7 @@
 
 import { createContext, useContext, type HTMLAttributes, type JSX, type ReactNode, type Ref } from 'react';
 import { useLocale } from 'react-aria-components';
-import { IconTrendingDown, IconTrendingUp } from '@strata/icons';
+import { IconAlertCircleFilled, IconTrendingDown, IconTrendingUp } from '@strata/icons';
 import { Badge } from './badge';
 import styles from './stat-tile.module.css';
 
@@ -29,12 +29,19 @@ export interface StatTileProps extends HTMLAttributes<HTMLElement> {
   label: ReactNode;
   /** The figure, already formatted (currency, units, compact notation). */
   value: ReactNode;
-  /** Change as a fraction: 0.064 = +6.4%. Shown as a coloured pill with a trend icon. */
+  /**
+   * Change as a fraction: 0.064 = +6.4%. Shown as a signed, coloured pill. Good news carries a trend arrow; bad news
+   * carries an alert mark instead, so good and bad differ in shape as well as colour. No change has no mark.
+   */
   delta?: number;
   /** What the change is measured against, e.g. "vs last month". */
   deltaLabel?: ReactNode;
   /** Whether an increase is good news (revenue) or bad news (churn, costs). */
   positiveIsGood?: boolean;
+  /** Read by screen readers after a change that is good news ("+6.4% better"). Translate it with the page. */
+  betterLabel?: string;
+  /** Read by screen readers after a change that is bad news ("+3.1% worse"). Translate it with the page. */
+  worseLabel?: string;
   /** Overrides the delta's Intl.NumberFormat options (default: percent, 1 decimal, signed). */
   deltaFormatOptions?: Intl.NumberFormatOptions;
   /** A quiet line under the value, used instead of a delta ("Updated 5 min ago"). */
@@ -65,6 +72,8 @@ export function StatTile({
   delta,
   deltaLabel,
   positiveIsGood = true,
+  betterLabel = 'better',
+  worseLabel = 'worse',
   deltaFormatOptions,
   caption,
   icon,
@@ -82,7 +91,13 @@ export function StatTile({
 
   let tone: 'neutral' | 'success' | 'danger' = 'neutral';
   if (hasDelta && delta !== 0) tone = delta > 0 === positiveIsGood ? 'success' : 'danger';
-  const TrendIcon = hasDelta && delta !== 0 ? (delta > 0 ? IconTrendingUp : IconTrendingDown) : null;
+  /*
+   * Good or bad is never colour alone (WCAG 1.4.1). Good news keeps the trend arrow; bad news swaps it for a filled
+   * alert mark (the "!" is knocked out to the pill's tint), the one shape that asks for attention. No change has no
+   * mark. Direction is always in the sign. Screen readers get the judgement in words: betterLabel / worseLabel.
+   */
+  const Trend = hasDelta && delta > 0 ? IconTrendingUp : IconTrendingDown;
+  const Mark = tone === 'danger' ? IconAlertCircleFilled : tone === 'success' ? Trend : null;
 
   const has = (node: ReactNode) => node != null && node !== false && node !== '';
   const hasMeta = hasDelta || has(deltaLabel) || has(caption);
@@ -115,10 +130,11 @@ export function StatTile({
               tone={tone}
               variant="soft"
               className={styles.delta}
-              icon={TrendIcon ? <TrendIcon className={styles.trend} /> : undefined}
+              icon={Mark ? <Mark className={Mark === Trend ? styles.trend : undefined} /> : undefined}
             >
               {/* Isolated in the locale's own direction, so "+6.4%" never flips to "6.4%+" in RTL pages. */}
               <span dir={direction}>{formatDelta(delta, locale, deltaFormatOptions)}</span>
+              {tone !== 'neutral' && <span className={styles.srOnly}> {tone === 'success' ? betterLabel : worseLabel}</span>}
             </Badge>
           ) : (
             <span className={styles.caption}>{has(caption) ? caption : deltaLabel}</span>

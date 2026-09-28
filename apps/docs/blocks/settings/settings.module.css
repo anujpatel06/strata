@@ -57,7 +57,7 @@
 }
 
 /* Email and phone numbers read left to right even on right-to-left pages, still aligned to the field's start. */
-.ltrValue:dir(rtl) input {
+.ltrValue.ltrValue:dir(rtl) input {
   direction: ltr;
   text-align: end;
 }

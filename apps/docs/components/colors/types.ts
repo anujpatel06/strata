@@ -1,4 +1,5 @@
 /** Serialisable colour data the /colors page computes at build time and hands to the client grid. */
+import type { CopyReview } from '@/components/page/draft-copy-note';
 
 export interface ColorSwatch {
   /** 1–12. */
@@ -39,6 +40,8 @@ export interface ColorTenant {
   description: string;
   facts: BrandFact[];
   schemes: ColorScheme[];
+  /** content.json `copyReview`: the description carries the tenant's own industry name, so a draft is marked. */
+  copyReview?: CopyReview;
 }
 
 export type CopyFormat = 'hex' | 'var' | 'oklch';

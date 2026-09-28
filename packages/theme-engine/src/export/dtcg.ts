@@ -192,7 +192,13 @@ export function toDTCG(theme: Theme): Record<string, unknown> {
         input: { ...theme.input },
         generator: GENERATOR_ID,
         headingTracking: theme.typePair.headingTracking,
-        typePair: { id: theme.typePair.id, label: theme.typePair.label, googleFamilies: [...theme.typePair.googleFamilies] },
+        typePair: {
+          id: theme.typePair.id,
+          label: theme.typePair.label,
+          googleFamilies: [...theme.typePair.googleFamilies],
+          // Script pairs (ADR-020) only: where foundation.font.lineHeight and the smallest size come from.
+          ...(theme.typePair.script ? { script: { ...theme.typePair.script, lineHeight: { ...theme.typePair.script.lineHeight } } } : {}),
+        },
       },
     },
     primitive: primitives(theme),

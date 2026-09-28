@@ -101,6 +101,13 @@
       "Don't put text or numbers in a tile; use Avatar for initials."
     ]
   },
+  "typeNotes": [
+    {
+      "prop": "tint",
+      "note": "There is no 'neutral' tint (Badge's tone has one). The quiet, uncoloured tile is 'none'. The type is IconTileTint, exported from @strata/react.",
+      "example": "<IconTile tint={earned ? 'success' : 'none'}>"
+    }
+  ],
   "tokens": [
     "color.accent.subtle",
     "color.accent.text",

@@ -5,7 +5,7 @@
  */
 import type { Density, Role, Scheme, Theme } from './types';
 import { ROLES, roleToCssVar } from './types';
-import { trackingForSize } from './foundations';
+import { capsTracking, trackingForSize } from './foundations';
 import { CHART_AXIS_ROLE, CHART_GRID_ROLE } from './chart';
 import {
   DENSITY_KEYS,
@@ -96,8 +96,8 @@ export function writeTypographyVars(out: CssVars, theme: Theme): CssVars {
   for (const [k, name] of FONT_SIZE_VARS) out[name] = px(fontSize[k]);
   // CSS-only (DTCG dimensions have no em unit), like the spring easing.
   for (const k of FONT_SIZE_KEYS) out[`--strata-font-tracking-${k}`] = trackingForSize(fontSize[k], typePair.supportsArabic);
-  // Small caps (eyebrows, uppercase tags) need open tracking; Arabic has no case and must not be spaced.
-  out['--strata-font-tracking-caps'] = typePair.supportsArabic ? '0' : '0.08em';
+  // Small caps (eyebrows, uppercase tags) need open tracking; Arabic and Devanagari have no case and must not be spaced.
+  out['--strata-font-tracking-caps'] = capsTracking(typePair);
   // Icon stroke for @strata/icons (ADR-014): one device pixel at 16px.
   out['--strata-icon-stroke'] = '1.5';
   for (const [k, name] of LINE_HEIGHT_VARS) out[name] = String(lineHeight[k]);

@@ -51,6 +51,14 @@ export const DOC_PAGES: readonly DocPage[] = [
     keywords: 'mcp agents claude cursor ai model context protocol',
   },
   {
+    slug: 'server-driven-ui',
+    href: '/docs/server-driven-ui',
+    title: 'Server-driven UI',
+    description: 'Strata as a JSON contract: a schema per component, a validator, and one web renderer.',
+    group: 'getting-started',
+    keywords: 'sdui server driven ui json schema mobile app native compose swiftui kotlin swift renderer validator',
+  },
+  {
     slug: 'figma',
     href: '/docs/figma',
     title: 'Figma',

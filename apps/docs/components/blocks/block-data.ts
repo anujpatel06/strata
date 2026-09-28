@@ -8,6 +8,7 @@ import path from 'node:path';
 import blocksJson from '@/blocks/blocks.json';
 import { benefitsOverviewTenantCopy } from '@/blocks/benefits-overview/benefits-overview.content';
 import { portfolioTenantCopy } from '@/blocks/portfolio/portfolio.content';
+import { checkCopyReview, type CopyReview } from '@/components/page/draft-copy-note';
 import { DOCS_ROOT, readRepoFile } from '@/lib/repo';
 import { getTenants } from '@/lib/tenants';
 
@@ -60,10 +61,15 @@ export interface BlockTenant {
   name: string;
   locale: string;
   dir: 'ltr' | 'rtl';
+  /** content.json `copyReview`: while it's a draft, the docs mark every view of this tenant's copy. */
+  copyReview?: CopyReview;
 }
 
 export function getBlockTenants(): BlockTenant[] {
-  return getTenants().map((t) => ({ id: t.id, name: t.name, locale: t.locale, dir: t.dir }));
+  return getTenants().map((t) => {
+    const copyReview = checkCopyReview(t.id, t.copyReview);
+    return { id: t.id, name: t.name, locale: t.locale, dir: t.dir, ...(copyReview ? { copyReview } : {}) };
+  });
 }
 
 /**

@@ -165,7 +165,7 @@
   .dot {
     transition: scale var(--strata-motion-duration-spring) var(--strata-motion-spring);
   }
-  .dotToggle[data-pressed] .dot {
+  .dotToggle.dotToggle[data-pressed] .dot {
     scale: 0.8;
   }
 }
@@ -243,6 +243,11 @@
   display: none;
 }
 
+/* The draft-copy note above the frame (DraftCopyNote); takes no room when there's nothing to say. */
+.copyStatus:not(:empty) {
+  margin-block-end: var(--strata-space-3);
+}
+
 /* The block sits in a framed stage with real depth: hairline, top-edge sheen and a raised shadow, like a window
    set into the page. */
 .frame {
@@ -315,7 +320,7 @@
 }
 
 /* A ThemeScope: scrolls inside the frame, so sticky headers stick to the frame, not the page. */
-.scope {
+.scope.scope {
   display: flex;
   flex-direction: column;
   block-size: 100%;
@@ -323,7 +328,7 @@
   overscroll-behavior: contain;
 }
 
-.scope > * {
+.scope.scope > * {
   flex: 1 0 auto;
 }
 
@@ -354,7 +359,7 @@
 }
 
 /* Same height as the preview frame; long files scroll inside. */
-.filePanel :global(pre) {
+.filePanel.filePanel :global(pre) {
   max-block-size: calc(var(--strata-space-16) * 11);
   overflow: auto;
 }

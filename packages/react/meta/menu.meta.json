@@ -210,6 +210,13 @@
       "Don't use a Menu to pick a form value — use Select."
     ]
   },
+  "typeNotes": [
+    {
+      "prop": "onSelectionChange",
+      "note": "selectedKeys and onSelectionChange use Selection: 'all' or a Set<Key>. Import the type from @strata/react.",
+      "example": "const [sort, setSort] = useState<Selection>(new Set(['newest']));"
+    }
+  ],
   "tokens": [
     "space.1",
     "space.0",

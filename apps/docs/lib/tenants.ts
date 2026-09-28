@@ -19,6 +19,11 @@ export interface TenantInfo {
   currency: string;
   /** One real product moment for the tenant specimen (content.json `specimen`); `*word*` marks brand italics. */
   specimen?: { eyebrow: string; headline?: string; amount?: number; note?: string };
+  /**
+   * content.json `copyReview`: present while the tenant's copy is a draft no fluent reader has checked (Haat's Hindi,
+   * ADR-020). Anything that shows the copy can show `note` (English) or `noteLocal` (the tenant's language) beside it.
+   */
+  copyReview?: { status: 'draft' | 'reviewed'; language: string; note: string; noteLocal?: string };
 }
 
 /** The three reference tenants in the order the brief introduces them; any others follow alphabetically. */
@@ -43,6 +48,7 @@ export const getTenants = cache((): TenantInfo[] => {
           currency?: string;
           product?: { name?: string; industry?: string };
           specimen?: TenantInfo['specimen'];
+          copyReview?: TenantInfo['copyReview'];
         })
       : {};
     tenants.push({
@@ -54,6 +60,7 @@ export const getTenants = cache((): TenantInfo[] => {
       product: { name: content.product?.name ?? brand.name, industry: content.product?.industry ?? '' },
       currency: content.currency ?? 'USD',
       ...(content.specimen ? { specimen: content.specimen } : {}),
+      ...(content.copyReview ? { copyReview: content.copyReview } : {}),
     });
   }
   return tenants.sort((a, b) => rank(a.id) - rank(b.id) || a.id.localeCompare(b.id));

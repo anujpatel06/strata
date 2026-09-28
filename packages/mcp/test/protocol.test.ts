@@ -38,6 +38,7 @@ const ONE_CALL_EACH: Record<(typeof TOOL_NAMES)[number], Record<string, unknown>
   get_pattern: { name: 'sign-in' },
   audit_snippet: { code: '<Button>Save</Button>' },
   get_example: { component: 'button' },
+  find_icon: { query: 'trash' },
 };
 
 describe('protocol, in memory', () => {
@@ -53,6 +54,14 @@ describe('protocol, in memory', () => {
     expect(h.client.getServerVersion()).toMatchObject({ name: 'strata', version: pkg.version });
   });
 
+  it('tells agents to look icons up with find_icon, and where other imports are listed', () => {
+    const text = h.client.getInstructions()!;
+    expect(text).toContain('find_icon');
+    expect(text).toContain('Never guess');
+    expect(text).toContain('imports');
+    expect(text).toContain('typeNotes');
+  });
+
   it('sends instructions that state read-only, the safe-fix rule and strata://agents', () => {
     const text = h.client.getInstructions();
     expect(text).toBe(INSTRUCTIONS);
@@ -63,7 +72,7 @@ describe('protocol, in memory', () => {
     expect(text).toContain('strata://agents');
   });
 
-  it('lists exactly the seven tools', async () => {
+  it('lists exactly the eight tools', async () => {
     const { tools } = await h.client.listTools();
     expect(tools.map((t) => t.name).sort()).toEqual([...TOOL_NAMES].sort());
   });
@@ -198,6 +207,9 @@ describe('protocol, over stdio', () => {
       const result = await client.callTool({ name: 'get_component', arguments: { name: 'button' } });
       const text = (result.content as Array<{ text: string }>)[0]!.text;
       expect(JSON.parse(text).deprecations[0].what).toBe('Button variant="danger"');
+      const icon = await client.callTool({ name: 'find_icon', arguments: { query: 'award' } });
+      const found = JSON.parse((icon.content as Array<{ text: string }>)[0]!.text);
+      expect(found.icons[0]).toEqual({ name: 'IconTrophy', group: 'commerce', synonymOf: 'award' });
     } finally {
       await client.close();
     }

@@ -11,6 +11,7 @@ import {
   type Role,
 } from '@strata/theme-engine';
 import { Amount, Badge, Eyebrow, ThemeScope } from '@strata/react';
+import { checkCopyReview, DraftCopyNote } from '@/components/page/draft-copy-note';
 import { listRepoDir, readRepoFile } from '@/lib/repo';
 import { githubBlob } from '@/lib/site';
 import { getHouseBrand, getTenants } from '@/lib/tenants';
@@ -393,8 +394,11 @@ export function TenantGrid() {
         const ramp = theme.schemes.light.ramps.primary;
         const typeName = TYPE_PAIRS[t.brand.typePair].label.split(' — ')[1]?.split(' / ')[0] ?? t.brand.typePair;
         const s = t.specimen;
+        const review = checkCopyReview(t.id, t.copyReview);
+        // Each specimen and, below it in the page's own voice, the draft-copy note when its copy is unreviewed.
         return (
-          <ThemeScope key={t.id} theme={t.id} scheme="light" locale={t.locale} className={styles.tenant}>
+          <div key={t.id} className={styles.tenantItem}>
+          <ThemeScope theme={t.id} scheme="light" locale={t.locale} className={styles.tenant}>
             <div className={styles.tenantHead}>
               <span className={styles.tenantMark} aria-hidden="true" />
               <p className={styles.tenantName}>{t.product.name}</p>
@@ -419,6 +423,8 @@ export function TenantGrid() {
               {typeName} · {t.brand.shape} · {t.brand.density}
             </p>
           </ThemeScope>
+          <DraftCopyNote review={review} className={styles.tenantNote} />
+          </div>
         );
       })}
     </div>

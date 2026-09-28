@@ -97,9 +97,14 @@ export function generateTheme(input: BrandInput): Theme {
     checks.push(...checkScheme(scheme, roles));
   }
 
-  const foundations = foundationsForShape(resolved.shape);
   const src = TYPE_PAIRS[resolved.typePair];
-  const typePair = { ...src, googleFamilies: [...src.googleFamilies] };
+  // A pair's script tokens (ADR-020) replace line heights and raise small sizes, so every exporter reads them here.
+  const foundations = foundationsForShape(resolved.shape, src);
+  const typePair = {
+    ...src,
+    googleFamilies: [...src.googleFamilies],
+    ...(src.script ? { script: { ...src.script, lineHeight: { ...src.script.lineHeight } } } : {}),
+  };
   const passed = checks.filter((c) => c.pass).length;
 
   return {

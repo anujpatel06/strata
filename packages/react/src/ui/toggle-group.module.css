@@ -16,10 +16,17 @@
 
   box-sizing: border-box;
   display: inline-flex;
+  /*
+   * Reflow (WCAG 1.4.10). The track never grows past its container: when the segments don't fit on one row they
+   * wrap onto more rows inside the same track, each row sharing its width, and a label longer than the whole track
+   * wraps inside its segment. Every label stays whole and visible, nothing scrolls, and the arrow keys still follow
+   * the reading order. When everything fits, this is the same single row as before (one flex line, same widths).
+   */
+  flex-wrap: wrap;
   align-items: stretch;
   gap: 2px;
   max-inline-size: 100%;
-  block-size: var(--_h);
+  min-block-size: var(--_h);
   padding: var(--_pad);
   background-color: var(--strata-color-surface-sunken);
   /* Hairline edge so the track still reads on dark canvases, where sunken sits close to the surface. */
@@ -56,7 +63,7 @@
 }
 
 .group[data-orientation='vertical'] > .segment {
-  block-size: calc(var(--_h) - 2 * var(--_pad));
+  min-block-size: calc(var(--_h) - 2 * var(--_pad));
   justify-content: flex-start;
 }
 
@@ -130,9 +137,15 @@
  * ------------------------------------------------------------------ */
 
 .segment {
-  /* Share any extra width when the group is stretched (e.g. full-width on mobile). */
-  flex: 1 0 auto;
+  /* Share any extra width when the group is stretched (e.g. full-width on mobile) or a row wraps. Shrinking only
+     happens to a segment alone on its row that is still wider than the track; its label then wraps. */
+  flex: 1 1 auto;
+  /* Rows keep the control height, so a single row matches a Button of the same size. */
+  min-block-size: calc(var(--_h) - 2 * var(--_pad));
   padding-inline: calc(var(--strata-control-padding-inline) - var(--strata-space-1));
+  white-space: normal;
+  overflow-wrap: anywhere;
+  text-align: center;
   /* Concentric: the track's corner minus its inner padding. */
   border-radius: max(var(--strata-space-1), calc(min(var(--_r), var(--_h) / 2) - var(--_pad)));
   /* Unselected: quiet colour and regular weight. Selected differs by colour, weight AND elevation (the pill). */
@@ -146,6 +159,11 @@
   display: inline-flex;
   flex-direction: column;
   align-items: center;
+  /* A label that wraps to two lines (a label longer than the whole track) keeps the room above and below it that a
+     one-line label has: what is left of the row after one line and the segment's 1px border. A one-line label is
+     then exactly the row's inner height, so the segment is the same height as before. Other content (icons) sits in
+     the segment as it always did. */
+  padding-block: max(0px, calc((var(--_h) - 2 * var(--_pad) - 1lh - 2px) / 2));
 }
 .label::after {
   content: attr(data-label);
@@ -336,14 +354,16 @@
 
   /*
    * React Aria moves the pill with a FLIP: it snapshots the listed transition properties on the old segment and
-   * transitions them on the new one. translate carries the slide on the spring. width is listed so a pill moving
-   * between segments of different widths resizes with it; it is an absolutely positioned, empty element, so this
-   * never reflows anything else.
+   * transitions them on the new one. translate carries the slide on the spring (across rows too, when the group has
+   * wrapped). width and height are listed so a pill moving between segments of different sizes (a wider label, a
+   * label wrapped to two lines) resizes with it; it is an absolutely positioned, empty element, so this never
+   * reflows anything else.
    */
   .indicator {
     transition:
       translate var(--strata-motion-duration-spring) var(--strata-motion-spring),
       width var(--strata-motion-duration-spring) var(--strata-motion-spring),
+      height var(--strata-motion-duration-spring) var(--strata-motion-spring),
       opacity var(--strata-motion-duration-fast) var(--strata-motion-easing),
       box-shadow var(--strata-motion-duration-normal) var(--strata-motion-easing);
   }

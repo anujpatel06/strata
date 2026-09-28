@@ -36,6 +36,8 @@ jobs:
       - run: pnpm check:meta
       # The drift gate: the docs app, which stands in for the reference product, must stay on-system (BRIEF §9)
       - run: pnpm drift apps/docs --min-score 95
+      # Docs styles that restyle a Strata component must outweigh it, or stylesheet order decides the layout
+      - run: node scripts/check-override-weight.mjs
       - run: pnpm test:themes
       - run: pnpm tokens
       - run: pnpm build

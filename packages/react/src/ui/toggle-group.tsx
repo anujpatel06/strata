@@ -14,6 +14,13 @@ import styles from './toggle-group.module.css';
 
 const cx = (...c: Array<string | false | null | undefined>) => c.filter(Boolean).join(' ');
 
+/**
+ * React Aria's `Key` (string | number): the type of item ids and selection keys in every Strata collection (Select,
+ * Combobox, Tabs, ToggleButtonGroup, Menu, …). Re-exported, like `Selection` in chip.tsx, so consumers don't need
+ * react-aria-components as a direct dependency, and don't reach for React's `Key`, which also allows bigint.
+ */
+export type { Key } from 'react-aria-components';
+
 export type ToggleSize = 'sm' | 'md';
 
 const SizeContext = createContext<ToggleSize>('md');

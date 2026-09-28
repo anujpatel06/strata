@@ -26,3 +26,14 @@ export { toCSS } from './export/css';
 export { toDTCG } from './export/dtcg';
 export { toFigmaFiles, FIGMA_STARTER_MODE, type FigmaExportOptions, type FigmaModes } from './export/figma';
 export { toShadcnCssVars, toShadcnCSS, type ShadcnCssVars, type ToShadcnOptions } from './export/shadcn';
+export { toCompose, type ToComposeOptions } from './export/compose';
+export { toSwiftUI } from './export/swiftui';
+export {
+  NATIVE_EXCLUSIONS,
+  buildNativeModel,
+  verifyNativeExport,
+  type NativeExportCheck,
+  type NativeModel,
+  type NativeModelOptions,
+  type NativePlatform,
+} from './export/native';

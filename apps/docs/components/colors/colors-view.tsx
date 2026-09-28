@@ -12,6 +12,7 @@ import Link from 'next/link';
 import { useId, useState, type CSSProperties, type Key } from 'react';
 import { Header, ListBox, ListBoxItem, ListBoxSection } from 'react-aria-components';
 import { copyText } from '@/components/mdx/code-frame';
+import { DraftCopyNote } from '@/components/page/draft-copy-note';
 import type { ColorRamp, ColorScheme, ColorSwatch, ColorTenant, CopyFormat } from './types';
 import styles from './colors-view.module.css';
 
@@ -138,6 +139,8 @@ function TenantColors({ tenant, format }: { tenant: ColorTenant; format: CopyFor
           ))}
         </p>
       </ThemeScope>
+      {/* Outside the tenant-coloured header, in the page's own voice: the eyebrow above uses the tenant's words. */}
+      <DraftCopyNote review={tenant.copyReview} className={styles.copyNote} />
 
       <div className={styles.panels}>
         {tenant.schemes.map((s) => (

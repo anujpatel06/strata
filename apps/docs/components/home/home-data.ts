@@ -4,6 +4,7 @@
  */
 import { generateTheme, type Adjustment, type BrandInput } from '@strata/theme-engine';
 import { cache } from 'react';
+import { checkCopyReview, type CopyReview } from '@/components/page/draft-copy-note';
 import { getAllMeta } from '@/lib/meta';
 import { readRepoFile } from '@/lib/repo';
 import { getHouseBrand, getTenants } from '@/lib/tenants';
@@ -100,6 +101,8 @@ export interface TenantOverview {
   shape: BrandInput['shape'];
   density: BrandInput['density'];
   typePair: BrandInput['typePair'];
+  /** content.json `copyReview`: while it's a draft, the card's caption says so. */
+  copyReview?: CopyReview;
 }
 
 interface ContentJson {
@@ -155,6 +158,7 @@ export const getTenantOverviews = cache((): TenantOverview[] => {
       shape: t.brand.shape,
       density: t.brand.density,
       typePair: t.brand.typePair,
+      ...(t.copyReview ? { copyReview: checkCopyReview(t.id, t.copyReview) } : {}),
     });
   }
   return out;

@@ -63,6 +63,12 @@
       "Don't render Tabs straight from a server component without defaultSelectedKey. The server can render no selected tab, and the page then fails hydration."
     ]
   },
+  "typeNotes": [
+    {
+      "note": "Key is React Aria's Key: string | number. React's Key also allows bigint, so state typed with it fails the check. Import Key from @strata/react instead: import { type Key } from '@strata/react'. String ids work too.",
+      "example": "const [tab, setTab] = useState<Key>('overview');"
+    }
+  ],
   "tokens": [
     "space.4",
     "space.6",

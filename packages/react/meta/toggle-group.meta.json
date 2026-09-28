@@ -39,6 +39,11 @@
     {
       "name": "toggle-group-standalone",
       "title": "Standalone toggle button"
+    },
+    {
+      "name": "toggle-group-narrow",
+      "title": "Narrow container",
+      "description": "When the options don't fit on one row, they wrap onto another row inside the track. Every label stays whole and nothing scrolls sideways."
     }
   ],
   "props": [
@@ -146,20 +151,33 @@
       "Single selection renders a radiogroup of radios; multiple selection renders a toolbar of pressed buttons.",
       "The selected item is raised and bold-coloured, not colour-only.",
       "A standalone ToggleButton exposes aria-pressed.",
-      "The selected segment differs by colour (text.default vs text.subtle), weight (medium vs regular) and elevation (a raised pill with shadow and rim), not colour alone."
+      "The selected segment differs by colour (text.default vs text.subtle), weight (medium vs regular) and elevation (a raised pill with shadow and rim), not colour alone.",
+      "Reflow (WCAG 1.4.10): the group is never wider than its container. Segments that don't fit wrap onto another row inside the track, and a label longer than the track wraps inside its segment, so no label is cut off and the page never scrolls sideways. Arrow keys still follow the reading order, in both directions."
     ]
   },
   "guidelines": {
     "do": [
       "Use for 2–5 short, mutually related options that switch a view immediately.",
       "Name the group with aria-label or a visible heading.",
-      "Use disallowEmptySelection when one option must always be active."
+      "Use disallowEmptySelection when one option must always be active.",
+      "Keep labels to one or two short words. On a narrow screen the segments wrap onto a second row rather than overflow, but one row reads best."
     ],
     "dont": [
       "Don't use it for form choices that are submitted later; use RadioGroup.",
-      "Don't put long labels in segments; they won't fit on small screens."
+      "Don't use it for more than 5 options or for long labels. Use Select to pick from a longer list, or Tabs when each option shows its own panel."
     ]
   },
+  "typeNotes": [
+    {
+      "prop": "onSelectionChange",
+      "note": "Called with a Set<Key>. It is never 'all' (unlike Menu, ChipGroup and DataTable), so comparing it with a string fails the check. In single mode, read the first key.",
+      "example": "onSelectionChange={(keys) => setFilter(String([...keys][0] ?? 'all'))}"
+    },
+    {
+      "note": "Key is React Aria's Key: string | number. React's Key also allows bigint, so state typed with it fails the check. Import Key from @strata/react instead: import { type Key } from '@strata/react'. String ids work too.",
+      "example": "const [period, setPeriod] = useState<Set<Key>>(new Set(['month']));"
+    }
+  ],
   "tokens": [
     "color.border.default",
     "color.border.strong",

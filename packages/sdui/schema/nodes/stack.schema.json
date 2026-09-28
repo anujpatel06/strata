@@ -1,0 +1,60 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:strata:sdui:v1:node:Stack",
+  "title": "Stack",
+  "description": "Lays out nodes in a column with a token gap. The schema's own layout node.",
+  "x-strata": {
+    "node": "Stack",
+    "component": null,
+    "export": null,
+    "maturity": "alpha",
+    "schemaVersion": "1.0.0",
+    "source": "sdui"
+  },
+  "type": "object",
+  "required": [
+    "type"
+  ],
+  "properties": {
+    "type": {
+      "const": "Stack"
+    },
+    "id": {
+      "$ref": "urn:strata:sdui:v1:defs#/$defs/NodeId"
+    },
+    "props": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "gap": {
+          "description": "Space between items: a space token, or section-gap (which follows the client's density).",
+          "$ref": "urn:strata:sdui:v1:defs#/$defs/Gap",
+          "default": "space-4"
+        },
+        "align": {
+          "description": "Cross-axis alignment. stretch makes items full width.",
+          "type": "string",
+          "enum": [
+            "stretch",
+            "start",
+            "center",
+            "end"
+          ],
+          "default": "stretch"
+        }
+      }
+    },
+    "children": {
+      "description": "On the wire: an array of nodes, in order.",
+      "type": "array",
+      "items": {
+        "$ref": "urn:strata:sdui:v1:screen#/$defs/Node"
+      }
+    },
+    "fallback": {
+      "description": "Rendered instead of this node by a client that doesn't know its type. Must be a node that client knows.",
+      "$ref": "urn:strata:sdui:v1:screen#/$defs/Node"
+    }
+  },
+  "additionalProperties": false
+}

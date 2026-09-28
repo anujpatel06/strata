@@ -1,0 +1,94 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:strata:sdui:v1:node:Eyebrow",
+  "title": "Eyebrow",
+  "description": "A small uppercase kicker label with wide tracking that sits above a heading, figure or section.",
+  "x-strata": {
+    "node": "Eyebrow",
+    "component": "eyebrow",
+    "export": "Eyebrow",
+    "maturity": "beta",
+    "schemaVersion": "1.0.0",
+    "source": "meta"
+  },
+  "type": "object",
+  "required": [
+    "type",
+    "children"
+  ],
+  "properties": {
+    "type": {
+      "const": "Eyebrow"
+    },
+    "id": {
+      "$ref": "urn:strata:sdui:v1:defs#/$defs/NodeId"
+    },
+    "props": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "lead": {
+          "description": "A short hairline dash before the text. Ignored when `icon` is set.",
+          "type": "string",
+          "enum": [
+            "rule"
+          ]
+        },
+        "icon": {
+          "description": "Decorative icon before the text, about 1.25× the text size. Hidden from assistive tech.",
+          "$ref": "urn:strata:sdui:v1:defs#/$defs/IconRef"
+        },
+        "tone": {
+          "description": "Colours only the rule or icon (text.brand, accent.text or the feedback fg role). The label stays text.subtle.",
+          "type": "string",
+          "enum": [
+            "neutral",
+            "brand",
+            "accent",
+            "info",
+            "success",
+            "warning",
+            "danger"
+          ],
+          "default": "neutral"
+        },
+        "as": {
+          "description": "p above a heading or section; span inside other text or flex rows.",
+          "type": "string",
+          "enum": [
+            "p",
+            "span"
+          ],
+          "default": "p"
+        }
+      }
+    },
+    "children": {
+      "description": "Two to four words. Write it in sentence case; CSS sets the capitals. On the wire: a string.",
+      "type": "string"
+    },
+    "fallback": {
+      "description": "Rendered instead of this node by a client that doesn't know its type. Must be a node that client knows.",
+      "$ref": "urn:strata:sdui:v1:screen#/$defs/Node"
+    }
+  },
+  "additionalProperties": false,
+  "allOf": [
+    {
+      "x-strata-rule": {
+        "id": "eyebrow-text",
+        "message": "An Eyebrow needs text in children."
+      },
+      "type": "object",
+      "required": [
+        "children"
+      ],
+      "properties": {
+        "children": {
+          "type": "string",
+          "pattern": "\\S"
+        }
+      }
+    }
+  ]
+}

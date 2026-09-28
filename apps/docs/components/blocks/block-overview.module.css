@@ -21,11 +21,11 @@
   min-inline-size: 0;
 }
 
-.card {
+.card.card {
   flex: 1;
 }
 
-.eyebrow {
+.eyebrow.eyebrow {
   display: flex;
   flex-wrap: wrap;
   gap: var(--strata-space-2);
@@ -38,7 +38,7 @@
 }
 
 /* The block descriptions are written for the viewer below; the card shows the first three lines. */
-.description {
+.description.description {
   display: -webkit-box;
   overflow: hidden;
   -webkit-box-orient: vertical;
@@ -46,8 +46,13 @@
   line-clamp: 3;
 }
 
-.view {
+.view.view {
   margin-inline-start: auto;
+}
+
+/* The draft-copy note under the description: a chip, not a full-width bar. */
+.copyNote {
+  justify-self: start;
 }
 
 /*
@@ -86,13 +91,13 @@
   transform-origin: top right;
 }
 
-.scope {
+.scope.scope {
   display: flex;
   flex-direction: column;
   block-size: 100%;
   overflow: hidden;
 }
 
-.scope > * {
+.scope.scope > * {
   flex: 1 0 auto;
 }

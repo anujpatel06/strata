@@ -129,10 +129,10 @@
   border-block-start: var(--docs-hairline);
 }
 
-.callout {
+.callout.callout {
   max-inline-size: 100%;
 }
-.callout :is(p, .p) {
+.callout.callout :is(p, .p) {
   font-size: inherit;
 }
 

@@ -40,11 +40,11 @@
 
 /* ---- Live regions + picker ---- */
 
-.live {
+.live.live {
   box-sizing: border-box;
   background: transparent;
 }
-.live[data-surface='default'] {
+.live.live[data-surface='default'] {
   background: var(--strata-color-surface-default);
 }
 
@@ -59,10 +59,10 @@
   font-size: var(--strata-font-size-sm);
   letter-spacing: var(--strata-font-tracking-sm);
 }
-.pickerGroup {
+.pickerGroup.pickerGroup {
   flex-wrap: wrap;
 }
-.pickerToggle {
+.pickerToggle.pickerToggle {
   gap: var(--strata-space-2);
 }
 .pickerDot {
@@ -763,7 +763,7 @@
   background: var(--strata-color-feedback-danger-solid);
 }
 
-.miniCard {
+.miniCard.miniCard {
   inline-size: 100%;
   max-inline-size: calc(var(--strata-space-16) * 4);
 }
@@ -785,7 +785,7 @@
   letter-spacing: var(--strata-font-tracking-md);
 }
 
-.field {
+.field.field {
   inline-size: 100%;
   max-inline-size: calc(var(--strata-space-16) * 4);
 }

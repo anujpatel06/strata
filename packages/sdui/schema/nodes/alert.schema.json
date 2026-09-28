@@ -1,0 +1,149 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:strata:sdui:v1:node:Alert",
+  "title": "Alert",
+  "description": "An inline message about the page or a section of it, in one of five tones.",
+  "x-strata": {
+    "node": "Alert",
+    "component": "alert",
+    "export": "Alert",
+    "maturity": "beta",
+    "schemaVersion": "1.0.0",
+    "source": "meta"
+  },
+  "type": "object",
+  "required": [
+    "type"
+  ],
+  "properties": {
+    "type": {
+      "const": "Alert"
+    },
+    "id": {
+      "$ref": "urn:strata:sdui:v1:defs#/$defs/NodeId"
+    },
+    "props": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "tone": {
+          "description": "Sets the filled status shape and its colour. The surface is the same for every tone.",
+          "type": "string",
+          "enum": [
+            "neutral",
+            "info",
+            "success",
+            "warning",
+            "danger"
+          ],
+          "default": "neutral"
+        },
+        "title": {
+          "description": "Short summary shown in semibold above the body.",
+          "type": "string"
+        },
+        "icon": {
+          "description": "Replaces the filled status shape; it takes the tone colour (feedback.<tone>.fg). `false` shows no icon.",
+          "anyOf": [
+            {
+              "$ref": "urn:strata:sdui:v1:defs#/$defs/IconRef"
+            },
+            {
+              "const": false
+            }
+          ],
+          "x-strata-message": "must be { \"icon\": \"<name>\" } or false (no icon)."
+        },
+        "live": {
+          "description": "Announce the alert when it appears: `true`/'assertive' → role=\"alert\", 'polite' → role=\"status\". Leave unset for alerts present on page load.",
+          "enum": [
+            true,
+            false,
+            "assertive",
+            "polite"
+          ]
+        }
+      }
+    },
+    "children": {
+      "description": "The message body, in text.subtle. Links inside are underlined. On the wire: a string.",
+      "type": "string"
+    },
+    "slots": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "action": {
+          "description": "One small Button or a link. It sits at the inline end and wraps under the text when the alert is narrow. Match its weight to the tone: `<Button size=\"sm\" variant=\"contrast\">` for danger and warning, `variant=\"outline\"` otherwise.",
+          "type": "object",
+          "required": [
+            "type"
+          ],
+          "properties": {
+            "type": {
+              "type": "string"
+            }
+          },
+          "discriminator": {
+            "propertyName": "type"
+          },
+          "oneOf": [
+            {
+              "$ref": "urn:strata:sdui:v1:node:Button"
+            },
+            {
+              "$ref": "urn:strata:sdui:v1:node:Link"
+            }
+          ]
+        }
+      }
+    },
+    "fallback": {
+      "description": "Rendered instead of this node by a client that doesn't know its type. Must be a node that client knows.",
+      "$ref": "urn:strata:sdui:v1:screen#/$defs/Node"
+    }
+  },
+  "additionalProperties": false,
+  "allOf": [
+    {
+      "x-strata-rule": {
+        "id": "alert-text",
+        "message": "An Alert needs props.title or text in children: the tone colour and icon alone say nothing."
+      },
+      "anyOf": [
+        {
+          "type": "object",
+          "required": [
+            "props"
+          ],
+          "properties": {
+            "props": {
+              "type": "object",
+              "required": [
+                "title"
+              ],
+              "properties": {
+                "title": {
+                  "type": "string",
+                  "pattern": "\\S"
+                }
+              }
+            }
+          }
+        },
+        {
+          "type": "object",
+          "required": [
+            "children"
+          ],
+          "properties": {
+            "children": {
+              "type": "string",
+              "pattern": "\\S"
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

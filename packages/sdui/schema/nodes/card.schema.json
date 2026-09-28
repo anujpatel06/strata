@@ -1,0 +1,88 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:strata:sdui:v1:node:Card",
+  "title": "Card",
+  "description": "A surface that groups related content and actions.",
+  "x-strata": {
+    "node": "Card",
+    "component": "card",
+    "export": "Card",
+    "maturity": "beta",
+    "schemaVersion": "1.0.0",
+    "source": "meta"
+  },
+  "type": "object",
+  "required": [
+    "type"
+  ],
+  "properties": {
+    "type": {
+      "const": "Card"
+    },
+    "id": {
+      "$ref": "urn:strata:sdui:v1:defs#/$defs/NodeId"
+    },
+    "props": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "variant": {
+          "description": "default = raised surface, hairline edge and soft shadow, plus the sheen (a diagonal band of light) and the rim light in dark; outline = hairline edge only; ghost = no chrome, same spacing; feature = a promo/hero card with a deep brand glow from the top-start corner, the rim light and the brand halo (one per view). Its glow is capped so text.default, text.subtle and text.brand stay ≥ 4.5:1 (proved in test/card.test.tsx). feature adapts to the scheme: in light it's the raised shadow and a very faint brand gradient; in dark, a deep gradient and the brand halo. showcase = a case-study card: a quiet solid face (surface.raised in light with the raised shadow; surface.sunken in dark), 1.6× the container radius (capped at space-10), a glossy rim brightest along the top, and a CardMedia on top. Its text (text.default, text.subtle, text.brand) is proved on the face and the sheen for tenants and 1,000 fuzz brands (test/card.test.tsx). Parts inside get a concentric radius. With interactive it lifts 2px.",
+          "type": "string",
+          "enum": [
+            "default",
+            "outline",
+            "ghost",
+            "feature",
+            "showcase"
+          ],
+          "default": "default"
+        },
+        "rim": {
+          "description": "Rim light: the 1px edge is brighter at the top-left and fades, like light catching glass. Built into default cards in dark (the surface recipe); rim adds it in light and to outline and ghost cards. Always on for variant=\"feature\".",
+          "type": "boolean",
+          "default": false
+        },
+        "stars": {
+          "description": "A faint decorative star field (CSS dots in a pseudo-element, invisible to assistive tech). Only drawn on variant=\"feature\".",
+          "type": "boolean",
+          "default": false
+        }
+      }
+    },
+    "children": {
+      "description": "On the wire: an array of nodes, in order. Only CardHeader, CardContent, CardFooter.",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "type"
+        ],
+        "properties": {
+          "type": {
+            "type": "string"
+          }
+        },
+        "discriminator": {
+          "propertyName": "type"
+        },
+        "oneOf": [
+          {
+            "$ref": "urn:strata:sdui:v1:node:CardHeader"
+          },
+          {
+            "$ref": "urn:strata:sdui:v1:node:CardContent"
+          },
+          {
+            "$ref": "urn:strata:sdui:v1:node:CardFooter"
+          }
+        ]
+      }
+    },
+    "fallback": {
+      "description": "Rendered instead of this node by a client that doesn't know its type. Must be a node that client knows.",
+      "$ref": "urn:strata:sdui:v1:screen#/$defs/Node"
+    }
+  },
+  "additionalProperties": false
+}

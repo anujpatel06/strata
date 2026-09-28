@@ -11,17 +11,31 @@
  *   <id>/figma/*.tokens.json    Figma-variables import: Brand.<Name>, Semantic.{Light,Dark}, Density.*, Shape.<Name>, Type.<Name>
  *   <id>/figma-starter/*.tokens.json  the same for Figma Starter (one mode per collection): "<Name> · Light|Dark|Size|Size <other>".Value
  *   <id>/contrast-report.json   every contrast check + every solver adjustment + brand fidelity
+ *   <id>/android/StrataTokens.kt     Jetpack Compose tokens (package com.strata.tokens); see README-native.md
+ *   <id>/ios/StrataTokens.swift      SwiftUI tokens; see README-native.md
  *
  * Options: --tenants <dir> (default <repo>/tenants), --out <dir> (default packages/tokens/dist).
  * Exits 1 if any contrast check fails, a brand.json is invalid, the DTCG token count
  * disagrees with the engine's summary, or the Figma Semantic files differ between tenants.
+ * Also exits 1 if a colour read back out of a written Kotlin or Swift file differs from the theme,
+ * or if any contrast pair fails on the colours read back (ADR-019: re-checked, not assumed).
  */
 import { existsSync, mkdirSync, readFileSync, readdirSync, rmSync, writeFileSync } from 'node:fs';
 import { dirname, join, relative, resolve } from 'node:path';
 import { performance } from 'node:perf_hooks';
 import { fileURLToPath } from 'node:url';
-import { brandFidelity, generateTheme, toCSS, toDTCG, toFigmaFiles } from '@strata/theme-engine';
-import type { BrandInput, Theme } from '@strata/theme-engine';
+import {
+  brandFidelity,
+  buildNativeModel,
+  generateTheme,
+  toCompose,
+  toCSS,
+  toDTCG,
+  toFigmaFiles,
+  toSwiftUI,
+  verifyNativeExport,
+} from '@strata/theme-engine';
+import type { BrandInput, NativeExportCheck, Theme } from '@strata/theme-engine';
 
 const here = dirname(fileURLToPath(import.meta.url));
 const repoRoot = resolve(here, '../../..');
@@ -54,6 +68,8 @@ interface Built {
   tokens: number;
   /** Semantic.*.tokens.json content minus $description — must match across tenants (one shared Figma collection). */
   semantic: string;
+  /** The contrast re-check on the colours read back out of the written Kotlin and Swift files. */
+  native: NativeExportCheck[];
 }
 
 const withoutDescriptions = (v: unknown): unknown =>
@@ -106,7 +122,17 @@ function buildTenant(id: string): Built {
       adjustments: theme.adjustments,
     }),
   );
-  return { id, theme, tokens: countLeaves(dtcg), semantic };
+  // Native tokens: write, then read the colours back out of the files as written and re-check them.
+  const model = buildNativeModel(theme);
+  const kotlinPath = join(out, 'android', 'StrataTokens.kt');
+  const swiftPath = join(out, 'ios', 'StrataTokens.swift');
+  write(kotlinPath, toCompose(theme, {}, model));
+  write(swiftPath, toSwiftUI(theme, model));
+  const native = [
+    verifyNativeExport(theme, readFileSync(kotlinPath, 'utf8'), 'compose', model),
+    verifyNativeExport(theme, readFileSync(swiftPath, 'utf8'), 'swiftui', model),
+  ];
+  return { id, theme, tokens: countLeaves(dtcg), semantic, native };
 }
 
 function table(rows: string[][]): string {
@@ -148,10 +174,16 @@ function main(): number {
     json({ tenants: built.map((b) => ({ id: b.id, name: b.theme.input.name, summary: b.theme.summary })) }),
   );
 
-  const rows = [['tenant', 'checks passed', 'adjustments', 'tokens', 'ms']];
-  for (const { id, theme, tokens } of built) {
+  const rows = [['tenant', 'checks passed', 'adjustments', 'tokens', 'native checks passed', 'ms']];
+  for (const { id, theme, tokens, native } of built) {
     const s = theme.summary;
-    rows.push([id, `${s.passed}/${s.checks}`, String(s.adjustments), String(tokens), s.generationMs.toFixed(1)]);
+    const nativeChecks = native.flatMap((n) => n.checks);
+    const nativeLabel = `${nativeChecks.filter((c) => c.pass).length}/${nativeChecks.length}`;
+    rows.push([id, `${s.passed}/${s.checks}`, String(s.adjustments), String(tokens), nativeLabel, s.generationMs.toFixed(1)]);
+    for (const n of native) {
+      for (const p of n.problems) errors.push(`${id}: ${p}`);
+      if (n.checks.length !== s.checks) errors.push(`${id}: ${n.platform} re-check ran ${n.checks.length} pairs, the engine ran ${s.checks}`);
+    }
     const failed = theme.checks.filter((c) => !c.pass);
     for (const c of failed) {
       errors.push(`${id}: ${c.scheme} ${c.fg} on ${c.bg} = ${c.ratio.toFixed(2)}:1 (needs ${c.required}:1)`);

@@ -15,6 +15,7 @@ import {
 import { TYPE_PAIRS, type Density, type NeutralTemperature, type Shape, type TypePairId } from '@strata/theme-engine';
 import { useEffect, useId, useRef, type ReactNode } from 'react';
 import type { Key, Selection } from 'react-aria-components';
+import { DraftCopyNote, isDraftCopy } from '@/components/page/draft-copy-note';
 import { ColorControl } from './color-control';
 import { DensityGlyph, ShapeGlyph } from './glyphs';
 import { findPreset, isTypePairId, oneOf, DENSITIES, NEUTRALS, SHAPES } from './state';
@@ -93,6 +94,9 @@ export function ControlsPanel() {
     if (brand.accent) lastAccent.current = brand.accent;
   }, [brand.accent]);
   const accentOn = brand.accent !== undefined;
+  const draftNotes = [
+    ...new Map(presets.map((p) => p.copyReview).filter(isDraftCopy).map((r) => [r.note, r] as const)).values(),
+  ];
 
   const pair = TYPE_PAIRS[brand.typePair] ?? TYPE_PAIRS.precise;
   const [, pairFonts] = splitPairLabel(pair.label);
@@ -148,6 +152,15 @@ export function ControlsPanel() {
           );
         })}
       </RadioGroup>
+      {/* A preset card shows its tenant's industry in the tenant's own words; any still in draft say so here, under
+          the cards, in the panel's voice. One note per distinct note text. */}
+      {draftNotes.length > 0 && (
+        <div className={styles.copyNotes}>
+          {draftNotes.map((review) => (
+            <DraftCopyNote key={review.note} review={review} />
+          ))}
+        </div>
+      )}
 
       <ColorControl label="Primary colour" value={brand.primary} onChange={(hex) => dispatch({ type: 'setPrimary', hex })} />
 

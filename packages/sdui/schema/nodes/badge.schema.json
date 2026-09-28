@@ -1,0 +1,102 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:strata:sdui:v1:node:Badge",
+  "title": "Badge",
+  "description": "A short label for a status, category or count.",
+  "x-strata": {
+    "node": "Badge",
+    "component": "badge",
+    "export": "Badge",
+    "maturity": "beta",
+    "schemaVersion": "1.0.0",
+    "source": "meta"
+  },
+  "type": "object",
+  "required": [
+    "type",
+    "children"
+  ],
+  "properties": {
+    "type": {
+      "const": "Badge"
+    },
+    "id": {
+      "$ref": "urn:strata:sdui:v1:defs#/$defs/NodeId"
+    },
+    "props": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "tone": {
+          "description": "Colour. `brand` uses the primary action colours.",
+          "type": "string",
+          "enum": [
+            "neutral",
+            "info",
+            "success",
+            "warning",
+            "danger",
+            "brand"
+          ],
+          "default": "neutral"
+        },
+        "variant": {
+          "description": "soft = quiet pill with a tinted fill (neutral adds a faint hairline edge so a sunken fill never reads as a hole), solid = strong fill, outline = a hairline edge only, status = no chip: a small tone dot plus the label in text.default (text.subtle for neutral), for tables and lists.",
+          "type": "string",
+          "enum": [
+            "soft",
+            "solid",
+            "outline",
+            "status"
+          ],
+          "default": "soft"
+        },
+        "size": {
+          "description": "md is 24px tall, sm is 20px.",
+          "type": "string",
+          "enum": [
+            "sm",
+            "md"
+          ],
+          "default": "md"
+        },
+        "icon": {
+          "description": "Leading icon, sized to the text. Decorative.",
+          "$ref": "urn:strata:sdui:v1:defs#/$defs/IconRef"
+        },
+        "dot": {
+          "description": "Shows a small status dot before the label, centred on the text's x-height. Always on for variant=\"status\".",
+          "type": "boolean",
+          "default": false
+        }
+      }
+    },
+    "children": {
+      "description": "The label: one or two words, or a number. On the wire: a string.",
+      "type": "string"
+    },
+    "fallback": {
+      "description": "Rendered instead of this node by a client that doesn't know its type. Must be a node that client knows.",
+      "$ref": "urn:strata:sdui:v1:screen#/$defs/Node"
+    }
+  },
+  "additionalProperties": false,
+  "allOf": [
+    {
+      "x-strata-rule": {
+        "id": "badge-text",
+        "message": "A Badge needs text in children: status is never shown by colour alone."
+      },
+      "type": "object",
+      "required": [
+        "children"
+      ],
+      "properties": {
+        "children": {
+          "type": "string",
+          "pattern": "\\S"
+        }
+      }
+    }
+  ]
+}

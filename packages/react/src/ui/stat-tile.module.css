@@ -203,6 +203,26 @@
   scale: -1 1;
 }
 
+/*
+ * Bad news: a filled alert mark in place of the trend arrow, so good and bad differ in shape, not only in colour
+ * (WCAG 1.4.1). The disc is the pill's text colour (feedback.danger.fg) and the "!" is knocked out to the pill's own
+ * face (feedback.danger.bg), the pair the badge's text already sits on. test/stat-tile.test.tsx proves disc on face
+ * ≥ 3:1 and glyph on disc ≥ 4.5:1 for every tenant and the 1,000 fuzz brands (measured 2026-09-28: 6.18:1 both).
+ */
+.delta[data-tone='danger'] {
+  --strata-icon-on: var(--strata-color-feedback-danger-bg);
+}
+
+/* The judgement in words for screen readers ("better" / "worse"); the mark and colour carry it visually. */
+.srOnly {
+  position: absolute;
+  inline-size: 1px;
+  block-size: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
 /* ---- sparkline --------------------------------------------------------- */
 
 .spark {

@@ -1,0 +1,130 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:strata:sdui:v1:screen",
+  "title": "Strata screen",
+  "description": "A screen sent from a server and drawn with Strata components. It has no theme, tenant, scheme or density: those belong to the client that renders it.",
+  "x-strata": {
+    "schemaVersion": "1.0.0",
+    "source": "sdui"
+  },
+  "type": "object",
+  "required": [
+    "schemaVersion",
+    "screen",
+    "root"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "description": "The schema version the document was written for. semver; this schema accepts major 1.",
+      "type": "string",
+      "pattern": "^1\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)$",
+      "x-strata-message": "must be a 1.x.y version. A client supports one major; a document for another major is shown as the screen fallback."
+    },
+    "screen": {
+      "type": "object",
+      "required": [
+        "id",
+        "title"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "urn:strata:sdui:v1:defs#/$defs/NodeId"
+        },
+        "title": {
+          "description": "The screen's name, for the host app's title bar or document title. The renderer doesn't draw it.",
+          "type": "string",
+          "pattern": "\\S"
+        },
+        "locale": {
+          "description": "The language the copy is written in (BCP 47), set as lang on the screen. Formatting and direction still follow the client.",
+          "type": "string",
+          "pattern": "^[a-z]{2,3}(-[A-Za-z0-9]{2,8})*$"
+        }
+      },
+      "additionalProperties": false
+    },
+    "root": {
+      "$ref": "#/$defs/Node"
+    }
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "Node": {
+      "description": "Any node that can stand on its own. Card parts only go inside a Card.",
+      "type": "object",
+      "required": [
+        "type"
+      ],
+      "properties": {
+        "type": {
+          "type": "string"
+        }
+      },
+      "discriminator": {
+        "propertyName": "type"
+      },
+      "oneOf": [
+        {
+          "$ref": "urn:strata:sdui:v1:node:Button"
+        },
+        {
+          "$ref": "urn:strata:sdui:v1:node:Link"
+        },
+        {
+          "$ref": "urn:strata:sdui:v1:node:Badge"
+        },
+        {
+          "$ref": "urn:strata:sdui:v1:node:Tag"
+        },
+        {
+          "$ref": "urn:strata:sdui:v1:node:Alert"
+        },
+        {
+          "$ref": "urn:strata:sdui:v1:node:Card"
+        },
+        {
+          "$ref": "urn:strata:sdui:v1:node:StatTile"
+        },
+        {
+          "$ref": "urn:strata:sdui:v1:node:StatTileGroup"
+        },
+        {
+          "$ref": "urn:strata:sdui:v1:node:Avatar"
+        },
+        {
+          "$ref": "urn:strata:sdui:v1:node:Separator"
+        },
+        {
+          "$ref": "urn:strata:sdui:v1:node:ProgressBar"
+        },
+        {
+          "$ref": "urn:strata:sdui:v1:node:Meter"
+        },
+        {
+          "$ref": "urn:strata:sdui:v1:node:EmptyState"
+        },
+        {
+          "$ref": "urn:strata:sdui:v1:node:Eyebrow"
+        },
+        {
+          "$ref": "urn:strata:sdui:v1:node:Amount"
+        },
+        {
+          "$ref": "urn:strata:sdui:v1:node:IconTile"
+        },
+        {
+          "$ref": "urn:strata:sdui:v1:node:Stack"
+        },
+        {
+          "$ref": "urn:strata:sdui:v1:node:Inline"
+        },
+        {
+          "$ref": "urn:strata:sdui:v1:node:Text"
+        },
+        {
+          "$ref": "urn:strata:sdui:v1:node:Heading"
+        }
+      ]
+    }
+  }
+}

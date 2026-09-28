@@ -2,7 +2,7 @@
 
 A multi-brand design system that humans and AI agents build with.
 
-53 React Aria components, its own icon set and a docs site with live previews, all themed by an engine that turns six brand inputs into a light and dark theme passing WCAG 2.2 AA.
+53 React Aria components, its own icon set, a server-driven UI schema and a docs site with live previews, all themed by an engine that turns six brand inputs into a light and dark theme passing WCAG 2.2 AA.
 
 ![Strata docs home](docs/screenshots/v0.2/home.png)
 
@@ -25,7 +25,7 @@ Phase 1:
 
 - **Brand Generator** — 6 inputs (primary, accent, neutral temperature, shape, type pair, density) → full theme, live preview, export. Runs in the browser.
 - **OKLCH theme engine + contrast solver** — 12-step ramps, brand hex kept exact, every failing pair fixed and explained in plain English. Zero runtime dependencies.
-- **Five tenants** — Vela, Harbor, Qamar (Arabic, right to left), Care and the house theme the site uses. A tenant is one `brand.json` + one `content.json`.
+- **Six tenants** — Vela, Harbor, Qamar (Arabic, right to left), Care, Haat (Hindi; its copy is a draft until a Hindi reader reviews it) and the house theme the site uses. A tenant is one `brand.json` + one `content.json`.
 - **Exports** — CSS variables, DTCG 2025.10 JSON, Figma-variables JSON (Brand / Scheme / Density collections).
 
 ## Numbers
@@ -41,9 +41,11 @@ Every number comes from a script. Run the command to reproduce it.
 | Solver adjustments per brand | median 4, max 7 | `pnpm test:themes` |
 | Components / blocks | 53 / 7 | `pnpm check:meta`; blocks listed in `apps/docs/blocks/blocks.json` |
 | Component maturity | 18 alpha · 35 beta · 0 stable | `pnpm check:meta` |
-| Tests passing | 443 components · 224 engine · 245 icons · 143 MCP server · 74 auditor · 8 codemods | `pnpm test` |
-| Docs routes swept with axe (light + dark) | 105 × 2, 0 violations | `node scripts/axe-sweep.mjs` (with the built docs site running) |
-| Tenants rendering from one codebase | 5 (one Arabic RTL), including the house theme | `pnpm tokens` |
+| Tests passing | 468 components · 301 engine · 245 icons · 193 MCP server · 150 schema · 74 auditor · 8 codemods | `pnpm test` |
+| Docs routes swept with axe (light + dark) | 113 × 2, 0 violations, 0 page errors | `node scripts/axe-sweep.mjs` (with the built docs site running) |
+| Tenants rendering from one codebase | 6: Latin, Arabic (right to left) and Hindi | `pnpm tokens` |
+| Contrast re-checked on exported native tokens | 236 / 236 per tenant | `pnpm tokens` |
+| Devanagari clipping, Haat's type pair | 0 in 5,616 measured cases | `node scripts/check-script-clipping.mjs --pairs=bilingual-devanagari` |
 | Deprecations shipped with a codemod | 1 | `GOVERNANCE.md` §5; `pnpm --filter @strata/codemods test` |
 | Drift score of the docs app | 98.8, with 60 findings | `pnpm drift apps/docs` |
 | Brand colour kept exactly (primary, 1,000 random brands) | 89.2% light, 80.0% dark | `pnpm test:themes` |
@@ -77,6 +79,7 @@ packages/tokens/         built tokens for every tenant: CSS, DTCG, Figma
 packages/codemods/       one codemod per breaking change
 packages/audit/          drift auditor: finds off-system code and suggests the fix
 packages/mcp/            MCP server for AI coding agents, read-only
+packages/sdui/           server-driven UI: schema per component, validator, web renderer
 evals/                   agent eval: prompts, harness, runs and results
 apps/docs/               docs site (Next.js): components, blocks, themes, governance
 apps/generator/          Brand Generator (Vite + React)
@@ -88,7 +91,7 @@ docs/log.md              session log: changed / decided / next
 GOVERNANCE.md            who decides, how a change gets in, deprecation policy
 ```
 
-Coming: server-driven UI schema, native tokens, Hindi tenant (Phase 5a) · npm release and `/story` (Phase 6).
+Coming: npm release and `/story` (Phase 6).
 
 ## Roadmap
 
@@ -97,8 +100,8 @@ Coming: server-driven UI schema, native tokens, Hindi tenant (Phase 5a) · npm r
 - [x] **2 · Components** — components on React Aria, meta, accessibility, RTL, density
 - [x] **3 · Docs site and blocks** — the docs site and its blocks stand in for the reference product and Storybook the brief planned
 - [x] **4 · Governance** — GOVERNANCE, RFC flow, Changesets, one real deprecation + codemod
-- [ ] **5 · MCP + audit + eval** — MCP server, drift auditor, CI gate, per-model agent eval *(built and run, waiting for Anuj's review)*
-- [ ] **5a · Mobile reach** — server-driven UI schema, native token export, Hindi tenant
+- [x] **5 · MCP + audit + eval** — MCP server, drift auditor, CI gate, per-model agent eval
+- [ ] **5a · Mobile reach** — server-driven UI schema, native token export, Hindi tenant *(built, waiting for Anuj's review; no native components, and the Kotlin files haven't been compiled)*
 - [ ] **6 · Publish** — npm, docs site, `/story` page
 
 ## Principles

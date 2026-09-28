@@ -11,13 +11,13 @@
  *                                   identical for every tenant, so switching the Brand mode re-skins
  *   Density   Comfortable / Compact
  *   Shape     one mode per tenant   radius
- *   Type      one mode per tenant   font family / size / weight
+ *   Type      one mode per tenant   font family / size / line height / weight
  *
  * That layout needs a paid Figma plan: Starter (free) allows one mode per collection. So
  * toFigmaFiles(theme, { modes: 'single' }) emits a Starter layout instead (ADR-010): every collection has
  * exactly one mode, "Value", and each combination is its own collection —
  *   "<Brand> · Light" / "<Brand> · Dark"   color/<role path> (resolved hex, no aliases) + ramp/<ramp>/<step>
- *   "<Brand> · Size"                       radius + font family/size/weight + the tenant's default density
+ *   "<Brand> · Size"                       radius + font family/size/line height/weight + the tenant's default density
  *   "<Brand> · Size <other density>"       the other density only
  * No cross-collection aliases: an alias needs a matching mode on the other side, and with one mode per
  * collection there is nothing to switch, so values are resolved hex. Variable names are the same in every
@@ -30,6 +30,7 @@ import {
   FONT_ROLES,
   FONT_SIZE_KEYS,
   FONT_WEIGHT_KEYS,
+  LINE_HEIGHT_KEYS,
   RADIUS_KEYS,
   RAMP_NAMES,
   rolePath,
@@ -53,6 +54,18 @@ const FIGMA_COLLECTIONS_NOTE =
 
 const color = (value: string): FigmaColor => ({ $type: 'color', $value: value });
 const num = (n: number): FigmaToken => ({ $type: 'number', $value: n });
+
+/**
+ * Line heights are unitless multipliers of the font size, as in CSS. They follow the type pair: a script's pair
+ * (Devanagari, ADR-020) carries its own. In Figma, set line height to value × 100 %.
+ */
+const LINE_HEIGHT_NOTE = 'Line heights are unitless multipliers of the font size (CSS line-height); in Figma use value × 100 %.';
+
+function lineHeightTokens(theme: Theme): Record<string, FigmaToken> {
+  const out: Record<string, FigmaToken> = {};
+  for (const k of LINE_HEIGHT_KEYS) out[k] = num(theme.foundations.lineHeight[k]);
+  return out;
+}
 
 /** "Brand.<Name>": raw ramps plus the role layer that aliases into them (or holds the solver's literal). */
 function brandFile(theme: Theme, name: string): FigmaFile {
@@ -151,8 +164,8 @@ export function toFigmaFiles(theme: Theme, options: FigmaExportOptions = {}): Re
     'Density.Comfortable.tokens.json': densityFile('comfortable', 'Comfortable'),
     'Density.Compact.tokens.json': densityFile('compact', 'Compact'),
     [`Type.${name}.tokens.json`]: {
-      $description: `Figma collection "Type", mode "${name}". ${theme.typePair.label}; sizes in px. Heading tracking ${theme.typePair.headingTracking}. ${FIGMA_COLLECTIONS_NOTE}`,
-      font: { family, size, weight },
+      $description: `Figma collection "Type", mode "${name}". ${theme.typePair.label}; sizes in px. Heading tracking ${theme.typePair.headingTracking}. ${LINE_HEIGHT_NOTE} ${FIGMA_COLLECTIONS_NOTE}`,
+      font: { family, size, lineHeight: lineHeightTokens(theme), weight },
     },
   };
 }
@@ -227,9 +240,9 @@ function toFigmaStarterFiles(theme: Theme): Record<string, Record<string, unknow
   out[starterFileName(sizeCollection)] = {
     $description:
       `Figma collection "${sizeCollection}", mode "${FIGMA_STARTER_MODE}". Radius in px (${theme.input.shape}); ${theme.typePair.label}, sizes in px, heading tracking ${theme.typePair.headingTracking}; ` +
-      `density/… is ${name}’s default density (${DENSITY_LABEL[base]}) — the other one is in "${otherCollection}". ${STARTER_NOTE}`,
+      `density/… is ${name}’s default density (${DENSITY_LABEL[base]}) — the other one is in "${otherCollection}". ${LINE_HEIGHT_NOTE} ${STARTER_NOTE}`,
     radius,
-    font: { family, size, weight },
+    font: { family, size, lineHeight: lineHeightTokens(theme), weight },
     density: densityTokens(base),
   };
   out[starterFileName(otherCollection)] = {

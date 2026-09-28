@@ -1,0 +1,71 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:strata:sdui:v1:node:CardHeader",
+  "title": "CardHeader",
+  "description": "The top of a Card: a title, an optional description and an optional CardAction at the inline end.",
+  "x-strata": {
+    "node": "CardHeader",
+    "component": "card",
+    "export": "CardHeader",
+    "maturity": "beta",
+    "schemaVersion": "1.0.0",
+    "source": "meta"
+  },
+  "type": "object",
+  "required": [
+    "type"
+  ],
+  "properties": {
+    "type": {
+      "const": "CardHeader"
+    },
+    "id": {
+      "$ref": "urn:strata:sdui:v1:defs#/$defs/NodeId"
+    },
+    "props": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "divider": {
+          "description": "Draws a hairline under the header.",
+          "type": "boolean",
+          "default": false
+        }
+      }
+    },
+    "children": {
+      "description": "On the wire: an array of nodes, in order. Only CardTitle, CardDescription, CardAction.",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "type"
+        ],
+        "properties": {
+          "type": {
+            "type": "string"
+          }
+        },
+        "discriminator": {
+          "propertyName": "type"
+        },
+        "oneOf": [
+          {
+            "$ref": "urn:strata:sdui:v1:node:CardTitle"
+          },
+          {
+            "$ref": "urn:strata:sdui:v1:node:CardDescription"
+          },
+          {
+            "$ref": "urn:strata:sdui:v1:node:CardAction"
+          }
+        ]
+      }
+    },
+    "fallback": {
+      "description": "Rendered instead of this node by a client that doesn't know its type. Must be a node that client knows.",
+      "$ref": "urn:strata:sdui:v1:screen#/$defs/Node"
+    }
+  },
+  "additionalProperties": false
+}

@@ -19,7 +19,8 @@ export type TypePairId =
   | 'bilingual-round'
   | 'bilingual-classic'
   | 'editorial'
-  | 'modern';
+  | 'modern'
+  | 'bilingual-devanagari';
 
 /** The ≤6 inputs a brand provides. A tenant's brand.json is exactly this shape. */
 export interface BrandInput {
@@ -207,6 +208,30 @@ export interface TypePair {
   italicFamilies?: string[];
   /** Variable families loaded with their optical-size axis range, e.g. { Fraunces: '9..144' }: display sizes get the display cut. */
   opticalSizeFamilies?: Record<string, string>;
+  /**
+   * Type tokens for a script whose marks don't fit the Latin values (ADR-020). Absent on Latin and Arabic pairs.
+   * The brand still has six inputs: the pair carries the script, and components read the same tokens.
+   */
+  script?: ScriptTypeTokens;
+}
+
+/**
+ * Per-script type tokens (ADR-020). They replace values in Foundations, so every exporter (CSS, DTCG, Figma) reads
+ * them from the same place. Each value is measured by scripts/check-script-clipping.mjs, not chosen by eye.
+ */
+export interface ScriptTypeTokens {
+  /** The script the pair is built for. */
+  name: 'devanagari';
+  /** Replaces Foundations.lineHeight: the smallest values at which no glyph's ink leaves its line box. */
+  lineHeight: Foundations['lineHeight'];
+  /** px. Steps of the type scale below this are raised to it, because smaller marks merge. */
+  minFontSize: number;
+  /**
+   * --strata-font-tracking-caps for this script. Devanagari has no case, and positive letter-spacing breaks the
+   * headline (shirorekha) that joins a word, so it is "0". The per-size tracking curve stays: it is 0 or negative,
+   * and measured negative values break no headline.
+   */
+  capsTracking: string;
 }
 
 export interface ThemeSummary {
@@ -240,7 +265,7 @@ export interface Theme {
  * Fonts:         --strata-font-heading | --strata-font-body | --strata-font-mono (stacks)
  *                --strata-font-heading-tracking
  * Type scale:    --strata-font-size-{xs,sm,md,lg,xl,2xl,3xl,4xl,5xl}  (px)
- * Tracking:      --strata-font-tracking-{xs,sm,md,lg,xl,2xl,3xl,4xl,5xl,caps}  (em; 0 for Arabic-capable pairs)
+ * Tracking:      --strata-font-tracking-{xs,sm,md,lg,xl,2xl,3xl,4xl,5xl,caps}  (em; 0 for Arabic-capable pairs; caps 0 for Devanagari)
  * Icons:         --strata-icon-stroke  (unitless SVG stroke width)
  *                --strata-line-height-{tight,snug,normal}         (unitless)
  *                --strata-font-weight-{regular,medium,semibold,bold}

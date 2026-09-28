@@ -6,6 +6,60 @@ Numbers only with the command that produced them. Design trade-offs get an ADR i
 
 ---
 
+## 2026-09-28 (Phase 5a) — server-driven UI, native tokens, Hindi tenant, and fixes from the eval
+
+**Changed**
+- `packages/sdui` (new): a JSON Schema per component generated from `meta.json`, `validateScreen`, and `StrataScreen`, a reference renderer for the web. 26 node types. New docs page, /docs/server-driven-ui, with a live demo.
+- `packages/theme-engine`: `toCompose` and `toSwiftUI`. The token build writes a Kotlin and a Swift file per tenant and re-checks every contrast pair on the exported values.
+- Tenant **Haat** (hi-IN), with a Devanagari type pair (Mukta) whose line heights and tracking were set by measuring for clipping. New `scripts/check-script-clipping.mjs`. The docs show "Hindi copy: draft" wherever Haat's copy appears.
+- `packages/mcp`: new tool `find_icon`; `get_component` returns `imports` and `typeNotes`. `AGENTS.md` gains an icon rule and a narrow-screen rule.
+- Components: ToggleButtonGroup wraps when it doesn't fit; `Key` is exported; StatTile marks bad news with a shape and a word for screen readers (ADR-028).
+- Docs CSS: 163 selectors that restyle a Strata component now outweigh it. New `scripts/check-override-weight.mjs`, in CI and `/verify` (ADR-026).
+- The schema validator named the wrong node for errors inside a slot called `action`. Fixed, with tests.
+
+**Decided**
+- Haat, reseller commerce, `#B5179E` and `#F48C06`; Anuj reviews the Hindi; native tokens from our own exporters — **Anuj**.
+- Subagents run on Opus 5.5 — **Anuj**.
+- ToggleButtonGroup wraps; `Key` exported; StatTile's bad-news mark; the renderer sets direction from the document's language; the schema rules in ADR-023 — **Anuj delegated the call** ("fix all of these, do what is correct"); Claude decided (ADR-023, ADR-028).
+- Mukta over Noto Sans Devanagari; per-script token values (ADR-024) — **Claude recommended, pending Anuj**.
+- The shape of the generated Kotlin and Swift files (ADR-025) — **Claude recommended, pending Anuj**.
+- Docs overrides are doubled and checked; cascade layers left for an RFC (ADR-026) — **Claude** (pending Anuj).
+- The schema stays at 1.0.0 after StatTile gained two props, because 1.0.0 was never released — **Claude**.
+
+**Found by measuring, not fixed**
+- Both Arabic type pairs (Qamar) clip at the normal line height, by up to 12px on vowelled text. Four Latin pairs clip descenders at the tight line height; Care's pair in 269 cases — `node scripts/check-script-clipping.mjs` (exits 1).
+- Nine components set `line-height: 1` and ignore the per-script token: tag, tabs, steps, person-chip, kbd, icon-tile, command, chip, calendar.
+- Avatar turns "रेखा यादव" into "रेया", and "रे" at avatar size reads like ₹.
+- The date field shows "dd / mm / yyyy" under hi-IN.
+- The browser's ellipsis can end on a half letter: "स्पोर्ट्…" in the activity table at 390px.
+- Tooltip stays mounted after keyboard focus moves on. Being fixed in a separate session.
+- Docs examples import `Key`, `Selection` and `useLocale` from `react-aria-components`, which a consumer doesn't have directly.
+- The homepage still says "three tenants", and the docs index doesn't list Haat.
+
+**A regression caught and fixed before commit**
+- Adding `@strata/sdui` to the docs changed the order of the site's stylesheets, and the Portfolio block grew from 1,440px to over 8,000px wide in every left-to-right tenant. Typecheck, 1,422 tests, the build and the drift gate all passed with it broken. A subagent's screenshot review found it.
+- After the fix, every block in four tenants at 1,440 and 390px was compared pixel by pixel with 9061227. Portfolio is identical. Two small differences remain and are kept: the dashboard's "View all" icon, and a 15px mark at the top of the request flow.
+
+**Results**
+- `pnpm typecheck`: clean, 11 packages.
+- `pnpm test`: 468 components · 301 engine · 245 icons · 193 MCP server · 150 schema · 74 auditor · 8 codemods, all passing.
+- `pnpm test:themes`: 118,000 / 118,000; the 1,000 brands are the same as before (the fuzz keeps its original eight type pairs).
+- `pnpm tokens`: 6 tenants, 118 / 118 each, and 236 / 236 on the exported native values.
+- Swift files: type-checked with `swiftc` 6.3.3 against the macOS SDK, not built for iOS. Kotlin files: **not compiled**; no Kotlin compiler is installed.
+- `node scripts/check-script-clipping.mjs --pairs=bilingual-devanagari`: no clipping in 5,616 cases.
+- `pnpm check:meta`: 53 / 53. `pnpm registry`: 73 items. `node scripts/check-override-weight.mjs`: 0.
+- `pnpm drift apps/docs --min-score 95`: passes, 98.8, 60 findings.
+- `pnpm --filter @strata/docs build`: 81 pages. `node scripts/check-ssr-tabs.mjs`: 0 of 80.
+- `STRATA_BASE_URL=http://localhost:3016 node scripts/axe-sweep.mjs`: 113 routes × light/dark, 0 violation nodes, 0 page errors.
+- Horizontal overflow, every block × 5 tenants at 1,440 and 390px: 0.
+- Dark-scheme brand fidelity, examined: of 1,000 brands, 108 get a slightly deeper fill so labels stay white as in light (median distance 3.0), and 92 dark brands are lightened so they don't vanish on a dark canvas. All 33 moves over 10 are in the second group; 26 of them are near-black brands. By design (ADR-006), not a fault.
+
+**Next**
+- Eval iteration 3: the `mcp` condition again with the fixed server, 50 runs, Sonnet 5.
+- Anuj: review the Hindi copy; look at the bad-news pill, the homepage chips and the two small block differences; decide Mukta, `useLocale`, and the clipping in the existing pairs.
+
+---
+
 ## 2026-09-28 (fix) — tooltips stayed on the page after keyboard focus moved on
 
 **Changed**

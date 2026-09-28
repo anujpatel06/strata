@@ -15,6 +15,7 @@ import {
   type Theme,
 } from '@strata/theme-engine';
 import { cache } from 'react';
+import { checkCopyReview } from '@/components/page/draft-copy-note';
 import { getHouseBrand, getTenants } from '@/lib/tenants';
 import type { BrandFact, ColorScheme, ColorTenant } from './types';
 
@@ -100,10 +101,18 @@ export const getColorTenants = cache((): ColorTenant[] => {
       name: t.name,
       description: `${product}${language}, ${t.dir === 'rtl' ? 'right to left' : 'left to right'}`,
       brand: t.brand,
+      // Only when the description shows the tenant's own words (its industry): those are what need a reviewer.
+      copyReview: product ? checkCopyReview(t.id, t.copyReview) : undefined,
     };
   });
-  list.push({ id: 'house', name: 'House', description: 'This site’s own brand, monochrome on purpose', brand: getHouseBrand() });
-  return list.map(({ id, name, description, brand }) => {
+  list.push({
+    id: 'house',
+    name: 'House',
+    description: 'This site’s own brand, monochrome on purpose',
+    brand: getHouseBrand(),
+    copyReview: undefined,
+  });
+  return list.map(({ id, name, description, brand, copyReview }) => {
     const theme = generateTheme(brand);
     return {
       id,
@@ -111,6 +120,7 @@ export const getColorTenants = cache((): ColorTenant[] => {
       description,
       facts: facts(brand, theme),
       schemes: [schemeData(theme, 'light'), schemeData(theme, 'dark')],
+      ...(copyReview ? { copyReview } : {}),
     };
   });
 });

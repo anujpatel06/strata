@@ -1,0 +1,192 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:strata:sdui:v1:node:Button",
+  "title": "Button",
+  "description": "Triggers an action, with variants for emphasis, a danger tone for destructive actions, three sizes plus icon-only, and a pending state.",
+  "x-strata": {
+    "node": "Button",
+    "component": "button",
+    "export": "Button",
+    "maturity": "beta",
+    "schemaVersion": "1.0.0",
+    "source": "meta"
+  },
+  "type": "object",
+  "required": [
+    "type",
+    "children",
+    "action"
+  ],
+  "properties": {
+    "type": {
+      "const": "Button"
+    },
+    "id": {
+      "$ref": "urn:strata:sdui:v1:defs#/$defs/NodeId"
+    },
+    "props": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "variant": {
+          "description": "Visual emphasis. Use one primary per view. contrast is the monochrome strong action (surface.inverse + text.inverse), for when brand colour should stay rare. For destructive actions set tone=\"danger\". 'danger' is deprecated: it renders as before and logs one warning in development.",
+          "type": "string",
+          "enum": [
+            "primary",
+            "secondary",
+            "outline",
+            "ghost",
+            "link",
+            "contrast"
+          ],
+          "default": "primary"
+        },
+        "tone": {
+          "description": "Feedback colour. danger marks a destructive action. It works with the primary (solid), outline and ghost variants and sets data-tone=\"danger\". secondary, link and contrast ignore it: they render as neutral, with one warning in development.",
+          "type": "string",
+          "enum": [
+            "neutral",
+            "danger"
+          ],
+          "default": "neutral"
+        },
+        "size": {
+          "description": "md is the density's control height; sm is 8px shorter, lg 16px taller (the hero size). Height and corner radius match a field (TextField, Select, SearchField, Combobox) of the same size: the corner is radius.field plus half a space step, scaled 0.8 for sm and 1.25 for lg (round brands stay pills). Inline padding is ~1.25 × half the height. icon is a square button of the size's height and requires aria-label.",
+          "type": "string",
+          "enum": [
+            "sm",
+            "md",
+            "lg",
+            "icon"
+          ],
+          "default": "md"
+        },
+        "isPending": {
+          "description": "Shows a spinner, sets aria-busy and aria-disabled, keeps focus and ignores presses. Width stays the same.",
+          "type": "boolean",
+          "default": false
+        },
+        "isDisabled": {
+          "description": "Disables the button.",
+          "type": "boolean",
+          "default": false
+        },
+        "ariaLabel": {
+          "description": "Accessible name. Required when size=\"icon\".",
+          "type": "string",
+          "pattern": "\\S"
+        }
+      }
+    },
+    "children": {
+      "description": "Label, optionally with Tabler icons (mark them aria-hidden). On the wire: a string, or an array of strings and { icon } references in reading order. Icons are decorative.",
+      "$ref": "urn:strata:sdui:v1:defs#/$defs/InlineContent"
+    },
+    "action": {
+      "description": "What happens on press. The renderer calls the host app's onAction with it.",
+      "$ref": "urn:strata:sdui:v1:defs#/$defs/Action"
+    },
+    "fallback": {
+      "description": "Rendered instead of this node by a client that doesn't know its type. Must be a node that client knows.",
+      "$ref": "urn:strata:sdui:v1:screen#/$defs/Node"
+    }
+  },
+  "additionalProperties": false,
+  "allOf": [
+    {
+      "x-strata-rule": {
+        "id": "button-name",
+        "message": "A Button whose children have no text (only an icon) needs props.ariaLabel, or screen readers announce an unnamed button."
+      },
+      "type": "object",
+      "if": {
+        "type": "object",
+        "properties": {
+          "children": {
+            "not": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "pattern": "\\S"
+                },
+                {
+                  "type": "array",
+                  "contains": {
+                    "type": "string",
+                    "pattern": "\\S"
+                  }
+                }
+              ]
+            }
+          }
+        }
+      },
+      "then": {
+        "type": "object",
+        "required": [
+          "props"
+        ],
+        "properties": {
+          "props": {
+            "type": "object",
+            "required": [
+              "ariaLabel"
+            ],
+            "properties": {
+              "ariaLabel": {
+                "type": "string",
+                "pattern": "\\S"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "x-strata-rule": {
+        "id": "button-icon-size-name",
+        "message": "A Button with size \"icon\" shows no text, so it needs props.ariaLabel."
+      },
+      "type": "object",
+      "if": {
+        "type": "object",
+        "required": [
+          "props"
+        ],
+        "properties": {
+          "props": {
+            "type": "object",
+            "required": [
+              "size"
+            ],
+            "properties": {
+              "size": {
+                "const": "icon"
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "type": "object",
+        "required": [
+          "props"
+        ],
+        "properties": {
+          "props": {
+            "type": "object",
+            "required": [
+              "ariaLabel"
+            ],
+            "properties": {
+              "ariaLabel": {
+                "type": "string",
+                "pattern": "\\S"
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

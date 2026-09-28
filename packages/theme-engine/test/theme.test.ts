@@ -224,8 +224,8 @@ describe('foundations', () => {
 });
 
 describe('type pairs', () => {
-  it('has eight pairs with fallbacks; Arabic-capable pairs use zero tracking', () => {
-    expect(Object.keys(TYPE_PAIRS)).toHaveLength(8);
+  it('has nine pairs with fallbacks; Arabic-capable pairs use zero tracking', () => {
+    expect(Object.keys(TYPE_PAIRS)).toHaveLength(9);
     for (const [id, p] of Object.entries(TYPE_PAIRS)) {
       expect(p.id).toBe(id);
       expect(p.heading).toMatch(/(sans-serif|serif)$/);

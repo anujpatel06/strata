@@ -62,5 +62,17 @@
       "Don't use a calendar for dates far from today, like a date of birth — type it in a DatePicker."
     ]
   },
+  "imports": [
+    {
+      "package": "@internationalized/date",
+      "names": [
+        "parseDate",
+        "today",
+        "getLocalTimeZone",
+        "type DateValue"
+      ],
+      "why": "value, defaultValue, minValue and maxValue take DateValue objects, not strings or Date: parseDate('2026-10-05'), today(getLocalTimeZone())."
+    }
+  ],
   "tokens": ["control-height", "space.1", "space.8", "radius.button", "space.3", "color.text.default", "font.body", "font.size.md", "line-height.normal", "space.2", "font.heading", "font.weight.semibold", "font.heading-tracking", "line-height.tight", "space.6", "color.border.default", "color.surface.default", "color.text.subtle", "shadow.raised", "color.border.strong", "color.surface.selected", "color.focus.ring", "color.text.disabled", "color.border.subtle", "font.size.sm", "font.weight.regular", "radius.pill", "color.action.primary.bg", "color.action.primary.fg", "font.weight.medium", "color.action.primary.hover", "color.feedback.danger.solid", "color.feedback.danger.onSolid", "color.feedback.danger.bg", "color.feedback.danger.fg", "line-height.snug", "motion.duration.fast", "motion.easing", "motion.duration.normal", "motion.easing-out", "motion.duration.spring", "motion.spring", "space.4"]
 }

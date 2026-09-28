@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { checkCopyReview } from '@/components/page/draft-copy-note';
 import { PageShell } from '@/components/page/page-shell';
 import { readState, toQuery, type ThemePreset } from '@/components/themes/state';
 import { ThemeStats } from '@/components/themes/theme-stats';
@@ -32,6 +33,7 @@ function getPresets(): ThemePreset[] {
     dir: t.dir,
     industry: t.product.industry || languageName(t.locale),
     industryLang: t.locale.split('-')[0] ?? 'en',
+    ...(t.product.industry && t.copyReview ? { copyReview: checkCopyReview(t.id, t.copyReview) } : {}),
   }));
   const house: ThemePreset = {
     id: HOUSE_ID,

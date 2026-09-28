@@ -49,11 +49,11 @@
 }
 
 /* Headings that receive focus on step change: no ring for a programmatic focus, which isn't an action target. */
-.focusTarget:focus {
+.focusTarget.focusTarget:focus {
   outline: none;
 }
 
-.focusTarget:focus-visible {
+.focusTarget.focusTarget:focus-visible {
   outline: 2px solid var(--strata-color-focus-ring);
   outline-offset: 2px;
   border-radius: var(--strata-radius-badge);
@@ -119,7 +119,7 @@
   color: var(--strata-color-text-default);
 }
 
-.exit svg {
+.exit.exit svg {
   inline-size: 1.15em;
   block-size: 1.15em;
 }
@@ -155,7 +155,7 @@
   max-inline-size: 60ch;
 }
 
-.stepEyebrow {
+.stepEyebrow.stepEyebrow {
   display: none;
 }
 
@@ -220,7 +220,7 @@
   min-inline-size: 0;
 }
 
-.subject {
+.subject.subject {
   grid-area: subject;
 }
 
@@ -267,15 +267,15 @@
   }
 }
 
-.summary {
+.summary.summary {
   scroll-margin-block: var(--strata-space-16);
 }
 
-.summary:focus {
+.summary.summary:focus {
   outline: none;
 }
 
-.summary:focus-visible {
+.summary.summary:focus-visible {
   outline: 2px solid var(--strata-color-focus-ring);
   outline-offset: 2px;
 }
@@ -302,7 +302,7 @@
 }
 
 @container request-flow (max-width: 479.98px) {
-  .actions > * {
+  .actions.actions > * {
     flex: 1 1 0;
   }
 }
@@ -370,7 +370,7 @@
   padding-block: var(--strata-space-8);
 }
 
-.successIcon {
+.successIcon.successIcon {
   color: var(--strata-color-feedback-success-fg);
 }
 
@@ -380,7 +380,7 @@
   white-space: nowrap;
 }
 
-.successActions {
+.successActions.successActions {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;

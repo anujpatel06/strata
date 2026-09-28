@@ -126,7 +126,7 @@
 }
 
 /* Scoped under .rail so it outranks ChipGroup's own display whatever order the stylesheets load in. */
-.rail .railChips {
+.rail .railChips.railChips {
   display: none;
 }
 
@@ -137,7 +137,7 @@
   white-space: nowrap;
 }
 
-.everyone {
+.everyone.everyone {
   border-radius: var(--strata-radius-pill);
 }
 
@@ -173,7 +173,7 @@
   gap: var(--strata-space-2) var(--strata-space-4);
 }
 
-.search {
+.search.search {
   flex: 1 1 calc(var(--strata-space-16) * 4);
   max-inline-size: calc(var(--strata-space-16) * 7);
 }
@@ -204,13 +204,13 @@
 }
 
 /* Clear sits in the summary line, after a wider gap than the dots, so it reads as the line's action. */
-.clear {
+.clear.clear {
   flex: none;
   margin-inline-start: var(--strata-space-2);
 }
 
 @container (max-width: 559.98px) {
-  .search {
+  .search.search {
     flex-basis: 100%;
     max-inline-size: none;
   }
@@ -249,7 +249,7 @@
 
 /* The wallet is the view's one feature card. The Card's own rhythm gives it the same inset on all four sides
    (padding-block and CardContent's padding-inline are both --strata-card-inset). */
-.walletBody {
+.walletBody.walletBody {
   display: flex;
   flex-direction: column;
   gap: var(--strata-space-4);
@@ -328,12 +328,12 @@
   flex-direction: column;
 }
 
-.list {
+.list.list {
   gap: var(--strata-space-3);
 }
 
 /* Each row is a Card holding one AccordionItem. The item's trigger fills the card's top, so the whole row opens it. */
-.row {
+.row.row {
   --_pad-block: var(--strata-space-4);
   --_pad-inline: var(--strata-space-4);
   gap: 0;
@@ -344,12 +344,12 @@
   transition-timing-function: var(--strata-motion-easing);
 }
 
-.row .item {
+.row.row .item {
   border-block-end: 0;
 }
 
 /* The accordion's heading > trigger button. Padded here, so the pressable area is the full width of the card. */
-.row .item > :first-child > button {
+.row.row .item > :first-child > button {
   align-items: center;
   gap: var(--strata-space-3);
   padding-block: var(--_pad-block);
@@ -358,21 +358,21 @@
 }
 
 /* Its title slot grows, so the trailing value sits at the inline end, next to the chevron. */
-.row .item > :first-child > button > :first-child {
+.row.row .item > :first-child > button > :first-child {
   flex: 1 1 auto;
 }
 
 /* Focus rings the whole row, not just the header strip. */
-.row .item > :first-child > button[data-focus-visible] {
+.row.row .item > :first-child > button[data-focus-visible] {
   outline: none;
 }
 
-.row:has(.item > :first-child > button[data-focus-visible]) {
+.row.row:has(.item > :first-child > button[data-focus-visible]) {
   outline: 2px solid var(--strata-color-focus-ring);
   outline-offset: 2px;
 }
 
-.row:has(.item > :first-child > button[data-hovered]) {
+.row.row:has(.item > :first-child > button[data-hovered]) {
   box-shadow:
     0 0 0 var(--strata-hairline) var(--strata-color-border-default),
     var(--strata-shadow-highlight),
@@ -386,7 +386,7 @@
   min-inline-size: 0;
 }
 
-.tile {
+.tile.tile {
   flex: none;
 }
 
@@ -495,7 +495,7 @@
   align-self: flex-start;
 }
 
-.dot {
+.dot.dot {
   display: block;
   inline-size: calc(var(--strata-space-1) * 1.5);
   block-size: calc(var(--strata-space-1) * 1.5);
@@ -561,7 +561,7 @@
 }
 
 /* A 24px icon button (WCAG 2.5.8 minimum), sized to sit in a label line. */
-.segmentHead .infoButton {
+.segmentHead .infoButton.infoButton {
   inline-size: var(--strata-space-6);
   min-inline-size: var(--strata-space-6);
   block-size: var(--strata-space-6);
@@ -646,7 +646,7 @@
   color: var(--strata-color-text-brand);
 }
 
-.note {
+.note.note {
   align-self: stretch;
 }
 
@@ -683,42 +683,42 @@
 /* ---- row states (block-level, on top of the components) ---- */
 
 /* Fully used: greyed. Sunken surface, subtle text (text.subtle on surface.sunken is checked), no lift. */
-.row[data-state='spent'] {
+.row.row[data-state='spent'] {
   background-color: var(--strata-color-surface-sunken);
   box-shadow: 0 0 0 var(--strata-hairline) var(--strata-color-border-default);
 }
 
-.row[data-state='spent'] .name {
+.row.row[data-state='spent'] .name {
   color: var(--strata-color-text-subtle);
   font-weight: var(--strata-font-weight-regular);
 }
 
 /* The icon goes quiet with the row: a neutral tile, the glyph in text.subtle (checked on sunken; 3:1 is what an icon needs). */
-.row[data-state='spent'] .tile {
+.row.row[data-state='spent'] .tile.tile {
   color: var(--strata-color-text-subtle);
 }
 
 /* Locked: a dashed warning edge. A real border, because a shadow can't dash; the Card's 1px transparent border
    keeps the size the same. */
-.row[data-state='locked'] {
+.row.row[data-state='locked'] {
   border-style: dashed;
   border-color: var(--strata-color-feedback-warning-border);
   box-shadow: var(--strata-shadow-raised);
 }
 
 /* Enrol: the brand edge, as a call to act. */
-.row[data-state='enrol'] {
+.row.row[data-state='enrol'] {
   border-color: var(--strata-color-action-primary-border);
   box-shadow: var(--strata-shadow-raised);
 }
 
 /* ---- empty ---- */
 
-.empty {
+.empty.empty {
   padding-block: 0;
 }
 
-.emptyBody {
+.emptyBody.emptyBody {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -778,7 +778,7 @@
     box-shadow: inset calc(var(--strata-hairline) * -1) 0 0 0 var(--strata-color-border-subtle);
   }
 
-  .row {
+  .row.row {
     --_pad-block: var(--strata-space-4);
     --_pad-inline: var(--strata-space-5);
   }
@@ -790,7 +790,7 @@
     display: none;
   }
 
-  .rail .railChips {
+  .rail .railChips.railChips {
     display: flex;
   }
 
@@ -855,16 +855,16 @@
   }
 
   /* Rows fade up in order on first paint (staggered by --_i). */
-  .row {
+  .row.row {
     animation: rise var(--strata-motion-duration-slow) var(--strata-motion-easing-out) both;
     animation-delay: calc(var(--_i, 0) * var(--strata-motion-duration-fast) / 3);
   }
 
-  .row:has(.item > :first-child > button[data-hovered]):not([data-state='spent']) {
+  .row.row:has(.item > :first-child > button[data-hovered]):not([data-state='spent']) {
     translate: 0 -1px;
   }
 
-  .row:has(.item > :first-child > button[data-hovered]) {
+  .row.row:has(.item > :first-child > button[data-hovered]) {
     transition-duration: var(--strata-motion-duration-fast), var(--strata-motion-duration-fast),
       var(--strata-motion-duration-fast), var(--strata-motion-duration-spring);
     transition-timing-function: var(--strata-motion-easing), var(--strata-motion-easing), var(--strata-motion-easing),

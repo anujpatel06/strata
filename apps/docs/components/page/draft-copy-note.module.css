@@ -1,0 +1,13 @@
+/*
+ * The draft-copy chip. A Badge, allowed to wrap: the note is a sentence, and on a phone or in a narrow caption it has
+ * to break rather than overflow. One line keeps the pill; two lines become a rounded rectangle with the same corner.
+ */
+.note.note {
+  max-inline-size: 100%;
+  align-items: center;
+  padding-block: calc(var(--strata-space-1) / 2);
+  border-radius: calc(var(--strata-space-5) / 2);
+  line-height: var(--strata-line-height-snug);
+  white-space: normal;
+  text-wrap: pretty;
+}

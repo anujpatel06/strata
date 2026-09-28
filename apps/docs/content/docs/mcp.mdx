@@ -17,6 +17,7 @@ The Strata MCP server lets AI coding agents look up components, tokens and usage
     <tr><td>`list_components`</td><td>Name, maturity and one-line purpose of every component.</td></tr>
     <tr><td>`get_component`</td><td>Props, deprecations with their replacement, keyboard, accessibility notes, do and don’t, tokens and a usage snippet.</td></tr>
     <tr><td>`get_example`</td><td>The source of one example from these docs.</td></tr>
+    <tr><td>`find_icon`</td><td>Icon names that match a word, best first. It never returns a name the icon package doesn’t export.</td></tr>
     <tr><td>`get_tokens`</td><td>Resolved token values for a category, tenant and scheme.</td></tr>
     <tr><td>`find_token`</td><td>The nearest token for a raw value, with the distance and the reason.</td></tr>
     <tr><td>`get_pattern`</td><td>Page-level patterns: which components a block composes, and its structure.</td></tr>
@@ -24,7 +25,9 @@ The Strata MCP server lets AI coding agents look up components, tokens and usage
   </tbody>
 </Table>
 
-`get_example` is an addition to the six tools in the project brief. Agents copy working code more reliably than they read prop tables.
+`get_example` and `find_icon` are additions to the six tools in the project brief. Agents copy working code more reliably than they read prop tables. `find_icon` was added after the eval: agents in both conditions imported icons that don’t exist.
+
+`get_component` also returns `imports` (other packages the component needs, such as the date functions for DatePicker) and `typeNotes` (types that agents got wrong in the eval, each with one correct line).
 
 It also serves two files as resources: `strata://agents` (`AGENTS.md`, the rules for agents) and `strata://governance`.
 
@@ -69,18 +72,19 @@ Agents pay for every token, so responses are compact JSON with no prose around t
   </thead>
   <tbody>
     <tr><td>`list_components`, all 53</td><td>8,699</td><td>12,000</td></tr>
-    <tr><td>`get_component` for Button</td><td>5,917</td><td>8,000</td></tr>
+    <tr><td>`get_component` for Button</td><td>6,218</td><td>8,000</td></tr>
     <tr><td>`get_component` for Sidebar, the largest</td><td>12,547</td><td>16,000</td></tr>
     <tr><td>`get_tokens` for colour</td><td>4,795</td><td>5,500</td></tr>
     <tr><td>`get_example` for Button</td><td>562</td><td>1,500</td></tr>
+    <tr><td>`find_icon` for “arrow”, 8 results</td><td>412</td><td>700</td></tr>
   </tbody>
 </Table>
 
-Measured on 2026-09-27 with `pnpm --filter @strata/mcp test sizes`. These are bytes, not tokens.
+Measured on 2026-09-28 with `pnpm --filter @strata/mcp test sizes`. These are bytes, not tokens.
 
 ## Does it help?
 
-An eval ran 25 screen-building prompts with Claude Code, twice each, with and without the server. Both conditions had Strata installed.
+The numbers below are from before `find_icon`, `imports` and `typeNotes` were added. An eval ran 25 screen-building prompts with Claude Code, twice each, with and without the server. Both conditions had Strata installed.
 
 <Table aria-label="Agent eval, iteration 2">
   <thead>

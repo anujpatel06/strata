@@ -68,5 +68,18 @@
       "Don't format dates yourself — pass DateValue objects and let the locale decide."
     ]
   },
+  "imports": [
+    {
+      "package": "@internationalized/date",
+      "names": [
+        "parseDate",
+        "parseDateTime",
+        "today",
+        "getLocalTimeZone",
+        "type DateValue"
+      ],
+      "why": "value, defaultValue, minValue and maxValue take DateValue objects, not strings or Date: parseDate('2026-10-05'), parseDateTime for times, today(getLocalTimeZone())."
+    }
+  ],
   "tokens": ["space.2", "space.1", "space.6", "radius.field", "color.text.default", "color.text.subtle", "color.surface.selected", "color.text.disabled", "control-height", "radius.button", "color.focus.ring", "color.border.default", "radius.container", "color.surface.raised", "glass.opacity", "glass.blur", "shadow.overlay", "font.body", "font.size.md", "line-height.normal", "motion.duration.fast", "motion.easing", "motion.duration.normal", "motion.easing-out", "motion.duration.spring", "motion.spring", "sheen", "rim", "hairline", "color.border.subtle"]
 }

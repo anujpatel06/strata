@@ -11,6 +11,10 @@ Tools for AI coding agents, and a measurement of whether they help.
 - `AGENTS.md`: the rules for agents, and what they may change without a person.
 - Brand fidelity: every theme reports how far its brand fill is from the colour the brand asked for. Across 1,000 random brands the primary is kept exactly for 89.2% in light and 80.0% in dark — `pnpm test:themes`.
 - The agent eval: 25 prompts, 100 runs. With the server, 88% of runs were fully on-system, against 64% without. It didn’t help with type errors. The first attempt was thrown out because of a fault in the harness; both are in the repo.
+- After the eval: `find_icon`, and `imports` and `typeNotes` in `get_component`. The eval also found that ToggleButtonGroup overflows at 390px, which is a component bug and still open.
+- Server-driven UI: a JSON Schema per component, a validator and a reference renderer for the web (<AdrLink n="023" />). See [Server-driven UI](/docs/server-driven-ui). It covers 26 node types; forms, overlays, tables and charts aren’t on the wire yet.
+- Native token files for Compose and SwiftUI, with every contrast pair re-checked on the exported values — `pnpm tokens` (<AdrLink n="025" />). The Swift files are type-checked against the macOS SDK. The Kotlin files haven’t been compiled.
+- A sixth tenant, Haat, in Hindi, with a Devanagari type pair whose line heights were set by measuring for clipping — `node scripts/check-script-clipping.mjs --pairs=bilingual-devanagari` (<AdrLink n="024" />). Its Hindi copy is a draft until a Hindi reader has reviewed it.
 - The docs app scores 98.8 on the drift auditor, with 60 findings, and CI fails below 95 — `pnpm drift apps/docs`.
 
 ## v0.4 — Governance

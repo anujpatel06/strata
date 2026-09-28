@@ -212,6 +212,13 @@
       "Don't mix modes in one group or put more than about ten chips in a row."
     ]
   },
+  "typeNotes": [
+    {
+      "prop": "onSelectionChange",
+      "note": "Called with a Selection: 'all' or a Set<Key>. Import the type from @strata/react. onRemove gets a plain Set<Key>.",
+      "example": "const [picked, setPicked] = useState<Selection>(new Set(['open']));"
+    }
+  ],
   "tokens": [
     "color.surface.default",
     "color.surface.selected",

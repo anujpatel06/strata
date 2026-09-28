@@ -1,6 +1,6 @@
 # ADR-022: How the drift score is computed, and how the agent eval stays honest
 
-- **Status:** Accepted for the build — **Claude** (pending Anuj's review). Eval size and model: **Anuj** (2026-09-27).
+- **Status:** Accepted — **Claude recommended, Anuj accepted** at the Phase 5 review (2026-09-28). Eval size and model: **Anuj** (2026-09-27).
 - **Date:** 2026-09-27
 - **Principles:** 6, 7
 

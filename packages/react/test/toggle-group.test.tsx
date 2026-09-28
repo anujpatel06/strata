@@ -1,6 +1,8 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { I18nProvider } from 'react-aria-components';
 import { ToggleButton, ToggleButtonGroup } from '../src/ui/toggle-group';
+import { readUiCss } from './status-icon-contrast';
 
 // React Aria's SelectionIndicator (a SharedElement) calls element.getAnimations(), which jsdom doesn't implement.
 beforeAll(() => {
@@ -125,5 +127,72 @@ describe('ToggleButton labels', () => {
     expect(label).toHaveTextContent('List');
     // Non-string content is left alone.
     expect(screen.getByRole('radio', { name: 'Grid' }).querySelector('[data-label]')).toBeNull();
+  });
+});
+
+describe('ToggleButtonGroup in a narrow container (reflow, WCAG 1.4.10)', () => {
+  // jsdom has no layout, so the wrapping itself is measured in a browser (playground, 320 and 390px wide, every
+  // tenant and density, LTR and RTL). These tests pin the CSS that makes it wrap, and the behaviour around it.
+  const css = readUiCss('toggle-group.module.css');
+  const rule = (selector: string) => {
+    const at = css.indexOf(`\n${selector} {`);
+    expect(at, `${selector} rule`).toBeGreaterThan(-1);
+    return css.slice(at, css.indexOf('}', at));
+  };
+
+  it('wraps segments onto more rows inside the track instead of spilling out of it', () => {
+    const group = rule('.group');
+    expect(group).toMatch(/flex-wrap: wrap;/);
+    expect(group).toMatch(/max-inline-size: 100%;/);
+    // A minimum, not a fixed height, so a second row can grow the track.
+    expect(group).toMatch(/min-block-size: var\(--_h\);/);
+    expect(group).not.toMatch(/(^|[^-])block-size:/m);
+    const segment = rule('.segment');
+    // Can shrink (only happens to a segment alone on its row), and its label can then wrap: never cut off.
+    expect(segment).toMatch(/flex: 1 1 auto;/);
+    expect(segment).toMatch(/white-space: normal;/);
+    expect(segment).toMatch(/overflow-wrap: anywhere;/);
+    expect(segment).not.toMatch(/overflow: hidden|text-overflow/);
+    // Each row keeps the control height.
+    expect(segment).toMatch(/min-block-size: calc\(var\(--_h\) - 2 \* var\(--_pad\)\);/);
+  });
+
+  it('keeps a long label whole, as text and as the accessible name', () => {
+    render(
+      <ToggleButtonGroup aria-label="Show">
+        <ToggleButton id="all">All</ToggleButton>
+        <ToggleButton id="scheduled">Includes scheduled transfers</ToggleButton>
+      </ToggleButtonGroup>,
+    );
+    const long = screen.getByRole('radio', { name: 'Includes scheduled transfers' });
+    expect(long).toHaveTextContent('Includes scheduled transfers');
+    expect(long).not.toHaveAttribute('title');
+  });
+
+  it('moves through all five options with the arrow keys, in both directions and in RTL', async () => {
+    const user = userEvent.setup();
+    render(
+      <I18nProvider locale="ar-AE">
+        <div dir="rtl">
+          <ToggleButtonGroup aria-label="Range" defaultSelectedKeys={['day']} disallowEmptySelection>
+            {['day', 'week', 'month', 'quarter', 'year'].map((id) => (
+              <ToggleButton key={id} id={id}>
+                {id}
+              </ToggleButton>
+            ))}
+          </ToggleButtonGroup>
+        </div>
+      </I18nProvider>,
+    );
+    await user.tab();
+    expect(screen.getByRole('radio', { name: 'day' })).toHaveFocus();
+    // Right-to-left: ArrowLeft moves forward in reading order, ArrowRight back.
+    await user.keyboard('{ArrowLeft}{ArrowLeft}{ArrowLeft}{ArrowLeft}');
+    expect(screen.getByRole('radio', { name: 'year' })).toHaveFocus();
+    await user.keyboard('{ArrowRight}');
+    expect(screen.getByRole('radio', { name: 'quarter' })).toHaveFocus();
+    await user.keyboard(' ');
+    expect(screen.getByRole('radio', { name: 'quarter' })).toBeChecked();
+    expect(screen.getByRole('radio', { name: 'quarter' }).querySelector('.indicator')).not.toBeNull();
   });
 });

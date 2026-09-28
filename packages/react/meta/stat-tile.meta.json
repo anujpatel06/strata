@@ -41,6 +41,11 @@
       "name": "stat-tile-editorial",
       "title": "Editorial",
       "description": "Case-study figures: a large regular-weight number over a quiet label, in hairline tiles."
+    },
+    {
+      "name": "stat-tile-good-bad",
+      "title": "Good and bad change",
+      "description": "Two rises, one good and one bad (positiveIsGood={false}), and no change. Bad news shows an alert mark as well as its colour."
     }
   ],
   "props": [
@@ -62,7 +67,7 @@
       "component": "StatTile",
       "name": "delta",
       "type": "number",
-      "description": "Change as a fraction: 0.064 → +6.4%. Shown as a pill with a trend icon."
+      "description": "Change as a fraction: 0.064 → +6.4%. Shown as a signed pill: good news with a trend arrow, bad news with an alert mark, no change with no mark."
     },
     {
       "component": "StatTile",
@@ -76,6 +81,20 @@
       "type": "boolean",
       "default": "true",
       "description": "Whether an increase is good news. false for costs, churn, wait times."
+    },
+    {
+      "component": "StatTile",
+      "name": "betterLabel",
+      "type": "string",
+      "default": "'better'",
+      "description": "Read by screen readers after a change that is good news (\"+6.4% better\"). Translate it with the page."
+    },
+    {
+      "component": "StatTile",
+      "name": "worseLabel",
+      "type": "string",
+      "default": "'worse'",
+      "description": "Read by screen readers after a change that is bad news (\"+3.1% worse\"). Translate it with the page."
     },
     {
       "component": "StatTile",
@@ -127,7 +146,7 @@
     "keyboard": [],
     "notes": [
       "Standalone, a tile is a <dl> (label = <dt>, value and change = <dd>); inside StatTileGroup the group is the <dl> and each tile a <div>.",
-      "Good or bad change is shown by colour, a trend icon and the sign — never colour alone.",
+      "Good or bad change is never colour alone (WCAG 1.4.1). Good news shows a trend arrow, bad news an alert mark in its place, and no change no mark; the sign shows the direction. Screen readers hear betterLabel or worseLabel after the change (\"+3.1% worse\").",
       "The delta uses a true minus (−) and is isolated in the locale's direction, so \"+6.4%\" never renders as \"6.4%+\" on right-to-left pages.",
       "The sparkline is aria-hidden; put anything that matters in the value, delta or caption. It mirrors on right-to-left pages, with the trend icon."
     ]
@@ -136,6 +155,7 @@
     "do": [
       "Name the comparison period in deltaLabel.",
       "Set positiveIsGood={false} for metrics where down is good.",
+      "Pass betterLabel and worseLabel in the page's language when it isn't English.",
       "Format the value with Intl for the user's locale before passing it."
     ],
     "dont": [
@@ -147,6 +167,7 @@
     "card-inset",
     "color.border.default",
     "color.border.subtle",
+    "color.feedback.danger.bg",
     "color.surface.default",
     "color.surface.raised",
     "color.text.brand",

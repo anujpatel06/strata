@@ -6,13 +6,14 @@ import vela from '../../../tenants/vela/brand.json';
 import harbor from '../../../tenants/harbor/brand.json';
 import qamar from '../../../tenants/qamar/brand.json';
 import care from '../../../tenants/care/brand.json';
+import haat from '../../../tenants/haat/brand.json';
 
 /**
  * Playground: renders every example in apps/docs/examples/<c>/ for one tenant × scheme × dir × density.
  *   /?c=button&tenant=qamar&scheme=dark&dir=rtl&density=compact
  * No `c` → index of components that have examples.
  */
-const TENANTS: Record<string, BrandInput> = { vela, harbor, qamar, care } as Record<string, BrandInput>;
+const TENANTS: Record<string, BrandInput> = { vela, harbor, qamar, care, haat } as Record<string, BrandInput>;
 const modules = import.meta.glob<{ default: ComponentType }>('../../docs/examples/*/*.tsx', { eager: true });
 
 const q = new URLSearchParams(location.search);

@@ -41,12 +41,12 @@
   }
 }
 
-.num {
+.num.num {
   font-variant-numeric: tabular-nums;
 }
 
 /* Arrows and chevrons point "forward", whichever way forward is. */
-.directional:dir(rtl) {
+.directional.directional:dir(rtl) {
   scale: -1 1;
 }
 
@@ -217,7 +217,7 @@
   white-space: nowrap;
 }
 
-.searchKbd {
+.searchKbd.searchKbd {
   display: none;
 }
 
@@ -238,7 +238,7 @@
     text-align: start;
   }
 
-  .searchKbd {
+  .searchKbd.searchKbd {
     display: inline-flex;
   }
 }
@@ -279,7 +279,7 @@
   border-radius: var(--strata-radius-pill);
 }
 
-.notificationMenu {
+.notificationMenu.notificationMenu {
   max-inline-size: calc(var(--strata-space-16) * 5.5);
 }
 
@@ -408,7 +408,7 @@
   white-space: nowrap;
 }
 
-.viewAll svg {
+.viewAll.viewAll svg {
   inline-size: 1em;
   block-size: 1em;
 }
@@ -509,7 +509,7 @@
  * Command menu footer (localised key hints)
  * ------------------------------------------------------------------ */
 
-.commandFooter {
+.commandFooter.commandFooter {
   display: flex;
   flex-wrap: wrap;
   gap: var(--strata-space-4);
@@ -521,13 +521,13 @@
   letter-spacing: var(--strata-font-tracking-xs);
 }
 
-.commandHint {
+.commandHint.commandHint {
   display: inline-flex;
   align-items: center;
   gap: var(--strata-space-1);
 }
 
-.commandEmpty {
+.commandEmpty.commandEmpty {
   margin: 0;
   padding-block: var(--strata-space-8);
   padding-inline: var(--strata-space-4);
@@ -552,7 +552,7 @@
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  .page > :not(.stats, .grid),
+  .page > :not(.stats.stats, .grid),
   .stats.stats > *,
   .grid > :not(.side),
   .side > * {

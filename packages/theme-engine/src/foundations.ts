@@ -2,7 +2,7 @@
  * Non-colour foundations: 4pt space scale, radius by shape, type scale, motion, density.
  * Everything here is brand-independent except `radius`, which follows the brand's `shape`.
  */
-import type { Density, DensityTokens, Foundations, Shape } from './types';
+import type { Density, DensityTokens, Foundations, ScriptTypeTokens, Shape, TypePair } from './types';
 
 /**
  * v0.3 finesse (ADR-013): even "sharp" is softened. 2px corners read as dated, so sharp now means crisp
@@ -78,9 +78,31 @@ export function radiusForShape(shape: Shape): Foundations['radius'] {
   return { ...r };
 }
 
-/** Full Foundations for a shape. Returns fresh objects, so callers may mutate the result safely. */
-export function foundationsForShape(shape: Shape): Foundations {
-  return {
+/** --strata-font-tracking-caps: open for Latin small caps; 0 for Arabic (joins) and scripts that set their own. */
+export function capsTracking(pair: Pick<TypePair, 'supportsArabic' | 'script'>): string {
+  if (pair.supportsArabic) return '0';
+  return pair.script?.capsTracking ?? '0.08em';
+}
+
+/**
+ * Applies a script's type tokens (ADR-020) to Foundations in place: its line heights replace the Latin ones, and
+ * type-scale steps below its minimum size are raised to it. Latin and Arabic pairs have no `script`, so their
+ * foundations are unchanged.
+ */
+export function applyScriptTokens(f: Foundations, script: ScriptTypeTokens): Foundations {
+  f.lineHeight = { ...script.lineHeight };
+  for (const k of Object.keys(f.fontSize) as (keyof Foundations['fontSize'])[]) {
+    f.fontSize[k] = Math.max(f.fontSize[k], script.minFontSize);
+  }
+  return f;
+}
+
+/**
+ * Full Foundations for a shape, and for a type pair when it carries script tokens. Returns fresh objects, so callers
+ * may mutate the result safely.
+ */
+export function foundationsForShape(shape: Shape, pair?: Pick<TypePair, 'script'>): Foundations {
+  const f: Foundations = {
     space: { '0': 0, '1': 4, '2': 8, '3': 12, '4': 16, '5': 20, '6': 24, '8': 32, '10': 40, '12': 48, '16': 64 },
     radius: radiusForShape(shape),
     // 4xl/5xl are display sizes for hero numbers and page titles (ADR-013 finesse: hierarchy).
@@ -97,6 +119,7 @@ export function foundationsForShape(shape: Shape): Foundations {
     },
     density: { comfortable: { ...DENSITY.comfortable }, compact: { ...DENSITY.compact } },
   };
+  return pair?.script ? applyScriptTokens(f, pair.script) : f;
 }
 
 function deepFreeze<T>(o: T): Readonly<T> {

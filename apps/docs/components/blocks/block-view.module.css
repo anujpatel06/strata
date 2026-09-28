@@ -2,20 +2,20 @@
  * Full-page block view. The root layout always renders the site header, skip link and footer; this page is the
  * block alone (for "Open in new tab" and screenshots), so hide them while a view is on the page.
  */
-:global(body):has(.scope, .fallback) > :global(header),
-:global(body):has(.scope, .fallback) > :global(footer),
-:global(body):has(.scope, .fallback) > :global(a[href='#main']) {
+:global(body):has(.scope.scope, .fallback) > :global(header),
+:global(body):has(.scope.scope, .fallback) > :global(footer),
+:global(body):has(.scope.scope, .fallback) > :global(a[href='#main']) {
   display: none;
 }
 
-.scope {
+.scope.scope {
   display: flex;
   flex-direction: column;
   flex: 1;
   min-block-size: 100dvh;
 }
 
-.scope > * {
+.scope.scope > * {
   flex: 1 0 auto;
 }
 
@@ -23,4 +23,16 @@
   flex: 1;
   min-block-size: 100dvh;
   background: var(--strata-color-surface-canvas);
+}
+
+/* Docs chrome above the block: one centred line (DraftCopyNote) on the site's canvas, ruled off from the screen. */
+.docsBar.docsBar {
+  display: flex;
+  justify-content: center;
+  padding-block: var(--strata-space-2);
+  padding-inline: var(--strata-space-4);
+  border-block-end: var(--strata-hairline) solid var(--strata-color-border-subtle);
+  background: var(--strata-color-surface-canvas);
+  color: var(--strata-color-text-default);
+  font-family: var(--strata-font-body);
 }

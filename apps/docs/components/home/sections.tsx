@@ -20,6 +20,7 @@ import Link from 'next/link';
 import type { ReactNode } from 'react';
 import { CodeBlock } from '@/components/mdx/code-block';
 import { ButtonLink } from '@/components/page/button-link';
+import { DraftCopyNote } from '@/components/page/draft-copy-note';
 import { getMeta } from '@/lib/meta';
 import { GITHUB_URL } from '@/lib/site';
 import {
@@ -132,6 +133,7 @@ export function BrandsSection() {
                   </span>
                 ))}
               </span>
+              <DraftCopyNote review={t.copyReview} className={styles.copyNote} />
             </figcaption>
           </figure>
         ))}

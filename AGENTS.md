@@ -11,18 +11,19 @@ With the Strata MCP server connected:
 | Need | Tool |
 |---|---|
 | Which component does this job? | `list_components` |
-| Props, keyboard, do and don't, deprecations | `get_component` |
+| Props, other imports, type traps, keyboard, deprecations | `get_component` |
 | Working code to start from | `get_example` |
 | A page layout: dashboard, multi-step form, settings | `get_pattern` |
 | Which token is this value? | `find_token` |
 | Token values | `get_tokens` |
+| An icon's exact name | `find_icon` |
 | Is my code on-system? | `audit_snippet`, before you finish |
 
-Without the server, read `packages/react/meta/<name>.meta.json` and `apps/docs/examples/<name>/`.
+Without the server, read `packages/react/meta/<name>.meta.json` and `apps/docs/examples/<name>/`, and icon names in `@strata/icons/src/icons/`.
 
 ## Rules
 
-1. **Use Strata components.** Import from `@strata/react`. No native `<button>`, `<input>`, `<select>`, `<textarea>` or `<table>` where a component exists. Icons come from `@strata/icons`.
+1. **Use Strata components.** Import from `@strata/react`. No native `<button>`, `<input>`, `<select>`, `<textarea>` or `<table>` where a component exists. Icons come from `@strata/icons`: look each name up with `find_icon`. Never guess one; if none fits, use no icon.
 2. **Tokens only.** Colours, spacing, radii, font sizes and weights are `var(--strata-*)`. No hex, `rgb()`, `hsl()` or `oklch()`. No pixel values except `0`, `1px` and `2px`.
 3. **Logical properties only.** `margin-inline-start`, `padding-inline`, `inset-inline-end`, `text-align: start`. Never `left` or `right`.
 4. **Every control has a name.** Icon-only buttons need `aria-label`. Fields need a `label`. Images need `alt`.
@@ -30,6 +31,7 @@ Without the server, read `packages/react/meta/<name>.meta.json` and `apps/docs/e
 6. **No brand names in code.** No `if (tenant === …)`. Wrap the page in `ThemeScope`, and pass it `locale` for right-to-left.
 7. **Don't use deprecated APIs.** `get_component` lists them with the replacement. Today: `Button variant="danger"` → `tone="danger"`.
 8. **Don't invent props.** If `get_component` doesn't list it, it doesn't exist.
+9. **Nothing scrolls sideways at 390px.** Grid columns are `minmax(0, 1fr)`, not `1fr`. Rows of controls wrap.
 
 ## What you may do alone
 
