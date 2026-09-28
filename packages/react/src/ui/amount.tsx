@@ -8,6 +8,17 @@ const cx = (...c: Array<string | false | null | undefined>) => c.filter(Boolean)
 
 const MINUS = '−'; // "−": a true minus sign. The hyphen Intl returns reads as punctuation at display sizes.
 
+/**
+ * Compact notation is the one part of Intl whose output is not stable across ICU versions, and the reader's browser
+ * is not the runtime that prerendered the page. Measured on a Linux CI runner: Node produced "₹18.0K" where its own
+ * Chromium produced "₹18T", and "£240k" against "£240K". Left alone, React throws error #418 on every such page and
+ * re-renders the whole thing on the client.
+ *
+ * So the build's string is the one everyone sees, identically, in every browser (ADR-033). Plain currency formatting
+ * is not suppressed: it was compared across the two runtimes and matches, and suppressing more than necessary would
+ * hide a real mismatch later.
+ */
+
 export interface AmountProps extends Omit<HTMLAttributes<HTMLSpanElement>, 'children'> {
   /** The amount in major units (18000 = ₹18,000). */
   value: number;
@@ -77,7 +88,15 @@ export function Amount({
       else if (part.type === 'minusSign' || part.type === 'plusSign') kind = 'sign';
       // Cents are set smaller; in compact notation the decimal belongs to the figure ("1.8L"), so it stays full size.
       else if (!compact && (part.type === 'decimal' || part.type === 'fraction')) kind = 'fraction';
-      out.push({ kind, text: part.type === 'minusSign' ? part.value.replace('-', MINUS) : part.value });
+      const text = part.type === 'minusSign' ? part.value.replace('-', MINUS) : part.value;
+      // Merge neighbouring plain runs into one node. Intl splits the figure into as many parts as it likes, and how
+      // many it returns depends on the value and on the runtime's data — compact "18K" is two parts where "18.0K"
+      // is four. Rendering one node per part would make that a difference in the shape of the DOM, which hydration
+      // cannot reconcile and suppressHydrationWarning does not cover; as one node it is a difference in text, which
+      // it does (ADR-033). It is also fewer nodes.
+      const previous = out[out.length - 1];
+      if (kind === 'text' && previous?.kind === 'text') previous.text += text;
+      else out.push({ kind, text });
     });
     const text = raw.map((p) => (p.type === 'minusSign' ? p.value.replace('-', MINUS) : p.value)).join('');
     return { full: text, parts: out };
@@ -97,7 +116,12 @@ export function Amount({
       className={cx(styles.amount, className)}
     >
       {/* The figure follows its own locale's direction, so "₹18,000" never reorders inside an RTL page. */}
-      <span className={styles.figure} aria-hidden="true" dir={isRTL(locale) ? 'rtl' : 'ltr'}>
+      <span
+        className={styles.figure}
+        aria-hidden="true"
+        dir={isRTL(locale) ? 'rtl' : 'ltr'}
+        suppressHydrationWarning={compact || undefined}
+      >
         {parts.map((part, i) => {
           if (part.kind === 'currency')
             return (
@@ -106,20 +130,23 @@ export function Amount({
                 className={styles.currency}
                 data-side={symbolSide}
                 data-long={[...part.text.replace(/[\p{M}\p{Cf}.]/gu, '')].length > 1 ? '' : undefined}
+                suppressHydrationWarning={compact || undefined}
               >
                 {part.text}
               </span>
             );
           if (part.kind === 'fraction')
             return (
-              <span key={i} className={styles.fraction}>
+              <span key={i} className={styles.fraction} suppressHydrationWarning={compact || undefined}>
                 {part.text}
               </span>
             );
           return part.text;
         })}
       </span>
-      <span className={styles.srOnly}>{full}</span>
+      <span className={styles.srOnly} suppressHydrationWarning={compact || undefined}>
+        {full}
+      </span>
     </span>
   );
 }

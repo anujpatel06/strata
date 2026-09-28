@@ -44,6 +44,21 @@ describe('Amount', () => {
     expect(container.querySelector('.fraction')).toBeNull();
   });
 
+  it('keeps the same nodes whether or not the figure has a decimal (ADR-033)', () => {
+    // Intl splits a figure into as many parts as it likes, and how many depends on the value and on the runtime's
+    // own data — the build and the reader's browser can disagree. Neighbouring plain runs are merged into one node
+    // so that difference stays a difference in text, which hydration can be told to keep, rather than a difference
+    // in the shape of the DOM, which it cannot.
+    const shape = (value: number) => {
+      const { container } = render(<Amount value={value} currency="INR" locale="en-IN" compact />);
+      const figure = container.querySelector('[dir]')!;
+      return [...figure.childNodes].map((n) => (n.nodeType === 3 ? '#text' : (n as Element).className));
+    };
+    // "₹18K" is fewer Intl parts than "₹1.8L"; both must render the same nodes.
+    expect(shape(18000)).toEqual(shape(184250));
+    expect(shape(18000).filter((n) => n === '#text')).toHaveLength(1);
+  });
+
   it('uses a true minus sign for negative amounts', () => {
     render(<Amount value={-980} currency="INR" locale="en-IN" />);
     expect(screen.getByText('−₹980')).toBeInTheDocument();
