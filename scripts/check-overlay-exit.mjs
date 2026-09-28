@@ -8,11 +8,14 @@
 //    a control that focus only passed through (a toggle group focuses its last item on Tab) and must not show.
 // 2. Menu and Popover: open the first one with the keyboard, press Escape, and nothing may stay mounted.
 // Runs with and without reduced motion, against the production site:
-//   pnpm --filter @syntara/docs build && (cd apps/docs && npx next start -p 3000), then node scripts/check-overlay-exit.mjs
+//   pnpm --filter @syntara/docs build && pnpm --filter @syntara/docs start, then node scripts/check-overlay-exit.mjs
 import { existsSync } from 'node:fs';
 import { launchBrowser } from './launch-browser.mjs';
+import { assertServedBuild } from './served-build.mjs';
 
 const base = process.env.SYNTARA_BASE_URL ?? 'http://localhost:3000';
+// Refuse to check a server that is not running this build, or the result describes someone else's port.
+await assertServedBuild(base);
 const tooltipRoutes = ['/docs/components/button', '/docs/components/tooltip', '/docs/components/toggle-group'];
 // The page where the fault was first seen outside the component pages.
 if (existsSync('apps/docs/content/docs/server-driven-ui.mdx')) tooltipRoutes.push('/docs/server-driven-ui');
