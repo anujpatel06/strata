@@ -113,7 +113,67 @@ Measuring them first changed what three of them were.
 
 ---
 
+## 2026-09-28 (418, found) — the eight were real: compact notation, and two runtimes that disagree
+
+**This corrects the entry below it,** which concluded the report was a stale-port artifact. It was not. The eight
+reproduce on the Linux CI runner — the same four routes, the same two schemes — while a Mac with the same commit, a
+clean install and a fresh build shows none. The earlier entry's *measurements* were right; its conclusion was wrong,
+and it was reached by ruling out causes rather than by finding one.
+
+**The cause (ADR-033)**
+
+`Intl.NumberFormat` with `notation: 'compact'`. It is the one part of Intl whose output is not stable across ICU
+versions, and the runtime that prerenders the page is not the runtime that hydrates it. On the runner, Node wrote
+`₹18.0K`, `$5.0K`, `£240k` and its own Chromium rendered `₹18T`, `$5K`, `£240K`. On this Mac the two agree, which is
+why it looked clean. The earlier elimination of Intl was not wrong about what it tested — plain currency formatting
+does match across the two runtimes — only about what it covered: compact was never tested.
+
+Three call sites use it, and they are exactly the four routes: `chart.tsx` (the default value format, which reaches
+the y-axis labels, the data table and the summary, all prerendered), `amount.tsx` (`compact`), and the homepage's
+`compactMoney`.
+
+**Not a CI-only fault.** On Cloudflare, a visitor whose browser data differs from the build machine's makes React
+discard the server HTML and re-render the page on the client.
+
+**Changed**
+
+- **The build's string is what everyone sees — Anuj.** `suppressHydrationWarning` on the elements carrying compact
+  output, and only those: plain currency formatting is left alone, because suppressing more than necessary would
+  hide a real mismatch later.
+- **Amount merges neighbouring plain parts into one text node,** and this is what makes the above work. Suppression
+  alone did **not** fix it, which only came out by simulating the runner's divergence locally: Intl returns as many
+  parts as it likes, and how many depends on the value and the runtime — compact `18K` is two parts where `18.0K` is
+  four. One node per part made it a difference in the *shape* of the DOM, which `suppressHydrationWarning` does not
+  cover (React said `#418 args[]=HTML`, not `args[]=text`). Merged, it is a difference in text, which it does cover.
+- **`check-hydration.mjs` now names the text that differs,** as a multiset diff of the server HTML against the
+  hydrated DOM — positional diffing went out of step at the first client-only insertion (a chart's axis labels) and
+  buried the real change. Without this the cause was invisible: the production error names nothing, and the only
+  machine that reproduces it is a runner.
+- **`native-exporters.test.ts` asks whether the toolchain can target macOS** instead of whether `swiftc` exists. CI
+  had been red on main since 3a42138: the Linux runner ships Swift and no Apple SDKs, so every
+  `-target *-apple-macos*` failed. A companion test records that Swift was not compiled, as the Kotlin one does.
+
+**Results**
+
+- Simulated the runner's divergence on this Mac (build emits `₹18.0K`, browser renders `₹18K`): **8 failures before
+  the fix, 0 after**, across 113 routes × 2 schemes. The simulation is the only way to test this here.
+- After reverting the simulation: hydration 0 / 226 · theme links 0 / 5 · SSR tabs 0 · axe 0 nodes · 1,449 tests.
+- `getInitials`, clipping, drift and override weight unchanged from the entry below.
+
+**Next**
+
+- The better end state is to stop asking Intl for the compact form and own the suffix (`K`/`L`/`Cr`/`k`/`M`) in a
+  per-locale table: deterministic, correct in the HTML, no suppression anywhere. It means owning locale data for
+  every locale the system supports, so it is an RFC, not a patch (ADR-033).
+- A suppressed element that later re-renders will swap to the browser's string. Nothing does that today.
+
+---
+
 ## 2026-09-28 (hydration) — the eight React 418s could not be reproduced, and the sweep could not have told us
+
+> **Superseded.** The entry above found the cause: compact notation, and a build runtime that disagrees with the
+> browser. The conclusion here — a stale server on port 3000 — was wrong. The port hazard it describes is real, and
+> the guard added for it stays, but it was not what happened.
 
 **The report**: React error #418 on `/`, `/blocks`, `/themes` and `/docs/components/amount`, in both schemes — eight
 occurrences — from `node scripts/axe-sweep.mjs` against a production build, reproduced on `3a42138` as well.

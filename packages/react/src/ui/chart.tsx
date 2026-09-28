@@ -333,11 +333,20 @@ export interface ChartTableProps extends HTMLAttributes<HTMLTableElement> {
   ref?: Ref<HTMLTableElement>;
 }
 
-/** The chart's data as a table: the WCAG equivalent of the picture. Visually hidden by default. */
+/**
+ * The chart's data as a table: the WCAG equivalent of the picture. Visually hidden by default.
+ *
+ * Every cell holds a formatted number, and the default value format is compact notation — the one part of Intl
+ * whose output is not stable across ICU versions. The build prerenders these, the reader's browser hydrates them,
+ * and the two runtimes can disagree ("₹18.0K" against "₹18T" on a Linux CI runner). The build's string is the one
+ * everyone sees (ADR-033); without this the whole page fails hydration and re-renders on the client.
+ */
 export function ChartTable({ caption, xLabel = '', series, rows, isVisible = false, className, ref, ...rest }: ChartTableProps): JSX.Element {
   const table = (
     <table {...rest} ref={ref} className={cx(isVisible ? styles.table : undefined, className)}>
-      <caption className={isVisible ? styles.srOnly : undefined}>{caption}</caption>
+      <caption className={isVisible ? styles.srOnly : undefined} suppressHydrationWarning>
+        {caption}
+      </caption>
       <thead>
         <tr>
           <th scope="col">{xLabel}</th>
@@ -351,9 +360,13 @@ export function ChartTable({ caption, xLabel = '', series, rows, isVisible = fal
       <tbody>
         {rows.map((row, i) => (
           <tr key={i}>
-            <th scope="row">{row.x}</th>
+            <th scope="row" suppressHydrationWarning>
+              {row.x}
+            </th>
             {row.values.map((v, j) => (
-              <td key={j}>{v}</td>
+              <td key={j} suppressHydrationWarning>
+                {v}
+              </td>
             ))}
           </tr>
         ))}
@@ -560,7 +573,16 @@ export function ChartFrame({
         {showYAxis && (
           <div className={styles.yAxis} aria-hidden="true">
             {ticks.map((t) => (
-              <span key={t} className={styles.yTick} style={{ '--_y': `${r2(drawn ? y(t) : 0)}px` } as CSSProperties} data-hidden={drawn ? undefined : ''}>
+              // The y labels are rendered before the box is measured, so unlike the x ones they are in the
+              // prerendered HTML — and tickLabel is compact notation, which the build and the browser can format
+              // differently (ADR-033). The build's string stands.
+              <span
+                key={t}
+                className={styles.yTick}
+                style={{ '--_y': `${r2(drawn ? y(t) : 0)}px` } as CSSProperties}
+                data-hidden={drawn ? undefined : ''}
+                suppressHydrationWarning
+              >
                 {tickLabel(t)}
               </span>
             ))}
@@ -654,7 +676,7 @@ export function ChartFrame({
         )}
       </div>
       {summary && (
-        <p id={summaryId} className={styles.srOnly}>
+        <p id={summaryId} className={styles.srOnly} suppressHydrationWarning>
           {summary}
         </p>
       )}
