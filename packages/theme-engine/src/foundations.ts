@@ -91,8 +91,11 @@ export function capsTracking(pair: Pick<TypePair, 'supportsArabic' | 'script'>):
  */
 export function applyScriptTokens(f: Foundations, script: ScriptTypeTokens): Foundations {
   f.lineHeight = { ...script.lineHeight };
-  for (const k of Object.keys(f.fontSize) as (keyof Foundations['fontSize'])[]) {
-    f.fontSize[k] = Math.max(f.fontSize[k], script.minFontSize);
+  const min = script.minFontSize;
+  if (min !== undefined) {
+    for (const k of Object.keys(f.fontSize) as (keyof Foundations['fontSize'])[]) {
+      f.fontSize[k] = Math.max(f.fontSize[k], min);
+    }
   }
   return f;
 }

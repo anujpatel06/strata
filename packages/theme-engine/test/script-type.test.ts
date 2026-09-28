@@ -1,6 +1,9 @@
 /**
- * Per-script type tokens (ADR-020): the Devanagari pair carries its own line heights and caps tracking; every exporter
- * reads them from theme.foundations, and the Latin and Arabic pairs' output is byte-identical to before the pair existed.
+ * Per-pair type tokens (ADR-020, extended by ADR-031): a pair whose outlines need more room than the shared default
+ * carries its own line heights, and every exporter reads them from theme.foundations. Seven of the nine pairs now do
+ * — the Devanagari one, both Arabic ones and four Latin ones — each value measured with
+ * scripts/check-script-clipping.mjs, never chosen by eye. `precise` and `modern` clip nothing and keep the shared
+ * 1.2 / 1.35 / 1.5.
  */
 import { createHash } from 'node:crypto';
 import { describe, expect, it } from 'vitest';
@@ -12,7 +15,7 @@ import { toCSS } from '../src/export/css';
 import { countLeafTokens, toDTCG } from '../src/export/dtcg';
 import { toFigmaFiles } from '../src/export/figma';
 import { toShadcnCSS } from '../src/export/shadcn';
-import type { BrandInput, TypePairId } from '../src/types';
+import type { BrandInput, ScriptTypeTokens, TypePairId } from '../src/types';
 import { FUZZ_SEED, FUZZ_THEMES, fuzzInputs, runFuzz } from '../scripts/fuzz';
 
 /** tenants/haat/brand.json */
@@ -53,6 +56,41 @@ describe('bilingual-devanagari type pair', () => {
     t.foundations.lineHeight.tight = 9;
     expect(pair.script!.lineHeight.tight).toBe(1.44);
     expect(generateTheme(HAAT).foundations.lineHeight.tight).toBe(1.44);
+  });
+});
+
+describe('the pairs that clipped carry measured line heights (ADR-031)', () => {
+  /** Every value here came from scripts/check-script-clipping.mjs; the comments in type-pairs.ts show the sweep. */
+  const MEASURED: [TypePairId, ScriptTypeTokens['name'], number, number, number][] = [
+    ['bilingual-round', 'arabic', 1.8, 1.8, 1.9],
+    ['bilingual-classic', 'arabic', 1.8, 1.8, 1.9],
+    ['friendly', 'latin', 1.35, 1.4, 1.5],
+    ['editorial', 'latin', 1.3, 1.35, 1.5],
+    ['calm', 'latin', 1.3, 1.35, 1.5],
+    ['technical', 'latin', 1.3, 1.35, 1.5],
+  ];
+
+  it.each(MEASURED)('%s uses the %s line heights it was measured at', (id, name, tight, snug, normal) => {
+    const pair = TYPE_PAIRS[id];
+    expect(pair.script?.name).toBe(name);
+    expect(pair.script?.lineHeight).toEqual({ tight, snug, normal });
+    // They must reach the foundations, or the exporters never see them.
+    expect(foundationsForShape('soft', pair).lineHeight).toEqual({ tight, snug, normal });
+    // Only the line heights move: these pairs set no size floor and no caps tracking of their own.
+    expect(foundationsForShape('soft', pair).fontSize).toEqual(FOUNDATIONS.fontSize);
+  });
+
+  it('leaves the pairs that clipped nothing on the shared default', () => {
+    for (const id of ['precise', 'modern'] as const) {
+      expect(TYPE_PAIRS[id].script).toBeUndefined();
+      expect(foundationsForShape('soft', TYPE_PAIRS[id]).lineHeight).toEqual(FOUNDATIONS.lineHeight);
+    }
+  });
+
+  it('keeps caps tracking at 0 for the Arabic pairs, which join', () => {
+    for (const id of ['bilingual-round', 'bilingual-classic'] as const) {
+      expect(toCssVariables(generateTheme({ ...HAAT, typePair: id }), 'light')['--syntara-font-tracking-caps']).toBe('0');
+    }
   });
 });
 
@@ -104,26 +142,30 @@ describe('Haat: script tokens reach every exporter', () => {
   });
 });
 
-describe('Latin and Arabic pairs are unchanged', () => {
+describe('every pair exports exactly the tokens it is meant to', () => {
   /**
    * sha256 (first 16 hex) of each exporter's output, for fuzz brands 1–8 each forced onto one of the eight earlier
    * pairs. Figma is not here: it gained font/lineHeight for every pair (a deliberate addition, so Figma carries the
    * per-script values too).
    *
-   * Recorded before the Devanagari pair was added, then **re-recorded on 2026-09-28 for the rename to Syntara**
-   * (ADR-029), which renamed every custom property in this output from `--strata-*` to `--syntara-*`. Before
-   * re-recording, each of these 32 outputs was hashed again with the name substituted back, and every one reproduced
-   * the pre-rename hash exactly — so the rename changed the token *names* and no token *value*. That check is not
-   * kept as a test: it only made sense against the pre-rename hashes, which this table replaces.
+   * Recorded before the Devanagari pair was added; re-recorded on 2026-09-28 for the rename to Syntara (ADR-029),
+   * which changed the token *names* and no token *value*; and re-recorded again on 2026-09-28 for the clipping fix
+   * (ADR-031), which gave six pairs their own measured line heights.
+   *
+   * What the table pins now is which pairs moved. `precise` and `modern` are byte-identical to every earlier
+   * recording — they clipped nothing, so they kept the shared 1.2/1.35/1.5 and must not drift. The other six each
+   * changed in exactly three of the four columns: CSS, DTCG and the CSS variables carry line heights, and the
+   * shadcn hash is unchanged for all six because that exporter emits none. A change here that does not match that
+   * shape is a regression, not a re-recording.
    */
   const BEFORE: [TypePairId, css: string, dtcg: string, shadcn: string, vars: string][] = [
     ['precise', '1e3c13e70999f951', 'b71cda0e0880abe5', '7d28a1aad0f2c6d9', 'f670f86360cb0285'],
-    ['calm', '2464e0f12dcee3b8', 'd74a80cf1dbae997', '76867bc7a1f22b70', '6e627967ebadae6d'],
-    ['friendly', 'fb921f3fccb9d4b5', '1008ee523967a2a7', 'e38f3efee6290ae4', '53fa47c9c70f9bb8'],
-    ['technical', 'f50e1f3c7d957217', 'c2f561b6455836dd', '0c23a07967510672', '6af9aabddb5d63df'],
-    ['bilingual-round', 'b898bb6967bda38c', 'd35a2915c88578fd', '9ef142c32702e62b', '445c02b9fd9266d2'],
-    ['bilingual-classic', '7fdad2f84dedc61e', '6341ca5e75a39cbf', '47c9bbe33dc2a983', 'b75032d00a57f7e5'],
-    ['editorial', 'e64fad6fa3d699d5', 'e42c02bd04fb9a62', '8b7f0a706369ea2d', 'e41e2343596a9423'],
+    ['calm', '6e7ca70f192ff255', '5db14dd59b40db2e', '76867bc7a1f22b70', '454be3fff391ca98'],
+    ['friendly', '82af543a578f7fa0', 'd8b83ed8663dab35', 'e38f3efee6290ae4', '5543616e1b1651f0'],
+    ['technical', '71c8d62e5ac0ecfc', '1fac86020fac8824', '0c23a07967510672', '2a56d23ded99ad42'],
+    ['bilingual-round', 'd60f88ff2c791db1', '6608ce69b911c1c8', '9ef142c32702e62b', '227c32712564ed03'],
+    ['bilingual-classic', 'a97d05da0cf490b9', 'd94700de5cb9d2c9', '47c9bbe33dc2a983', 'c493cf80a1feb766'],
+    ['editorial', '89851aab92613c47', '2b3ef3336fc483b5', '8b7f0a706369ea2d', '4b8f48fb8ff3000f'],
     ['modern', '808f8ffdacc2ad8e', '8e537795ec21711a', '9de8d1fb2bdd5b94', '556fcbecbb155f39'],
   ];
   const inputs = fuzzInputs().slice(0, 8);

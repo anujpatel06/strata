@@ -220,18 +220,26 @@ export interface TypePair {
  * them from the same place. Each value is measured by scripts/check-script-clipping.mjs, not chosen by eye.
  */
 export interface ScriptTypeTokens {
-  /** The script the pair is built for. */
-  name: 'devanagari';
-  /** Replaces Foundations.lineHeight: the smallest values at which no glyph's ink leaves its line box. */
+  /**
+   * The script whose measurements set these values. `latin` is for a Latin pair whose own outlines need more room
+   * than the shared default — the tokens are still the pair's, not that script's everywhere.
+   */
+  name: 'devanagari' | 'arabic' | 'latin';
+  /**
+   * Replaces Foundations.lineHeight: values at which no glyph's ink leaves its line box. Verify a change by
+   * running the pair through scripts/check-script-clipping.mjs with no --lh, so it reads these tokens. Clipping is
+   * not monotonic in line height — sub-pixel rounding means a larger value can clip where a smaller one did not —
+   * so a value is only known good once it has been measured.
+   */
   lineHeight: Foundations['lineHeight'];
-  /** px. Steps of the type scale below this are raised to it, because smaller marks merge. */
-  minFontSize: number;
+  /** px. Steps of the type scale below this are raised to it, because smaller marks merge. Omit to keep the scale. */
+  minFontSize?: number;
   /**
    * --syntara-font-tracking-caps for this script. Devanagari has no case, and positive letter-spacing breaks the
    * headline (shirorekha) that joins a word, so it is "0". The per-size tracking curve stays: it is 0 or negative,
-   * and measured negative values break no headline.
+   * and measured negative values break no headline. Omit to keep the Latin default (Arabic pairs already force "0").
    */
-  capsTracking: string;
+  capsTracking?: string;
 }
 
 export interface ThemeSummary {

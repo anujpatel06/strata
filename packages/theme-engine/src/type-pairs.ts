@@ -35,6 +35,11 @@ export const TYPE_PAIRS: Record<TypePairId, TypePair> = {
     headingTracking: '0',
     supportsArabic: false,
     googleFamilies: ['Source Serif 4', 'Source Sans 3', 'Source Code Pro'],
+    // Source Serif 4's descenders left up to 0.5px below the box at the shared tight 1.2 (9 cases). 1.3 is clean.
+    script: {
+      name: 'latin',
+      lineHeight: { tight: 1.3, snug: 1.35, normal: 1.5 },
+    },
   },
   friendly: {
     id: 'friendly',
@@ -45,6 +50,13 @@ export const TYPE_PAIRS: Record<TypePairId, TypePair> = {
     headingTracking: '-0.01em',
     supportsArabic: false,
     googleFamilies: ['Plus Jakarta Sans', 'JetBrains Mono'],
+    // Plus Jakarta Sans' descenders sat up to 2px below the box at the shared tight 1.2 — 269 cases, the worst of
+    // the Latin pairs, and the one Care ships. 1.3 still clips 7; 1.35 is clean. snug is lifted to 1.4 because at
+    // 1.35 the worst margin was exactly 0, which is a clip on the next font that rounds differently.
+    script: {
+      name: 'latin',
+      lineHeight: { tight: 1.35, snug: 1.4, normal: 1.5 },
+    },
   },
   technical: {
     id: 'technical',
@@ -55,6 +67,11 @@ export const TYPE_PAIRS: Record<TypePairId, TypePair> = {
     headingTracking: '-0.01em',
     supportsArabic: false,
     googleFamilies: ['Space Grotesk', 'IBM Plex Sans', 'IBM Plex Mono'],
+    // Space Grotesk left ink below the box at the shared tight 1.2 — 1 case single, 3 wrapped, to 1px. 1.3 is clean.
+    script: {
+      name: 'latin',
+      lineHeight: { tight: 1.3, snug: 1.35, normal: 1.5 },
+    },
   },
   'bilingual-round': {
     id: 'bilingual-round',
@@ -66,6 +83,14 @@ export const TYPE_PAIRS: Record<TypePairId, TypePair> = {
     headingTracking: '0',
     supportsArabic: true,
     googleFamilies: ['Readex Pro', 'IBM Plex Sans Arabic', 'IBM Plex Mono'],
+    // Arabic ink runs well outside a Latin line box: fully vowelled text sat up to 12px below it at the shared
+    // tight 1.2, in 2,486 of 7,776 cases. Measured with
+    // `node scripts/check-script-clipping.mjs --pairs=bilingual-round --lh=<value>`: 1.7 still clips 7 cases,
+    // 1.75 leaves 1 (12px, 700, DPR 2), 1.8 is clean at every size, weight, DPR and sub-pixel offset.
+    script: {
+      name: 'arabic',
+      lineHeight: { tight: 1.8, snug: 1.8, normal: 1.9 },
+    },
   },
   'bilingual-classic': {
     id: 'bilingual-classic',
@@ -77,6 +102,12 @@ export const TYPE_PAIRS: Record<TypePairId, TypePair> = {
     headingTracking: '0',
     supportsArabic: true,
     googleFamilies: ['Noto Kufi Arabic', 'Noto Sans Arabic', 'Noto Sans', 'IBM Plex Mono'],
+    // Same fault as bilingual-round, to 10px, in 2,413 of 7,776 cases. Measured the same way: 1.7 clips 19,
+    // 1.75 leaves 1, 1.8 is clean. Both Arabic pairs landing on the same value is the script's floor, not a copy.
+    script: {
+      name: 'arabic',
+      lineHeight: { tight: 1.8, snug: 1.8, normal: 1.9 },
+    },
   },
   // Editorial: a variable serif with real italics for headings and numbers, a friendly grotesk for UI.
   // Anuj's KYB/care prototype voice (ADR-015). Fraunces' optical sizes keep display numbers crisp.
@@ -91,6 +122,12 @@ export const TYPE_PAIRS: Record<TypePairId, TypePair> = {
     googleFamilies: ['Fraunces', 'DM Sans', 'DM Mono'],
     italicFamilies: ['Fraunces'],
     opticalSizeFamilies: { Fraunces: '9..144' },
+    // Fraunces left ink below the box at the shared tight 1.2 (28 cases). 1.3 is clean — and 1.25 clips 31 where
+    // 1.22 clips 10, so this is measured, never interpolated: sub-pixel rounding makes clipping non-monotonic.
+    script: {
+      name: 'latin',
+      lineHeight: { tight: 1.3, snug: 1.35, normal: 1.5 },
+    },
   },
   // Modern: Geist (Vercel, SIL OFL) for everything. Anuj picked it over Inter for the house brand after a
   // side-by-side of the free fonts premium product sites ship (2026-09-27).
