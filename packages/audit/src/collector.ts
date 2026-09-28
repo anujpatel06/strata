@@ -1,7 +1,7 @@
 /**
  * Collects findings and opportunity counts for one source, and applies disable comments.
  *
- *   strata-audit-disable-next-line <rule>[, <rule>] -- reason
+ *   syntara-audit-disable-next-line <rule>[, <rule>] -- reason
  *
  * works in a CSS comment, a line comment and a JSX comment. It silences the named rules on the next line
  * that has code. A comment with no reason silences nothing and is reported.
@@ -17,7 +17,7 @@ export const RULES: Readonly<Record<RuleId, { severity: Severity; summary: strin
   'off-scale-font-size': { severity: 'warning', summary: 'A px or rem font size.' },
   'raw-font-weight': { severity: 'warning', summary: 'A font weight written as a number or keyword.' },
   'font-family-literal': { severity: 'warning', summary: 'A font family that is written out.' },
-  'native-element': { severity: 'error', summary: 'A native element where a Strata component exists.' },
+  'native-element': { severity: 'error', summary: 'A native element where a Syntara component exists.' },
   'physical-property': { severity: 'error', summary: 'A property or value that names left or right, top or bottom.' },
   'missing-accessible-name': { severity: 'error', summary: 'An image or control with no name a screen reader can say.' },
   'deprecated-api': { severity: 'warning', summary: 'A prop or prop value with a deprecation record.' },
@@ -33,7 +33,7 @@ interface Disable {
   rules: RuleId[];
 }
 
-const DIRECTIVE = /strata-audit-disable-next-line\b([^\n]*)/g;
+const DIRECTIVE = /syntara-audit-disable-next-line\b([^\n]*)/g;
 
 export class Collector implements Sink {
   readonly findings: Finding[] = [];
@@ -85,15 +85,15 @@ export class Collector implements Sink {
         if (!isRule(name)) this.notes.push(`${this.file}:${at.line} disable comment names an unknown rule "${name}". It silences nothing.`);
       }
       if (names.length === 0) {
-        this.notes.push(`${this.file}:${at.line} disable comment names no rule. It silences nothing. Write: strata-audit-disable-next-line <rule> -- reason.`);
+        this.notes.push(`${this.file}:${at.line} disable comment names no rule. It silences nothing. Write: syntara-audit-disable-next-line <rule> -- reason.`);
         continue;
       }
       if (reason === '') {
         const start = m.index;
-        const end = m.index + 'strata-audit-disable-next-line'.length + (m[1] ?? '').replace(/\*\/.*$/, '').trimEnd().length;
+        const end = m.index + 'syntara-audit-disable-next-line'.length + (m[1] ?? '').replace(/\*\/.*$/, '').trimEnd().length;
         for (const rule of known) {
           this.push(rule, 'warning', start, end, `This disable comment for ${rule} gives no reason, so it silences nothing.`, {
-            description: `Say why after two hyphens: strata-audit-disable-next-line ${rule} -- reason. Or fix the finding and remove the comment.`,
+            description: `Say why after two hyphens: syntara-audit-disable-next-line ${rule} -- reason. Or fix the finding and remove the comment.`,
             safe: false,
           });
         }

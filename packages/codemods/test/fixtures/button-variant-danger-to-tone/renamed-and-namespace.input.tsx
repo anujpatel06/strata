@@ -1,8 +1,8 @@
-import { Button as StrataButton, Card } from '@strata/react';
-import * as Strata from '@strata/react';
-import { Button as Direct } from '@strata/react/ui/button';
+import { Button as SyntaraButton, Card } from '@syntara/react';
+import * as Syntara from '@syntara/react';
+import { Button as Direct } from '@syntara/react/ui/button';
 
-export const a = <StrataButton variant="danger">Delete</StrataButton>;
-export const b = <Strata.Button variant="danger">Delete</Strata.Button>;
+export const a = <SyntaraButton variant="danger">Delete</SyntaraButton>;
+export const b = <Syntara.Button variant="danger">Delete</Syntara.Button>;
 export const c = <Direct variant="danger">Delete</Direct>;
 export const d = <Card variant="danger">Not a button</Card>;

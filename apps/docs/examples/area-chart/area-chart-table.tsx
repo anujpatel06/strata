@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { AreaChart, Switch } from '@strata/react';
+import { AreaChart, Switch } from '@syntara/react';
 
 const data = [
   { quarter: 'Q1', balance: 12400 }, { quarter: 'Q2', balance: 15800 },
@@ -11,7 +11,7 @@ const data = [
 export default function Example() {
   const [showTable, setShowTable] = useState(false);
   return (
-    <div style={{ display: 'grid', gap: 'var(--strata-space-4)', inlineSize: '100%' }}>
+    <div style={{ display: 'grid', gap: 'var(--syntara-space-4)', inlineSize: '100%' }}>
       <Switch isSelected={showTable} onChange={setShowTable}>
         Show data table
       </Switch>

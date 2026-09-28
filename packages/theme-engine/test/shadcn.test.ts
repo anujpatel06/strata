@@ -1,5 +1,5 @@
 /**
- * The shadcn bridge: every Strata theme exported as shadcn/ui CSS variables.
+ * The shadcn bridge: every Syntara theme exported as shadcn/ui CSS variables.
  * Real engine output for the three reference tenants plus a spread of random brands.
  */
 import { describe, expect, it } from 'vitest';
@@ -128,7 +128,7 @@ describe.each(TENANTS)('toShadcnCssVars — $name', (input) => {
     }
   });
 
-  it('maps each variable to its documented Strata role', () => {
+  it('maps each variable to its documented Syntara role', () => {
     for (const [name, role] of SHADCN_ROLE_MAP) {
       expect(vars.light[name]).toBe(hexToOklchString(theme.schemes.light.roles[role].hex));
       expect(vars.dark[name]).toBe(hexToOklchString(theme.schemes.dark.roles[role].hex));

@@ -16,7 +16,7 @@
   ],
   "registryDependencies": [],
   "reactAria": "https://react-spectrum.adobe.com/react-aria/Link.html",
-  "usage": "import { Link } from '@strata/react';\n\nexport function Help() {\n  return (\n    <p>\n      Read <Link href=\"/help/refunds\">how refunds work</Link>.\n    </p>\n  );\n}",
+  "usage": "import { Link } from '@syntara/react';\n\nexport function Help() {\n  return (\n    <p>\n      Read <Link href=\"/help/refunds\">how refunds work</Link>.\n    </p>\n  );\n}",
   "examples": [
     {
       "name": "link-demo",

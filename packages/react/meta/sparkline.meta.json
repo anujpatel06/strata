@@ -17,7 +17,7 @@
   "registryDependencies": [
     "chart"
   ],
-  "usage": "import { Sparkline } from '@strata/react';\n\nexport function Trend() {\n  return <Sparkline data={[31, 33, 32, 36, 35, 38, 41]} aria-label=\"Up 32% over 7 days\" />;\n}",
+  "usage": "import { Sparkline } from '@syntara/react';\n\nexport function Trend() {\n  return <Sparkline data={[31, 33, 32, 36, 35, 38, 41]} aria-label=\"Up 32% over 7 days\" />;\n}",
   "examples": [
     {
       "name": "sparkline-demo",

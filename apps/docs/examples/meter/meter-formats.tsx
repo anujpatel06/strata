@@ -1,10 +1,10 @@
 'use client';
 
-import { Meter } from '@strata/react';
+import { Meter } from '@syntara/react';
 
 export default function Example() {
   return (
-    <div style={{ display: 'grid', gap: 'var(--strata-space-5)', inlineSize: '100%', maxInlineSize: 360 }}>
+    <div style={{ display: 'grid', gap: 'var(--syntara-space-5)', inlineSize: '100%', maxInlineSize: 360 }}>
       {/* Default: a percentage. */}
       <Meter label="Storage" value={64} />
       {/* Currency, formatted for the locale by React Aria. */}

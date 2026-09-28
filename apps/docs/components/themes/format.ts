@@ -1,4 +1,4 @@
-import type { AdjustmentKind, Scheme } from '@strata/theme-engine';
+import type { AdjustmentKind, Scheme } from '@syntara/theme-engine';
 
 /**
  * Same as the engine's formatRatio (packages/theme-engine/src/color.ts), which the package entry doesn't export:
@@ -25,7 +25,7 @@ export const KIND_LABEL: Record<AdjustmentKind, string> = {
 /** What each adjustment kind means, for tooltips and screen readers. */
 export const KIND_HELP: Record<AdjustmentKind, string> = {
   contrast: 'Moved to meet a WCAG 2.2 AA contrast ratio.',
-  visibility: 'Moved so the element stays findable. A Strata heuristic, not a WCAG result.',
+  visibility: 'Moved so the element stays findable. A Syntara heuristic, not a WCAG result.',
   choice: 'A documented pick between valid options.',
 };
 

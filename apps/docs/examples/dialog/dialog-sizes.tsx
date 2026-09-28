@@ -1,12 +1,12 @@
 'use client';
 
-import { Button, Dialog, DialogTrigger } from '@strata/react';
+import { Button, Dialog, DialogTrigger } from '@syntara/react';
 
 const sizes = ['sm', 'md', 'lg'] as const;
 
 export default function Example() {
   return (
-    <div style={{ display: 'flex', flexWrap: 'wrap', gap: 'var(--strata-space-2)' }}>
+    <div style={{ display: 'flex', flexWrap: 'wrap', gap: 'var(--syntara-space-2)' }}>
       {sizes.map((size) => (
         <DialogTrigger key={size}>
           <Button variant="outline">Open {size}</Button>

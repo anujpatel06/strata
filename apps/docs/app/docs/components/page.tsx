@@ -1,4 +1,4 @@
-import { Card, CardAction, CardDescription, CardHeader, CardTitle } from '@strata/react';
+import { Card, CardAction, CardDescription, CardHeader, CardTitle } from '@syntara/react';
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { DocsPage } from '@/components/docs/docs-page';
@@ -10,7 +10,7 @@ import styles from './components-index.module.css';
 
 export const metadata: Metadata = {
   title: 'Components',
-  description: 'Every Strata component, grouped by what it does.',
+  description: 'Every Syntara component, grouped by what it does.',
 };
 
 export default function ComponentsIndex() {
@@ -25,7 +25,7 @@ export default function ComponentsIndex() {
       href="/docs/components"
       crumbs={[{ href: '/docs', label: 'Docs' }, { label: 'Reference' }]}
       title="Components"
-      description="Built on React Aria, styled only with Strata tokens, so each one renders every brand, scheme, density and direction from the same code."
+      description="Built on React Aria, styled only with Syntara tokens, so each one renders every brand, scheme, density and direction from the same code."
       toc={groups.map((g) => ({ id: slugify(g.label), title: g.label, depth: 2 as const }))}
       wide
     >

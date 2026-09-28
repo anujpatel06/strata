@@ -1,6 +1,6 @@
 'use client';
 
-import { IconChevronDown } from '@strata/icons';
+import { IconChevronDown } from '@syntara/icons';
 import type { JSX, ReactNode } from 'react';
 import {
   Button as RACButton,

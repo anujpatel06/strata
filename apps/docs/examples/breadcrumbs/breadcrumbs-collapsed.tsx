@@ -1,6 +1,6 @@
 'use client';
 
-import { Breadcrumb, Breadcrumbs } from '@strata/react';
+import { Breadcrumb, Breadcrumbs } from '@syntara/react';
 
 export default function Example() {
   return (

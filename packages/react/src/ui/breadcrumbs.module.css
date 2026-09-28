@@ -7,13 +7,13 @@
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  row-gap: var(--strata-space-1);
+  row-gap: var(--syntara-space-1);
   margin: 0;
   padding: 0;
   list-style: none;
-  color: var(--strata-color-text-subtle);
-  font-size: var(--strata-font-size-sm);
-  line-height: var(--strata-line-height-snug);
+  color: var(--syntara-color-text-subtle);
+  font-size: var(--syntara-font-size-sm);
+  line-height: var(--syntara-line-height-snug);
 }
 
 .item {
@@ -26,37 +26,37 @@
   box-sizing: border-box;
   display: inline-flex;
   align-items: center;
-  gap: var(--strata-space-1);
+  gap: var(--syntara-space-1);
   /* 24px hit target (WCAG 2.5.8) at any density. */
-  min-block-size: var(--strata-space-6);
+  min-block-size: var(--syntara-space-6);
   /* A chip that lights up on hover; the negative margin keeps the text where it was. */
-  padding-inline: var(--strata-space-1);
-  margin-inline: calc(var(--strata-space-1) * -1);
-  border-radius: var(--strata-radius-badge);
-  color: var(--strata-color-text-subtle);
+  padding-inline: var(--syntara-space-1);
+  margin-inline: calc(var(--syntara-space-1) * -1);
+  border-radius: var(--syntara-radius-badge);
+  color: var(--syntara-color-text-subtle);
   text-decoration: none;
   overflow-wrap: anywhere;
   outline: none;
 }
 
 .link[data-hovered]:not([data-current], [data-disabled]) {
-  background-color: color-mix(in oklab, var(--strata-color-text-default) 6%, transparent);
-  color: var(--strata-color-text-default);
+  background-color: color-mix(in oklab, var(--syntara-color-text-default) 6%, transparent);
+  color: var(--syntara-color-text-default);
 }
 
 .link[data-focus-visible] {
-  outline: 2px solid var(--strata-color-focus-ring);
+  outline: 2px solid var(--syntara-color-focus-ring);
   outline-offset: 2px;
 }
 
 .link[data-current] {
-  color: var(--strata-color-text-default);
-  font-weight: var(--strata-font-weight-medium);
+  color: var(--syntara-color-text-default);
+  font-weight: var(--syntara-font-weight-medium);
   cursor: default;
 }
 
 .link[data-disabled]:not([data-current]) {
-  color: var(--strata-color-text-disabled);
+  color: var(--syntara-color-text-disabled);
 }
 
 .link :where(svg) {
@@ -68,8 +68,8 @@
 .separator {
   display: inline-flex;
   flex: none;
-  margin-inline: var(--strata-space-2);
-  color: var(--strata-color-text-subtle);
+  margin-inline: var(--syntara-space-2);
+  color: var(--syntara-color-text-subtle);
 }
 
 /* Chevrons point "forward", whichever way forward is. */
@@ -80,39 +80,39 @@
 .ellipsis {
   display: inline-grid;
   place-items: center;
-  inline-size: var(--strata-space-6);
-  block-size: var(--strata-space-6);
+  inline-size: var(--syntara-space-6);
+  block-size: var(--syntara-space-6);
   /* Optical: the dots sit as close to the separators as text does. */
-  margin-inline: calc(var(--strata-space-1) * -1);
+  margin-inline: calc(var(--syntara-space-1) * -1);
   padding: 0;
   border: 0;
-  border-radius: var(--strata-radius-badge);
+  border-radius: var(--syntara-radius-badge);
   background-color: transparent;
-  color: var(--strata-color-text-subtle);
+  color: var(--syntara-color-text-subtle);
   font: inherit;
   outline: none;
 }
 
 .ellipsis[data-hovered] {
-  background-color: color-mix(in oklab, var(--strata-color-text-default) 6%, transparent);
-  color: var(--strata-color-text-default);
+  background-color: color-mix(in oklab, var(--syntara-color-text-default) 6%, transparent);
+  color: var(--syntara-color-text-default);
 }
 
 .ellipsis[data-focus-visible] {
-  outline: 2px solid var(--strata-color-focus-ring);
+  outline: 2px solid var(--syntara-color-focus-ring);
   outline-offset: 2px;
 }
 
 .link,
 .ellipsis {
   transition-property: background-color, color;
-  transition-duration: var(--strata-motion-duration-fast);
-  transition-timing-function: var(--strata-motion-easing);
+  transition-duration: var(--syntara-motion-duration-fast);
+  transition-timing-function: var(--syntara-motion-easing);
 }
 
 /* Items revealed by the ellipsis fade in (opacity is allowed with reduced motion; the slide is not). */
 .revealed {
-  animation: strata-breadcrumbs-fade var(--strata-motion-duration-normal) var(--strata-motion-easing-out) both;
+  animation: syntara-breadcrumbs-fade var(--syntara-motion-duration-normal) var(--syntara-motion-easing-out) both;
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -120,16 +120,16 @@
   .link,
   .ellipsis {
     transition-property: background-color, color, scale;
-    transition-duration: var(--strata-motion-duration-fast), var(--strata-motion-duration-fast),
-      var(--strata-motion-duration-spring);
-    transition-timing-function: var(--strata-motion-easing), var(--strata-motion-easing), var(--strata-motion-spring);
+    transition-duration: var(--syntara-motion-duration-fast), var(--syntara-motion-duration-fast),
+      var(--syntara-motion-duration-spring);
+    transition-timing-function: var(--syntara-motion-easing), var(--syntara-motion-easing), var(--syntara-motion-spring);
   }
 
   .link[data-pressed]:not([data-current]),
   .ellipsis[data-pressed] {
     scale: 0.97;
-    transition-duration: var(--strata-motion-duration-fast);
-    transition-timing-function: var(--strata-motion-easing);
+    transition-duration: var(--syntara-motion-duration-fast);
+    transition-timing-function: var(--syntara-motion-easing);
   }
 
   .ellipsis[data-pressed] {
@@ -137,20 +137,20 @@
   }
 
   .revealed {
-    animation-name: strata-breadcrumbs-reveal;
+    animation-name: syntara-breadcrumbs-reveal;
   }
 }
 
-@keyframes strata-breadcrumbs-fade {
+@keyframes syntara-breadcrumbs-fade {
   from {
     opacity: 0;
   }
 }
 
-@keyframes strata-breadcrumbs-reveal {
+@keyframes syntara-breadcrumbs-reveal {
   from {
     opacity: 0;
-    translate: calc(var(--strata-space-1) * var(--_reveal-dir, -1)) 0;
+    translate: calc(var(--syntara-space-1) * var(--_reveal-dir, -1)) 0;
   }
 }
 

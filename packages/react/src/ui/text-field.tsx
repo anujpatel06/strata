@@ -17,7 +17,7 @@ import {
   type TextProps as RACTextProps,
   type ValidationResult,
 } from 'react-aria-components';
-import { IconAlertCircle } from '@strata/icons';
+import { IconAlertCircle } from '@syntara/icons';
 import styles from './text-field.module.css';
 
 const cx = (...c: Array<string | false | null | undefined>) => c.filter(Boolean).join(' ');

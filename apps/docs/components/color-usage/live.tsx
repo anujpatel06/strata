@@ -4,9 +4,9 @@
  * The live parts of /docs/color. One tenant choice is shared by every live region on the page (a tiny store,
  * so picking Qamar in one picker updates the swatches, the matrix specimens and the do/don't pairs together).
  * `?tenant=<id>` in the URL preselects one, which is how the axe and screenshot scripts load Vela or Qamar.
- * The scheme is never chosen here: regions use data-strata-scheme="site" and follow the site's light/dark.
+ * The scheme is never chosen here: regions use data-syntara-scheme="site" and follow the site's light/dark.
  */
-import { ThemeScope, ToggleButton, ToggleButtonGroup } from '@strata/react';
+import { ThemeScope, ToggleButton, ToggleButtonGroup } from '@syntara/react';
 import { useSyncExternalStore, type ReactNode } from 'react';
 import type { LiveTenant, RoleHexes } from './data';
 import styles from './color-usage.module.css';
@@ -62,7 +62,7 @@ export function TenantPicker({ tenants, label = 'Live examples in' }: { tenants:
       >
         {tenants.map((t) => (
           <ToggleButton key={t.id} id={t.id} className={styles.pickerToggle}>
-            <span className={styles.pickerDot} data-strata-theme={t.id} aria-hidden="true" />
+            <span className={styles.pickerDot} data-syntara-theme={t.id} aria-hidden="true" />
             {t.name}
           </ToggleButton>
         ))}
@@ -100,7 +100,7 @@ export function LiveScope({
   return (
     <ThemeScope
       theme={tenant?.id}
-      data-strata-scheme="site"
+      data-syntara-scheme="site"
       locale={direction === 'tenant' ? tenant?.locale : undefined}
       className={[styles.live, className].filter(Boolean).join(' ')}
       data-surface={surface}

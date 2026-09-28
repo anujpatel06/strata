@@ -12,7 +12,7 @@ import {
   type Ref,
 } from 'react';
 import { useLocale } from 'react-aria-components';
-import { IconPlus } from '@strata/icons';
+import { IconPlus } from '@syntara/icons';
 import styles from './avatar.module.css';
 
 const cx = (...c: Array<string | false | null | undefined>) => c.filter(Boolean).join(' ');

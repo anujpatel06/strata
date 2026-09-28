@@ -14,7 +14,7 @@
 
 ## Decision
 
-- **Canonical export** follows DTCG 2025.10 exactly: `{ "colorSpace": "srgb", "components": [r, g, b], "hex": "#rrggbb" }`, `{ "value": 16, "unit": "px" }`, Strata metadata under `$extensions` (`com.strata.*`).
+- **Canonical export** follows DTCG 2025.10 exactly: `{ "colorSpace": "srgb", "components": [r, g, b], "hex": "#rrggbb" }`, `{ "value": 16, "unit": "px" }`, Syntara metadata under `$extensions` (`com.syntara.*`).
 - **Figma export** uses hex strings and plain numbers.
 - The Figma export has two layouts, chosen with `toFigmaFiles(theme, { modes })`. Both use the same dialect and the same variable names (`color/<role>`, `radius/…`, `font/…`, `density/…`).
 - **Multi-mode (default, `modes: 'multi'`; Professional or higher).** Modes split across collections: **Brand**, **Shape** and **Type** (one mode per tenant — 5 today, under Professional's 10), **Semantic** (Light / Dark), **Density** (Comfortable / Compact).

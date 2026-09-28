@@ -18,7 +18,7 @@ export const RUNS = path.join(EVALS, 'runs');
  *   repo's docs, examples and meta files, which a real consumer doesn't have.
  * run.mjs also denies reads of the repo, and records every file a run read, so a leak shows up in the results.
  */
-export const PREPARED = path.join(os.tmpdir(), 'strata-evals-prepared');
+export const PREPARED = path.join(os.tmpdir(), 'syntara-evals-prepared');
 export const PACKS = path.join(PREPARED, 'packs');
 /** The template with dependencies installed once. Every run's workspace links to its node_modules. */
 export const INSTALLED = path.join(PREPARED, 'app');

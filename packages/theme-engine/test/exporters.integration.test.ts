@@ -35,13 +35,13 @@ describe.each(TENANTS)('$name', (input) => {
     const other = theme.input.density === 'compact' ? 'comfortable' : 'compact';
     expect(rules.map((r) => r.selector)).toEqual([
       ':root',
-      ':root[data-strata-scheme="dark"]',
-      ':root[data-strata-scheme="auto"]',
-      `:root[data-strata-density="${other}"]`,
+      ':root[data-syntara-scheme="dark"]',
+      ':root[data-syntara-scheme="auto"]',
+      `:root[data-syntara-density="${other}"]`,
       ':root',
     ]);
     expect(rules[4]?.at).toBe('@media (min-resolution: 2dppx)');
-    expect(rules[4]?.decls).toEqual({ '--strata-hairline': '0.5px' });
+    expect(rules[4]?.decls).toEqual({ '--syntara-hairline': '0.5px' });
     expect(rules[2]?.at).toBe('@media (prefers-color-scheme: dark)');
     const { 'color-scheme': _cs, ...base } = rules[0]!.decls;
     expect(base).toEqual(toCssVariables(theme, 'light'));

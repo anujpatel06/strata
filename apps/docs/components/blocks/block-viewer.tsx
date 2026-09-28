@@ -1,4 +1,4 @@
-import { Tab, TabList, TabPanel, Tabs } from '@strata/react';
+import { Tab, TabList, TabPanel, Tabs } from '@syntara/react';
 import { CodeBlock } from '@/components/mdx/code-block';
 import { PackageCommand } from '@/components/mdx/package-command';
 import { getBlockContents, getBlockFiles, getBlockTenants, type BlockInfo } from './block-data';

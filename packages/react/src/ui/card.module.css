@@ -8,9 +8,9 @@
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  gap: var(--strata-card-inset);
+  gap: var(--syntara-card-inset);
   min-inline-size: 0;
-  padding-block: var(--strata-card-inset);
+  padding-block: var(--syntara-card-inset);
   /*
    * Surface recipe (CONVENTIONS "Surface recipe"): four private hooks the variants re-point.
    *   --_fill   the face colour (surface.raised);
@@ -18,18 +18,18 @@
    *   --_sheen  the engine's diagonal band of light: dark only (the token is `none` in light, where depth comes
    *             from the shadow). Proven on surface.raised: text.subtle stays ≥ 6.86:1 at its brightest pixel
    *             (theme-engine test/exporters.test.ts); every other text role measured ≥ 6.34:1 (text.brand, fuzz; 8% peak);
-   *   --_rim    the rim light. Built in for dark (a style query on --strata-sheen, below); `rim` adds it in light.
+   *   --_rim    the rim light. Built in for dark (a style query on --syntara-sheen, below); `rim` adds it in light.
    */
-  --_fill: var(--strata-color-surface-raised);
+  --_fill: var(--syntara-color-surface-raised);
   --_face: linear-gradient(var(--_fill), var(--_fill));
-  --_sheen: var(--strata-sheen);
+  --_sheen: var(--syntara-sheen);
   --_rim: transparent;
-  --_edge: var(--strata-color-border-subtle);
+  --_edge: var(--syntara-color-border-subtle);
   /* The outer corner. A private alias so the showcase variant can enlarge it and CardMedia can follow it. */
-  --_radius: var(--strata-radius-container);
+  --_radius: var(--syntara-radius-container);
   /* The card's inset, captured here (custom properties inherit their computed value), so CardMedia bleeds and pads
      by the card's inset even when the media carries another theme's tokens. */
-  --_inset: var(--strata-card-inset);
+  --_inset: var(--syntara-card-inset);
   /* Finesse: the soft shadow carries the depth; the edge is a hairline ring (0.5px on 2× screens). It's a
      box-shadow, not a border, because Chromium rounds sub-pixel border widths up to 1px. The 1px transparent
      border keeps the box size, carries the rim light and becomes the visible edge in forced-colours mode.
@@ -41,19 +41,19 @@
     var(--_sheen) padding-box,
     var(--_face) padding-box,
     linear-gradient(135deg, var(--_rim), transparent 60%) border-box var(--_fill);
-  box-shadow: 0 0 0 var(--strata-hairline) var(--_edge), var(--strata-shadow-raised);
-  color: var(--strata-color-text-default);
-  font-family: var(--strata-font-body);
-  font-size: var(--strata-font-size-md);
-  letter-spacing: var(--strata-font-tracking-md);
-  line-height: var(--strata-line-height-normal);
+  box-shadow: 0 0 0 var(--syntara-hairline) var(--_edge), var(--syntara-shadow-raised);
+  color: var(--syntara-color-text-default);
+  font-family: var(--syntara-font-body);
+  font-size: var(--syntara-font-size-md);
+  letter-spacing: var(--syntara-font-tracking-md);
+  line-height: var(--syntara-line-height-normal);
   text-align: start;
 }
-/* Rim light in dark only (CONVENTIONS "Surface recipe"): --strata-sheen is `none` exactly in light schemes, so it's
+/* Rim light in dark only (CONVENTIONS "Surface recipe"): --syntara-sheen is `none` exactly in light schemes, so it's
    the scheme signal, and the rim can never show without the sheen. Browsers without style queries get no rim. */
-@container not style(--strata-sheen: none) {
+@container not style(--syntara-sheen: none) {
   .card {
-    --_rim: var(--strata-rim);
+    --_rim: var(--syntara-rim);
   }
 }
 
@@ -66,10 +66,10 @@
 
 /* Outline: for dense layouts. A flat face and a stronger hairline, no shadow and no sheen; the rim only via `rim`. */
 .card[data-variant='outline'] {
-  --_edge: var(--strata-color-border-default);
+  --_edge: var(--syntara-color-border-default);
   --_sheen: none;
   --_rim: transparent;
-  box-shadow: 0 0 0 var(--strata-hairline) var(--_edge);
+  box-shadow: 0 0 0 var(--syntara-hairline) var(--_edge);
 }
 
 .card[data-variant='ghost'] {
@@ -87,7 +87,7 @@
  * (top-left in RTL too), like the shadows.
  */
 .card[data-rim] {
-  --_rim: var(--strata-rim);
+  --_rim: var(--syntara-rim);
 }
 
 /* ---- feature ------------------------------------------------------------- */
@@ -113,33 +113,33 @@
  * The binding constraint is text.subtle: at 17% light (house) or 34% dark (qamar) it drops below 4.5. Light now sits
  * far inside that at 6%.
  * The proof runs as a test, so a change to the mix, the stars or the engine fails CI:
- *   pnpm --filter @strata/react exec vitest run test/card.test.tsx   ("feature card contrast")
+ *   pnpm --filter @syntara/react exec vitest run test/card.test.tsx   ("feature card contrast")
  */
 .card[data-variant='feature'] {
   --_glow-at: 0% 0%;
   --_glow: light-dark(
-    color-mix(in oklab, var(--strata-color-action-primary-bg) 6%, var(--strata-color-surface-raised)),
-    color-mix(in oklab, var(--strata-color-action-primary-bg) 30%, var(--strata-color-surface-raised))
+    color-mix(in oklab, var(--syntara-color-action-primary-bg) 6%, var(--syntara-color-surface-raised)),
+    color-mix(in oklab, var(--syntara-color-action-primary-bg) 30%, var(--syntara-color-surface-raised))
   );
   --_face:
-    radial-gradient(farthest-corner at var(--_glow-at), var(--_glow) 0%, var(--strata-color-surface-raised) 70%);
+    radial-gradient(farthest-corner at var(--_glow-at), var(--_glow) 0%, var(--syntara-color-surface-raised) 70%);
   /*
-   * The brand halo, dark only. It mirrors --strata-glow's geometry and mix (a 1px ring at 40%, a 0 12px 40px -12px
+   * The brand halo, dark only. It mirrors --syntara-glow's geometry and mix (a 1px ring at 40%, a 0 12px 40px -12px
    * bloom at 60%) with light-dark() colours, because a token shadow can't be switched per scheme. In light both
    * layers are transparent, leaving the hairline edge and the raised shadow.
    */
-  --_halo-ring: light-dark(transparent, color-mix(in srgb, var(--strata-color-action-primary-bg) 40%, transparent));
-  --_halo: light-dark(transparent, color-mix(in srgb, var(--strata-color-action-primary-bg) 60%, transparent));
+  --_halo-ring: light-dark(transparent, color-mix(in srgb, var(--syntara-color-action-primary-bg) 40%, transparent));
+  --_halo: light-dark(transparent, color-mix(in srgb, var(--syntara-color-action-primary-bg) 60%, transparent));
   /* No sheen: on the glow it would cost the proof its margin (qamar dark: text.subtle and text.brand drop to 4.15:1
      at a 6% peak, measured 2026-09-27; the peak is now 8%, so lower still). The glow is this variant's light. */
   --_sheen: none;
   position: relative;
   isolation: isolate;
   box-shadow:
-    0 0 0 var(--strata-hairline) var(--_edge),
-    var(--strata-shadow-raised),
+    0 0 0 var(--syntara-hairline) var(--_edge),
+    var(--syntara-shadow-raised),
     0 0 0 1px var(--_halo-ring),
-    0 var(--strata-space-3) var(--strata-space-10) calc(var(--strata-space-3) * -1) var(--_halo);
+    0 var(--syntara-space-3) var(--syntara-space-10) calc(var(--syntara-space-3) * -1) var(--_halo);
 }
 
 /* The glow sits behind the headline, so it starts at the inline start. */
@@ -157,8 +157,8 @@
  */
 .card[data-stars]::before {
   --_star: light-dark(
-    color-mix(in srgb, var(--strata-color-surface-raised) 60%, transparent),
-    color-mix(in srgb, var(--strata-color-text-default) 20%, transparent)
+    color-mix(in srgb, var(--syntara-color-surface-raised) 60%, transparent),
+    color-mix(in srgb, var(--syntara-color-text-default) 20%, transparent)
   );
   position: absolute;
   z-index: -1;
@@ -173,16 +173,16 @@
   /* Tile sizes are co-prime multiples of space-1 (21, 33, 15, 43, 25 × 4px and so on), so the layers never line up
      into a visible grid. */
   background-size:
-    calc(var(--strata-space-1) * 21) calc(var(--strata-space-1) * 17),
-    calc(var(--strata-space-1) * 33) calc(var(--strata-space-1) * 29),
-    calc(var(--strata-space-1) * 15) calc(var(--strata-space-1) * 26),
-    calc(var(--strata-space-1) * 43) calc(var(--strata-space-1) * 37),
-    calc(var(--strata-space-1) * 25) calc(var(--strata-space-1) * 19);
+    calc(var(--syntara-space-1) * 21) calc(var(--syntara-space-1) * 17),
+    calc(var(--syntara-space-1) * 33) calc(var(--syntara-space-1) * 29),
+    calc(var(--syntara-space-1) * 15) calc(var(--syntara-space-1) * 26),
+    calc(var(--syntara-space-1) * 43) calc(var(--syntara-space-1) * 37),
+    calc(var(--syntara-space-1) * 25) calc(var(--syntara-space-1) * 19);
   content: '';
   mask-image: radial-gradient(
     farthest-corner at var(--_glow-at),
-    light-dark(var(--strata-color-text-default), transparent) 0%,
-    light-dark(transparent, var(--strata-color-text-default)) 100%
+    light-dark(var(--syntara-color-text-default), transparent) 0%,
+    light-dark(transparent, var(--syntara-color-text-default)) 100%
   );
   pointer-events: none;
 }
@@ -204,7 +204,7 @@
  * - dark:  surface.sunken, the darkest surface (the same as the page canvas in every tenant today), lit by the rim
  *          and the sheen (surface recipe). The sheen is proved on this face too (test/card.test.tsx).
  * Text on it: text.default, text.subtle, text.brand. Worst pixel, tenants and 1,000 fuzz brands, face and the
- * sheen's peak (measured 2026-09-27, `pnpm --filter @strata/react exec vitest run test/card.test.tsx`,
+ * sheen's peak (measured 2026-09-27, `pnpm --filter @syntara/react exec vitest run test/card.test.tsx`,
  * "showcase card contrast"):
  *
  *                 light                      dark
@@ -221,14 +221,14 @@
  * sharp, a round one doesn't turn into a pill. Parts inside get a concentric radius (outer − inset) through the container token.
  */
 .card[data-variant='showcase'] {
-  --_radius: clamp(var(--strata-radius-container), calc(var(--strata-radius-container) * 2), var(--strata-space-8));
+  --_radius: clamp(var(--syntara-radius-container), calc(var(--syntara-radius-container) * 2), var(--syntara-space-8));
   /* Concentric (outer − inset), floored at the brand's own container radius capped at space-3: with a 24–32px
      outer corner and a 20–28px inset, pure concentric math gives 4–8px, which reads sharp beside the card. */
   --_inner-radius: max(
-    min(var(--strata-radius-container), var(--strata-space-3)),
-    calc(var(--_radius) - var(--strata-card-inset))
+    min(var(--syntara-radius-container), var(--syntara-space-3)),
+    calc(var(--_radius) - var(--syntara-card-inset))
   );
-  --_fill: light-dark(var(--strata-color-surface-raised), var(--strata-color-surface-sunken));
+  --_fill: light-dark(var(--syntara-color-surface-raised), var(--syntara-color-surface-sunken));
   --_rim: transparent;
   /* Three top-down layers of the rim: together about 2.5× as bright along the top edge and round the top corners
      (the gloss), fading down the sides; the longest layer keeps a faint edge all the way down. */
@@ -240,19 +240,19 @@
     linear-gradient(to bottom, var(--_rim), transparent) border-box,
     var(--_fill);
   /* Light: the depth is the shadow, so it rests at the overlay step (soft and wide) rather than a hairline lift. */
-  box-shadow: 0 0 0 var(--strata-hairline) var(--_edge), var(--strata-shadow-overlay);
+  box-shadow: 0 0 0 var(--syntara-hairline) var(--_edge), var(--syntara-shadow-overlay);
 }
 
-@container not style(--strata-sheen: none) {
+@container not style(--syntara-sheen: none) {
   .card[data-variant='showcase'] {
-    --_rim: var(--strata-rim);
+    --_rim: var(--syntara-rim);
   }
 }
 
 /* Parts inside follow the card's corner concentrically: a StatTile or inset surface inside reads the container
    radius, so point it at the inner radius (the same trick as the inset's card-inset). */
 .card[data-variant='showcase'] > :not(.media) {
-  --strata-radius-container: var(--_inner-radius);
+  --syntara-radius-container: var(--_inner-radius);
 }
 
 .card[data-variant='showcase'] > .content[data-variant='inset'] {
@@ -260,23 +260,23 @@
 }
 
 .card[data-variant='showcase'] .header {
-  row-gap: var(--strata-space-3);
+  row-gap: var(--syntara-space-3);
 }
 
 .card[data-variant='showcase'] .title {
-  font-size: var(--strata-font-size-xl);
-  letter-spacing: var(--strata-font-tracking-xl);
+  font-size: var(--syntara-font-size-xl);
+  letter-spacing: var(--syntara-font-tracking-xl);
 }
 
 .card[data-variant='showcase'] .description {
-  font-size: var(--strata-font-size-md);
-  letter-spacing: var(--strata-font-tracking-md);
+  font-size: var(--syntara-font-size-md);
+  letter-spacing: var(--syntara-font-tracking-md);
 }
 
 /* The rail's hairline stops at the text edge instead of running into the rim (it's drawn on the box, so the
    box moves in from padding to margin). */
 .card[data-variant='showcase'] > .footer[data-divider] {
-  margin-inline: var(--strata-card-inset);
+  margin-inline: var(--syntara-card-inset);
   padding-inline: 0;
 }
 
@@ -286,8 +286,8 @@
 }
 
 .card[data-variant='showcase'] > .footer {
-  column-gap: var(--strata-space-4);
-  color: var(--strata-color-text-subtle);
+  column-gap: var(--syntara-space-4);
+  color: var(--syntara-color-text-subtle);
 }
 
 /* ---- media --------------------------------------------------------------- */
@@ -328,7 +328,7 @@
  * media's own stacking context), never behind text.
  */
 .media[data-glow]::before {
-  --_haze: var(--strata-color-action-primary-bg);
+  --_haze: var(--syntara-color-action-primary-bg);
   position: absolute;
   z-index: -1;
   inset: 0;
@@ -350,12 +350,12 @@
       transparent
     );
   content: '';
-  mask-image: linear-gradient(to top, transparent, var(--strata-color-text-default) 24%);
+  mask-image: linear-gradient(to top, transparent, var(--syntara-color-text-default) 24%);
   pointer-events: none;
 }
 
 .media[data-glow='accent']::before {
-  --_haze: var(--strata-color-accent-bg);
+  --_haze: var(--syntara-color-accent-bg);
 }
 
 @media (forced-colors: active) {
@@ -377,8 +377,8 @@
   outline: 0 solid transparent;
   outline-offset: 0;
   transition:
-    box-shadow var(--strata-motion-duration-normal) var(--strata-motion-easing),
-    outline-offset var(--strata-motion-duration-fast) var(--strata-motion-easing);
+    box-shadow var(--syntara-motion-duration-normal) var(--syntara-motion-easing),
+    outline-offset var(--syntara-motion-duration-fast) var(--syntara-motion-easing);
 }
 
 .card[data-interactive] .title :where(a[href]) {
@@ -402,12 +402,12 @@
 
 /* No lift while the pointer is on a nested control: that control is the target, not the card. */
 .card[data-interactive]:hover:not(:has(:where(a[href], button, input, select, textarea, [role='button']):not(.title a):hover)) {
-  --_edge: var(--strata-color-border-default);
-  box-shadow: 0 0 0 var(--strata-hairline) var(--_edge), var(--strata-shadow-overlay);
+  --_edge: var(--syntara-color-border-default);
+  box-shadow: 0 0 0 var(--syntara-hairline) var(--_edge), var(--syntara-shadow-overlay);
 }
 
 .card[data-variant='showcase'][data-interactive]:hover:not(:has(:where(a[href], button, input, select, textarea, [role='button']):not(.title a):hover)) {
-  box-shadow: 0 0 0 var(--strata-hairline) var(--_edge), var(--strata-shadow-overlay), var(--strata-shadow-overlay);
+  box-shadow: 0 0 0 var(--syntara-hairline) var(--_edge), var(--syntara-shadow-overlay), var(--syntara-shadow-overlay);
 }
 
 .card[data-interactive]:has(.title a:hover) .title :where(a[href]) {
@@ -418,17 +418,17 @@
 
 /* The accessible indicator: the 2px ring round the whole card, settling out from 0 to 2px. */
 .card[data-interactive]:has(.title a:focus-visible) {
-  outline: 2px solid var(--strata-color-focus-ring);
+  outline: 2px solid var(--syntara-color-focus-ring);
   outline-offset: 2px;
 }
 
 @media (prefers-reduced-motion: no-preference) {
   .card[data-interactive] {
     transition:
-      box-shadow var(--strata-motion-duration-normal) var(--strata-motion-easing),
-      outline-offset var(--strata-motion-duration-spring) var(--strata-motion-spring),
-      translate var(--strata-motion-duration-spring) var(--strata-motion-spring),
-      scale var(--strata-motion-duration-spring) var(--strata-motion-spring);
+      box-shadow var(--syntara-motion-duration-normal) var(--syntara-motion-easing),
+      outline-offset var(--syntara-motion-duration-spring) var(--syntara-motion-spring),
+      translate var(--syntara-motion-duration-spring) var(--syntara-motion-spring),
+      scale var(--syntara-motion-duration-spring) var(--syntara-motion-spring);
   }
 
   .card[data-interactive]:hover:not(:has(:where(a[href], button, input, select, textarea, [role='button']):not(.title a):hover)) {
@@ -446,10 +446,10 @@
     translate: 0 0;
     scale: 0.98;
     transition:
-      box-shadow var(--strata-motion-duration-fast) var(--strata-motion-easing),
-      outline-offset var(--strata-motion-duration-fast) var(--strata-motion-easing),
-      translate var(--strata-motion-duration-fast) var(--strata-motion-easing),
-      scale var(--strata-motion-duration-fast) var(--strata-motion-easing);
+      box-shadow var(--syntara-motion-duration-fast) var(--syntara-motion-easing),
+      outline-offset var(--syntara-motion-duration-fast) var(--syntara-motion-easing),
+      translate var(--syntara-motion-duration-fast) var(--syntara-motion-easing),
+      scale var(--syntara-motion-duration-fast) var(--syntara-motion-easing);
   }
 
   /*
@@ -458,8 +458,8 @@
    * stretched link's layer). It never blocks anything: the parts are clickable while they settle.
    */
   .card > * {
-    animation: card-part-in var(--strata-motion-duration-slow) var(--strata-motion-easing-out)
-      calc(var(--_i, 0) * var(--strata-motion-duration-fast) / 3) backwards;
+    animation: card-part-in var(--syntara-motion-duration-slow) var(--syntara-motion-easing-out)
+      calc(var(--_i, 0) * var(--syntara-motion-duration-fast) / 3) backwards;
   }
   .card > :nth-child(2) {
     --_i: 1;
@@ -486,9 +486,9 @@
   grid-template-columns: minmax(0, 1fr);
   grid-auto-rows: min-content;
   align-items: start;
-  row-gap: calc(var(--strata-space-1) * 1.5);
-  column-gap: var(--strata-space-4);
-  padding-inline: var(--strata-card-inset);
+  row-gap: calc(var(--syntara-space-1) * 1.5);
+  column-gap: var(--syntara-space-4);
+  padding-inline: var(--syntara-card-inset);
 }
 
 .header:has(> .action) {
@@ -497,37 +497,37 @@
 
 /* Section dividers: a hairline (box-shadow, since Chromium rounds sub-pixel borders up to 1px). */
 .header[data-divider] {
-  padding-block-end: var(--strata-card-inset);
-  box-shadow: inset 0 calc(var(--strata-hairline) * -1) 0 var(--strata-color-border-subtle);
+  padding-block-end: var(--syntara-card-inset);
+  box-shadow: inset 0 calc(var(--syntara-hairline) * -1) 0 var(--syntara-color-border-subtle);
 }
 
 .title {
   margin: 0;
-  color: var(--strata-color-text-default);
-  font-family: var(--strata-font-heading);
-  font-size: var(--strata-font-size-lg);
+  color: var(--syntara-color-text-default);
+  font-family: var(--syntara-font-heading);
+  font-size: var(--syntara-font-size-lg);
   /* Semibold, not bold (Anuj, 2026-09-27: 700 titles read heavy). Hierarchy comes from size and colour. */
-  font-weight: var(--strata-font-weight-semibold);
+  font-weight: var(--syntara-font-weight-semibold);
   /* Size-matched tracking (the brand's display tracking is tuned for large headings and closes up word spaces here). */
-  letter-spacing: var(--strata-font-tracking-lg);
-  line-height: var(--strata-line-height-tight);
+  letter-spacing: var(--syntara-font-tracking-lg);
+  line-height: var(--syntara-line-height-tight);
   text-wrap: balance;
 }
 
 /* Editorial emphasis: an <em> in the title is the heading face's real italic, in the brand's text colour
    (text.brand is contrast-checked at 4.5:1 on surface.raised, canvas and default, the surfaces a card sits on). */
 .title em {
-  color: var(--strata-color-text-brand);
+  color: var(--syntara-color-text-brand);
   font-style: italic;
 }
 
 .description {
   margin: 0;
-  color: var(--strata-color-text-subtle);
-  font-weight: var(--strata-font-weight-regular);
-  font-size: var(--strata-font-size-sm);
-  letter-spacing: var(--strata-font-tracking-sm);
-  line-height: var(--strata-line-height-normal);
+  color: var(--syntara-color-text-subtle);
+  font-weight: var(--syntara-font-weight-regular);
+  font-size: var(--syntara-font-size-sm);
+  letter-spacing: var(--syntara-font-tracking-sm);
+  line-height: var(--syntara-line-height-normal);
   text-wrap: pretty;
 }
 
@@ -535,14 +535,14 @@
 .description:has(> svg) {
   display: flex;
   align-items: center;
-  gap: calc(var(--strata-space-1) * 1.5);
+  gap: calc(var(--syntara-space-1) * 1.5);
 }
 
 .description > svg {
   flex: none;
   inline-size: 1.15em;
   block-size: 1.15em;
-  stroke-width: var(--strata-icon-stroke, 1.5);
+  stroke-width: var(--syntara-icon-stroke, 1.5);
 }
 
 .action {
@@ -552,14 +552,14 @@
   align-items: center;
   align-self: start;
   justify-self: end;
-  gap: var(--strata-space-2);
+  gap: var(--syntara-space-2);
 }
 
 /* ---- content & footer -------------------------------------------------- */
 
 .content {
   min-inline-size: 0;
-  padding-inline: var(--strata-card-inset);
+  padding-inline: var(--syntara-card-inset);
 }
 
 /*
@@ -571,22 +571,22 @@
  * that align to it (DataTable's edge cells) tighten with the nested surface.
  */
 .content[data-variant='inset'] {
-  --_inner-inset: calc(var(--strata-card-inset) / 2);
+  --_inner-inset: calc(var(--syntara-card-inset) / 2);
   box-sizing: border-box;
-  margin-inline: var(--strata-card-inset);
+  margin-inline: var(--syntara-card-inset);
   padding: var(--_inner-inset);
   overflow: hidden;
   border: 1px solid transparent;
   border-radius: max(
-    min(var(--strata-radius-badge), var(--strata-space-2)),
-    calc(var(--strata-radius-container) - var(--strata-card-inset) / 2)
+    min(var(--syntara-radius-badge), var(--syntara-space-2)),
+    calc(var(--syntara-radius-container) - var(--syntara-card-inset) / 2)
   );
-  background-color: var(--strata-color-surface-sunken);
-  box-shadow: 0 0 0 var(--strata-hairline) var(--strata-color-border-subtle);
+  background-color: var(--syntara-color-surface-sunken);
+  box-shadow: 0 0 0 var(--syntara-hairline) var(--syntara-color-border-subtle);
 }
 
 .content[data-variant='inset'] > * {
-  --strata-card-inset: var(--_inner-inset);
+  --syntara-card-inset: var(--_inner-inset);
 }
 
 /* A table fills the surface edge to edge (its cells bring their own padding), and a framed table (DataTable)
@@ -612,11 +612,11 @@
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: var(--strata-space-2);
-  padding-inline: var(--strata-card-inset);
+  gap: var(--syntara-space-2);
+  padding-inline: var(--syntara-card-inset);
 }
 
 .footer[data-divider] {
-  padding-block-start: var(--strata-card-inset);
-  box-shadow: inset 0 var(--strata-hairline) 0 var(--strata-color-border-subtle);
+  padding-block-start: var(--syntara-card-inset);
+  box-shadow: inset 0 var(--syntara-hairline) 0 var(--syntara-color-border-subtle);
 }

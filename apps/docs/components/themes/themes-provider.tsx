@@ -1,6 +1,6 @@
 'use client';
 
-import { generateTheme, googleFontsHref, type BrandInput, type Theme } from '@strata/theme-engine';
+import { generateTheme, googleFontsHref, type BrandInput, type Theme } from '@syntara/theme-engine';
 import {
   createContext,
   useContext,
@@ -40,7 +40,7 @@ function safeGenerate(input: BrandInput): Theme | null {
   try {
     return generateTheme(input);
   } catch (error) {
-    console.error('Strata /themes: could not generate a theme for', input, error);
+    console.error('Syntara /themes: could not generate a theme for', input, error);
     return null;
   }
 }
@@ -56,11 +56,11 @@ function useTypePairFont(theme: Theme) {
   }, [theme.typePair]);
   useEffect(() => {
     if (!href) return;
-    if (document.querySelector(`link[data-strata-font][href="${CSS.escape(href)}"]`)) return;
+    if (document.querySelector(`link[data-syntara-font][href="${CSS.escape(href)}"]`)) return;
     const link = document.createElement('link');
     link.rel = 'stylesheet';
     link.href = href;
-    link.dataset.strataFont = '';
+    link.dataset.syntaraFont = '';
     document.head.append(link);
   }, [href]);
 }

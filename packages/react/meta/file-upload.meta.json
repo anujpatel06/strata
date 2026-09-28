@@ -6,10 +6,10 @@
   "maturity": "alpha",
   "exports": ["FileUpload"],
   "files": ["file-upload.tsx", "file-upload.module.css"],
-  "dependencies": ["react-aria-components", "@strata/icons"],
+  "dependencies": ["react-aria-components", "@syntara/icons"],
   "registryDependencies": ["button", "text-field"],
   "reactAria": "https://react-spectrum.adobe.com/react-aria/DropZone.html",
-  "usage": "import { FileUpload } from '@strata/react';\n\nexport function Receipts() {\n  return (\n    <FileUpload\n      label=\"Receipts\"\n      acceptedFileTypes={['image/png', 'image/jpeg', 'application/pdf']}\n      maxSize={10 * 1024 * 1024}\n      allowsMultiple\n      onChange={(files) => console.log(files)}\n    />\n  );\n}",
+  "usage": "import { FileUpload } from '@syntara/react';\n\nexport function Receipts() {\n  return (\n    <FileUpload\n      label=\"Receipts\"\n      acceptedFileTypes={['image/png', 'image/jpeg', 'application/pdf']}\n      maxSize={10 * 1024 * 1024}\n      allowsMultiple\n      onChange={(files) => console.log(files)}\n    />\n  );\n}",
   "examples": [
     { "name": "file-upload-demo", "title": "File upload", "description": "Several files, limited by type and size; the hint is generated from both." },
     { "name": "file-upload-with-progress", "title": "Progress and errors", "description": "Pass FileUploadEntry objects to show upload progress, a finished state, or a per-file error." },

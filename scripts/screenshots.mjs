@@ -72,8 +72,8 @@ function freePort() {
 }
 
 function build() {
-  console.log('› Building @strata/generator');
-  const res = spawnSync(PNPM, ['--filter', '@strata/generator', 'build'], {
+  console.log('› Building @syntara/generator');
+  const res = spawnSync(PNPM, ['--filter', '@syntara/generator', 'build'], {
     cwd: ROOT,
     stdio: 'inherit',
     shell: IS_WIN,
@@ -87,7 +87,7 @@ async function startPreview() {
   console.log(`› Starting vite preview on ${base}`);
   server = spawn(
     PNPM,
-    ['--filter', '@strata/generator', 'preview', '--host', '127.0.0.1', '--port', String(port), '--strictPort'],
+    ['--filter', '@syntara/generator', 'preview', '--host', '127.0.0.1', '--port', String(port), '--strictPort'],
     { cwd: ROOT, stdio: ['ignore', 'pipe', 'pipe'], detached: !IS_WIN, shell: IS_WIN },
   );
   const collect = (chunk) => {
@@ -127,12 +127,12 @@ async function load(page, url) {
 
 /**
  * Offline font mode (CI / sandboxes that can't reach Google Fonts): set
- *   STRATA_LOCAL_FONTS=<a node_modules dir containing @fontsource/* packages>
+ *   SYNTARA_LOCAL_FONTS=<a node_modules dir containing @fontsource/* packages>
  * and Google Fonts requests are answered from those packages instead, so screenshots use the
  * real typefaces (including Arabic) rather than system fallbacks. No repo dependency needed.
  */
-const LOCAL_FONTS = process.env.STRATA_LOCAL_FONTS ? path.resolve(process.env.STRATA_LOCAL_FONTS) : null;
-const LOCAL_FONT_BASE = 'https://fonts.gstatic.com/strata-local';
+const LOCAL_FONTS = process.env.SYNTARA_LOCAL_FONTS ? path.resolve(process.env.SYNTARA_LOCAL_FONTS) : null;
+const LOCAL_FONT_BASE = 'https://fonts.gstatic.com/syntara-local';
 
 async function serveFontsLocally(context) {
   const { readFile } = await import('node:fs/promises');
@@ -155,7 +155,7 @@ async function serveFontsLocally(context) {
     await route.fulfill({ status: 200, contentType: 'text/css', body: css });
   });
   await context.route(`${LOCAL_FONT_BASE}/**`, async (route) => {
-    const rel = new URL(route.request().url()).pathname.replace('/strata-local/', '');
+    const rel = new URL(route.request().url()).pathname.replace('/syntara-local/', '');
     try {
       const body = await readFile(path.join(LOCAL_FONTS, '@fontsource', rel));
       await route.fulfill({ status: 200, contentType: rel.endsWith('.woff') ? 'font/woff' : 'font/woff2', body });

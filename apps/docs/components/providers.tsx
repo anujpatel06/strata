@@ -13,7 +13,7 @@ declare module 'react-aria-components' {
 }
 
 /**
- * React Aria links (Strata Link, Breadcrumb, MenuItem href, CommandItem href) navigate with the Next router,
+ * React Aria links (Syntara Link, Breadcrumb, MenuItem href, CommandItem href) navigate with the Next router,
  * and the site renders in a fixed locale so server and client agree. Previews set their own locale.
  */
 export function Providers({ children }: { children: ReactNode }) {

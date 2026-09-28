@@ -41,10 +41,10 @@
    lit filament. Decoration only; static, so no motion guard. */
 .line[data-glow] {
   filter: drop-shadow(
-      0 var(--strata-space-1) var(--strata-space-2)
+      0 var(--syntara-space-1) var(--syntara-space-2)
         light-dark(color-mix(in oklab, var(--_c) 40%, transparent), color-mix(in oklab, var(--_c) 70%, transparent))
     )
-    drop-shadow(0 0 var(--strata-space-1) light-dark(transparent, color-mix(in oklab, var(--_c) 70%, transparent)));
+    drop-shadow(0 0 var(--syntara-space-1) light-dark(transparent, color-mix(in oklab, var(--_c) 70%, transparent)));
 }
 
 .dot {
@@ -56,7 +56,7 @@
 /* ---- hover / focus ------------------------------------------------------------ */
 
 .crosshair {
-  stroke: color-mix(in oklab, var(--strata-chart-axis, var(--strata-color-text-subtle)) 45%, transparent);
+  stroke: color-mix(in oklab, var(--syntara-chart-axis, var(--syntara-color-text-subtle)) 45%, transparent);
   stroke-width: 1;
 }
 
@@ -85,36 +85,36 @@
 
 @media (prefers-reduced-motion: no-preference) {
   .series {
-    --_delay: calc(var(--_i) * var(--strata-motion-duration-fast));
+    --_delay: calc(var(--_i) * var(--syntara-motion-duration-fast));
   }
 
   /* pathLength="1" lets the line draw from 1 → 0 dash offset whatever its real length. */
   .line {
     stroke-dasharray: 1 1;
-    animation: chart-line-draw calc(var(--strata-motion-duration-slow) * 3) var(--strata-motion-easing-out) var(--_delay) backwards;
+    animation: chart-line-draw calc(var(--syntara-motion-duration-slow) * 3) var(--syntara-motion-easing-out) var(--_delay) backwards;
   }
 
   .area {
-    animation: chart-area-in calc(var(--strata-motion-duration-slow) * 2) var(--strata-motion-easing-out)
-      calc(var(--_delay) + var(--strata-motion-duration-slow)) backwards;
+    animation: chart-area-in calc(var(--syntara-motion-duration-slow) * 2) var(--syntara-motion-easing-out)
+      calc(var(--_delay) + var(--syntara-motion-duration-slow)) backwards;
   }
 
   .dot {
     transform-box: fill-box;
     transform-origin: center;
-    animation: chart-dot-pop var(--strata-motion-duration-spring) var(--strata-motion-spring)
-      calc(var(--_delay) + var(--strata-motion-duration-slow) * 2) backwards;
+    animation: chart-dot-pop var(--syntara-motion-duration-spring) var(--syntara-motion-spring)
+      calc(var(--_delay) + var(--syntara-motion-duration-slow) * 2) backwards;
   }
 
   .crosshair,
   .point {
-    transition: transform var(--strata-motion-duration-normal) var(--strata-motion-easing-out);
+    transition: transform var(--syntara-motion-duration-normal) var(--syntara-motion-easing-out);
   }
 
   .pointDot {
     transform-box: fill-box;
     transform-origin: center;
-    animation: chart-dot-pop var(--strata-motion-duration-spring) var(--strata-motion-spring) backwards;
+    animation: chart-dot-pop var(--syntara-motion-duration-spring) var(--syntara-motion-spring) backwards;
   }
 }
 

@@ -9,7 +9,7 @@ import {
   type Key,
   type TagGroupProps as AriaTagGroupProps,
 } from 'react-aria-components';
-import { IconX } from '@strata/icons';
+import { IconX } from '@syntara/icons';
 import { Avatar, type AvatarTint } from './avatar';
 import styles from './person-chip.module.css';
 

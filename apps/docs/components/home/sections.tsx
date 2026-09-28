@@ -1,7 +1,7 @@
 /**
  * Homepage sections (server components). Every figure is read from the repo at build time — see home-data.ts.
  */
-import { IconArrowRight, IconCheck, IconX } from '@strata/icons';
+import { IconArrowRight, IconCheck, IconX } from '@syntara/icons';
 import { IconBrandGithub } from '@tabler/icons-react';
 import {
   Badge,
@@ -14,8 +14,8 @@ import {
   StatTile,
   StatTileGroup,
   ThemeScope,
-} from '@strata/react';
-import { TYPE_PAIRS } from '@strata/theme-engine';
+} from '@syntara/react';
+import { TYPE_PAIRS } from '@syntara/theme-engine';
 import Link from 'next/link';
 import type { ReactNode } from 'react';
 import { CodeBlock } from '@/components/mdx/code-block';
@@ -87,7 +87,7 @@ export function Hero() {
           Browse components
         </ButtonLink>
       </div>
-      <InstallCommand command="npm install @strata/react" />
+      <InstallCommand command="npm install @syntara/react" />
     </section>
   );
 }
@@ -120,7 +120,7 @@ export function BrandsSection() {
         {tenants.map((t) => (
           <figure key={t.id} className={styles.tenantFigure}>
             <div className={styles.tenantFrame}>
-              <ThemeScope theme={t.id} data-strata-scheme="site" locale={t.locale} className={styles.tenantScope}>
+              <ThemeScope theme={t.id} data-syntara-scheme="site" locale={t.locale} className={styles.tenantScope}>
                 <TenantCard tenant={t} level={3} />
               </ThemeScope>
             </div>
@@ -267,7 +267,7 @@ const SHIP: readonly ShipOption[] = [
   {
     title: 'npm package',
     description: 'Versioned releases for teams that want upgrades they can govern: deprecations, changelogs and codemods.',
-    command: 'pnpm add @strata/react',
+    command: 'pnpm add @syntara/react',
     href: '/docs/installation#with-npm',
     link: 'Install with npm',
     badge: 'Not on npm yet',
@@ -275,7 +275,7 @@ const SHIP: readonly ShipOption[] = [
   {
     title: 'Design tokens',
     description: 'Every tenant as CSS variables, DTCG 2025.10 JSON and Figma variables. Plain CSS, so any stack can read it.',
-    command: 'pnpm add @strata/tokens',
+    command: 'pnpm add @syntara/tokens',
     href: '/docs/theming',
     link: 'How theming works',
     badge: 'Not on npm yet',
@@ -362,7 +362,7 @@ export function AgentsSection() {
         <div className={styles.stack}>
           <SectionHeader id="agents-title" title="Built for people and agents">
             Each component is described once, in a meta.json: props, examples, keyboard behaviour, do and don’t.
-            These docs are generated from it, and coding agents can read the same file. A Strata MCP server, which
+            These docs are generated from it, and coding agents can read the same file. A Syntara MCP server, which
             serves components, tokens and usage rules to agents, is planned.
           </SectionHeader>
           <div className={styles.commandRow}>

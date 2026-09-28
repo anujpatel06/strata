@@ -1,14 +1,14 @@
 {
-  "name": "@strata/audit",
+  "name": "@syntara/audit",
   "version": "0.0.0",
-  "description": "Strata's drift auditor: finds off-system code, scores it 0–100, and suggests the exact token or component to use.",
+  "description": "Syntara's drift auditor: finds off-system code, scores it 0–100, and suggests the exact token or component to use.",
   "type": "module",
   "license": "MIT",
   "exports": {
     ".": "./src/index.ts"
   },
   "bin": {
-    "strata-audit": "./bin/cli.mjs"
+    "syntara-audit": "./bin/cli.mjs"
   },
   "files": [
     "bin",
@@ -22,7 +22,7 @@
     "typecheck": "tsc -p tsconfig.json"
   },
   "dependencies": {
-    "@strata/theme-engine": "workspace:*",
+    "@syntara/theme-engine": "workspace:*",
     "postcss": "^8.5.0",
     "postcss-value-parser": "^4.2.0",
     "tsx": "^4.20.0",

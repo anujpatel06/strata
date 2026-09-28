@@ -1,7 +1,7 @@
 'use client';
 
-import { TextField } from '@strata/react';
-import { IconAt, IconWorld } from '@strata/icons';
+import { TextField } from '@syntara/react';
+import { IconAt, IconWorld } from '@syntara/icons';
 
 export default function Example() {
   return (

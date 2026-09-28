@@ -1,16 +1,16 @@
 'use client';
 
-import { Button, DialogTrigger, Popover, TextField } from '@strata/react';
+import { Button, DialogTrigger, Popover, TextField } from '@syntara/react';
 
 export default function Example() {
   return (
     <DialogTrigger>
       <Button variant="outline">Set spending limit</Button>
       <Popover placement="bottom start">
-        <div style={{ display: 'grid', gap: 'var(--strata-field-gap)', inlineSize: 'calc(var(--strata-space-16) * 4)' }}>
-          <div style={{ display: 'grid', gap: 'var(--strata-space-1)' }}>
-            <strong style={{ fontWeight: 'var(--strata-font-weight-semibold)' }}>Monthly limit</strong>
-            <span style={{ fontSize: 'var(--strata-font-size-sm)', color: 'var(--strata-color-text-subtle)' }}>
+        <div style={{ display: 'grid', gap: 'var(--syntara-field-gap)', inlineSize: 'calc(var(--syntara-space-16) * 4)' }}>
+          <div style={{ display: 'grid', gap: 'var(--syntara-space-1)' }}>
+            <strong style={{ fontWeight: 'var(--syntara-font-weight-semibold)' }}>Monthly limit</strong>
+            <span style={{ fontSize: 'var(--syntara-font-size-sm)', color: 'var(--syntara-color-text-subtle)' }}>
               Card payments above this amount are declined.
             </span>
           </div>

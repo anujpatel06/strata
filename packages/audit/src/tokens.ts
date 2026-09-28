@@ -5,8 +5,8 @@
 import { existsSync, readFileSync } from 'node:fs';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { ROLES, generateTheme, roleToCssVar } from '@strata/theme-engine';
-import type { BrandInput, Theme } from '@strata/theme-engine';
+import { ROLES, generateTheme, roleToCssVar } from '@syntara/theme-engine';
+import type { BrandInput, Theme } from '@syntara/theme-engine';
 import { deltaE, parseColor, type ParsedColor } from './color';
 import type { TokenMatch } from './types';
 
@@ -46,9 +46,9 @@ export interface TenantTokens {
 }
 
 const here = dirname(fileURLToPath(import.meta.url));
-/** packages/audit/src → the repo root. STRATA_TENANTS_DIR overrides the tenants folder. */
+/** packages/audit/src → the repo root. SYNTARA_TENANTS_DIR overrides the tenants folder. */
 export const REPO_ROOT = resolve(here, '../../..');
-const tenantsDir = (): string => process.env.STRATA_TENANTS_DIR ?? join(REPO_ROOT, 'tenants');
+const tenantsDir = (): string => process.env.SYNTARA_TENANTS_DIR ?? join(REPO_ROOT, 'tenants');
 
 const themes = new Map<string, Theme>();
 const tables = new Map<string, TenantTokens>();
@@ -71,9 +71,9 @@ export function loadTokens(tenant = 'house', scheme: Scheme = 'light'): TenantTo
   const theme = loadTheme(tenant);
   const roles = theme.schemes[scheme].roles;
   const { space, radius, fontSize, fontWeight } = theme.foundations;
-  // Names follow the MCP server (packages/mcp/src/tokens.ts): --strata-font-size-md is font.size.md.
+  // Names follow the MCP server (packages/mcp/src/tokens.ts): --syntara-font-size-md is font.size.md.
   const numbers = (group: string, record: Record<string, number>, unit: string): NumberToken[] =>
-    Object.entries(record).map(([k, n]) => ({ token: `${group.replace('font-', 'font.')}.${k}`, cssVar: `--strata-${group}-${k}`, value: `${n}${unit}`, n }));
+    Object.entries(record).map(([k, n]) => ({ token: `${group.replace('font-', 'font.')}.${k}`, cssVar: `--syntara-${group}-${k}`, value: `${n}${unit}`, n }));
   const table: TenantTokens = {
     color: ROLES.map((role) => {
       const hex = roles[role].hex;

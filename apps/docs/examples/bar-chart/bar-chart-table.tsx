@@ -1,6 +1,6 @@
 'use client';
 
-import { BarChart } from '@strata/react';
+import { BarChart } from '@syntara/react';
 
 const data = [
   { plan: 'Starter', seats: 420 }, { plan: 'Team', seats: 1180 },

@@ -1,6 +1,6 @@
 'use client';
 
-import { Accordion, AccordionItem } from '@strata/react';
+import { Accordion, AccordionItem } from '@syntara/react';
 
 const faqs = [
   { id: 'change-plan', q: 'Can I change my plan mid-year?', a: 'Yes. The new plan starts on the first day of next month and we adjust the premium from then.' },

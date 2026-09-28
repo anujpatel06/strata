@@ -10,11 +10,11 @@
  */
 
 .tile {
-  --_size: var(--strata-space-10);
-  --_bg: var(--strata-color-action-secondary-bg);
-  --_fg: var(--strata-color-action-secondary-fg);
+  --_size: var(--syntara-space-10);
+  --_bg: var(--syntara-color-action-secondary-bg);
+  --_fg: var(--syntara-color-action-secondary-fg);
   /* The rim: the engine's rim colour (a whisper of text.default) on tints; on the solid fill, the label colour. */
-  --_rim: var(--strata-rim);
+  --_rim: var(--syntara-rim);
 
   position: relative;
   box-sizing: border-box;
@@ -27,11 +27,11 @@
   /* Transparent so the rim shows through; it also becomes the visible edge in forced-colours mode. */
   border: 1px solid transparent;
   /* Follows the brand's button shape, capped so round brands still get a rounded square, not a circle. */
-  border-radius: min(var(--strata-radius-button), 30%);
+  border-radius: min(var(--syntara-radius-button), 30%);
   background:
     linear-gradient(var(--_bg), var(--_bg)) padding-box,
     linear-gradient(135deg, var(--_rim), transparent 60%) border-box var(--_bg);
-  box-shadow: var(--strata-shadow-highlight);
+  box-shadow: var(--syntara-shadow-highlight);
   color: var(--_fg);
   line-height: 1;
   vertical-align: middle;
@@ -44,17 +44,17 @@
 }
 
 .tile[data-size='sm'] {
-  --_size: var(--strata-space-8);
+  --_size: var(--syntara-space-8);
 }
 .tile[data-size='lg'] {
-  --_size: var(--strata-space-12);
+  --_size: var(--syntara-space-12);
 }
 
 /* Icons at half the tile, at the brand's icon stroke. */
 .tile > svg {
   inline-size: calc(var(--_size) * 0.5);
   block-size: calc(var(--_size) * 0.5);
-  stroke-width: var(--strata-icon-stroke, 1.5);
+  stroke-width: var(--syntara-icon-stroke, 1.5);
 }
 
 .image {
@@ -66,32 +66,32 @@
 /* ---- tints (contrast-checked pairs only; see icon-tile.tsx) -------------- */
 
 .tile[data-tint='solid'] {
-  --_bg: var(--strata-color-action-primary-bg);
-  --_fg: var(--strata-color-action-primary-fg);
-  --_rim: color-mix(in oklab, var(--strata-color-action-primary-fg) 45%, transparent);
-  box-shadow: var(--strata-shadow-highlight), var(--strata-shadow-raised);
+  --_bg: var(--syntara-color-action-primary-bg);
+  --_fg: var(--syntara-color-action-primary-fg);
+  --_rim: color-mix(in oklab, var(--syntara-color-action-primary-fg) 45%, transparent);
+  box-shadow: var(--syntara-shadow-highlight), var(--syntara-shadow-raised);
 }
 .tile[data-tint='none'] {
-  --_bg: var(--strata-color-surface-sunken);
-  --_fg: var(--strata-color-text-default);
+  --_bg: var(--syntara-color-surface-sunken);
+  --_fg: var(--syntara-color-text-default);
 }
 .tile[data-tint='accent'] {
-  --_bg: var(--strata-color-accent-subtle);
-  --_fg: var(--strata-color-accent-text);
+  --_bg: var(--syntara-color-accent-subtle);
+  --_fg: var(--syntara-color-accent-text);
 }
 .tile[data-tint='info'] {
-  --_bg: var(--strata-color-feedback-info-bg);
-  --_fg: var(--strata-color-feedback-info-fg);
+  --_bg: var(--syntara-color-feedback-info-bg);
+  --_fg: var(--syntara-color-feedback-info-fg);
 }
 .tile[data-tint='success'] {
-  --_bg: var(--strata-color-feedback-success-bg);
-  --_fg: var(--strata-color-feedback-success-fg);
+  --_bg: var(--syntara-color-feedback-success-bg);
+  --_fg: var(--syntara-color-feedback-success-fg);
 }
 .tile[data-tint='warning'] {
-  --_bg: var(--strata-color-feedback-warning-bg);
-  --_fg: var(--strata-color-feedback-warning-fg);
+  --_bg: var(--syntara-color-feedback-warning-bg);
+  --_fg: var(--syntara-color-feedback-warning-fg);
 }
 .tile[data-tint='danger'] {
-  --_bg: var(--strata-color-feedback-danger-bg);
-  --_fg: var(--strata-color-feedback-danger-fg);
+  --_bg: var(--syntara-color-feedback-danger-bg);
+  --_fg: var(--syntara-color-feedback-danger-fg);
 }

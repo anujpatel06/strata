@@ -13,7 +13,7 @@
 
 ## Decision
 
-- `@strata/theme-engine` owns the exporters: `toCSS`, `toDTCG`, `toFigmaFiles` (`src/export/*`).
+- `@syntara/theme-engine` owns the exporters: `toCSS`, `toDTCG`, `toFigmaFiles` (`src/export/*`).
 - `pnpm tokens` runs those same functions over `tenants/*/brand.json`.
 - One path: brand input → engine → CSS / DTCG / Figma. Generator download = published package for the same input.
 - Zero runtime dependencies.

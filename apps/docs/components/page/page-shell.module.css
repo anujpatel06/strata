@@ -8,7 +8,7 @@
   max-inline-size: var(--docs-container);
   margin-inline: auto;
   padding-inline: var(--docs-gutter);
-  padding-block: var(--strata-space-16);
+  padding-block: var(--syntara-space-16);
 }
 .container[data-width='narrow'] {
   max-inline-size: calc(var(--docs-prose) + var(--docs-gutter) * 2);
@@ -17,46 +17,46 @@
 .header {
   display: grid;
   justify-items: start;
-  gap: var(--strata-space-3);
-  max-inline-size: calc(var(--docs-prose) + var(--strata-space-16));
+  gap: var(--syntara-space-3);
+  max-inline-size: calc(var(--docs-prose) + var(--syntara-space-16));
 }
 
 .eyebrow.eyebrow {
-  margin-block-end: var(--strata-space-1);
+  margin-block-end: var(--syntara-space-1);
 }
 
 /* Top-level pages open with a display title: a size step above docs pages, tracking tightened to match. */
 .title {
-  font-family: var(--strata-font-heading);
-  font-size: var(--strata-font-size-4xl);
-  font-weight: var(--strata-font-weight-semibold);
-  line-height: var(--strata-line-height-tight);
-  letter-spacing: var(--strata-font-tracking-4xl);
+  font-family: var(--syntara-font-heading);
+  font-size: var(--syntara-font-size-4xl);
+  font-weight: var(--syntara-font-weight-semibold);
+  line-height: var(--syntara-line-height-tight);
+  letter-spacing: var(--syntara-font-tracking-4xl);
   text-wrap: balance;
 }
 @media (min-width: 1024px) {
   .title {
-    font-size: var(--strata-font-size-5xl);
-    letter-spacing: var(--strata-font-tracking-5xl);
+    font-size: var(--syntara-font-size-5xl);
+    letter-spacing: var(--syntara-font-tracking-5xl);
   }
 }
 .title em {
   font-style: italic;
-  font-weight: var(--strata-font-weight-regular);
+  font-weight: var(--syntara-font-weight-regular);
 }
 
 .description {
   max-inline-size: 60ch;
-  color: var(--strata-color-text-subtle);
-  font-size: var(--strata-font-size-lg);
-  letter-spacing: var(--strata-font-tracking-lg);
-  line-height: var(--strata-line-height-normal);
+  color: var(--syntara-color-text-subtle);
+  font-size: var(--syntara-font-size-lg);
+  letter-spacing: var(--syntara-font-tracking-lg);
+  line-height: var(--syntara-line-height-normal);
   text-wrap: pretty;
 }
 
 .actions {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--strata-space-2);
-  margin-block-start: var(--strata-space-3);
+  gap: var(--syntara-space-2);
+  margin-block-start: var(--syntara-space-3);
 }

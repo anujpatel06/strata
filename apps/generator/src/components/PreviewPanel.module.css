@@ -59,11 +59,11 @@
 /* Everything inside inherits from the brand, not the chrome. */
 .themed {
   min-width: 0;
-  background: var(--strata-color-surface-canvas);
-  color: var(--strata-color-text-default);
-  font-family: var(--strata-font-body);
-  font-size: var(--strata-font-size-md);
-  line-height: var(--strata-line-height-normal);
+  background: var(--syntara-color-surface-canvas);
+  color: var(--syntara-color-text-default);
+  font-family: var(--syntara-font-body);
+  font-size: var(--syntara-font-size-md);
+  line-height: var(--syntara-line-height-normal);
   letter-spacing: normal;
   transition: background-color var(--ui-duration) var(--ui-ease);
 }

@@ -1,6 +1,6 @@
 'use client';
 
-import { Slider } from '@strata/react';
+import { Slider } from '@syntara/react';
 
 export default function Example() {
   return (

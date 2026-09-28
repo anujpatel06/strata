@@ -12,23 +12,23 @@
   - small-caps eyebrow labels;
   - money set as typography (a raised ₹);
   - domain components: tinted member avatars, member chips, placeholder chips, usage meters, tags.
-- Strata v0.3 was polished but generic: Inter, brand blue, and general-purpose components only.
+- Syntara v0.3 was polished but generic: Inter, brand blue, and general-purpose components only.
 
 ## Decision
 
 - **Engine:** an `editorial` type pair (Fraunces / DM Sans / DM Mono), with italics loaded through `italicFamilies`, and a `paper` neutral (h 85, c 0.022). Both are in the fuzz: all brands pass (`pnpm test:themes`).
 - **New components** (tokens only, so every tenant gets them): `Eyebrow`, `Amount` (locale-correct grouping, raised currency), `Meter`, `Tag`, `PersonChip`/`PersonChipGroup`, and an `Avatar` `tint="auto"` drawn only from engine-checked pairs. An `<em>` in headings becomes the heading font's italic.
-- **Proof:** a 4th tenant, **Care** (sage `#2D5F4F`, coral `#C2664A`, paper, round, editorial, comfortable; 86/86 checks), and a `benefits-home` block that rebuilds the KYB home screen from Strata components only, shown next to the original.
+- **Proof:** a 4th tenant, **Care** (sage `#2D5F4F`, coral `#C2664A`, paper, round, editorial, comfortable; 86/86 checks), and a `benefits-home` block that rebuilds the KYB home screen from Syntara components only, shown next to the original.
 - **Not copied:** client names, photos and copy from the shipped product. Care is a neutral stand-in brand.
 
 ## Alternatives considered
 
-- **Restyle the house brand as editorial:** it would change Strata's own identity rather than prove that multi-brand works.
+- **Restyle the house brand as editorial:** it would change Syntara's own identity rather than prove that multi-brand works.
 - **Capabilities without a tenant:** there would be no side-by-side proof.
 
 ## Consequences
 
-- **Good:** Strata can now carry a real product voice, and the portfolio story becomes "my shipped design, rebuilt on my own system".
+- **Good:** Syntara can now carry a real product voice, and the portfolio story becomes "my shipped design, rebuilt on my own system".
 - **Bad:** more components to maintain. Fraunces with italics adds font weight to editorial tenants.
 
 ## Revision (2026-09-27, later): Care is based on the KYB **web** prototype — Anuj

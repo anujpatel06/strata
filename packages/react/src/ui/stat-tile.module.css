@@ -15,40 +15,40 @@
     'value'
     'meta';
   align-content: start;
-  column-gap: var(--strata-space-4);
-  row-gap: var(--strata-space-2);
+  column-gap: var(--syntara-space-4);
+  row-gap: var(--syntara-space-2);
   min-inline-size: 0;
   margin: 0;
-  padding: var(--strata-card-inset);
+  padding: var(--syntara-card-inset);
   /*
    * Surface recipe, as Card (card.module.css has the notes): the sheen (dark only; proven on surface.raised, see
    * theme-engine test/exporters.test.ts) and the face in the padding box, the rim light (dark only) in the 1px
    * transparent border over the fill, a border.subtle hairline ring (box-shadow: Chromium rounds sub-pixel borders
    * up to 1px; the border is the edge in forced-colours mode) and the raised shadow.
    */
-  --_fill: var(--strata-color-surface-raised);
-  --_sheen: var(--strata-sheen);
+  --_fill: var(--syntara-color-surface-raised);
+  --_sheen: var(--syntara-sheen);
   --_rim: transparent;
-  --_edge: var(--strata-color-border-subtle);
+  --_edge: var(--syntara-color-border-subtle);
   border: 1px solid transparent;
-  border-radius: var(--strata-radius-container);
+  border-radius: var(--syntara-radius-container);
   background:
     var(--_sheen) padding-box,
     linear-gradient(var(--_fill), var(--_fill)) padding-box,
     linear-gradient(135deg, var(--_rim), transparent 60%) border-box var(--_fill);
-  box-shadow: 0 0 0 var(--strata-hairline) var(--_edge), var(--strata-shadow-raised);
-  color: var(--strata-color-text-default);
-  font-family: var(--strata-font-body);
-  font-size: var(--strata-font-size-md);
-  letter-spacing: var(--strata-font-tracking-md);
-  line-height: var(--strata-line-height-normal);
+  box-shadow: 0 0 0 var(--syntara-hairline) var(--_edge), var(--syntara-shadow-raised);
+  color: var(--syntara-color-text-default);
+  font-family: var(--syntara-font-body);
+  font-size: var(--syntara-font-size-md);
+  letter-spacing: var(--syntara-font-tracking-md);
+  line-height: var(--syntara-line-height-normal);
   text-align: start;
 }
-/* Rim light in dark only (CONVENTIONS "Surface recipe"): --strata-sheen is `none` exactly in light schemes, so it's
+/* Rim light in dark only (CONVENTIONS "Surface recipe"): --syntara-sheen is `none` exactly in light schemes, so it's
    the scheme signal, and the rim can never show without the sheen. Browsers without style queries get no rim. */
-@container not style(--strata-sheen: none) {
+@container not style(--syntara-sheen: none) {
   .tile {
-    --_rim: var(--strata-rim);
+    --_rim: var(--syntara-rim);
   }
 }
 
@@ -67,10 +67,10 @@
 }
 
 .tile[data-variant='outline'] {
-  --_edge: var(--strata-color-border-default);
+  --_edge: var(--syntara-color-border-default);
   --_sheen: none;
   --_rim: transparent;
-  box-shadow: 0 0 0 var(--strata-hairline) var(--_edge);
+  box-shadow: 0 0 0 var(--syntara-hairline) var(--_edge);
 }
 
 .tile[data-variant='ghost'] {
@@ -88,16 +88,16 @@
  * Its radius is the container token, which a showcase Card points at its concentric inner radius.
  */
 .tile[data-variant='editorial'] {
-  --_fill: light-dark(var(--strata-color-surface-canvas), var(--strata-color-surface-default));
+  --_fill: light-dark(var(--syntara-color-surface-canvas), var(--syntara-color-surface-default));
   --_sheen: none;
   --_rim: transparent;
   grid-template-areas:
     'value'
     'label'
     'meta';
-  row-gap: var(--strata-space-1);
-  padding: var(--strata-space-3) var(--strata-space-4) var(--strata-space-4);
-  box-shadow: 0 0 0 var(--strata-hairline) var(--_edge);
+  row-gap: var(--syntara-space-1);
+  padding: var(--syntara-space-3) var(--syntara-space-4) var(--syntara-space-4);
+  box-shadow: 0 0 0 var(--syntara-hairline) var(--_edge);
 }
 
 .tile[data-variant='editorial'][data-sparkline] {
@@ -108,7 +108,7 @@
 }
 
 .tile[data-variant='editorial'] .value {
-  font-weight: var(--strata-font-weight-regular);
+  font-weight: var(--syntara-font-weight-regular);
   /* A figure takes its direction from its own first strong character (none = LTR), so "+18%" and "3 min" stay
      whole in an RTL page and Arabic figures stay RTL; it still aligns to the tile's start. */
   unicode-bidi: plaintext;
@@ -120,14 +120,14 @@
   grid-area: label;
   align-items: center;
   justify-content: space-between;
-  gap: var(--strata-space-2);
+  gap: var(--syntara-space-2);
   min-inline-size: 0;
   margin: 0;
-  color: var(--strata-color-text-subtle);
-  font-size: var(--strata-font-size-sm);
-  font-weight: var(--strata-font-weight-regular);
-  letter-spacing: var(--strata-font-tracking-sm);
-  line-height: var(--strata-line-height-snug);
+  color: var(--syntara-color-text-subtle);
+  font-size: var(--syntara-font-size-sm);
+  font-weight: var(--syntara-font-weight-regular);
+  letter-spacing: var(--syntara-font-tracking-sm);
+  line-height: var(--syntara-line-height-snug);
 }
 
 .labelText {
@@ -138,38 +138,38 @@
 .icon {
   display: inline-flex;
   flex: none;
-  color: var(--strata-color-text-subtle);
+  color: var(--syntara-color-text-subtle);
 }
 
 .icon > svg {
-  inline-size: var(--strata-space-4);
-  block-size: var(--strata-space-4);
-  stroke-width: var(--strata-icon-stroke, 1.5);
+  inline-size: var(--syntara-space-4);
+  block-size: var(--syntara-space-4);
+  stroke-width: var(--syntara-icon-stroke, 1.5);
 }
 
 .value {
   grid-area: value;
   min-inline-size: 0;
   margin: 0;
-  color: var(--strata-color-text-default);
-  font-family: var(--strata-font-heading);
+  color: var(--syntara-color-text-default);
+  font-family: var(--syntara-font-heading);
   /* The number is the hero: a display size, set medium rather than bold (large type reads heavy on its own),
      tabular figures and the tight tracking of its size. The label above stays small and quiet. */
-  font-size: var(--strata-font-size-3xl);
+  font-size: var(--syntara-font-size-3xl);
   font-variant-numeric: tabular-nums;
-  font-weight: var(--strata-font-weight-medium);
-  letter-spacing: var(--strata-font-tracking-3xl);
-  line-height: var(--strata-line-height-tight);
+  font-weight: var(--syntara-font-weight-medium);
+  letter-spacing: var(--syntara-font-tracking-3xl);
+  line-height: var(--syntara-line-height-tight);
 }
 
 .tile[data-size='sm'] .value {
-  font-size: var(--strata-font-size-2xl);
-  letter-spacing: var(--strata-font-tracking-2xl);
+  font-size: var(--syntara-font-size-2xl);
+  letter-spacing: var(--syntara-font-tracking-2xl);
 }
 
 .tile[data-size='lg'] .value {
-  font-size: var(--strata-font-size-4xl);
-  letter-spacing: var(--strata-font-tracking-4xl);
+  font-size: var(--syntara-font-size-4xl);
+  letter-spacing: var(--syntara-font-tracking-4xl);
 }
 
 .meta {
@@ -177,21 +177,21 @@
   grid-area: meta;
   flex-wrap: wrap;
   align-items: center;
-  column-gap: var(--strata-space-2);
-  row-gap: var(--strata-space-1);
+  column-gap: var(--syntara-space-2);
+  row-gap: var(--syntara-space-1);
   min-inline-size: 0;
   align-self: end;
   margin: 0;
-  font-size: var(--strata-font-size-sm);
-  letter-spacing: var(--strata-font-tracking-sm);
-  line-height: var(--strata-line-height-snug);
+  font-size: var(--syntara-font-size-sm);
+  letter-spacing: var(--syntara-font-tracking-sm);
+  line-height: var(--syntara-line-height-snug);
 }
 
 .deltaLabel,
 .caption {
-  color: var(--strata-color-text-subtle);
-  font-size: var(--strata-font-size-sm);
-  letter-spacing: var(--strata-font-tracking-sm);
+  color: var(--syntara-color-text-subtle);
+  font-size: var(--syntara-font-size-sm);
+  letter-spacing: var(--syntara-font-tracking-sm);
 }
 
 .caption:empty {
@@ -210,7 +210,7 @@
  * ≥ 3:1 and glyph on disc ≥ 4.5:1 for every tenant and the 1,000 fuzz brands (measured 2026-09-28: 6.18:1 both).
  */
 .delta[data-tone='danger'] {
-  --strata-icon-on: var(--strata-color-feedback-danger-bg);
+  --syntara-icon-on: var(--syntara-color-feedback-danger-bg);
 }
 
 /* The judgement in words for screen readers ("better" / "worse"); the mark and colour carry it visually. */
@@ -229,15 +229,15 @@
   grid-area: spark;
   align-self: end;
   margin: 0;
-  color: var(--strata-color-text-brand);
+  color: var(--syntara-color-text-brand);
   line-height: 0;
 }
 
 .sparkSvg {
   display: block;
   /* 80 × 32: the SVG's own viewBox, 1:1. */
-  inline-size: calc(var(--strata-space-16) * 1.25);
-  block-size: var(--strata-space-8);
+  inline-size: calc(var(--syntara-space-16) * 1.25);
+  block-size: var(--syntara-space-8);
   overflow: visible;
 }
 
@@ -246,7 +246,7 @@
 }
 
 .sparkArea {
-  fill: color-mix(in oklab, var(--strata-color-text-brand) 12%, transparent);
+  fill: color-mix(in oklab, var(--syntara-color-text-brand) 12%, transparent);
   stroke: none;
 }
 
@@ -256,17 +256,17 @@
   stroke-linecap: round;
   stroke-linejoin: round;
   /* Matches the icon stroke (1.5): a fine line reads as data, a heavy one as decoration. */
-  stroke-width: var(--strata-icon-stroke, 1.5);
+  stroke-width: var(--syntara-icon-stroke, 1.5);
 }
 
 .sparkDot {
   fill: currentColor;
-  stroke: var(--strata-color-surface-raised);
+  stroke: var(--syntara-color-surface-raised);
   stroke-width: 2;
 }
 
 .tile[data-variant='ghost'] .sparkDot {
-  stroke: var(--strata-color-surface-default);
+  stroke: var(--syntara-color-surface-default);
 }
 
 .tile[data-variant='editorial'] .sparkDot {
@@ -300,26 +300,26 @@
   .value,
   .meta,
   .spark {
-    --_delay: calc((var(--_t) + var(--_p)) * var(--strata-motion-duration-fast) / 3);
-    animation: stat-part-in var(--strata-motion-duration-slow) var(--strata-motion-easing-out) var(--_delay) backwards;
+    --_delay: calc((var(--_t) + var(--_p)) * var(--syntara-motion-duration-fast) / 3);
+    animation: stat-part-in var(--syntara-motion-duration-slow) var(--syntara-motion-easing-out) var(--_delay) backwards;
   }
 
   .sparkLine {
     stroke-dasharray: 1 1;
-    animation: stat-spark-draw calc(var(--strata-motion-duration-slow) * 1.5) var(--strata-motion-easing-out) var(--_delay)
+    animation: stat-spark-draw calc(var(--syntara-motion-duration-slow) * 1.5) var(--syntara-motion-easing-out) var(--_delay)
       backwards;
   }
 
   .sparkArea {
-    animation: stat-part-fade calc(var(--strata-motion-duration-slow) * 1.5) var(--strata-motion-easing-out) var(--_delay)
+    animation: stat-part-fade calc(var(--syntara-motion-duration-slow) * 1.5) var(--syntara-motion-easing-out) var(--_delay)
       backwards;
   }
 
   .sparkDot {
     transform-box: fill-box;
     transform-origin: center;
-    animation: stat-dot-pop var(--strata-motion-duration-spring) var(--strata-motion-spring)
-      calc(var(--_delay) + var(--strata-motion-duration-slow)) backwards;
+    animation: stat-dot-pop var(--syntara-motion-duration-spring) var(--syntara-motion-spring)
+      calc(var(--_delay) + var(--syntara-motion-duration-slow)) backwards;
   }
 }
 
@@ -355,8 +355,8 @@
   box-sizing: border-box;
   display: grid;
   /* ~224px minimum per tile; one column at 320px. */
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, calc(var(--strata-space-16) * 3.5)), 1fr));
-  gap: var(--strata-section-gap);
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, calc(var(--syntara-space-16) * 3.5)), 1fr));
+  gap: var(--syntara-section-gap);
   inline-size: 100%;
   margin: 0;
   padding: 0;
@@ -364,6 +364,6 @@
 
 /* Editorial tiles are small inset figures: ~128px columns (three fit a 420px card), and a tighter gap. */
 .group:has(> .tile[data-variant='editorial']) {
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, calc(var(--strata-space-16) * 2)), 1fr));
-  gap: var(--strata-space-3);
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, calc(var(--syntara-space-16) * 2)), 1fr));
+  gap: var(--syntara-space-3);
 }

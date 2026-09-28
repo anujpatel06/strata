@@ -1,6 +1,6 @@
-import { Button, Badge } from '@strata/react';
-import { Button as Renamed } from '@strata/react';
-import * as Strata from '@strata/react';
+import { Button, Badge } from '@syntara/react';
+import { Button as Renamed } from '@syntara/react';
+import * as Syntara from '@syntara/react';
 import { Button as Other } from 'some-library';
 
 export function Fires({ props }: { props: object }) {
@@ -10,7 +10,7 @@ export function Fires({ props }: { props: object }) {
       <Button variant={'danger'}>Delete</Button> {/* expect: deprecated-api */}
       <Button variant={`danger`}>Delete</Button> {/* expect: deprecated-api */}
       <Renamed variant="danger">Delete</Renamed> {/* expect: deprecated-api */}
-      <Strata.Button variant="danger">Delete</Strata.Button> {/* expect: deprecated-api */}
+      <Syntara.Button variant="danger">Delete</Syntara.Button> {/* expect: deprecated-api */}
       <Button variant="danger" tone="neutral">Delete</Button> {/* expect: deprecated-api */}
       <Button variant="danger" {...props}>Delete</Button> {/* expect: deprecated-api */}
     </div>

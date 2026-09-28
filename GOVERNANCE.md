@@ -1,8 +1,8 @@
 # Governance
 
-How Strata changes: who decides, how a request gets in, and how something gets out again without breaking the products that use it.
+How Syntara changes: who decides, how a request gets in, and how something gets out again without breaking the products that use it.
 
-> **What's real today.** Strata is a portfolio project with one maintainer, Anuj Patel, who pairs with AI agents. The roles and review times below are written for a team, so the process can be judged as one. Where a rule is enforced by a script, the command is next to it. Where it isn't enforced yet, this file says so.
+> **What's real today.** Syntara is a portfolio project with one maintainer, Anuj Patel, who pairs with AI agents. The roles and review times below are written for a team, so the process can be judged as one. Where a rule is enforced by a script, the command is next to it. Where it isn't enforced yet, this file says so.
 
 ## 1. Principles
 
@@ -83,8 +83,8 @@ Not breaking: a new optional prop, a new token, a visual refinement that keeps s
 
 1. **Deprecate in a minor release.** The old API keeps working and renders exactly as before.
 2. **Remove in the next major release.**
-3. **Before 1.0:** semver lets a 0.x minor release break things. Strata doesn't use that. A deprecated API keeps working through every 0.x release and is removed at **1.0.0**.
-4. **Every breaking change ships with a codemod** in `@strata/codemods`. A codemod rewrites what it can be sure of and reports the rest; it never guesses.
+3. **Before 1.0:** semver lets a 0.x minor release break things. Syntara doesn't use that. A deprecated API keeps working through every 0.x release and is removed at **1.0.0**.
+4. **Every breaking change ships with a codemod** in `@syntara/codemods`. A codemod rewrites what it can be sure of and reports the rest; it never guesses.
 5. **Alpha components are exempt.** Their API may change in any release. Beta and stable components change only through this policy.
 
 ### What a deprecation includes
@@ -96,11 +96,11 @@ Not breaking: a new optional prop, a new token, a visual refinement that keeps s
 | A notice on the component's docs page | generated from `meta.json` | — |
 | A note in the doc comment | `@deprecated` for a whole prop or component. For one value of a prop, plain words: TypeScript can't deprecate a single value, and the tag would strike through every use of the prop | Review |
 | A warning in development, once, never in production | the component | its tests |
-| A codemod with fixture tests | `packages/codemods` | `pnpm --filter @strata/codemods test` |
+| A codemod with fixture tests | `packages/codemods` | `pnpm --filter @syntara/codemods test` |
 | The codemod run on this repo | the pull request's diff | review |
 | A changeset and a changelog entry | `.changeset/`, docs changelog | review |
 
-Tokens follow the same policy. A deprecated token carries `com.strata.deprecated` under `$extensions` in the DTCG export. No token has been deprecated yet, so that path is designed but not built.
+Tokens follow the same policy. A deprecated token carries `com.syntara.deprecated` under `$extensions` in the DTCG export. No token has been deprecated yet, so that path is designed but not built.
 
 ### Deprecations so far
 

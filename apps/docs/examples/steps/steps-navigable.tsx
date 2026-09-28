@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Button, Steps } from '@strata/react';
+import { Button, Steps } from '@syntara/react';
 
 const steps = [
   { id: 'plan', label: 'Plan', description: 'Choose cover' },

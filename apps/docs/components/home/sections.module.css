@@ -3,17 +3,17 @@
 .textLink {
   display: inline-flex;
   align-items: center;
-  gap: var(--strata-space-1);
-  color: var(--strata-color-text-default);
-  font-size: var(--strata-font-size-md);
-  font-weight: var(--strata-font-weight-medium);
+  gap: var(--syntara-space-1);
+  color: var(--syntara-color-text-default);
+  font-size: var(--syntara-font-size-md);
+  font-weight: var(--syntara-font-weight-medium);
   text-decoration: underline;
-  text-decoration-color: color-mix(in oklab, var(--strata-color-text-default) 30%, transparent);
+  text-decoration-color: color-mix(in oklab, var(--syntara-color-text-default) 30%, transparent);
   text-decoration-thickness: 1px;
   text-underline-offset: 0.3em;
 }
 .textLink {
-  transition: text-decoration-color var(--strata-motion-duration-fast) var(--strata-motion-easing);
+  transition: text-decoration-color var(--syntara-motion-duration-fast) var(--syntara-motion-easing);
 }
 .textLink:hover {
   text-decoration-color: currentColor;
@@ -22,18 +22,18 @@
 /* Arrows nudge toward where the link goes. --_nudge flips in RTL: `translate` is applied before the arrow's
    mirroring `scale`, so it moves in page space, not the icon's. */
 .arrow {
-  --_nudge: calc(var(--strata-space-1) / 2);
+  --_nudge: calc(var(--syntara-space-1) / 2);
   flex: none;
-  inline-size: calc(var(--strata-space-4) - 2px);
-  block-size: calc(var(--strata-space-4) - 2px);
+  inline-size: calc(var(--syntara-space-4) - 2px);
+  block-size: calc(var(--syntara-space-4) - 2px);
 }
 .arrow:dir(rtl) {
-  --_nudge: calc(var(--strata-space-1) / -2);
+  --_nudge: calc(var(--syntara-space-1) / -2);
   scale: -1 1;
 }
 @media (prefers-reduced-motion: no-preference) {
   .arrow {
-    transition: translate var(--strata-motion-duration-spring) var(--strata-motion-spring);
+    transition: translate var(--syntara-motion-duration-spring) var(--syntara-motion-spring);
   }
   :is(.textLink, .pill):hover .arrow {
     translate: var(--_nudge) 0;
@@ -48,8 +48,8 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: var(--strata-space-5);
-  padding-block: 0 var(--strata-space-12);
+  gap: var(--syntara-space-5);
+  padding-block: 0 var(--syntara-space-12);
   text-align: center;
 }
 
@@ -64,13 +64,13 @@
    duration-slow (320ms) the whole entrance is over before the eye catches it. Page-level entrances run
    2.5 × duration-slow; the long tail is what makes them read as settling rather than popping. */
 .hero {
-  --_step: calc(var(--strata-motion-duration-fast) * 2 / 3);
+  --_step: calc(var(--syntara-motion-duration-fast) * 2 / 3);
 }
 @media (prefers-reduced-motion: no-preference) {
   .hero > :not(.heroActions, [aria-hidden]),
   .heroBreak,
   .hero > .heroActions > * {
-    animation: hero-rise calc(var(--strata-motion-duration-slow) * 2.5) var(--strata-motion-easing-out) backwards;
+    animation: hero-rise calc(var(--syntara-motion-duration-slow) * 2.5) var(--syntara-motion-easing-out) backwards;
     animation-delay: calc(var(--_i, 0) * var(--_step));
   }
   .heroTitle { --_i: 1; }
@@ -83,49 +83,49 @@
 @keyframes hero-rise {
   from {
     opacity: 0;
-    translate: 0 var(--strata-space-4);
+    translate: 0 var(--syntara-space-4);
   }
 }
 @media (min-width: 768px) {
   .hero {
-    padding-block: var(--strata-space-4) var(--strata-space-16);
+    padding-block: var(--syntara-space-4) var(--syntara-space-16);
   }
 }
 
 .pill {
   display: inline-flex;
   align-items: center;
-  gap: var(--strata-space-2);
-  block-size: calc(var(--strata-space-8) - 2px);
-  padding-inline: var(--strata-space-3);
+  gap: var(--syntara-space-2);
+  block-size: calc(var(--syntara-space-8) - 2px);
+  padding-inline: var(--syntara-space-3);
   border: var(--docs-hairline);
-  border-radius: var(--strata-radius-pill);
-  background: var(--strata-color-surface-default);
-  box-shadow: var(--strata-shadow-raised);
-  color: var(--strata-color-text-subtle);
-  font-size: var(--strata-font-size-sm);
-  font-weight: var(--strata-font-weight-medium);
+  border-radius: var(--syntara-radius-pill);
+  background: var(--syntara-color-surface-default);
+  box-shadow: var(--syntara-shadow-raised);
+  color: var(--syntara-color-text-subtle);
+  font-size: var(--syntara-font-size-sm);
+  font-weight: var(--syntara-font-weight-medium);
   font-variant-numeric: tabular-nums;
   transition:
-    color var(--strata-motion-duration-fast) var(--strata-motion-easing),
-    border-color var(--strata-motion-duration-fast) var(--strata-motion-easing),
-    box-shadow var(--strata-motion-duration-fast) var(--strata-motion-easing);
+    color var(--syntara-motion-duration-fast) var(--syntara-motion-easing),
+    border-color var(--syntara-motion-duration-fast) var(--syntara-motion-easing),
+    box-shadow var(--syntara-motion-duration-fast) var(--syntara-motion-easing);
 }
 .pill:hover {
-  color: var(--strata-color-text-default);
-  border-color: var(--strata-color-border-default);
-  box-shadow: var(--strata-shadow-overlay);
+  color: var(--syntara-color-text-default);
+  border-color: var(--syntara-color-border-default);
+  box-shadow: var(--syntara-shadow-overlay);
 }
 @media (prefers-reduced-motion: no-preference) {
   /* The hero entrance animates `translate`, so the hover lift uses `transform`: the two never fight, even if
      the pointer is already over the badge while it lands. */
   .pill {
     transition:
-      color var(--strata-motion-duration-fast) var(--strata-motion-easing),
-      border-color var(--strata-motion-duration-fast) var(--strata-motion-easing),
-      box-shadow var(--strata-motion-duration-fast) var(--strata-motion-easing),
-      transform var(--strata-motion-duration-fast) var(--strata-motion-easing),
-      scale var(--strata-motion-duration-spring) var(--strata-motion-spring);
+      color var(--syntara-motion-duration-fast) var(--syntara-motion-easing),
+      border-color var(--syntara-motion-duration-fast) var(--syntara-motion-easing),
+      box-shadow var(--syntara-motion-duration-fast) var(--syntara-motion-easing),
+      transform var(--syntara-motion-duration-fast) var(--syntara-motion-easing),
+      scale var(--syntara-motion-duration-spring) var(--syntara-motion-spring);
   }
   .pill:hover {
     transform: translateY(-1px);
@@ -135,64 +135,64 @@
   }
 }
 .pillVersion {
-  color: var(--strata-color-text-default);
+  color: var(--syntara-color-text-default);
 }
 .pillDivider {
   inline-size: 1px;
-  block-size: var(--strata-space-3);
-  background: var(--strata-color-border-default);
+  block-size: var(--syntara-space-3);
+  background: var(--syntara-color-border-default);
 }
 
 .heroTitle {
-  font-family: var(--strata-font-heading);
-  font-size: var(--strata-font-size-4xl);
-  font-weight: var(--strata-font-weight-semibold);
+  font-family: var(--syntara-font-heading);
+  font-size: var(--syntara-font-size-4xl);
+  font-weight: var(--syntara-font-weight-semibold);
   /* Display type sets solid: the two lines nearly touch, as big headlines do. */
   line-height: 1;
   /* Beyond the 5xl step the scale stops, so the tracking keeps tightening in proportion (×1.5 of 5xl's).
      It's 0 for Arabic-capable pairs, so this scales to 0 there too. */
-  letter-spacing: calc(var(--strata-font-tracking-5xl) * 1.5);
+  letter-spacing: calc(var(--syntara-font-tracking-5xl) * 1.5);
   text-wrap: balance;
 }
 @media (min-width: 768px) {
   .heroTitle {
-    font-size: calc(var(--strata-font-size-5xl) * 1.375);
+    font-size: calc(var(--syntara-font-size-5xl) * 1.375);
   }
 }
 @media (min-width: 1280px) {
   .heroTitle {
-    font-size: calc(var(--strata-font-size-5xl) * 1.625);
+    font-size: calc(var(--syntara-font-size-5xl) * 1.625);
   }
 }
 
 /*
  * The one typographic accent: "Every brand." in the selected tenant's text.brand (HeroAccent carries the
- * tenant's data-strata-theme; the showcase only hands over tenants whose text.brand passes 4.5:1 on the house
+ * tenant's data-syntara-theme; the showcase only hands over tenants whose text.brand passes 4.5:1 on the house
  * canvas in both schemes). Same family as the line above, set italic; the house pair ships no italic, so the
  * browser slants it, which suits a single display line. `font-family: inherit` keeps the house face: the global
- * [data-strata-theme] rule would otherwise switch it to the tenant's body font.
+ * [data-syntara-theme] rule would otherwise switch it to the tenant's body font.
  */
 .heroTitle .heroBreak {
   display: block;
-  padding-block-start: var(--strata-space-1);
+  padding-block-start: var(--syntara-space-1);
   /* Room for the slanted final glyph, so it isn't clipped by the line box. */
   padding-inline-end: 0.08em;
-  color: var(--strata-color-text-brand);
+  color: var(--syntara-color-text-brand);
   font-family: inherit;
   font-style: italic;
-  transition: color calc(var(--strata-motion-duration-slow) * 2) var(--strata-motion-easing);
+  transition: color calc(var(--syntara-motion-duration-slow) * 2) var(--syntara-motion-easing);
 }
 
 .heroLead {
-  max-inline-size: calc(var(--strata-space-16) * 10.5);
-  color: var(--strata-color-text-subtle);
-  font-size: calc(var(--strata-font-size-lg) * 1.0625);
-  line-height: var(--strata-line-height-normal);
+  max-inline-size: calc(var(--syntara-space-16) * 10.5);
+  color: var(--syntara-color-text-subtle);
+  font-size: calc(var(--syntara-font-size-lg) * 1.0625);
+  line-height: var(--syntara-line-height-normal);
   text-wrap: balance;
 }
 @media (min-width: 768px) {
   .heroLead {
-    font-size: calc(var(--strata-font-size-lg) * 1.125);
+    font-size: calc(var(--syntara-font-size-lg) * 1.125);
   }
 }
 
@@ -200,67 +200,67 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: var(--strata-space-2);
+  gap: var(--syntara-space-2);
 }
 
 /* ---- Section scaffolding ---- */
 
 .section {
-  padding-block-start: calc(var(--strata-space-16) * 1.25);
+  padding-block-start: calc(var(--syntara-space-16) * 1.25);
 }
 @media (min-width: 768px) {
   .section {
-    padding-block-start: calc(var(--strata-space-16) * 1.75);
+    padding-block-start: calc(var(--syntara-space-16) * 1.75);
   }
 }
 
 .sectionHeader {
   display: grid;
-  gap: var(--strata-space-3);
-  max-inline-size: calc(var(--strata-space-16) * 11);
-  margin-block-end: var(--strata-space-8);
+  gap: var(--syntara-space-3);
+  max-inline-size: calc(var(--syntara-space-16) * 11);
+  margin-block-end: var(--syntara-space-8);
 }
 .split .sectionHeader {
   margin-block-end: 0;
 }
 
 .sectionTitle {
-  font-family: var(--strata-font-heading);
-  font-size: var(--strata-font-size-2xl);
-  font-weight: var(--strata-font-weight-semibold);
-  line-height: var(--strata-line-height-tight);
-  letter-spacing: var(--strata-font-heading-tracking);
+  font-family: var(--syntara-font-heading);
+  font-size: var(--syntara-font-size-2xl);
+  font-weight: var(--syntara-font-weight-semibold);
+  line-height: var(--syntara-line-height-tight);
+  letter-spacing: var(--syntara-font-heading-tracking);
   text-wrap: balance;
 }
 @media (min-width: 768px) {
   .sectionTitle {
-    font-size: var(--strata-font-size-3xl);
+    font-size: var(--syntara-font-size-3xl);
   }
 }
 
 .lead {
-  color: var(--strata-color-text-subtle);
-  font-size: var(--strata-font-size-lg);
-  line-height: var(--strata-line-height-normal);
+  color: var(--syntara-color-text-subtle);
+  font-size: var(--syntara-font-size-lg);
+  line-height: var(--syntara-line-height-normal);
   text-wrap: pretty;
 }
 
 .split {
   display: grid;
-  gap: var(--strata-space-10);
+  gap: var(--syntara-space-10);
   align-items: start;
 }
 @media (min-width: 1024px) {
   .split {
     grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-    gap: var(--strata-space-16);
+    gap: var(--syntara-space-16);
   }
 }
 
 .stack {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
-  gap: var(--strata-space-8);
+  gap: var(--syntara-space-8);
   min-inline-size: 0;
 }
 
@@ -268,7 +268,7 @@
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: var(--strata-space-3) var(--strata-space-5);
+  gap: var(--syntara-space-3) var(--syntara-space-5);
   min-inline-size: 0;
 }
 
@@ -278,37 +278,37 @@
 }
 
 .tenantName {
-  color: var(--strata-color-text-default);
-  font-weight: var(--strata-font-weight-semibold);
+  color: var(--syntara-color-text-default);
+  font-weight: var(--syntara-font-weight-semibold);
 }
 
 /* ---- One system, every brand ---- */
 
 .tenantGrid {
   display: grid;
-  gap: var(--strata-space-8) var(--docs-card-gap);
+  gap: var(--syntara-space-8) var(--docs-card-gap);
   justify-content: center;
-  grid-template-columns: minmax(0, calc(var(--strata-space-16) * 9));
+  grid-template-columns: minmax(0, calc(var(--syntara-space-16) * 9));
 }
 @media (min-width: 1100px) {
   /* Frames share one row and captions another (subgrid), so all three frames end on the same line. */
   .tenantGrid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
     grid-template-rows: auto auto;
-    row-gap: var(--strata-space-3);
+    row-gap: var(--syntara-space-3);
   }
   .tenantFigure.tenantFigure {
     display: grid;
     grid-row: span 2;
     grid-template-rows: subgrid;
-    gap: var(--strata-space-3);
+    gap: var(--syntara-space-3);
   }
 }
 
 .tenantFigure {
   display: flex;
   flex-direction: column;
-  gap: var(--strata-space-3);
+  gap: var(--syntara-space-3);
   min-inline-size: 0;
 }
 
@@ -320,13 +320,13 @@
 /* The frame's edge, radius and shadow sit on the tenant scope, so its corner is the tenant's card radius plus
    the inset: concentric for sharp, soft and round brands alike (as on the live showcase). */
 .tenantScope.tenantScope {
-  --_inset: var(--strata-space-5);
+  --_inset: var(--syntara-space-5);
   display: grid;
   padding: var(--_inset);
   border: 1px solid transparent;
-  border-radius: calc(var(--strata-radius-container) + var(--_inset));
-  box-shadow: 0 0 0 var(--strata-hairline) var(--strata-color-border-subtle), var(--strata-shadow-raised);
-  transition: box-shadow var(--strata-motion-duration-normal) var(--strata-motion-easing);
+  border-radius: calc(var(--syntara-radius-container) + var(--_inset));
+  box-shadow: 0 0 0 var(--syntara-hairline) var(--syntara-color-border-subtle), var(--syntara-shadow-raised);
+  transition: box-shadow var(--syntara-motion-duration-normal) var(--syntara-motion-easing);
   overflow: clip;
 }
 @supports (corner-shape: squircle) {
@@ -343,34 +343,34 @@
   flex: 1;
   display: grid;
   align-content: start;
-  gap: var(--strata-space-4);
+  gap: var(--syntara-space-4);
 }
 
 .tenantStats {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: var(--strata-space-3);
+  gap: var(--syntara-space-3);
 }
 
 .tenantCaption {
   display: grid;
   align-content: start;
-  gap: var(--strata-space-1);
-  padding-inline: var(--strata-space-1);
-  color: var(--strata-color-text-subtle);
-  font-size: var(--strata-font-size-sm);
+  gap: var(--syntara-space-1);
+  padding-inline: var(--syntara-space-1);
+  color: var(--syntara-color-text-subtle);
+  font-size: var(--syntara-font-size-sm);
 }
 
 .facts {
   display: flex;
   flex-wrap: wrap;
-  gap: 0 var(--strata-space-1);
+  gap: 0 var(--syntara-space-1);
 }
 
 /* The draft-copy note (DraftCopyNote) under the facts, in the caption: about the card, not part of it. */
 .copyNote {
   justify-self: start;
-  margin-block-start: var(--strata-space-1);
+  margin-block-start: var(--syntara-space-1);
 }
 
 /* ---- Accessible by construction ---- */
@@ -386,40 +386,40 @@
 }
 
 .quote {
-  --_pad: var(--strata-space-5);
+  --_pad: var(--syntara-space-5);
   display: grid;
   grid-template-columns: minmax(0, 1fr);
-  gap: var(--strata-space-5);
+  gap: var(--syntara-space-5);
   padding: var(--_pad);
   border: var(--docs-hairline);
   border-radius: var(--docs-card-radius);
-  background: var(--strata-color-surface-default);
-  box-shadow: var(--strata-shadow-raised);
+  background: var(--syntara-color-surface-default);
+  box-shadow: var(--syntara-shadow-raised);
 }
 @media (min-width: 768px) {
   .quote {
-    --_pad: var(--strata-space-8);
+    --_pad: var(--syntara-space-8);
   }
 }
 
 .quoteCaption {
   display: flex;
   flex-wrap: wrap;
-  gap: 0 var(--strata-space-1);
-  color: var(--strata-color-text-subtle);
-  font-size: var(--strata-font-size-sm);
+  gap: 0 var(--syntara-space-1);
+  color: var(--syntara-color-text-subtle);
+  font-size: var(--syntara-font-size-sm);
 }
 
 .quoteScope.quoteScope {
   display: grid;
   place-items: center;
-  padding-block: var(--strata-space-10);
-  padding-inline: var(--strata-space-4);
-  border: 1px solid var(--strata-color-border-subtle);
+  padding-block: var(--syntara-space-10);
+  padding-inline: var(--syntara-space-4);
+  border: 1px solid var(--syntara-color-border-subtle);
   /* Concentric with the card around it: outer radius minus the card's padding, never below a badge corner.
      This element is a Qamar scope, where the badge radius is a pill, so it's capped at space-2 first. */
-  border-radius: max(min(var(--strata-radius-badge), var(--strata-space-2)), calc(var(--docs-card-radius) - var(--_pad)));
-  box-shadow: var(--strata-shadow-highlight);
+  border-radius: max(min(var(--syntara-radius-badge), var(--syntara-space-2)), calc(var(--docs-card-radius) - var(--_pad)));
+  box-shadow: var(--syntara-shadow-highlight);
 }
 
 .beforeAfter {
@@ -427,18 +427,18 @@
   grid-template-columns: minmax(0, auto) auto minmax(0, auto);
   align-items: center;
   justify-content: center;
-  gap: var(--strata-space-4);
+  gap: var(--syntara-space-4);
 }
 @media (min-width: 768px) {
   .beforeAfter {
-    gap: var(--strata-space-6);
+    gap: var(--syntara-space-6);
   }
 }
 
 .beforeAfterArrow {
-  inline-size: var(--strata-space-5);
-  block-size: var(--strata-space-5);
-  color: var(--strata-color-text-subtle);
+  inline-size: var(--syntara-space-5);
+  block-size: var(--syntara-space-5);
+  color: var(--syntara-color-text-subtle);
 }
 .beforeAfterArrow:dir(rtl) {
   scale: -1 1;
@@ -447,58 +447,58 @@
 .sample {
   display: grid;
   justify-items: center;
-  gap: var(--strata-space-3);
+  gap: var(--syntara-space-3);
   min-inline-size: 0;
 }
 
 /* A picture of a button: the tenant's own button radius and type, drawn at the control height. */
 .buttonPicture {
   inline-size: 100%;
-  max-inline-size: calc(var(--strata-space-16) * 1.875);
+  max-inline-size: calc(var(--syntara-space-16) * 1.875);
   block-size: auto;
   aspect-ratio: 3;
 }
 .buttonPictureFill {
-  rx: min(var(--strata-radius-button), var(--strata-space-5));
+  rx: min(var(--syntara-radius-button), var(--syntara-space-5));
 }
 .buttonPictureLabel {
-  font-family: var(--strata-font-body);
-  font-size: var(--strata-font-size-md);
-  font-weight: var(--strata-font-weight-medium);
+  font-family: var(--syntara-font-body);
+  font-size: var(--syntara-font-size-md);
+  font-weight: var(--syntara-font-weight-medium);
 }
 
 .verdict {
   display: inline-flex;
   align-items: center;
-  gap: var(--strata-space-1);
-  font-family: var(--strata-font-mono);
-  font-size: var(--strata-font-size-sm);
+  gap: var(--syntara-space-1);
+  font-family: var(--syntara-font-mono);
+  font-size: var(--syntara-font-size-sm);
   font-variant-numeric: tabular-nums;
 }
 .verdict[data-pass='false'] {
-  color: var(--strata-color-feedback-danger-fg);
+  color: var(--syntara-color-feedback-danger-fg);
 }
 .verdict[data-pass='true'] {
-  color: var(--strata-color-feedback-success-fg);
+  color: var(--syntara-color-feedback-success-fg);
 }
 .verdictIcon {
-  inline-size: var(--strata-space-4);
-  block-size: var(--strata-space-4);
+  inline-size: var(--syntara-space-4);
+  block-size: var(--syntara-space-4);
 }
 
 .blockquote {
   margin: 0;
-  padding-inline-start: var(--strata-space-4);
-  border-inline-start: 2px solid var(--strata-color-border-strong);
-  color: var(--strata-color-text-default);
-  font-size: var(--strata-font-size-lg);
-  line-height: var(--strata-line-height-normal);
+  padding-inline-start: var(--syntara-space-4);
+  border-inline-start: 2px solid var(--syntara-color-border-strong);
+  color: var(--syntara-color-text-default);
+  font-size: var(--syntara-font-size-lg);
+  line-height: var(--syntara-line-height-normal);
   text-wrap: pretty;
 }
 
 .quoteNote {
-  color: var(--strata-color-text-subtle);
-  font-size: var(--strata-font-size-sm);
+  color: var(--syntara-color-text-subtle);
+  font-size: var(--syntara-font-size-sm);
 }
 
 /* ---- Ship it your way ---- */
@@ -516,14 +516,14 @@
 .shipCard.shipCard {
   block-size: 100%;
   border-radius: var(--docs-card-radius);
-  background-color: var(--strata-color-surface-default);
+  background-color: var(--syntara-color-surface-default);
 }
 
 .shipTitle.shipTitle {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: var(--strata-space-2);
+  gap: var(--syntara-space-2);
 }
 
 .shipCode.shipCode {
@@ -543,38 +543,38 @@
   flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
-  gap: var(--strata-space-6);
-  margin-block-start: calc(var(--strata-space-16) * 1.25);
-  padding: var(--strata-space-8) var(--strata-space-6);
+  gap: var(--syntara-space-6);
+  margin-block-start: calc(var(--syntara-space-16) * 1.25);
+  padding: var(--syntara-space-8) var(--syntara-space-6);
   border: var(--docs-hairline);
   border-radius: var(--docs-card-radius);
-  background-color: var(--strata-color-surface-default);
-  box-shadow: var(--strata-shadow-highlight), var(--strata-shadow-raised);
+  background-color: var(--syntara-color-surface-default);
+  box-shadow: var(--syntara-shadow-highlight), var(--syntara-shadow-raised);
 }
 @media (min-width: 768px) {
   .cta {
-    margin-block-start: calc(var(--strata-space-16) * 1.75);
-    padding: var(--strata-space-10) var(--strata-space-10);
+    margin-block-start: calc(var(--syntara-space-16) * 1.75);
+    padding: var(--syntara-space-10) var(--syntara-space-10);
   }
 }
 
 .ctaText {
   display: grid;
-  gap: var(--strata-space-2);
+  gap: var(--syntara-space-2);
 }
 
 .ctaTitle {
-  font-family: var(--strata-font-heading);
-  font-size: var(--strata-font-size-2xl);
-  font-weight: var(--strata-font-weight-semibold);
-  line-height: var(--strata-line-height-tight);
-  letter-spacing: var(--strata-font-heading-tracking);
+  font-family: var(--syntara-font-heading);
+  font-size: var(--syntara-font-size-2xl);
+  font-weight: var(--syntara-font-weight-semibold);
+  line-height: var(--syntara-line-height-tight);
+  letter-spacing: var(--syntara-font-heading-tracking);
   text-wrap: balance;
 }
 
 .ctaLead {
-  color: var(--strata-color-text-subtle);
-  font-size: var(--strata-font-size-lg);
+  color: var(--syntara-color-text-subtle);
+  font-size: var(--syntara-font-size-lg);
 }
 
 .cta .heroActions {
@@ -601,11 +601,11 @@
     .shipCard.shipCard,
     .excerpt,
     .cta {
-      --_from: calc(var(--_i, 0) * var(--strata-space-6));
+      --_from: calc(var(--_i, 0) * var(--syntara-space-6));
       /* The shorthand resets the timeline, so the timeline and range come after it. */
-      animation: home-reveal var(--strata-motion-easing-out) backwards;
+      animation: home-reveal var(--syntara-motion-easing-out) backwards;
       animation-timeline: view();
-      animation-range: entry var(--_from) entry calc(var(--_from) + var(--strata-space-16) * 3);
+      animation-range: entry var(--_from) entry calc(var(--_from) + var(--syntara-space-16) * 3);
     }
     .tenantFigure:nth-child(2),
     .figures.figures > :nth-child(2n),
@@ -621,7 +621,7 @@
 @keyframes home-reveal {
   from {
     opacity: 0;
-    translate: 0 var(--strata-space-6);
+    translate: 0 var(--syntara-space-6);
   }
 }
 
@@ -632,28 +632,28 @@
  */
 .tenantFrame,
 .shipCard.shipCard {
-  --_lift: calc(var(--strata-space-1) / -2);
-  transition: box-shadow var(--strata-motion-duration-normal) var(--strata-motion-easing);
+  --_lift: calc(var(--syntara-space-1) / -2);
+  transition: box-shadow var(--syntara-motion-duration-normal) var(--syntara-motion-easing);
 }
 .tenantFrame:hover .tenantScope.tenantScope {
-  box-shadow: 0 0 0 var(--strata-hairline) var(--strata-color-border-default), var(--strata-shadow-overlay);
+  box-shadow: 0 0 0 var(--syntara-hairline) var(--syntara-color-border-default), var(--syntara-shadow-overlay);
 }
 .shipCard.shipCard:hover {
-  box-shadow: 0 0 0 var(--strata-hairline) var(--strata-color-border-default), var(--strata-shadow-overlay);
+  box-shadow: 0 0 0 var(--syntara-hairline) var(--syntara-color-border-default), var(--syntara-shadow-overlay);
 }
 @media (prefers-reduced-motion: no-preference) {
   .tenantFrame {
     transition:
-      box-shadow var(--strata-motion-duration-normal) var(--strata-motion-easing),
-      translate var(--strata-motion-duration-spring) var(--strata-motion-spring);
+      box-shadow var(--syntara-motion-duration-normal) var(--syntara-motion-easing),
+      translate var(--syntara-motion-duration-spring) var(--syntara-motion-spring);
   }
   .tenantFrame:hover {
     translate: 0 var(--_lift);
   }
   .shipCard.shipCard {
     transition:
-      box-shadow var(--strata-motion-duration-normal) var(--strata-motion-easing),
-      transform var(--strata-motion-duration-spring) var(--strata-motion-spring);
+      box-shadow var(--syntara-motion-duration-normal) var(--syntara-motion-easing),
+      transform var(--syntara-motion-duration-spring) var(--syntara-motion-spring);
   }
   .shipCard.shipCard:hover {
     transform: translateY(var(--_lift));

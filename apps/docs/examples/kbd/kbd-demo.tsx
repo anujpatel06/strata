@@ -1,10 +1,10 @@
 'use client';
 
-import { Kbd, KbdGroup } from '@strata/react';
+import { Kbd, KbdGroup } from '@syntara/react';
 
 export default function Example() {
   return (
-    <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 'var(--strata-space-4)' }}>
+    <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 'var(--syntara-space-4)' }}>
       <KbdGroup>
         <Kbd>⌘</Kbd>
         <Kbd>K</Kbd>

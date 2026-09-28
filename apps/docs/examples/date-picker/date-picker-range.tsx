@@ -1,7 +1,7 @@
 'use client';
 
 import { parseDate } from '@internationalized/date';
-import { DateRangePicker } from '@strata/react';
+import { DateRangePicker } from '@syntara/react';
 
 export default function Example() {
   // A fixed date keeps the statically built page identical to what the browser renders.

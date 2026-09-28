@@ -10,7 +10,7 @@
  *   none    nothing extra
  *   agents  AGENTS.md in the workspace, loaded through CLAUDE.md
  *   llms    llms.txt in the workspace, named in CLAUDE.md
- *   mcp     the Strata MCP server, plus AGENTS.md
+ *   mcp     the Syntara MCP server, plus AGENTS.md
  * `--strict-mcp-config` is set in every condition, so no MCP server from the user's own setup leaks in.
  *
  * A run that already has a result.json is skipped, so an interrupted eval can be continued with the same command.
@@ -86,13 +86,13 @@ function makeWorkspace(job) {
   if (c.mcp) {
     // Kept outside the workspace and the run's own parent folder.
     mcpConfig = path.join(PREPARED, `mcp-${path.basename(path.dirname(ws))}.json`);
-    writeFileSync(mcpConfig, JSON.stringify({ mcpServers: { strata: { command: 'node', args: [path.join(source.root, 'packages/mcp/bin/cli.mjs')], env: { STRATA_ROOT: source.root } } } }));
+    writeFileSync(mcpConfig, JSON.stringify({ mcpServers: { syntara: { command: 'node', args: [path.join(source.root, 'packages/mcp/bin/cli.mjs')], env: { SYNTARA_ROOT: source.root } } } }));
   }
   return { ws, mcpConfig };
 }
 
 function commandFor(job, mcpConfig) {
-  const allowed = [...TOOLS, ...(mcpConfig ? ['mcp__strata'] : [])];
+  const allowed = [...TOOLS, ...(mcpConfig ? ['mcp__syntara'] : [])];
   return [
     '-p', job.prompt.body + '\n' + SUFFIX,
     '--model', job.model,
@@ -207,7 +207,7 @@ function runOne(job) {
         toolCalls,
         // Paths the run asked for that are neither in its workspace nor in the installed packages.
         pathsOutsideWorkspace: outside,
-        touchedRepo: outside.some((p) => p.startsWith(REPO) || p.includes(`${path.sep}strata-evals-prepared${path.sep}source`)),
+        touchedRepo: outside.some((p) => p.startsWith(REPO) || p.includes(`${path.sep}syntara-evals-prepared${path.sep}source`)),
         usedMemory: outside.some((p) => p.includes(`${path.sep}.claude${path.sep}`)),
         // Did the run look inside the installed packages at all? Iteration 1's defect would show up here as false.
         readPackages: [...paths].some((p) => p.includes('node_modules')),

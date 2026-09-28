@@ -1,7 +1,7 @@
 /**
  * Patterns are the docs site's blocks: apps/docs/blocks/blocks.json and one folder per block.
  *
- * Nothing about a pattern is written by hand here. `components` comes from the block's import of '@strata/react',
+ * Nothing about a pattern is written by hand here. `components` comes from the block's import of '@syntara/react',
  * matched to component names through each meta file's `exports`. `structure` is the first paragraph of the
  * comment at the top of the block's source, one sentence per line.
  */
@@ -33,10 +33,10 @@ export function listPatterns(root: string): Record<string, unknown> {
   };
 }
 
-/** Names imported from '@strata/react', in source order. Type-only imports are skipped. */
-export function strataImports(source: string): string[] {
+/** Names imported from '@syntara/react', in source order. Type-only imports are skipped. */
+export function syntaraImports(source: string): string[] {
   const names: string[] = [];
-  const re = /import\s+(type\s+)?\{([^}]*)\}\s*from\s*['"]@strata\/react['"]/g;
+  const re = /import\s+(type\s+)?\{([^}]*)\}\s*from\s*['"]@syntara\/react['"]/g;
   for (const match of source.matchAll(re)) {
     if (match[1]) continue;
     for (const raw of match[2]!.split(',')) {
@@ -80,7 +80,7 @@ export function getPattern(root: string, name: string, includeSource = false): R
   const source = readFileSync(file, 'utf8');
   const byExport = new Map<string, string>();
   for (const meta of allComponents(root)) for (const e of meta.exports) byExport.set(e, meta.name);
-  const components = [...new Set(strataImports(source).flatMap((n) => byExport.get(n) ?? []))].sort();
+  const components = [...new Set(syntaraImports(source).flatMap((n) => byExport.get(n) ?? []))].sort();
   return {
     name: block.name,
     title: block.title,

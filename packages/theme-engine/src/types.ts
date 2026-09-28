@@ -1,5 +1,5 @@
 /**
- * Strata theme-engine — public contract.
+ * Syntara theme-engine — public contract.
  *
  * Everything other packages and apps rely on is declared here. Implementation files
  * (color.ts, ramps.ts, roles.ts, theme.ts, css-vars.ts, export/*) must satisfy these types.
@@ -227,7 +227,7 @@ export interface ScriptTypeTokens {
   /** px. Steps of the type scale below this are raised to it, because smaller marks merge. */
   minFontSize: number;
   /**
-   * --strata-font-tracking-caps for this script. Devanagari has no case, and positive letter-spacing breaks the
+   * --syntara-font-tracking-caps for this script. Devanagari has no case, and positive letter-spacing breaks the
    * headline (shirorekha) that joins a word, so it is "0". The per-size tracking curve stays: it is 0 or negative,
    * and measured negative values break no headline.
    */
@@ -258,27 +258,27 @@ export interface Theme {
 /* ------------------------------------------------------------------ *
  * CSS variable contract (implemented by toCssVariables in css-vars.ts)
  *
- * Colour roles:  --strata-color-<role>, dots → dashes, camelCase → kebab
- *                e.g. feedback.success.onSolid → --strata-color-feedback-success-on-solid
- * Space:         --strata-space-{0,1,2,3,4,5,6,8,10,12,16}        (px)
- * Radius:        --strata-radius-{button,field,container,badge,pill} (px)
- * Fonts:         --strata-font-heading | --strata-font-body | --strata-font-mono (stacks)
- *                --strata-font-heading-tracking
- * Type scale:    --strata-font-size-{xs,sm,md,lg,xl,2xl,3xl,4xl,5xl}  (px)
- * Tracking:      --strata-font-tracking-{xs,sm,md,lg,xl,2xl,3xl,4xl,5xl,caps}  (em; 0 for Arabic-capable pairs; caps 0 for Devanagari)
- * Icons:         --strata-icon-stroke  (unitless SVG stroke width)
- *                --strata-line-height-{tight,snug,normal}         (unitless)
- *                --strata-font-weight-{regular,medium,semibold,bold}
- * Elevation:     --strata-shadow-raised | --strata-shadow-overlay | --strata-shadow-highlight | --strata-hairline | --strata-rim | --strata-glow | --strata-sheen
- * Glass:         --strata-glass-bg | --strata-glass-blur | --strata-glass-opacity
- * Chart:         --strata-chart-{1,2,3,4}  (series hexes, fixed order; per scheme)
- *                --strata-chart-grid | --strata-chart-axis   (var() aliases of border.subtle / text.subtle)
- * Motion:        --strata-motion-duration-{fast,normal,slow,spring} (ms) | --strata-motion-easing | --strata-motion-easing-out | --strata-motion-spring
- * Density:       --strata-control-height | --strata-control-padding-inline | --strata-table-row-height
- *                --strata-card-inset | --strata-section-gap | --strata-field-gap   (px)
+ * Colour roles:  --syntara-color-<role>, dots → dashes, camelCase → kebab
+ *                e.g. feedback.success.onSolid → --syntara-color-feedback-success-on-solid
+ * Space:         --syntara-space-{0,1,2,3,4,5,6,8,10,12,16}        (px)
+ * Radius:        --syntara-radius-{button,field,container,badge,pill} (px)
+ * Fonts:         --syntara-font-heading | --syntara-font-body | --syntara-font-mono (stacks)
+ *                --syntara-font-heading-tracking
+ * Type scale:    --syntara-font-size-{xs,sm,md,lg,xl,2xl,3xl,4xl,5xl}  (px)
+ * Tracking:      --syntara-font-tracking-{xs,sm,md,lg,xl,2xl,3xl,4xl,5xl,caps}  (em; 0 for Arabic-capable pairs; caps 0 for Devanagari)
+ * Icons:         --syntara-icon-stroke  (unitless SVG stroke width)
+ *                --syntara-line-height-{tight,snug,normal}         (unitless)
+ *                --syntara-font-weight-{regular,medium,semibold,bold}
+ * Elevation:     --syntara-shadow-raised | --syntara-shadow-overlay | --syntara-shadow-highlight | --syntara-hairline | --syntara-rim | --syntara-glow | --syntara-sheen
+ * Glass:         --syntara-glass-bg | --syntara-glass-blur | --syntara-glass-opacity
+ * Chart:         --syntara-chart-{1,2,3,4}  (series hexes, fixed order; per scheme)
+ *                --syntara-chart-grid | --syntara-chart-axis   (var() aliases of border.subtle / text.subtle)
+ * Motion:        --syntara-motion-duration-{fast,normal,slow,spring} (ms) | --syntara-motion-easing | --syntara-motion-easing-out | --syntara-motion-spring
+ * Density:       --syntara-control-height | --syntara-control-padding-inline | --syntara-table-row-height
+ *                --syntara-card-inset | --syntara-section-gap | --syntara-field-gap   (px)
  * ------------------------------------------------------------------ */
 
 /** Converts a role to its CSS custom property name. */
 export function roleToCssVar(role: Role): string {
-  return '--strata-color-' + role.replace(/\./g, '-').replace(/[A-Z]/g, (m) => '-' + m.toLowerCase());
+  return '--syntara-color-' + role.replace(/\./g, '-').replace(/[A-Z]/g, (m) => '-' + m.toLowerCase());
 }

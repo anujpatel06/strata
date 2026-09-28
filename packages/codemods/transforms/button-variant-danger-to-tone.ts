@@ -6,7 +6,7 @@
  *
  * `variant` is dropped because `primary` is the default, and tone="danger" on primary is what variant="danger" was.
  *
- * Rewrites only what it can be sure of: a literal 'danger' on a Button imported from Strata. Everything else that
+ * Rewrites only what it can be sure of: a literal 'danger' on a Button imported from Syntara. Everything else that
  * might be a danger button is reported with its file and line, and left alone:
  *   - variant is an expression              variant={isBad ? 'danger' : 'primary'}   variant={v}
  *     (not reported when every outcome is a literal and none is 'danger': variant={on ? 'primary' : 'outline'})
@@ -18,14 +18,14 @@
  * your own wrapper components.
  *
  * Options:
- *   --source=<module>   Also treat Button imported from this module as Strata's, e.g. a registry install at
+ *   --source=<module>   Also treat Button imported from this module as Syntara's, e.g. a registry install at
  *                       "@/components/ui/button". Repeat with commas for several.
  */
 import type { API, ASTPath, FileInfo, JSXAttribute, JSXOpeningElement, Options } from 'jscodeshift';
 
 export const parser = 'tsx';
 
-const DEFAULT_SOURCES = ['@strata/react', '@strata/react/ui/button'];
+const DEFAULT_SOURCES = ['@syntara/react', '@syntara/react/ui/button'];
 
 export default function transform(file: FileInfo, api: API, options: Options): string | undefined {
   const j = api.jscodeshift;
@@ -33,7 +33,7 @@ export default function transform(file: FileInfo, api: API, options: Options): s
   const extra = typeof options.source === 'string' ? options.source.split(',').map((s) => s.trim()).filter(Boolean) : [];
   const sources = new Set([...DEFAULT_SOURCES, ...extra]);
 
-  // Local names that mean Strata's Button: `Button`, `Button as Danger`, and namespaces (`* as S` → S.Button).
+  // Local names that mean Syntara's Button: `Button`, `Button as Danger`, and namespaces (`* as S` → S.Button).
   const buttons = new Set<string>();
   const namespaces = new Set<string>();
   root.find(j.ImportDeclaration).forEach((p) => {

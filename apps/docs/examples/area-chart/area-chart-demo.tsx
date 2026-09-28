@@ -1,6 +1,6 @@
 'use client';
 
-import { AreaChart, Card, CardContent, CardDescription, CardHeader, CardTitle } from '@strata/react';
+import { AreaChart, Card, CardContent, CardDescription, CardHeader, CardTitle } from '@syntara/react';
 
 const data = [
   { month: 'Jan', revenue: 18400 }, { month: 'Feb', revenue: 21200 }, { month: 'Mar', revenue: 19800 },

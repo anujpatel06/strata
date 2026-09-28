@@ -13,7 +13,7 @@
   ],
   "dependencies": [],
   "registryDependencies": [],
-  "usage": "import { Tag } from '@strata/react';\n\nexport function Benefit() {\n  return (\n    <div style={{ display: 'flex', gap: 'var(--strata-space-2)' }}>\n      <Tag tone=\"success\" uppercase>Cashless</Tag>\n      <Tag>Home collection</Tag>\n    </div>\n  );\n}",
+  "usage": "import { Tag } from '@syntara/react';\n\nexport function Benefit() {\n  return (\n    <div style={{ display: 'flex', gap: 'var(--syntara-space-2)' }}>\n      <Tag tone=\"success\" uppercase>Cashless</Tag>\n      <Tag>Home collection</Tag>\n    </div>\n  );\n}",
   "examples": [
     {
       "name": "tag-demo",

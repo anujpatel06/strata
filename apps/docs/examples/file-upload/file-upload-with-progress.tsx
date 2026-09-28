@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { FileUpload, type FileUploadEntry } from '@strata/react';
+import { FileUpload, type FileUploadEntry } from '@syntara/react';
 
 const sample = (name: string, kb: number, type: string) => new File([new Uint8Array(kb * 1024)], name, { type });
 

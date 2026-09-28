@@ -1,11 +1,11 @@
 'use client';
 
-import { IconTile } from '@strata/react';
-import { IconWallet } from '@strata/icons';
+import { IconTile } from '@syntara/react';
+import { IconWallet } from '@syntara/icons';
 
 export default function Example() {
   return (
-    <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 'var(--strata-space-3)' }}>
+    <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 'var(--syntara-space-3)' }}>
       <IconTile size="sm"><IconWallet /></IconTile>
       <IconTile size="md"><IconWallet /></IconTile>
       <IconTile size="lg"><IconWallet /></IconTile>

@@ -1,7 +1,7 @@
 'use client';
 
-import { IconComponents, IconFileText, IconGitBranch, IconLayoutGrid, IconLayoutRows, IconSearch } from '@strata/icons';
-import { Button, CommandDialog, CommandItem, CommandSection, Kbd } from '@strata/react';
+import { IconComponents, IconFileText, IconGitBranch, IconLayoutGrid, IconLayoutRows, IconSearch } from '@syntara/icons';
+import { Button, CommandDialog, CommandItem, CommandSection, Kbd } from '@syntara/react';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import styles from './site-header.module.css';

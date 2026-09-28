@@ -9,27 +9,27 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: var(--strata-space-1);
-  min-inline-size: var(--strata-space-5);
-  block-size: var(--strata-space-5);
+  gap: var(--syntara-space-1);
+  min-inline-size: var(--syntara-space-5);
+  block-size: var(--syntara-space-5);
   padding-block: 0 1px;
-  padding-inline: var(--strata-space-1);
+  padding-inline: var(--syntara-space-1);
   /* Hairline outline as an inset ring (Chromium rounds sub-pixel borders up to 1px). */
   border: 0;
   /* Keys stay key-shaped even in round brands. */
-  border-radius: min(var(--strata-radius-badge), var(--strata-space-1));
-  background-color: var(--strata-color-surface-raised);
+  border-radius: min(var(--syntara-radius-badge), var(--syntara-space-1));
+  background-color: var(--syntara-color-surface-raised);
   box-shadow:
-    inset 0 0 0 var(--strata-hairline) var(--strata-color-border-default),
-    inset 0 -1px 0 color-mix(in oklab, var(--strata-color-border-default) 80%, transparent),
-    var(--strata-shadow-highlight),
-    0 0.5px 0 color-mix(in oklab, var(--strata-color-text-default) 5%, transparent);
-  color: var(--strata-color-text-subtle);
-  font-family: var(--strata-font-mono);
-  font-size: var(--strata-font-size-xs);
+    inset 0 0 0 var(--syntara-hairline) var(--syntara-color-border-default),
+    inset 0 -1px 0 color-mix(in oklab, var(--syntara-color-border-default) 80%, transparent),
+    var(--syntara-shadow-highlight),
+    0 0.5px 0 color-mix(in oklab, var(--syntara-color-text-default) 5%, transparent);
+  color: var(--syntara-color-text-subtle);
+  font-family: var(--syntara-font-mono);
+  font-size: var(--syntara-font-size-xs);
   font-variant-numeric: tabular-nums;
-  font-weight: var(--strata-font-weight-medium);
-  letter-spacing: var(--strata-font-tracking-xs);
+  font-weight: var(--syntara-font-weight-medium);
+  letter-spacing: var(--syntara-font-tracking-xs);
   line-height: 1;
   vertical-align: middle;
   white-space: nowrap;
@@ -45,7 +45,7 @@
 .kbd > svg {
   inline-size: 1em;
   block-size: 1em;
-  stroke-width: var(--strata-icon-stroke, 1.5);
+  stroke-width: var(--syntara-icon-stroke, 1.5);
 }
 
 /* Keys read in the order they are pressed, like their printed legends — also on RTL pages. */
@@ -54,11 +54,11 @@
   unicode-bidi: isolate;
   display: inline-flex;
   align-items: center;
-  gap: var(--strata-space-1);
-  color: var(--strata-color-text-subtle);
+  gap: var(--syntara-space-1);
+  color: var(--syntara-color-text-subtle);
   font-family: inherit;
-  font-size: var(--strata-font-size-xs);
-  letter-spacing: var(--strata-font-tracking-xs);
+  font-size: var(--syntara-font-size-xs);
+  letter-spacing: var(--syntara-font-tracking-xs);
   vertical-align: middle;
   white-space: nowrap;
 }

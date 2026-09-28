@@ -1,10 +1,10 @@
 /**
- * The role guide on /docs/color: each group of roles as a live specimen (Strata components in the picked tenant)
+ * The role guide on /docs/color: each group of roles as a live specimen (Syntara components in the picked tenant)
  * over a list of its roles, with a swatch that reads the live CSS variable and the engine's hex beside it.
  */
-import { IconAlertTriangle, IconCircleCheck, IconCircleX, IconInfoCircle } from '@strata/icons';
-import { Badge, Button, Tag } from '@strata/react';
-import { roleToCssVar, type Role } from '@strata/theme-engine';
+import { IconAlertTriangle, IconCircleCheck, IconCircleX, IconInfoCircle } from '@syntara/icons';
+import { Badge, Button, Tag } from '@syntara/react';
+import { roleToCssVar, type Role } from '@syntara/theme-engine';
 import type { ReactNode } from 'react';
 import { getColorUsageData } from './data';
 import { LiveScope, RoleHex, TenantPicker } from './live';

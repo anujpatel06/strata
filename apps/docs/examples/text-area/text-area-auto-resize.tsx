@@ -1,6 +1,6 @@
 'use client';
 
-import { TextArea } from '@strata/react';
+import { TextArea } from '@syntara/react';
 
 export default function Example() {
   return (

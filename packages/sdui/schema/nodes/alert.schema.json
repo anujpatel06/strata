@@ -1,9 +1,9 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "urn:strata:sdui:v1:node:Alert",
+  "$id": "urn:syntara:sdui:v1:node:Alert",
   "title": "Alert",
   "description": "An inline message about the page or a section of it, in one of five tones.",
-  "x-strata": {
+  "x-syntara": {
     "node": "Alert",
     "component": "alert",
     "export": "Alert",
@@ -20,7 +20,7 @@
       "const": "Alert"
     },
     "id": {
-      "$ref": "urn:strata:sdui:v1:defs#/$defs/NodeId"
+      "$ref": "urn:syntara:sdui:v1:defs#/$defs/NodeId"
     },
     "props": {
       "type": "object",
@@ -46,13 +46,13 @@
           "description": "Replaces the filled status shape; it takes the tone colour (feedback.<tone>.fg). `false` shows no icon.",
           "anyOf": [
             {
-              "$ref": "urn:strata:sdui:v1:defs#/$defs/IconRef"
+              "$ref": "urn:syntara:sdui:v1:defs#/$defs/IconRef"
             },
             {
               "const": false
             }
           ],
-          "x-strata-message": "must be { \"icon\": \"<name>\" } or false (no icon)."
+          "x-syntara-message": "must be { \"icon\": \"<name>\" } or false (no icon)."
         },
         "live": {
           "description": "Announce the alert when it appears: `true`/'assertive' → role=\"alert\", 'polite' → role=\"status\". Leave unset for alerts present on page load.",
@@ -89,10 +89,10 @@
           },
           "oneOf": [
             {
-              "$ref": "urn:strata:sdui:v1:node:Button"
+              "$ref": "urn:syntara:sdui:v1:node:Button"
             },
             {
-              "$ref": "urn:strata:sdui:v1:node:Link"
+              "$ref": "urn:syntara:sdui:v1:node:Link"
             }
           ]
         }
@@ -100,13 +100,13 @@
     },
     "fallback": {
       "description": "Rendered instead of this node by a client that doesn't know its type. Must be a node that client knows.",
-      "$ref": "urn:strata:sdui:v1:screen#/$defs/Node"
+      "$ref": "urn:syntara:sdui:v1:screen#/$defs/Node"
     }
   },
   "additionalProperties": false,
   "allOf": [
     {
-      "x-strata-rule": {
+      "x-syntara-rule": {
         "id": "alert-text",
         "message": "An Alert needs props.title or text in children: the tone colour and icon alone say nothing."
       },

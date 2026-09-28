@@ -11,7 +11,7 @@
 
 ## Decision
 
-- **Overlays copy the scope.** When an overlay opens, it copies `data-strata-theme`, `data-strata-scheme`, `data-strata-density`, `dir` and `lang` from the element that opened it onto its own root. It looks up **each attribute on its own**, because a single-tenant app themes `:root` and scopes only the scheme.
+- **Overlays copy the scope.** When an overlay opens, it copies `data-syntara-theme`, `data-syntara-scheme`, `data-syntara-density`, `dir` and `lang` from the element that opened it onto its own root. It looks up **each attribute on its own**, because a single-tenant app themes `:root` and scopes only the scheme.
 - **ThemeScope takes `locale`.** It wraps children in `I18nProvider` and sets `lang`/`dir` unless you pass them.
 
 ## Alternatives considered

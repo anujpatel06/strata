@@ -32,7 +32,7 @@ import {
   IconInfoCircleFilled,
   IconSealCheckFilled,
   IconX,
-} from '@strata/icons';
+} from '@syntara/icons';
 import { Button } from './button';
 import styles from './toast.module.css';
 
@@ -80,7 +80,7 @@ const motionAllowed = (): boolean =>
  * plays its exit animation, then finishClose() removes it. Unrendered toasts, or reduced motion,
  * close immediately. Timers, pause-on-hover and focus management stay React Aria's.
  */
-class StrataToastQueue extends AriaToastQueue<ToastContent> {
+class SyntaraToastQueue extends AriaToastQueue<ToastContent> {
   #exiting: ReadonlySet<string> = new Set();
   #rendered = new Set<string>();
   #listeners = new Set<() => void>();
@@ -129,7 +129,7 @@ class StrataToastQueue extends AriaToastQueue<ToastContent> {
   }
 }
 
-const queue = new StrataToastQueue({ maxVisibleToasts: 3 });
+const queue = new SyntaraToastQueue({ maxVisibleToasts: 3 });
 
 function showToast(content: ToastContent | string, options: ToastOptions = {}): string {
   const data = typeof content === 'string' ? { title: content } : content;
@@ -172,15 +172,15 @@ interface Scope {
   dir?: string;
 }
 
-const SCOPE_ATTRS = ['data-strata-theme', 'data-strata-scheme', 'data-strata-density', 'dir', 'lang'];
+const SCOPE_ATTRS = ['data-syntara-theme', 'data-syntara-scheme', 'data-syntara-density', 'dir', 'lang'];
 
 function readScope(anchor: Element): Scope {
   // Each attribute on its own: a single-tenant app themes :root and scopes only the scheme.
   const read = (name: string) => anchor.closest(`[${name}]`)?.getAttribute(name) ?? undefined;
   return {
-    theme: read('data-strata-theme'),
-    scheme: read('data-strata-scheme'),
-    density: read('data-strata-density'),
+    theme: read('data-syntara-theme'),
+    scheme: read('data-syntara-scheme'),
+    density: read('data-syntara-density'),
     lang: anchor.closest('[lang]')?.getAttribute('lang') || undefined,
     dir: anchor.closest('[dir]')?.getAttribute('dir') ?? undefined,
   };
@@ -314,9 +314,9 @@ export function ToastRegion({ placement = 'bottom-end', className, ...rest }: To
       {...rest}
       queue={queue}
       lang={scope.lang}
-      data-strata-theme={scope.theme}
-      data-strata-scheme={scope.scheme}
-      data-strata-density={scope.density}
+      data-syntara-theme={scope.theme}
+      data-syntara-scheme={scope.scheme}
+      data-syntara-density={scope.density}
       data-placement={placement}
       className={cx(styles.region, className)}
     >
@@ -326,7 +326,7 @@ export function ToastRegion({ placement = 'bottom-end', className, ...rest }: To
 
   return (
     <>
-      <span ref={anchorRef} hidden data-strata-toast-anchor="" />
+      <span ref={anchorRef} hidden data-syntara-toast-anchor="" />
       {isOwner && (
         <RegionContext.Provider value={context}>
           {fixLocale ? <I18nProvider locale={fixLocale}>{region}</I18nProvider> : region}

@@ -1,4 +1,4 @@
-/** Strata mark: three offset layers — one system, stacked brands. Monochrome, inherits currentColor. */
+/** Syntara mark: three offset layers — one system, stacked brands. Monochrome, inherits currentColor. */
 export function LogoMark({ size = 20, className }: { size?: number; className?: string }) {
   return (
     <svg className={className} width={size} height={size} viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false">

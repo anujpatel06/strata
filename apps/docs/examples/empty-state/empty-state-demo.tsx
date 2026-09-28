@@ -1,7 +1,7 @@
 'use client';
 
-import { IconFileText } from '@strata/icons';
-import { Button, EmptyState } from '@strata/react';
+import { IconFileText } from '@syntara/icons';
+import { Button, EmptyState } from '@syntara/react';
 
 export default function Example() {
   return (

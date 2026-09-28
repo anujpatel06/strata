@@ -3,13 +3,13 @@
 /**
  * ShowcaseGrid — a bento of product moments from one small business-money app (a revenue chart with a period
  * toggle, balances with trends, a card limit, a payout waiting on approval, a payment calendar), built only from
- * @strata/react and @strata/icons. Used live on the homepage and in the /themes preview.
+ * @syntara/react and @syntara/icons. Used live on the homepage and in the /themes preview.
  *
  *   <ThemeScope theme="vela" scheme="dark">
  *     <ShowcaseGrid />
  *   </ThemeScope>
  *
- * It does not theme itself: render it inside a ThemeScope (or any element carrying the --strata-* variables).
+ * It does not theme itself: render it inside a ThemeScope (or any element carrying the --syntara-* variables).
  * Columns come from the width of its own box (container queries), not the viewport: 3 columns from 960px,
  * 2 from 600px, otherwise 1, so it also fits a narrow preview panel. Cards stretch to their area, so every row
  * ends on one straight line.

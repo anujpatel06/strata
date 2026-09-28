@@ -1,6 +1,6 @@
 'use client';
 
-import { IconChevronRight, IconDots } from '@strata/icons';
+import { IconChevronRight, IconDots } from '@syntara/icons';
 import { Children, cloneElement, isValidElement, useState, type JSX, type ReactElement, type ReactNode } from 'react';
 import {
   Breadcrumb as RACBreadcrumb,
@@ -55,7 +55,7 @@ export function Breadcrumbs<T extends object>({
     const tail = items.slice(items.length - (maxItems - 1));
     content = [
       items[0],
-      <RACBreadcrumb key="strata-breadcrumbs-ellipsis" id="strata-breadcrumbs-ellipsis" className={styles.item}>
+      <RACBreadcrumb key="syntara-breadcrumbs-ellipsis" id="syntara-breadcrumbs-ellipsis" className={styles.item}>
         <RACButton
           className={styles.ellipsis}
           aria-label={expandLabel}

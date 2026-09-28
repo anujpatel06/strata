@@ -1,7 +1,7 @@
 {
-  "name": "@strata/tokens",
+  "name": "@syntara/tokens",
   "version": "0.1.0",
-  "description": "Built token files for every Strata tenant: CSS variables, DTCG 2025.10 JSON, Figma-variables JSON.",
+  "description": "Built token files for every Syntara tenant: CSS variables, DTCG 2025.10 JSON, Figma-variables JSON.",
   "type": "module",
   "license": "MIT",
   "files": [
@@ -12,7 +12,7 @@
     "typecheck": "tsc -p tsconfig.json"
   },
   "devDependencies": {
-    "@strata/theme-engine": "workspace:*",
+    "@syntara/theme-engine": "workspace:*",
     "tsx": "^4.20.0",
     "typescript": "~5.9.0",
     "@types/node": "^22.0.0"

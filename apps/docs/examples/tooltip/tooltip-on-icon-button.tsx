@@ -1,7 +1,7 @@
 'use client';
 
-import { Button, Tooltip, TooltipTrigger } from '@strata/react';
-import { IconCopy, IconDownload, IconShare, IconTrash } from '@strata/icons';
+import { Button, Tooltip, TooltipTrigger } from '@syntara/react';
+import { IconCopy, IconDownload, IconShare, IconTrash } from '@syntara/icons';
 
 const actions = [
   { label: 'Copy reference', icon: IconCopy },
@@ -12,7 +12,7 @@ const actions = [
 
 export default function Example() {
   return (
-    <div style={{ display: 'flex', gap: 'var(--strata-space-1)' }}>
+    <div style={{ display: 'flex', gap: 'var(--syntara-space-1)' }}>
       {actions.map(({ label, icon: Icon }) => (
         <TooltipTrigger key={label}>
           <Button variant="ghost" size="icon" aria-label={label}>

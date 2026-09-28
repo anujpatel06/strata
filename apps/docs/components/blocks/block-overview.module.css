@@ -3,14 +3,14 @@
  * one column on phones. The rails line up because the showcase card pins its footer to the bottom.
  */
 .overview {
-  margin-block-start: var(--strata-space-12);
+  margin-block-start: var(--syntara-space-12);
 }
 
 .grid {
   display: grid;
   /* ~336px minimum per card, one column below that. */
-  grid-template-columns: repeat(auto-fill, minmax(min(100%, calc(var(--strata-space-16) * 5.25)), 1fr));
-  gap: var(--strata-space-6);
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, calc(var(--syntara-space-16) * 5.25)), 1fr));
+  gap: var(--syntara-space-6);
   margin: 0;
   padding: 0;
   list-style: none;
@@ -28,12 +28,12 @@
 .eyebrow.eyebrow {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--strata-space-2);
+  gap: var(--syntara-space-2);
 }
 
 .number {
-  color: var(--strata-color-text-default);
-  font-family: var(--strata-font-mono);
+  color: var(--syntara-color-text-default);
+  font-family: var(--syntara-font-mono);
   font-variant-numeric: tabular-nums;
 }
 
@@ -64,9 +64,9 @@
   inline-size: 100%;
   aspect-ratio: 16 / 10;
   overflow: hidden;
-  border-radius: var(--strata-space-3);
-  background: var(--strata-color-surface-canvas);
-  box-shadow: 0 0 0 1px var(--strata-color-border-default), var(--strata-shadow-overlay);
+  border-radius: var(--syntara-space-3);
+  background: var(--syntara-color-surface-canvas);
+  box-shadow: 0 0 0 1px var(--syntara-color-border-default), var(--syntara-shadow-overlay);
   pointer-events: none;
 }
 

@@ -1,6 +1,6 @@
 import { readFileSync, readdirSync } from 'node:fs';
 import path from 'node:path';
-import * as icons from '@strata/icons';
+import * as icons from '@syntara/icons';
 import type { ComponentMeta } from '../../react/meta/schema';
 import {
   PKG_DIR,
@@ -34,7 +34,7 @@ describe('generated files', () => {
   const files = buildSchemas(inputs());
 
   it('are not stale: regenerating in memory gives the committed files', () => {
-    for (const [rel, value] of Object.entries(files)) expect(committed(rel), `schema/${rel} is stale: run pnpm --filter @strata/sdui generate`).toBe(serialise(value));
+    for (const [rel, value] of Object.entries(files)) expect(committed(rel), `schema/${rel} is stale: run pnpm --filter @syntara/sdui generate`).toBe(serialise(value));
     expect(readFileSync(path.join(PKG_DIR, 'src/schemas.generated.ts'), 'utf8')).toBe(schemasModule(files));
   });
 
@@ -47,7 +47,7 @@ describe('generated files', () => {
     expect(serialise(buildSchemas(inputs()))).toBe(serialise(files));
   });
 
-  it('writes one schema per node, with title, description and x-strata metadata from meta', () => {
+  it('writes one schema per node, with title, description and x-syntara metadata from meta', () => {
     const metas = readMetas();
     for (const spec of NODES) {
       const file = Object.entries(files).find(([, s]) => s.$id === urn(`node:${spec.type}`));
@@ -57,7 +57,7 @@ describe('generated files', () => {
       expect(schema.title).toBe(spec.type);
       const meta = spec.meta ? metas.get(spec.meta) : undefined;
       expect(schema.description).toBe(spec.description ?? meta?.description);
-      expect(schema['x-strata']).toMatchObject({
+      expect(schema['x-syntara']).toMatchObject({
         node: spec.type,
         component: spec.meta ?? null,
         maturity: meta?.maturity ?? 'alpha',
@@ -76,7 +76,7 @@ describe('generated files', () => {
     }
   });
 
-  it('takes icon names from the real exports of @strata/icons', () => {
+  it('takes icon names from the real exports of @syntara/icons', () => {
     const defs = files['defs.schema.json'] as { $defs: { IconName: { enum: string[] } } };
     const names = Object.values(icons)
       .filter((v) => typeof v === 'function' && 'iconName' in v)

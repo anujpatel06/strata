@@ -1,6 +1,6 @@
-# CLAUDE.md — Strata
+# CLAUDE.md — Syntara
 
-Strata is a multi-brand design system. It has 53 React Aria components, its own icon set (`@strata/icons`) and a Next.js docs site, all themed by an engine that turns six brand inputs into a light and dark theme passing WCAG 2.2 AA. It's Anuj Patel's portfolio project for Lead/Staff Product Designer and UX Design Engineer interviews, so **craft, accessibility and honest claims matter more than speed**.
+Syntara is a multi-brand design system. It has 53 React Aria components, its own icon set (`@syntara/icons`) and a Next.js docs site, all themed by an engine that turns six brand inputs into a light and dark theme passing WCAG 2.2 AA. It's Anuj Patel's portfolio project for Lead/Staff Product Designer and UX Design Engineer interviews, so **craft, accessibility and honest claims matter more than speed**.
 
 - Spec: `BRIEF.md`. Read the relevant section before planning any phase.
 - Component rules: `packages/react/CONVENTIONS.md`. Read it before touching `packages/react` or `apps/docs/examples`.
@@ -12,12 +12,12 @@ Anuj owns design decisions. You pair on engineering and push back when he's wron
 ## Status
 
 - **Done:** Phase 0–5, and Phase 5a built (waiting for Anuj's review).
-  - The theme engine and contrast solver, 53 components, 7 blocks, `@strata/icons`, the docs site (Home, Docs, Components, Blocks, Themes, Colors, Icons, ⌘K) and the npm build. No shadcn anywhere users look (ADR-011 revision).
+  - The theme engine and contrast solver, 53 components, 7 blocks, `@syntara/icons`, the docs site (Home, Docs, Components, Blocks, Themes, Colors, Icons, ⌘K) and the npm build. No shadcn anywhere users look (ADR-011 revision).
   - Governance (Phase 4): `GOVERNANCE.md`, RFCs in `docs/rfcs/`, deprecation records in `meta.json`, `packages/codemods`. First deprecation: `Button variant="danger"` → `tone="danger"` (RFC-001, ADR-021).
   - Agents (Phase 5): `packages/audit` (`pnpm drift`), `packages/mcp`, `AGENTS.md`, `evals/` (results in `evals/results.md`; iteration 1 is invalid and kept on record).
   - Mobile reach (Phase 5a): `packages/sdui`, native token files from `pnpm tokens`, tenant Haat (hi-IN). No native components.
 - **Next:** Phase 6, publish (BRIEF §13).
-- **Waiting on Anuj:** deploy the docs to Vercel; review Haat's Hindi copy; ADR-024, 025 and 026; the clipping found in the Arabic and Latin type pairs.
+- **Waiting on Anuj:** deploy the docs to Vercel; review Haat's Hindi copy; ADR-024, 025 and 026; the clipping found in the Arabic and Latin type pairs; whether to rename the GitHub repository and reserve the `@syntara` npm scope (ADR-029).
 - **Known gaps:** listed at the end of the latest entry in `docs/log.md`.
 
 ## Run it
@@ -28,13 +28,13 @@ Node ≥ 22, pnpm 10 (`corepack enable`).
 pnpm install
 pnpm docs                  # docs site → http://localhost:3000 (use localhost, not 127.0.0.1: Next 16 dev blocks hydration there)
 pnpm dev                   # Phase 1 Brand Generator (Vite) → :5173
-pnpm --filter @strata/playground dev   # component playground: /?c=button&tenant=qamar&scheme=dark&dir=rtl
+pnpm --filter @syntara/playground dev   # component playground: /?c=button&tenant=qamar&scheme=dark&dir=rtl
 pnpm typecheck && pnpm test            # all packages
 pnpm test:themes           # contrast fuzz, 1,000 brands → packages/theme-engine/reports
 pnpm check:meta            # every component's meta.json vs its files
 pnpm registry              # internal only: registry JSON → packages/react/registry (not published; ADR-011 revision)
 pnpm tokens                # tenant token files → packages/tokens/dist
-pnpm --filter @strata/react build      # npm build → packages/react/dist
+pnpm --filter @syntara/react build      # npm build → packages/react/dist
 ```
 
 Use `/verify` before saying work is done, and `/screenshots` after any UI change.
@@ -44,14 +44,14 @@ Use `/verify` before saying work is done, and `/screenshots` after any UI change
 | Path | What |
 |---|---|
 | `packages/theme-engine` | OKLCH ramps, 48 semantic roles, contrast solver, exporters (CSS, DTCG 2025.10, Figma, shadcn). Zero runtime deps. |
-| `packages/react` | Components: `src/ui/<name>.tsx` + `.module.css` (flat; sibling imports only), `meta/<name>.meta.json`, `test/`. `src/index.ts` is generated (`pnpm --filter @strata/react gen:index`). |
+| `packages/react` | Components: `src/ui/<name>.tsx` + `.module.css` (flat; sibling imports only), `meta/<name>.meta.json`, `test/`. `src/index.ts` is generated (`pnpm --filter @syntara/react gen:index`). |
 | `packages/tokens` | Builds token files for every `tenants/*/brand.json`. |
 | `packages/audit` | Drift auditor: ten rules, a fix on every finding, `--fix` for the safe ones. `pnpm drift <path>`. |
 | `packages/mcp` | Read-only MCP server over stdio. Reads `meta.json`, tenants, blocks and examples at request time. |
-| `packages/sdui` | Server-driven UI: schemas generated from `meta.json` (`pnpm --filter @strata/sdui generate`), validator, web renderer. The schema has its own version. |
+| `packages/sdui` | Server-driven UI: schemas generated from `meta.json` (`pnpm --filter @syntara/sdui generate`), validator, web renderer. The schema has its own version. |
 | `evals/` | Agent eval: prompts, harness, runs and results. `run.mjs` calls a paid model once per run. |
-| `packages/codemods` | One jscodeshift transform per breaking change, with fixture tests. `npx @strata/codemods <transform> <path>`. |
-| `packages/icons` | `@strata/icons`: our own icon set (ADR-014). Style spec in `src/create-icon.tsx`; `pnpm --filter @strata/icons sheet` renders the review sheet. |
+| `packages/codemods` | One jscodeshift transform per breaking change, with fixture tests. `npx @syntara/codemods <transform> <path>`. |
+| `packages/icons` | `@syntara/icons`: our own icon set (ADR-014). Style spec in `src/create-icon.tsx`; `pnpm --filter @syntara/icons sheet` renders the review sheet. |
 | `apps/docs` | Next.js 16 site. Examples in `examples/<component>/`; blocks in `blocks/<name>/`; pages in `app/`; MDX in `content/docs/`. |
 | `apps/generator` | Phase 1 Brand Generator (Vite; single-file build for hosted demos). |
 | `apps/playground` | Renders `apps/docs/examples/<c>/*` per tenant, scheme, dir and density for visual QA. |
@@ -60,10 +60,10 @@ Use `/verify` before saying work is done, and `/screenshots` after any UI change
 
 ## Conventions (non-negotiable)
 
-- **Tokens only:** `var(--strata-*)` semantic roles. No raw colours, sizes, radii or weights in component or page CSS. No tenant ids in component code. A brand is data, not code.
+- **Tokens only:** `var(--syntara-*)` semantic roles. No raw colours, sizes, radii or weights in component or page CSS. No tenant ids in component code. A brand is data, not code.
 - **Logical properties only.** RTL must work. For right-to-left regions, pass `locale` to `ThemeScope` (React Aria reads direction from the locale, not from `dir`).
 - **React Aria for behaviour:** never hand-roll focus, overlays, collections or keyboard handling.
-- **Overlays portal to `<body>`** and copy `data-strata-*`, `dir` and `lang` from the nearest scope when they open (ADR-012). Keep that helper in every overlay file, because registry installs need self-contained files.
+- **Overlays portal to `<body>`** and copy `data-syntara-*`, `dir` and `lang` from the nearest scope when they open (ADR-012). Keep that helper in every overlay file, because registry installs need self-contained files.
 - **Accessibility:** WCAG 2.2 AA. Visible focus, targets ≥ 24px, status never shown by colour alone. Contrast ratios are never rounded up; 4.49 fails.
 - **No invented metrics.** Every number comes from a script, with the command next to it.
 - **Design trade-off:** stop and ask Anuj with 2–3 options and a recommendation. The answer becomes an ADR that records who decided (`Anuj` / `Claude recommended, Anuj accepted` / `Claude recommended, pending Anuj`).
@@ -86,7 +86,7 @@ When parallelising, give each agent exact file ownership and these rules: no dep
   - Turbopack is the default. Keep MDX plugin lists empty.
   - `next dev` rewrites `apps/docs/AGENTS.md`/`CLAUDE.md` (committed on purpose) and `next-env.d.ts` (restore it if a custom `NEXT_DIST_DIR` build changes it).
 - **Docs CSS:** `apps/docs/package.json` has a `browserslist`, so Lightning CSS doesn't polyfill `:dir()` or `light-dark()` (the polyfills broke RTL and backdrops).
-- **Docs CSS that restyles a Strata component doubles the class** (`.promo.promo`). A single class weighs the same as the component's own rule, so stylesheet order decides which wins, and that order changes when the import graph does. `node scripts/check-override-weight.mjs` checks it; `--fix` doubles them.
+- **Docs CSS that restyles a Syntara component doubles the class** (`.promo.promo`). A single class weighs the same as the component's own rule, so stylesheet order decides which wins, and that order changes when the import graph does. `node scripts/check-override-weight.mjs` checks it; `--fix` doubles them.
 - **Docs examples use fixed dates** (`parseDate('2026-10-05')`), so statically built pages hydrate the same on any day.
 - **Stopping servers:** `pgrep -f "next start"` also matches your own shell command. Kill by the PID you started instead.
-- **Offline sandboxes** can't reach Google Fonts. Screenshot scripts accept `STRATA_LOCAL_FONTS=<node_modules with @fontsource/*>`. You don't need this on a normal Mac.
+- **Offline sandboxes** can't reach Google Fonts. Screenshot scripts accept `SYNTARA_LOCAL_FONTS=<node_modules with @fontsource/*>`. You don't need this on a normal Mac.

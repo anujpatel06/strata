@@ -70,7 +70,7 @@ export const PRESETS: readonly Preset[] = [
     label: 'Unnamed button',
     apply(input) {
       const doc = clone(input);
-      // Not a Button in a slot: @strata/sdui 1.0.0's validator reports a rule broken inside `slots.action` against the
+      // Not a Button in a slot: @syntara/sdui 1.0.0's validator reports a rule broken inside `slots.action` against the
       // parent node (an Alert's rule instead of button-name), so the demo would show the wrong message. Reported.
       const found = [...nodes(doc.root, '/root')].find((n) => n.node.type === 'Button' && !n.pointer.includes('/slots/'));
       if (found) {

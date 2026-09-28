@@ -1,6 +1,6 @@
 'use client';
 
-import { Link } from '@strata/react';
+import { Link } from '@syntara/react';
 
 export default function Example() {
   return (

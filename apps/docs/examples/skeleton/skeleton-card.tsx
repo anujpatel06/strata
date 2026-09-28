@@ -1,6 +1,6 @@
 'use client';
 
-import { Card, CardContent, CardHeader, Skeleton, SkeletonText } from '@strata/react';
+import { Card, CardContent, CardHeader, Skeleton, SkeletonText } from '@syntara/react';
 
 export default function Example() {
   return (
@@ -9,7 +9,7 @@ export default function Example() {
         <Skeleton blockSize={18} inlineSize="50%" />
         <Skeleton blockSize={12} inlineSize="75%" />
       </CardHeader>
-      <CardContent style={{ display: 'grid', gap: 'var(--strata-space-4)' }}>
+      <CardContent style={{ display: 'grid', gap: 'var(--syntara-space-4)' }}>
         <Skeleton blockSize={120} radius="container" />
         <SkeletonText lines={3} />
       </CardContent>

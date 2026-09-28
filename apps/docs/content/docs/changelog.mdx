@@ -6,8 +6,9 @@ Releases follow the project’s phases. Every number here comes from a script; t
 
 Tools for AI coding agents, and a measurement of whether they help.
 
-- `@strata/audit`: the drift auditor. It finds off-system code, suggests a fix for every finding and applies the ones with a single right answer — `pnpm drift <path>`.
-- `@strata/mcp`: a read-only MCP server with seven tools. See [MCP server](/docs/mcp).
+- **Renamed:** the project is Syntara, and the name changes everywhere it was the project's own (<AdrLink n="029" />). Packages move to the `@syntara` scope, every custom property is `--syntara-*` instead of `--strata-*`, the theme scope writes `data-syntara-*`, and server-driven UI schema ids are `urn:syntara:sdui:v1:*`. No token value and no component behaviour changed. There is no codemod for the token prefix yet, so a consumer rewrites imports, token references and attribute selectors by hand.
+- `@syntara/audit`: the drift auditor. It finds off-system code, suggests a fix for every finding and applies the ones with a single right answer — `pnpm drift <path>`.
+- `@syntara/mcp`: a read-only MCP server with seven tools. See [MCP server](/docs/mcp).
 - `AGENTS.md`: the rules for agents, and what they may change without a person.
 - Brand fidelity: every theme reports how far its brand fill is from the colour the brand asked for. Across 1,000 random brands the primary is kept exactly for 89.2% in light and 80.0% in dark — `pnpm test:themes`.
 - The agent eval: 25 prompts, 100 runs. With the server, 88% of runs were fully on-system, against 64% without. It didn’t help with type errors. The first attempt was thrown out because of a fault in the harness; both are in the repo.
@@ -26,7 +27,7 @@ How the system changes, and the first change made that way.
 - `GOVERNANCE.md`: who decides what, the four outcomes for a request, and the deprecation policy. Deprecated APIs keep working until 1.0.0. See [Governance](/docs/governance).
 - Requests for comments, with a template. RFC-001 is the first.
 - **Deprecated:** Button’s `variant="danger"`. Use `tone="danger"`, which also works on outline and ghost buttons (<AdrLink n="021" />). The old prop renders the same and warns once in development.
-- `@strata/codemods`: a new package. `npx @strata/codemods button-variant-danger-to-tone <path>` rewrites literal usages and reports the ones it can’t be sure of.
+- `@syntara/codemods`: a new package. `npx @syntara/codemods button-variant-danger-to-tone <path>` rewrites literal usages and reports the ones it can’t be sure of.
 - Deprecations are records in `meta.json`. Component pages show them, and `pnpm check:meta` fails if a record names a codemod or RFC that doesn’t exist.
 - The engine now solves success, warning, danger and info text on the canvas and raised surfaces too: 118 contrast checks per brand, up from 102 — `pnpm test:themes`.
 
@@ -38,7 +39,7 @@ The finish pass: motion, depth, our own icons and charts, and an editorial voice
 
 - Tactile motion: a damped spring token, press and hover lift, sliding selection, and entrances. Everything respects `prefers-reduced-motion` (<AdrLink n="013" />).
 - Glass for floating layers, with the opacity solved so text stays 4.5:1 over any backdrop. Rim light and brand glow tokens.
-- `@strata/icons`: 235 curvy, minimal icons across 8 groups, drawn to one spec (<AdrLink n="014" />). See [Icons](/docs/icons).
+- `@syntara/icons`: 235 curvy, minimal icons across 8 groups, drawn to one spec (<AdrLink n="014" />). See [Icons](/docs/icons).
 - Charts: AreaChart, LineChart, BarChart and Sparkline, keyboard-navigable with a table view. Each brand gets a chart palette that is checked for colour blindness (<AdrLink n="016" />).
 - New components: Sidebar, IconTile, Eyebrow, Amount, Meter, Tag, PersonChip. Card gains `feature` and `inset`, Button gains `contrast`, Badge gains `status`.
 - Soft-outline fields that still meet WCAG 1.4.11 (<AdrLink n="017" />). Fields and buttons now share heights and radii.
@@ -52,9 +53,9 @@ The finish pass: motion, depth, our own icons and charts, and an editorial voice
 
 Phase 2.
 
-- Components built on React Aria Components, styled with CSS Modules and `--strata-*` tokens only. Each one has a maturity label.
+- Components built on React Aria Components, styled with CSS Modules and `--syntara-*` tokens only. Each one has a maturity label.
 - One `meta.json` per component — props, examples, accessibility, guidelines, tokens — driving these docs ([ADR-007](https://github.com/anujpatel06/strata/blob/main/docs/adr/007-meta-json-single-source.md)).
-- Distribution through npm: `@strata/react` builds to ESM with one module per component, `'use client'` kept, one `styles.css` and type declarations (<AdrLink n="011" />).
+- Distribution through npm: `@syntara/react` builds to ESM with one module per component, `'use client'` kept, one `styles.css` and type declarations (<AdrLink n="011" />).
 - Overlays copy their opener’s theme attributes, so portaled dialogs and popovers keep the tenant, scheme and density; `ThemeScope` takes a `locale` that sets React Aria’s locale, `lang` and `dir` (<AdrLink n="012" />).
 - The house brand the docs use lives in `tenants/house/brand.json`.
 - This docs site, themed by the engine, with live previews in every tenant.

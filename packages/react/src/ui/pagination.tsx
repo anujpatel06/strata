@@ -1,6 +1,6 @@
 'use client';
 
-import { IconChevronLeft, IconChevronRight, IconDots } from '@strata/icons';
+import { IconChevronLeft, IconChevronRight, IconDots } from '@syntara/icons';
 import { useMemo, type HTMLAttributes, type JSX } from 'react';
 import { Button as RACButton, useLocale } from 'react-aria-components';
 import styles from './pagination.module.css';

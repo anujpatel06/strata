@@ -1,6 +1,6 @@
 'use client';
 
-import { Card, CardContent, CardDescription, CardHeader, CardTitle, Sparkline } from '@strata/react';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle, Sparkline } from '@syntara/react';
 
 export default function Example() {
   return (
@@ -13,7 +13,7 @@ export default function Example() {
         <Sparkline
           aria-label="Up 18% over the last 12 months"
           data={[31, 33, 32, 36, 35, 38, 41, 39, 43, 44, 46, 48]}
-          style={{ blockSize: 'var(--strata-space-12)' }}
+          style={{ blockSize: 'var(--syntara-space-12)' }}
         />
       </CardContent>
     </Card>

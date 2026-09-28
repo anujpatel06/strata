@@ -2,19 +2,19 @@ import { readFileSync, readdirSync } from 'node:fs';
 import createMDX from '@next/mdx';
 
 /**
- * `import { Button } from '@strata/react'` → `import { Button } from '@strata/react/ui/button'`.
+ * `import { Button } from '@syntara/react'` → `import { Button } from '@syntara/react/ui/button'`.
  * The barrel re-exports every component with `export *`, which the bundler doesn't tree-shake across
  * 'use client' modules, so without this every page shipped the whole library. Built from the export
  * statements in packages/react/src/ui/*.tsx, so new components are picked up automatically; anything
  * not found falls through to the barrel.
  */
-function strataImportMap() {
+function syntaraImportMap() {
   const uiDir = new URL('../../packages/react/src/ui/', import.meta.url);
   /** @type {Record<string, string>} */
   const map = {};
   for (const file of readdirSync(uiDir).sort()) {
     if (!file.endsWith('.tsx')) continue;
-    const target = `@strata/react/ui/${file.slice(0, -4)}`;
+    const target = `@syntara/react/ui/${file.slice(0, -4)}`;
     const source = readFileSync(new URL(file, uiDir), 'utf8');
     const names = new Set();
     for (const m of source.matchAll(/export\s+(?:declare\s+)?(?:async\s+)?(?:function|const|let|class|interface|type|enum)\s+([A-Za-z_$][\w$]*)/g)) names.add(m[1]);
@@ -26,7 +26,7 @@ function strataImportMap() {
     }
     for (const name of names) map[`^${name}$`] ??= target;
   }
-  map['.*'] = '@strata/react';
+  map['.*'] = '@syntara/react';
   return map;
 }
 
@@ -34,9 +34,9 @@ function strataImportMap() {
 const nextConfig = {
   pageExtensions: ['ts', 'tsx', 'md', 'mdx'],
   // Workspace packages ship TypeScript source + CSS Modules; Next compiles them.
-  transpilePackages: ['@strata/react', '@strata/theme-engine'],
+  transpilePackages: ['@syntara/react', '@syntara/theme-engine'],
   modularizeImports: {
-    '@strata/react': { transform: strataImportMap(), skipDefaultConversion: true },
+    '@syntara/react': { transform: syntaraImportMap(), skipDefaultConversion: true },
   },
   reactStrictMode: true,
   poweredByHeader: false,

@@ -13,13 +13,13 @@
   ],
   "dependencies": [
     "react-aria-components",
-    "@strata/icons"
+    "@syntara/icons"
   ],
   "registryDependencies": [
     "text-field"
   ],
   "reactAria": "https://react-spectrum.adobe.com/react-aria/SearchField.html",
-  "usage": "import { SearchField } from '@strata/react';\n\nexport function Search() {\n  return <SearchField aria-label=\"Search transactions\" placeholder=\"Search transactions\" onSubmit={(q) => search(q)} />;\n}",
+  "usage": "import { SearchField } from '@syntara/react';\n\nexport function Search() {\n  return <SearchField aria-label=\"Search transactions\" placeholder=\"Search transactions\" onSubmit={(q) => search(q)} />;\n}",
   "examples": [
     {
       "name": "search-field-demo",

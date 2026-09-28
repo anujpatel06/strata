@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { PersonChip, PersonChipGroup } from '@strata/react';
+import { PersonChip, PersonChipGroup } from '@syntara/react';
 
 export default function Example() {
   const [people, setPeople] = useState(['Arjun Shah', 'Priya Shah', 'Aarav Shah', 'Meera Iyer']);

@@ -1,4 +1,4 @@
-A Strata theme is generated, not drawn. Six brand inputs go through the theme engine, which builds colour ramps, assigns semantic roles for light and dark, fixes every contrast failure it finds, and writes CSS variables. Components only ever read those variables.
+A Syntara theme is generated, not drawn. Six brand inputs go through the theme engine, which builds colour ramps, assigns semantic roles for light and dark, fixes every contrast failure it finds, and writes CSS variables. Components only ever read those variables.
 
 ## Token tiers
 
@@ -32,7 +32,7 @@ The engine keeps the brand hex exact where contrast allows and moves labels, rin
 To generate a theme yourself:
 
 ```ts
-import { generateTheme, toCSS } from '@strata/theme-engine';
+import { generateTheme, toCSS } from '@syntara/theme-engine';
 
 const theme = generateTheme({
   name: 'Acme',
@@ -43,7 +43,7 @@ const theme = generateTheme({
   density: 'comfortable',
 });
 
-const css = toCSS(theme, { selector: '[data-strata-theme="acme"]' });
+const css = toCSS(theme, { selector: '[data-syntara-theme="acme"]' });
 ```
 
 ## Semantic roles
@@ -54,14 +54,14 @@ The 48 colour roles every theme resolves, with the CSS variable components read.
 
 Which role to use for what, and which pairs are safe together: [Using colour →](/docs/color)
 
-Other variables follow the same pattern: `--strata-space-{0…16}`, `--strata-radius-{button,field,container,badge,pill}`, `--strata-font-{heading,body,mono}`, `--strata-font-size-{xs…5xl}`, `--strata-font-tracking-{xs…5xl}`, `--strata-shadow-{raised,overlay}`, `--strata-motion-*` and the density variables. The full contract is in `packages/theme-engine/src/types.ts`.
+Other variables follow the same pattern: `--syntara-space-{0…16}`, `--syntara-radius-{button,field,container,badge,pill}`, `--syntara-font-{heading,body,mono}`, `--syntara-font-size-{xs…5xl}`, `--syntara-font-tracking-{xs…5xl}`, `--syntara-shadow-{raised,overlay}`, `--syntara-motion-*` and the density variables. The full contract is in `packages/theme-engine/src/types.ts`.
 
 ## ThemeScope
 
-Token CSS keys off `data-strata-theme`, `data-strata-scheme` and `data-strata-density`, and they must sit on the same element. `ThemeScope` puts them there and gives the subtree the theme’s canvas, text colour and body font. Its `locale` prop also sets React Aria’s locale, `lang` and `dir` — see [RTL](/docs/rtl).
+Token CSS keys off `data-syntara-theme`, `data-syntara-scheme` and `data-syntara-density`, and they must sit on the same element. `ThemeScope` puts them there and gives the subtree the theme’s canvas, text colour and body font. Its `locale` prop also sets React Aria’s locale, `lang` and `dir` — see [RTL](/docs/rtl).
 
 ```tsx
-import { ThemeScope } from '@strata/react';
+import { ThemeScope } from '@syntara/react';
 
 <ThemeScope theme="harbor" scheme="dark" density="compact">
   <ClaimForm />
@@ -70,10 +70,10 @@ import { ThemeScope } from '@strata/react';
 
 ### How token files are scoped
 
-`toCSS` takes the selector for a theme’s base block and appends the mode attributes to it. `@strata/tokens` builds two kinds of file:
+`toCSS` takes the selector for a theme’s base block and appends the mode attributes to it. `@syntara/tokens` builds two kinds of file:
 
-- `dist/<id>/tokens.css` uses `:root`, so that tenant is the whole app’s theme. Its modes key off `<html>`, e.g. `:root[data-strata-scheme="dark"]`.
-- `dist/strata.css` uses `[data-strata-theme="<id>"]` for every tenant, so a tenant applies only inside an element or `ThemeScope` that names it.
+- `dist/<id>/tokens.css` uses `:root`, so that tenant is the whole app’s theme. Its modes key off `<html>`, e.g. `:root[data-syntara-scheme="dark"]`.
+- `dist/syntara.css` uses `[data-syntara-theme="<id>"]` for every tenant, so a tenant applies only inside an element or `ThemeScope` that names it.
 
 ## Several tenants on one page
 
@@ -95,4 +95,4 @@ Dialogs, popovers and menus render in a portal at the end of `<body>`, outside a
 1. Create `tenants/<id>/brand.json` with the six inputs, and `content.json` with the tenant’s copy, locale and direction.
 2. Run `pnpm tokens`. It fails if any contrast check fails, so a broken theme can’t ship.
 
-That’s all. No component changes. `pnpm tokens` writes the new tenant’s files to `@strata/tokens`, and this site picks it up on its next build, in the preview toolbar and the tables above.
+That’s all. No component changes. `pnpm tokens` writes the new tenant’s files to `@syntara/tokens`, and this site picks it up on its next build, in the preview toolbar and the tables above.

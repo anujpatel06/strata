@@ -1,6 +1,6 @@
 'use client';
 
-import { Amount } from '@strata/react';
+import { Amount } from '@syntara/react';
 
 const rows = [
   { locale: 'en-IN', currency: 'INR', value: 184250, note: 'Lakh grouping' },
@@ -11,10 +11,10 @@ const rows = [
 
 export default function Example() {
   return (
-    <dl style={{ display: 'grid', gridTemplateColumns: 'auto 1fr', alignItems: 'baseline', gap: 'var(--strata-space-4) var(--strata-space-6)', margin: 0 }}>
+    <dl style={{ display: 'grid', gridTemplateColumns: 'auto 1fr', alignItems: 'baseline', gap: 'var(--syntara-space-4) var(--syntara-space-6)', margin: 0 }}>
       {rows.map((r) => (
         <div key={r.locale} style={{ display: 'contents' }}>
-          <dt style={{ color: 'var(--strata-color-text-subtle)', fontSize: 'var(--strata-font-size-sm)' }}>{r.note}</dt>
+          <dt style={{ color: 'var(--syntara-color-text-subtle)', fontSize: 'var(--syntara-font-size-sm)' }}>{r.note}</dt>
           <dd style={{ margin: 0 }}>
             <Amount value={r.value} currency={r.currency} locale={r.locale} size="md" />
           </dd>

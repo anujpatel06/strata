@@ -1,6 +1,6 @@
 /**
  * A few-dozen-line highlighter for the two languages the exporters emit (CSS and JSON), so the Export tab can
- * re-colour on every keystroke without shipping Shiki to the browser. Token colours are Strata roles that are
+ * re-colour on every keystroke without shipping Shiki to the browser. Token colours are Syntara roles that are
  * contrast-checked against surface.default, the code viewer's background.
  */
 import type { ReactNode } from 'react';

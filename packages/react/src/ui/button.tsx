@@ -22,7 +22,7 @@ interface ButtonBaseProps extends Omit<RACButtonProps, 'aria-label' | 'aria-labe
    *
    *
    * Deprecated value: `'danger'`, since 0.2.0, removed in 1.0.0. Use `tone="danger"` instead; the old value renders
-   * as before until then. Codemod: `npx @strata/codemods button-variant-danger-to-tone <path>`. RFC-001.
+   * as before until then. Codemod: `npx @syntara/codemods button-variant-danger-to-tone <path>`. RFC-001.
    * (No `@deprecated` tag here: it would strike through every use of `variant`, not only this value.)
    */
   variant?: ButtonVariant;
@@ -108,7 +108,7 @@ function warnOnce(key: keyof typeof warned, message: string): void {
  * A button for actions. Built on React Aria's Button, so it handles press events across mouse, touch and keyboard,
  * and `isPending` keeps it focusable while blocking presses.
  *
- * Icons go in `children` (`@strata/icons` are sized automatically). Full width: pass a className.
+ * Icons go in `children` (`@syntara/icons` are sized automatically). Full width: pass a className.
  */
 export function Button({
   variant = 'primary',
@@ -128,15 +128,15 @@ export function Button({
     if (isDeprecatedDanger) {
       warnOnce(
         'variantDanger',
-        '[@strata/react] Button: variant="danger" is deprecated and will be removed in 1.0.0. ' +
+        '[@syntara/react] Button: variant="danger" is deprecated and will be removed in 1.0.0. ' +
           'Use tone="danger" instead (variant="primary" tone="danger" looks the same). ' +
-          'To migrate, run: npx @strata/codemods button-variant-danger-to-tone <path>',
+          'To migrate, run: npx @syntara/codemods button-variant-danger-to-tone <path>',
       );
     }
     if (isToneIgnored) {
       warnOnce(
         'toneIgnored',
-        `[@strata/react] Button: tone="${tone}" has no effect on variant="${variant}". ` +
+        `[@syntara/react] Button: tone="${tone}" has no effect on variant="${variant}". ` +
           'tone works with the primary, outline and ghost variants.',
       );
     }

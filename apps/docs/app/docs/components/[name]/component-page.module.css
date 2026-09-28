@@ -2,7 +2,7 @@
   display: inline-flex;
   flex-wrap: wrap;
   flex-basis: 100%;
-  gap: var(--strata-space-1);
+  gap: var(--syntara-space-1);
 }
 @media (min-width: 640px) {
   .metaLinks {
@@ -14,30 +14,30 @@
 .metaLink {
   display: inline-flex;
   align-items: center;
-  gap: var(--strata-space-1);
-  min-block-size: var(--strata-space-6);
-  padding-inline: var(--strata-space-2);
-  border-radius: var(--strata-radius-badge);
-  color: var(--strata-color-text-subtle);
-  font-size: var(--strata-font-size-sm);
-  letter-spacing: var(--strata-font-tracking-sm);
-  font-weight: var(--strata-font-weight-medium);
+  gap: var(--syntara-space-1);
+  min-block-size: var(--syntara-space-6);
+  padding-inline: var(--syntara-space-2);
+  border-radius: var(--syntara-radius-badge);
+  color: var(--syntara-color-text-subtle);
+  font-size: var(--syntara-font-size-sm);
+  letter-spacing: var(--syntara-font-tracking-sm);
+  font-weight: var(--syntara-font-weight-medium);
   transition:
-    color var(--strata-motion-duration-fast) var(--strata-motion-easing),
-    background-color var(--strata-motion-duration-fast) var(--strata-motion-easing),
-    outline-offset var(--strata-motion-duration-fast) var(--strata-motion-easing);
+    color var(--syntara-motion-duration-fast) var(--syntara-motion-easing),
+    background-color var(--syntara-motion-duration-fast) var(--syntara-motion-easing),
+    outline-offset var(--syntara-motion-duration-fast) var(--syntara-motion-easing);
 }
 .metaLink:hover {
   background: var(--docs-hover);
-  color: var(--strata-color-text-default);
+  color: var(--syntara-color-text-default);
 }
 @media (prefers-reduced-motion: no-preference) {
   .metaLink {
     transition:
-      color var(--strata-motion-duration-fast) var(--strata-motion-easing),
-      background-color var(--strata-motion-duration-fast) var(--strata-motion-easing),
-      outline-offset var(--strata-motion-duration-fast) var(--strata-motion-easing),
-      scale var(--strata-motion-duration-spring) var(--strata-motion-spring);
+      color var(--syntara-motion-duration-fast) var(--syntara-motion-easing),
+      background-color var(--syntara-motion-duration-fast) var(--syntara-motion-easing),
+      outline-offset var(--syntara-motion-duration-fast) var(--syntara-motion-easing),
+      scale var(--syntara-motion-duration-spring) var(--syntara-motion-spring);
   }
   .metaLink:active {
     scale: 0.97;
@@ -45,16 +45,16 @@
 }
 
 .installTabs.installTabs {
-  gap: var(--strata-space-4);
+  gap: var(--syntara-space-4);
 }
 .installPanel.installPanel {
   display: grid;
-  gap: var(--strata-space-4);
+  gap: var(--syntara-space-4);
 }
 
 .example {
   display: grid;
-  gap: var(--strata-space-3);
+  gap: var(--syntara-space-3);
 }
 .example > * {
   margin: 0;
@@ -62,7 +62,7 @@
 
 .api {
   display: grid;
-  gap: var(--strata-space-3);
+  gap: var(--syntara-space-3);
 }
 .api > * {
   margin: 0;
@@ -78,28 +78,28 @@
   display: inline-flex;
   flex-wrap: nowrap;
   align-items: center;
-  gap: var(--strata-space-1);
+  gap: var(--syntara-space-1);
 }
 .keys {
-  gap: var(--strata-space-2);
+  gap: var(--syntara-space-2);
 }
 .keySep {
-  color: var(--strata-color-text-subtle);
-  font-size: var(--strata-font-size-sm);
+  color: var(--syntara-color-text-subtle);
+  font-size: var(--syntara-font-size-sm);
 }
 
 .notes {
   display: grid;
-  gap: var(--strata-space-2);
-  padding-inline-start: var(--strata-space-6);
-  font-size: var(--strata-font-size-lg);
-  line-height: var(--strata-line-height-normal);
+  gap: var(--syntara-space-2);
+  padding-inline-start: var(--syntara-space-6);
+  font-size: var(--syntara-font-size-lg);
+  line-height: var(--syntara-line-height-normal);
 }
 
 /* ---- Guidelines: two calm columns. The tone lives in a small icon chip; the text stays default. ---- */
 .guidelines {
   display: grid;
-  gap: var(--strata-space-8);
+  gap: var(--syntara-space-8);
 }
 @media (min-width: 640px) {
   .guidelines {
@@ -110,33 +110,33 @@
 .guide {
   display: grid;
   align-content: start;
-  gap: var(--strata-space-3);
+  gap: var(--syntara-space-3);
 }
 
 .guideTitle {
   display: inline-flex;
   align-items: center;
-  gap: var(--strata-space-2);
-  font-family: var(--strata-font-heading);
-  font-size: var(--strata-font-size-lg);
-  letter-spacing: var(--strata-font-tracking-lg);
-  font-weight: var(--strata-font-weight-semibold);
+  gap: var(--syntara-space-2);
+  font-family: var(--syntara-font-heading);
+  font-size: var(--syntara-font-size-lg);
+  letter-spacing: var(--syntara-font-tracking-lg);
+  font-weight: var(--syntara-font-weight-semibold);
 }
 .guideChip {
   display: inline-grid;
   place-items: center;
-  inline-size: var(--strata-space-6);
-  block-size: var(--strata-space-6);
-  border-radius: var(--strata-radius-pill);
-  font-size: var(--strata-font-size-sm);
+  inline-size: var(--syntara-space-6);
+  block-size: var(--syntara-space-6);
+  border-radius: var(--syntara-radius-pill);
+  font-size: var(--syntara-font-size-sm);
 }
 .guide[data-kind='do'] .guideChip {
-  background: var(--strata-color-feedback-success-bg);
-  color: var(--strata-color-feedback-success-fg);
+  background: var(--syntara-color-feedback-success-bg);
+  color: var(--syntara-color-feedback-success-fg);
 }
 .guide[data-kind='dont'] .guideChip {
-  background: var(--strata-color-feedback-danger-bg);
-  color: var(--strata-color-feedback-danger-fg);
+  background: var(--syntara-color-feedback-danger-bg);
+  color: var(--syntara-color-feedback-danger-fg);
 }
 
 .guideList {
@@ -144,13 +144,13 @@
   margin: 0;
   padding: 0;
   list-style: none;
-  font-size: var(--strata-font-size-md);
-  letter-spacing: var(--strata-font-tracking-md);
-  line-height: var(--strata-line-height-normal);
+  font-size: var(--syntara-font-size-md);
+  letter-spacing: var(--syntara-font-tracking-md);
+  line-height: var(--syntara-line-height-normal);
 }
 .guideList li {
-  padding-block: var(--strata-space-3);
-  box-shadow: inset 0 var(--strata-hairline) 0 0 var(--strata-color-border-subtle);
+  padding-block: var(--syntara-space-3);
+  box-shadow: inset 0 var(--syntara-hairline) 0 0 var(--syntara-color-border-subtle);
   text-wrap: pretty;
 }
 
@@ -161,19 +161,19 @@
 }
 .prop {
   display: grid;
-  gap: var(--strata-space-2);
-  padding-block: var(--strata-space-4);
-  box-shadow: inset 0 var(--strata-hairline) 0 0 var(--strata-color-border-subtle);
+  gap: var(--syntara-space-2);
+  padding-block: var(--syntara-space-4);
+  box-shadow: inset 0 var(--syntara-hairline) 0 0 var(--syntara-color-border-subtle);
 }
 .prop:last-child {
   box-shadow:
-    inset 0 var(--strata-hairline) 0 0 var(--strata-color-border-subtle),
-    inset 0 calc(var(--strata-hairline) * -1) 0 0 var(--strata-color-border-subtle);
+    inset 0 var(--syntara-hairline) 0 0 var(--syntara-color-border-subtle),
+    inset 0 calc(var(--syntara-hairline) * -1) 0 0 var(--syntara-color-border-subtle);
 }
 @media (min-width: 640px) {
   .prop {
-    grid-template-columns: calc(var(--strata-space-16) * 2.75) minmax(0, 1fr);
-    gap: var(--strata-space-6);
+    grid-template-columns: calc(var(--syntara-space-16) * 2.75) minmax(0, 1fr);
+    gap: var(--syntara-space-6);
   }
 }
 
@@ -182,13 +182,13 @@
   flex-wrap: wrap;
   align-content: start;
   align-items: center;
-  gap: var(--strata-space-2);
+  gap: var(--syntara-space-2);
 }
 .propName > code {
-  font-family: var(--strata-font-mono);
-  font-size: var(--strata-font-size-sm);
-  font-weight: var(--strata-font-weight-semibold);
-  color: var(--strata-color-text-default);
+  font-family: var(--syntara-font-mono);
+  font-size: var(--syntara-font-size-sm);
+  font-weight: var(--syntara-font-weight-semibold);
+  color: var(--syntara-color-text-default);
   overflow-wrap: anywhere;
 }
 .propRequired.propRequired {
@@ -198,40 +198,40 @@
 .propBody {
   display: grid;
   justify-items: start;
-  gap: var(--strata-space-2);
+  gap: var(--syntara-space-2);
   margin: 0;
   min-inline-size: 0;
 }
 .typeCode {
-  color: var(--strata-color-text-subtle);
-  font-family: var(--strata-font-mono);
-  font-size: var(--strata-font-size-sm);
-  line-height: var(--strata-line-height-snug);
+  color: var(--syntara-color-text-subtle);
+  font-family: var(--syntara-font-mono);
+  font-size: var(--syntara-font-size-sm);
+  line-height: var(--syntara-line-height-snug);
   overflow-wrap: anywhere;
 }
 .propDescription {
   max-inline-size: 62ch;
-  color: var(--strata-color-text-default);
-  font-size: var(--strata-font-size-md);
-  letter-spacing: var(--strata-font-tracking-md);
-  line-height: var(--strata-line-height-normal);
+  color: var(--syntara-color-text-default);
+  font-size: var(--syntara-font-size-md);
+  letter-spacing: var(--syntara-font-tracking-md);
+  line-height: var(--syntara-line-height-normal);
   text-wrap: pretty;
 }
 .propDefault {
-  color: var(--strata-color-text-subtle);
-  font-size: var(--strata-font-size-sm);
-  letter-spacing: var(--strata-font-tracking-sm);
+  color: var(--syntara-color-text-subtle);
+  font-size: var(--syntara-font-size-sm);
+  letter-spacing: var(--syntara-font-tracking-sm);
 }
 .propDefault code {
-  font-family: var(--strata-font-mono);
-  color: var(--strata-color-text-default);
+  font-family: var(--syntara-font-mono);
+  color: var(--syntara-color-text-default);
 }
 
 /* A union of string literals reads as its values; the default wears the selected surface and says so. */
 .values {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--strata-space-1);
+  gap: var(--syntara-space-1);
   margin: 0;
   padding: 0;
   list-style: none;
@@ -239,18 +239,18 @@
 .value {
   display: inline-flex;
   align-items: center;
-  gap: var(--strata-space-1);
-  min-block-size: var(--strata-space-6);
-  padding-inline: var(--strata-space-2);
-  border-radius: var(--strata-radius-badge);
-  background: color-mix(in oklab, var(--strata-color-text-default) 5%, transparent);
-  font-family: var(--strata-font-mono);
-  font-size: var(--strata-font-size-xs);
-  color: var(--strata-color-text-default);
+  gap: var(--syntara-space-1);
+  min-block-size: var(--syntara-space-6);
+  padding-inline: var(--syntara-space-2);
+  border-radius: var(--syntara-radius-badge);
+  background: color-mix(in oklab, var(--syntara-color-text-default) 5%, transparent);
+  font-family: var(--syntara-font-mono);
+  font-size: var(--syntara-font-size-xs);
+  color: var(--syntara-color-text-default);
 }
 .value[data-default] {
-  background: var(--strata-color-surface-selected);
-  box-shadow: inset 0 0 0 var(--strata-hairline) var(--strata-color-border-default);
+  background: var(--syntara-color-surface-selected);
+  box-shadow: inset 0 0 0 var(--syntara-hairline) var(--syntara-color-border-default);
 }
 /* Deprecated values stay listed until they're removed. The word "deprecated" carries the meaning; the line is extra. */
 .value[data-deprecated] > code {
@@ -259,37 +259,37 @@
 }
 .deprecation {
   display: grid;
-  gap: var(--strata-space-1);
+  gap: var(--syntara-space-1);
   max-inline-size: 62ch;
-  padding-inline-start: var(--strata-space-3);
-  box-shadow: inset var(--strata-hairline) 0 0 0 var(--strata-color-border-strong);
-  color: var(--strata-color-text-subtle);
-  font-size: var(--strata-font-size-sm);
-  letter-spacing: var(--strata-font-tracking-sm);
-  line-height: var(--strata-line-height-normal);
+  padding-inline-start: var(--syntara-space-3);
+  box-shadow: inset var(--syntara-hairline) 0 0 0 var(--syntara-color-border-strong);
+  color: var(--syntara-color-text-subtle);
+  font-size: var(--syntara-font-size-sm);
+  letter-spacing: var(--syntara-font-tracking-sm);
+  line-height: var(--syntara-line-height-normal);
 }
 .deprecation:dir(rtl) {
-  box-shadow: inset calc(var(--strata-hairline) * -1) 0 0 0 var(--strata-color-border-strong);
+  box-shadow: inset calc(var(--syntara-hairline) * -1) 0 0 0 var(--syntara-color-border-strong);
 }
 .deprecation > p {
   margin: 0;
 }
 .deprecation strong {
-  color: var(--strata-color-text-default);
-  font-weight: var(--strata-font-weight-semibold);
+  color: var(--syntara-color-text-default);
+  font-weight: var(--syntara-font-weight-semibold);
 }
 /* Doubled: the prose styles set a larger size on code, and inline code here should match the note's text. */
 .deprecation.deprecation code {
   font-size: inherit;
-  font-family: var(--strata-font-mono);
-  color: var(--strata-color-text-default);
+  font-family: var(--syntara-font-mono);
+  color: var(--syntara-color-text-default);
   overflow-wrap: anywhere;
 }
 .valueDefault {
-  color: var(--strata-color-text-subtle);
-  font-family: var(--strata-font-body);
-  font-size: var(--strata-font-size-xs);
-  letter-spacing: var(--strata-font-tracking-xs);
+  color: var(--syntara-color-text-subtle);
+  font-family: var(--syntara-font-body);
+  font-size: var(--syntara-font-size-xs);
+  letter-spacing: var(--syntara-font-tracking-xs);
 }
 
 /* ---- Tokens: grouped by what they control, with a count, instead of one wall of pills. ---- */
@@ -299,24 +299,24 @@
 }
 .tokenGroup {
   display: grid;
-  gap: var(--strata-space-2);
-  padding-block: var(--strata-space-4);
-  box-shadow: inset 0 var(--strata-hairline) 0 0 var(--strata-color-border-subtle);
+  gap: var(--syntara-space-2);
+  padding-block: var(--syntara-space-4);
+  box-shadow: inset 0 var(--syntara-hairline) 0 0 var(--syntara-color-border-subtle);
 }
 @media (min-width: 640px) {
   .tokenGroup {
-    grid-template-columns: calc(var(--strata-space-16) * 2.75) minmax(0, 1fr);
-    gap: var(--strata-space-6);
+    grid-template-columns: calc(var(--syntara-space-16) * 2.75) minmax(0, 1fr);
+    gap: var(--syntara-space-6);
   }
 }
 .tokenLabel {
   display: flex;
   align-items: baseline;
   justify-content: space-between;
-  gap: var(--strata-space-2);
-  font-size: var(--strata-font-size-sm);
-  letter-spacing: var(--strata-font-tracking-sm);
-  font-weight: var(--strata-font-weight-medium);
+  gap: var(--syntara-space-2);
+  font-size: var(--syntara-font-size-sm);
+  letter-spacing: var(--syntara-font-tracking-sm);
+  font-weight: var(--syntara-font-weight-medium);
 }
 @media (min-width: 640px) {
   .tokenLabel {
@@ -326,44 +326,44 @@
   }
 }
 .tokenCount {
-  color: var(--strata-color-text-subtle);
-  font-family: var(--strata-font-heading);
-  font-size: var(--strata-font-size-2xl);
-  letter-spacing: var(--strata-font-tracking-2xl);
-  font-weight: var(--strata-font-weight-semibold);
+  color: var(--syntara-color-text-subtle);
+  font-family: var(--syntara-font-heading);
+  font-size: var(--syntara-font-size-2xl);
+  letter-spacing: var(--syntara-font-tracking-2xl);
+  font-weight: var(--syntara-font-weight-semibold);
   font-variant-numeric: tabular-nums;
-  line-height: var(--strata-line-height-tight);
+  line-height: var(--syntara-line-height-tight);
 }
 .tokenList {
   display: flex;
   flex-wrap: wrap;
   align-content: start;
-  gap: var(--strata-space-1) var(--strata-space-4);
+  gap: var(--syntara-space-1) var(--syntara-space-4);
   margin: 0;
 }
 .token {
   display: inline-flex;
   align-items: center;
-  gap: var(--strata-space-2);
-  min-block-size: var(--strata-space-6);
-  font-family: var(--strata-font-mono);
-  font-size: var(--strata-font-size-xs);
-  color: var(--strata-color-text-default);
+  gap: var(--syntara-space-2);
+  min-block-size: var(--syntara-space-6);
+  font-family: var(--syntara-font-mono);
+  font-size: var(--syntara-font-size-xs);
+  color: var(--syntara-color-text-default);
 }
 .tokenSwatch {
   --_swatch: transparent;
-  inline-size: var(--strata-space-3);
-  block-size: var(--strata-space-3);
-  border-radius: var(--strata-radius-badge);
+  inline-size: var(--syntara-space-3);
+  block-size: var(--syntara-space-3);
+  border-radius: var(--syntara-radius-badge);
   background: var(--_swatch);
-  box-shadow: inset 0 0 0 var(--strata-hairline) color-mix(in oklab, var(--strata-color-text-default) 20%, transparent);
+  box-shadow: inset 0 0 0 var(--syntara-hairline) color-mix(in oklab, var(--syntara-color-text-default) 20%, transparent);
 }
 .tokenSwatch[data-wildcard] {
   background: conic-gradient(
-    var(--strata-color-feedback-info-solid) 0 25%,
-    var(--strata-color-feedback-success-solid) 0 50%,
-    var(--strata-color-feedback-warning-solid) 0 75%,
-    var(--strata-color-feedback-danger-solid) 0
+    var(--syntara-color-feedback-info-solid) 0 25%,
+    var(--syntara-color-feedback-success-solid) 0 50%,
+    var(--syntara-color-feedback-warning-solid) 0 75%,
+    var(--syntara-color-feedback-danger-solid) 0
   );
 }
 
@@ -378,11 +378,11 @@
 .propName.propName > code,
 .typeCode.typeCode,
 .propDefault.propDefault code {
-  font-size: var(--strata-font-size-sm);
+  font-size: var(--syntara-font-size-sm);
 }
 .value.value code {
   font-size: inherit;
 }
 .token.token {
-  font-size: var(--strata-font-size-xs);
+  font-size: var(--syntara-font-size-xs);
 }

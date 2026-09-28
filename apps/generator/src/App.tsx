@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { IconAlertTriangle, IconDownload, IconMoon, IconSun } from '@strata/icons';
-import { generateTheme, normalizeHex, type Scheme, type Theme } from '@strata/theme-engine';
+import { IconAlertTriangle, IconDownload, IconMoon, IconSun } from '@syntara/icons';
+import { generateTheme, normalizeHex, type Scheme, type Theme } from '@syntara/theme-engine';
 import { AccessibilityPanel } from './components/AccessibilityPanel';
 import { Header } from './components/Header';
 import { InputsPanel } from './components/InputsPanel';
@@ -37,7 +37,7 @@ function safeGenerate(input: Parameters<typeof generateTheme>[0]): Theme | null 
   try {
     return generateTheme(input);
   } catch (error) {
-    console.error('Strata: could not generate a theme for', input, error);
+    console.error('Syntara: could not generate a theme for', input, error);
     return null;
   }
 }

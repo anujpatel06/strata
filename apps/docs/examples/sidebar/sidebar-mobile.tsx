@@ -1,7 +1,7 @@
 'use client';
 
-import { Button, DialogTrigger, Sheet, Sidebar, SidebarItem, SidebarSection } from '@strata/react';
-import { IconBell, IconLayoutDashboard, IconMenu2, IconReceipt, IconSettings, IconWallet } from '@strata/icons';
+import { Button, DialogTrigger, Sheet, Sidebar, SidebarItem, SidebarSection } from '@syntara/react';
+import { IconBell, IconLayoutDashboard, IconMenu2, IconReceipt, IconSettings, IconWallet } from '@syntara/icons';
 
 /** Narrow screens: the same Sidebar inside a start-side Sheet. The Sheet's title replaces the brand block, and the
  *  Sidebar drops its own panel (background, edge, block padding) because the Sheet is the panel. */

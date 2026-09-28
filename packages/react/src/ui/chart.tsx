@@ -41,7 +41,7 @@ export interface ChartSeries {
   key: string;
   /** Shown in the legend, tooltip, table and the accessible names. */
   label: string;
-  /** Overrides the palette colour. Pass a token, e.g. `var(--strata-color-text-brand)`. */
+  /** Overrides the palette colour. Pass a token, e.g. `var(--syntara-color-text-brand)`. */
   color?: string;
 }
 
@@ -58,19 +58,19 @@ export interface ChartFormat {
 }
 
 /**
- * The series colour for a palette slot (0-based). The engine solves `--strata-chart-1..4` per brand and scheme:
+ * The series colour for a palette slot (0-based). The engine solves `--syntara-chart-1..4` per brand and scheme:
  * each ≥ 3:1 on surfaces and colour-blind-safe as a set. The fallbacks only matter for themes built before them.
  * Past 4 series the slots repeat: fold the tail into "Other" instead (see guidelines).
  */
 export function chartColor(index: number): string {
   const FALLBACK = [
-    'var(--strata-color-text-brand)',
-    'var(--strata-color-accent-text)',
-    'var(--strata-color-feedback-info-fg)',
-    'var(--strata-color-feedback-warning-fg)',
+    'var(--syntara-color-text-brand)',
+    'var(--syntara-color-accent-text)',
+    'var(--syntara-color-feedback-info-fg)',
+    'var(--syntara-color-feedback-warning-fg)',
   ];
   const slot = ((index % 4) + 4) % 4;
-  return `var(--strata-chart-${slot + 1}, ${FALLBACK[slot]})`;
+  return `var(--syntara-chart-${slot + 1}, ${FALLBACK[slot]})`;
 }
 
 export function formatChartValue(value: number | null | undefined, format: ChartValueFormat | undefined, locale: string): string {
@@ -436,7 +436,7 @@ const TOP_PAD = 8;
 const TIP_GAP = 12;
 
 /**
- * The shell every Strata chart draws into: y-axis gutter, grid, SVG plot, x axis, the ListBox hit layer, the
+ * The shell every Syntara chart draws into: y-axis gutter, grid, SVG plot, x axis, the ListBox hit layer, the
  * floating tooltip, the legend and the table. Build custom charts on it; AreaChart and BarChart do.
  */
 export function ChartFrame({

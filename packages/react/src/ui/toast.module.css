@@ -8,14 +8,14 @@
  */
 
 .region {
-  --_gap: var(--strata-space-3);
-  --_peek: var(--strata-space-3);
+  --_gap: var(--syntara-space-3);
+  --_peek: var(--syntara-space-3);
   --_sign: -1;
   --_enter: 1;
   /* 16px on phones, 24px from ~600px up (percentages resolve against the viewport for a fixed box). */
-  --_edge: clamp(var(--strata-space-4), 4%, var(--strata-space-6));
+  --_edge: clamp(var(--syntara-space-4), 4%, var(--syntara-space-6));
   /* 416px: room for the reference's icon | two lines | action row without squeezing the text. */
-  --_width: calc(var(--strata-space-16) * 6.5);
+  --_width: calc(var(--syntara-space-16) * 6.5);
 
   position: fixed;
   z-index: 9999;
@@ -24,10 +24,10 @@
   box-sizing: border-box;
   display: grid;
   inline-size: min(var(--_width), calc(100% - var(--_edge) * 2));
-  color: var(--strata-color-text-default);
-  font-family: var(--strata-font-body);
-  font-size: var(--strata-font-size-sm);
-  line-height: var(--strata-line-height-normal);
+  color: var(--syntara-color-text-default);
+  font-family: var(--syntara-font-body);
+  font-size: var(--syntara-font-size-sm);
+  line-height: var(--syntara-line-height-normal);
   text-align: start;
   outline: none;
   -webkit-font-smoothing: antialiased;
@@ -60,25 +60,25 @@
 }
 
 .region[data-focus-visible] {
-  outline: 2px solid var(--strata-color-focus-ring);
+  outline: 2px solid var(--syntara-color-focus-ring);
   outline-offset: 2px;
-  border-radius: var(--strata-radius-container);
+  border-radius: var(--syntara-radius-container);
 }
 
 /* ---- toast ------------------------------------------------------------- */
 
 /*
  * Surface recipe (CONVENTIONS.md, from Anuj's toast reference): an opaque surface.raised face under the
- * engine's diagonal --strata-sheen (dark only; `none` in light), a hairline edge, and in dark a rim light
+ * engine's diagonal --syntara-sheen (dark only; `none` in light), a hairline edge, and in dark a rim light
  * along the top-left. Opaque rather than glass: text.subtle ≥ 4.5:1 and the status shape ≥ 3:1 are proven
  * on this exact face (engine test + test/toast.test.tsx), which a see-through surface can't guarantee once
  * the sheen is added. Only text.default and text.subtle sit on it; the tone lives in the filled icon and
  * the action has its own fill.
  */
 .toast {
-  --_face: var(--strata-color-surface-raised);
+  --_face: var(--syntara-color-surface-raised);
   --_rim: linear-gradient(transparent, transparent);
-  --_inset: clamp(var(--strata-space-4), 7%, var(--strata-card-inset));
+  --_inset: clamp(var(--syntara-space-4), 7%, var(--syntara-card-inset));
 
   position: relative;
   grid-area: 1 / 1;
@@ -87,16 +87,16 @@
   /* The transparent border is where the rim paints (background-clip trick, so it follows any radius) and the
      edge in forced-colours mode. The hairline itself is a box-shadow: Chromium rounds sub-pixel borders up. */
   border: 1px solid transparent;
-  border-radius: var(--strata-radius-container);
+  border-radius: var(--syntara-radius-container);
   background:
-    var(--strata-sheen) padding-box,
+    var(--syntara-sheen) padding-box,
     linear-gradient(var(--_face), var(--_face)) padding-box,
     var(--_rim) border-box,
     var(--_face);
   box-shadow:
-    0 0 0 var(--strata-hairline) var(--strata-color-border-subtle),
-    var(--strata-shadow-overlay);
-  color: var(--strata-color-text-default);
+    0 0 0 var(--syntara-hairline) var(--syntara-color-border-subtle),
+    var(--syntara-shadow-overlay);
+  color: var(--syntara-color-text-default);
   outline: 2px solid transparent;
   outline-offset: 0;
   /* Collapsed: peek out behind the newer toasts, a little smaller each step back. */
@@ -104,17 +104,17 @@
   scale: calc(1 - var(--_index) * 0.05);
   transform-origin: 50% 0;
   /* Reduced motion keeps a plain fade in; colour and opacity may still change. */
-  animation: strata-toast-fade-in var(--strata-motion-duration-normal) var(--strata-motion-easing-out);
+  animation: syntara-toast-fade-in var(--syntara-motion-duration-normal) var(--syntara-motion-easing-out);
   transition:
-    outline-offset var(--strata-motion-duration-fast) var(--strata-motion-easing),
-    outline-color var(--strata-motion-duration-fast) var(--strata-motion-easing);
+    outline-offset var(--syntara-motion-duration-fast) var(--syntara-motion-easing),
+    outline-color var(--syntara-motion-duration-fast) var(--syntara-motion-easing);
 }
 
 /* Rim light in dark only. The engine's sheen is `none` exactly in light schemes, so it doubles as the scheme
    signal without naming a scheme; browsers without style queries simply get no rim. */
-@container not style(--strata-sheen: none) {
+@container not style(--syntara-sheen: none) {
   .toast {
-    --_rim: linear-gradient(135deg, var(--strata-rim), transparent 60%);
+    --_rim: linear-gradient(135deg, var(--syntara-rim), transparent 60%);
   }
 }
 
@@ -130,7 +130,7 @@
 }
 
 .toast[data-focus-visible] {
-  outline-color: var(--strata-color-focus-ring);
+  outline-color: var(--syntara-color-focus-ring);
   outline-offset: 2px;
 }
 
@@ -178,19 +178,19 @@
   flex-wrap: wrap;
   align-items: center;
   justify-content: flex-end;
-  column-gap: var(--strata-space-4);
-  row-gap: var(--strata-space-3);
+  column-gap: var(--syntara-space-4);
+  row-gap: var(--syntara-space-3);
   /* Inline: the card inset. Block: capped at space-5, the reference's proportion (a two-line message ≈ 44px
      tall with ≈ 20px above and below); the full card inset made a two-line toast read as a card. */
-  padding-block: min(var(--_inset), var(--strata-space-5));
+  padding-block: min(var(--_inset), var(--syntara-space-5));
   padding-inline: var(--_inset);
 }
 
 .lead {
   display: flex;
-  flex: 1 1 calc(var(--strata-space-16) * 3);
+  flex: 1 1 calc(var(--syntara-space-16) * 3);
   align-items: center;
-  gap: var(--strata-space-3);
+  gap: var(--syntara-space-3);
   min-inline-size: 0;
 }
 
@@ -200,8 +200,8 @@
  * ≥ 6.09:1 for the shape and ≥ 5.43:1 for the glyph everywhere. Proof: test/toast.test.tsx.
  */
 .icon {
-  --_tone: var(--strata-color-text-subtle);
-  --strata-icon-on: var(--_face);
+  --_tone: var(--syntara-color-text-subtle);
+  --syntara-icon-on: var(--_face);
 
   display: grid;
   flex: none;
@@ -210,51 +210,51 @@
 }
 
 .icon > svg {
-  inline-size: var(--strata-space-6);
-  block-size: var(--strata-space-6);
+  inline-size: var(--syntara-space-6);
+  block-size: var(--syntara-space-6);
 }
 
 .toast[data-tone='info'] .icon {
-  --_tone: var(--strata-color-feedback-info-fg);
-  --strata-icon-on: var(--strata-color-feedback-info-bg);
+  --_tone: var(--syntara-color-feedback-info-fg);
+  --syntara-icon-on: var(--syntara-color-feedback-info-bg);
 }
 .toast[data-tone='success'] .icon {
-  --_tone: var(--strata-color-feedback-success-fg);
-  --strata-icon-on: var(--strata-color-feedback-success-bg);
+  --_tone: var(--syntara-color-feedback-success-fg);
+  --syntara-icon-on: var(--syntara-color-feedback-success-bg);
 }
 .toast[data-tone='warning'] .icon {
-  --_tone: var(--strata-color-feedback-warning-fg);
-  --strata-icon-on: var(--strata-color-feedback-warning-bg);
+  --_tone: var(--syntara-color-feedback-warning-fg);
+  --syntara-icon-on: var(--syntara-color-feedback-warning-bg);
 }
 .toast[data-tone='danger'] .icon {
-  --_tone: var(--strata-color-feedback-danger-fg);
-  --strata-icon-on: var(--strata-color-feedback-danger-bg);
+  --_tone: var(--syntara-color-feedback-danger-fg);
+  --syntara-icon-on: var(--syntara-color-feedback-danger-bg);
 }
 
 .content {
   display: grid;
   flex: 1 1 0;
-  gap: calc(var(--strata-space-1) * 0.5);
+  gap: calc(var(--syntara-space-1) * 0.5);
   min-inline-size: 0;
 }
 
 /* A step above the description: md semibold over sm regular. */
 .title {
   display: block;
-  color: var(--strata-color-text-default);
-  font-size: var(--strata-font-size-md);
-  font-weight: var(--strata-font-weight-semibold);
-  letter-spacing: var(--strata-font-tracking-md);
-  line-height: var(--strata-line-height-snug);
+  color: var(--syntara-color-text-default);
+  font-size: var(--syntara-font-size-md);
+  font-weight: var(--syntara-font-weight-semibold);
+  letter-spacing: var(--syntara-font-tracking-md);
+  line-height: var(--syntara-line-height-snug);
   overflow-wrap: anywhere;
 }
 
 .description {
   display: block;
-  color: var(--strata-color-text-subtle);
-  font-size: var(--strata-font-size-sm);
-  letter-spacing: var(--strata-font-tracking-sm);
-  line-height: var(--strata-line-height-normal);
+  color: var(--syntara-color-text-subtle);
+  font-size: var(--syntara-font-size-sm);
+  letter-spacing: var(--syntara-font-tracking-sm);
+  line-height: var(--syntara-line-height-normal);
   overflow-wrap: anywhere;
   text-wrap: pretty;
 }
@@ -272,29 +272,29 @@
 .close {
   position: absolute;
   z-index: 1;
-  inset-block-start: calc(var(--strata-space-2) * -1);
-  inset-inline-end: calc(var(--strata-space-2) * -1);
+  inset-block-start: calc(var(--syntara-space-2) * -1);
+  inset-inline-end: calc(var(--syntara-space-2) * -1);
   display: inline-grid;
   place-items: center;
-  inline-size: var(--strata-space-6);
-  block-size: var(--strata-space-6);
+  inline-size: var(--syntara-space-6);
+  block-size: var(--syntara-space-6);
   margin: 0;
   padding: 0;
   border: 1px solid transparent;
-  border-radius: var(--strata-radius-pill);
-  background-color: var(--strata-color-surface-raised);
+  border-radius: var(--syntara-radius-pill);
+  background-color: var(--syntara-color-surface-raised);
   box-shadow:
-    0 0 0 var(--strata-hairline) var(--strata-color-border-default),
-    var(--strata-shadow-raised);
-  color: var(--strata-color-text-subtle);
+    0 0 0 var(--syntara-hairline) var(--syntara-color-border-default),
+    var(--syntara-shadow-raised);
+  color: var(--syntara-color-text-subtle);
   cursor: default;
   opacity: 0;
 }
 
 .close > svg {
-  inline-size: calc(var(--strata-space-4) * 0.875);
-  block-size: calc(var(--strata-space-4) * 0.875);
-  stroke-width: var(--strata-icon-stroke, 1.5);
+  inline-size: calc(var(--syntara-space-4) * 0.875);
+  block-size: calc(var(--syntara-space-4) * 0.875);
+  stroke-width: var(--syntara-icon-stroke, 1.5);
 }
 
 .toast:is(:hover, :focus-within) > .close {
@@ -308,28 +308,28 @@
 }
 
 .close[data-hovered] {
-  background-color: var(--strata-color-surface-default);
-  color: var(--strata-color-text-default);
+  background-color: var(--syntara-color-surface-default);
+  color: var(--syntara-color-text-default);
 }
 
 .close[data-pressed] {
-  background-color: var(--strata-color-surface-sunken);
+  background-color: var(--syntara-color-surface-sunken);
 }
 
 .close {
   outline: 2px solid transparent;
   outline-offset: 0;
   transition:
-    opacity var(--strata-motion-duration-fast) var(--strata-motion-easing),
-    background-color var(--strata-motion-duration-fast) var(--strata-motion-easing),
-    color var(--strata-motion-duration-fast) var(--strata-motion-easing),
-    outline-offset var(--strata-motion-duration-fast) var(--strata-motion-easing),
-    outline-color var(--strata-motion-duration-fast) var(--strata-motion-easing);
+    opacity var(--syntara-motion-duration-fast) var(--syntara-motion-easing),
+    background-color var(--syntara-motion-duration-fast) var(--syntara-motion-easing),
+    color var(--syntara-motion-duration-fast) var(--syntara-motion-easing),
+    outline-offset var(--syntara-motion-duration-fast) var(--syntara-motion-easing),
+    outline-color var(--syntara-motion-duration-fast) var(--syntara-motion-easing);
 }
 
 .close[data-focus-visible] {
   opacity: 1;
-  outline-color: var(--strata-color-focus-ring);
+  outline-color: var(--syntara-color-focus-ring);
   outline-offset: 2px;
 }
 
@@ -347,39 +347,39 @@
 
   .toast {
     animation:
-      strata-toast-fade-in var(--strata-motion-duration-normal) var(--strata-motion-easing-out),
-      strata-toast-slide-in var(--strata-motion-duration-spring) var(--strata-motion-spring);
+      syntara-toast-fade-in var(--syntara-motion-duration-normal) var(--syntara-motion-easing-out),
+      syntara-toast-slide-in var(--syntara-motion-duration-spring) var(--syntara-motion-spring);
     transition:
-      translate var(--strata-motion-duration-spring) var(--strata-motion-spring),
-      scale var(--strata-motion-duration-spring) var(--strata-motion-spring),
-      block-size var(--strata-motion-duration-slow) var(--strata-motion-easing),
-      outline-offset var(--strata-motion-duration-fast) var(--strata-motion-easing),
-      outline-color var(--strata-motion-duration-fast) var(--strata-motion-easing);
+      translate var(--syntara-motion-duration-spring) var(--syntara-motion-spring),
+      scale var(--syntara-motion-duration-spring) var(--syntara-motion-spring),
+      block-size var(--syntara-motion-duration-slow) var(--syntara-motion-easing),
+      outline-offset var(--syntara-motion-duration-fast) var(--syntara-motion-easing),
+      outline-color var(--syntara-motion-duration-fast) var(--syntara-motion-easing);
   }
 
   .toast > .inner {
-    transition: opacity var(--strata-motion-duration-normal) var(--strata-motion-easing);
+    transition: opacity var(--syntara-motion-duration-normal) var(--syntara-motion-easing);
   }
 
   /* The status shape pops (0.6 → 1 on the spring) just after the toast lands, so the status registers. */
   .toast .icon {
-    animation: strata-toast-icon-pop var(--strata-motion-duration-spring) var(--strata-motion-spring)
-      var(--strata-motion-duration-fast) backwards;
+    animation: syntara-toast-icon-pop var(--syntara-motion-duration-spring) var(--syntara-motion-spring)
+      var(--syntara-motion-duration-fast) backwards;
   }
 
   .toast[data-exiting] {
-    animation: strata-toast-out var(--strata-motion-duration-normal) var(--strata-motion-easing) forwards;
+    animation: syntara-toast-out var(--syntara-motion-duration-normal) var(--syntara-motion-easing) forwards;
     pointer-events: none;
   }
 
   .close {
     transition:
-      opacity var(--strata-motion-duration-fast) var(--strata-motion-easing),
-      background-color var(--strata-motion-duration-fast) var(--strata-motion-easing),
-      color var(--strata-motion-duration-fast) var(--strata-motion-easing),
-      outline-offset var(--strata-motion-duration-fast) var(--strata-motion-easing),
-      outline-color var(--strata-motion-duration-fast) var(--strata-motion-easing),
-      scale var(--strata-motion-duration-spring) var(--strata-motion-spring);
+      opacity var(--syntara-motion-duration-fast) var(--syntara-motion-easing),
+      background-color var(--syntara-motion-duration-fast) var(--syntara-motion-easing),
+      color var(--syntara-motion-duration-fast) var(--syntara-motion-easing),
+      outline-offset var(--syntara-motion-duration-fast) var(--syntara-motion-easing),
+      outline-color var(--syntara-motion-duration-fast) var(--syntara-motion-easing),
+      scale var(--syntara-motion-duration-spring) var(--syntara-motion-spring);
   }
 
   .close[data-pressed] {
@@ -387,28 +387,28 @@
   }
 }
 
-@keyframes strata-toast-fade-in {
+@keyframes syntara-toast-fade-in {
   from {
     opacity: 0;
   }
 }
 
-@keyframes strata-toast-slide-in {
+@keyframes syntara-toast-slide-in {
   from {
     transform: translateY(calc(var(--_enter) * (100% + var(--_edge)))) scale(0.94);
   }
 }
 
-@keyframes strata-toast-icon-pop {
+@keyframes syntara-toast-icon-pop {
   from {
     opacity: 0;
     scale: 0.6;
   }
 }
 
-@keyframes strata-toast-out {
+@keyframes syntara-toast-out {
   to {
     opacity: 0;
-    transform: translateY(calc(var(--_enter) * var(--strata-space-4))) scale(0.96);
+    transform: translateY(calc(var(--_enter) * var(--syntara-space-4))) scale(0.96);
   }
 }

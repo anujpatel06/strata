@@ -15,12 +15,12 @@
   ],
   "dependencies": [
     "react-aria-components",
-    "@strata/icons"
+    "@syntara/icons"
   ],
   "registryDependencies": [
     "badge"
   ],
-  "usage": "import { StatTile } from '@strata/react';\n\nexport function Balance() {\n  return <StatTile label=\"Available balance\" value=\"₹1,84,250\" delta={0.064} deltaLabel=\"vs last month\" />;\n}",
+  "usage": "import { StatTile } from '@syntara/react';\n\nexport function Balance() {\n  return <StatTile label=\"Available balance\" value=\"₹1,84,250\" delta={0.064} deltaLabel=\"vs last month\" />;\n}",
   "examples": [
     {
       "name": "stat-tile-demo",

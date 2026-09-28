@@ -3,7 +3,7 @@
  * Knows hex (3, 4, 6, 8 digits), rgb()/rgba(), hsl()/hsla(), oklch(), oklab() and the named colours.
  * Anything with var() or calc() inside can't be resolved from one file and returns null.
  */
-import { hexToOklch } from '@strata/theme-engine';
+import { hexToOklch } from '@syntara/theme-engine';
 
 export interface ParsedColor {
   l: number;

@@ -1,6 +1,6 @@
 'use client';
 
-import { AreaChart } from '@strata/react';
+import { AreaChart } from '@syntara/react';
 
 const data = [
   { week: 'W1', income: 4200, spending: 3100 }, { week: 'W2', income: 3900, spending: 3600 },

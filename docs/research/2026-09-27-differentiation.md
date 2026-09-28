@@ -1,4 +1,4 @@
-# Research: how Strata differs from component libraries, theme generators and AI tooling
+# Research: how Syntara differs from component libraries, theme generators and AI tooling
 
 - **Date:** 2026-09-27
 - **Asked by:** Anuj ("how do we differentiate from 21st.dev, shadcn/ui and similar?")
@@ -10,9 +10,9 @@
 - **[V]** read on a primary or official page · **[S]** search snippet or secondary source only · **[OLD]** source older than 2024 · **[U]** could not be verified.
 - Most "not found" results are **absence of evidence**, not proof that nothing exists.
 - **Re-check every claim before it goes on the site or into an interview.** This space moves monthly.
-- No number here was produced by a Strata script. None of them may appear on the site as a Strata metric.
+- No number here was produced by a Syntara script. None of them may appear on the site as a Syntara metric.
 
-## 1. Where Strata stands
+## 1. Where Syntara stands
 
 | Area | Status |
 |---|---|
@@ -20,7 +20,7 @@
 | Theme from a seed colour with guaranteed contrast | Material does this. Not new in kind. |
 | MCP server for a design system | Table stakes (20 of 21 systems in a July 2026 survey). |
 | Raw-colour linting | shadcn ships `@shadcn/lint`. |
-| RTL | shadcn has it as an opt-in transform with manual exceptions. Strata's is by default. |
+| RTL | shadcn has it as an opt-in transform with manual exceptions. Syntara's is by default. |
 | Governance (RFCs, deprecation, codemods) | Not documented by any component library surveyed. |
 | Published, reproducible evidence | Not found anywhere. This is the opening. |
 
@@ -35,7 +35,7 @@
 | HeroUI v3 | React Aria + Tailwind v4; React Native library | v2 and v3 can't coexist; a hard break | [S] InfoQ |
 | Tailwind Plus / Catalyst | Paid starter kit on Headless UI | Zip download; no RTL or multi-brand in docs | [V] |
 | Base UI | Unstyled accessible primitives | No styling or theming layer, by design | [V] |
-| Untitled UI React | React Aria + Tailwind, copy-paste. **Closest stack to Strata.** | Theming and RTL depth not checked. **Follow up before comparing.** | [V] intro only |
+| Untitled UI React | React Aria + Tailwind, copy-paste. **Closest stack to Syntara.** | Theming and RTL depth not checked. **Follow up before comparing.** | [V] intro only |
 | tweakcn | Visual theme editor for shadcn, with a contrast checker | Checks, doesn't solve. Multi-brand and DTCG export [U]. | Weak |
 
 **Unmet needs with sources**
@@ -102,7 +102,7 @@
 2. Accessibility eval through a component library, with and without MCP.
 3. RTL and logical-property conformance in agent output.
 4. Multi-brand eval: same task across tenants; do agents hard-code brand values?
-5. Drift auditor covering all five Strata rule classes, with autofix, exposed over MCP.
+5. Drift auditor covering all five Syntara rule classes, with autofix, exposed over MCP.
 6. Ablation of context delivery: MCP vs llms.txt vs AGENTS.md vs none.
 7. Implemented trust levels (ADR-008).
 8. Honest negative results and run-to-run variance.
@@ -135,7 +135,7 @@
 
 **Sources:** https://www.figma.com/customers/how-flipkart-boosts-its-design-vision-for-indian-e-commerce-with-figma/ · https://github.com/razorpay/blade · https://tech.phonepe.com/the-tale-before-the-design-system/ · https://tech.phonepe.com/introducing-liquidui-phonepes-server-driven-ui-framework/ · https://medium.com/swiggy-bytes/a-deep-dive-into-dynamic-widget-swiggys-server-driven-ui-system-92cdc3b16ec6 · https://blog.flipkart.tech/the-journey-of-react-native-flipkart-47dcd0c3d1c6 · https://github.com/Zomato/compose-sushi · https://engineering.razorpay.com/cutting-deep-through-blade-23a72bcc3bcc
 
-## 6. Claims Strata must not make
+## 6. Claims Syntara must not make
 
 - "shadcn has no RTL" or "no AI tooling". Both shipped in 2026.
 - "First to guarantee contrast." Material is a precedent.

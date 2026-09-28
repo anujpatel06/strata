@@ -18,11 +18,11 @@
   ],
   "dependencies": [
     "react-aria-components",
-    "@strata/icons"
+    "@syntara/icons"
   ],
   "registryDependencies": [],
   "reactAria": "https://react-spectrum.adobe.com/react-aria/TextField.html",
-  "usage": "import { TextField } from '@strata/react';\n\nexport function EmailField() {\n  return <TextField label=\"Email\" type=\"email\" description=\"We'll send receipts here.\" isRequired />;\n}",
+  "usage": "import { TextField } from '@syntara/react';\n\nexport function EmailField() {\n  return <TextField label=\"Email\" type=\"email\" description=\"We'll send receipts here.\" isRequired />;\n}",
   "examples": [
     {
       "name": "text-field-demo",

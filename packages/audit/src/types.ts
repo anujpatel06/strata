@@ -1,5 +1,5 @@
 /**
- * @strata/audit — the contract. The CLI, the MCP server's `audit_snippet` and `find_token` tools, and the agent eval's
+ * @syntara/audit — the contract. The CLI, the MCP server's `audit_snippet` and `find_token` tools, and the agent eval's
  * scoring all use these names. BRIEF §9, ADR-018.
  */
 
@@ -25,7 +25,7 @@ export type Language = 'tsx' | 'css';
  * meaning: only safe fixes are applied by `--fix`, and only they fall under the ambient trust level (ADR-008).
  */
 export interface Fix {
-  /** Plain words, e.g. "Use var(--strata-color-action-primary-bg)". */
+  /** Plain words, e.g. "Use var(--syntara-color-action-primary-bg)". */
   description: string;
   /** The replacement text for source[start, end), when the fix can be written as one. */
   replacement?: string;
@@ -95,7 +95,7 @@ export interface AuditResult {
 export interface TokenMatch {
   /** Dotted role, e.g. "color.action.primary.bg". */
   token: string;
-  /** e.g. "--strata-color-action-primary-bg". */
+  /** e.g. "--syntara-color-action-primary-bg". */
   cssVar: string;
   /** The token's resolved value for the tenant and scheme asked for. */
   value: string;

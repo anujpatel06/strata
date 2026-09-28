@@ -1,27 +1,27 @@
 .empty {
-  --_tile: var(--strata-space-12);
-  --_glyph: var(--strata-space-6);
+  --_tile: var(--syntara-space-12);
+  --_glyph: var(--syntara-space-6);
 
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: var(--strata-space-4);
+  gap: var(--syntara-space-4);
   inline-size: 100%;
-  padding-block: var(--strata-space-12);
-  padding-inline: var(--strata-space-6);
-  color: var(--strata-color-text-default);
-  font-family: var(--strata-font-body);
+  padding-block: var(--syntara-space-12);
+  padding-inline: var(--syntara-space-6);
+  color: var(--syntara-color-text-default);
+  font-family: var(--syntara-font-body);
   text-align: center;
 }
 
 .empty[data-size='sm'] {
-  --_tile: var(--strata-space-10);
-  --_glyph: var(--strata-space-5);
+  --_tile: var(--syntara-space-10);
+  --_glyph: var(--syntara-space-5);
 
-  gap: var(--strata-space-3);
-  padding-block: var(--strata-space-8);
-  padding-inline: var(--strata-space-4);
+  gap: var(--syntara-space-3);
+  padding-block: var(--syntara-space-8);
+  padding-inline: var(--syntara-space-4);
 }
 
 .icon {
@@ -33,22 +33,22 @@
   block-size: var(--_tile);
   /* Follows the brand's container shape, capped so round brands get a squircle, not a coin. */
   border: 1px solid transparent;
-  border-radius: min(var(--strata-radius-container), 30%);
+  border-radius: min(var(--syntara-radius-container), 30%);
   /* A small raised tile in the surface recipe (as Card): the sheen (dark only) and surface.raised in the padding
      box, the rim light (dark only) in the transparent border, a border.subtle hairline ring and the raised shadow. */
   --_rim: transparent;
   background:
-    var(--strata-sheen) padding-box,
-    linear-gradient(var(--strata-color-surface-raised), var(--strata-color-surface-raised)) padding-box,
-    linear-gradient(135deg, var(--_rim), transparent 60%) border-box var(--strata-color-surface-raised);
-  box-shadow: 0 0 0 var(--strata-hairline) var(--strata-color-border-subtle), var(--strata-shadow-raised);
-  color: var(--strata-color-text-subtle);
+    var(--syntara-sheen) padding-box,
+    linear-gradient(var(--syntara-color-surface-raised), var(--syntara-color-surface-raised)) padding-box,
+    linear-gradient(135deg, var(--_rim), transparent 60%) border-box var(--syntara-color-surface-raised);
+  box-shadow: 0 0 0 var(--syntara-hairline) var(--syntara-color-border-subtle), var(--syntara-shadow-raised);
+  color: var(--syntara-color-text-subtle);
 }
-/* Rim light in dark only (CONVENTIONS "Surface recipe"): --strata-sheen is `none` exactly in light schemes, so it's
+/* Rim light in dark only (CONVENTIONS "Surface recipe"): --syntara-sheen is `none` exactly in light schemes, so it's
    the scheme signal, and the rim can never show without the sheen. Browsers without style queries get no rim. */
-@container not style(--strata-sheen: none) {
+@container not style(--syntara-sheen: none) {
   .icon {
-    --_rim: var(--strata-rim);
+    --_rim: var(--syntara-rim);
   }
 }
 
@@ -60,41 +60,41 @@
 .text {
   display: grid;
   justify-items: center;
-  gap: var(--strata-space-1);
+  gap: var(--syntara-space-1);
   max-inline-size: 100%;
 }
 
 .title {
   margin: 0;
-  font-family: var(--strata-font-heading);
-  font-size: var(--strata-font-size-lg);
-  font-weight: var(--strata-font-weight-semibold);
+  font-family: var(--syntara-font-heading);
+  font-size: var(--syntara-font-size-lg);
+  font-weight: var(--syntara-font-weight-semibold);
   /* Size-matched tracking, as CardTitle (the brand's display tracking is tuned for large headings and closes up
      word spaces here). */
-  letter-spacing: var(--strata-font-tracking-lg);
-  line-height: var(--strata-line-height-snug);
+  letter-spacing: var(--syntara-font-tracking-lg);
+  line-height: var(--syntara-line-height-snug);
   text-wrap: balance;
 }
 
 /* Editorial emphasis: an <em> in the title is the heading face's real italic, in the brand's text colour
    (text.brand is contrast-checked at 4.5:1 on canvas, default and raised, the surfaces an empty state sits on). */
 .title em {
-  color: var(--strata-color-text-brand);
+  color: var(--syntara-color-text-brand);
   font-style: italic;
 }
 
 .empty[data-size='sm'] .title {
-  font-size: var(--strata-font-size-md);
-  letter-spacing: var(--strata-font-tracking-md);
+  font-size: var(--syntara-font-size-md);
+  letter-spacing: var(--syntara-font-tracking-md);
 }
 
 .description {
   max-inline-size: 48ch;
   margin: 0;
-  color: var(--strata-color-text-subtle);
-  font-size: var(--strata-font-size-sm);
-  letter-spacing: var(--strata-font-tracking-sm);
-  line-height: var(--strata-line-height-normal);
+  color: var(--syntara-color-text-subtle);
+  font-size: var(--syntara-font-size-sm);
+  letter-spacing: var(--syntara-font-tracking-sm);
+  line-height: var(--syntara-line-height-normal);
   text-wrap: pretty;
 }
 
@@ -103,10 +103,10 @@
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;
-  gap: var(--strata-space-2);
-  margin-block-start: var(--strata-space-2);
+  gap: var(--syntara-space-2);
+  margin-block-start: var(--syntara-space-2);
 }
 
 .empty[data-size='sm'] .action {
-  margin-block-start: var(--strata-space-1);
+  margin-block-start: var(--syntara-space-1);
 }

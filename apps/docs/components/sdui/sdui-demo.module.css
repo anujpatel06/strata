@@ -8,7 +8,7 @@
 /* The example picker sits where the preview puts its Preview / Code tabs. */
 .picker.picker {
   flex: none;
-  min-inline-size: calc(var(--strata-space-16) * 3);
+  min-inline-size: calc(var(--syntara-space-16) * 3);
 }
 
 /* ---- Break it ---- */
@@ -16,47 +16,47 @@
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: var(--strata-space-2);
-  padding: var(--strata-space-3) var(--strata-space-4);
-  box-shadow: inset 0 calc(var(--strata-hairline) * -1) 0 0 var(--strata-color-border-subtle);
+  gap: var(--syntara-space-2);
+  padding: var(--syntara-space-3) var(--syntara-space-4);
+  box-shadow: inset 0 calc(var(--syntara-hairline) * -1) 0 0 var(--syntara-color-border-subtle);
 }
 
 .presets {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: var(--strata-space-2);
+  gap: var(--syntara-space-2);
 }
 
 /* Button has no small icon size; match the bar's small controls (the Select and toggles beside it). */
 .reset.reset {
-  inline-size: calc(var(--strata-control-height) - var(--strata-space-2));
-  block-size: calc(var(--strata-control-height) - var(--strata-space-2));
+  inline-size: calc(var(--syntara-control-height) - var(--syntara-space-2));
+  block-size: calc(var(--syntara-control-height) - var(--syntara-space-2));
 }
 
 .start {
   display: flex;
   align-items: center;
-  gap: var(--strata-space-1);
+  gap: var(--syntara-space-1);
 }
 
 .breakLabel {
-  margin-inline-end: var(--strata-space-1);
-  color: var(--strata-color-text-subtle);
-  font-size: var(--strata-font-size-sm);
-  letter-spacing: var(--strata-font-tracking-sm);
-  font-weight: var(--strata-font-weight-medium);
+  margin-inline-end: var(--syntara-space-1);
+  color: var(--syntara-color-text-subtle);
+  font-size: var(--syntara-font-size-sm);
+  letter-spacing: var(--syntara-font-tracking-sm);
+  font-weight: var(--syntara-font-weight-medium);
 }
 
 .note {
   margin: 0;
-  padding: var(--strata-space-3) var(--strata-space-4);
-  background: var(--strata-color-surface-sunken);
-  color: var(--strata-color-text-default);
-  font-size: var(--strata-font-size-sm);
-  letter-spacing: var(--strata-font-tracking-sm);
-  line-height: var(--strata-line-height-normal);
-  box-shadow: inset 0 calc(var(--strata-hairline) * -1) 0 0 var(--strata-color-border-subtle);
+  padding: var(--syntara-space-3) var(--syntara-space-4);
+  background: var(--syntara-color-surface-sunken);
+  color: var(--syntara-color-text-default);
+  font-size: var(--syntara-font-size-sm);
+  letter-spacing: var(--syntara-font-tracking-sm);
+  line-height: var(--syntara-line-height-normal);
+  box-shadow: inset 0 calc(var(--syntara-hairline) * -1) 0 0 var(--syntara-color-border-subtle);
 }
 
 /* ---- Editor and screen: stacked, then side by side when the frame has room ---- */
@@ -69,7 +69,7 @@
   display: flex;
   flex-direction: column;
   min-inline-size: 0;
-  padding: var(--strata-space-4);
+  padding: var(--syntara-space-4);
 }
 
 .editor.editor {
@@ -79,12 +79,12 @@
 /* JSON is code: monospace, no wrapping (long lines scroll inside the editor, never the page), a fixed height. */
 .editor.editor textarea {
   flex: 1;
-  block-size: calc(var(--strata-space-16) * 6);
-  min-block-size: calc(var(--strata-space-16) * 6);
-  font-family: var(--strata-font-mono);
-  font-size: var(--strata-font-size-sm);
+  block-size: calc(var(--syntara-space-16) * 6);
+  min-block-size: calc(var(--syntara-space-16) * 6);
+  font-family: var(--syntara-font-mono);
+  font-size: var(--syntara-font-size-sm);
   letter-spacing: 0;
-  line-height: var(--strata-line-height-normal);
+  line-height: var(--syntara-line-height-normal);
   white-space: pre;
   overflow-wrap: normal;
   overflow: auto;
@@ -96,7 +96,7 @@
   display: flex;
   flex-direction: column;
   min-inline-size: 0;
-  box-shadow: inset 0 var(--strata-hairline) 0 0 var(--strata-color-border-subtle);
+  box-shadow: inset 0 var(--syntara-hairline) 0 0 var(--syntara-color-border-subtle);
 }
 
 .paneHead {
@@ -104,38 +104,38 @@
   flex-wrap: wrap;
   align-items: baseline;
   justify-content: space-between;
-  gap: var(--strata-space-1) var(--strata-space-3);
-  padding: var(--strata-space-4) var(--strata-space-4) var(--strata-space-2);
+  gap: var(--syntara-space-1) var(--syntara-space-3);
+  padding: var(--syntara-space-4) var(--syntara-space-4) var(--syntara-space-2);
 }
 
 .paneLabel {
-  color: var(--strata-color-text-default);
-  font-size: var(--strata-font-size-sm);
-  letter-spacing: var(--strata-font-tracking-sm);
-  font-weight: var(--strata-font-weight-medium);
+  color: var(--syntara-color-text-default);
+  font-size: var(--syntara-font-size-sm);
+  letter-spacing: var(--syntara-font-tracking-sm);
+  font-weight: var(--syntara-font-weight-medium);
 }
 
 /* What the client chose. None of it is in the document. */
 .client {
-  color: var(--strata-color-text-subtle);
-  font-size: var(--strata-font-size-xs);
-  letter-spacing: var(--strata-font-tracking-xs);
+  color: var(--syntara-color-text-subtle);
+  font-size: var(--syntara-font-size-xs);
+  letter-spacing: var(--syntara-font-tracking-xs);
   font-variant-numeric: tabular-nums;
 }
 
 /* The stage is a ThemeScope: the screen inside uses the chosen tenant's tokens, like an app would. */
 .stage.stage {
   flex: 1;
-  margin: 0 var(--strata-space-4) var(--strata-space-4);
-  padding: var(--strata-space-5) var(--strata-space-4);
-  border-radius: var(--strata-radius-container);
-  background-color: var(--strata-color-surface-canvas);
-  color: var(--strata-color-text-default);
-  box-shadow: inset 0 0 0 var(--strata-hairline) var(--strata-color-border-subtle);
+  margin: 0 var(--syntara-space-4) var(--syntara-space-4);
+  padding: var(--syntara-space-5) var(--syntara-space-4);
+  border-radius: var(--syntara-radius-container);
+  background-color: var(--syntara-color-surface-canvas);
+  color: var(--syntara-color-text-default);
+  box-shadow: inset 0 0 0 var(--syntara-hairline) var(--syntara-color-border-subtle);
 }
 
 .screen {
-  max-inline-size: calc(var(--strata-space-16) * 7);
+  max-inline-size: calc(var(--syntara-space-16) * 7);
   margin-inline: auto;
 }
 
@@ -145,13 +145,13 @@
   }
   .editor.editor textarea {
     block-size: auto;
-    min-block-size: calc(var(--strata-space-16) * 9);
+    min-block-size: calc(var(--syntara-space-16) * 9);
   }
   .screenPane {
-    box-shadow: inset var(--strata-hairline) 0 0 0 var(--strata-color-border-subtle);
+    box-shadow: inset var(--syntara-hairline) 0 0 0 var(--syntara-color-border-subtle);
   }
   .screenPane:dir(rtl) {
-    box-shadow: inset calc(var(--strata-hairline) * -1) 0 0 0 var(--strata-color-border-subtle);
+    box-shadow: inset calc(var(--syntara-hairline) * -1) 0 0 0 var(--syntara-color-border-subtle);
   }
 }
 
@@ -159,18 +159,18 @@
 .results {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
-  box-shadow: inset 0 var(--strata-hairline) 0 0 var(--strata-color-border-subtle);
+  box-shadow: inset 0 var(--syntara-hairline) 0 0 var(--syntara-color-border-subtle);
 }
 
 .result {
   display: flex;
   flex-direction: column;
-  gap: var(--strata-space-2);
+  gap: var(--syntara-space-2);
   min-inline-size: 0;
-  padding: var(--strata-space-4);
+  padding: var(--syntara-space-4);
 }
 .result + .result {
-  box-shadow: inset 0 var(--strata-hairline) 0 0 var(--strata-color-border-subtle);
+  box-shadow: inset 0 var(--syntara-hairline) 0 0 var(--syntara-color-border-subtle);
 }
 
 @container (min-width: 720px) {
@@ -178,37 +178,37 @@
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
   .result + .result {
-    box-shadow: inset var(--strata-hairline) 0 0 0 var(--strata-color-border-subtle);
+    box-shadow: inset var(--syntara-hairline) 0 0 0 var(--syntara-color-border-subtle);
   }
   .result + .result:dir(rtl) {
-    box-shadow: inset calc(var(--strata-hairline) * -1) 0 0 0 var(--strata-color-border-subtle);
+    box-shadow: inset calc(var(--syntara-hairline) * -1) 0 0 0 var(--syntara-color-border-subtle);
   }
 }
 
 .resultTitle {
   margin: 0;
-  color: var(--strata-color-text-default);
-  font-family: var(--strata-font-heading);
-  font-size: var(--strata-font-size-md);
-  letter-spacing: var(--strata-font-tracking-md);
-  font-weight: var(--strata-font-weight-semibold);
-  line-height: var(--strata-line-height-tight);
+  color: var(--syntara-color-text-default);
+  font-family: var(--syntara-font-heading);
+  font-size: var(--syntara-font-size-md);
+  letter-spacing: var(--syntara-font-tracking-md);
+  font-weight: var(--syntara-font-weight-semibold);
+  line-height: var(--syntara-line-height-tight);
 }
 
 .api {
   margin: 0;
-  color: var(--strata-color-text-subtle);
-  font-size: var(--strata-font-size-xs);
-  letter-spacing: var(--strata-font-tracking-xs);
-  line-height: var(--strata-line-height-normal);
+  color: var(--syntara-color-text-subtle);
+  font-size: var(--syntara-font-size-xs);
+  letter-spacing: var(--syntara-font-tracking-xs);
+  line-height: var(--syntara-line-height-normal);
 }
 .api code,
 .pointer,
 .action code {
-  font-family: var(--strata-font-mono);
-  font-size: var(--strata-font-size-xs);
+  font-family: var(--syntara-font-mono);
+  font-size: var(--syntara-font-size-xs);
   letter-spacing: 0;
-  color: var(--strata-color-text-default);
+  color: var(--syntara-color-text-default);
   overflow-wrap: anywhere;
 }
 
@@ -218,7 +218,7 @@
 
 .list {
   display: grid;
-  gap: var(--strata-space-3);
+  gap: var(--syntara-space-3);
   margin: 0;
   padding: 0;
   list-style: none;
@@ -226,7 +226,7 @@
 
 .item {
   display: grid;
-  gap: var(--strata-space-1);
+  gap: var(--syntara-space-1);
   min-inline-size: 0;
 }
 
@@ -234,33 +234,33 @@
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: var(--strata-space-2);
+  gap: var(--syntara-space-2);
   min-inline-size: 0;
 }
 
 .message {
   margin: 0;
-  color: var(--strata-color-text-subtle);
-  font-size: var(--strata-font-size-sm);
-  letter-spacing: var(--strata-font-tracking-sm);
-  line-height: var(--strata-line-height-normal);
+  color: var(--syntara-color-text-subtle);
+  font-size: var(--syntara-font-size-sm);
+  letter-spacing: var(--syntara-font-tracking-sm);
+  line-height: var(--syntara-line-height-normal);
   overflow-wrap: anywhere;
 }
 
 .action {
   display: grid;
   grid-template-columns: auto minmax(0, 1fr);
-  gap: var(--strata-space-1) var(--strata-space-3);
+  gap: var(--syntara-space-1) var(--syntara-space-3);
   margin: 0;
-  font-size: var(--strata-font-size-sm);
-  letter-spacing: var(--strata-font-tracking-sm);
-  line-height: var(--strata-line-height-normal);
+  font-size: var(--syntara-font-size-sm);
+  letter-spacing: var(--syntara-font-tracking-sm);
+  line-height: var(--syntara-line-height-normal);
 }
 .action dt {
-  color: var(--strata-color-text-subtle);
+  color: var(--syntara-color-text-subtle);
 }
 .action dd {
   margin: 0;
   min-inline-size: 0;
-  color: var(--strata-color-text-default);
+  color: var(--syntara-color-text-default);
 }

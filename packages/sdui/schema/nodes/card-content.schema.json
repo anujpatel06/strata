@@ -1,9 +1,9 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "urn:strata:sdui:v1:node:CardContent",
+  "$id": "urn:syntara:sdui:v1:node:CardContent",
   "title": "CardContent",
   "description": "The card's body.",
-  "x-strata": {
+  "x-syntara": {
     "node": "CardContent",
     "component": "card",
     "export": "CardContent",
@@ -20,7 +20,7 @@
       "const": "CardContent"
     },
     "id": {
-      "$ref": "urn:strata:sdui:v1:defs#/$defs/NodeId"
+      "$ref": "urn:syntara:sdui:v1:defs#/$defs/NodeId"
     },
     "props": {
       "type": "object",
@@ -41,12 +41,12 @@
       "description": "On the wire: an array of nodes, in order.",
       "type": "array",
       "items": {
-        "$ref": "urn:strata:sdui:v1:screen#/$defs/Node"
+        "$ref": "urn:syntara:sdui:v1:screen#/$defs/Node"
       }
     },
     "fallback": {
       "description": "Rendered instead of this node by a client that doesn't know its type. Must be a node that client knows.",
-      "$ref": "urn:strata:sdui:v1:screen#/$defs/Node"
+      "$ref": "urn:syntara:sdui:v1:screen#/$defs/Node"
     }
   },
   "additionalProperties": false

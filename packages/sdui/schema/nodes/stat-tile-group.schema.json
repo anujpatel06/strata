@@ -1,9 +1,9 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "urn:strata:sdui:v1:node:StatTileGroup",
+  "$id": "urn:syntara:sdui:v1:node:StatTileGroup",
   "title": "StatTileGroup",
   "description": "A responsive row of StatTiles, read as one list of figures.",
-  "x-strata": {
+  "x-syntara": {
     "node": "StatTileGroup",
     "component": "stat-tile",
     "export": "StatTileGroup",
@@ -20,7 +20,7 @@
       "const": "StatTileGroup"
     },
     "id": {
-      "$ref": "urn:strata:sdui:v1:defs#/$defs/NodeId"
+      "$ref": "urn:syntara:sdui:v1:defs#/$defs/NodeId"
     },
     "children": {
       "description": "StatTiles. Rendered as one <dl> in a responsive grid (~224px minimum per column). On the wire: an array of nodes, in order. Only StatTile.",
@@ -40,14 +40,14 @@
         },
         "oneOf": [
           {
-            "$ref": "urn:strata:sdui:v1:node:StatTile"
+            "$ref": "urn:syntara:sdui:v1:node:StatTile"
           }
         ]
       }
     },
     "fallback": {
       "description": "Rendered instead of this node by a client that doesn't know its type. Must be a node that client knows.",
-      "$ref": "urn:strata:sdui:v1:screen#/$defs/Node"
+      "$ref": "urn:syntara:sdui:v1:screen#/$defs/Node"
     }
   },
   "additionalProperties": false

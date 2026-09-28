@@ -35,16 +35,16 @@ importers:
       '@next/mdx':
         specifier: ^16.3.0
         version: 16.3.6(@mdx-js/loader@3.1.1)(@mdx-js/react@3.1.1(@types/react@19.3.0)(react@19.3.0))
-      '@strata/icons':
+      '@syntara/icons':
         specifier: workspace:*
         version: link:../../packages/icons
-      '@strata/react':
+      '@syntara/react':
         specifier: workspace:*
         version: link:../../packages/react
-      '@strata/sdui':
+      '@syntara/sdui':
         specifier: workspace:*
         version: link:../../packages/sdui
-      '@strata/theme-engine':
+      '@syntara/theme-engine':
         specifier: workspace:*
         version: link:../../packages/theme-engine
       '@tabler/icons-react':
@@ -84,10 +84,10 @@ importers:
 
   apps/generator:
     dependencies:
-      '@strata/icons':
+      '@syntara/icons':
         specifier: workspace:*
         version: link:../../packages/icons
-      '@strata/theme-engine':
+      '@syntara/theme-engine':
         specifier: workspace:*
         version: link:../../packages/theme-engine
       react:
@@ -118,10 +118,10 @@ importers:
 
   apps/playground:
     dependencies:
-      '@strata/react':
+      '@syntara/react':
         specifier: workspace:*
         version: link:../../packages/react
-      '@strata/theme-engine':
+      '@syntara/theme-engine':
         specifier: workspace:*
         version: link:../../packages/theme-engine
       react:
@@ -149,7 +149,7 @@ importers:
 
   packages/audit:
     dependencies:
-      '@strata/theme-engine':
+      '@syntara/theme-engine':
         specifier: workspace:*
         version: link:../theme-engine
       postcss:
@@ -223,10 +223,10 @@ importers:
       '@modelcontextprotocol/sdk':
         specifier: ^1.30.0
         version: 1.30.1(zod@4.6.5)
-      '@strata/audit':
+      '@syntara/audit':
         specifier: workspace:*
         version: link:../audit
-      '@strata/theme-engine':
+      '@syntara/theme-engine':
         specifier: workspace:*
         version: link:../theme-engine
       tsx:
@@ -251,14 +251,14 @@ importers:
       '@internationalized/date':
         specifier: ^3.12.0
         version: 3.12.4
-      '@strata/icons':
+      '@syntara/icons':
         specifier: workspace:*
         version: link:../icons
       react-aria-components:
         specifier: ^1.21.0
         version: 1.21.1(react-dom@19.3.0(react@19.3.0))(react@19.3.0)
     devDependencies:
-      '@strata/theme-engine':
+      '@syntara/theme-engine':
         specifier: workspace:*
         version: link:../theme-engine
       '@testing-library/jest-dom':
@@ -304,10 +304,10 @@ importers:
         specifier: ^8.17.0
         version: 8.20.0
     devDependencies:
-      '@strata/icons':
+      '@syntara/icons':
         specifier: workspace:*
         version: link:../icons
-      '@strata/react':
+      '@syntara/react':
         specifier: workspace:*
         version: link:../react
       '@testing-library/jest-dom':
@@ -373,7 +373,7 @@ importers:
 
   packages/tokens:
     devDependencies:
-      '@strata/theme-engine':
+      '@syntara/theme-engine':
         specifier: workspace:*
         version: link:../theme-engine
       '@types/node':

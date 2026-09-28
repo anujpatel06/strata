@@ -29,7 +29,7 @@ describe('Sparkline', () => {
     expect(container.firstElementChild).toHaveAttribute('data-tone', 'success');
     rerender(<Sparkline data={[1, 2]} series={2} />);
     expect(container.firstElementChild).not.toHaveAttribute('data-tone');
-    expect((container.firstElementChild as HTMLElement).style.getPropertyValue('--_c')).toContain('--strata-chart-2');
+    expect((container.firstElementChild as HTMLElement).style.getPropertyValue('--_c')).toContain('--syntara-chart-2');
   });
 
   it('draws nothing with fewer than two values, and leaves gaps for null', () => {

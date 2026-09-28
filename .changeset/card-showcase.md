@@ -1,5 +1,5 @@
 ---
-"@strata/react": minor
+"@syntara/react": minor
 ---
 
 Case-study cards.

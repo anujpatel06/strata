@@ -1,7 +1,7 @@
 'use client';
 
-import { IconCheck, IconCopy, IconDownload, IconFileCode } from '@strata/icons';
-import { Button } from '@strata/react';
+import { IconCheck, IconCopy, IconDownload, IconFileCode } from '@syntara/icons';
+import { Button } from '@syntara/react';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { formatBytes } from './format';
 import { highlight, type CodeLang } from './highlight';

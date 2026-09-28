@@ -13,7 +13,7 @@
   ],
   "dependencies": [],
   "registryDependencies": [],
-  "usage": "import { Eyebrow } from '@strata/react';\n\nexport function Kicker() {\n  return <Eyebrow lead=\"rule\" tone=\"accent\">First time here</Eyebrow>;\n}",
+  "usage": "import { Eyebrow } from '@syntara/react';\n\nexport function Kicker() {\n  return <Eyebrow lead=\"rule\" tone=\"accent\">First time here</Eyebrow>;\n}",
   "examples": [
     {
       "name": "eyebrow-demo",
@@ -77,7 +77,7 @@
       "Not interactive and not a heading: it names a group without adding to the document outline. Put the real heading after it.",
       "Capitals come from text-transform, so screen readers read the words, not letters. Write the source in sentence case.",
       "The rule and icon are aria-hidden decoration; tone never carries meaning on its own.",
-      "Tracking is --strata-font-tracking-caps: 0.08em for Latin pairs and 0 for Arabic-capable pairs, so joined scripts are never letter-spaced."
+      "Tracking is --syntara-font-tracking-caps: 0.08em for Latin pairs and 0 for Arabic-capable pairs, so joined scripts are never letter-spaced."
     ]
   },
   "guidelines": {

@@ -10,12 +10,12 @@
   /* Underlay: a light blur (a quarter of the glass blur) so the page recedes, and a fixed dim. Deliberately not
      the surface.inverse tint from CONVENTIONS: in dark schemes surface.inverse is near-white, so the tint turns the
      page into a grey fog and the dialog stops reading as "above" it. brightness() dims both schemes alike. */
-  -webkit-backdrop-filter: blur(calc(var(--strata-glass-blur) / 4)) brightness(0.6);
-  backdrop-filter: blur(calc(var(--strata-glass-blur) / 4)) brightness(0.6);
-  font-family: var(--strata-font-body);
-  font-size: var(--strata-font-size-md);
-  line-height: var(--strata-line-height-normal);
-  color: var(--strata-color-text-default);
+  -webkit-backdrop-filter: blur(calc(var(--syntara-glass-blur) / 4)) brightness(0.6);
+  backdrop-filter: blur(calc(var(--syntara-glass-blur) / 4)) brightness(0.6);
+  font-family: var(--syntara-font-body);
+  font-size: var(--syntara-font-size-md);
+  line-height: var(--syntara-line-height-normal);
+  color: var(--syntara-color-text-default);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -26,13 +26,13 @@
 }
 
 .panel {
-  --dialog-inline-size: calc(var(--strata-space-16) * 8);
+  --dialog-inline-size: calc(var(--syntara-space-16) * 8);
   position: relative;
   display: flex;
   flex-direction: column;
-  inline-size: calc(100% - var(--strata-space-4) * 2);
+  inline-size: calc(100% - var(--syntara-space-4) * 2);
   max-inline-size: var(--dialog-inline-size);
-  max-block-size: min(85dvh, calc(100% - var(--strata-space-4) * 2));
+  max-block-size: min(85dvh, calc(100% - var(--syntara-space-4) * 2));
   margin: auto;
   /*
    * Surface recipe on glass, identical to popover.module.css (see the proof there and in test/popover.test.tsx):
@@ -40,16 +40,16 @@
    * any backdrop) over the border box, the rim light (dark only) as a masked ::after ring, a border.subtle
    * hairline ring and the overlay shadow. Only text.default and text.subtle sit directly on it.
    */
-  --_glass: color-mix(in srgb, var(--strata-color-surface-raised) calc(var(--strata-glass-opacity) * 100% + 8%), transparent);
+  --_glass: color-mix(in srgb, var(--syntara-color-surface-raised) calc(var(--syntara-glass-opacity) * 100% + 8%), transparent);
   border: 1px solid transparent;
-  border-radius: var(--strata-radius-container);
+  border-radius: var(--syntara-radius-container);
   /* Sheen over the glass face, both over the whole border box: the 1px ring must carry the same tint, or it shows
      the page unfiltered (a modal underlay's dim doesn't reach a nested backdrop-filter), which reads as a bright
      outline. The rim is drawn by ::after instead (see RIM below). */
-  background: var(--strata-sheen), var(--_glass);
-  -webkit-backdrop-filter: blur(var(--strata-glass-blur)) saturate(1.6);
-  backdrop-filter: blur(var(--strata-glass-blur)) saturate(1.6);
-  box-shadow: 0 0 0 var(--strata-hairline) var(--strata-color-border-subtle), var(--strata-shadow-overlay);
+  background: var(--syntara-sheen), var(--_glass);
+  -webkit-backdrop-filter: blur(var(--syntara-glass-blur)) saturate(1.6);
+  backdrop-filter: blur(var(--syntara-glass-blur)) saturate(1.6);
+  box-shadow: 0 0 0 var(--syntara-hairline) var(--syntara-color-border-subtle), var(--syntara-shadow-overlay);
   outline: none;
 }
 /* RIM: the rim light (dark only) as a 1px masked ring just inside the edge. On glass it can't use Card's background-clip
@@ -61,18 +61,18 @@
   border-radius: inherit;
   padding: 1px;
   background: linear-gradient(135deg, var(--_rim, transparent), transparent 60%);
-  mask-image: linear-gradient(var(--strata-color-text-default), var(--strata-color-text-default)),
-    linear-gradient(var(--strata-color-text-default), var(--strata-color-text-default));
+  mask-image: linear-gradient(var(--syntara-color-text-default), var(--syntara-color-text-default)),
+    linear-gradient(var(--syntara-color-text-default), var(--syntara-color-text-default));
   mask-clip: content-box, border-box;
   mask-composite: exclude;
   -webkit-mask-composite: xor;
   pointer-events: none;
 }
-/* Dark only: --strata-sheen is `none` exactly in light schemes (CONVENTIONS "Surface recipe"). The query runs on the
+/* Dark only: --syntara-sheen is `none` exactly in light schemes (CONVENTIONS "Surface recipe"). The query runs on the
    ::after's originating element, which carries the copied scope attributes, so portalled overlays resolve it too. */
-@container not style(--strata-sheen: none) {
+@container not style(--syntara-sheen: none) {
   .panel::after {
-    --_rim: var(--strata-rim);
+    --_rim: var(--syntara-rim);
   }
 }
 @media (forced-colors: active) {
@@ -82,7 +82,7 @@
 }
 @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
   .panel {
-    --_glass: var(--strata-color-surface-raised);
+    --_glass: var(--syntara-color-surface-raised);
   }
 }
 @supports (corner-shape: squircle) {
@@ -91,19 +91,19 @@
   }
 }
 .panel[data-size='sm'] {
-  --dialog-inline-size: calc(var(--strata-space-16) * 6);
+  --dialog-inline-size: calc(var(--syntara-space-16) * 6);
 }
 .panel[data-size='lg'] {
-  --dialog-inline-size: calc(var(--strata-space-16) * 10);
+  --dialog-inline-size: calc(var(--syntara-space-16) * 10);
 }
 
 .dialog {
   display: flex;
   flex-direction: column;
   flex: 1 1 auto;
-  gap: var(--strata-space-4);
+  gap: var(--syntara-space-4);
   min-block-size: 0;
-  padding-block: var(--strata-card-inset);
+  padding-block: var(--syntara-card-inset);
   outline: none;
 }
 /* Programmatic focus on open. Pseudo-class selector so page-level `[tabindex]:focus-visible` rules can't outrank it. */
@@ -113,23 +113,23 @@
 
 .header {
   display: grid;
-  gap: var(--strata-space-1);
-  padding-inline: var(--strata-card-inset);
+  gap: var(--syntara-space-1);
+  padding-inline: var(--syntara-card-inset);
   /* Leave room for the close button. */
-  padding-inline-end: calc(var(--strata-card-inset) + var(--strata-control-height));
+  padding-inline-end: calc(var(--syntara-card-inset) + var(--syntara-control-height));
 }
 .dialog[role='alertdialog'] .header {
-  padding-inline-end: var(--strata-card-inset);
+  padding-inline-end: var(--syntara-card-inset);
 }
 .title {
   margin: 0;
-  font-family: var(--strata-font-heading);
-  font-size: var(--strata-font-size-lg);
-  font-weight: var(--strata-font-weight-semibold);
-  line-height: var(--strata-line-height-snug);
+  font-family: var(--syntara-font-heading);
+  font-size: var(--syntara-font-size-lg);
+  font-weight: var(--syntara-font-weight-semibold);
+  line-height: var(--syntara-line-height-snug);
   /* Size-matched tracking, as CardTitle (the brand display tracking is tuned for large headings). */
-  letter-spacing: var(--strata-font-tracking-lg);
-  color: var(--strata-color-text-default);
+  letter-spacing: var(--syntara-font-tracking-lg);
+  color: var(--syntara-color-text-default);
 }
 /* Editorial emphasis: an <em> in the title is the heading face's real italic. It stays text.default: the dialog is
    glass, and only text.default and text.subtle are solved to 4.5:1 over any backdrop (text.brand is not). */
@@ -139,23 +139,23 @@
 }
 .description {
   margin: 0;
-  font-size: var(--strata-font-size-sm);
-  letter-spacing: var(--strata-font-tracking-sm);
-  line-height: var(--strata-line-height-normal);
-  color: var(--strata-color-text-subtle);
+  font-size: var(--syntara-font-size-sm);
+  letter-spacing: var(--syntara-font-tracking-sm);
+  line-height: var(--syntara-line-height-normal);
+  color: var(--syntara-color-text-subtle);
 }
 
 /* The body scrolls; header and footer stay put. Block padding keeps focus rings of edge fields visible. */
 .body {
   display: grid;
   align-content: start;
-  gap: var(--strata-field-gap);
+  gap: var(--syntara-field-gap);
   flex: 1 1 auto;
   min-block-size: 0;
   overflow-y: auto;
   overscroll-behavior: contain;
-  padding: var(--strata-space-1) var(--strata-card-inset);
-  margin-block: calc(var(--strata-space-1) * -1);
+  padding: var(--syntara-space-1) var(--syntara-card-inset);
+  margin-block: calc(var(--syntara-space-1) * -1);
 }
 
 .footer {
@@ -163,15 +163,15 @@
   flex-wrap: wrap;
   align-items: center;
   justify-content: flex-end;
-  gap: var(--strata-space-2);
-  padding-inline: var(--strata-card-inset);
+  gap: var(--syntara-space-2);
+  padding-inline: var(--syntara-card-inset);
 }
 
 .close {
   position: absolute;
-  inset-block-start: calc(var(--strata-card-inset) - var(--strata-space-2));
-  inset-inline-end: calc(var(--strata-card-inset) - var(--strata-space-2));
-  color: var(--strata-color-text-subtle);
+  inset-block-start: calc(var(--syntara-card-inset) - var(--syntara-space-2));
+  inset-inline-end: calc(var(--syntara-card-inset) - var(--syntara-space-2));
+  color: var(--syntara-color-text-subtle);
 }
 
 /* Narrow viewports: a full-width panel anchored to the bottom edge, actions stacked. */
@@ -200,24 +200,24 @@
    appears. Focus moves into the dialog at once; nothing waits for the animation. */
 @media (prefers-reduced-motion: no-preference) {
   .overlay[data-entering] {
-    animation: fade var(--strata-motion-duration-normal) var(--strata-motion-easing-out);
+    animation: fade var(--syntara-motion-duration-normal) var(--syntara-motion-easing-out);
   }
   .overlay[data-exiting] {
-    animation: fade var(--strata-motion-duration-fast) var(--strata-motion-easing) reverse;
+    animation: fade var(--syntara-motion-duration-fast) var(--syntara-motion-easing) reverse;
   }
   .panel[data-entering] {
     animation:
-      fade var(--strata-motion-duration-normal) var(--strata-motion-easing-out),
-      grow var(--strata-motion-duration-spring) var(--strata-motion-spring);
+      fade var(--syntara-motion-duration-normal) var(--syntara-motion-easing-out),
+      grow var(--syntara-motion-duration-spring) var(--syntara-motion-spring);
   }
   .panel[data-exiting] {
     animation:
-      fade var(--strata-motion-duration-fast) var(--strata-motion-easing) reverse,
-      shrink var(--strata-motion-duration-fast) var(--strata-motion-easing) reverse;
+      fade var(--syntara-motion-duration-fast) var(--syntara-motion-easing) reverse,
+      shrink var(--syntara-motion-duration-fast) var(--syntara-motion-easing) reverse;
   }
   .dialog > :is(.header, .body, .footer) {
-    animation: part-in var(--strata-motion-duration-slow) var(--strata-motion-easing-out)
-      calc(var(--_i, 0) * var(--strata-motion-duration-fast) / 3) backwards;
+    animation: part-in var(--syntara-motion-duration-slow) var(--syntara-motion-easing-out)
+      calc(var(--_i, 0) * var(--syntara-motion-duration-fast) / 3) backwards;
   }
   .dialog > .body {
     --_i: 1;
@@ -227,10 +227,10 @@
   }
   @container (inline-size < 480px) {
     .panel[data-entering] {
-      animation: rise var(--strata-motion-duration-slow) var(--strata-motion-easing-out);
+      animation: rise var(--syntara-motion-duration-slow) var(--syntara-motion-easing-out);
     }
     .panel[data-exiting] {
-      animation: rise var(--strata-motion-duration-normal) var(--strata-motion-easing) reverse;
+      animation: rise var(--syntara-motion-duration-normal) var(--syntara-motion-easing) reverse;
     }
   }
 
@@ -242,7 +242,7 @@
   @keyframes grow {
     from {
       scale: 0.94;
-      translate: 0 var(--strata-space-2);
+      translate: 0 var(--syntara-space-2);
     }
   }
   @keyframes part-in {

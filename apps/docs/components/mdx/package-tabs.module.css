@@ -2,11 +2,11 @@
   min-inline-size: 0;
   overflow: hidden;
   border: 1px solid transparent;
-  border-radius: var(--strata-radius-container);
-  background: var(--strata-color-surface-default);
+  border-radius: var(--syntara-radius-container);
+  background: var(--syntara-color-surface-default);
   box-shadow:
-    0 0 0 var(--strata-hairline) var(--strata-color-border-subtle),
-    var(--strata-shadow-raised);
+    0 0 0 var(--syntara-hairline) var(--syntara-color-border-subtle),
+    var(--syntara-shadow-raised);
 }
 @supports (corner-shape: squircle) {
   .root {
@@ -22,29 +22,29 @@
 .bar {
   display: flex;
   align-items: center;
-  gap: var(--strata-space-2);
-  block-size: calc(var(--strata-space-10) + var(--strata-space-1));
-  padding-inline: var(--strata-space-4) var(--strata-space-1);
-  box-shadow: inset 0 calc(var(--strata-hairline) * -1) 0 0 var(--strata-color-border-subtle);
+  gap: var(--syntara-space-2);
+  block-size: calc(var(--syntara-space-10) + var(--syntara-space-1));
+  padding-inline: var(--syntara-space-4) var(--syntara-space-1);
+  box-shadow: inset 0 calc(var(--syntara-hairline) * -1) 0 0 var(--syntara-color-border-subtle);
 }
 
 .icon {
-  color: var(--strata-color-text-subtle);
+  color: var(--syntara-color-text-subtle);
 }
 
 .list.list[data-orientation] {
   flex: 1;
   min-inline-size: 0;
-  gap: var(--strata-space-1);
+  gap: var(--syntara-space-1);
   border: 0;
   box-shadow: none;
   align-self: stretch;
 }
 
 .tab.tab {
-  font-family: var(--strata-font-mono);
-  font-size: var(--strata-font-size-xs);
-  padding-inline: var(--strata-space-2);
+  font-family: var(--syntara-font-mono);
+  font-size: var(--syntara-font-size-xs);
+  padding-inline: var(--syntara-space-2);
   min-block-size: 0;
   block-size: 100%;
 }

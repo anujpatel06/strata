@@ -1,4 +1,4 @@
-import { contrastRatio, type AdjustmentKind, type Scheme } from '@strata/theme-engine';
+import { contrastRatio, type AdjustmentKind, type Scheme } from '@syntara/theme-engine';
 
 /** Contrast ratio floored (never rounded up) to 2 decimals: 4.499 → "4.49". The epsilon only absorbs float noise. */
 export function floorRatio(ratio: number): string {

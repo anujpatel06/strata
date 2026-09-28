@@ -1,23 +1,23 @@
 /*
- * Dashboard overview. Tokens only: every colour, size, space, radius and duration is a var(--strata-*).
+ * Dashboard overview. Tokens only: every colour, size, space, radius and duration is a var(--syntara-*).
  * The only literals are 0, 1px/2px hairlines, %, fr, unitless numbers — and container breakpoints, which
  * CSS can't read from a variable. Logical properties throughout; layout follows the block's own width.
  */
 
 .root {
-  --_page: calc(var(--strata-space-16) * 20);
-  --_gutter: var(--strata-space-4);
+  --_page: calc(var(--syntara-space-16) * 20);
+  --_gutter: var(--syntara-space-4);
 
   container: dashboard-overview / inline-size;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
   min-block-size: 100%;
-  background-color: var(--strata-color-surface-canvas);
-  color: var(--strata-color-text-default);
-  font-family: var(--strata-font-body);
-  font-size: var(--strata-font-size-md);
-  line-height: var(--strata-line-height-normal);
+  background-color: var(--syntara-color-surface-canvas);
+  color: var(--syntara-color-text-default);
+  font-family: var(--syntara-font-body);
+  font-size: var(--syntara-font-size-md);
+  line-height: var(--syntara-line-height-normal);
   text-align: start;
 }
 
@@ -31,13 +31,13 @@
 
 @container dashboard-overview (min-width: 640px) {
   .root > * {
-    --_gutter: var(--strata-space-6);
+    --_gutter: var(--syntara-space-6);
   }
 }
 
 @container dashboard-overview (min-width: 1024px) {
   .root > * {
-    --_gutter: var(--strata-space-8);
+    --_gutter: var(--syntara-space-8);
   }
 }
 
@@ -58,9 +58,9 @@
   position: sticky;
   inset-block-start: 0;
   z-index: 2;
-  background-color: var(--strata-color-surface-default);
+  background-color: var(--syntara-color-surface-default);
   /* A hairline (inset shadow: Chromium rounds sub-pixel borders up to 1px). */
-  box-shadow: inset 0 calc(var(--strata-hairline) * -1) 0 var(--strata-color-border-subtle);
+  box-shadow: inset 0 calc(var(--syntara-hairline) * -1) 0 var(--syntara-color-border-subtle);
 }
 
 .appBarInner {
@@ -70,7 +70,7 @@
     'brand end'
     'nav nav';
   align-items: center;
-  column-gap: var(--strata-space-4);
+  column-gap: var(--syntara-space-4);
   max-inline-size: var(--_page);
   margin-inline: auto;
   padding-inline: var(--_gutter);
@@ -80,7 +80,7 @@
   .appBarInner {
     grid-template-columns: auto minmax(0, 1fr) auto;
     grid-template-areas: 'brand nav end';
-    column-gap: var(--strata-space-8);
+    column-gap: var(--syntara-space-8);
   }
 }
 
@@ -88,27 +88,27 @@
   grid-area: brand;
   display: inline-flex;
   align-items: center;
-  gap: var(--strata-space-2);
+  gap: var(--syntara-space-2);
   justify-self: start;
-  min-block-size: calc(var(--strata-control-height) + var(--strata-space-4));
-  color: var(--strata-color-text-default);
+  min-block-size: calc(var(--syntara-control-height) + var(--syntara-space-4));
+  color: var(--syntara-color-text-default);
   text-decoration: none;
 }
 
 .logoMark {
   display: inline-grid;
   place-items: center;
-  inline-size: var(--strata-space-8);
-  block-size: var(--strata-space-8);
-  border-radius: var(--strata-radius-button);
-  background-color: var(--strata-color-action-primary-bg);
-  color: var(--strata-color-action-primary-fg);
-  font-family: var(--strata-font-heading);
-  font-size: var(--strata-font-size-md);
-  font-weight: var(--strata-font-weight-bold);
-  letter-spacing: var(--strata-font-tracking-md);
+  inline-size: var(--syntara-space-8);
+  block-size: var(--syntara-space-8);
+  border-radius: var(--syntara-radius-button);
+  background-color: var(--syntara-color-action-primary-bg);
+  color: var(--syntara-color-action-primary-fg);
+  font-family: var(--syntara-font-heading);
+  font-size: var(--syntara-font-size-md);
+  font-weight: var(--syntara-font-weight-bold);
+  letter-spacing: var(--syntara-font-tracking-md);
   line-height: 1;
-  box-shadow: var(--strata-shadow-highlight), var(--strata-shadow-raised);
+  box-shadow: var(--syntara-shadow-highlight), var(--syntara-shadow-raised);
 }
 
 @supports (corner-shape: squircle) {
@@ -118,17 +118,17 @@
 }
 
 /* A pill brand's mark is a circle: keep its round ends. */
-@container style(--strata-radius-button: var(--strata-radius-pill)) {
+@container style(--syntara-radius-button: var(--syntara-radius-pill)) {
   .logoMark {
     corner-shape: round;
   }
 }
 
 .productName {
-  font-family: var(--strata-font-heading);
-  font-size: var(--strata-font-size-lg);
-  font-weight: var(--strata-font-weight-semibold);
-  letter-spacing: var(--strata-font-tracking-lg);
+  font-family: var(--syntara-font-heading);
+  font-size: var(--syntara-font-size-lg);
+  font-weight: var(--syntara-font-weight-semibold);
+  letter-spacing: var(--syntara-font-tracking-lg);
 }
 
 .nav {
@@ -150,7 +150,7 @@
 
 .navList {
   display: flex;
-  gap: var(--strata-space-1);
+  gap: var(--syntara-space-1);
   padding: 0;
   list-style: none;
 }
@@ -159,38 +159,38 @@
   position: relative;
   display: inline-flex;
   align-items: center;
-  min-block-size: calc(var(--strata-control-height) + var(--strata-space-2));
-  padding-inline: var(--strata-space-3);
-  color: var(--strata-color-text-subtle);
-  font-size: var(--strata-font-size-sm);
-  font-weight: var(--strata-font-weight-medium);
-  letter-spacing: var(--strata-font-tracking-sm);
+  min-block-size: calc(var(--syntara-control-height) + var(--syntara-space-2));
+  padding-inline: var(--syntara-space-3);
+  color: var(--syntara-color-text-subtle);
+  font-size: var(--syntara-font-size-sm);
+  font-weight: var(--syntara-font-weight-medium);
+  letter-spacing: var(--syntara-font-tracking-sm);
   text-decoration: none;
   white-space: nowrap;
 }
 
 .navLink.navLink[data-hovered] {
-  color: var(--strata-color-text-default);
+  color: var(--syntara-color-text-default);
 }
 
 .navLink.navLink[aria-current='page'] {
-  color: var(--strata-color-text-default);
+  color: var(--syntara-color-text-default);
 }
 
 /* The current page is marked by weight of colour AND a bar, never colour alone. */
 .navLink.navLink[aria-current='page']::after {
   content: '';
   position: absolute;
-  inset-inline: var(--strata-space-3);
+  inset-inline: var(--syntara-space-3);
   inset-block-end: 0;
   block-size: 2px;
-  border-radius: var(--strata-radius-pill);
-  background-color: var(--strata-color-action-primary-bg);
+  border-radius: var(--syntara-radius-pill);
+  background-color: var(--syntara-color-action-primary-bg);
 }
 
 @container dashboard-overview (min-width: 880px) {
   .navLink.navLink {
-    min-block-size: calc(var(--strata-control-height) + var(--strata-space-4));
+    min-block-size: calc(var(--syntara-control-height) + var(--syntara-space-4));
   }
 }
 
@@ -198,13 +198,13 @@
   grid-area: end;
   display: flex;
   align-items: center;
-  gap: var(--strata-space-1);
+  gap: var(--syntara-space-1);
 }
 
 .search.search {
-  gap: var(--strata-space-2);
-  color: var(--strata-color-text-subtle);
-  font-weight: var(--strata-font-weight-regular);
+  gap: var(--syntara-space-2);
+  color: var(--syntara-color-text-subtle);
+  font-weight: var(--syntara-font-weight-regular);
 }
 
 /* Narrow: an icon button. The text stays in the accessibility tree as the button's name. */
@@ -223,9 +223,9 @@
 
 @container dashboard-overview (min-width: 640px) {
   .search.search {
-    min-inline-size: calc(var(--strata-space-16) * 3.5);
+    min-inline-size: calc(var(--syntara-space-16) * 3.5);
     justify-content: flex-start;
-    margin-inline-end: var(--strata-space-2);
+    margin-inline-end: var(--syntara-space-2);
   }
 
   .searchLabel {
@@ -245,7 +245,7 @@
 
 @container dashboard-overview (max-width: 639.98px) {
   .search.search {
-    min-inline-size: var(--strata-control-height);
+    min-inline-size: var(--syntara-control-height);
     padding-inline: 0;
     border-color: transparent;
     background-color: transparent;
@@ -259,13 +259,13 @@
 
 .unreadDot {
   position: absolute;
-  inset-block-start: var(--strata-space-2);
-  inset-inline-end: var(--strata-space-2);
-  inline-size: var(--strata-space-2);
-  block-size: var(--strata-space-2);
-  border: 2px solid var(--strata-color-surface-default);
-  border-radius: var(--strata-radius-pill);
-  background-color: var(--strata-color-feedback-danger-solid);
+  inset-block-start: var(--syntara-space-2);
+  inset-inline-end: var(--syntara-space-2);
+  inline-size: var(--syntara-space-2);
+  block-size: var(--syntara-space-2);
+  border: 2px solid var(--syntara-color-surface-default);
+  border-radius: var(--syntara-radius-pill);
+  background-color: var(--syntara-color-feedback-danger-solid);
   box-sizing: content-box;
   translate: 25% -25%;
 }
@@ -276,11 +276,11 @@
 
 .avatarButton.avatarButton {
   padding: 0;
-  border-radius: var(--strata-radius-pill);
+  border-radius: var(--syntara-radius-pill);
 }
 
 .notificationMenu.notificationMenu {
-  max-inline-size: calc(var(--strata-space-16) * 5.5);
+  max-inline-size: calc(var(--syntara-space-16) * 5.5);
 }
 
 /* ------------------------------------------------------------------ *
@@ -295,16 +295,16 @@
 .page {
   display: flex;
   flex-direction: column;
-  gap: var(--strata-section-gap);
+  gap: var(--syntara-section-gap);
   max-inline-size: var(--_page);
   margin-inline: auto;
-  padding-block: var(--strata-space-6) var(--strata-space-12);
+  padding-block: var(--syntara-space-6) var(--syntara-space-12);
   padding-inline: var(--_gutter);
 }
 
 @container dashboard-overview (min-width: 1024px) {
   .page {
-    padding-block-start: var(--strata-space-8);
+    padding-block-start: var(--syntara-space-8);
   }
 }
 
@@ -313,42 +313,42 @@
   flex-wrap: wrap;
   align-items: flex-end;
   justify-content: space-between;
-  gap: var(--strata-space-4);
+  gap: var(--syntara-space-4);
 }
 
 .titleBlock {
   display: grid;
-  gap: var(--strata-space-1);
+  gap: var(--syntara-space-1);
   min-inline-size: 0;
-  flex: 1 1 calc(var(--strata-space-16) * 5);
+  flex: 1 1 calc(var(--syntara-space-16) * 5);
 }
 
 .title {
-  font-family: var(--strata-font-heading);
-  font-size: var(--strata-font-size-xl);
-  font-weight: var(--strata-font-weight-semibold);
-  letter-spacing: var(--strata-font-tracking-xl);
-  line-height: var(--strata-line-height-tight);
+  font-family: var(--syntara-font-heading);
+  font-size: var(--syntara-font-size-xl);
+  font-weight: var(--syntara-font-weight-semibold);
+  letter-spacing: var(--syntara-font-tracking-xl);
+  line-height: var(--syntara-line-height-tight);
   text-wrap: balance;
 }
 
 @container dashboard-overview (min-width: 640px) {
   .title {
-    font-size: var(--strata-font-size-3xl);
-    letter-spacing: var(--strata-font-tracking-3xl);
+    font-size: var(--syntara-font-size-3xl);
+    letter-spacing: var(--syntara-font-tracking-3xl);
   }
 }
 
 .subtitle {
-  color: var(--strata-color-text-subtle);
-  letter-spacing: var(--strata-font-tracking-md);
+  color: var(--syntara-color-text-subtle);
+  letter-spacing: var(--syntara-font-tracking-md);
   text-wrap: pretty;
 }
 
 .pageActions {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--strata-space-2);
+  gap: var(--syntara-space-2);
 }
 
 /* Narrow: the actions fill the row, each growing from its own label width, so a long label wraps the pair
@@ -364,14 +364,14 @@
 }
 
 .stats.stats {
-  gap: var(--strata-section-gap);
+  gap: var(--syntara-section-gap);
 }
 
 .grid {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
   align-items: start;
-  gap: var(--strata-section-gap);
+  gap: var(--syntara-section-gap);
 }
 
 @container dashboard-overview (min-width: 1024px) {
@@ -383,7 +383,7 @@
 .side {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
-  gap: var(--strata-section-gap);
+  gap: var(--syntara-section-gap);
   align-content: start;
   align-items: start;
 }
@@ -401,10 +401,10 @@
 .viewAll.viewAll {
   display: inline-flex;
   align-items: center;
-  gap: var(--strata-space-1);
-  font-size: var(--strata-font-size-sm);
-  font-weight: var(--strata-font-weight-medium);
-  letter-spacing: var(--strata-font-tracking-sm);
+  gap: var(--syntara-space-1);
+  font-size: var(--syntara-font-size-sm);
+  font-weight: var(--syntara-font-weight-medium);
+  letter-spacing: var(--syntara-font-tracking-sm);
   white-space: nowrap;
 }
 
@@ -416,7 +416,7 @@
 .desc {
   display: flex;
   align-items: center;
-  gap: var(--strata-space-3);
+  gap: var(--syntara-space-3);
   min-inline-size: 0;
 }
 
@@ -424,25 +424,25 @@
   display: inline-grid;
   flex: none;
   place-items: center;
-  inline-size: var(--strata-space-8);
-  block-size: var(--strata-space-8);
-  border-radius: var(--strata-radius-pill);
+  inline-size: var(--syntara-space-8);
+  block-size: var(--syntara-space-8);
+  border-radius: var(--syntara-radius-pill);
   /* On the inset (sunken) surface the chip lifts to raised with a hairline; text.subtle on raised is checked. */
-  background-color: var(--strata-color-surface-raised);
-  box-shadow: 0 0 0 var(--strata-hairline) var(--strata-color-border-subtle);
-  color: var(--strata-color-text-subtle);
+  background-color: var(--syntara-color-surface-raised);
+  box-shadow: 0 0 0 var(--syntara-hairline) var(--syntara-color-border-subtle);
+  color: var(--syntara-color-text-subtle);
 }
 
 .ledger svg {
-  inline-size: var(--strata-space-4);
-  block-size: var(--strata-space-4);
-  stroke-width: var(--strata-icon-stroke, 1.5);
+  inline-size: var(--syntara-space-4);
+  block-size: var(--syntara-space-4);
+  stroke-width: var(--syntara-icon-stroke, 1.5);
 }
 
 .ledgerIn {
-  background-color: var(--strata-color-feedback-success-bg);
+  background-color: var(--syntara-color-feedback-success-bg);
   box-shadow: none;
-  color: var(--strata-color-feedback-success-fg);
+  color: var(--syntara-color-feedback-success-fg);
 }
 
 .descText {
@@ -452,17 +452,17 @@
 
 .descTitle {
   overflow: hidden;
-  color: var(--strata-color-text-default);
-  font-weight: var(--strata-font-weight-medium);
+  color: var(--syntara-color-text-default);
+  font-weight: var(--syntara-font-weight-medium);
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
 .descMeta {
   overflow: hidden;
-  color: var(--strata-color-text-subtle);
-  font-size: var(--strata-font-size-sm);
-  letter-spacing: var(--strata-font-tracking-sm);
+  color: var(--syntara-color-text-subtle);
+  font-size: var(--syntara-font-size-sm);
+  letter-spacing: var(--syntara-font-tracking-sm);
   text-overflow: ellipsis;
   white-space: nowrap;
 }
@@ -470,20 +470,20 @@
 /* Amounts are typography: tabular figures, semibold, so the column reads as one aligned figure stack. */
 .amount {
   font-variant-numeric: tabular-nums;
-  font-weight: var(--strata-font-weight-semibold);
+  font-weight: var(--syntara-font-weight-semibold);
   white-space: nowrap;
 }
 
 /* Money in is green: feedback.success.fg is engine-checked on surface.sunken, the inset panel the table sits on.
    The explicit "+" and the green ledger chip say it too, so colour is never the only signal. */
 .amountIn {
-  color: var(--strata-color-feedback-success-fg);
+  color: var(--syntara-color-feedback-success-fg);
 }
 
 .amountStack {
   display: inline-grid;
   justify-items: end;
-  gap: var(--strata-space-1);
+  gap: var(--syntara-space-1);
 }
 
 /* ------------------------------------------------------------------ *
@@ -493,12 +493,12 @@
 .form {
   display: flex;
   flex-direction: column;
-  gap: var(--strata-card-inset);
+  gap: var(--syntara-card-inset);
 }
 
 .formFields.formFields {
   display: grid;
-  gap: var(--strata-field-gap);
+  gap: var(--syntara-field-gap);
 }
 
 .block.block {
@@ -512,27 +512,27 @@
 .commandFooter.commandFooter {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--strata-space-4);
-  padding-block: var(--strata-space-2);
-  padding-inline: var(--strata-space-4);
-  box-shadow: inset 0 var(--strata-hairline) 0 var(--strata-color-border-subtle);
-  color: var(--strata-color-text-subtle);
-  font-size: var(--strata-font-size-xs);
-  letter-spacing: var(--strata-font-tracking-xs);
+  gap: var(--syntara-space-4);
+  padding-block: var(--syntara-space-2);
+  padding-inline: var(--syntara-space-4);
+  box-shadow: inset 0 var(--syntara-hairline) 0 var(--syntara-color-border-subtle);
+  color: var(--syntara-color-text-subtle);
+  font-size: var(--syntara-font-size-xs);
+  letter-spacing: var(--syntara-font-tracking-xs);
 }
 
 .commandHint.commandHint {
   display: inline-flex;
   align-items: center;
-  gap: var(--strata-space-1);
+  gap: var(--syntara-space-1);
 }
 
 .commandEmpty.commandEmpty {
   margin: 0;
-  padding-block: var(--strata-space-8);
-  padding-inline: var(--strata-space-4);
-  color: var(--strata-color-text-subtle);
-  font-size: var(--strata-font-size-sm);
+  padding-block: var(--syntara-space-8);
+  padding-inline: var(--syntara-space-4);
+  color: var(--syntara-color-text-subtle);
+  font-size: var(--syntara-font-size-sm);
   text-align: center;
 }
 
@@ -548,7 +548,7 @@
  * Duration is 2 × duration-slow: easing-out is a steep expo curve, and at 1× the move is over before it reads.
  */
 .root {
-  --_step: calc(var(--strata-motion-duration-fast) / 2);
+  --_step: calc(var(--syntara-motion-duration-fast) / 2);
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -556,7 +556,7 @@
   .stats.stats > *,
   .grid > :not(.side),
   .side > * {
-    animation: dashboard-overview-enter calc(var(--strata-motion-duration-slow) * 2) var(--strata-motion-easing-out) backwards;
+    animation: dashboard-overview-enter calc(var(--syntara-motion-duration-slow) * 2) var(--syntara-motion-easing-out) backwards;
     animation-delay: calc(var(--_i, 0) * var(--_step));
   }
 
@@ -596,6 +596,6 @@
 @keyframes dashboard-overview-enter {
   from {
     opacity: 0;
-    translate: 0 var(--strata-space-3);
+    translate: 0 var(--syntara-space-3);
   }
 }

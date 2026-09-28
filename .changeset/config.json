@@ -7,5 +7,5 @@
   "access": "public",
   "baseBranch": "main",
   "updateInternalDependencies": "patch",
-  "ignore": ["@strata/generator"]
+  "ignore": ["@syntara/generator"]
 }

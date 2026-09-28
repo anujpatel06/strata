@@ -1,7 +1,7 @@
 {
-  "name": "@strata/sdui",
+  "name": "@syntara/sdui",
   "version": "0.0.0",
-  "description": "Strata for server-driven UI: a JSON Schema per component generated from meta.json, a screen validator, and a reference renderer for the web.",
+  "description": "Syntara for server-driven UI: a JSON Schema per component generated from meta.json, a screen validator, and a reference renderer for the web.",
   "type": "module",
   "license": "MIT",
   "exports": {
@@ -27,13 +27,13 @@
     "ajv": "^8.17.0"
   },
   "peerDependencies": {
-    "@strata/icons": "workspace:*",
-    "@strata/react": "workspace:*",
+    "@syntara/icons": "workspace:*",
+    "@syntara/react": "workspace:*",
     "react": "^19.0.0"
   },
   "devDependencies": {
-    "@strata/icons": "workspace:*",
-    "@strata/react": "workspace:*",
+    "@syntara/icons": "workspace:*",
+    "@syntara/react": "workspace:*",
     "@testing-library/jest-dom": "^6.6.0",
     "@testing-library/react": "^16.3.0",
     "@testing-library/user-event": "^14.6.0",

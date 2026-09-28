@@ -1,4 +1,4 @@
-import { ThemeScope, ToastRegion } from '@strata/react';
+import { ThemeScope, ToastRegion } from '@syntara/react';
 import type { Metadata } from 'next';
 import { DocsPage } from '@/components/docs/docs-page';
 import { getIconGroups, getIconSpec } from '@/components/icons/icon-data';
@@ -14,7 +14,7 @@ import { githubBlob } from '@/lib/site';
 const page = getDocPage('icons')!;
 export const metadata: Metadata = { title: page.title, description: page.description };
 
-const USAGE = `import { IconBell } from '@strata/icons';
+const USAGE = `import { IconBell } from '@syntara/icons';
 
 // Decorative next to text (the default): hidden from assistive tech, sized to the text.
 <Button><IconBell aria-hidden /> Notify me</Button>
@@ -33,8 +33,8 @@ export default function IconsPage() {
       title="Icons"
       description={
         <>
-          Strata draws its own icons: <em className={styles.leadEm}>curvy and minimal</em>, one stroke weight, colour from
-          the text around them. {total} of them, each a React component in <code>@strata/icons</code>.
+          Syntara draws its own icons: <em className={styles.leadEm}>curvy and minimal</em>, one stroke weight, colour from
+          the text around them. {total} of them, each a React component in <code>@syntara/icons</code>.
         </>
       }
       toc={[
@@ -62,7 +62,7 @@ export default function IconsPage() {
           <dd>
             <span className={styles.factNumber}>{spec.stroke}</span>
             <span className={styles.factUnit}>
-              round caps and joins, from <code>--strata-icon-stroke</code>
+              round caps and joins, from <code>--syntara-icon-stroke</code>
             </span>
           </dd>
         </div>
@@ -93,7 +93,7 @@ export default function IconsPage() {
         </li>
       </ul>
       <P>
-        Why Strata draws its own instead of using an off-the-shelf set: <AdrLink n="014" />. The full spec sits at the top
+        Why Syntara draws its own instead of using an off-the-shelf set: <AdrLink n="014" />. The full spec sits at the top
         of{' '}
         <a href={githubBlob('packages/icons/src/create-icon.tsx')} className={styles.inlineLink}>
           create-icon.tsx
@@ -106,7 +106,7 @@ export default function IconsPage() {
 
       <H2 id="all-icons">All icons</H2>
       {/* The page's own scope, so the toast region copies the house theme and the site's scheme. */}
-      <ThemeScope theme="house" data-strata-scheme="site">
+      <ThemeScope theme="house" data-syntara-scheme="site">
         <IconGallery groups={groups} defaultStroke={spec.stroke} />
         <ToastRegion placement="bottom-end" />
       </ThemeScope>

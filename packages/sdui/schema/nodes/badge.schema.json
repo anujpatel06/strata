@@ -1,9 +1,9 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "urn:strata:sdui:v1:node:Badge",
+  "$id": "urn:syntara:sdui:v1:node:Badge",
   "title": "Badge",
   "description": "A short label for a status, category or count.",
-  "x-strata": {
+  "x-syntara": {
     "node": "Badge",
     "component": "badge",
     "export": "Badge",
@@ -21,7 +21,7 @@
       "const": "Badge"
     },
     "id": {
-      "$ref": "urn:strata:sdui:v1:defs#/$defs/NodeId"
+      "$ref": "urn:syntara:sdui:v1:defs#/$defs/NodeId"
     },
     "props": {
       "type": "object",
@@ -62,7 +62,7 @@
         },
         "icon": {
           "description": "Leading icon, sized to the text. Decorative.",
-          "$ref": "urn:strata:sdui:v1:defs#/$defs/IconRef"
+          "$ref": "urn:syntara:sdui:v1:defs#/$defs/IconRef"
         },
         "dot": {
           "description": "Shows a small status dot before the label, centred on the text's x-height. Always on for variant=\"status\".",
@@ -77,13 +77,13 @@
     },
     "fallback": {
       "description": "Rendered instead of this node by a client that doesn't know its type. Must be a node that client knows.",
-      "$ref": "urn:strata:sdui:v1:screen#/$defs/Node"
+      "$ref": "urn:syntara:sdui:v1:screen#/$defs/Node"
     }
   },
   "additionalProperties": false,
   "allOf": [
     {
-      "x-strata-rule": {
+      "x-syntara-rule": {
         "id": "badge-text",
         "message": "A Badge needs text in children: status is never shown by colour alone."
       },

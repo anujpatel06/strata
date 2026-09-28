@@ -2,7 +2,7 @@
  * Server-only: everything the homepage states as fact, read from the repo at build time.
  * No number on the homepage is typed by hand; each one traces back to a file a script writes.
  */
-import { generateTheme, type Adjustment, type BrandInput } from '@strata/theme-engine';
+import { generateTheme, type Adjustment, type BrandInput } from '@syntara/theme-engine';
 import { cache } from 'react';
 import { checkCopyReview, type CopyReview } from '@/components/page/draft-copy-note';
 import { getAllMeta } from '@/lib/meta';

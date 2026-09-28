@@ -14,28 +14,28 @@
   min-block-size: 100%;
   /* The deep tinted canvas: dark reads as ink-blue rather than grey; light stays the plain canvas. */
   --_canvas: light-dark(
-    var(--strata-color-surface-canvas),
-    color-mix(in oklab, var(--strata-color-action-primary-bg) 5%, var(--strata-color-surface-canvas))
+    var(--syntara-color-surface-canvas),
+    color-mix(in oklab, var(--syntara-color-action-primary-bg) 5%, var(--syntara-color-surface-canvas))
   );
   background:
     radial-gradient(
       60% 40% at 30% 0%,
-      light-dark(transparent, color-mix(in oklab, var(--strata-color-action-primary-bg) 9%, transparent)),
+      light-dark(transparent, color-mix(in oklab, var(--syntara-color-action-primary-bg) 9%, transparent)),
       transparent
     ),
     var(--_canvas);
-  color: var(--strata-color-text-default);
-  font-family: var(--strata-font-body);
-  font-size: var(--strata-font-size-md);
-  letter-spacing: var(--strata-font-tracking-md);
-  line-height: var(--strata-line-height-normal);
+  color: var(--syntara-color-text-default);
+  font-family: var(--syntara-font-body);
+  font-size: var(--syntara-font-size-md);
+  letter-spacing: var(--syntara-font-tracking-md);
+  line-height: var(--syntara-line-height-normal);
 }
 
 .root:dir(rtl) {
   background:
     radial-gradient(
       60% 40% at 70% 0%,
-      light-dark(transparent, color-mix(in oklab, var(--strata-color-action-primary-bg) 9%, transparent)),
+      light-dark(transparent, color-mix(in oklab, var(--syntara-color-action-primary-bg) 9%, transparent)),
       transparent
     ),
     var(--_canvas);
@@ -49,29 +49,29 @@
  * a solid colour, so the axe run measures it.
  */
 .root {
-  --_raised: var(--strata-color-surface-raised);
-  --_default: var(--strata-color-surface-default);
-  --_sunken: var(--strata-color-surface-sunken);
+  --_raised: var(--syntara-color-surface-raised);
+  --_default: var(--syntara-color-surface-default);
+  --_sunken: var(--syntara-color-surface-sunken);
 }
 
 .shell {
-  --strata-color-surface-raised: light-dark(
+  --syntara-color-surface-raised: light-dark(
     var(--_raised),
-    color-mix(in oklab, var(--strata-color-action-primary-bg) 6%, var(--_raised))
+    color-mix(in oklab, var(--syntara-color-action-primary-bg) 6%, var(--_raised))
   );
-  --strata-color-surface-default: light-dark(
+  --syntara-color-surface-default: light-dark(
     var(--_default),
-    color-mix(in oklab, var(--strata-color-action-primary-bg) 5%, var(--_default))
+    color-mix(in oklab, var(--syntara-color-action-primary-bg) 5%, var(--_default))
   );
-  --strata-color-surface-sunken: light-dark(
+  --syntara-color-surface-sunken: light-dark(
     var(--_sunken),
-    color-mix(in oklab, var(--strata-color-action-primary-bg) 5%, var(--_sunken))
+    color-mix(in oklab, var(--syntara-color-action-primary-bg) 5%, var(--_sunken))
   );
   display: grid;
   grid-template-columns: minmax(0, 1fr);
-  gap: var(--strata-space-4);
+  gap: var(--syntara-space-4);
   min-block-size: 100%;
-  padding: var(--strata-space-3);
+  padding: var(--syntara-space-3);
 }
 
 /* ------------------------------------------------------------------ sidebar */
@@ -91,17 +91,17 @@
 @container (min-width: 960px) {
   .shell {
     grid-template-columns: auto minmax(0, 1fr);
-    gap: var(--strata-space-5);
-    padding: var(--strata-space-4);
+    gap: var(--syntara-space-5);
+    padding: var(--syntara-space-4);
   }
 
   .sidebar.sidebar {
     display: flex;
     position: sticky;
-    inset-block-start: var(--strata-space-4);
+    inset-block-start: var(--syntara-space-4);
     align-self: start;
-    block-size: calc(100dvh - var(--strata-space-4) * 2);
-    min-block-size: calc(var(--strata-space-16) * 9);
+    block-size: calc(100dvh - var(--syntara-space-4) * 2);
+    min-block-size: calc(var(--syntara-space-16) * 9);
   }
 
   .menuButton.menuButton {
@@ -114,9 +114,9 @@
 .page {
   display: flex;
   flex-direction: column;
-  gap: var(--strata-space-5);
+  gap: var(--syntara-space-5);
   min-inline-size: 0;
-  padding-block: var(--strata-space-2) var(--strata-space-6);
+  padding-block: var(--syntara-space-2) var(--syntara-space-6);
 }
 
 .header {
@@ -124,46 +124,46 @@
   flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
-  gap: var(--strata-space-4);
+  gap: var(--syntara-space-4);
 }
 
 .titleRow {
   display: flex;
   align-items: center;
-  gap: var(--strata-space-3);
+  gap: var(--syntara-space-3);
   min-inline-size: 0;
 }
 
 .greeting {
   display: grid;
-  gap: var(--strata-space-1);
+  gap: var(--syntara-space-1);
   min-inline-size: 0;
 }
 
 .title {
   margin: 0;
-  font-family: var(--strata-font-heading);
-  font-size: var(--strata-font-size-2xl);
-  font-weight: var(--strata-font-weight-semibold);
-  letter-spacing: var(--strata-font-tracking-2xl);
-  line-height: var(--strata-line-height-tight);
+  font-family: var(--syntara-font-heading);
+  font-size: var(--syntara-font-size-2xl);
+  font-weight: var(--syntara-font-weight-semibold);
+  letter-spacing: var(--syntara-font-tracking-2xl);
+  line-height: var(--syntara-line-height-tight);
   text-wrap: balance;
 }
 
 .intro {
   margin: 0;
-  color: var(--strata-color-text-subtle);
-  font-size: var(--strata-font-size-sm);
-  letter-spacing: var(--strata-font-tracking-sm);
+  color: var(--syntara-color-text-subtle);
+  font-size: var(--syntara-font-size-sm);
+  letter-spacing: var(--syntara-font-tracking-sm);
 }
 
 .tools {
   display: flex;
   align-items: center;
-  gap: var(--strata-space-2);
-  flex: 1 1 calc(var(--strata-space-16) * 4);
+  gap: var(--syntara-space-2);
+  flex: 1 1 calc(var(--syntara-space-16) * 4);
   justify-content: flex-end;
-  max-inline-size: calc(var(--strata-space-16) * 6);
+  max-inline-size: calc(var(--syntara-space-16) * 6);
 }
 
 .search.search {
@@ -184,11 +184,11 @@
 
 /* The tiles are rim-lit like the cards (same background-clip trick as Card rim; CONVENTIONS, Rim light). */
 .kpis.kpis .kpi.kpi {
-  --_face: var(--strata-color-surface-raised);
+  --_face: var(--syntara-color-surface-raised);
   border: 1px solid transparent;
   background:
     linear-gradient(var(--_face), var(--_face)) padding-box,
-    linear-gradient(135deg, var(--strata-rim), transparent 60%) border-box var(--_face);
+    linear-gradient(135deg, var(--syntara-rim), transparent 60%) border-box var(--_face);
 }
 
 /* ------------------------------------------------------------------ grid */
@@ -203,7 +203,7 @@
     'contributions'
     'activity'
     'holdings';
-  gap: var(--strata-space-4);
+  gap: var(--syntara-space-4);
 }
 
 .hero.hero {
@@ -233,7 +233,7 @@
       'promo allocation'
       'contributions activity'
       'holdings holdings';
-    gap: var(--strata-space-5);
+    gap: var(--syntara-space-5);
   }
 }
 
@@ -256,41 +256,41 @@
 }
 
 .heroHead.heroHead {
-  row-gap: var(--strata-space-3);
+  row-gap: var(--syntara-space-3);
 }
 
 .heroFigure {
   display: grid;
-  gap: var(--strata-space-2);
+  gap: var(--syntara-space-2);
   min-inline-size: 0;
 }
 
 /* The card title reads as a quiet label; the figure under it is the view's one hero number. */
 .eyebrowTitle.eyebrowTitle {
-  color: var(--strata-color-text-subtle);
-  font-family: var(--strata-font-body);
-  font-size: var(--strata-font-size-sm);
-  font-weight: var(--strata-font-weight-medium);
-  letter-spacing: var(--strata-font-tracking-sm);
+  color: var(--syntara-color-text-subtle);
+  font-family: var(--syntara-font-body);
+  font-size: var(--syntara-font-size-sm);
+  font-weight: var(--syntara-font-weight-medium);
+  letter-spacing: var(--syntara-font-tracking-sm);
 }
 
 .heroAmount.heroAmount {
-  font-size: var(--strata-font-size-5xl);
-  letter-spacing: var(--strata-font-tracking-5xl);
+  font-size: var(--syntara-font-size-5xl);
+  letter-spacing: var(--syntara-font-tracking-5xl);
 }
 
 .heroDelta {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: var(--strata-space-2);
+  gap: var(--syntara-space-2);
   margin: 0;
 }
 
 .heroDeltaText {
-  color: var(--strata-color-text-subtle);
-  font-size: var(--strata-font-size-sm);
-  letter-spacing: var(--strata-font-tracking-sm);
+  color: var(--syntara-color-text-subtle);
+  font-size: var(--syntara-font-size-sm);
+  letter-spacing: var(--syntara-font-tracking-sm);
 }
 
 .heroAction.heroAction {
@@ -322,14 +322,14 @@
 .promoTop {
   display: flex;
   align-items: center;
-  gap: var(--strata-space-3);
-  margin-block-end: var(--strata-space-3);
+  gap: var(--syntara-space-3);
+  margin-block-end: var(--syntara-space-3);
 }
 
 .promoTitle.promoTitle {
-  font-size: var(--strata-font-size-2xl);
-  letter-spacing: var(--strata-font-tracking-2xl);
-  line-height: var(--strata-line-height-tight);
+  font-size: var(--syntara-font-size-2xl);
+  letter-spacing: var(--syntara-font-tracking-2xl);
+  line-height: var(--syntara-line-height-tight);
   text-wrap: balance;
 }
 
@@ -339,44 +339,44 @@
 
 .promoCash.promoCash {
   display: grid;
-  gap: var(--strata-space-1);
+  gap: var(--syntara-space-1);
   margin-block-start: auto;
 }
 
 .label {
-  color: var(--strata-color-text-subtle);
-  font-size: var(--strata-font-size-sm);
-  letter-spacing: var(--strata-font-tracking-sm);
+  color: var(--syntara-color-text-subtle);
+  font-size: var(--syntara-font-size-sm);
+  letter-spacing: var(--syntara-font-tracking-sm);
 }
 
 .nextRun {
   display: flex;
   align-items: center;
-  gap: var(--strata-space-3);
-  margin: var(--strata-space-3) 0 0;
-  padding-block-start: var(--strata-space-3);
-  box-shadow: inset 0 var(--strata-hairline) 0 0 var(--strata-color-border-subtle);
-  font-size: var(--strata-font-size-sm);
-  letter-spacing: var(--strata-font-tracking-sm);
+  gap: var(--syntara-space-3);
+  margin: var(--syntara-space-3) 0 0;
+  padding-block-start: var(--syntara-space-3);
+  box-shadow: inset 0 var(--syntara-hairline) 0 0 var(--syntara-color-border-subtle);
+  font-size: var(--syntara-font-size-sm);
+  letter-spacing: var(--syntara-font-tracking-sm);
 }
 
 .nextIcon {
   flex: none;
   inline-size: 1.25em;
   block-size: 1.25em;
-  color: var(--strata-color-text-brand);
-  stroke-width: var(--strata-icon-stroke, 1.5);
+  color: var(--syntara-color-text-brand);
+  stroke-width: var(--syntara-icon-stroke, 1.5);
 }
 
 .nextText {
   display: grid;
-  gap: calc(var(--strata-space-1) / 2);
+  gap: calc(var(--syntara-space-1) / 2);
 }
 
 .promoActions.promoActions {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(calc(var(--strata-space-16) * 2), 1fr));
-  gap: var(--strata-space-2);
+  grid-template-columns: repeat(auto-fit, minmax(calc(var(--syntara-space-16) * 2), 1fr));
+  gap: var(--syntara-space-2);
 }
 
 .promoButton.promoButton {
@@ -386,28 +386,28 @@
 /* ------------------------------------------------------------------ lists (allocation, activity) */
 
 .total {
-  font-size: var(--strata-font-size-sm);
-  font-weight: var(--strata-font-weight-semibold);
-  letter-spacing: var(--strata-font-tracking-sm);
+  font-size: var(--syntara-font-size-sm);
+  font-weight: var(--syntara-font-weight-semibold);
+  letter-spacing: var(--syntara-font-tracking-sm);
   font-variant-numeric: tabular-nums;
 }
 
 .allocationBody.allocationBody {
   display: grid;
-  gap: var(--strata-space-4);
+  gap: var(--syntara-space-4);
 }
 
 /* Allocation as one bar: a segment per class in its palette colour, a 2px surface gap between them. */
 .stack {
   display: flex;
   gap: 2px;
-  block-size: var(--strata-space-2);
+  block-size: var(--syntara-space-2);
 }
 
 .segment {
   flex-basis: 0;
-  min-inline-size: var(--strata-space-1);
-  border-radius: min(var(--strata-radius-badge), var(--strata-space-1));
+  min-inline-size: var(--syntara-space-1);
+  border-radius: min(var(--syntara-radius-badge), var(--syntara-space-1));
   background: var(--_c);
 }
 
@@ -422,44 +422,44 @@
 .activityRow {
   display: flex;
   align-items: center;
-  gap: var(--strata-space-3);
-  min-block-size: var(--strata-table-row-height);
-  padding-block: var(--strata-space-2);
+  gap: var(--syntara-space-3);
+  min-block-size: var(--syntara-table-row-height);
+  padding-block: var(--syntara-space-2);
 }
 
 .assetRow + .assetRow,
 .activityRow + .activityRow {
-  box-shadow: inset 0 var(--strata-hairline) 0 0 var(--strata-color-border-subtle);
+  box-shadow: inset 0 var(--syntara-hairline) 0 0 var(--syntara-color-border-subtle);
 }
 
 .activityList {
-  padding-inline: var(--strata-card-inset);
+  padding-inline: var(--syntara-card-inset);
 }
 
 .assetText {
   display: grid;
   flex: 1;
-  gap: calc(var(--strata-space-1) / 2);
+  gap: calc(var(--syntara-space-1) / 2);
   min-inline-size: 0;
 }
 
 .assetName {
   display: flex;
   align-items: center;
-  gap: var(--strata-space-2);
+  gap: var(--syntara-space-2);
   min-inline-size: 0;
-  font-size: var(--strata-font-size-sm);
-  font-weight: var(--strata-font-weight-medium);
-  letter-spacing: var(--strata-font-tracking-sm);
-  line-height: var(--strata-line-height-tight);
+  font-size: var(--syntara-font-size-sm);
+  font-weight: var(--syntara-font-weight-medium);
+  letter-spacing: var(--syntara-font-tracking-sm);
+  line-height: var(--syntara-line-height-tight);
   text-wrap: pretty;
 }
 
 .meta {
-  color: var(--strata-color-text-subtle);
-  font-size: var(--strata-font-size-xs);
-  letter-spacing: var(--strata-font-tracking-xs);
-  line-height: var(--strata-line-height-tight);
+  color: var(--syntara-color-text-subtle);
+  font-size: var(--syntara-font-size-xs);
+  letter-spacing: var(--syntara-font-tracking-xs);
+  line-height: var(--syntara-line-height-tight);
 }
 
 .nowrap {
@@ -468,33 +468,33 @@
 
 .swatch {
   flex: none;
-  inline-size: calc(var(--strata-space-1) * 1.5);
-  block-size: calc(var(--strata-space-1) * 1.5);
-  border-radius: var(--strata-radius-pill);
+  inline-size: calc(var(--syntara-space-1) * 1.5);
+  block-size: calc(var(--syntara-space-1) * 1.5);
+  border-radius: var(--syntara-radius-pill);
   background: var(--_c);
 }
 
 /* Doubled: this sizes a Sparkline, whose own rule sets inline-size: 100% with the same weight. Which of two equal
    rules wins depends on the order the bundler emits the stylesheets, and that order changed when the site gained a
-   new importer of @strata/react. Doubling makes the block's rule win in any order. */
+   new importer of @syntara/react. Doubling makes the block's rule win in any order. */
 .rowSpark.rowSpark {
   flex: none;
-  inline-size: var(--strata-space-16);
+  inline-size: var(--syntara-space-16);
   min-inline-size: 0;
-  block-size: var(--strata-space-8);
+  block-size: var(--syntara-space-8);
 }
 
 .rowValue {
   display: grid;
   justify-items: end;
-  gap: calc(var(--strata-space-1) / 2);
-  font-size: var(--strata-font-size-sm);
-  letter-spacing: var(--strata-font-tracking-sm);
+  gap: calc(var(--syntara-space-1) / 2);
+  font-size: var(--syntara-font-size-sm);
+  letter-spacing: var(--syntara-font-tracking-sm);
 }
 
 .strong {
-  color: var(--strata-color-text-default);
-  font-weight: var(--strata-font-weight-semibold);
+  color: var(--syntara-color-text-default);
+  font-weight: var(--syntara-font-weight-semibold);
   font-variant-numeric: tabular-nums;
 }
 
@@ -507,12 +507,12 @@
 
 .activityRow > .signed {
   flex: none;
-  font-size: var(--strata-font-size-sm);
-  letter-spacing: var(--strata-font-tracking-sm);
+  font-size: var(--syntara-font-size-sm);
+  letter-spacing: var(--syntara-font-tracking-sm);
 }
 
 .inflow {
-  color: var(--strata-color-feedback-success-fg);
+  color: var(--syntara-color-feedback-success-fg);
 }
 
 /* ------------------------------------------------------------------ holdings table */
@@ -520,29 +520,29 @@
 .assetCell {
   display: flex;
   align-items: center;
-  gap: var(--strata-space-3);
+  gap: var(--syntara-space-3);
   min-inline-size: 0;
 }
 
 .ticker {
-  color: var(--strata-color-text-subtle);
-  font-size: var(--strata-font-size-xs);
-  letter-spacing: var(--strata-font-tracking-xs);
+  color: var(--syntara-color-text-subtle);
+  font-size: var(--syntara-font-size-xs);
+  letter-spacing: var(--syntara-font-tracking-xs);
   font-variant-numeric: tabular-nums;
 }
 
 .tableSpark.tableSpark {
-  inline-size: calc(var(--strata-space-16) * 1.75);
-  block-size: var(--strata-space-6);
+  inline-size: calc(var(--syntara-space-16) * 1.75);
+  block-size: var(--syntara-space-6);
   /* The ring round the end dot matches the inset surface the table sits on. */
-  --_ring: var(--strata-color-surface-sunken);
+  --_ring: var(--syntara-color-surface-sunken);
 }
 
 /* ------------------------------------------------------------------ narrow */
 
 @container (max-width: 559.98px) {
   .shell {
-    padding: var(--strata-space-2);
+    padding: var(--syntara-space-2);
   }
 
   .tools {
@@ -551,8 +551,8 @@
   }
 
   .heroAmount.heroAmount {
-    font-size: var(--strata-font-size-4xl);
-    letter-spacing: var(--strata-font-tracking-4xl);
+    font-size: var(--syntara-font-size-4xl);
+    letter-spacing: var(--syntara-font-tracking-4xl);
   }
 
   .rowSpark.rowSpark {
@@ -565,8 +565,8 @@
 @media (prefers-reduced-motion: no-preference) {
   /* Cards fade up in reading order on first paint (staggered by --_i). */
   .rise.rise {
-    animation: rise var(--strata-motion-duration-slow) var(--strata-motion-easing-out) both;
-    animation-delay: calc(var(--_i, 0) * var(--strata-motion-duration-fast) / 3);
+    animation: rise var(--syntara-motion-duration-slow) var(--syntara-motion-easing-out) both;
+    animation-delay: calc(var(--_i, 0) * var(--syntara-motion-duration-fast) / 3);
   }
 }
 

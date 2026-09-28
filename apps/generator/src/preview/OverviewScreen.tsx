@@ -2,7 +2,7 @@
  * Overview — the reference product's first screen, rendered for any tenant.
  *
  * The component knows nothing about which tenant it is showing: every colour, size, radius, font and
- * spacing value comes from --strata-* custom properties set by an ancestor, and every string and number
+ * spacing value comes from --syntara-* custom properties set by an ancestor, and every string and number
  * comes from `content`. Direction is handled by logical CSS (plus `dir` on the root), layout by container
  * queries, formatting by Intl in the tenant locale.
  */

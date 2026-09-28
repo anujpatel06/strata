@@ -1,6 +1,6 @@
-import { IconCode, IconCheck, IconX } from '@strata/icons';
+import { IconCode, IconCheck, IconX } from '@syntara/icons';
 import { IconBrandReact } from '@tabler/icons-react';
-import { Kbd, Tag } from '@strata/react';
+import { Kbd, Tag } from '@syntara/react';
 import type { Metadata } from 'next';
 import type { CSSProperties } from 'react';
 import { notFound } from 'next/navigation';
@@ -97,7 +97,7 @@ function DeprecationNote({ what, record }: { what: string; record: Deprecation }
         <code>{record.replacement}</code> instead. {record.reason}
       </p>
       <p>
-        Migrate with <code>npx @strata/codemods {record.codemod} &lt;path&gt;</code>. The decision is in{' '}
+        Migrate with <code>npx @syntara/codemods {record.codemod} &lt;path&gt;</code>. The decision is in{' '}
         <A href={githubBlob(`docs/rfcs/${record.rfc}.md`)}>RFC-{record.rfc.slice(0, 3)}</A>.
       </p>
     </div>
@@ -113,8 +113,8 @@ const TOKEN_GROUPS: ReadonlyArray<{ label: string; match: (t: string) => boolean
   { label: 'Motion', match: (t) => t.startsWith('motion') },
 ];
 
-/** "color.feedback.danger.onSolid" → "--strata-color-feedback-danger-on-solid" (same rule as the engine's roleToCssVar). */
-const tokenVar = (t: string) => '--strata-' + t.replace(/\./g, '-').replace(/[A-Z]/g, (m) => '-' + m.toLowerCase());
+/** "color.feedback.danger.onSolid" → "--syntara-color-feedback-danger-on-solid" (same rule as the engine's roleToCssVar). */
+const tokenVar = (t: string) => '--syntara-' + t.replace(/\./g, '-').replace(/[A-Z]/g, (m) => '-' + m.toLowerCase());
 
 function groupTokens(tokens: string[]): Array<{ label: string; tokens: string[] }> {
   const rest = [...tokens];
@@ -154,7 +154,7 @@ export default async function ComponentPage({ params }: { params: Promise<{ name
 
   const sourcePath = `packages/react/src/ui/${meta.name}.tsx`;
   const mainExport = meta.exports[0] ?? meta.title.replace(/\s+/g, '');
-  const importLine = `import { ${meta.exports.join(', ') || mainExport} } from '@strata/react';`;
+  const importLine = `import { ${meta.exports.join(', ') || mainExport} } from '@syntara/react';`;
   const moreExamples = meta.examples.slice(1);
   const files = meta.files.map((file) => ({ file, source: readRepoFile('packages', 'react', 'src', 'ui', file) }));
 
@@ -206,7 +206,7 @@ export default async function ComponentPage({ params }: { params: Promise<{ name
             label: 'npm',
             content: (
               <>
-                <PackageCommand add="@strata/react @strata/tokens" />
+                <PackageCommand add="@syntara/react @syntara/tokens" />
                 <CodeBlock code={importLine} lang="tsx" />
               </>
             ),
@@ -248,7 +248,7 @@ export default async function ComponentPage({ params }: { params: Promise<{ name
                 )}
                 <H3 id="manual-tokens">Load the tokens once</H3>
                 <P>
-                  Components read <code>--strata-*</code> variables. Import a tenant’s token file at your app root — see{' '}
+                  Components read <code>--syntara-*</code> variables. Import a tenant’s token file at your app root — see{' '}
                   <A href="/docs/installation">Installation</A>.
                 </P>
               </Steps>

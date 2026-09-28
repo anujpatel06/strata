@@ -1,24 +1,24 @@
 /*
  * Eyebrow — a kicker label: xs, uppercase, wide tracking, text.subtle.
  *
- * Tracking: --strata-font-tracking-caps (0.08em for Latin type pairs, 0 for Arabic-capable pairs, because letter
+ * Tracking: --syntara-font-tracking-caps (0.08em for Latin type pairs, 0 for Arabic-capable pairs, because letter
  * spacing breaks joined script). Arabic text gets no uppercase either (the script has no case).
  */
 .eyebrow {
-  --_mark: var(--strata-color-text-subtle);
+  --_mark: var(--syntara-color-text-subtle);
 
   box-sizing: border-box;
   display: flex;
   align-items: center;
-  gap: var(--strata-space-2);
+  gap: var(--syntara-space-2);
   min-inline-size: 0;
   margin: 0;
-  color: var(--strata-color-text-subtle);
-  font-family: var(--strata-font-body);
-  font-size: var(--strata-font-size-xs);
-  font-weight: var(--strata-font-weight-medium);
-  letter-spacing: var(--strata-font-tracking-caps);
-  line-height: var(--strata-line-height-snug);
+  color: var(--syntara-color-text-subtle);
+  font-family: var(--syntara-font-body);
+  font-size: var(--syntara-font-size-xs);
+  font-weight: var(--syntara-font-weight-medium);
+  letter-spacing: var(--syntara-font-tracking-caps);
+  line-height: var(--syntara-line-height-snug);
   text-transform: uppercase;
 }
 
@@ -28,22 +28,22 @@ span.eyebrow {
 }
 
 .eyebrow[data-tone='brand'] {
-  --_mark: var(--strata-color-text-brand);
+  --_mark: var(--syntara-color-text-brand);
 }
 .eyebrow[data-tone='accent'] {
-  --_mark: var(--strata-color-accent-text);
+  --_mark: var(--syntara-color-accent-text);
 }
 .eyebrow[data-tone='info'] {
-  --_mark: var(--strata-color-feedback-info-fg);
+  --_mark: var(--syntara-color-feedback-info-fg);
 }
 .eyebrow[data-tone='success'] {
-  --_mark: var(--strata-color-feedback-success-fg);
+  --_mark: var(--syntara-color-feedback-success-fg);
 }
 .eyebrow[data-tone='warning'] {
-  --_mark: var(--strata-color-feedback-warning-fg);
+  --_mark: var(--syntara-color-feedback-warning-fg);
 }
 .eyebrow[data-tone='danger'] {
-  --_mark: var(--strata-color-feedback-danger-fg);
+  --_mark: var(--syntara-color-feedback-danger-fg);
 }
 
 .text {
@@ -53,7 +53,7 @@ span.eyebrow {
 /* A hairline dash, one space-4 long, centred on the capitals. Drawn as a border so forced-colours mode keeps it. */
 .rule {
   flex: none;
-  inline-size: var(--strata-space-4);
+  inline-size: var(--syntara-space-4);
   border-block-start: 1px solid var(--_mark);
 }
 
@@ -67,5 +67,5 @@ span.eyebrow {
   /* ~1.25× the text, per "Icons match text"; the tracking is not inherited into the glyph. */
   inline-size: 1.25em;
   block-size: 1.25em;
-  stroke-width: var(--strata-icon-stroke, 1.5);
+  stroke-width: var(--syntara-icon-stroke, 1.5);
 }

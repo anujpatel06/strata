@@ -4,13 +4,13 @@
  */
 
 .slider {
-  --_thumb: calc(var(--strata-control-height) / 2);
-  --_rail: calc(var(--strata-space-1) + 2px);
+  --_thumb: calc(var(--syntara-control-height) / 2);
+  --_rail: calc(var(--syntara-space-1) + 2px);
 
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  gap: var(--strata-space-2);
+  gap: var(--syntara-space-2);
   inline-size: 100%;
   min-inline-size: 0;
 }
@@ -18,14 +18,14 @@
 .header {
   display: flex;
   align-items: baseline;
-  gap: var(--strata-space-3);
+  gap: var(--syntara-space-3);
 }
 
 .output {
   margin-inline-start: auto;
-  color: var(--strata-color-text-subtle);
-  font-size: var(--strata-font-size-sm);
-  line-height: var(--strata-line-height-snug);
+  color: var(--syntara-color-text-subtle);
+  font-size: var(--syntara-font-size-sm);
+  line-height: var(--syntara-line-height-snug);
   font-variant-numeric: tabular-nums;
   white-space: nowrap;
 }
@@ -33,7 +33,7 @@
 .track {
   position: relative;
   inline-size: 100%;
-  block-size: max(var(--_thumb), var(--strata-space-6));
+  block-size: max(var(--_thumb), var(--syntara-space-6));
   cursor: pointer;
   touch-action: none;
 }
@@ -44,17 +44,17 @@
   inset-block: 0;
   block-size: var(--_rail);
   margin-block: auto;
-  border-radius: var(--strata-radius-pill);
-  background-color: var(--strata-color-surface-sunken);
+  border-radius: var(--syntara-radius-pill);
+  background-color: var(--syntara-color-surface-sunken);
   /* Keeps the unfilled rail visible on dark canvases, where sunken is close to the surface. */
-  box-shadow: inset 0 0 0 1px var(--strata-color-border-default);
+  box-shadow: inset 0 0 0 1px var(--syntara-color-border-default);
 }
 
 .fill {
   border-radius: inherit;
-  background-color: var(--strata-color-action-primary-bg);
+  background-color: var(--syntara-color-action-primary-bg);
   /* Solid fill: the same top-edge sheen as a primary button. */
-  box-shadow: var(--strata-shadow-highlight);
+  box-shadow: var(--syntara-shadow-highlight);
 }
 
 .thumb {
@@ -62,9 +62,9 @@
   inset-block-start: 50%;
   inline-size: var(--_thumb);
   block-size: var(--_thumb);
-  border: 1px solid var(--strata-color-border-strong);
+  border: 1px solid var(--syntara-color-border-strong);
   border-radius: 50%;
-  background-color: var(--strata-color-surface-default);
+  background-color: var(--syntara-color-surface-default);
   outline: none;
 }
 
@@ -77,23 +77,23 @@
   --_halo-mix: 18%;
   outline-offset: 0;
   box-shadow:
-    var(--strata-shadow-raised),
-    0 0 0 var(--_halo) color-mix(in oklab, var(--strata-color-action-primary-bg) var(--_halo-mix), transparent);
+    var(--syntara-shadow-raised),
+    0 0 0 var(--_halo) color-mix(in oklab, var(--syntara-color-action-primary-bg) var(--_halo-mix), transparent);
 }
 
 .thumb[data-hovered] {
   --_halo: 4px;
-  border-color: var(--strata-color-text-subtle);
+  border-color: var(--syntara-color-text-subtle);
 }
 
 .thumb[data-dragging] {
   --_halo: 4px;
   --_halo-mix: 28%;
-  border-color: var(--strata-color-action-primary-bg);
+  border-color: var(--syntara-color-action-primary-bg);
 }
 
 .thumb[data-focus-visible] {
-  outline: 2px solid var(--strata-color-focus-ring);
+  outline: 2px solid var(--syntara-color-focus-ring);
   outline-offset: 2px;
 }
 
@@ -104,11 +104,11 @@
 }
 
 .slider[data-disabled] .fill {
-  background-color: var(--strata-color-text-disabled);
+  background-color: var(--syntara-color-text-disabled);
 }
 
 .slider[data-disabled] .thumb {
-  border-color: var(--strata-color-border-default);
+  border-color: var(--syntara-color-border-default);
   box-shadow: none;
 }
 
@@ -117,24 +117,24 @@
 }
 
 .slider[data-disabled] .output {
-  color: var(--strata-color-text-disabled);
+  color: var(--syntara-color-text-disabled);
 }
 
 .thumb {
   transition:
-    border-color var(--strata-motion-duration-fast) var(--strata-motion-easing),
-    box-shadow var(--strata-motion-duration-fast) var(--strata-motion-easing),
-    outline-offset var(--strata-motion-duration-fast) var(--strata-motion-easing);
+    border-color var(--syntara-motion-duration-fast) var(--syntara-motion-easing),
+    box-shadow var(--syntara-motion-duration-fast) var(--syntara-motion-easing),
+    outline-offset var(--syntara-motion-duration-fast) var(--syntara-motion-easing);
 }
 
 @media (prefers-reduced-motion: no-preference) {
   /* The halo and the focus ring's offset grow on the spring (they visibly arrive), like the thumb's scale. */
   .thumb {
     transition:
-      border-color var(--strata-motion-duration-fast) var(--strata-motion-easing),
-      box-shadow var(--strata-motion-duration-spring) var(--strata-motion-spring),
-      outline-offset var(--strata-motion-duration-spring) var(--strata-motion-spring),
-      scale var(--strata-motion-duration-spring) var(--strata-motion-spring);
+      border-color var(--syntara-motion-duration-fast) var(--syntara-motion-easing),
+      box-shadow var(--syntara-motion-duration-spring) var(--syntara-motion-spring),
+      outline-offset var(--syntara-motion-duration-spring) var(--syntara-motion-spring),
+      scale var(--syntara-motion-duration-spring) var(--syntara-motion-spring);
   }
 
   /* Grows under the pointer, a little more while held; springs back on release. */

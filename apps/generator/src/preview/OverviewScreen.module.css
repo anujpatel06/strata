@@ -2,7 +2,7 @@
  * Overview screen.
  *
  * Rules this file follows (they are the design-system argument, so they are strict):
- *  - Every colour, size, weight, radius, space, font and duration is a var(--strata-*) token.
+ *  - Every colour, size, weight, radius, space, font and duration is a var(--syntara-*) token.
  *    The only literals are 0, 1px/2px hairlines and focus offsets, %, fr, auto, unitless 1,
  *    transparent/currentColor, and layout widths (container breakpoints, max page width).
  *  - Logical properties only. Directional glyphs mirror under [dir='rtl'].
@@ -14,14 +14,14 @@
  * ------------------------------------------------------------------ */
 
 .root {
-  container: strata-overview / inline-size;
+  container: syntara-overview / inline-size;
   min-block-size: 100%;
-  background-color: var(--strata-color-surface-canvas);
-  color: var(--strata-color-text-default);
-  font-family: var(--strata-font-body);
-  font-size: var(--strata-font-size-md);
-  font-weight: var(--strata-font-weight-regular);
-  line-height: var(--strata-line-height-normal);
+  background-color: var(--syntara-color-surface-canvas);
+  color: var(--syntara-color-text-default);
+  font-family: var(--syntara-font-body);
+  font-size: var(--syntara-font-size-md);
+  font-weight: var(--syntara-font-weight-regular);
+  line-height: var(--syntara-line-height-normal);
   text-align: start;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -68,7 +68,7 @@
 .root select:focus-visible,
 .root textarea:focus-visible,
 .root [tabindex]:focus-visible {
-  outline: 2px solid var(--strata-color-focus-ring);
+  outline: 2px solid var(--syntara-color-focus-ring);
   outline-offset: 2px;
 }
 
@@ -99,27 +99,27 @@
  * ------------------------------------------------------------------ */
 
 .toneSuccess {
-  background-color: var(--strata-color-feedback-success-bg);
-  border-color: var(--strata-color-feedback-success-border);
-  color: var(--strata-color-feedback-success-fg);
+  background-color: var(--syntara-color-feedback-success-bg);
+  border-color: var(--syntara-color-feedback-success-border);
+  color: var(--syntara-color-feedback-success-fg);
 }
 
 .toneWarning {
-  background-color: var(--strata-color-feedback-warning-bg);
-  border-color: var(--strata-color-feedback-warning-border);
-  color: var(--strata-color-feedback-warning-fg);
+  background-color: var(--syntara-color-feedback-warning-bg);
+  border-color: var(--syntara-color-feedback-warning-border);
+  color: var(--syntara-color-feedback-warning-fg);
 }
 
 .toneDanger {
-  background-color: var(--strata-color-feedback-danger-bg);
-  border-color: var(--strata-color-feedback-danger-border);
-  color: var(--strata-color-feedback-danger-fg);
+  background-color: var(--syntara-color-feedback-danger-bg);
+  border-color: var(--syntara-color-feedback-danger-border);
+  color: var(--syntara-color-feedback-danger-fg);
 }
 
 .toneInfo {
-  background-color: var(--strata-color-feedback-info-bg);
-  border-color: var(--strata-color-feedback-info-border);
-  color: var(--strata-color-feedback-info-fg);
+  background-color: var(--syntara-color-feedback-info-bg);
+  border-color: var(--syntara-color-feedback-info-border);
+  color: var(--syntara-color-feedback-info-fg);
 }
 
 /* ------------------------------------------------------------------ *
@@ -127,8 +127,8 @@
  * ------------------------------------------------------------------ */
 
 .appHeader {
-  background-color: var(--strata-color-surface-default);
-  border-block-end: 1px solid var(--strata-color-border-subtle);
+  background-color: var(--syntara-color-surface-default);
+  border-block-end: 1px solid var(--syntara-color-border-subtle);
 }
 
 .headerInner {
@@ -138,46 +138,46 @@
     'brand end'
     'nav nav';
   align-items: center;
-  column-gap: var(--strata-space-6);
+  column-gap: var(--syntara-space-6);
   inline-size: min(100%, 1280px);
   margin-inline: auto;
-  padding-inline: var(--strata-space-4);
+  padding-inline: var(--syntara-space-4);
 }
 
 .brand {
   grid-area: brand;
   display: inline-flex;
   align-items: center;
-  gap: var(--strata-space-3);
+  gap: var(--syntara-space-3);
   justify-self: start;
-  min-block-size: calc(var(--strata-control-height) + var(--strata-space-4));
+  min-block-size: calc(var(--syntara-control-height) + var(--syntara-space-4));
   min-inline-size: 0;
-  color: var(--strata-color-text-default);
+  color: var(--syntara-color-text-default);
 }
 
 .logoMark {
   display: inline-grid;
   place-items: center;
   flex: none;
-  inline-size: calc(var(--strata-control-height) - var(--strata-space-2));
-  block-size: calc(var(--strata-control-height) - var(--strata-space-2));
+  inline-size: calc(var(--syntara-control-height) - var(--syntara-space-2));
+  block-size: calc(var(--syntara-control-height) - var(--syntara-space-2));
   /* Follows the brand's button shape, capped so a pill-shaped brand still gets a squircle, not a coin. */
-  border-radius: min(var(--strata-radius-button), 30%);
-  background-color: var(--strata-color-action-primary-bg);
-  color: var(--strata-color-action-primary-fg);
-  font-family: var(--strata-font-heading);
-  font-size: var(--strata-font-size-lg);
-  font-weight: var(--strata-font-weight-bold);
+  border-radius: min(var(--syntara-radius-button), 30%);
+  background-color: var(--syntara-color-action-primary-bg);
+  color: var(--syntara-color-action-primary-fg);
+  font-family: var(--syntara-font-heading);
+  font-size: var(--syntara-font-size-lg);
+  font-weight: var(--syntara-font-weight-bold);
   line-height: 1;
 }
 
 .productName {
   overflow: hidden;
-  font-family: var(--strata-font-heading);
-  font-size: var(--strata-font-size-lg);
-  font-weight: var(--strata-font-weight-semibold);
-  letter-spacing: var(--strata-font-heading-tracking);
-  line-height: var(--strata-line-height-tight);
+  font-family: var(--syntara-font-heading);
+  font-size: var(--syntara-font-size-lg);
+  font-weight: var(--syntara-font-weight-semibold);
+  letter-spacing: var(--syntara-font-heading-tracking);
+  line-height: var(--syntara-line-height-tight);
   text-overflow: ellipsis;
   white-space: nowrap;
 }
@@ -186,7 +186,7 @@
   grid-area: nav;
   min-inline-size: 0;
   /* Pull the strip out by the list's focus-ring padding so the first item lines up with the logo. */
-  margin-inline: calc(var(--strata-space-1) * -1);
+  margin-inline: calc(var(--syntara-space-1) * -1);
   /* Narrow: the nav becomes its own scrollable strip so the page never scrolls sideways. */
   overflow-x: auto;
   scrollbar-width: none;
@@ -194,40 +194,40 @@
 
 .navList {
   display: flex;
-  gap: var(--strata-space-1);
+  gap: var(--syntara-space-1);
   /* Room for the focus ring inside the scroll container. */
-  padding-block: var(--strata-space-1) var(--strata-space-2);
-  padding-inline: var(--strata-space-1);
+  padding-block: var(--syntara-space-1) var(--syntara-space-2);
+  padding-inline: var(--syntara-space-1);
 }
 
 .navLink {
   display: inline-flex;
   align-items: center;
-  min-block-size: calc(var(--strata-control-height) - var(--strata-space-2));
-  padding-inline: var(--strata-space-3);
-  border-radius: var(--strata-radius-button);
-  color: var(--strata-color-text-subtle);
-  font-size: var(--strata-font-size-md);
-  font-weight: var(--strata-font-weight-medium);
+  min-block-size: calc(var(--syntara-control-height) - var(--syntara-space-2));
+  padding-inline: var(--syntara-space-3);
+  border-radius: var(--syntara-radius-button);
+  color: var(--syntara-color-text-subtle);
+  font-size: var(--syntara-font-size-md);
+  font-weight: var(--syntara-font-weight-medium);
   white-space: nowrap;
   transition:
-    background-color var(--strata-motion-duration-fast) var(--strata-motion-easing),
-    color var(--strata-motion-duration-fast) var(--strata-motion-easing);
+    background-color var(--syntara-motion-duration-fast) var(--syntara-motion-easing),
+    color var(--syntara-motion-duration-fast) var(--syntara-motion-easing);
 }
 
 .navLink[aria-current='page'] {
-  background-color: var(--strata-color-surface-selected);
-  color: var(--strata-color-text-default);
+  background-color: var(--syntara-color-surface-selected);
+  color: var(--syntara-color-text-default);
 }
 
 @media (hover: hover) {
   .navLink:hover {
-    background-color: color-mix(in oklab, var(--strata-color-surface-selected) 60%, transparent);
-    color: var(--strata-color-text-default);
+    background-color: color-mix(in oklab, var(--syntara-color-surface-selected) 60%, transparent);
+    color: var(--syntara-color-text-default);
   }
 
   .navLink[aria-current='page']:hover {
-    background-color: var(--strata-color-surface-selected);
+    background-color: var(--syntara-color-surface-selected);
   }
 }
 
@@ -235,63 +235,63 @@
   grid-area: end;
   display: flex;
   align-items: center;
-  gap: var(--strata-space-1);
-  min-block-size: calc(var(--strata-control-height) + var(--strata-space-4));
+  gap: var(--syntara-space-1);
+  min-block-size: calc(var(--syntara-control-height) + var(--syntara-space-4));
 }
 
 .iconButton {
   position: relative;
   display: inline-grid;
   place-items: center;
-  inline-size: var(--strata-control-height);
-  block-size: var(--strata-control-height);
+  inline-size: var(--syntara-control-height);
+  block-size: var(--syntara-control-height);
   padding: 0;
   border: 0;
-  border-radius: var(--strata-radius-button);
+  border-radius: var(--syntara-radius-button);
   background-color: transparent;
-  color: var(--strata-color-text-subtle);
+  color: var(--syntara-color-text-subtle);
   transition:
-    background-color var(--strata-motion-duration-fast) var(--strata-motion-easing),
-    color var(--strata-motion-duration-fast) var(--strata-motion-easing);
+    background-color var(--syntara-motion-duration-fast) var(--syntara-motion-easing),
+    color var(--syntara-motion-duration-fast) var(--syntara-motion-easing);
 }
 
 @media (hover: hover) {
   .iconButton:hover {
-    background-color: color-mix(in oklab, var(--strata-color-surface-selected) 60%, transparent);
-    color: var(--strata-color-text-default);
+    background-color: color-mix(in oklab, var(--syntara-color-surface-selected) 60%, transparent);
+    color: var(--syntara-color-text-default);
   }
 }
 
 .iconButton:active {
-  background-color: var(--strata-color-surface-selected);
+  background-color: var(--syntara-color-surface-selected);
 }
 
 .unreadDot {
   position: absolute;
-  inset-block-start: var(--strata-space-2);
-  inset-inline-end: var(--strata-space-2);
-  inline-size: var(--strata-space-2);
-  block-size: var(--strata-space-2);
-  border-radius: var(--strata-radius-pill);
-  background-color: var(--strata-color-feedback-danger-solid);
+  inset-block-start: var(--syntara-space-2);
+  inset-inline-end: var(--syntara-space-2);
+  inline-size: var(--syntara-space-2);
+  block-size: var(--syntara-space-2);
+  border-radius: var(--syntara-radius-pill);
+  background-color: var(--syntara-color-feedback-danger-solid);
   /* Hairline cut-out so the dot reads against the bell. */
-  box-shadow: 0 0 0 2px var(--strata-color-surface-default);
+  box-shadow: 0 0 0 2px var(--syntara-color-surface-default);
 }
 
 .avatar {
   display: inline-grid;
   place-items: center;
   flex: none;
-  inline-size: var(--strata-control-height);
-  block-size: var(--strata-control-height);
-  margin-inline-start: var(--strata-space-2);
+  inline-size: var(--syntara-control-height);
+  block-size: var(--syntara-control-height);
+  margin-inline-start: var(--syntara-space-2);
   padding: 0;
   border: 0;
-  border-radius: var(--strata-radius-pill);
-  background-color: var(--strata-color-accent-subtle);
-  color: var(--strata-color-accent-text);
-  font-size: var(--strata-font-size-sm);
-  font-weight: var(--strata-font-weight-semibold);
+  border-radius: var(--syntara-radius-pill);
+  background-color: var(--syntara-color-accent-subtle);
+  color: var(--syntara-color-accent-text);
+  font-size: var(--syntara-font-size-sm);
+  font-weight: var(--syntara-font-weight-semibold);
   line-height: 1;
 }
 
@@ -301,11 +301,11 @@
 
 .page {
   display: grid;
-  gap: var(--strata-section-gap);
+  gap: var(--syntara-section-gap);
   inline-size: min(100%, 1280px);
   margin-inline: auto;
-  padding-block: var(--strata-space-6) var(--strata-space-10);
-  padding-inline: var(--strata-space-4);
+  padding-block: var(--syntara-space-6) var(--syntara-space-10);
+  padding-inline: var(--syntara-space-4);
 }
 
 .pageHeader {
@@ -313,34 +313,34 @@
   flex-wrap: wrap;
   align-items: flex-end;
   justify-content: space-between;
-  gap: var(--strata-space-4);
+  gap: var(--syntara-space-4);
 }
 
 .titleBlock {
   display: grid;
-  gap: var(--strata-space-1);
+  gap: var(--syntara-space-1);
   min-inline-size: 0;
 }
 
 .h1 {
-  font-family: var(--strata-font-heading);
-  font-size: var(--strata-font-size-2xl);
-  font-weight: var(--strata-font-weight-semibold);
-  letter-spacing: var(--strata-font-heading-tracking);
-  line-height: var(--strata-line-height-tight);
+  font-family: var(--syntara-font-heading);
+  font-size: var(--syntara-font-size-2xl);
+  font-weight: var(--syntara-font-weight-semibold);
+  letter-spacing: var(--syntara-font-heading-tracking);
+  line-height: var(--syntara-line-height-tight);
   text-wrap: balance;
 }
 
 .subtitle {
-  color: var(--strata-color-text-subtle);
-  font-size: var(--strata-font-size-md);
+  color: var(--syntara-color-text-subtle);
+  font-size: var(--syntara-font-size-md);
   text-wrap: pretty;
 }
 
 .pageActions {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--strata-space-2);
+  gap: var(--syntara-space-2);
   inline-size: 100%;
 }
 
@@ -356,52 +356,52 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: var(--strata-space-2);
-  min-block-size: var(--strata-control-height);
+  gap: var(--syntara-space-2);
+  min-block-size: var(--syntara-control-height);
   padding-block: 0;
-  padding-inline: var(--strata-control-padding-inline);
+  padding-inline: var(--syntara-control-padding-inline);
   border: 1px solid transparent;
-  border-radius: var(--strata-radius-button);
-  font-size: var(--strata-font-size-md);
-  font-weight: var(--strata-font-weight-semibold);
-  line-height: var(--strata-line-height-tight);
+  border-radius: var(--syntara-radius-button);
+  font-size: var(--syntara-font-size-md);
+  font-weight: var(--syntara-font-weight-semibold);
+  line-height: var(--syntara-line-height-tight);
   text-align: center;
   white-space: nowrap;
   transition:
-    background-color var(--strata-motion-duration-fast) var(--strata-motion-easing),
-    border-color var(--strata-motion-duration-fast) var(--strata-motion-easing),
-    color var(--strata-motion-duration-fast) var(--strata-motion-easing);
+    background-color var(--syntara-motion-duration-fast) var(--syntara-motion-easing),
+    border-color var(--syntara-motion-duration-fast) var(--syntara-motion-easing),
+    color var(--syntara-motion-duration-fast) var(--syntara-motion-easing);
 }
 
 .primary {
-  background-color: var(--strata-color-action-primary-bg);
-  border-color: var(--strata-color-action-primary-border);
-  color: var(--strata-color-action-primary-fg);
+  background-color: var(--syntara-color-action-primary-bg);
+  border-color: var(--syntara-color-action-primary-border);
+  color: var(--syntara-color-action-primary-fg);
 }
 
 .secondary {
-  background-color: var(--strata-color-action-secondary-bg);
+  background-color: var(--syntara-color-action-secondary-bg);
   /* Secondary fills are brand-tinted and sit close to the canvas; a same-hue hairline gives the shape an edge. */
-  border-color: color-mix(in oklab, var(--strata-color-action-secondary-fg) 18%, transparent);
-  color: var(--strata-color-action-secondary-fg);
+  border-color: color-mix(in oklab, var(--syntara-color-action-secondary-fg) 18%, transparent);
+  color: var(--syntara-color-action-secondary-fg);
 }
 
 @media (hover: hover) {
   .primary:hover {
-    background-color: var(--strata-color-action-primary-hover);
+    background-color: var(--syntara-color-action-primary-hover);
   }
 
   .secondary:hover {
-    background-color: var(--strata-color-action-secondary-hover);
+    background-color: var(--syntara-color-action-secondary-hover);
   }
 }
 
 .primary:active {
-  background-color: var(--strata-color-action-primary-pressed);
+  background-color: var(--syntara-color-action-primary-pressed);
 }
 
 .secondary:active {
-  background-color: var(--strata-color-action-secondary-pressed);
+  background-color: var(--syntara-color-action-secondary-pressed);
 }
 
 .block {
@@ -419,13 +419,13 @@
     'icon content'
     '. action';
   align-items: start;
-  column-gap: var(--strata-space-3);
-  row-gap: var(--strata-space-2);
-  padding-block: var(--strata-space-3);
-  padding-inline: var(--strata-space-4);
+  column-gap: var(--syntara-space-3);
+  row-gap: var(--syntara-space-2);
+  padding-block: var(--syntara-space-3);
+  padding-inline: var(--syntara-space-4);
   border-width: 1px;
   border-style: solid;
-  border-radius: var(--strata-radius-container);
+  border-radius: var(--syntara-radius-container);
 }
 
 .alertIcon {
@@ -436,19 +436,19 @@
 .alertContent {
   grid-area: content;
   display: grid;
-  gap: var(--strata-space-1);
+  gap: var(--syntara-space-1);
   min-inline-size: 0;
 }
 
 .alertTitle {
-  font-size: var(--strata-font-size-md);
-  font-weight: var(--strata-font-weight-semibold);
-  line-height: var(--strata-line-height-snug);
+  font-size: var(--syntara-font-size-md);
+  font-weight: var(--syntara-font-weight-semibold);
+  line-height: var(--syntara-line-height-snug);
 }
 
 .alertBody {
-  font-size: var(--strata-font-size-sm);
-  line-height: var(--strata-line-height-normal);
+  font-size: var(--syntara-font-size-sm);
+  line-height: var(--syntara-line-height-normal);
   text-wrap: pretty;
 }
 
@@ -456,8 +456,8 @@
   grid-area: action;
   justify-self: start;
   color: inherit;
-  font-size: var(--strata-font-size-sm);
-  font-weight: var(--strata-font-weight-semibold);
+  font-size: var(--syntara-font-size-sm);
+  font-weight: var(--syntara-font-weight-semibold);
   text-decoration: underline;
   text-decoration-thickness: 1px;
   text-underline-offset: 2px;
@@ -477,42 +477,42 @@
 .card {
   display: grid;
   align-content: start;
-  gap: var(--strata-field-gap);
+  gap: var(--syntara-field-gap);
   min-inline-size: 0;
-  padding: var(--strata-card-inset);
-  background-color: var(--strata-color-surface-raised);
-  border: 1px solid var(--strata-color-border-default);
-  border-radius: var(--strata-radius-container);
-  box-shadow: var(--strata-shadow-raised);
+  padding: var(--syntara-card-inset);
+  background-color: var(--syntara-color-surface-raised);
+  border: 1px solid var(--syntara-color-border-default);
+  border-radius: var(--syntara-radius-container);
+  box-shadow: var(--syntara-shadow-raised);
 }
 
 .cardIntro {
   display: grid;
-  gap: var(--strata-space-1);
+  gap: var(--syntara-space-1);
 }
 
 .h2 {
-  font-family: var(--strata-font-heading);
-  font-size: var(--strata-font-size-lg);
-  font-weight: var(--strata-font-weight-semibold);
-  letter-spacing: var(--strata-font-heading-tracking);
-  line-height: var(--strata-line-height-snug);
+  font-family: var(--syntara-font-heading);
+  font-size: var(--syntara-font-size-lg);
+  font-weight: var(--syntara-font-weight-semibold);
+  letter-spacing: var(--syntara-font-heading-tracking);
+  line-height: var(--syntara-line-height-snug);
 }
 
 .cardDescription {
-  color: var(--strata-color-text-subtle);
-  font-size: var(--strata-font-size-sm);
+  color: var(--syntara-color-text-subtle);
+  font-size: var(--syntara-font-size-sm);
   text-wrap: pretty;
 }
 
 .textLink {
   display: inline-flex;
   align-items: center;
-  gap: var(--strata-space-1);
+  gap: var(--syntara-space-1);
   flex: none;
-  color: var(--strata-color-text-brand);
-  font-size: var(--strata-font-size-sm);
-  font-weight: var(--strata-font-weight-medium);
+  color: var(--syntara-color-text-brand);
+  font-size: var(--syntara-font-size-sm);
+  font-weight: var(--syntara-font-weight-medium);
   white-space: nowrap;
 }
 
@@ -531,28 +531,28 @@
 .stats {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
-  gap: var(--strata-section-gap);
+  gap: var(--syntara-section-gap);
 }
 
 /* Stat cards are .card with a tighter internal rhythm. */
 .statCard {
-  gap: var(--strata-space-2);
+  gap: var(--syntara-space-2);
 }
 
 .statLabel {
-  color: var(--strata-color-text-subtle);
-  font-size: var(--strata-font-size-sm);
-  font-weight: var(--strata-font-weight-medium);
-  line-height: var(--strata-line-height-snug);
+  color: var(--syntara-color-text-subtle);
+  font-size: var(--syntara-font-size-sm);
+  font-weight: var(--syntara-font-weight-medium);
+  line-height: var(--syntara-line-height-snug);
 }
 
 .statValue {
-  font-family: var(--strata-font-heading);
-  font-size: var(--strata-font-size-2xl);
-  font-weight: var(--strata-font-weight-semibold);
+  font-family: var(--syntara-font-heading);
+  font-size: var(--syntara-font-size-2xl);
+  font-weight: var(--syntara-font-weight-semibold);
   font-variant-numeric: tabular-nums;
-  letter-spacing: var(--strata-font-heading-tracking);
-  line-height: var(--strata-line-height-tight);
+  letter-spacing: var(--syntara-font-heading-tracking);
+  line-height: var(--syntara-line-height-tight);
   white-space: nowrap;
 }
 
@@ -560,30 +560,30 @@
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: var(--strata-space-2);
-  font-size: var(--strata-font-size-sm);
+  gap: var(--syntara-space-2);
+  font-size: var(--syntara-font-size-sm);
 }
 
 .delta {
   display: inline-flex;
   align-items: center;
-  gap: var(--strata-space-1);
-  min-block-size: var(--strata-space-5);
-  padding-inline: var(--strata-space-2);
-  border-radius: var(--strata-radius-badge);
-  font-size: var(--strata-font-size-xs);
-  font-weight: var(--strata-font-weight-semibold);
+  gap: var(--syntara-space-1);
+  min-block-size: var(--syntara-space-5);
+  padding-inline: var(--syntara-space-2);
+  border-radius: var(--syntara-radius-badge);
+  font-size: var(--syntara-font-size-xs);
+  font-weight: var(--syntara-font-weight-semibold);
   line-height: 1;
   white-space: nowrap;
 }
 
 .deltaNeutral {
-  background-color: var(--strata-color-surface-sunken);
-  color: var(--strata-color-text-subtle);
+  background-color: var(--syntara-color-surface-sunken);
+  color: var(--syntara-color-text-subtle);
 }
 
 .deltaLabel {
-  color: var(--strata-color-text-subtle);
+  color: var(--syntara-color-text-subtle);
 }
 
 /* ------------------------------------------------------------------ *
@@ -594,14 +594,14 @@
   display: grid;
   grid-template-columns: minmax(0, 1fr);
   align-items: start;
-  gap: var(--strata-section-gap);
+  gap: var(--syntara-section-gap);
 }
 
 .side {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
   align-items: start;
-  gap: var(--strata-section-gap);
+  gap: var(--syntara-section-gap);
   min-inline-size: 0;
 }
 
@@ -610,7 +610,7 @@
  * ------------------------------------------------------------------ */
 
 .activityCard {
-  container: strata-activity / inline-size;
+  container: syntara-activity / inline-size;
   gap: 0;
   padding: 0;
   /* Row hover fills stay inside the rounded corners. */
@@ -621,25 +621,25 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: var(--strata-space-4);
-  padding-block: var(--strata-card-inset) var(--strata-space-4);
-  padding-inline: var(--strata-card-inset);
+  gap: var(--syntara-space-4);
+  padding-block: var(--syntara-card-inset) var(--syntara-space-4);
+  padding-inline: var(--syntara-card-inset);
 }
 
 .table {
   inline-size: 100%;
-  font-size: var(--strata-font-size-sm);
+  font-size: var(--syntara-font-size-sm);
 }
 
 .table th {
-  padding-block: var(--strata-space-2);
-  padding-inline: var(--strata-space-3);
-  background-color: color-mix(in oklab, var(--strata-color-surface-sunken) 60%, transparent);
-  border-block: 1px solid var(--strata-color-border-subtle);
-  color: var(--strata-color-text-subtle);
-  font-size: var(--strata-font-size-xs);
-  font-weight: var(--strata-font-weight-semibold);
-  line-height: var(--strata-line-height-snug);
+  padding-block: var(--syntara-space-2);
+  padding-inline: var(--syntara-space-3);
+  background-color: color-mix(in oklab, var(--syntara-color-surface-sunken) 60%, transparent);
+  border-block: 1px solid var(--syntara-color-border-subtle);
+  color: var(--syntara-color-text-subtle);
+  font-size: var(--syntara-font-size-xs);
+  font-weight: var(--syntara-font-weight-semibold);
+  line-height: var(--syntara-line-height-snug);
   text-align: start;
   white-space: nowrap;
 }
@@ -647,25 +647,25 @@
 .table td {
   /* Two-line cells outgrow the row-height token, so vertical padding carries the density difference:
      comfortable (48 − 40) = 8px, compact (36 − 32) = 4px. */
-  padding-block: calc(var(--strata-table-row-height) - var(--strata-control-height));
-  padding-inline: var(--strata-space-3);
-  border-block-end: 1px solid var(--strata-color-border-subtle);
+  padding-block: calc(var(--syntara-table-row-height) - var(--syntara-control-height));
+  padding-inline: var(--syntara-space-3);
+  border-block-end: 1px solid var(--syntara-color-border-subtle);
   vertical-align: middle;
 }
 
 .table th:first-child,
 .table td:first-child {
-  padding-inline-start: var(--strata-card-inset);
+  padding-inline-start: var(--syntara-card-inset);
 }
 
 .table th:last-child,
 .table td:last-child {
-  padding-inline-end: var(--strata-card-inset);
+  padding-inline-end: var(--syntara-card-inset);
 }
 
 .row {
-  block-size: var(--strata-table-row-height);
-  transition: background-color var(--strata-motion-duration-fast) var(--strata-motion-easing);
+  block-size: var(--syntara-table-row-height);
+  transition: background-color var(--syntara-motion-duration-fast) var(--syntara-motion-easing);
 }
 
 .row:last-child > td {
@@ -674,7 +674,7 @@
 
 @media (hover: hover) {
   .row:hover {
-    background-color: color-mix(in oklab, var(--strata-color-surface-selected) 55%, transparent);
+    background-color: color-mix(in oklab, var(--syntara-color-surface-selected) 55%, transparent);
   }
 }
 
@@ -683,7 +683,7 @@
 }
 
 .cellDate {
-  color: var(--strata-color-text-subtle);
+  color: var(--syntara-color-text-subtle);
   font-variant-numeric: tabular-nums;
   white-space: nowrap;
 }
@@ -691,7 +691,7 @@
 .desc {
   display: flex;
   align-items: center;
-  gap: var(--strata-space-3);
+  gap: var(--syntara-space-3);
   min-inline-size: 0;
 }
 
@@ -699,17 +699,17 @@
   display: inline-grid;
   place-items: center;
   flex: none;
-  inline-size: calc(var(--strata-control-height) - var(--strata-space-2));
-  block-size: calc(var(--strata-control-height) - var(--strata-space-2));
-  border-radius: min(var(--strata-radius-button), 30%);
+  inline-size: calc(var(--syntara-control-height) - var(--syntara-space-2));
+  block-size: calc(var(--syntara-control-height) - var(--syntara-space-2));
+  border-radius: min(var(--syntara-radius-button), 30%);
   /* Translucent neutral: a light tint on light surfaces, a lift on dark ones. */
-  background-color: color-mix(in oklab, var(--strata-color-text-subtle) 12%, transparent);
-  color: var(--strata-color-text-subtle);
+  background-color: color-mix(in oklab, var(--syntara-color-text-subtle) 12%, transparent);
+  color: var(--syntara-color-text-subtle);
 }
 
 .ledgerGlyphIn {
-  background-color: var(--strata-color-feedback-success-bg);
-  color: var(--strata-color-feedback-success-fg);
+  background-color: var(--syntara-color-feedback-success-bg);
+  color: var(--syntara-color-feedback-success-fg);
 }
 
 .descText {
@@ -718,20 +718,20 @@
 }
 
 .descTitle {
-  color: var(--strata-color-text-default);
-  font-size: var(--strata-font-size-md);
-  font-weight: var(--strata-font-weight-medium);
-  line-height: var(--strata-line-height-snug);
+  color: var(--syntara-color-text-default);
+  font-size: var(--syntara-font-size-md);
+  font-weight: var(--syntara-font-weight-medium);
+  line-height: var(--syntara-line-height-snug);
 }
 
 .descMeta {
-  color: var(--strata-color-text-subtle);
-  font-size: var(--strata-font-size-sm);
-  line-height: var(--strata-line-height-snug);
+  color: var(--syntara-color-text-subtle);
+  font-size: var(--syntara-font-size-sm);
+  line-height: var(--syntara-line-height-snug);
 }
 
 .cellCategory {
-  color: var(--strata-color-text-subtle);
+  color: var(--syntara-color-text-subtle);
 }
 
 .metaCategory {
@@ -740,7 +740,7 @@
 
 /* Column priority: under 720px the category column is dropped and its value joins the meta line,
    so the description keeps room to breathe and no data is lost. */
-@container strata-activity (inline-size < 720px) {
+@container syntara-activity (inline-size < 720px) {
   .table .colCategory,
   .table .cellCategory {
     display: none;
@@ -758,31 +758,31 @@
 .badge {
   display: inline-flex;
   align-items: center;
-  gap: var(--strata-space-1);
-  min-block-size: var(--strata-space-6);
-  padding-inline: var(--strata-space-2);
-  border-radius: var(--strata-radius-badge);
-  font-size: var(--strata-font-size-xs);
-  font-weight: var(--strata-font-weight-semibold);
+  gap: var(--syntara-space-1);
+  min-block-size: var(--syntara-space-6);
+  padding-inline: var(--syntara-space-2);
+  border-radius: var(--syntara-radius-badge);
+  font-size: var(--syntara-font-size-xs);
+  font-weight: var(--syntara-font-weight-semibold);
   line-height: 1;
   white-space: nowrap;
 }
 
 .cellAmount {
-  color: var(--strata-color-text-default);
-  font-size: var(--strata-font-size-md);
+  color: var(--syntara-color-text-default);
+  font-size: var(--syntara-font-size-md);
   font-variant-numeric: tabular-nums;
-  font-weight: var(--strata-font-weight-medium);
+  font-weight: var(--syntara-font-weight-medium);
   text-align: end;
   white-space: nowrap;
 }
 
 .amountIn {
-  color: var(--strata-color-feedback-success-fg);
+  color: var(--syntara-color-feedback-success-fg);
 }
 
 /* Narrow card: each row becomes a two-line list item. Header cells stay in the accessibility tree. */
-@container strata-activity (inline-size < 560px) {
+@container syntara-activity (inline-size < 560px) {
   .table,
   .table tbody {
     display: block;
@@ -809,17 +809,17 @@
     display: grid;
     /* Column 1 = ledger glyph + its gap, so line two aligns with the title text. */
     grid-template-columns:
-      calc(var(--strata-control-height) - var(--strata-space-2) + var(--strata-space-3))
+      calc(var(--syntara-control-height) - var(--syntara-space-2) + var(--syntara-space-3))
       auto minmax(0, 1fr) auto;
     grid-template-areas:
       'desc desc desc amount'
       '. date category status';
     align-items: center;
-    row-gap: var(--strata-space-1);
+    row-gap: var(--syntara-space-1);
     block-size: auto;
-    padding-block: var(--strata-space-3);
-    padding-inline: var(--strata-card-inset);
-    border-block-end: 1px solid var(--strata-color-border-subtle);
+    padding-block: var(--syntara-space-3);
+    padding-inline: var(--syntara-card-inset);
+    border-block-end: 1px solid var(--syntara-color-border-subtle);
   }
 
   .row:last-child {
@@ -840,12 +840,12 @@
   .table .row > .cellAmount {
     grid-area: amount;
     align-self: start;
-    padding-inline-start: var(--strata-space-3);
+    padding-inline-start: var(--syntara-space-3);
   }
 
   .cellDate {
     grid-area: date;
-    font-size: var(--strata-font-size-sm);
+    font-size: var(--syntara-font-size-sm);
   }
 
   .table .row > .cellCategory {
@@ -860,13 +860,13 @@
   .cellCategory::before {
     content: '·';
     content: '·' / '';
-    margin-inline: var(--strata-space-2);
+    margin-inline: var(--syntara-space-2);
   }
 
   .table .row > .cellStatus {
     grid-area: status;
     justify-self: end;
-    padding-inline-start: var(--strata-space-3);
+    padding-inline-start: var(--syntara-space-3);
   }
 }
 
@@ -876,53 +876,53 @@
 
 .form {
   display: grid;
-  gap: var(--strata-field-gap);
+  gap: var(--syntara-field-gap);
 }
 
 .field {
   display: grid;
-  gap: var(--strata-space-2);
+  gap: var(--syntara-space-2);
   min-inline-size: 0;
 }
 
 .label {
-  color: var(--strata-color-text-default);
-  font-size: var(--strata-font-size-sm);
-  font-weight: var(--strata-font-weight-medium);
-  line-height: var(--strata-line-height-snug);
+  color: var(--syntara-color-text-default);
+  font-size: var(--syntara-font-size-sm);
+  font-weight: var(--syntara-font-weight-medium);
+  line-height: var(--syntara-line-height-snug);
 }
 
 .control {
   display: block;
   inline-size: 100%;
   min-inline-size: 0;
-  block-size: var(--strata-control-height);
+  block-size: var(--syntara-control-height);
   padding-block: 0;
-  padding-inline: var(--strata-control-padding-inline);
-  background-color: var(--strata-color-surface-default);
-  border: 1px solid var(--strata-color-border-strong);
-  border-radius: var(--strata-radius-field);
-  color: var(--strata-color-text-default);
-  font-size: var(--strata-font-size-md);
-  line-height: var(--strata-line-height-normal);
-  transition: border-color var(--strata-motion-duration-fast) var(--strata-motion-easing);
+  padding-inline: var(--syntara-control-padding-inline);
+  background-color: var(--syntara-color-surface-default);
+  border: 1px solid var(--syntara-color-border-strong);
+  border-radius: var(--syntara-radius-field);
+  color: var(--syntara-color-text-default);
+  font-size: var(--syntara-font-size-md);
+  line-height: var(--syntara-line-height-normal);
+  transition: border-color var(--syntara-motion-duration-fast) var(--syntara-motion-easing);
 }
 
 .control::placeholder,
 .inputBare::placeholder {
-  color: var(--strata-color-text-subtle);
+  color: var(--syntara-color-text-subtle);
   opacity: 1;
 }
 
 @media (hover: hover) {
   .control:hover {
-    border-color: color-mix(in oklab, var(--strata-color-border-strong) 60%, var(--strata-color-text-default));
+    border-color: color-mix(in oklab, var(--syntara-color-border-strong) 60%, var(--syntara-color-text-default));
   }
 }
 
 .select {
   appearance: none;
-  padding-inline-end: calc(var(--strata-control-padding-inline) + var(--strata-space-6));
+  padding-inline-end: calc(var(--syntara-control-padding-inline) + var(--syntara-space-6));
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -937,8 +937,8 @@
 .selectIcon {
   position: absolute;
   inset-block-start: 50%;
-  inset-inline-end: var(--strata-control-padding-inline);
-  color: var(--strata-color-text-subtle);
+  inset-inline-end: var(--syntara-control-padding-inline);
+  color: var(--syntara-color-text-subtle);
   pointer-events: none;
   transform: translateY(-50%);
 }
@@ -947,19 +947,19 @@
 .inputGroup {
   display: flex;
   align-items: center;
-  gap: var(--strata-space-2);
+  gap: var(--syntara-space-2);
   cursor: text;
 }
 
 .inputGroup:focus-within {
-  outline: 2px solid var(--strata-color-focus-ring);
+  outline: 2px solid var(--syntara-color-focus-ring);
   outline-offset: 2px;
 }
 
 .affix {
   flex: none;
-  color: var(--strata-color-text-subtle);
-  font-weight: var(--strata-font-weight-medium);
+  color: var(--syntara-color-text-subtle);
+  font-weight: var(--syntara-font-weight-medium);
 }
 
 .inputBare {
@@ -970,7 +970,7 @@
   padding: 0;
   background-color: transparent;
   border: 0;
-  color: var(--strata-color-text-default);
+  color: var(--syntara-color-text-default);
   font-variant-numeric: tabular-nums;
 }
 
@@ -980,9 +980,9 @@
 }
 
 .hint {
-  color: var(--strata-color-text-subtle);
-  font-size: var(--strata-font-size-xs);
-  line-height: var(--strata-line-height-normal);
+  color: var(--syntara-color-text-subtle);
+  font-size: var(--syntara-font-size-xs);
+  line-height: var(--syntara-line-height-normal);
   text-wrap: pretty;
 }
 
@@ -991,7 +991,7 @@
  * ------------------------------------------------------------------ */
 
 .progressCard {
-  gap: var(--strata-space-3);
+  gap: var(--syntara-space-3);
 }
 
 .progressFigures {
@@ -999,43 +999,43 @@
   flex-wrap: wrap;
   align-items: baseline;
   justify-content: space-between;
-  column-gap: var(--strata-space-3);
-  row-gap: var(--strata-space-1);
+  column-gap: var(--syntara-space-3);
+  row-gap: var(--syntara-space-1);
 }
 
 .progressValue {
-  font-family: var(--strata-font-heading);
-  font-size: var(--strata-font-size-2xl);
-  font-weight: var(--strata-font-weight-semibold);
+  font-family: var(--syntara-font-heading);
+  font-size: var(--syntara-font-size-2xl);
+  font-weight: var(--syntara-font-weight-semibold);
   font-variant-numeric: tabular-nums;
-  letter-spacing: var(--strata-font-heading-tracking);
-  line-height: var(--strata-line-height-tight);
+  letter-spacing: var(--syntara-font-heading-tracking);
+  line-height: var(--syntara-line-height-tight);
 }
 
 .progressLabel {
-  color: var(--strata-color-text-subtle);
-  font-size: var(--strata-font-size-sm);
+  color: var(--syntara-color-text-subtle);
+  font-size: var(--syntara-font-size-sm);
   font-variant-numeric: tabular-nums;
 }
 
 .track {
-  block-size: var(--strata-space-2);
+  block-size: var(--syntara-space-2);
   overflow: hidden;
-  background-color: var(--strata-color-surface-sunken);
-  border-radius: var(--strata-radius-pill);
+  background-color: var(--syntara-color-surface-sunken);
+  border-radius: var(--syntara-radius-pill);
 }
 
 .fill {
   block-size: 100%;
   max-inline-size: 100%;
-  background-color: var(--strata-color-accent-bg);
-  border-radius: var(--strata-radius-pill);
-  transition: inline-size var(--strata-motion-duration-normal) var(--strata-motion-easing);
+  background-color: var(--syntara-color-accent-bg);
+  border-radius: var(--syntara-radius-pill);
+  transition: inline-size var(--syntara-motion-duration-normal) var(--syntara-motion-easing);
 }
 
 .progressCaption {
-  color: var(--strata-color-text-subtle);
-  font-size: var(--strata-font-size-sm);
+  color: var(--syntara-color-text-subtle);
+  font-size: var(--syntara-font-size-sm);
   text-wrap: pretty;
 }
 
@@ -1043,14 +1043,14 @@
  * Container breakpoints (the screen's own width, not the viewport)
  * ------------------------------------------------------------------ */
 
-@container strata-overview (inline-size >= 640px) {
+@container syntara-overview (inline-size >= 640px) {
   .headerInner,
   .page {
-    padding-inline: var(--strata-space-6);
+    padding-inline: var(--syntara-space-6);
   }
 
   .page {
-    padding-block: var(--strata-space-8) var(--strata-space-12);
+    padding-block: var(--syntara-space-8) var(--syntara-space-12);
   }
 
   .pageActions {
@@ -1068,23 +1068,23 @@
   .alert {
     grid-template-columns: auto minmax(0, 1fr) auto;
     grid-template-areas: 'icon content action';
-    column-gap: var(--strata-space-3);
+    column-gap: var(--syntara-space-3);
   }
 
   .alertAction {
     align-self: center;
-    margin-inline-start: var(--strata-space-4);
+    margin-inline-start: var(--syntara-space-4);
   }
 }
 
-@container strata-overview (720px <= inline-size < 1000px) {
+@container syntara-overview (720px <= inline-size < 1000px) {
   /* Tablet: form and progress sit side by side under the table. */
   .side {
     grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
   }
 }
 
-@container strata-overview (inline-size >= 900px) {
+@container syntara-overview (inline-size >= 900px) {
   .headerInner {
     grid-template-columns: auto minmax(0, 1fr) auto;
     grid-template-areas: 'brand nav end';
@@ -1100,18 +1100,18 @@
   }
 }
 
-@container strata-overview (inline-size >= 1000px) {
+@container syntara-overview (inline-size >= 1000px) {
   .headerInner,
   .page {
-    padding-inline: var(--strata-space-8);
+    padding-inline: var(--syntara-space-8);
   }
 
   .h1 {
-    font-size: var(--strata-font-size-3xl);
+    font-size: var(--syntara-font-size-3xl);
   }
 
   .statValue {
-    font-size: var(--strata-font-size-3xl);
+    font-size: var(--syntara-font-size-3xl);
   }
 
   .body {

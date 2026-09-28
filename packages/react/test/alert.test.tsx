@@ -70,7 +70,7 @@ describe('Alert: filled status icon (surface recipe)', () => {
   it('uses a distinct filled shape per tone', () => {
     const shape = (tone: 'neutral' | 'info' | 'success' | 'warning' | 'danger') => {
       const { container, unmount } = render(<Alert tone={tone} title="t" />);
-      const name = container.querySelector('[data-strata-icon]')?.getAttribute('data-strata-icon');
+      const name = container.querySelector('[data-syntara-icon]')?.getAttribute('data-syntara-icon');
       unmount();
       return name;
     };
@@ -83,12 +83,12 @@ describe('Alert: filled status icon (surface recipe)', () => {
 
   it('reads the roles it proves from the CSS', () => {
     const css = readUiCss('alert.module.css');
-    expect(css).toMatch(/--_face: var\(--strata-color-surface-raised\)/);
-    expect(css).toMatch(/var\(--strata-sheen\) padding-box/);
-    expect(css).toMatch(/--strata-icon-on: var\(--_on-tone\)/);
+    expect(css).toMatch(/--_face: var\(--syntara-color-surface-raised\)/);
+    expect(css).toMatch(/var\(--syntara-sheen\) padding-box/);
+    expect(css).toMatch(/--syntara-icon-on: var\(--_on-tone\)/);
     for (const t of STATUS_TONES) {
-      expect(css).toContain(`--_tone: var(--strata-color-feedback-${t}-fg);`);
-      expect(css).toContain(`--_on-tone: var(--strata-color-feedback-${t}-bg);`);
+      expect(css).toContain(`--_tone: var(--syntara-color-feedback-${t}-fg);`);
+      expect(css).toContain(`--_on-tone: var(--syntara-color-feedback-${t}-bg);`);
     }
   });
 

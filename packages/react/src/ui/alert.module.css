@@ -4,7 +4,7 @@
  * (.lead), so when the action wraps under the text on a narrow alert, the icon stays centred on the words.
  * Intrinsic, so no container query and no collapse inside shrink-to-fit parents.
  *
- * Surface: every tone shares one face, opaque surface.raised under the engine's diagonal --strata-sheen (dark
+ * Surface: every tone shares one face, opaque surface.raised under the engine's diagonal --syntara-sheen (dark
  * only), with a neutral hairline, the raised shadow and, in dark, a rim light on the top-left edge. The tone lives
  * only in the filled status shape: feedback.<tone>.fg with the glyph knocked out in feedback.<tone>.bg (shape
  * ≥ 3:1 on the face incl. the sheen's brightest pixel, glyph ≥ 4.5:1 on the shape; proof in test/alert.test.tsx).
@@ -12,41 +12,41 @@
  */
 
 .alert {
-  --_face: var(--strata-color-surface-raised);
+  --_face: var(--syntara-color-surface-raised);
   --_rim: linear-gradient(transparent, transparent);
-  --_tone: var(--strata-color-text-subtle);
+  --_tone: var(--syntara-color-text-subtle);
   --_on-tone: var(--_face);
   /* Generous, like a card: the density's card inset, easing down on narrow alerts (% = of the alert's width). */
-  --_inset: clamp(var(--strata-space-4), 5%, var(--strata-card-inset));
+  --_inset: clamp(var(--syntara-space-4), 5%, var(--syntara-card-inset));
 
   box-sizing: border-box;
-  padding-block: min(var(--_inset), var(--strata-space-6));
+  padding-block: min(var(--_inset), var(--syntara-space-6));
   padding-inline: var(--_inset);
   /* The transparent border is where the rim paints (background-clip trick, so it follows any radius) and the edge in
      forced-colours mode. The hairline is a box-shadow, because Chromium rounds sub-pixel borders up to 1px. */
   border: 1px solid transparent;
-  border-radius: var(--strata-radius-container);
+  border-radius: var(--syntara-radius-container);
   background:
-    var(--strata-sheen) padding-box,
+    var(--syntara-sheen) padding-box,
     linear-gradient(var(--_face), var(--_face)) padding-box,
     var(--_rim) border-box,
     var(--_face);
   box-shadow:
-    0 0 0 var(--strata-hairline) var(--strata-color-border-subtle),
-    var(--strata-shadow-raised);
-  color: var(--strata-color-text-default);
-  font-family: var(--strata-font-body);
-  font-size: var(--strata-font-size-md);
-  letter-spacing: var(--strata-font-tracking-md);
-  line-height: var(--strata-line-height-normal);
+    0 0 0 var(--syntara-hairline) var(--syntara-color-border-subtle),
+    var(--syntara-shadow-raised);
+  color: var(--syntara-color-text-default);
+  font-family: var(--syntara-font-body);
+  font-size: var(--syntara-font-size-md);
+  letter-spacing: var(--syntara-font-tracking-md);
+  line-height: var(--syntara-line-height-normal);
   text-align: start;
 }
 
 /* Rim light in dark only: the engine's sheen is `none` exactly in light schemes, so it doubles as the scheme signal
    without naming a scheme. Browsers without style queries get no rim. */
-@container not style(--strata-sheen: none) {
+@container not style(--syntara-sheen: none) {
   .alert {
-    --_rim: linear-gradient(135deg, var(--strata-rim), transparent 60%);
+    --_rim: linear-gradient(135deg, var(--syntara-rim), transparent 60%);
   }
 }
 
@@ -57,26 +57,26 @@
 }
 
 .alert[data-tone='info'] {
-  --_tone: var(--strata-color-feedback-info-fg);
-  --_on-tone: var(--strata-color-feedback-info-bg);
+  --_tone: var(--syntara-color-feedback-info-fg);
+  --_on-tone: var(--syntara-color-feedback-info-bg);
 }
 .alert[data-tone='success'] {
-  --_tone: var(--strata-color-feedback-success-fg);
-  --_on-tone: var(--strata-color-feedback-success-bg);
+  --_tone: var(--syntara-color-feedback-success-fg);
+  --_on-tone: var(--syntara-color-feedback-success-bg);
 }
 .alert[data-tone='warning'] {
-  --_tone: var(--strata-color-feedback-warning-fg);
-  --_on-tone: var(--strata-color-feedback-warning-bg);
+  --_tone: var(--syntara-color-feedback-warning-fg);
+  --_on-tone: var(--syntara-color-feedback-warning-bg);
 }
 .alert[data-tone='danger'] {
-  --_tone: var(--strata-color-feedback-danger-fg);
-  --_on-tone: var(--strata-color-feedback-danger-bg);
+  --_tone: var(--syntara-color-feedback-danger-fg);
+  --_on-tone: var(--syntara-color-feedback-danger-bg);
 }
 
 .layout {
   display: flex;
   align-items: center;
-  gap: var(--strata-space-3);
+  gap: var(--syntara-space-3);
 }
 
 .main {
@@ -85,23 +85,23 @@
   flex-wrap: wrap;
   align-items: center;
   justify-content: flex-end;
-  column-gap: var(--strata-space-4);
-  row-gap: var(--strata-space-3);
+  column-gap: var(--syntara-space-4);
+  row-gap: var(--syntara-space-3);
   min-inline-size: 0;
 }
 
 .lead {
   display: flex;
   /* The text wants ~16rem before the action is pushed to its own line. */
-  flex: 1 1 calc(var(--strata-space-16) * 4);
+  flex: 1 1 calc(var(--syntara-space-16) * 4);
   align-items: center;
-  gap: var(--strata-space-3);
+  gap: var(--syntara-space-3);
   min-inline-size: 0;
 }
 
 /* The filled status shape. A custom `icon` (e.g. an outline icon) takes the tone colour too. */
 .icon {
-  --strata-icon-on: var(--_on-tone);
+  --syntara-icon-on: var(--_on-tone);
 
   display: grid;
   flex: none;
@@ -110,30 +110,30 @@
 }
 
 .icon > svg {
-  inline-size: var(--strata-space-6);
-  block-size: var(--strata-space-6);
+  inline-size: var(--syntara-space-6);
+  block-size: var(--syntara-space-6);
 }
 
 .content {
   display: grid;
   flex: 1 1 0;
-  gap: calc(var(--strata-space-1) * 0.5);
+  gap: calc(var(--syntara-space-1) * 0.5);
   min-inline-size: 0;
 }
 
 .title {
-  font-size: var(--strata-font-size-md);
-  font-weight: var(--strata-font-weight-semibold);
-  letter-spacing: var(--strata-font-tracking-md);
-  line-height: var(--strata-line-height-snug);
+  font-size: var(--syntara-font-size-md);
+  font-weight: var(--syntara-font-weight-semibold);
+  letter-spacing: var(--syntara-font-tracking-md);
+  line-height: var(--syntara-line-height-snug);
   text-wrap: pretty;
 }
 
 .body {
-  color: var(--strata-color-text-subtle);
-  font-size: var(--strata-font-size-sm);
-  letter-spacing: var(--strata-font-tracking-sm);
-  line-height: var(--strata-line-height-normal);
+  color: var(--syntara-color-text-subtle);
+  font-size: var(--syntara-font-size-sm);
+  letter-spacing: var(--syntara-font-tracking-sm);
+  line-height: var(--syntara-line-height-normal);
   text-wrap: pretty;
 }
 
@@ -143,7 +143,7 @@
 
 .body :where(a) {
   color: inherit;
-  font-weight: var(--strata-font-weight-medium);
+  font-weight: var(--syntara-font-weight-medium);
   text-decoration: underline;
   text-decoration-thickness: 1px;
   text-underline-offset: 2px;
@@ -154,14 +154,14 @@
   flex: none;
   flex-wrap: wrap;
   align-items: center;
-  gap: var(--strata-space-2);
-  font-size: var(--strata-font-size-sm);
+  gap: var(--syntara-space-2);
+  font-size: var(--syntara-font-size-sm);
 }
 
 /* A bare link in the action slot reads as the alert's call to action. Buttons bring their own style. */
 .action :where(a) {
   color: inherit;
-  font-weight: var(--strata-font-weight-semibold);
+  font-weight: var(--syntara-font-weight-semibold);
   text-decoration: underline;
   text-decoration-thickness: 1px;
   text-underline-offset: 2px;
@@ -170,9 +170,9 @@
 
 .body :where(a):focus-visible,
 .action :where(a):focus-visible {
-  outline: 2px solid var(--strata-color-focus-ring);
+  outline: 2px solid var(--syntara-color-focus-ring);
   outline-offset: 2px;
-  border-radius: var(--strata-radius-badge);
+  border-radius: var(--syntara-radius-badge);
 }
 
 /* ---- dismiss ----------------------------------------------------------- */
@@ -182,49 +182,49 @@
   display: inline-grid;
   flex: none;
   place-items: center;
-  inline-size: var(--strata-space-6);
-  block-size: var(--strata-space-6);
-  margin-inline-end: calc(var(--strata-space-1) * -1);
+  inline-size: var(--syntara-space-6);
+  block-size: var(--syntara-space-6);
+  margin-inline-end: calc(var(--syntara-space-1) * -1);
   padding: 0;
   border: 0;
-  border-radius: min(var(--strata-radius-button), var(--strata-space-2));
+  border-radius: min(var(--syntara-radius-button), var(--syntara-space-2));
   background-color: transparent;
   color: inherit;
   cursor: default;
   outline: 2px solid transparent;
   outline-offset: 0;
   transition:
-    background-color var(--strata-motion-duration-fast) var(--strata-motion-easing),
-    outline-offset var(--strata-motion-duration-fast) var(--strata-motion-easing),
-    outline-color var(--strata-motion-duration-fast) var(--strata-motion-easing);
+    background-color var(--syntara-motion-duration-fast) var(--syntara-motion-easing),
+    outline-offset var(--syntara-motion-duration-fast) var(--syntara-motion-easing),
+    outline-color var(--syntara-motion-duration-fast) var(--syntara-motion-easing);
 }
 
 .dismiss > svg {
-  inline-size: var(--strata-space-4);
-  block-size: var(--strata-space-4);
-  stroke-width: var(--strata-icon-stroke, 1.5);
+  inline-size: var(--syntara-space-4);
+  block-size: var(--syntara-space-4);
+  stroke-width: var(--syntara-icon-stroke, 1.5);
 }
 
 .dismiss[data-hovered] {
-  background-color: color-mix(in oklab, var(--strata-color-text-default) 6%, transparent);
+  background-color: color-mix(in oklab, var(--syntara-color-text-default) 6%, transparent);
 }
 
 .dismiss[data-pressed] {
-  background-color: color-mix(in oklab, var(--strata-color-text-default) 10%, transparent);
+  background-color: color-mix(in oklab, var(--syntara-color-text-default) 10%, transparent);
 }
 
 .dismiss[data-focus-visible] {
-  outline-color: var(--strata-color-focus-ring);
+  outline-color: var(--syntara-color-focus-ring);
   outline-offset: 2px;
 }
 
 @media (prefers-reduced-motion: no-preference) {
   .dismiss {
     transition:
-      background-color var(--strata-motion-duration-fast) var(--strata-motion-easing),
-      outline-offset var(--strata-motion-duration-fast) var(--strata-motion-easing),
-      outline-color var(--strata-motion-duration-fast) var(--strata-motion-easing),
-      scale var(--strata-motion-duration-spring) var(--strata-motion-spring);
+      background-color var(--syntara-motion-duration-fast) var(--syntara-motion-easing),
+      outline-offset var(--syntara-motion-duration-fast) var(--syntara-motion-easing),
+      outline-color var(--syntara-motion-duration-fast) var(--syntara-motion-easing),
+      scale var(--syntara-motion-duration-spring) var(--syntara-motion-spring);
   }
 
   .dismiss[data-pressed] {

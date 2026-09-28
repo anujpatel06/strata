@@ -1,6 +1,6 @@
 'use client';
 
-import { ToggleButton, ToggleButtonGroup } from '@strata/react';
+import { ToggleButton, ToggleButtonGroup } from '@syntara/react';
 
 export default function Example() {
   return (

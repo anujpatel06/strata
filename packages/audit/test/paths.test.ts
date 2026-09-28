@@ -9,7 +9,7 @@ let root: string;
 const RED = '.a { color: #ff0000; }\n';
 
 beforeAll(() => {
-  root = realpathSync(mkdtempSync(path.join(tmpdir(), 'strata-audit-')));
+  root = realpathSync(mkdtempSync(path.join(tmpdir(), 'syntara-audit-')));
   const files: Record<string, string> = {
     'src/app.css': RED,
     'src/page.tsx': 'export const A = () => <a href="/x">x</a>;\n',

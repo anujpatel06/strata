@@ -1,8 +1,8 @@
 'use client';
 
-import { IconFileCode } from '@strata/icons';
-import { Radio, RadioGroup, Tab, TabList, TabPanel, Tabs, ToggleButton, ToggleButtonGroup } from '@strata/react';
-import { toCSS, toDTCG, toFigmaFiles, type FigmaModes, type Theme } from '@strata/theme-engine';
+import { IconFileCode } from '@syntara/icons';
+import { Radio, RadioGroup, Tab, TabList, TabPanel, Tabs, ToggleButton, ToggleButtonGroup } from '@syntara/react';
+import { toCSS, toDTCG, toFigmaFiles, type FigmaModes, type Theme } from '@syntara/theme-engine';
 import { useDeferredValue, useMemo, useState, type ReactNode } from 'react';
 import type { Key, Selection } from 'react-aria-components';
 import { CodeViewer, type ExportFile } from './code-viewer';
@@ -19,13 +19,13 @@ const FORMAT_LABEL: Record<ExportFormat, string> = {
 const NOTES: Record<ExportFormat, ReactNode> = {
   css: (
     <>
-      Every <code>--strata-*</code> variable on <code>:root</code>: light, dark (<code>data-strata-scheme=&quot;dark&quot;</code>, or{' '}
+      Every <code>--syntara-*</code> variable on <code>:root</code>: light, dark (<code>data-syntara-scheme=&quot;dark&quot;</code>, or{' '}
       <code>&quot;auto&quot;</code> to follow the OS) and both densities.
     </>
   ),
   dtcg: (
     <>
-      W3C Design Tokens Format Module 2025.10 — colour and dimension objects, <code>{'{alias}'}</code> references, Strata
+      W3C Design Tokens Format Module 2025.10 — colour and dimension objects, <code>{'{alias}'}</code> references, Syntara
       metadata under <code>$extensions</code>.
     </>
   ),

@@ -4,18 +4,18 @@
  */
 
 .root {
-  --_gutter: var(--strata-space-4);
+  --_gutter: var(--syntara-space-4);
 
   container: sign-in / inline-size;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
   min-block-size: 100%;
-  background-color: var(--strata-color-surface-canvas);
-  color: var(--strata-color-text-default);
-  font-family: var(--strata-font-body);
-  font-size: var(--strata-font-size-md);
-  line-height: var(--strata-line-height-normal);
+  background-color: var(--syntara-color-surface-canvas);
+  color: var(--syntara-color-text-default);
+  font-family: var(--syntara-font-body);
+  font-size: var(--syntara-font-size-md);
+  line-height: var(--syntara-line-height-normal);
   text-align: start;
 }
 
@@ -29,7 +29,7 @@
 
 @container sign-in (min-width: 640px) {
   .root > * {
-    --_gutter: var(--strata-space-8);
+    --_gutter: var(--syntara-space-8);
   }
 }
 
@@ -60,14 +60,14 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: var(--strata-space-6);
-  padding-block: var(--strata-space-10);
+  gap: var(--syntara-space-6);
+  padding-block: var(--syntara-space-10);
   padding-inline: var(--_gutter);
 }
 
 .card.card {
   inline-size: 100%;
-  max-inline-size: calc(var(--strata-space-16) * 6.5);
+  max-inline-size: calc(var(--syntara-space-16) * 6.5);
 }
 
 @container sign-in (min-width: 960px) {
@@ -98,27 +98,27 @@
 .logoMark {
   display: inline-grid;
   place-items: center;
-  inline-size: var(--strata-space-10);
-  block-size: var(--strata-space-10);
-  margin-block-end: var(--strata-space-2);
-  border-radius: var(--strata-radius-button);
-  background-color: var(--strata-color-action-primary-bg);
-  color: var(--strata-color-action-primary-fg);
-  font-family: var(--strata-font-heading);
-  font-size: var(--strata-font-size-lg);
-  font-weight: var(--strata-font-weight-bold);
+  inline-size: var(--syntara-space-10);
+  block-size: var(--syntara-space-10);
+  margin-block-end: var(--syntara-space-2);
+  border-radius: var(--syntara-radius-button);
+  background-color: var(--syntara-color-action-primary-bg);
+  color: var(--syntara-color-action-primary-fg);
+  font-family: var(--syntara-font-heading);
+  font-size: var(--syntara-font-size-lg);
+  font-weight: var(--syntara-font-weight-bold);
   line-height: 1;
 }
 
 .title.title {
-  font-size: var(--strata-font-size-2xl);
-  letter-spacing: var(--strata-font-tracking-2xl);
+  font-size: var(--syntara-font-size-2xl);
+  letter-spacing: var(--syntara-font-tracking-2xl);
 }
 
 @container sign-in (min-width: 960px) {
   .title.title {
-    font-size: var(--strata-font-size-3xl);
-    letter-spacing: var(--strata-font-tracking-3xl);
+    font-size: var(--syntara-font-size-3xl);
+    letter-spacing: var(--syntara-font-tracking-3xl);
   }
 }
 
@@ -129,16 +129,16 @@
 
 .fields.fields {
   display: grid;
-  gap: var(--strata-field-gap);
+  gap: var(--syntara-field-gap);
 }
 
 .reveal.reveal {
-  inline-size: max(var(--strata-space-6), calc(var(--strata-control-height) - var(--strata-space-3)));
-  block-size: max(var(--strata-space-6), calc(var(--strata-control-height) - var(--strata-space-3)));
+  inline-size: max(var(--syntara-space-6), calc(var(--syntara-control-height) - var(--syntara-space-3)));
+  block-size: max(var(--syntara-space-6), calc(var(--syntara-control-height) - var(--syntara-space-3)));
   min-inline-size: 0;
   min-block-size: 0;
-  margin-inline-end: calc(var(--strata-space-2) * -1);
-  color: var(--strata-color-text-subtle);
+  margin-inline-end: calc(var(--syntara-space-2) * -1);
+  color: var(--syntara-color-text-subtle);
 }
 
 .options {
@@ -146,11 +146,11 @@
   flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
-  gap: var(--strata-space-2) var(--strata-space-4);
+  gap: var(--syntara-space-2) var(--syntara-space-4);
 }
 
 .small.small {
-  font-size: var(--strata-font-size-sm);
+  font-size: var(--syntara-font-size-sm);
 }
 
 .full.full {
@@ -159,12 +159,12 @@
 
 .cardFooter.cardFooter {
   justify-content: center;
-  gap: var(--strata-space-1);
-  font-size: var(--strata-font-size-sm);
+  gap: var(--syntara-space-1);
+  font-size: var(--syntara-font-size-sm);
 }
 
 .muted {
-  color: var(--strata-color-text-subtle);
+  color: var(--syntara-color-text-subtle);
 }
 
 .legal {
@@ -176,18 +176,18 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: var(--strata-space-1) var(--strata-space-4);
+  gap: var(--syntara-space-1) var(--syntara-space-4);
   padding: 0;
   list-style: none;
 }
 
 .legalLink.legalLink {
-  color: var(--strata-color-text-subtle);
-  font-size: var(--strata-font-size-xs);
+  color: var(--syntara-color-text-subtle);
+  font-size: var(--syntara-font-size-xs);
 }
 
 .legalLink.legalLink[data-hovered] {
-  color: var(--strata-color-text-default);
+  color: var(--syntara-color-text-default);
 }
 
 /* ------------------------------------------------------------------ *
@@ -205,16 +205,16 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    gap: var(--strata-space-12);
-    margin: var(--strata-space-3);
+    gap: var(--syntara-space-12);
+    margin: var(--syntara-space-3);
     margin-inline-start: 0;
-    padding: var(--strata-space-12);
+    padding: var(--syntara-space-12);
     overflow: hidden;
     border: 1px solid transparent;
-    border-radius: var(--strata-radius-container);
-    background-color: var(--strata-color-surface-sunken);
-    box-shadow: 0 0 0 var(--strata-hairline) var(--strata-color-border-subtle);
-    color: var(--strata-color-text-default);
+    border-radius: var(--syntara-radius-container);
+    background-color: var(--syntara-color-surface-sunken);
+    box-shadow: 0 0 0 var(--syntara-hairline) var(--syntara-color-border-subtle);
+    color: var(--syntara-color-text-default);
   }
 }
 
@@ -227,29 +227,29 @@
 .brand {
   display: inline-flex;
   align-items: center;
-  gap: var(--strata-space-3);
+  gap: var(--syntara-space-3);
 }
 
 .brandMark {
   display: inline-grid;
   place-items: center;
-  inline-size: var(--strata-space-10);
-  block-size: var(--strata-space-10);
-  border-radius: var(--strata-radius-button);
-  background-color: var(--strata-color-action-primary-bg);
-  color: var(--strata-color-action-primary-fg);
-  font-family: var(--strata-font-heading);
-  font-size: var(--strata-font-size-lg);
-  font-weight: var(--strata-font-weight-bold);
+  inline-size: var(--syntara-space-10);
+  block-size: var(--syntara-space-10);
+  border-radius: var(--syntara-radius-button);
+  background-color: var(--syntara-color-action-primary-bg);
+  color: var(--syntara-color-action-primary-fg);
+  font-family: var(--syntara-font-heading);
+  font-size: var(--syntara-font-size-lg);
+  font-weight: var(--syntara-font-weight-bold);
   line-height: 1;
-  box-shadow: var(--strata-shadow-highlight), var(--strata-shadow-raised);
+  box-shadow: var(--syntara-shadow-highlight), var(--syntara-shadow-raised);
 }
 
 .brandName {
-  font-family: var(--strata-font-heading);
-  font-size: var(--strata-font-size-xl);
-  font-weight: var(--strata-font-weight-semibold);
-  letter-spacing: var(--strata-font-tracking-xl);
+  font-family: var(--syntara-font-heading);
+  font-size: var(--syntara-font-size-xl);
+  font-weight: var(--syntara-font-weight-semibold);
+  letter-spacing: var(--syntara-font-tracking-xl);
 }
 
 /*
@@ -264,7 +264,7 @@
   inline-size: 70%;
   block-size: auto;
   fill: none;
-  stroke: color-mix(in oklab, var(--strata-color-action-primary-bg) 35%, transparent);
+  stroke: color-mix(in oklab, var(--syntara-color-action-primary-bg) 35%, transparent);
   stroke-width: 1;
   vector-effect: non-scaling-stroke;
   mask-image: radial-gradient(circle at 100% 0%, black 30%, transparent 75%);
@@ -280,16 +280,16 @@
 
 .brandCopy {
   display: grid;
-  gap: var(--strata-space-5);
+  gap: var(--syntara-space-5);
   max-inline-size: 30ch;
 }
 
 .headline {
-  font-family: var(--strata-font-heading);
-  font-size: var(--strata-font-size-4xl);
-  font-weight: var(--strata-font-weight-semibold);
-  letter-spacing: var(--strata-font-tracking-4xl);
-  line-height: var(--strata-line-height-tight);
+  font-family: var(--syntara-font-heading);
+  font-size: var(--syntara-font-size-4xl);
+  font-weight: var(--syntara-font-weight-semibold);
+  letter-spacing: var(--syntara-font-tracking-4xl);
+  line-height: var(--syntara-line-height-tight);
   text-wrap: balance;
 }
 
@@ -297,16 +297,16 @@
 .headline em,
 .title.title em {
   font-style: italic;
-  font-weight: var(--strata-font-weight-regular);
-  color: var(--strata-color-text-brand);
+  font-weight: var(--syntara-font-weight-regular);
+  color: var(--syntara-color-text-brand);
 }
 
 .brandBody {
   max-inline-size: 38ch;
-  color: var(--strata-color-text-subtle);
-  font-size: var(--strata-font-size-lg);
-  letter-spacing: var(--strata-font-tracking-lg);
-  line-height: var(--strata-line-height-normal);
+  color: var(--syntara-color-text-subtle);
+  font-size: var(--syntara-font-size-lg);
+  letter-spacing: var(--syntara-font-tracking-lg);
+  line-height: var(--syntara-line-height-normal);
   text-wrap: pretty;
 }
 
@@ -322,13 +322,13 @@
  * Duration is 2 × duration-slow: easing-out is a steep expo curve, and at 1× the move is over before it reads.
  */
 .root {
-  --_step: calc(var(--strata-motion-duration-fast) / 2);
+  --_step: calc(var(--syntara-motion-duration-fast) / 2);
 }
 
 @media (prefers-reduced-motion: no-preference) {
   .card.card > *,
   .brandPanel > * {
-    animation: sign-in-enter calc(var(--strata-motion-duration-slow) * 2) var(--strata-motion-easing-out) backwards;
+    animation: sign-in-enter calc(var(--syntara-motion-duration-slow) * 2) var(--syntara-motion-easing-out) backwards;
     animation-delay: calc(var(--_i, 0) * var(--_step));
   }
 
@@ -356,6 +356,6 @@
 @keyframes sign-in-enter {
   from {
     opacity: 0;
-    translate: 0 var(--strata-space-3);
+    translate: 0 var(--syntara-space-3);
   }
 }

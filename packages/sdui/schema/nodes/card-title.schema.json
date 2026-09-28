@@ -1,9 +1,9 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "urn:strata:sdui:v1:node:CardTitle",
+  "$id": "urn:syntara:sdui:v1:node:CardTitle",
   "title": "CardTitle",
   "description": "The card's heading.",
-  "x-strata": {
+  "x-syntara": {
     "node": "CardTitle",
     "component": "card",
     "export": "CardTitle",
@@ -21,7 +21,7 @@
       "const": "CardTitle"
     },
     "id": {
-      "$ref": "urn:strata:sdui:v1:defs#/$defs/NodeId"
+      "$ref": "urn:syntara:sdui:v1:defs#/$defs/NodeId"
     },
     "props": {
       "type": "object",
@@ -48,13 +48,13 @@
     },
     "fallback": {
       "description": "Rendered instead of this node by a client that doesn't know its type. Must be a node that client knows.",
-      "$ref": "urn:strata:sdui:v1:screen#/$defs/Node"
+      "$ref": "urn:syntara:sdui:v1:screen#/$defs/Node"
     }
   },
   "additionalProperties": false,
   "allOf": [
     {
-      "x-strata-rule": {
+      "x-syntara-rule": {
         "id": "card-title-text",
         "message": "A CardTitle needs text: an empty heading is announced as a blank."
       },

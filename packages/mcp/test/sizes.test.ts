@@ -1,7 +1,7 @@
 /**
  * Response sizes. Agents pay for every byte, so each response has a budget, and the measured sizes are printed.
  *
- *   pnpm --filter @strata/mcp test sizes
+ *   pnpm --filter @syntara/mcp test sizes
  *
  * A budget is a ceiling with some room over the size measured when it was set. If a response outgrows it, look at
  * what was added before raising the number.

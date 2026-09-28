@@ -13,10 +13,10 @@
   ],
   "dependencies": [
     "react-aria-components",
-    "@strata/icons"
+    "@syntara/icons"
   ],
   "registryDependencies": [],
-  "usage": "import { Alert } from '@strata/react';\n\nexport function CardNotice() {\n  return (\n    <Alert tone=\"warning\" title=\"Card expiring\">\n      Your card ending 4821 expires next month. Order a replacement.\n    </Alert>\n  );\n}",
+  "usage": "import { Alert } from '@syntara/react';\n\nexport function CardNotice() {\n  return (\n    <Alert tone=\"warning\" title=\"Card expiring\">\n      Your card ending 4821 expires next month. Order a replacement.\n    </Alert>\n  );\n}",
   "examples": [
     {
       "name": "alert-demo",
@@ -102,7 +102,7 @@
       "With `live`, the alert is named by its title (aria-labelledby).",
       "The close button is a 24×24px target (WCAG 2.5.8) and has an accessible name.",
       "Each tone has its own filled shape and a text title, so colour is never the only signal. The shape is feedback.<tone>.fg: ≥ 6.09:1 against the surface, including the sheen's brightest pixel (WCAG 1.4.11 needs 3:1). The knocked-out glyph is feedback.<tone>.bg: ≥ 5.43:1 against the shape. Both hold for every tenant and the 1,000 fuzz brands in both schemes, and test/alert.test.tsx re-proves them.",
-      "Surface recipe: an opaque surface.raised face, --strata-sheen in dark, a neutral hairline and the raised shadow. Only text.default and text.subtle sit on it."
+      "Surface recipe: an opaque surface.raised face, --syntara-sheen in dark, a neutral hairline and the raised shadow. Only text.default and text.subtle sit on it."
     ]
   },
   "guidelines": {

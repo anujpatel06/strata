@@ -1,5 +1,5 @@
 /** Tiny monochrome glyphs for the shape and density toggles (ported from the Phase 1 generator). Decorative. */
-import type { Density, Shape } from '@strata/theme-engine';
+import type { Density, Shape } from '@syntara/theme-engine';
 
 const CORNER_RADIUS: Record<Shape, number> = { sharp: 0, soft: 4, round: 8 };
 

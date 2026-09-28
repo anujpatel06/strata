@@ -1,12 +1,12 @@
 'use client';
 
 import { useState } from 'react';
-import { Alert, Button } from '@strata/react';
+import { Alert, Button } from '@syntara/react';
 
 export default function Example() {
   const [visible, setVisible] = useState(true);
   return (
-    <div style={{ display: 'grid', gap: 'var(--strata-space-3)', inlineSize: '100%', maxInlineSize: 560 }}>
+    <div style={{ display: 'grid', gap: 'var(--syntara-space-3)', inlineSize: '100%', maxInlineSize: 560 }}>
       {/* Action weight follows severity: contrast when something needs fixing, outline otherwise. */}
       <Alert tone="danger" title="Payment failed" action={<Button size="sm" variant="contrast">Update card</Button>}>
         We couldn't charge your card ending 4821.

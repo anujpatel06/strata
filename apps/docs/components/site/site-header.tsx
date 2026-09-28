@@ -43,8 +43,8 @@ function searchGroups(): SearchGroup[] {
   groups.push({
     label: 'Pages',
     items: [
-      { href: '/', title: 'Home', keywords: 'start landing', description: 'Strata at a glance, live in every tenant.' },
-      { href: '/blocks', title: 'Blocks', keywords: 'patterns screens', description: 'Whole screens built only from Strata components.' },
+      { href: '/', title: 'Home', keywords: 'start landing', description: 'Syntara at a glance, live in every tenant.' },
+      { href: '/blocks', title: 'Blocks', keywords: 'patterns screens', description: 'Whole screens built only from Syntara components.' },
       { href: '/themes', title: 'Themes', keywords: 'tenants brands generator', description: 'Type a brand colour, get an accessible theme.' },
       { href: '/colors', title: 'Colors', keywords: 'palette ramps roles', description: 'Every brand’s ramps, light and dark. Click to copy.' },
     ],
@@ -57,16 +57,16 @@ export function SiteHeader() {
     <header className={styles.header}>
       <div className={styles.inner}>
         <MobileNav groups={getSidebar()} />
-        <Link href="/" className={styles.brand} aria-label="Strata home">
+        <Link href="/" className={styles.brand} aria-label="Syntara home">
           <LogoMark size={20} />
           <span className={styles.brandName} aria-hidden="true">
-            Strata
+            Syntara
           </span>
         </Link>
         <MainNav />
         <div className={styles.actions}>
           <Search groups={searchGroups()} />
-          <a href={GITHUB_URL} className={styles.iconLink} aria-label="Strata on GitHub" target="_blank" rel="noreferrer">
+          <a href={GITHUB_URL} className={styles.iconLink} aria-label="Syntara on GitHub" target="_blank" rel="noreferrer">
             <IconBrandGithub aria-hidden />
           </a>
           <SchemeToggle />

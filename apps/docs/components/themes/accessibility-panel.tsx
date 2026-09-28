@@ -8,7 +8,7 @@ import {
   IconSun,
   IconSparkles,
   IconX,
-} from '@strata/icons';
+} from '@syntara/icons';
 import {
   Badge,
   DataTable,
@@ -18,8 +18,8 @@ import {
   useSortedRows,
   type DataTableColumn,
   type DataTableSortDescriptor,
-} from '@strata/react';
-import type { Adjustment, AdjustmentKind, ContrastCheck, Scheme } from '@strata/theme-engine';
+} from '@syntara/react';
+import type { Adjustment, AdjustmentKind, ContrastCheck, Scheme } from '@syntara/theme-engine';
 import { useId, useMemo, useState } from 'react';
 import { KIND_HELP, KIND_LABEL, SCHEME_LABEL, formatRatio, formatRequired, plural } from './format';
 import { SCHEMES } from './state';

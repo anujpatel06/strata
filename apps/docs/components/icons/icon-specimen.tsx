@@ -2,7 +2,7 @@
  * The featured row: signature icons drawn large on their construction grid (every unit, the live area and the
  * keyline circle), each captioned with the one rule it shows. Server component; the numbers come from the spec.
  */
-import { IconBell, IconCheck, IconChevronRight, IconCreditCard, IconSettings, type Icon } from '@strata/icons';
+import { IconBell, IconCheck, IconChevronRight, IconCreditCard, IconSettings, type Icon } from '@syntara/icons';
 import type { IconSpec } from './icon-data';
 import styles from './icons.module.css';
 

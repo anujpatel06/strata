@@ -1,10 +1,10 @@
 'use client';
 
-import { ChartLegend } from '@strata/react';
+import { ChartLegend } from '@syntara/react';
 
 export default function Example() {
   return (
-    <div style={{ display: 'grid', gap: 'var(--strata-space-4)' }}>
+    <div style={{ display: 'grid', gap: 'var(--syntara-space-4)' }}>
       <ChartLegend
         aria-label="Series"
         series={[

@@ -1,6 +1,6 @@
 'use client';
 
-import { Button, Card, CardDescription, CardFooter, CardHeader, CardTitle, Eyebrow } from '@strata/react';
+import { Button, Card, CardDescription, CardFooter, CardHeader, CardTitle, Eyebrow } from '@syntara/react';
 
 export default function Example() {
   return (

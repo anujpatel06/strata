@@ -20,7 +20,7 @@
   ],
   "dependencies": [],
   "registryDependencies": [],
-  "usage": "import { Button, Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@strata/react';\n\nexport function PlanCard() {\n  return (\n    <Card>\n      <CardHeader>\n        <CardTitle>Family plan</CardTitle>\n        <CardDescription>Renews on 1 April</CardDescription>\n      </CardHeader>\n      <CardContent>4 members covered</CardContent>\n      <CardFooter>\n        <Button size=\"sm\">Manage plan</Button>\n      </CardFooter>\n    </Card>\n  );\n}",
+  "usage": "import { Button, Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@syntara/react';\n\nexport function PlanCard() {\n  return (\n    <Card>\n      <CardHeader>\n        <CardTitle>Family plan</CardTitle>\n        <CardDescription>Renews on 1 April</CardDescription>\n      </CardHeader>\n      <CardContent>4 members covered</CardContent>\n      <CardFooter>\n        <Button size=\"sm\">Manage plan</Button>\n      </CardFooter>\n    </Card>\n  );\n}",
   "examples": [
     {
       "name": "card-demo",

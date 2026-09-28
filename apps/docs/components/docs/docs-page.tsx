@@ -1,5 +1,5 @@
-import { IconArrowLeft, IconArrowRight, IconPencil } from '@strata/icons';
-import { Eyebrow } from '@strata/react';
+import { IconArrowLeft, IconArrowRight, IconPencil } from '@syntara/icons';
+import { Eyebrow } from '@syntara/react';
 import Link from 'next/link';
 import type { ReactNode } from 'react';
 import { getPrevNext } from '@/lib/nav';

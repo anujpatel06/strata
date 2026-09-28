@@ -1,7 +1,7 @@
 'use client';
 
-import { Badge, DataTable, Tooltip, TooltipTrigger, type DataTableColumn } from '@strata/react';
-import { ROLES, roleToCssVar, type Adjustment, type RampName, type ResolvedColor, type Role } from '@strata/theme-engine';
+import { Badge, DataTable, Tooltip, TooltipTrigger, type DataTableColumn } from '@syntara/react';
+import { ROLES, roleToCssVar, type Adjustment, type RampName, type ResolvedColor, type Role } from '@syntara/theme-engine';
 import { useId, useMemo } from 'react';
 import { Focusable } from 'react-aria-components';
 import { SCHEME_LABEL } from './format';

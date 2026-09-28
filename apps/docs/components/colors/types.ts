@@ -10,7 +10,7 @@ export interface ColorSwatch {
   oklch: string;
   /** Semantic roles that resolve to exactly this step in this scheme, e.g. ["action.primary.bg"]. */
   roles: string[];
-  /** CSS variable of the first role, e.g. "--strata-color-action-primary-bg". */
+  /** CSS variable of the first role, e.g. "--syntara-color-action-primary-bg". */
   cssVar?: string;
   /** Which end of the tenant's own neutral ramp reads best on this swatch (for the hover label). */
   ink: string;

@@ -16,7 +16,7 @@
   ],
   "dependencies": [
     "react-aria-components",
-    "@strata/icons"
+    "@syntara/icons"
   ],
   "registryDependencies": [
     "checkbox",
@@ -24,7 +24,7 @@
     "skeleton"
   ],
   "reactAria": "https://react-spectrum.adobe.com/react-aria/Table.html",
-  "usage": "import { useState } from 'react';\nimport { DataTable, useSortedRows, type DataTableColumn, type DataTableSortDescriptor } from '@strata/react';\n\ntype Payment = { id: string; payee: string; amount: number };\n\nconst columns: DataTableColumn<Payment>[] = [\n  { id: 'id', header: 'Reference', isRowHeader: true, cell: (r) => r.id },\n  { id: 'payee', header: 'Payee', allowsSorting: true, cell: (r) => r.payee },\n  { id: 'amount', header: 'Amount', align: 'end', allowsSorting: true, cell: (r) => r.amount.toFixed(2) },\n];\nconst accessors = { payee: (r: Payment) => r.payee, amount: (r: Payment) => r.amount };\n\nexport function Payments({ rows }: { rows: Payment[] }) {\n  const [sort, setSort] = useState<DataTableSortDescriptor>();\n  const sorted = useSortedRows(rows, sort, accessors);\n  return (\n    <DataTable aria-label=\"Payments\" columns={columns} rows={sorted} getRowId={(r) => r.id}\n      sortDescriptor={sort} onSortChange={setSort} selectionMode=\"multiple\" />\n  );\n}",
+  "usage": "import { useState } from 'react';\nimport { DataTable, useSortedRows, type DataTableColumn, type DataTableSortDescriptor } from '@syntara/react';\n\ntype Payment = { id: string; payee: string; amount: number };\n\nconst columns: DataTableColumn<Payment>[] = [\n  { id: 'id', header: 'Reference', isRowHeader: true, cell: (r) => r.id },\n  { id: 'payee', header: 'Payee', allowsSorting: true, cell: (r) => r.payee },\n  { id: 'amount', header: 'Amount', align: 'end', allowsSorting: true, cell: (r) => r.amount.toFixed(2) },\n];\nconst accessors = { payee: (r: Payment) => r.payee, amount: (r: Payment) => r.amount };\n\nexport function Payments({ rows }: { rows: Payment[] }) {\n  const [sort, setSort] = useState<DataTableSortDescriptor>();\n  const sorted = useSortedRows(rows, sort, accessors);\n  return (\n    <DataTable aria-label=\"Payments\" columns={columns} rows={sorted} getRowId={(r) => r.id}\n      sortDescriptor={sort} onSortChange={setSort} selectionMode=\"multiple\" />\n  );\n}",
   "examples": [
     {
       "name": "data-table-demo",

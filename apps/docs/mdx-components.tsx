@@ -1,5 +1,5 @@
 import type { MDXComponents } from 'mdx/types';
-import { Badge, Kbd } from '@strata/react';
+import { Badge, Kbd } from '@syntara/react';
 import { Callout } from '@/components/mdx/callout';
 import { CodeBlock } from '@/components/mdx/code-block';
 import { PackageCommand } from '@/components/mdx/package-command';

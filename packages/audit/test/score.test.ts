@@ -64,7 +64,7 @@ describe('scoreOf', () => {
   });
 
   it('scores a real snippet', () => {
-    const r = auditSource('.a {\n  color: #123456;\n  gap: var(--strata-space-2);\n  margin-inline: var(--strata-space-2);\n}\n', { language: 'css' });
+    const r = auditSource('.a {\n  color: #123456;\n  gap: var(--syntara-space-2);\n  margin-inline: var(--syntara-space-2);\n}\n', { language: 'css' });
     // raw-color 1 of 1 (3), space 0 of 2 (2), physical 0 of 1 (3): 1 − 3/8 = 62.5.
     expect(r.stats.opportunitiesByRule).toEqual({ 'raw-color': 1, 'off-scale-space': 2, 'physical-property': 1 });
     expect(scoreOf(r.findings, r.stats)).toBe(62.5);

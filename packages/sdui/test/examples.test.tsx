@@ -6,9 +6,9 @@ import { readFileSync } from 'node:fs';
 import path from 'node:path';
 import { render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { ThemeScope } from '@strata/react';
+import { ThemeScope } from '@syntara/react';
 import { prepareScreen, validateScreen } from '../src/index';
-import { StrataScreen, type Issue } from '../src/react';
+import { SyntaraScreen, type Issue } from '../src/react';
 
 const load = (name: string) => JSON.parse(readFileSync(path.resolve(__dirname, `../examples/${name}.json`), 'utf8')) as unknown;
 
@@ -17,7 +17,7 @@ function draw(name: string) {
   const onAction = vi.fn();
   const utils = render(
     <ThemeScope locale="en-IN">
-      <StrataScreen document={load(name)} onAction={onAction} onIssue={(i) => issues.push(i)} fallback={<p>fallback</p>} />
+      <SyntaraScreen document={load(name)} onAction={onAction} onIssue={(i) => issues.push(i)} fallback={<p>fallback</p>} />
     </ThemeScope>,
   );
   expect(screen.queryByText('fallback')).toBeNull();

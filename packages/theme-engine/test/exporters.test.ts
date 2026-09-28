@@ -33,12 +33,12 @@ describe('CSS variable contract (parsed from types.ts)', () => {
   it('parses every non-colour contract variable', () => {
     const vars = contractFoundationVars();
     expect(vars).toHaveLength(76);
-    expect(vars).toContain('--strata-chart-4');
-    expect(vars).toContain('--strata-chart-grid');
-    expect(vars).toContain('--strata-space-16');
-    expect(vars).toContain('--strata-font-heading-tracking');
-    expect(vars).toContain('--strata-motion-easing');
-    expect(vars).toContain('--strata-field-gap');
+    expect(vars).toContain('--syntara-chart-4');
+    expect(vars).toContain('--syntara-chart-grid');
+    expect(vars).toContain('--syntara-space-16');
+    expect(vars).toContain('--syntara-font-heading-tracking');
+    expect(vars).toContain('--syntara-motion-easing');
+    expect(vars).toContain('--syntara-field-gap');
   });
 });
 
@@ -47,7 +47,7 @@ describe('toCssVariables', () => {
     const vars = toCssVariables(theme, scheme);
     expect(cssVarProblems(vars, theme, scheme)).toEqual([]);
     expect(Object.keys(vars).sort()).toEqual(contractCssVars().sort());
-    expect(Object.keys(vars).every((k) => k.startsWith('--strata-'))).toBe(true);
+    expect(Object.keys(vars).every((k) => k.startsWith('--syntara-'))).toBe(true);
   });
 
   it.each(['light', 'dark'] as const)('every var() inside a value points at a variable it defines (%s)', (scheme) => {
@@ -60,7 +60,7 @@ describe('toCssVariables', () => {
     const { fuzzInputs } = await import('../scripts/fuzz');
     const { generateTheme } = await import('../src/theme');
     const { contrastRatio, hexToRgb8, rgb8ToHex } = await import('../src/color');
-    const peak = Number(/(\d+)%, transparent\) 20%/.exec(toCssVariables(generateTheme(fuzzInputs()[0]!), 'dark')['--strata-sheen']!)![1]) / 100;
+    const peak = Number(/(\d+)%, transparent\) 20%/.exec(toCssVariables(generateTheme(fuzzInputs()[0]!), 'dark')['--syntara-sheen']!)![1]) / 100;
     const mix = (a: string, b: string) => {
       const A = hexToRgb8(a);
       const B = hexToRgb8(b);
@@ -78,28 +78,28 @@ describe('toCssVariables', () => {
 
   it('formats values CSS-ready', () => {
     const v = toCssVariables(theme, 'light');
-    expect(v['--strata-space-0']).toBe('0px');
-    expect(v['--strata-space-4']).toBe('16px');
-    expect(v['--strata-radius-pill']).toBe('9999px');
-    expect(v['--strata-font-size-2xl']).toBe('24px');
-    expect(v['--strata-line-height-normal']).toBe('1.5');
-    expect(v['--strata-font-weight-semibold']).toBe('600');
-    expect(v['--strata-motion-duration-fast']).toBe('120ms');
-    expect(v['--strata-motion-duration-normal']).toBe('200ms');
-    expect(v['--strata-motion-easing']).toBe('cubic-bezier(0.2, 0, 0, 1)');
-    expect(v['--strata-font-heading']).toBe(theme.typePair.heading);
-    expect(v['--strata-font-mono']).toBe(theme.typePair.mono);
-    expect(v['--strata-font-heading-tracking']).toBe('-0.01em');
-    expect(v['--strata-shadow-raised']).toBe(theme.schemes.light.shadows.raised);
-    expect(v['--strata-color-feedback-success-on-solid']).toBe(theme.schemes.light.roles['feedback.success.onSolid'].hex);
-    expect(v['--strata-color-focus-ring']).toBe(FIXTURE_FOCUS_RING_LIGHT);
+    expect(v['--syntara-space-0']).toBe('0px');
+    expect(v['--syntara-space-4']).toBe('16px');
+    expect(v['--syntara-radius-pill']).toBe('9999px');
+    expect(v['--syntara-font-size-2xl']).toBe('24px');
+    expect(v['--syntara-line-height-normal']).toBe('1.5');
+    expect(v['--syntara-font-weight-semibold']).toBe('600');
+    expect(v['--syntara-motion-duration-fast']).toBe('120ms');
+    expect(v['--syntara-motion-duration-normal']).toBe('200ms');
+    expect(v['--syntara-motion-easing']).toBe('cubic-bezier(0.2, 0, 0, 1)');
+    expect(v['--syntara-font-heading']).toBe(theme.typePair.heading);
+    expect(v['--syntara-font-mono']).toBe(theme.typePair.mono);
+    expect(v['--syntara-font-heading-tracking']).toBe('-0.01em');
+    expect(v['--syntara-shadow-raised']).toBe(theme.schemes.light.shadows.raised);
+    expect(v['--syntara-color-feedback-success-on-solid']).toBe(theme.schemes.light.roles['feedback.success.onSolid'].hex);
+    expect(v['--syntara-color-focus-ring']).toBe(FIXTURE_FOCUS_RING_LIGHT);
   });
 
   it('uses the scheme and density arguments', () => {
-    expect(toCssVariables(theme, 'dark')['--strata-shadow-overlay']).toBe(theme.schemes.dark.shadows.overlay);
-    expect(toCssVariables(theme, 'light')['--strata-control-height']).toBe('40px');
-    expect(toCssVariables(theme, 'light', 'compact')['--strata-control-height']).toBe('32px');
-    expect(toCssVariables(compactTheme, 'light')['--strata-table-row-height']).toBe('36px');
+    expect(toCssVariables(theme, 'dark')['--syntara-shadow-overlay']).toBe(theme.schemes.dark.shadows.overlay);
+    expect(toCssVariables(theme, 'light')['--syntara-control-height']).toBe('40px');
+    expect(toCssVariables(theme, 'light', 'compact')['--syntara-control-height']).toBe('32px');
+    expect(toCssVariables(compactTheme, 'light')['--syntara-table-row-height']).toBe('36px');
   });
 });
 
@@ -109,7 +109,7 @@ describe('toCSS', () => {
   const find = (selector: string, at: string | null = null) => rules.find((r) => r.selector === selector && r.at === at);
 
   it('starts with the generated-file banner', () => {
-    expect(css.split('\n')[0]).toBe('/* Strata theme: Fixture — generated by @strata/theme-engine 0.1.0. Do not edit by hand. */');
+    expect(css.split('\n')[0]).toBe('/* Syntara theme: Fixture — generated by @syntara/theme-engine 0.1.0. Do not edit by hand. */');
   });
 
   it('base block = light scheme + foundations + default density', () => {
@@ -122,13 +122,13 @@ describe('toCSS', () => {
 
   it('dark block and prefers-color-scheme auto block carry dark colours + shadows', () => {
     const expected = { 'color-scheme': 'dark', ...writeColorVars({}, theme, 'dark'), ...writeShadowVars({}, theme, 'dark') };
-    expect(find(':root[data-strata-scheme="dark"]')?.decls).toEqual(expected);
+    expect(find(':root[data-syntara-scheme="dark"]')?.decls).toEqual(expected);
     expect(css).toContain('@media (prefers-color-scheme: dark)');
-    expect(find(':root[data-strata-scheme="auto"]', '@media (prefers-color-scheme: dark)')?.decls).toEqual(expected);
+    expect(find(':root[data-syntara-scheme="auto"]', '@media (prefers-color-scheme: dark)')?.decls).toEqual(expected);
   });
 
   it('emits a compact density override', () => {
-    expect(find(':root[data-strata-density="compact"]')?.decls).toEqual(writeDensityVars({}, theme, 'compact'));
+    expect(find(':root[data-syntara-density="compact"]')?.decls).toEqual(writeDensityVars({}, theme, 'compact'));
   });
 
   it('declares every role variable in light, dark and auto blocks', () => {
@@ -141,29 +141,29 @@ describe('toCSS', () => {
   it('uses compact as the base when the tenant defaults to compact', () => {
     const r = parseCss(toCSS(compactTheme));
     const base = r.find((x) => x.selector === ':root');
-    expect(base?.decls['--strata-control-height']).toBe('32px');
-    const override = r.find((x) => x.selector === ':root[data-strata-density="comfortable"]');
+    expect(base?.decls['--syntara-control-height']).toBe('32px');
+    const override = r.find((x) => x.selector === ':root[data-syntara-density="comfortable"]');
     expect(override?.decls).toEqual(writeDensityVars({}, theme, 'comfortable'));
-    expect(r.some((x) => x.selector.includes('data-strata-density="compact"'))).toBe(false);
+    expect(r.some((x) => x.selector.includes('data-syntara-density="compact"'))).toBe(false);
   });
 
   it('appends mode attributes directly to an attribute selector', () => {
-    const scoped = toCSS(theme, { selector: '[data-strata-theme="vela"]' });
+    const scoped = toCSS(theme, { selector: '[data-syntara-theme="vela"]' });
     const r = parseCss(scoped);
     const sels = r.map((x) => x.selector);
     expect(sels).toEqual([
-      '[data-strata-theme="vela"]',
-      '[data-strata-theme="vela"][data-strata-scheme="dark"]',
-      '[data-strata-theme="vela"][data-strata-scheme="auto"]',
-      '[data-strata-theme="vela"][data-strata-density="compact"]',
-      '[data-strata-theme="vela"]',
+      '[data-syntara-theme="vela"]',
+      '[data-syntara-theme="vela"][data-syntara-scheme="dark"]',
+      '[data-syntara-theme="vela"][data-syntara-scheme="auto"]',
+      '[data-syntara-theme="vela"][data-syntara-density="compact"]',
+      '[data-syntara-theme="vela"]',
     ]);
     expect(scoped).not.toContain(':root');
   });
 
   it('appends to each selector in a selector list', () => {
-    const r = parseCss(toCSS(theme, { selector: ':root, .strata' }));
-    expect(r[1]?.selector).toBe(':root[data-strata-scheme="dark"], .strata[data-strata-scheme="dark"]');
+    const r = parseCss(toCSS(theme, { selector: ':root, .syntara' }));
+    expect(r[1]?.selector).toBe(':root[data-syntara-scheme="dark"], .syntara[data-syntara-scheme="dark"]');
   });
 });
 
@@ -214,13 +214,13 @@ describe('toDTCG', () => {
     expect(sem.light.color.feedback.success.onSolid.$value).toMatchObject({ hex: '#ffffff' });
     // Adjusted to a literal value.
     expect(sem.light.color.focus.ring.$value).toMatchObject({ colorSpace: 'srgb', hex: FIXTURE_FOCUS_RING_LIGHT });
-    expect(sem.light.color.focus.ring.$extensions['com.strata.adjusted']).toMatchObject({
+    expect(sem.light.color.focus.ring.$extensions['com.syntara.adjusted']).toMatchObject({
       from: '{primitive.color.light.primary.8}',
       reason: theme.adjustments[0]!.message,
     });
     // Adjusted along the ramp: still an alias, still explained.
     expect(sem.dark.color.text.brand.$value).toBe('{primitive.color.dark.primary.12}');
-    expect(sem.dark.color.text.brand.$extensions['com.strata.adjusted'].reason).toBe(theme.adjustments[1]!.message);
+    expect(sem.dark.color.text.brand.$extensions['com.syntara.adjusted'].reason).toBe(theme.adjustments[1]!.message);
   });
 
   it('exports foundations with DTCG composite types', () => {
@@ -254,10 +254,10 @@ describe('toDTCG', () => {
   });
 
   it('carries theme metadata in $extensions', () => {
-    expect(doc.$description).toMatch(/^Strata theme for Fixture/);
-    expect((doc.$extensions as any)['com.strata.theme']).toMatchObject({
+    expect(doc.$description).toMatch(/^Syntara theme for Fixture/);
+    expect((doc.$extensions as any)['com.syntara.theme']).toMatchObject({
       input: theme.input,
-      generator: '@strata/theme-engine@0.1.0',
+      generator: '@syntara/theme-engine@0.1.0',
       headingTracking: '-0.01em',
     });
     expect(JSON.parse(JSON.stringify(doc))).toEqual(doc);

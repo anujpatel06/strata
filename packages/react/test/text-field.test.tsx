@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { TextField as RACTextField } from 'react-aria-components';
-import { generateTheme, type BrandInput, type Theme } from '@strata/theme-engine';
+import { generateTheme, type BrandInput, type Theme } from '@syntara/theme-engine';
 import {
   contrastRatio,
   hexToRgb8,
@@ -147,7 +147,7 @@ describe('field boundary contrast', () => {
     }
   ).process;
   const css = node.getBuiltinModule('node:fs').readFileSync(`${node.cwd()}/src/ui/text-field.module.css`, 'utf8');
-  const edge = /--_edge: light-dark\(\s*var\(--strata-color-border-strong\),\s*color-mix\(in oklab, var\(--strata-color-border-strong\) (\d+)%, var\(--strata-color-border-default\)\)\s*\);/.exec(css);
+  const edge = /--_edge: light-dark\(\s*var\(--syntara-color-border-strong\),\s*color-mix\(in oklab, var\(--syntara-color-border-strong\) (\d+)%, var\(--syntara-color-border-default\)\)\s*\);/.exec(css);
   const DARK = Number(edge?.[1]);
 
   type Rgb = [number, number, number];

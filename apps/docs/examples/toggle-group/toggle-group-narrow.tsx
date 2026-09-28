@@ -1,6 +1,6 @@
 'use client';
 
-import { ToggleButton, ToggleButtonGroup } from '@strata/react';
+import { ToggleButton, ToggleButtonGroup } from '@syntara/react';
 
 // A narrow column, like a phone screen or a side panel. The five segments don't fit on one row, so they wrap onto a
 // second row inside the track. Every label stays whole, and nothing scrolls sideways.

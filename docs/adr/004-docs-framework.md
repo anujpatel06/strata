@@ -16,7 +16,7 @@
 - Content in Markdown/MDX; ADRs and `docs/log.md` render as-is.
 - Brand Generator and live examples mount as React islands (`client:visible`).
 - Static output → Vercel or Cloudflare Pages.
-- Starlight's theme is mapped to Strata tokens, so the docs are styled with Strata.
+- Starlight's theme is mapped to Syntara tokens, so the docs are styled with Syntara.
 
 ## Alternatives considered
 
@@ -26,5 +26,5 @@
 ## Consequences
 
 - **Good:** fast static pages; search, sidebar and RTL support out of the box; content-first authoring.
-- **Bad:** a second framework next to the Vite apps; Anuj is less familiar with Astro; mapping Starlight's theme to Strata tokens is extra work.
+- **Bad:** a second framework next to the Vite apps; Anuj is less familiar with Astro; mapping Starlight's theme to Syntara tokens is extra work.
 - **Revisit when:** docs need server features (auth, per-user data). Not planned.

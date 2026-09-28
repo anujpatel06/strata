@@ -31,16 +31,16 @@ import {
   type ListBoxItemProps,
   type ListBoxSectionProps,
 } from 'react-aria-components';
-import { IconSearch } from '@strata/icons';
+import { IconSearch } from '@syntara/icons';
 import styles from './command.module.css';
 
 const cx = (...c: Array<string | false | null | undefined>) => c.filter(Boolean).join(' ');
 
 /**
  * Overlays portal to <body>, outside any ThemeScope. At open time copy the scope attributes
- * (data-strata-theme/scheme/density) and dir/lang of the element the palette belongs to onto the overlay root.
+ * (data-syntara-theme/scheme/density) and dir/lang of the element the palette belongs to onto the overlay root.
  */
-const SCOPE_ATTRS = ['data-strata-theme', 'data-strata-scheme', 'data-strata-density'] as const;
+const SCOPE_ATTRS = ['data-syntara-theme', 'data-syntara-scheme', 'data-syntara-density'] as const;
 function mirrorScope(overlay: HTMLElement, source: Element | null | undefined): void {
   if (!source || overlay.contains(source)) return;
   for (const name of SCOPE_ATTRS) {

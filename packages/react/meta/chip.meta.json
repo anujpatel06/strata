@@ -14,11 +14,11 @@
   ],
   "dependencies": [
     "react-aria-components",
-    "@strata/icons"
+    "@syntara/icons"
   ],
   "registryDependencies": [],
   "reactAria": "https://react-spectrum.adobe.com/react-aria/TagGroup.html",
-  "usage": "import { Chip, ChipGroup } from '@strata/react';\n\nexport function Filters() {\n  return (\n    <ChipGroup label=\"Show\" defaultSelectedKeys={['sponsored']}>\n      <Chip id=\"sponsored\" count={3}>Sponsored</Chip>\n      <Chip id=\"discounted\" count={2}>Discounted</Chip>\n      <Chip id=\"consults\" count={4}>Consults</Chip>\n    </ChipGroup>\n  );\n}",
+  "usage": "import { Chip, ChipGroup } from '@syntara/react';\n\nexport function Filters() {\n  return (\n    <ChipGroup label=\"Show\" defaultSelectedKeys={['sponsored']}>\n      <Chip id=\"sponsored\" count={3}>Sponsored</Chip>\n      <Chip id=\"discounted\" count={2}>Discounted</Chip>\n      <Chip id=\"consults\" count={4}>Consults</Chip>\n    </ChipGroup>\n  );\n}",
   "examples": [
     {
       "name": "chip-demo",
@@ -140,7 +140,7 @@
       "component": "Chip",
       "name": "icon",
       "type": "ReactNode",
-      "description": "Leading icon from @strata/icons. Decorative. In filter mode the check takes its place when selected."
+      "description": "Leading icon from @syntara/icons. Decorative. In filter mode the check takes its place when selected."
     },
     {
       "component": "Chip",
@@ -215,7 +215,7 @@
   "typeNotes": [
     {
       "prop": "onSelectionChange",
-      "note": "Called with a Selection: 'all' or a Set<Key>. Import the type from @strata/react. onRemove gets a plain Set<Key>.",
+      "note": "Called with a Selection: 'all' or a Set<Key>. Import the type from @syntara/react. onRemove gets a plain Set<Key>.",
       "example": "const [picked, setPicked] = useState<Selection>(new Set(['open']));"
     }
   ],

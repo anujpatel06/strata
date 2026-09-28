@@ -2,7 +2,7 @@
 
 /**
  * Benefits overview — the web screen of a family health-benefits product (the KYB web prototype, rebuilt from
- * Strata components): a filter rail for members and categories, a search, the shared wallet, and every benefit as a
+ * Syntara components): a filter rail for members and categories, a search, the shared wallet, and every benefit as a
  * row you open for the detail. Copy, amounts and dates come from `content`, so the same code is an employer OPD
  * wallet in one brand and an insurer's everyday allowance in another.
  *
@@ -15,7 +15,7 @@
  *
  * The rail is two React Aria listboxes with single selection. They filter the rows; they don't navigate.
  * From 760px of its own width the rail sits beside the list; below that it goes on top and the same two filters render
- * as Strata ChipGroups (choice mode, one tab stop each, arrow keys), bound to the same state. Only one of the two is
+ * as Syntara ChipGroups (choice mode, one tab stop each, arrow keys), bound to the same state. Only one of the two is
  * displayed at a time, so assistive tech meets each filter once.
  *
  * `headingLevel` (default 1) is the level of the page title (visually hidden: the product has none). Above 1 the
@@ -42,7 +42,7 @@ import {
   Tooltip,
   TooltipTrigger,
   Alert,
-} from '@strata/react';
+} from '@syntara/react';
 import {
   IconCalendar,
   IconCheck,
@@ -53,8 +53,8 @@ import {
   IconShieldCheck,
   IconUserPlus,
   IconUsers,
-  type Icon as StrataIcon,
-} from '@strata/icons';
+  type Icon as SyntaraIcon,
+} from '@syntara/icons';
 import { useId, useMemo, useState, type CSSProperties, type JSX, type ReactNode } from 'react';
 import { ListBox, ListBoxItem, type Key, type Selection } from 'react-aria-components';
 import {
@@ -78,7 +78,7 @@ import {
   IconStethoscope,
   IconBuildingStore as IconStore,
   IconVideo,
-} from '@strata/icons';
+} from '@syntara/icons';
 import styles from './benefits-overview.module.css';
 
 const cx = (...c: Array<string | false | null | undefined>) => c.filter(Boolean).join(' ');
@@ -90,7 +90,7 @@ const level = (n: number): Level => Math.min(6, Math.max(1, Math.round(n))) as L
 const fill = (text: string, values: Record<string, string | number>) =>
   text.replace(/\{(\w+)\}/g, (m, k: string) => (k in values ? String(values[k]) : m));
 
-const ICONS: Record<BenefitsOverviewIcon, StrataIcon> = {
+const ICONS: Record<BenefitsOverviewIcon, SyntaraIcon> = {
   all: IconLayoutGrid,
   sponsored: IconShieldCheck,
   discounted: IconDiscount,

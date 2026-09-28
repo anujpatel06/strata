@@ -6,8 +6,8 @@
  * from it with the rules in `tokenName`.
  */
 import { existsSync, readdirSync } from 'node:fs';
-import { ROLES, generateTheme, roleToCssVar, toCssVariables } from '@strata/theme-engine';
-import type { BrandInput } from '@strata/theme-engine';
+import { ROLES, generateTheme, roleToCssVar, toCssVariables } from '@syntara/theme-engine';
+import type { BrandInput } from '@syntara/theme-engine';
 import { cachedFile } from './cache';
 import { ToolError, inside, isSafeName, SAFE_NAME_MESSAGE } from './root';
 
@@ -35,7 +35,7 @@ export interface Token {
   value: string;
 }
 
-const PREFIX = '--strata-';
+const PREFIX = '--syntara-';
 
 const ROLE_BY_VAR = new Map<string, string>(ROLES.map((role) => [roleToCssVar(role), `color.${role}`]));
 
@@ -59,7 +59,7 @@ const GROUPS: ReadonlyArray<readonly [stem: string, dotted: string, category: To
 
 const EFFECTS = new Set(['hairline', 'rim', 'glow', 'sheen']);
 
-/** `--strata-font-size-md` → `font.size.md` in category `font`. Names with no group are density tokens. */
+/** `--syntara-font-size-md` → `font.size.md` in category `font`. Names with no group are density tokens. */
 export function tokenName(cssVar: string): { token: string; category: TokenCategory } {
   const role = ROLE_BY_VAR.get(cssVar);
   if (role) return { token: role, category: 'color' };

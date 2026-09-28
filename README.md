@@ -1,10 +1,10 @@
-# Strata
+# Syntara
 
 A multi-brand design system that humans and AI agents build with.
 
 53 React Aria components, its own icon set, a server-driven UI schema and a docs site with live previews, all themed by an engine that turns six brand inputs into a light and dark theme passing WCAG 2.2 AA.
 
-![Strata docs home](docs/screenshots/v0.2/home.png)
+![Syntara docs home](docs/screenshots/v0.2/home.png)
 
 | Vela · neobank | Harbor · insurer | Qamar · grocery, Arabic RTL |
 |---|---|---|
@@ -14,12 +14,12 @@ Same components, same code. A tenant differs by tokens + copy only. Screenshots:
 
 ## What works today
 
-- **53 components** (`@strata/react`) on React Aria: fields, pickers, overlays, feedback, navigation and a DataTable. Every one works in light and dark, both densities, and RTL, and each has a `meta.json` that drives its docs page.
-- **Docs site** (`apps/docs`, Next.js): component pages with live previews per tenant, scheme, direction and density; Blocks; Themes; Colors; ⌘K search. The site is themed by Strata itself.
-- **Distribution** (ADR-011): install `@strata/react` and `@strata/tokens` from npm (published in Phase 6), or copy a component's source files into your project.
+- **53 components** (`@syntara/react`) on React Aria: fields, pickers, overlays, feedback, navigation and a DataTable. Every one works in light and dark, both densities, and RTL, and each has a `meta.json` that drives its docs page.
+- **Docs site** (`apps/docs`, Next.js): component pages with live previews per tenant, scheme, direction and density; Blocks; Themes; Colors; ⌘K search. The site is themed by Syntara itself.
+- **Distribution** (ADR-011): install `@syntara/react` and `@syntara/tokens` from npm (published in Phase 6), or copy a component's source files into your project.
 - **7 blocks**: dashboard, request flow, settings, sign-in, activity table, benefits overview and portfolio. Each runs in every tenant.
-- **Governance** (`GOVERNANCE.md`): an RFC flow, a deprecation policy, and one deprecation carried out end to end. Button's `variant="danger"` became `tone="danger"`, with a codemod in `@strata/codemods`.
-- **`@strata/icons`**: Strata's own icon set (ADR-014).
+- **Governance** (`GOVERNANCE.md`): an RFC flow, a deprecation policy, and one deprecation carried out end to end. Button's `variant="danger"` became `tone="danger"`, with a codemod in `@syntara/codemods`.
+- **`@syntara/icons`**: Syntara's own icon set (ADR-014).
 
 Phase 1:
 
@@ -46,7 +46,7 @@ Every number comes from a script. Run the command to reproduce it.
 | Tenants rendering from one codebase | 6: Latin, Arabic (right to left) and Hindi | `pnpm tokens` |
 | Contrast re-checked on exported native tokens | 236 / 236 per tenant | `pnpm tokens` |
 | Devanagari clipping, Haat's type pair | 0 in 5,616 measured cases | `node scripts/check-script-clipping.mjs --pairs=bilingual-devanagari` |
-| Deprecations shipped with a codemod | 1 | `GOVERNANCE.md` §5; `pnpm --filter @strata/codemods test` |
+| Deprecations shipped with a codemod | 1 | `GOVERNANCE.md` §5; `pnpm --filter @syntara/codemods test` |
 | Drift score of the docs app | 98.8, with 60 findings | `pnpm drift apps/docs` |
 | Brand colour kept exactly (primary, 1,000 random brands) | 89.2% light, 80.0% dark | `pnpm test:themes` |
 | Agent eval, fully on-system: no context → with the MCP server | 64% → 88% (50 runs each, `claude-sonnet-5`) | `evals/README.md` |
@@ -74,7 +74,7 @@ pnpm screenshots    # Playwright: every tenant × scheme + axe report
 ```
 packages/theme-engine/   brand inputs → theme: OKLCH ramps, contrast solver, exporters
 packages/react/          components on React Aria, one meta.json each
-packages/icons/          Strata's own icon set
+packages/icons/          Syntara's own icon set
 packages/tokens/         built tokens for every tenant: CSS, DTCG, Figma
 packages/codemods/       one codemod per breaking change
 packages/audit/          drift auditor: finds off-system code and suggests the fix

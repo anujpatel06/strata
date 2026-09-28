@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { DataTable, useSortedRows, type DataTableColumn, type DataTableSortDescriptor } from '@strata/react';
+import { DataTable, useSortedRows, type DataTableColumn, type DataTableSortDescriptor } from '@syntara/react';
 
 type Order = { id: string; customer: string; placed: Date; items: number; total: number };
 

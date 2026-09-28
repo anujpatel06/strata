@@ -1,7 +1,7 @@
 'use client';
 
-import { IconArrowUpRight } from '@strata/icons';
-import { Card, CardDescription, CardFooter, CardHeader, CardMedia, CardTitle, Link, ThemeScope } from '@strata/react';
+import { IconArrowUpRight } from '@syntara/icons';
+import { Card, CardDescription, CardFooter, CardHeader, CardMedia, CardTitle, Link, ThemeScope } from '@syntara/react';
 import { BLOCK_COMPONENTS } from './block-components';
 import { DraftCopyNote } from '@/components/page/draft-copy-note';
 import type { BlockTenant } from './block-data';
@@ -37,12 +37,12 @@ export function BlockOverview({ items }: { items: BlockOverviewItem[] }) {
               <Card variant="showcase" interactive className={styles.card}>
                 {/* The media carries the preview tenant's tokens, so each card's haze is the brand it shows (the site's
                     own brand is monochrome). Only the media: the card's text stays on the site's proven pairs. */}
-                <CardMedia data-strata-theme={item.tenant.id} data-strata-scheme="site">
+                <CardMedia data-syntara-theme={item.tenant.id} data-syntara-scheme="site">
                   <div className={styles.window} aria-hidden="true" inert>
                     <div className={styles.canvas}>
                       <ThemeScope
                         theme={item.tenant.id}
-                        data-strata-scheme="site"
+                        data-syntara-scheme="site"
                         locale={item.tenant.locale}
                         className={styles.scope}
                       >

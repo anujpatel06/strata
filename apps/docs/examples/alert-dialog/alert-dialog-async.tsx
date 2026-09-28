@@ -1,6 +1,6 @@
 'use client';
 
-import { AlertDialog, Button, DialogTrigger } from '@strata/react';
+import { AlertDialog, Button, DialogTrigger } from '@syntara/react';
 
 const cancelSubscription = () => new Promise((resolve) => setTimeout(resolve, 1500));
 

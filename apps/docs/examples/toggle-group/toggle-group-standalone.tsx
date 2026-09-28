@@ -1,8 +1,8 @@
 'use client';
 
 import { useState } from 'react';
-import { ToggleButton } from '@strata/react';
-import { IconPin, IconStar } from '@strata/icons';
+import { ToggleButton } from '@syntara/react';
+import { IconPin, IconStar } from '@syntara/icons';
 
 export default function Example() {
   const [starred, setStarred] = useState(true);

@@ -185,8 +185,8 @@ export function getComponent(root: string, name: string): Record<string, unknown
     title: m.title,
     maturity: m.maturity,
     purpose: m.description,
-    import: `import { ${m.exports.join(', ')} } from '@strata/react';`,
-    // Only present when the component needs another package. Absent means '@strata/react' is enough.
+    import: `import { ${m.exports.join(', ')} } from '@syntara/react';`,
+    // Only present when the component needs another package. Absent means '@syntara/react' is enough.
     ...(m.imports?.length ? { imports: m.imports.map((i) => ({ line: importLine(i), why: i.why })) } : {}),
     props: m.props.map((p) => ({
       // Which export the prop belongs to only matters when there is more than one.

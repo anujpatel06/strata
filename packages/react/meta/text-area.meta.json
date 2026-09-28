@@ -18,7 +18,7 @@
     "text-field"
   ],
   "reactAria": "https://react-spectrum.adobe.com/react-aria/TextField.html",
-  "usage": "import { TextArea } from '@strata/react';\n\nexport function Notes() {\n  return <TextArea label=\"What happened?\" description=\"Include dates and amounts.\" maxLength={500} />;\n}",
+  "usage": "import { TextArea } from '@syntara/react';\n\nexport function Notes() {\n  return <TextArea label=\"What happened?\" description=\"Include dates and amounts.\" maxLength={500} />;\n}",
   "examples": [
     {
       "name": "text-area-demo",

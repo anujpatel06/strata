@@ -1,6 +1,6 @@
 'use client';
 
-import { TextField } from '@strata/react';
+import { TextField } from '@syntara/react';
 
 export default function Example() {
   return (

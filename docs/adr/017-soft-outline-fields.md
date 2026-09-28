@@ -7,7 +7,7 @@
 ## Context
 
 - Anuj: fields, toggles and buttons "feel AI-generated". Measured: a 40px field with a 1px `border.strong` (#858689) on white, on a near-white page. Buttons next to fields had a different height and radius.
-- The soft fields in premium products (Apple, Stripe, Linear) use boundaries of about 1.5:1. That fails WCAG 1.4.11 (non-text contrast 3:1 for the visual information needed to identify a component). Strata claims WCAG 2.2 AA.
+- The soft fields in premium products (Apple, Stripe, Linear) use boundaries of about 1.5:1. That fails WCAG 1.4.11 (non-text contrast 3:1 for the visual information needed to identify a component). Syntara claims WCAG 2.2 AA.
 
 ## Decision
 
@@ -21,7 +21,7 @@
 
 ## Alternatives considered
 
-- **Soft fields like Apple/Stripe:** the most premium look, but form boundaries would fail 1.4.11 and Strata would lose its AA claim.
+- **Soft fields like Apple/Stripe:** the most premium look, but form boundaries would fail 1.4.11 and Syntara would lose its AA claim.
 - **Field style as a brand input** (strict or soft per brand): flexible, but it splits the accessibility guarantee per brand.
 
 ## Consequences

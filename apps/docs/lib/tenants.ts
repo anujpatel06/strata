@@ -1,11 +1,11 @@
 /** Server-only: tenant brands from tenants/<id>/brand.json. Adding a folder adds a tenant to the site. */
-import type { BrandInput } from '@strata/theme-engine';
+import type { BrandInput } from '@syntara/theme-engine';
 import { HOUSE } from './house';
 import { cache } from 'react';
 import { listRepoDir, readRepoFile } from './repo';
 
 export interface TenantInfo {
-  /** Folder name = data-strata-theme id, e.g. "vela". */
+  /** Folder name = data-syntara-theme id, e.g. "vela". */
   id: string;
   name: string;
   brand: BrandInput;
@@ -67,7 +67,7 @@ export const getTenants = cache((): TenantInfo[] => {
 });
 
 /**
- * The site's own brand: tenants/house/brand.json when it exists (the registry's strata-tokens-house reads the
+ * The site's own brand: tenants/house/brand.json when it exists (the registry's syntara-tokens-house reads the
  * same file), otherwise HOUSE from lib/house.ts.
  */
 export const getHouseBrand = cache((): BrandInput => {

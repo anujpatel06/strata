@@ -1,7 +1,7 @@
 'use client';
 
-import { Button, SearchField } from '@strata/react';
-import { IconFilter } from '@strata/icons';
+import { Button, SearchField } from '@syntara/react';
+import { IconFilter } from '@syntara/icons';
 
 export default function Example() {
   return (

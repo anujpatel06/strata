@@ -378,7 +378,7 @@ export function findIcon(root: string, query: string, limit = DEFAULT_ICON_LIMIT
       icons: [],
       closest: near,
       note:
-        (guessedName ? `${asName} is not exported by @strata/icons. ` : '') +
+        (guessedName ? `${asName} is not exported by @syntara/icons. ` : '') +
         (near.length > 0
           ? `No icon matches "${query}". The closest names are only spelled alike; use one only if it means what you need, otherwise use no icon.`
           : `No icon matches "${query}", and no name is close. Try another word, or use no icon.`),
@@ -390,7 +390,7 @@ export function findIcon(root: string, query: string, limit = DEFAULT_ICON_LIMIT
   const missing = described.filter((w) => !scored.some((s) => s.covered.has(w)));
   const full = scored.some((s) => described.every((w) => s.covered.has(w)));
   const note = guessedName
-    ? `${asName} is not exported by @strata/icons. Use one of these real names, or no icon.`
+    ? `${asName} is not exported by @syntara/icons. Use one of these real names, or no icon.`
     : missing.length > 0
       ? `No icon matches ${missing.map((w) => `"${w}"`).join(' or ')}. These match the other words.`
       : !full

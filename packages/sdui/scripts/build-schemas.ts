@@ -1,6 +1,6 @@
 /**
  * Builds the wire contract from meta.json and the wire rules (src/wire.ts). Pure: no file writes.
- * `pnpm --filter @strata/sdui generate` writes the result to schema/ (scripts/generate.ts), and
+ * `pnpm --filter @syntara/sdui generate` writes the result to schema/ (scripts/generate.ts), and
  * test/generate.test.ts regenerates it in memory and fails if the committed files are stale.
  */
 import { readFileSync, readdirSync, existsSync } from 'node:fs';
@@ -61,7 +61,7 @@ export function readMetas(): Map<string, ComponentMeta> {
   return out;
 }
 
-/** Icon names from the real exports of @strata/icons: every export that carries an `iconName`. */
+/** Icon names from the real exports of @syntara/icons: every export that carries an `iconName`. */
 export function iconNamesFrom(mod: Record<string, unknown>): string[] {
   const names = Object.values(mod)
     .filter((v): v is { iconName: string } => typeof v === 'function' && typeof (v as { iconName?: unknown }).iconName === 'string')
@@ -79,7 +79,7 @@ export function readGapTokens(): string[] {
   if (!block?.[1]) throw new Error('theme-engine types.ts: no `space: { … }` block found; the gap tokens come from it.');
   const keys = [...block[1].matchAll(/'(\d+)'\s*:/g)].map((m) => m[1]!).sort((a, b) => Number(a) - Number(b));
   if (keys.length === 0) throw new Error('theme-engine types.ts: the space block has no keys.');
-  if (!source.includes('--strata-section-gap')) throw new Error('theme-engine types.ts no longer lists --strata-section-gap.');
+  if (!source.includes('--syntara-section-gap')) throw new Error('theme-engine types.ts no longer lists --syntara-section-gap.');
   return [...keys.map((k) => `space-${k}`), 'section-gap'];
 }
 
@@ -195,7 +195,7 @@ export function deprecationPolicy(
       out.excluded.push({
         value: v,
         replacement: record.replacement,
-        reason: `Deprecated in @strata/react ${record.since} (use ${record.replacement}; RFC ${record.rfc}). A new contract doesn't start with deprecated API.`,
+        reason: `Deprecated in @syntara/react ${record.since} (use ${record.replacement}; RFC ${record.rfc}). A new contract doesn't start with deprecated API.`,
       });
   }
   return out;
@@ -299,7 +299,7 @@ function buildNode(spec: NodeSpec, inputs: Inputs, version: string): BuiltNode {
       // A whole deprecated prop follows the same policy as a value: out unless this major already had it.
       const had = inputs.previous?.nodes[spec.type]?.props[prop.name] !== undefined;
       if (!had) {
-        excluded.push({ prop: prop.name, reason: `Deprecated in @strata/react ${prop.deprecated.since} (use ${prop.deprecated.replacement}). A new contract doesn't start with deprecated API.` });
+        excluded.push({ prop: prop.name, reason: `Deprecated in @syntara/react ${prop.deprecated.since} (use ${prop.deprecated.replacement}). A new contract doesn't start with deprecated API.` });
         continue;
       }
     }
@@ -334,7 +334,7 @@ function buildNode(spec: NodeSpec, inputs: Inputs, version: string): BuiltNode {
       schema = orFalse
         ? {
             anyOf: [{ $ref: defsRef('IconRef') }, { const: false }],
-            'x-strata-message': 'must be { "icon": "<name>" } or false (no icon).',
+            'x-syntara-message': 'must be { "icon": "<name>" } or false (no icon).',
           }
         : { $ref: defsRef('IconRef') };
       entry = { from: prop.name, kind: orFalse ? 'icon-or-false' : 'icon' };
@@ -364,7 +364,7 @@ function buildNode(spec: NodeSpec, inputs: Inputs, version: string): BuiltNode {
                 ...policy.deprecated.map((d) => ({
                   const: d.value,
                   deprecated: true,
-                  description: `Deprecated since @strata/react ${d.record.since}; removed in the next major of this schema. Use ${d.record.replacement}.`,
+                  description: `Deprecated since @syntara/react ${d.record.since}; removed in the next major of this schema. Use ${d.record.replacement}.`,
                 })),
               ],
             }
@@ -448,7 +448,7 @@ function buildNode(spec: NodeSpec, inputs: Inputs, version: string): BuiltNode {
     $id: nodeRef(spec.type),
     title: spec.type,
     description,
-    'x-strata': {
+    'x-syntara': {
       node: spec.type,
       component: spec.meta ?? null,
       export: spec.meta ? spec.type : null,
@@ -461,7 +461,7 @@ function buildNode(spec: NodeSpec, inputs: Inputs, version: string): BuiltNode {
     properties: nodeProps,
     additionalProperties: false,
     ...(spec.rules?.length
-      ? { allOf: spec.rules.map((r) => ({ 'x-strata-rule': { id: r.id, message: r.message }, ...r.schema })) }
+      ? { allOf: spec.rules.map((r) => ({ 'x-syntara-rule': { id: r.id, message: r.message }, ...r.schema })) }
       : {}),
   };
 
@@ -485,9 +485,9 @@ function buildDefs(inputs: Inputs, version: string): Json {
   return {
     $schema: DRAFT,
     $id: urn('defs'),
-    title: 'Strata SDUI shared definitions',
+    title: 'Syntara SDUI shared definitions',
     description: 'Actions, icons, links, images and layout tokens shared by every node schema.',
-    'x-strata': { schemaVersion: version, source: 'sdui' },
+    'x-syntara': { schemaVersion: version, source: 'sdui' },
     $defs: {
       NodeId: {
         description: 'Identifies a node among its siblings (a stable React key) and is passed back with its actions. Never rendered as a DOM id.',
@@ -495,7 +495,7 @@ function buildDefs(inputs: Inputs, version: string): Json {
         pattern: NODE_ID_PATTERN,
       },
       IconName: {
-        description: 'An icon from @strata/icons, by its kebab-case name. Generated from the package\'s exports.',
+        description: 'An icon from @syntara/icons, by its kebab-case name. Generated from the package\'s exports.',
         type: 'string',
         enum: inputs.iconNames,
       },
@@ -515,24 +515,24 @@ function buildDefs(inputs: Inputs, version: string): Json {
             minItems: 1,
             items: {
               anyOf: [{ type: 'string' }, { $ref: '#/$defs/IconRef' }],
-              'x-strata-message': 'must be a string or { "icon": "<name>" }.',
+              'x-syntara-message': 'must be a string or { "icon": "<name>" }.',
             },
           },
         ],
-        'x-strata-message': 'must be a string, or a non-empty array of strings and { "icon": "<name>" } references.',
+        'x-syntara-message': 'must be a string, or a non-empty array of strings and { "icon": "<name>" } references.',
       },
       Href: {
         description: 'An https:// URL, or a path in the app that starts with a single "/".',
         type: 'string',
         pattern: HREF_PATTERN,
-        'x-strata-message':
+        'x-syntara-message':
           'must be an https:// URL or an app path that starts with one "/". javascript:, data:, http:, mailto:, tel: and "//host" links are rejected; send an event action for anything the app should decide.',
       },
       ImageUrl: {
         description: 'An image URL. https only.',
         type: 'string',
         pattern: IMAGE_URL_PATTERN,
-        'x-strata-message': 'must be an https:// URL. data:, http: and relative image URLs are rejected.',
+        'x-syntara-message': 'must be an https:// URL. data:, http: and relative image URLs are rejected.',
       },
       NavigateAction: {
         description: 'Go to a destination. The host app decides how (router, in-app browser, system browser).',
@@ -567,7 +567,7 @@ function buildDefs(inputs: Inputs, version: string): Json {
         oneOf: [{ $ref: '#/$defs/NavigateAction' }, { $ref: '#/$defs/EventAction' }],
       },
       Gap: {
-        description: 'A space token (--strata-space-*), or section-gap, which follows the client\'s density.',
+        description: 'A space token (--syntara-space-*), or section-gap, which follows the client\'s density.',
         type: 'string',
         enum: inputs.gapTokens,
       },
@@ -579,10 +579,10 @@ function buildScreen(topLevel: string[], version: string): Json {
   return {
     $schema: DRAFT,
     $id: urn('screen'),
-    title: 'Strata screen',
+    title: 'Syntara screen',
     description:
-      'A screen sent from a server and drawn with Strata components. It has no theme, tenant, scheme or density: those belong to the client that renders it.',
-    'x-strata': { schemaVersion: version, source: 'sdui' },
+      'A screen sent from a server and drawn with Syntara components. It has no theme, tenant, scheme or density: those belong to the client that renders it.',
+    'x-syntara': { schemaVersion: version, source: 'sdui' },
     type: 'object',
     required: ['schemaVersion', 'screen', 'root'],
     properties: {
@@ -590,7 +590,7 @@ function buildScreen(topLevel: string[], version: string): Json {
         description: `The schema version the document was written for. semver; this schema accepts major ${SUPPORTED_MAJOR}.`,
         type: 'string',
         pattern: `^${SUPPORTED_MAJOR}\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)$`,
-        'x-strata-message': `must be a ${SUPPORTED_MAJOR}.x.y version. A client supports one major; a document for another major is shown as the screen fallback.`,
+        'x-syntara-message': `must be a ${SUPPORTED_MAJOR}.x.y version. A client supports one major; a document for another major is shown as the screen fallback.`,
       },
       screen: {
         type: 'object',
@@ -690,7 +690,7 @@ export function buildSchemas(inputs: Inputs): Record<string, Json> {
     return { node, component: meta.name, reason };
   });
   const manifest: Manifest = {
-    $comment: 'Generated by `pnpm --filter @strata/sdui generate` from packages/react/meta and src/wire.ts. Do not edit.',
+    $comment: 'Generated by `pnpm --filter @syntara/sdui generate` from packages/react/meta and src/wire.ts. Do not edit.',
     schemaVersion: version,
     nodes,
     files: Object.fromEntries(NODES.map((n) => [n.type, nodeFile(n.type)])),
@@ -711,7 +711,7 @@ export function schemasModule(files: Record<string, Json>): string {
   const names = Object.keys(files).filter((f) => f.endsWith('.schema.json')).sort();
   const ident = (f: string) => f.replace(/^nodes\//, 'node_').replace(/\.schema\.json$/, '').replace(/[^a-zA-Z0-9]+/g, '_');
   return [
-    '// Generated by `pnpm --filter @strata/sdui generate` (scripts/build-schemas.ts). Do not edit.',
+    '// Generated by `pnpm --filter @syntara/sdui generate` (scripts/build-schemas.ts). Do not edit.',
     ...names.map((f) => `import ${ident(f)} from '../schema/${f}';`),
     "import manifest from '../schema/manifest.json';",
     '',

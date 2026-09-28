@@ -1,11 +1,11 @@
 'use client';
 
-import { Button, ToastRegion, toast } from '@strata/react';
+import { Button, ToastRegion, toast } from '@syntara/react';
 
 /* The action's weight follows the tone: a quiet secondary button for good news, a high-contrast one when something needs you. */
 export default function Example() {
   return (
-    <div style={{ display: 'flex', flexWrap: 'wrap', gap: 'var(--strata-space-2)', justifyContent: 'center' }}>
+    <div style={{ display: 'flex', flexWrap: 'wrap', gap: 'var(--syntara-space-2)', justifyContent: 'center' }}>
       <ToastRegion />
       <Button
         variant="outline"

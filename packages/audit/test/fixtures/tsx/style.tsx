@@ -30,15 +30,15 @@ export function Passes({ on, size, tint }: { on: boolean; size: number; tint: st
     <div
       className="text-[#fff] ml-2"
       style={{
-        color: 'var(--strata-color-text-default)',
-        backgroundColor: on ? 'transparent' : 'var(--strata-color-surface-raised)',
-        marginInlineStart: 'var(--strata-space-2)',
+        color: 'var(--syntara-color-text-default)',
+        backgroundColor: on ? 'transparent' : 'var(--syntara-color-surface-raised)',
+        marginInlineStart: 'var(--syntara-space-2)',
         padding: 0,
         margin: '0 auto',
         insetInlineStart: size,
         inlineSize: 320,
         borderRadius: '50%',
-        fontWeight: 'var(--strata-font-weight-medium)',
+        fontWeight: 'var(--syntara-font-weight-medium)',
         lineHeight: 1.5,
         opacity: 0.5,
         zIndex: 10,

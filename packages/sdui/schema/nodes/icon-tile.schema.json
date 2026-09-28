@@ -1,9 +1,9 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "urn:strata:sdui:v1:node:IconTile",
+  "$id": "urn:syntara:sdui:v1:node:IconTile",
   "title": "IconTile",
   "description": "A rounded-square tile holding an icon or logo on a contrast-checked tint or the brand fill.",
-  "x-strata": {
+  "x-syntara": {
     "node": "IconTile",
     "component": "icon-tile",
     "export": "IconTile",
@@ -20,7 +20,7 @@
       "const": "IconTile"
     },
     "id": {
-      "$ref": "urn:strata:sdui:v1:defs#/$defs/NodeId"
+      "$ref": "urn:syntara:sdui:v1:defs#/$defs/NodeId"
     },
     "props": {
       "type": "object",
@@ -28,7 +28,7 @@
       "properties": {
         "src": {
           "description": "An image (asset or merchant logo) instead of an icon.",
-          "$ref": "urn:strata:sdui:v1:defs#/$defs/ImageUrl"
+          "$ref": "urn:syntara:sdui:v1:defs#/$defs/ImageUrl"
         },
         "alt": {
           "description": "Accessible name. With src it's the image's alt; without, the tile gets role=\"img\". Omit it (and aria-label) when a visible label sits next to the tile: the tile is then aria-hidden.",
@@ -66,18 +66,18 @@
       }
     },
     "children": {
-      "description": "An icon from @strata/icons. Sized to half the tile at the brand's icon stroke. On the wire: one { icon } reference.",
-      "$ref": "urn:strata:sdui:v1:defs#/$defs/IconRef"
+      "description": "An icon from @syntara/icons. Sized to half the tile at the brand's icon stroke. On the wire: one { icon } reference.",
+      "$ref": "urn:syntara:sdui:v1:defs#/$defs/IconRef"
     },
     "fallback": {
       "description": "Rendered instead of this node by a client that doesn't know its type. Must be a node that client knows.",
-      "$ref": "urn:strata:sdui:v1:screen#/$defs/Node"
+      "$ref": "urn:syntara:sdui:v1:screen#/$defs/Node"
     }
   },
   "additionalProperties": false,
   "allOf": [
     {
-      "x-strata-rule": {
+      "x-syntara-rule": {
         "id": "icon-tile-image-alt",
         "message": "An IconTile with props.src needs props.alt: the logo's name, or \"\" if the name is already next to it."
       },

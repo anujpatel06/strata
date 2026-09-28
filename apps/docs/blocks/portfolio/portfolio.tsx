@@ -1,7 +1,7 @@
 'use client';
 
 /**
- * Portfolio — a wealth dashboard, built from Strata components only: a floating Sidebar, a greeting with search,
+ * Portfolio — a wealth dashboard, built from Syntara components only: a floating Sidebar, a greeting with search,
  * a KPI row, the portfolio value over a chosen period, allocation, monthly investing, a deposit card, recent activity
  * and the holdings table. It's designed dark-first (deep surfaces, one brand glow on the deposit card, rim-lit
  * cards) and works in light too; every text colour sits on a surface the theme engine checks it against.
@@ -50,7 +50,7 @@ import {
   useSortedRows,
   type DataTableColumn,
   type DataTableSortDescriptor,
-} from '@strata/react';
+} from '@syntara/react';
 import {
   IconArrowDownLeft,
   IconArrowUpRight,
@@ -76,8 +76,8 @@ import {
   IconTrendingUp,
   IconWallet,
   IconWorld,
-  type Icon as StrataIcon,
-} from '@strata/icons';
+  type Icon as SyntaraIcon,
+} from '@syntara/icons';
 import { useId, useMemo, useState, type CSSProperties, type JSX } from 'react';
 import {
   portfolioContent,
@@ -100,7 +100,7 @@ const level = (n: number): Level => Math.min(6, Math.max(1, Math.round(n))) as L
 const fill = (text: string, values: Record<string, string | number>) =>
   text.replace(/\{(\w+)\}/g, (m, k: string) => (k in values ? String(values[k]) : m));
 
-const ICONS: Record<PortfolioIcon, StrataIcon> = {
+const ICONS: Record<PortfolioIcon, SyntaraIcon> = {
   world: IconWorld,
   cpu: IconCpu,
   leaf: IconLeaf,
@@ -112,7 +112,7 @@ const ICONS: Record<PortfolioIcon, StrataIcon> = {
 };
 
 /** Which way the money moved, the tile and its icon. Direction is also in the sign of the amount. */
-const KIND: Record<PortfolioActivityKind, { icon: StrataIcon; tint: PortfolioTint; sign: 1 | -1 }> = {
+const KIND: Record<PortfolioActivityKind, { icon: SyntaraIcon; tint: PortfolioTint; sign: 1 | -1 }> = {
   buy: { icon: IconPlus, tint: 'brand', sign: -1 },
   sell: { icon: IconArrowsExchange, tint: 'info', sign: 1 },
   dividend: { icon: IconCoins, tint: 'accent', sign: 1 },
@@ -586,7 +586,7 @@ export function Portfolio({ content: contentProp, headingLevel = 1, className }:
                 {/* Decorative: the list below says every share in words. */}
                 <div className={styles.stack} aria-hidden="true">
                   {derived.classes.map((c, i) => (
-                    <span key={c.id} className={styles.segment} style={{ flexGrow: c.share, '--_c': `var(--strata-chart-${i + 1})` } as CSSProperties} />
+                    <span key={c.id} className={styles.segment} style={{ flexGrow: c.share, '--_c': `var(--syntara-chart-${i + 1})` } as CSSProperties} />
                   ))}
                 </div>
                 <ul className={styles.list} aria-labelledby={ids.allocation}>
@@ -599,7 +599,7 @@ export function Portfolio({ content: contentProp, headingLevel = 1, className }:
                         </IconTile>
                         <span className={styles.assetText}>
                           <span className={styles.assetName}>
-                            <span className={styles.swatch} style={{ '--_c': `var(--strata-chart-${i + 1})` } as CSSProperties} aria-hidden="true" />
+                            <span className={styles.swatch} style={{ '--_c': `var(--syntara-chart-${i + 1})` } as CSSProperties} aria-hidden="true" />
                             {c.label}
                           </span>
                           <span className={styles.meta}>{fill(L.allocation.share, { percent: fmt.share(c.share) })}</span>

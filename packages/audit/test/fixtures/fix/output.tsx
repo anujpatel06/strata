@@ -1,8 +1,8 @@
-import { Button } from '@strata/react';
+import { Button } from '@syntara/react';
 
 export function Row({ props }: { props: object }) {
   return (
-    <div style={{ marginInlineStart: 'var(--strata-space-2)', 'paddingInlineEnd': 'var(--strata-space-3)', color: 'var(--strata-color-text-subtle)', background: '#fff', fontWeight: 'var(--strata-font-weight-medium)', insetBlockStart: 'calc(var(--strata-space-1) * -1)', textAlign: 'start' }}>
+    <div style={{ marginInlineStart: 'var(--syntara-space-2)', 'paddingInlineEnd': 'var(--syntara-space-3)', color: 'var(--syntara-color-text-subtle)', background: '#fff', fontWeight: 'var(--syntara-font-weight-medium)', insetBlockStart: 'calc(var(--syntara-space-1) * -1)', textAlign: 'start' }}>
       <Button tone="danger">Delete</Button>
       <Button size="sm" tone="danger" isPending>
         Delete

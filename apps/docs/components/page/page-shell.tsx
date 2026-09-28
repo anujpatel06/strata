@@ -1,4 +1,4 @@
-import { Eyebrow } from '@strata/react';
+import { Eyebrow } from '@syntara/react';
 import type { ReactNode } from 'react';
 import styles from './page-shell.module.css';
 

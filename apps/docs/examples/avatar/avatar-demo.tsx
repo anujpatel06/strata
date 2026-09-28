@@ -1,6 +1,6 @@
 'use client';
 
-import { Avatar } from '@strata/react';
+import { Avatar } from '@syntara/react';
 
 // A stand-in photo (inline SVG) so the example works offline.
 const photo =
@@ -11,7 +11,7 @@ const photo =
 
 export default function Example() {
   return (
-    <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 'var(--strata-space-4)' }}>
+    <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 'var(--syntara-space-4)' }}>
       <Avatar name="Priya Raman" src={photo} size="lg" />
       {/* Each name hashes to its own tint, so a person keeps their colour everywhere. */}
       <Avatar name="Arjun Shah" size="lg" />

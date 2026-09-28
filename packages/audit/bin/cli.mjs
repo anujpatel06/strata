@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * strata-audit. Runs the TypeScript source through tsx, so there is no build step.
+ * syntara-audit. Runs the TypeScript source through tsx, so there is no build step.
  */
 import { register } from 'tsx/esm/api';
 

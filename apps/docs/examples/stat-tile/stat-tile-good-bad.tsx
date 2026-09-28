@@ -1,6 +1,6 @@
 'use client';
 
-import { StatTile, StatTileGroup } from '@strata/react';
+import { StatTile, StatTileGroup } from '@syntara/react';
 
 // Both figures rose, but only one rise is good news: positiveIsGood={false} marks refunds, where up is bad.
 // Bad news shows an alert mark instead of the trend arrow, so it doesn't rely on red alone, and screen readers

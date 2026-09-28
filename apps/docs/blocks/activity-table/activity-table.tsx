@@ -3,7 +3,7 @@
 /**
  * Activity table — a full data-table page: search, status filter, sortable columns, row selection with bulk
  * actions, CSV export of the current view, row density, pagination, and empty and loading states (Refresh shows
- * the skeleton while it "reloads"). Built only from Strata components; copy and rows come from `content`.
+ * the skeleton while it "reloads"). Built only from Syntara components; copy and rows come from `content`.
  *
  * `headingLevel` (default 1) is the level of the page title. Above 1 the block is embedded in another page and
  * renders no <main> landmark.
@@ -35,7 +35,7 @@ import {
   type DataTableColumn,
   type DataTableSelection,
   type DataTableSortDescriptor,
-} from '@strata/react';
+} from '@syntara/react';
 import {
   IconArrowDownLeft,
   IconArrowUpRight,
@@ -45,7 +45,7 @@ import {
   IconDownload,
   IconRefresh,
   IconSearch,
-} from '@strata/icons';
+} from '@syntara/icons';
 import { useId, useLayoutEffect, useMemo, useRef, useState, type HTMLAttributes, type JSX, type RefObject } from 'react';
 import {
   activitySummaryCopy,
@@ -171,8 +171,8 @@ export function ActivityTable({
     const el = rootRef.current;
     if (!el) return;
     const style = getComputedStyle(el);
-    const row = parseFloat(style.getPropertyValue('--strata-table-row-height'));
-    const comfortable = parseFloat(style.getPropertyValue('--strata-space-12'));
+    const row = parseFloat(style.getPropertyValue('--syntara-table-row-height'));
+    const comfortable = parseFloat(style.getPropertyValue('--syntara-space-12'));
     if (Number.isFinite(row) && Number.isFinite(comfortable)) setDensity(row >= comfortable ? 'comfortable' : 'compact');
   }, []);
 

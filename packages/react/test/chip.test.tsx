@@ -2,7 +2,7 @@ import { render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { useState } from 'react';
 import { I18nProvider, type Key, type Selection } from 'react-aria-components';
-import { IconMapPin } from '@strata/icons';
+import { IconMapPin } from '@syntara/icons';
 import { Avatar } from '../src/ui/avatar';
 import { Chip, ChipGroup } from '../src/ui/chip';
 

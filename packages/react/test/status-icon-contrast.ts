@@ -4,7 +4,7 @@
  * mixed in sRGB like the engine's sheen test); the knocked-out glyph is feedback.<tone>.bg on the shape.
  * WCAG 1.4.11 asks 3:1 for the shape; the glyph is held to text's 4.5:1.
  */
-import { generateTheme, toCssVariables, type BrandInput } from '@strata/theme-engine';
+import { generateTheme, toCssVariables, type BrandInput } from '@syntara/theme-engine';
 import { contrastRatio, hexToRgb8, rgb8ToHex } from '../../theme-engine/src/color';
 import vela from '../../../tenants/vela/brand.json';
 import harbor from '../../../tenants/harbor/brand.json';
@@ -44,9 +44,9 @@ export interface IconWorst {
 }
 
 export function statusIconWorst(inputs: BrandInput[], names?: string[]): IconWorst {
-  const sheen = toCssVariables(generateTheme(inputs[0]!), 'dark')['--strata-sheen'] ?? '';
+  const sheen = toCssVariables(generateTheme(inputs[0]!), 'dark')['--syntara-sheen'] ?? '';
   const m = /(\d+)%, transparent\) 20%/.exec(sheen);
-  if (!m) throw new Error(`--strata-sheen peak not found in: ${sheen}`);
+  if (!m) throw new Error(`--syntara-sheen peak not found in: ${sheen}`);
   const peak = Number(m[1]) / 100;
   const mix = (a: string, b: string) => {
     const A = hexToRgb8(a);

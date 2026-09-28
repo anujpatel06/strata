@@ -1,5 +1,5 @@
 /**
- * pnpm --filter @strata/sdui exec tsx scripts/time-validate.ts
+ * pnpm --filter @syntara/sdui exec tsx scripts/time-validate.ts
  *
  * Times validateScreen on the order-status example: the first call (which compiles every schema) and the mean of
  * the next 1,000. A rough figure for one machine, not a benchmark.

@@ -1,11 +1,11 @@
 /**
- * `Key` is exported from @strata/react (a type-only re-export of React Aria's Key, in src/ui/toggle-group.tsx).
+ * `Key` is exported from @syntara/react (a type-only re-export of React Aria's Key, in src/ui/toggle-group.tsx).
  * The agent eval's most common type error was typing selection state with React's Key (which allows bigint) or not
  * finding a Key to import. These handlers are written the way a consumer writes them; `pnpm typecheck` compiles this
  * file, so a wrong type fails the build, and the tests run the handlers.
  *
- * '../src/index' is the module '@strata/react' resolves to (package.json exports "." → src/index.ts; published,
- * dist/types/index.d.ts is generated from it), so importing from it is importing from '@strata/react'.
+ * '../src/index' is the module '@syntara/react' resolves to (package.json exports "." → src/index.ts; published,
+ * dist/types/index.d.ts is generated from it), so importing from it is importing from '@syntara/react'.
  */
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
@@ -29,7 +29,7 @@ beforeAll(() => {
   }
 });
 
-describe('Key from @strata/react', () => {
+describe('Key from @syntara/react', () => {
   it('is React Aria’s string | number, not React’s Key', () => {
     expectTypeOf<Key>().toEqualTypeOf<string | number>();
     const fromReact: ReactKey = 1n;

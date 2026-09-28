@@ -15,13 +15,13 @@
   ],
   "dependencies": [
     "react-aria-components",
-    "@strata/icons"
+    "@syntara/icons"
   ],
   "registryDependencies": [
     "text-field"
   ],
   "reactAria": "https://react-spectrum.adobe.com/react-aria/ComboBox.html",
-  "usage": "import { Combobox, ComboboxItem } from '@strata/react';\n\nexport function CountryField() {\n  return (\n    <Combobox label=\"Country\" placeholder=\"Search countries…\" onSelectionChange={(key) => console.log(key)}>\n      <ComboboxItem id=\"in\">India</ComboboxItem>\n      <ComboboxItem id=\"id\">Indonesia</ComboboxItem>\n      <ComboboxItem id=\"jp\">Japan</ComboboxItem>\n    </Combobox>\n  );\n}",
+  "usage": "import { Combobox, ComboboxItem } from '@syntara/react';\n\nexport function CountryField() {\n  return (\n    <Combobox label=\"Country\" placeholder=\"Search countries…\" onSelectionChange={(key) => console.log(key)}>\n      <ComboboxItem id=\"in\">India</ComboboxItem>\n      <ComboboxItem id=\"id\">Indonesia</ComboboxItem>\n      <ComboboxItem id=\"jp\">Japan</ComboboxItem>\n    </Combobox>\n  );\n}",
   "examples": [
     {
       "name": "combobox-demo",
@@ -242,7 +242,7 @@
       "example": "onSelectionChange={(key) => setPick(key === null ? null : String(key))}"
     },
     {
-      "note": "Key is React Aria's Key: string | number. React's Key also allows bigint, so state typed with it fails the check. Import Key from @strata/react instead: import { type Key } from '@strata/react'. String ids work too.",
+      "note": "Key is React Aria's Key: string | number. React's Key also allows bigint, so state typed with it fails the check. Import Key from @syntara/react instead: import { type Key } from '@syntara/react'. String ids work too.",
       "example": "const [pick, setPick] = useState<Key | null>(null);"
     }
   ],

@@ -1,7 +1,7 @@
-How Strata changes: who decides, how a request gets in, and how something gets out again without breaking the products that use it. The full text is [`GOVERNANCE.md`](https://github.com/anujpatel06/strata/blob/main/GOVERNANCE.md).
+How Syntara changes: who decides, how a request gets in, and how something gets out again without breaking the products that use it. The full text is [`GOVERNANCE.md`](https://github.com/anujpatel06/strata/blob/main/GOVERNANCE.md).
 
 <Callout tone="info" title="What’s real today">
-  Strata has one maintainer, who pairs with AI agents. The process is written for a team so it can be judged as one. Where a script enforces a rule, the command is next to it. Where nothing enforces it yet, this page says so.
+  Syntara has one maintainer, who pairs with AI agents. The process is written for a team so it can be judged as one. Where a script enforces a rule, the command is next to it. Where nothing enforces it yet, this page says so.
 </Callout>
 
 ## Decision records
@@ -50,7 +50,7 @@ Packages follow semver through Changesets.
 
 1. **Deprecate in a minor release.** The old API keeps working and renders exactly as before.
 2. **Remove in the next major release.**
-3. **Before 1.0**, semver lets a minor release break things. Strata doesn’t use that: a deprecated API keeps working through every 0.x release and is removed at 1.0.0.
+3. **Before 1.0**, semver lets a minor release break things. Syntara doesn’t use that: a deprecated API keeps working through every 0.x release and is removed at 1.0.0.
 4. **Every breaking change ships with a codemod.** A codemod rewrites what it can be sure of and reports the rest with file and line. It never guesses.
 5. **Alpha components are exempt.** Beta and stable components change only through this policy.
 
@@ -70,7 +70,7 @@ Removing or renaming a component, prop, value or token is breaking. So is changi
     <tr><td>A record in `meta.json`: since, removal, replacement, reason, codemod and RFC.</td><td>`pnpm check:meta`. Removal must be a later major release.</td></tr>
     <tr><td>A notice on the component’s page.</td><td>Generated from the record.</td></tr>
     <tr><td>A warning in development, once, and never in production.</td><td>The component’s tests.</td></tr>
-    <tr><td>A codemod with fixture tests.</td><td>`pnpm --filter @strata/codemods test`</td></tr>
+    <tr><td>A codemod with fixture tests.</td><td>`pnpm --filter @syntara/codemods test`</td></tr>
     <tr><td>The codemod run on this repo.</td><td>The pull request’s diff.</td></tr>
     <tr><td>A changeset and a changelog entry.</td><td>Review.</td></tr>
   </tbody>
@@ -89,7 +89,7 @@ Button was the only component that put a status in `variant`; every other compon
 ```
 
 ```sh
-npx @strata/codemods button-variant-danger-to-tone src
+npx @syntara/codemods button-variant-danger-to-tone src
 ```
 
 The brief named the new value `critical`. It became `danger` because twelve components and the `feedback.danger.*` tokens already say `danger` (<AdrLink n="021" />).
@@ -134,7 +134,7 @@ The API changes only through a deprecation: deprecate in a minor release, remove
   </thead>
   <tbody>
     <tr><td>Everything in alpha.</td><td>As above.</td></tr>
-    <tr><td>Used in at least one block or the homepage showcase.</td><td>`pnpm check:meta` scans their `@strata/react` imports.</td></tr>
+    <tr><td>Used in at least one block or the homepage showcase.</td><td>`pnpm check:meta` scans their `@syntara/react` imports.</td></tr>
     <tr><td>Someone has decided the API is settled.</td><td>A person decides. Meeting the checks makes a component eligible, not beta: `pnpm check:meta` lists alpha components that meet beta.</td></tr>
   </tbody>
 </Table>
@@ -152,7 +152,7 @@ The API only breaks in a major release.
   </thead>
   <tbody>
     <tr><td>Everything in beta.</td><td>As above.</td></tr>
-    <tr><td>Published on npm.</td><td>`pnpm check:meta` rejects stable while `@strata/react` is unpublished.</td></tr>
+    <tr><td>Published on npm.</td><td>`pnpm check:meta` rejects stable while `@syntara/react` is unpublished.</td></tr>
     <tr><td>A manual accessibility review: keyboard and a screen reader, by a person.</td><td>The date goes in `meta.json` as `review.a11y`. `pnpm check:meta` requires it.</td></tr>
     <tr><td>Used in production by at least one product.</td><td>Recorded in the RFC that proposes the move.</td></tr>
     <tr><td>One release with no breaking change to it.</td><td>The changelog.</td></tr>
@@ -160,7 +160,7 @@ The API only breaks in a major release.
 </Table>
 
 <Callout tone="warning" title="Nothing is stable yet">
-  `@strata/react` isn’t published on npm, so no component can be stable, and `pnpm check:meta` fails if one claims to be.
+  `@syntara/react` isn’t published on npm, so no component can be stable, and `pnpm check:meta` fails if one claims to be.
 </Callout>
 
 ### Why the manual review sits at stable

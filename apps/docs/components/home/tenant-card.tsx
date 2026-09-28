@@ -15,7 +15,7 @@ import {
   CardHeader,
   CardTitle,
   StatTile,
-} from '@strata/react';
+} from '@syntara/react';
 import type { TenantOverview } from './home-data';
 import styles from './sections.module.css';
 

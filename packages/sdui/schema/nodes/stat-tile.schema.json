@@ -1,9 +1,9 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "urn:strata:sdui:v1:node:StatTile",
+  "$id": "urn:syntara:sdui:v1:node:StatTile",
   "title": "StatTile",
   "description": "One headline number with its label, change and optional trend line.",
-  "x-strata": {
+  "x-syntara": {
     "node": "StatTile",
     "component": "stat-tile",
     "export": "StatTile",
@@ -21,7 +21,7 @@
       "const": "StatTile"
     },
     "id": {
-      "$ref": "urn:strata:sdui:v1:defs#/$defs/NodeId"
+      "$ref": "urn:syntara:sdui:v1:defs#/$defs/NodeId"
     },
     "props": {
       "type": "object",
@@ -64,7 +64,7 @@
         },
         "icon": {
           "description": "Decorative icon at the top inline-end.",
-          "$ref": "urn:strata:sdui:v1:defs#/$defs/IconRef"
+          "$ref": "urn:syntara:sdui:v1:defs#/$defs/IconRef"
         },
         "sparkline": {
           "description": "Recent values, oldest first (≥2 finite points). Decorative line with a 12% area fill and an end dot.",
@@ -103,13 +103,13 @@
     },
     "fallback": {
       "description": "Rendered instead of this node by a client that doesn't know its type. Must be a node that client knows.",
-      "$ref": "urn:strata:sdui:v1:screen#/$defs/Node"
+      "$ref": "urn:syntara:sdui:v1:screen#/$defs/Node"
     }
   },
   "additionalProperties": false,
   "allOf": [
     {
-      "x-strata-rule": {
+      "x-syntara-rule": {
         "id": "stat-tile-text",
         "message": "A StatTile needs props.label and props.value as text: the figure means nothing without its label."
       },

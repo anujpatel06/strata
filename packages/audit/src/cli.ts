@@ -1,5 +1,5 @@
 /**
- * strata-audit <path…> [--format text|json|html] [--out <file>] [--fix] [--min-score <n>] [--tenant <id>]
+ * syntara-audit <path…> [--format text|json|html] [--out <file>] [--fix] [--min-score <n>] [--tenant <id>]
  *                      [--scheme light|dark] [--ignore <glob>]…
  *
  * Exit codes: 0 done, 1 the score is below --min-score, 2 the command could not run.
@@ -13,7 +13,7 @@ import { toHtml } from './report/html';
 import { toText } from './report/text';
 import type { Finding } from './types';
 
-const USAGE = `Usage: strata-audit <path…> [options]
+const USAGE = `Usage: syntara-audit <path…> [options]
 
   --format text|json|html   How to print the result. Default: text.
   --out <file>              Write the report to a file, not to stdout.
@@ -148,11 +148,11 @@ export function main(argv: string[]): number {
       say(`--fix: left ${result.findings.length} ${result.findings.length === 1 ? 'finding' : 'findings'} for a person. They are in the report.`);
     }
   } catch (error) {
-    process.stderr.write(`strata-audit: ${(error as Error).message}\n`);
+    process.stderr.write(`syntara-audit: ${(error as Error).message}\n`);
     return 2;
   }
 
-  const command = ['strata-audit', ...argv.filter((a, i) => a !== '--out' && argv[i - 1] !== '--out' && !a.startsWith('--out='))].join(' ');
+  const command = ['syntara-audit', ...argv.filter((a, i) => a !== '--out' && argv[i - 1] !== '--out' && !a.startsWith('--out='))].join(' ');
   const report = args.format === 'json'
     ? JSON.stringify(result, null, 2) + '\n'
     : args.format === 'html'

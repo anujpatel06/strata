@@ -1,9 +1,9 @@
 import { render, screen } from '@testing-library/react';
-import { StrataScreen, type Issue } from '../src/react';
+import { SyntaraScreen, type Issue } from '../src/react';
 
 // Amount throws while drawing, standing in for any component bug or bad runtime data.
-vi.mock('@strata/react', async (importOriginal) => ({
-  ...(await importOriginal<typeof import('@strata/react')>()),
+vi.mock('@syntara/react', async (importOriginal) => ({
+  ...(await importOriginal<typeof import('@syntara/react')>()),
   Amount: () => {
     throw new Error('boom');
   },
@@ -20,7 +20,7 @@ describe('a node that throws while drawing', () => {
   it('is replaced by its fallback, and the rest of the screen still draws', () => {
     const issues: Issue[] = [];
     render(
-      <StrataScreen
+      <SyntaraScreen
         document={doc({
           type: 'Stack',
           children: [
@@ -40,7 +40,7 @@ describe('a node that throws while drawing', () => {
     const issues: Issue[] = [];
     expect(() =>
       render(
-        <StrataScreen
+        <SyntaraScreen
           document={doc({ type: 'Stack', children: [{ type: 'Amount', props: { value: 1, currency: 'INR' } }, { type: 'Text', children: 'After' }] })}
           onIssue={(i) => issues.push(i)}
         />,
@@ -51,8 +51,8 @@ describe('a node that throws while drawing', () => {
   });
 
   it('tries again when a new document arrives', () => {
-    const { rerender } = render(<StrataScreen document={doc({ type: 'Amount', props: { value: 1, currency: 'INR' } })} />);
-    rerender(<StrataScreen document={doc({ type: 'Text', children: 'Recovered' })} />);
+    const { rerender } = render(<SyntaraScreen document={doc({ type: 'Amount', props: { value: 1, currency: 'INR' } })} />);
+    rerender(<SyntaraScreen document={doc({ type: 'Text', children: 'Recovered' })} />);
     expect(screen.getByText('Recovered')).toBeInTheDocument();
   });
 });

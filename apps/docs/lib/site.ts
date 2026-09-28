@@ -3,7 +3,7 @@
 /** Public origin used in copy-paste commands. Set NEXT_PUBLIC_SITE_URL in production. */
 export const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3000').replace(/\/+$/, '');
 
-export const SITE_NAME = 'Strata';
+export const SITE_NAME = 'Syntara';
 export const SITE_DESCRIPTION =
   'A multi-brand design system that humans and AI agents build with. One React library, any brand, WCAG 2.2 AA by construction.';
 

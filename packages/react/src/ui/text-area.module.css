@@ -4,7 +4,7 @@
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  gap: var(--strata-space-2);
+  gap: var(--syntara-space-2);
   min-inline-size: 0;
 }
 
@@ -13,34 +13,34 @@
   display: block;
   inline-size: 100%;
   min-inline-size: 0;
-  min-block-size: var(--strata-control-height);
+  min-block-size: var(--syntara-control-height);
   margin: 0;
   /* First line sits where a single-line Input's text sits. */
-  padding-block: calc((var(--strata-control-height) - 1lh - 2px) / 2);
-  padding-inline: var(--strata-control-padding-inline);
+  padding-block: calc((var(--syntara-control-height) - 1lh - 2px) / 2);
+  padding-inline: var(--syntara-control-padding-inline);
   /* The same soft-outline well as Input (text-field.module.css has the 3:1 boundary note and proof). */
   --_edge: light-dark(
-    var(--strata-color-border-strong),
-    color-mix(in oklab, var(--strata-color-border-strong) 80%, var(--strata-color-border-default))
+    var(--syntara-color-border-strong),
+    color-mix(in oklab, var(--syntara-color-border-strong) 80%, var(--syntara-color-border-default))
   );
-  --_fill: color-mix(in oklab, var(--strata-color-surface-sunken) 40%, var(--strata-color-surface-default));
+  --_fill: color-mix(in oklab, var(--syntara-color-surface-sunken) 40%, var(--syntara-color-surface-default));
   --_inset: light-dark(
-    color-mix(in oklab, var(--strata-color-text-default) 6%, transparent),
-    color-mix(in oklab, var(--strata-color-surface-canvas) 70%, transparent)
+    color-mix(in oklab, var(--syntara-color-text-default) 6%, transparent),
+    color-mix(in oklab, var(--syntara-color-surface-canvas) 70%, transparent)
   );
   border: 1px solid var(--_edge);
-  border-radius: calc(var(--strata-radius-field) + var(--strata-space-1) / 2);
+  border-radius: calc(var(--syntara-radius-field) + var(--syntara-space-1) / 2);
   background-color: var(--_fill);
-  color: var(--strata-color-text-default);
+  color: var(--syntara-color-text-default);
   font-family: inherit;
-  font-size: var(--strata-font-size-md);
-  line-height: var(--strata-line-height-normal);
+  font-size: var(--syntara-font-size-md);
+  line-height: var(--syntara-line-height-normal);
   letter-spacing: inherit;
   resize: vertical;
   outline: none;
   outline-offset: 0;
   appearance: none;
-  --_halo: var(--strata-color-focus-ring);
+  --_halo: var(--syntara-color-focus-ring);
 }
 
 .textarea[data-auto-resize] {
@@ -49,52 +49,52 @@
 }
 
 .textarea::placeholder {
-  color: var(--strata-color-text-subtle);
+  color: var(--syntara-color-text-subtle);
   opacity: 1;
 }
 
 .textarea[data-hovered] {
-  --_edge: var(--strata-color-text-subtle);
+  --_edge: var(--syntara-color-text-subtle);
 }
 
 /* Same focus as Input: the 2px ring (the accessible indicator) plus a soft decorative halo inside it. */
 .textarea[data-focused] {
-  outline: 2px solid var(--strata-color-focus-ring);
+  outline: 2px solid var(--syntara-color-focus-ring);
   outline-offset: 2px;
-  --_edge: var(--strata-color-focus-ring);
-  --_fill: var(--strata-color-surface-default);
+  --_edge: var(--syntara-color-focus-ring);
+  --_fill: var(--syntara-color-surface-default);
   --_inset: transparent;
   box-shadow: inset 0 1px 2px var(--_inset), 0 0 0 4px color-mix(in oklab, var(--_halo) 18%, transparent);
 }
 
 .textarea[data-invalid] {
-  --_halo: var(--strata-color-feedback-danger-solid);
-  --_edge: var(--strata-color-feedback-danger-solid);
+  --_halo: var(--syntara-color-feedback-danger-solid);
+  --_edge: var(--syntara-color-feedback-danger-solid);
 }
 
 .textarea[data-disabled] {
-  --_edge: var(--strata-color-border-default);
-  --_fill: var(--strata-color-surface-sunken);
+  --_edge: var(--syntara-color-border-default);
+  --_fill: var(--syntara-color-surface-sunken);
   --_inset: transparent;
-  color: var(--strata-color-text-disabled);
+  color: var(--syntara-color-text-disabled);
   resize: none;
   cursor: default;
 }
 
 .textarea[data-disabled]::placeholder {
-  color: var(--strata-color-text-disabled);
+  color: var(--syntara-color-text-disabled);
 }
 
 .textarea[readonly]:not([data-disabled]) {
-  --_edge: var(--strata-color-border-default);
-  --_fill: var(--strata-color-surface-sunken);
+  --_edge: var(--syntara-color-border-default);
+  --_fill: var(--syntara-color-surface-sunken);
   --_inset: transparent;
 }
 
 .footer {
   display: flex;
   align-items: flex-start;
-  gap: var(--strata-space-3);
+  gap: var(--syntara-space-3);
 }
 
 .footer > :first-child:not(.count) {
@@ -105,19 +105,19 @@
 .count {
   flex: none;
   margin-inline-start: auto;
-  color: var(--strata-color-text-subtle);
-  font-size: var(--strata-font-size-xs);
-  line-height: var(--strata-line-height-normal);
+  color: var(--syntara-color-text-subtle);
+  font-size: var(--syntara-font-size-xs);
+  line-height: var(--syntara-line-height-normal);
   font-variant-numeric: tabular-nums;
 }
 
 .count[data-zone='near'] {
-  color: var(--strata-color-feedback-warning-fg);
+  color: var(--syntara-color-feedback-warning-fg);
 }
 
 .count[data-zone='limit'] {
-  color: var(--strata-color-feedback-danger-fg);
-  font-weight: var(--strata-font-weight-medium);
+  color: var(--syntara-color-feedback-danger-fg);
+  font-weight: var(--syntara-font-weight-medium);
 }
 
 /*
@@ -128,10 +128,10 @@
 .textarea {
   box-shadow: inset 0 1px 2px var(--_inset), 0 0 0 4px color-mix(in oklab, var(--_halo) 0%, transparent);
   transition:
-    border-color var(--strata-motion-duration-fast) var(--strata-motion-easing),
-    background-color var(--strata-motion-duration-fast) var(--strata-motion-easing),
-    box-shadow var(--strata-motion-duration-normal) var(--strata-motion-easing-out),
-    outline-offset var(--strata-motion-duration-fast) var(--strata-motion-easing);
+    border-color var(--syntara-motion-duration-fast) var(--syntara-motion-easing),
+    background-color var(--syntara-motion-duration-fast) var(--syntara-motion-easing),
+    box-shadow var(--syntara-motion-duration-normal) var(--syntara-motion-easing-out),
+    outline-offset var(--syntara-motion-duration-fast) var(--syntara-motion-easing);
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -141,12 +141,12 @@
 
   .textarea[data-focused] {
     transition:
-      border-color var(--strata-motion-duration-fast) var(--strata-motion-easing),
-      box-shadow var(--strata-motion-duration-spring) var(--strata-motion-spring),
-      outline-offset var(--strata-motion-duration-spring) var(--strata-motion-spring);
+      border-color var(--syntara-motion-duration-fast) var(--syntara-motion-easing),
+      box-shadow var(--syntara-motion-duration-spring) var(--syntara-motion-spring),
+      outline-offset var(--syntara-motion-duration-spring) var(--syntara-motion-spring);
   }
 }
 
 .count {
-  transition: color var(--strata-motion-duration-fast) var(--strata-motion-easing);
+  transition: color var(--syntara-motion-duration-fast) var(--syntara-motion-easing);
 }

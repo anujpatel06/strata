@@ -3,8 +3,8 @@
  * packages/sdui/schema/manifest.json (the slice), packages/react/meta (what's left out), and the theme engine's
  * native exporters (the contrast re-check). Nothing here is typed in by hand.
  */
-import type { Manifest, ManifestNode } from '@strata/sdui';
-import { buildNativeModel, generateTheme, toCompose, toSwiftUI, verifyNativeExport, type BrandInput } from '@strata/theme-engine';
+import type { Manifest, ManifestNode } from '@syntara/sdui';
+import { buildNativeModel, generateTheme, toCompose, toSwiftUI, verifyNativeExport, type BrandInput } from '@syntara/theme-engine';
 import { MaturityBadge } from '@/components/docs/maturity-badge';
 import { A, InlineCode, Li, P, Table, Ul } from '@/components/mdx/prose';
 import { getAllMeta } from '@/lib/meta';
@@ -26,7 +26,7 @@ function Rich({ text }: { text: string }) {
 
 function readManifest(): Manifest {
   const raw = readRepoFile('packages', 'sdui', 'schema', 'manifest.json');
-  if (!raw) throw new Error('packages/sdui/schema/manifest.json is missing: run pnpm --filter @strata/sdui generate');
+  if (!raw) throw new Error('packages/sdui/schema/manifest.json is missing: run pnpm --filter @syntara/sdui generate');
   return JSON.parse(raw) as Manifest;
 }
 
@@ -55,9 +55,9 @@ export function SliceSummary() {
   return (
     <P>
       Schema {m.schemaVersion} has {plural(c.nodes, 'node type')}: {c.fromMeta} drawn by {c.components.size} of the {total}{' '}
-      Strata components, and {c.own} of the schema’s own for layout and text. By maturity: {list(maturity)}. A node from a
+      Syntara components, and {c.own} of the schema’s own for layout and text. By maturity: {list(maturity)}. A node from a
       component takes the component’s maturity{own.length === 1 ? `; the schema’s own nodes are ${own[0]}` : ''}. Icons are referenced by name, and{' '}
-      {plural(m.icons.length, 'icon')} from <InlineCode>@strata/icons</InlineCode> are on the list.
+      {plural(m.icons.length, 'icon')} from <InlineCode>@syntara/icons</InlineCode> are on the list.
     </P>
   );
 }
@@ -229,10 +229,10 @@ export function NativeTokenChecks() {
         <tr>
           <th scope="col">Tenant</th>
           <th scope="col">
-            Compose (<InlineCode>StrataTokens.kt</InlineCode>)
+            Compose (<InlineCode>SyntaraTokens.kt</InlineCode>)
           </th>
           <th scope="col">
-            SwiftUI (<InlineCode>StrataTokens.swift</InlineCode>)
+            SwiftUI (<InlineCode>SyntaraTokens.swift</InlineCode>)
           </th>
         </tr>
       </thead>

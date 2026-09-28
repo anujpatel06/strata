@@ -13,7 +13,7 @@
   ],
   "dependencies": [],
   "registryDependencies": [],
-  "usage": "import { Badge } from '@strata/react';\n\nexport function PaymentStatus() {\n  return <Badge tone=\"success\">Paid</Badge>;\n}",
+  "usage": "import { Badge } from '@syntara/react';\n\nexport function PaymentStatus() {\n  return <Badge tone=\"success\">Paid</Badge>;\n}",
   "examples": [
     {
       "name": "badge-demo",

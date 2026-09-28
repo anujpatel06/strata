@@ -1,5 +1,5 @@
 import { useId } from 'react';
-import { IconCheck } from '@strata/icons';
+import { IconCheck } from '@syntara/icons';
 import { TENANT_TAGLINES, type Tenant, type TenantId } from '../tenants';
 import styles from './PresetPicker.module.css';
 import ui from './ui.module.css';

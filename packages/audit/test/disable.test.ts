@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { auditSource } from '../src/index';
 import { audit, expected, found } from './helpers';
 
-describe('strata-audit-disable-next-line', () => {
+describe('syntara-audit-disable-next-line', () => {
   it('CSS: silences the named rules on the next line of code, and only with a reason', () => {
     const { source, findings, stats, notes } = audit('css/disable.css');
     expect(found(findings)).toEqual(expected(source));
@@ -26,13 +26,13 @@ describe('strata-audit-disable-next-line', () => {
   });
 
   it('a silenced finding still counts as a place looked at, so the score is 100', () => {
-    const r = auditSource('.a {\n  /* strata-audit-disable-next-line raw-color -- a reason */\n  color: red;\n}\n', { language: 'css' });
+    const r = auditSource('.a {\n  /* syntara-audit-disable-next-line raw-color -- a reason */\n  color: red;\n}\n', { language: 'css' });
     expect(r.findings).toEqual([]);
     expect(r.stats.opportunities).toBe(1);
   });
 
   it('notes a comment that names no rule', () => {
-    const r = auditSource('.a {\n  /* strata-audit-disable-next-line -- a reason */\n  color: red;\n}\n', { language: 'css' });
+    const r = auditSource('.a {\n  /* syntara-audit-disable-next-line -- a reason */\n  color: red;\n}\n', { language: 'css' });
     expect(r.findings).toHaveLength(1);
     expect(r.notes?.[0]).toMatch(/names no rule/);
   });

@@ -1,6 +1,6 @@
 'use client';
 
-import { Steps } from '@strata/react';
+import { Steps } from '@syntara/react';
 
 const steps = [
   { id: 'details', label: 'Incident details', description: 'Date, place and what happened' },

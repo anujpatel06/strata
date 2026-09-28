@@ -1,5 +1,5 @@
 import { createElement } from 'react';
-import { Button, type ButtonProps } from '@strata/react';
+import { Button, type ButtonProps } from '@syntara/react';
 
 export function Row({ isBad, ...props }: ButtonProps & { isBad: boolean }) {
   const variant = isBad ? 'danger' : 'primary';

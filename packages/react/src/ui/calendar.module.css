@@ -1,36 +1,36 @@
 /* Calendar + RangeCalendar. Cells follow density: 36px comfortable, 32px compact (never below the 24px hit target). */
 .calendar {
-  --calendar-cell: max(calc(var(--strata-control-height) - var(--strata-space-1)), var(--strata-space-8));
-  --calendar-cell-radius: var(--strata-radius-button);
+  --calendar-cell: max(calc(var(--syntara-control-height) - var(--syntara-space-1)), var(--syntara-space-8));
+  --calendar-cell-radius: var(--syntara-radius-button);
   box-sizing: border-box;
   display: inline-flex;
   flex-direction: column;
-  gap: var(--strata-space-3);
+  gap: var(--syntara-space-3);
   inline-size: max-content;
   max-inline-size: 100%;
-  padding: var(--strata-space-3);
-  color: var(--strata-color-text-default);
-  font-family: var(--strata-font-body);
-  font-size: var(--strata-font-size-md);
-  line-height: var(--strata-line-height-normal);
+  padding: var(--syntara-space-3);
+  color: var(--syntara-color-text-default);
+  font-family: var(--syntara-font-body);
+  font-size: var(--syntara-font-size-md);
+  line-height: var(--syntara-line-height-normal);
 }
 
 .header {
   display: flex;
   align-items: center;
-  gap: var(--strata-space-2);
+  gap: var(--syntara-space-2);
 }
 
 .heading {
   flex: 1;
   margin: 0;
   text-align: center;
-  font-family: var(--strata-font-heading);
-  font-size: var(--strata-font-size-md);
-  font-weight: var(--strata-font-weight-semibold);
-  letter-spacing: var(--strata-font-heading-tracking);
-  line-height: var(--strata-line-height-tight);
-  color: var(--strata-color-text-default);
+  font-family: var(--syntara-font-heading);
+  font-size: var(--syntara-font-size-md);
+  font-weight: var(--syntara-font-weight-semibold);
+  letter-spacing: var(--syntara-font-heading-tracking);
+  line-height: var(--syntara-line-height-tight);
+  color: var(--syntara-color-text-default);
 }
 
 /* Secondary-control look: surface + border + a raised shadow. Hover deepens the border, not the shadow. */
@@ -40,33 +40,33 @@
   align-items: center;
   justify-content: center;
   flex: none;
-  inline-size: calc(var(--strata-control-height) - var(--strata-space-2));
-  block-size: calc(var(--strata-control-height) - var(--strata-space-2));
-  min-inline-size: var(--strata-space-6);
-  min-block-size: var(--strata-space-6);
+  inline-size: calc(var(--syntara-control-height) - var(--syntara-space-2));
+  block-size: calc(var(--syntara-control-height) - var(--syntara-space-2));
+  min-inline-size: var(--syntara-space-6);
+  min-block-size: var(--syntara-space-6);
   padding: 0;
-  border: 1px solid var(--strata-color-border-default);
-  border-radius: min(var(--strata-radius-button), var(--strata-space-2));
-  background: var(--strata-color-surface-default);
-  color: var(--strata-color-text-subtle);
-  box-shadow: var(--strata-shadow-raised);
+  border: 1px solid var(--syntara-color-border-default);
+  border-radius: min(var(--syntara-radius-button), var(--syntara-space-2));
+  background: var(--syntara-color-surface-default);
+  color: var(--syntara-color-text-subtle);
+  box-shadow: var(--syntara-shadow-raised);
   cursor: default;
   outline: none;
 }
 .navButton[data-hovered] {
-  border-color: var(--strata-color-border-strong);
-  color: var(--strata-color-text-default);
+  border-color: var(--syntara-color-border-strong);
+  color: var(--syntara-color-text-default);
 }
 .navButton[data-pressed] {
-  background: var(--strata-color-surface-selected);
+  background: var(--syntara-color-surface-selected);
 }
 .navButton[data-focus-visible] {
-  outline: 2px solid var(--strata-color-focus-ring);
+  outline: 2px solid var(--syntara-color-focus-ring);
   outline-offset: 2px;
 }
 .navButton[data-disabled] {
-  color: var(--strata-color-text-disabled);
-  border-color: var(--strata-color-border-subtle);
+  color: var(--syntara-color-text-disabled);
+  border-color: var(--syntara-color-border-subtle);
   background: transparent;
   box-shadow: none;
 }
@@ -83,7 +83,7 @@
   display: flex;
   flex-wrap: wrap;
   align-items: flex-start;
-  gap: var(--strata-space-6);
+  gap: var(--syntara-space-6);
 }
 
 .grid {
@@ -95,17 +95,17 @@
 }
 /* Space between week rows; range bands stay continuous along a row. */
 .grid tbody tr + tr td {
-  padding-block-start: var(--strata-space-1);
+  padding-block-start: var(--syntara-space-1);
 }
 
 .weekday {
   inline-size: var(--calendar-cell);
   padding: 0;
-  padding-block-end: var(--strata-space-2);
-  color: var(--strata-color-text-subtle);
-  font-size: var(--strata-font-size-sm);
-  font-weight: var(--strata-font-weight-regular);
-  line-height: var(--strata-line-height-tight);
+  padding-block-end: var(--syntara-space-2);
+  color: var(--syntara-color-text-subtle);
+  font-size: var(--syntara-font-size-sm);
+  font-weight: var(--syntara-font-weight-regular);
+  line-height: var(--syntara-line-height-tight);
   text-align: center;
 }
 
@@ -118,8 +118,8 @@
   inline-size: var(--calendar-cell);
   block-size: var(--calendar-cell);
   border-radius: var(--calendar-cell-radius);
-  color: var(--strata-color-text-default);
-  font-size: var(--strata-font-size-md);
+  color: var(--syntara-color-text-default);
+  font-size: var(--syntara-font-size-md);
   font-variant-numeric: tabular-nums;
   line-height: 1;
   cursor: default;
@@ -127,14 +127,14 @@
   forced-color-adjust: none;
 }
 .cell[data-hovered]:not([data-selected]):not([data-disabled]):not([data-unavailable]) {
-  background: color-mix(in oklab, var(--strata-color-text-default) 6%, transparent);
+  background: color-mix(in oklab, var(--syntara-color-text-default) 6%, transparent);
 }
 .cell[data-pressed]:not([data-selected]) {
-  background: color-mix(in oklab, var(--strata-color-text-default) 10%, transparent);
+  background: color-mix(in oklab, var(--syntara-color-text-default) 10%, transparent);
 }
 .cell[data-focus-visible] {
   z-index: 1;
-  outline: 2px solid var(--strata-color-focus-ring);
+  outline: 2px solid var(--syntara-color-focus-ring);
   outline-offset: 2px;
 }
 
@@ -142,39 +142,39 @@
 .cell[data-today]::after {
   content: '';
   position: absolute;
-  inset-block-end: calc(var(--strata-space-1) / 2);
+  inset-block-end: calc(var(--syntara-space-1) / 2);
   inset-inline: 0;
   margin-inline: auto;
-  inline-size: var(--strata-space-1);
-  block-size: var(--strata-space-1);
-  border-radius: var(--strata-radius-pill);
-  background: var(--strata-color-action-primary-bg);
+  inline-size: var(--syntara-space-1);
+  block-size: var(--syntara-space-1);
+  border-radius: var(--syntara-radius-pill);
+  background: var(--syntara-color-action-primary-bg);
 }
 .cell[data-today] {
-  font-weight: var(--strata-font-weight-semibold);
+  font-weight: var(--syntara-font-weight-semibold);
 }
 
 /* Single selection, and the two ends of a range. */
 .cell[data-selected] {
-  background: var(--strata-color-action-primary-bg);
-  color: var(--strata-color-action-primary-fg);
-  font-weight: var(--strata-font-weight-medium);
+  background: var(--syntara-color-action-primary-bg);
+  color: var(--syntara-color-action-primary-fg);
+  font-weight: var(--syntara-font-weight-medium);
 }
 .cell[data-selected][data-hovered] {
-  background: var(--strata-color-action-primary-hover);
+  background: var(--syntara-color-action-primary-hover);
 }
 .cell[data-selected][data-today]::after {
-  background: var(--strata-color-action-primary-fg);
+  background: var(--syntara-color-action-primary-fg);
 }
 
 /* Range: the middle is a quiet band; the ends are solid and join the band. */
 .range .cell[data-selected]:not([data-selection-start]):not([data-selection-end]) {
   border-radius: 0;
-  background: var(--strata-color-surface-selected);
-  color: var(--strata-color-text-default);
+  background: var(--syntara-color-surface-selected);
+  color: var(--syntara-color-text-default);
 }
 .range .cell[data-selected]:not([data-selection-start]):not([data-selection-end])[data-today]::after {
-  background: var(--strata-color-action-primary-bg);
+  background: var(--syntara-color-action-primary-bg);
 }
 .range .cell[data-selection-start]:not([data-selection-end]) {
   border-start-end-radius: 0;
@@ -196,7 +196,7 @@
 
 /* Days that belong to the neighbouring months: visible for orientation, not interactive. */
 .cell[data-outside-month] {
-  color: var(--strata-color-text-disabled);
+  color: var(--syntara-color-text-disabled);
   background: transparent;
   pointer-events: none;
 }
@@ -206,34 +206,34 @@
 
 /* Outside min/max, or the whole calendar disabled: muted, not focusable. */
 .cell[data-disabled]:not([data-outside-month]) {
-  color: var(--strata-color-text-disabled);
+  color: var(--syntara-color-text-disabled);
   pointer-events: none;
 }
 /* Unavailable days (isDateUnavailable) stay focusable, so they keep readable contrast and are struck through
    — the strike, not colour alone, says "can't pick this". */
 .cell[data-unavailable]:not([data-disabled]):not([data-outside-month]) {
-  color: var(--strata-color-text-subtle);
+  color: var(--syntara-color-text-subtle);
   text-decoration: line-through;
 }
 
 .calendar[data-disabled] .heading {
-  color: var(--strata-color-text-disabled);
+  color: var(--syntara-color-text-disabled);
 }
 
 .cell[data-invalid][data-selected] {
-  background: var(--strata-color-feedback-danger-solid);
-  color: var(--strata-color-feedback-danger-on-solid);
+  background: var(--syntara-color-feedback-danger-solid);
+  color: var(--syntara-color-feedback-danger-on-solid);
 }
 .range .cell[data-invalid][data-selected]:not([data-selection-start]):not([data-selection-end]) {
-  background: var(--strata-color-feedback-danger-bg);
-  color: var(--strata-color-feedback-danger-fg);
+  background: var(--syntara-color-feedback-danger-bg);
+  color: var(--syntara-color-feedback-danger-fg);
 }
 
 .error {
   max-inline-size: calc(var(--calendar-cell) * 7);
-  color: var(--strata-color-feedback-danger-fg);
-  font-size: var(--strata-font-size-sm);
-  line-height: var(--strata-line-height-snug);
+  color: var(--syntara-color-feedback-danger-fg);
+  font-size: var(--syntara-font-size-sm);
+  line-height: var(--syntara-line-height-snug);
 }
 
 /* ——— Glass (inside a DatePicker popover) ———
@@ -244,11 +244,11 @@
   visibility: hidden;
 }
 .calendar[data-in-picker] .cell[data-disabled]:not([data-outside-month]) {
-  color: var(--strata-color-text-subtle);
+  color: var(--syntara-color-text-subtle);
   text-decoration: line-through;
 }
 .calendar[data-in-picker][data-disabled] .heading {
-  color: var(--strata-color-text-subtle);
+  color: var(--syntara-color-text-subtle);
 }
 
 /* ——— Motion ———
@@ -256,27 +256,27 @@
 .cell,
 .navButton {
   transition:
-    background-color var(--strata-motion-duration-fast) var(--strata-motion-easing),
-    border-color var(--strata-motion-duration-fast) var(--strata-motion-easing),
-    color var(--strata-motion-duration-fast) var(--strata-motion-easing);
+    background-color var(--syntara-motion-duration-fast) var(--syntara-motion-easing),
+    border-color var(--syntara-motion-duration-fast) var(--syntara-motion-easing),
+    color var(--syntara-motion-duration-fast) var(--syntara-motion-easing);
 }
 /* A page turn fades the new month in (the slide is added below when motion is allowed). */
 .months[data-direction][data-page='0'] > .grid {
-  animation: month-fade-a var(--strata-motion-duration-normal) var(--strata-motion-easing-out);
+  animation: month-fade-a var(--syntara-motion-duration-normal) var(--syntara-motion-easing-out);
 }
 .months[data-direction][data-page='1'] > .grid {
-  animation: month-fade-b var(--strata-motion-duration-normal) var(--strata-motion-easing-out);
+  animation: month-fade-b var(--syntara-motion-duration-normal) var(--syntara-motion-easing-out);
 }
 
 @media (prefers-reduced-motion: no-preference) {
   .cell,
   .navButton {
     transition:
-      background-color var(--strata-motion-duration-fast) var(--strata-motion-easing),
-      border-color var(--strata-motion-duration-fast) var(--strata-motion-easing),
-      color var(--strata-motion-duration-fast) var(--strata-motion-easing),
-      scale var(--strata-motion-duration-spring) var(--strata-motion-spring),
-      outline-offset var(--strata-motion-duration-fast) var(--strata-motion-easing);
+      background-color var(--syntara-motion-duration-fast) var(--syntara-motion-easing),
+      border-color var(--syntara-motion-duration-fast) var(--syntara-motion-easing),
+      color var(--syntara-motion-duration-fast) var(--syntara-motion-easing),
+      scale var(--syntara-motion-duration-spring) var(--syntara-motion-spring),
+      outline-offset var(--syntara-motion-duration-fast) var(--syntara-motion-easing);
   }
   .cell:not([data-focus-visible]),
   .navButton:not([data-focus-visible]) {
@@ -290,33 +290,33 @@
   /* A day that becomes selected — or the moving end of a range while you drag or hover — pops in on the spring.
      The quiet middle of a range doesn't, so the band stays one continuous shape. */
   .cell[data-selected] {
-    animation: day-select var(--strata-motion-duration-spring) var(--strata-motion-spring);
+    animation: day-select var(--syntara-motion-duration-spring) var(--syntara-motion-spring);
   }
   .range .cell[data-selected]:not([data-selection-start]):not([data-selection-end]) {
     animation: none;
   }
   /* Page turns: the new month slides in from the side you paged towards (mirrored in RTL). */
   .months {
-    --month-slide: var(--strata-space-4);
+    --month-slide: var(--syntara-space-4);
   }
   .months[data-direction='prev'] {
-    --month-slide: calc(var(--strata-space-4) * -1);
+    --month-slide: calc(var(--syntara-space-4) * -1);
   }
   .months:dir(rtl) {
-    --month-slide: calc(var(--strata-space-4) * -1);
+    --month-slide: calc(var(--syntara-space-4) * -1);
   }
   .months[data-direction='prev']:dir(rtl) {
-    --month-slide: var(--strata-space-4);
+    --month-slide: var(--syntara-space-4);
   }
   .months[data-direction][data-page='0'] > .grid {
     animation:
-      month-fade-a var(--strata-motion-duration-normal) var(--strata-motion-easing-out),
-      month-slide-a var(--strata-motion-duration-spring) var(--strata-motion-spring);
+      month-fade-a var(--syntara-motion-duration-normal) var(--syntara-motion-easing-out),
+      month-slide-a var(--syntara-motion-duration-spring) var(--syntara-motion-spring);
   }
   .months[data-direction][data-page='1'] > .grid {
     animation:
-      month-fade-b var(--strata-motion-duration-normal) var(--strata-motion-easing-out),
-      month-slide-b var(--strata-motion-duration-spring) var(--strata-motion-spring);
+      month-fade-b var(--syntara-motion-duration-normal) var(--syntara-motion-easing-out),
+      month-slide-b var(--syntara-motion-duration-spring) var(--syntara-motion-spring);
   }
 }
 

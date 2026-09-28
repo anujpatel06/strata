@@ -1,6 +1,6 @@
 'use client';
 
-import { SearchField } from '@strata/react';
+import { SearchField } from '@syntara/react';
 
 export default function Example() {
   return (

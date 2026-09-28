@@ -4,8 +4,8 @@
  *
  *   node evals/setup.mjs
  *
- * 1. Builds @strata/react and the tenant tokens.
- * 2. Packs @strata/react, @strata/icons and @strata/tokens into tarballs, the same files npm would publish.
+ * 1. Builds @syntara/react and the tenant tokens.
+ * 2. Packs @syntara/react, @syntara/icons and @syntara/tokens into tarballs, the same files npm would publish.
  *    Runs install from these, so an agent sees what a real consumer sees: built code and types, not this repo's
  *    meta files, docs or examples.
  * 3. Installs the template app once, in the system's temp folder and outside this repo (see lib/common.mjs).
@@ -38,8 +38,8 @@ if (clean) {
   sh('pnpm', ['install', '--frozen-lockfile', '--prefer-offline'], SRC);
 }
 
-console.log('1/5 build @strata/react and tokens');
-sh('pnpm', ['--filter', '@strata/react', 'build'], SRC);
+console.log('1/5 build @syntara/react and tokens');
+sh('pnpm', ['--filter', '@syntara/react', 'build'], SRC);
 sh('pnpm', ['tokens'], SRC);
 
 console.log('2/5 pack');
@@ -49,7 +49,7 @@ mkdirSync(PACKS, { recursive: true });
 const packs = {};
 for (const name of ['react', 'icons', 'tokens']) {
   sh('pnpm', ['pack', '--pack-destination', PACKS], path.join(SRC, 'packages', name));
-  const file = readdirSync(PACKS).find((f) => f.startsWith(`strata-${name}-`) && f.endsWith('.tgz'));
+  const file = readdirSync(PACKS).find((f) => f.startsWith(`syntara-${name}-`) && f.endsWith('.tgz'));
   if (!file) throw new Error(`pack of ${name} produced no tarball`);
   packs[name] = `file:${path.join(PACKS, file)}`;
 }
@@ -65,15 +65,15 @@ writeFileSync(
 // --ignore-workspace: the template must install like an app outside this monorepo.
 sh('pnpm', ['install', '--ignore-workspace', '--no-frozen-lockfile'], INSTALLED);
 // template/.npmrc sets node-linker=hoisted: plain folders, as npm installs them, with no links for a file search to miss.
-if (lstatSync(path.join(INSTALLED, 'node_modules/@strata/react')).isSymbolicLink()) throw new Error('node_modules/@strata/react is a link; the install must be hoisted');
-for (const dep of ['@strata/react', '@strata/icons', '@strata/tokens']) {
+if (lstatSync(path.join(INSTALLED, 'node_modules/@syntara/react')).isSymbolicLink()) throw new Error('node_modules/@syntara/react is a link; the install must be hoisted');
+for (const dep of ['@syntara/react', '@syntara/icons', '@syntara/tokens']) {
   if (!existsSync(path.join(INSTALLED, 'node_modules', dep, 'package.json'))) throw new Error(`${dep} did not install`);
 }
 
 console.log('4/5 llms.txt');
 const metaDir = path.join(SRC, 'packages/react/meta');
 const metas = readdirSync(metaDir).filter((f) => f.endsWith('.meta.json')).sort().map((f) => JSON.parse(readFileSync(path.join(metaDir, f), 'utf8')));
-const lines = ['# Strata', '', '> A multi-brand design system: React components on React Aria, themed by CSS variables. Import components from `@strata/react` and icons from `@strata/icons`.', ''];
+const lines = ['# Syntara', '', '> A multi-brand design system: React components on React Aria, themed by CSS variables. Import components from `@syntara/react` and icons from `@syntara/icons`.', ''];
 for (const m of metas) {
   lines.push(`## ${m.title}`, '', m.description, '', `Exports: ${m.exports.map((e) => `\`${e}\``).join(', ')}`, '');
   for (const p of m.props) {

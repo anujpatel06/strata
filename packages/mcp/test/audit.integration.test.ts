@@ -1,8 +1,8 @@
 /**
- * The one test that uses the real auditor. It is skipped, with the reason printed, while '@strata/audit'
+ * The one test that uses the real auditor. It is skipped, with the reason printed, while '@syntara/audit'
  * doesn't export auditSource, scoreOf and findToken.
  *
- *   pnpm --filter @strata/mcp test audit.integration
+ *   pnpm --filter @syntara/mcp test audit.integration
  */
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 import { auditorAvailable } from '../src/audit-bridge';
@@ -13,7 +13,7 @@ if (!available.ok) {
   process.stdout.write(`SKIPPED: real-auditor integration test. ${available.reason}\n`);
 }
 
-describe.skipIf(!available.ok)('audit_snippet and find_token with the real @strata/audit', () => {
+describe.skipIf(!available.ok)('audit_snippet and find_token with the real @syntara/audit', () => {
   let h: Harness;
   beforeAll(async () => {
     h = await connect();
@@ -36,7 +36,7 @@ describe.skipIf(!available.ok)('audit_snippet and find_token with the real @stra
   });
 
   it('scores clean code 100 with no findings', async () => {
-    const r = await h.call('audit_snippet', { code: '.card {\n  color: var(--strata-color-text-default);\n}\n', language: 'css' });
+    const r = await h.call('audit_snippet', { code: '.card {\n  color: var(--syntara-color-text-default);\n}\n', language: 'css' });
     expect(r.isError, r.text).toBe(false);
     expect(r.json).toEqual({ score: 100, findings: [] });
   });

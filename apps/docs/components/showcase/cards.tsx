@@ -2,7 +2,7 @@
 
 /**
  * The showcase cards: one small business-money product told as specific moments (a revenue week, a card limit,
- * a payout waiting on approval), composed only from @strata/react and @strata/icons. Layout glue lives in
+ * a payout waiting on approval), composed only from @syntara/react and @syntara/icons. Layout glue lives in
  * cards.module.css (tokens only); every control, chart, label and colour comes from the components themselves.
  *
  * Each card takes the heading level of its title, so the grid fits under any page heading.
@@ -26,7 +26,7 @@ import {
   IconTrendingDown,
   IconTrendingUp,
   IconWallet,
-} from '@strata/icons';
+} from '@syntara/icons';
 import {
   Amount,
   AreaChart,
@@ -58,7 +58,7 @@ import {
   TextField,
   ToggleButton,
   ToggleButtonGroup,
-} from '@strata/react';
+} from '@syntara/react';
 import { useId, useState, type Key, type ReactNode } from 'react';
 import {
   ACCOUNTS,
@@ -441,7 +441,7 @@ export function TransferCard({ level }: CardProps) {
               </SelectItem>
             ))}
           </Select>
-          {/* No NumberField in Strata yet, so the text is regrouped when you leave the field: type "4800", read
+          {/* No NumberField in Syntara yet, so the text is regrouped when you leave the field: type "4800", read
               "4,800.00". One currency cue (the "$" prefix); the card's copy already says the account is in USD. */}
           <TextField
             label="Amount"

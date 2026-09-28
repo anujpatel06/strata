@@ -4,8 +4,8 @@
  */
 
 .checkbox {
-  --_box: calc(var(--strata-control-height) / 4 + var(--strata-space-2));
-  --_gap: var(--strata-space-2);
+  --_box: calc(var(--syntara-control-height) / 4 + var(--syntara-space-2));
+  --_gap: var(--syntara-space-2);
 
   box-sizing: border-box;
   display: flex;
@@ -21,12 +21,12 @@
   gap: var(--_gap);
   inline-size: fit-content;
   max-inline-size: 100%;
-  min-inline-size: var(--strata-space-6);
-  min-block-size: var(--strata-space-6);
-  padding-block: calc((var(--strata-space-6) - 1lh) / 2);
-  color: var(--strata-color-text-default);
-  font-size: var(--strata-font-size-md);
-  line-height: var(--strata-line-height-normal);
+  min-inline-size: var(--syntara-space-6);
+  min-block-size: var(--syntara-space-6);
+  padding-block: calc((var(--syntara-space-6) - 1lh) / 2);
+  color: var(--syntara-color-text-default);
+  font-size: var(--syntara-font-size-md);
+  line-height: var(--syntara-line-height-normal);
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
 }
@@ -41,10 +41,10 @@
   block-size: var(--_box);
   /* Centre on the first line of the label. */
   margin-block-start: calc((1lh - var(--_box)) / 2);
-  border: 1px solid var(--strata-color-border-strong);
-  border-radius: min(var(--strata-radius-field), var(--strata-space-1));
-  background-color: var(--strata-color-surface-default);
-  color: var(--strata-color-action-primary-fg);
+  border: 1px solid var(--syntara-color-border-strong);
+  border-radius: min(var(--syntara-radius-field), var(--syntara-space-1));
+  background-color: var(--syntara-color-surface-default);
+  color: var(--syntara-color-action-primary-fg);
 }
 
 .mark {
@@ -81,19 +81,19 @@
 /* --- states (from React Aria data attributes on the button) --- */
 
 .button[data-hovered] .box {
-  border-color: var(--strata-color-text-subtle);
+  border-color: var(--syntara-color-text-subtle);
 }
 
 .button:is([data-selected], [data-indeterminate]) .box {
-  border-color: var(--strata-color-action-primary-bg);
-  background-color: var(--strata-color-action-primary-bg);
+  border-color: var(--syntara-color-action-primary-bg);
+  background-color: var(--syntara-color-action-primary-bg);
   /* Solid fill: sheen + raised shadow, like a primary button. */
-  box-shadow: var(--strata-shadow-highlight), var(--strata-shadow-raised);
+  box-shadow: var(--syntara-shadow-highlight), var(--syntara-shadow-raised);
 }
 
 .button:is([data-selected], [data-indeterminate])[data-hovered] .box {
-  border-color: var(--strata-color-action-primary-hover);
-  background-color: var(--strata-color-action-primary-hover);
+  border-color: var(--syntara-color-action-primary-hover);
+  background-color: var(--syntara-color-action-primary-hover);
 }
 
 .box {
@@ -101,17 +101,17 @@
 }
 
 .button[data-focus-visible] .box {
-  outline: 2px solid var(--strata-color-focus-ring);
+  outline: 2px solid var(--syntara-color-focus-ring);
   outline-offset: 2px;
 }
 
 .button[data-invalid] .box {
-  border-color: var(--strata-color-feedback-danger-solid);
+  border-color: var(--syntara-color-feedback-danger-solid);
 }
 
 .button[data-invalid]:is([data-selected], [data-indeterminate]) .box {
-  background-color: var(--strata-color-feedback-danger-solid);
-  color: var(--strata-color-feedback-danger-on-solid);
+  background-color: var(--syntara-color-feedback-danger-solid);
+  color: var(--syntara-color-feedback-danger-on-solid);
 }
 
 .button[data-disabled] {
@@ -119,28 +119,28 @@
 }
 
 .button[data-disabled] .box {
-  border-color: var(--strata-color-border-default);
-  background-color: var(--strata-color-surface-sunken);
+  border-color: var(--syntara-color-border-default);
+  background-color: var(--syntara-color-surface-sunken);
 }
 
 .button[data-disabled]:is([data-selected], [data-indeterminate]) .box {
-  border-color: var(--strata-color-text-disabled);
-  background-color: var(--strata-color-text-disabled);
-  color: var(--strata-color-surface-default);
+  border-color: var(--syntara-color-text-disabled);
+  background-color: var(--syntara-color-text-disabled);
+  color: var(--syntara-color-surface-default);
   box-shadow: none;
 }
 
 .button[data-disabled] .label {
-  color: var(--strata-color-text-disabled);
+  color: var(--syntara-color-text-disabled);
 }
 
 /* Colour and shadow fades are fine with reduced motion; the mark then simply appears. */
 .box {
   transition:
-    background-color var(--strata-motion-duration-fast) var(--strata-motion-easing),
-    border-color var(--strata-motion-duration-fast) var(--strata-motion-easing),
-    box-shadow var(--strata-motion-duration-fast) var(--strata-motion-easing),
-    outline-offset var(--strata-motion-duration-fast) var(--strata-motion-easing);
+    background-color var(--syntara-motion-duration-fast) var(--syntara-motion-easing),
+    border-color var(--syntara-motion-duration-fast) var(--syntara-motion-easing),
+    box-shadow var(--syntara-motion-duration-fast) var(--syntara-motion-easing),
+    outline-offset var(--syntara-motion-duration-fast) var(--syntara-motion-easing);
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -151,45 +151,45 @@
    */
   .box {
     transition:
-      background-color var(--strata-motion-duration-fast) var(--strata-motion-easing),
-      border-color var(--strata-motion-duration-fast) var(--strata-motion-easing),
-      box-shadow var(--strata-motion-duration-fast) var(--strata-motion-easing),
-      outline-offset var(--strata-motion-duration-spring) var(--strata-motion-spring),
-      scale var(--strata-motion-duration-spring) var(--strata-motion-spring);
+      background-color var(--syntara-motion-duration-fast) var(--syntara-motion-easing),
+      border-color var(--syntara-motion-duration-fast) var(--syntara-motion-easing),
+      box-shadow var(--syntara-motion-duration-fast) var(--syntara-motion-easing),
+      outline-offset var(--syntara-motion-duration-spring) var(--syntara-motion-spring),
+      scale var(--syntara-motion-duration-spring) var(--syntara-motion-spring);
   }
 
   .button[data-pressed]:not([data-disabled]) .box {
     scale: 0.85;
     transition-duration:
-      var(--strata-motion-duration-fast), var(--strata-motion-duration-fast), var(--strata-motion-duration-fast),
-      var(--strata-motion-duration-spring), var(--strata-motion-duration-fast);
+      var(--syntara-motion-duration-fast), var(--syntara-motion-duration-fast), var(--syntara-motion-duration-fast),
+      var(--syntara-motion-duration-spring), var(--syntara-motion-duration-fast);
     transition-timing-function:
-      var(--strata-motion-easing), var(--strata-motion-easing), var(--strata-motion-easing), var(--strata-motion-spring),
-      var(--strata-motion-easing);
+      var(--syntara-motion-easing), var(--syntara-motion-easing), var(--syntara-motion-easing), var(--syntara-motion-spring),
+      var(--syntara-motion-easing);
   }
 
   /* The mark grows from 0.5 on the spring while it draws in (also when a "select all" row sets it), and shrinks
      back quickly when it clears. */
   .mark {
     scale: 0.5;
-    transition: scale var(--strata-motion-duration-fast) var(--strata-motion-easing);
+    transition: scale var(--syntara-motion-duration-fast) var(--syntara-motion-easing);
   }
 
   .button:is([data-selected], [data-indeterminate]) .mark {
     scale: 1;
-    transition: scale var(--strata-motion-duration-spring) var(--strata-motion-spring);
+    transition: scale var(--syntara-motion-duration-spring) var(--syntara-motion-spring);
   }
 
   /* The check draws in (after the fill has started), and retracts quickly. */
   .check,
   .dash {
-    transition: stroke-dashoffset var(--strata-motion-duration-fast) var(--strata-motion-easing);
+    transition: stroke-dashoffset var(--syntara-motion-duration-fast) var(--syntara-motion-easing);
   }
 
   .button[data-selected]:not([data-indeterminate]) .check,
   .button[data-indeterminate] .dash {
-    transition: stroke-dashoffset var(--strata-motion-duration-normal) var(--strata-motion-easing-out)
-      calc(var(--strata-motion-duration-fast) / 2);
+    transition: stroke-dashoffset var(--syntara-motion-duration-normal) var(--syntara-motion-easing-out)
+      calc(var(--syntara-motion-duration-fast) / 2);
   }
 }
 
@@ -201,22 +201,22 @@
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  gap: var(--strata-space-2);
+  gap: var(--syntara-space-2);
   min-inline-size: 0;
 }
 
 .items {
   display: flex;
   flex-direction: column;
-  gap: var(--strata-space-2);
+  gap: var(--syntara-space-2);
 }
 
 /* A little more air between the group label/description and the options. */
 .items:not(:first-child) {
-  margin-block-start: var(--strata-space-1);
+  margin-block-start: var(--syntara-space-1);
 }
 
 .items[data-orientation='horizontal'] {
   flex-flow: row wrap;
-  gap: var(--strata-space-2) var(--strata-space-5);
+  gap: var(--syntara-space-2) var(--syntara-space-5);
 }

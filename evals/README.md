@@ -1,22 +1,30 @@
 # Agent eval
 
-Does giving an AI coding agent Strata's context make it build better screens? This measures it, and reports whatever the answer is (BRIEF §10, ADR-018, ADR-022).
+Does giving an AI coding agent Syntara's context make it build better screens? This measures it, and reports whatever the answer is (BRIEF §10, ADR-018, ADR-022).
 
 Results: [results.md](results.md). Raw runs: `runs/`.
+
+> **The archived runs predate the rename.** Everything under `runs/` was recorded when the project was called
+> Strata, so those files import `@strata/react` and carry `--strata-*` tokens. They are left exactly as the runs
+> produced them: they are the evidence behind every number in `results.md`, and rewriting them would misreport
+> what the runs did. Their recorded scores stand as published. Re-scoring them is a different matter — `score.mjs`
+> accepts either package scope, but it runs the drift auditor from the checkout the packages were built from
+> (`SOURCE_ROOT`), and the post-rename auditor does not know `--strata-*`. To re-score `iter-1` or `iter-2`, point
+> `SOURCE_ROOT` at a pre-rename checkout. Runs from here on use the new name throughout.
 
 ## Method
 
 - **25 prompts** in `prompts/`, each a real product screen. They're written the way a product manager would ask: they name the screen and its states, and say nothing about tokens, components or accessibility rules.
 - **Tags.** 15 prompts are tagged `a11y`, 8 `multi-brand` and 6 `rtl`. Each tag gets its own scores.
-- **One run** is one headless Claude Code session (`claude -p`) in a fresh copy of `template/`, a small app with Strata installed.
+- **One run** is one headless Claude Code session (`claude -p`) in a fresh copy of `template/`, a small app with Syntara installed.
 - **Conditions.** Every run gets the same prompt, the same README and the same tools (Read, Write, Edit, Glob, Grep). Only this differs:
 
   | Condition | What the run gets |
   |---|---|
-  | `none` | Nothing extra. Strata is installed, as for any consumer |
+  | `none` | Nothing extra. Syntara is installed, as for any consumer |
   | `agents` | `AGENTS.md` |
   | `llms` | `llms.txt`, generated from the same `meta.json` files as the docs |
-  | `mcp` | The Strata MCP server, plus `AGENTS.md` |
+  | `mcp` | The Syntara MCP server, plus `AGENTS.md` |
 
 - **Repeats.** Each prompt, condition and model runs more than once. The report shows how much repeats disagree.
 - **Per model.** Scores are reported for each model and never pooled.
@@ -25,7 +33,7 @@ Results: [results.md](results.md). Raw runs: `runs/`.
 
 | Risk | What the harness does |
 |---|---|
-| The run reads this repo's docs, examples or meta files | Strata is installed from packed tarballs, the same files npm would publish. Workspaces and packages live outside the repo. Reads of the repo are denied. |
+| The run reads this repo's docs, examples or meta files | Syntara is installed from packed tarballs, the same files npm would publish. Workspaces and packages live outside the repo. Reads of the repo are denied. |
 | The run reads another run's work | Each run has its own folder with a random name. |
 | One run's saved notes reach a later run | Memory is turned off, paths are never reused, and the project folder Claude Code creates is removed after the run. |
 | The user's own MCP servers, skills or settings leak in | `--strict-mcp-config`, `--setting-sources project`, `--disable-slash-commands`. |
@@ -38,7 +46,7 @@ The second and third rows were found by the first smoke runs, which read a neigh
 
 | Iteration | Status | What it is |
 |---|---|---|
-| 1 | **Invalid.** Don't quote it | The harness linked `node_modules`, and file search doesn't follow links, so runs without context couldn't see Strata. See `runs/iter-1/INVALID.md` |
+| 1 | **Invalid.** Don't quote it | The harness linked `node_modules`, and file search doesn't follow links, so runs without context couldn't see Syntara. See `runs/iter-1/INVALID.md` |
 | 2 | Valid | The same prompts with the harness fixed. `results.md` reports this one. Its notes are in `runs/iter-2/NOTES.md` |
 
 Three faults were found by reading the runs, not by the numbers looking wrong. Iteration 1's numbers looked good. Before trusting a result, open some of the screens and read what the agents said.

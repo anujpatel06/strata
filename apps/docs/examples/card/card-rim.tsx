@@ -1,10 +1,10 @@
 'use client';
 
-import { Card, CardDescription, CardHeader, CardTitle } from '@strata/react';
+import { Card, CardDescription, CardHeader, CardTitle } from '@syntara/react';
 
 export default function Example() {
   return (
-    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 'var(--strata-space-4)', inlineSize: '100%' }}>
+    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 'var(--syntara-space-4)', inlineSize: '100%' }}>
       <Card>
         <CardHeader>
           <CardTitle>Default</CardTitle>

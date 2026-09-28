@@ -1,7 +1,7 @@
 'use client';
 
-import { IconUsers, IconWallet } from '@strata/icons';
-import { StatTile, StatTileGroup } from '@strata/react';
+import { IconUsers, IconWallet } from '@syntara/icons';
+import { StatTile, StatTileGroup } from '@syntara/react';
 
 export default function Example() {
   return (

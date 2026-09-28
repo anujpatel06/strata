@@ -8,7 +8,7 @@ import {
   type Role,
   type Scheme,
   type Theme,
-} from '@strata/theme-engine';
+} from '@syntara/theme-engine';
 import type { TenantId } from '../tenants';
 import type { ExportFormat } from '../url-state';
 import { ExportSection } from './ExportSection';

@@ -1,7 +1,7 @@
 'use client';
 
-import { IconAlertTriangle, IconCheck, IconCircleCheck, IconLink } from '@strata/icons';
-import { Button } from '@strata/react';
+import { IconAlertTriangle, IconCheck, IconCircleCheck, IconLink } from '@syntara/icons';
+import { Button } from '@syntara/react';
 import { useEffect, useState } from 'react';
 import { plural } from './format';
 import { useDebouncedAnnouncement, useThemes } from './themes-provider';

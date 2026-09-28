@@ -10,11 +10,11 @@ export function FontLoader({ hrefs }: { hrefs: string[] }) {
   useEffect(() => {
     const add = () => {
       for (const href of hrefs) {
-        if (document.querySelector(`link[data-strata-font][href="${CSS.escape(href)}"]`)) continue;
+        if (document.querySelector(`link[data-syntara-font][href="${CSS.escape(href)}"]`)) continue;
         const link = document.createElement('link');
         link.rel = 'stylesheet';
         link.href = href;
-        link.dataset.strataFont = '';
+        link.dataset.syntaraFont = '';
         document.head.append(link);
       }
     };

@@ -3,7 +3,7 @@
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  gap: var(--strata-space-2);
+  gap: var(--syntara-space-2);
   min-inline-size: 0;
 }
 
@@ -12,53 +12,53 @@
      there): half-sunken fill, a faint inset top shadow, and an edge that is border.strong in light and
      color-mix(border.strong 80%, border.default) in dark, ≥ 3:1 against every surface a field sits on.
      Height, corner and inset follow data-field-size exactly like the other fields and Button. */
-  --_h: var(--strata-control-height);
-  --_r: calc(var(--strata-radius-field) + var(--strata-space-1) / 2);
-  --_pad: var(--strata-control-padding-inline);
+  --_h: var(--syntara-control-height);
+  --_r: calc(var(--syntara-radius-field) + var(--syntara-space-1) / 2);
+  --_pad: var(--syntara-control-padding-inline);
   --_edge: light-dark(
-    var(--strata-color-border-strong),
-    color-mix(in oklab, var(--strata-color-border-strong) 80%, var(--strata-color-border-default))
+    var(--syntara-color-border-strong),
+    color-mix(in oklab, var(--syntara-color-border-strong) 80%, var(--syntara-color-border-default))
   );
-  --_fill: color-mix(in oklab, var(--strata-color-surface-sunken) 40%, var(--strata-color-surface-default));
+  --_fill: color-mix(in oklab, var(--syntara-color-surface-sunken) 40%, var(--syntara-color-surface-default));
   --_inset: light-dark(
-    color-mix(in oklab, var(--strata-color-text-default) 6%, transparent),
-    color-mix(in oklab, var(--strata-color-surface-canvas) 70%, transparent)
+    color-mix(in oklab, var(--syntara-color-text-default) 6%, transparent),
+    color-mix(in oklab, var(--syntara-color-surface-canvas) 70%, transparent)
   );
-  --_halo: var(--strata-color-focus-ring);
+  --_halo: var(--syntara-color-focus-ring);
   box-sizing: border-box;
   display: flex;
   align-items: center;
-  gap: var(--strata-space-2);
+  gap: var(--syntara-space-2);
   inline-size: 100%;
   min-inline-size: 0;
   block-size: var(--_h);
   margin: 0;
   padding-block: 0;
   /* The end side matches Combobox/DatePicker: a control-sized icon slot inset by one space step. */
-  padding-inline: var(--_pad) var(--strata-space-1);
+  padding-inline: var(--_pad) var(--syntara-space-1);
   border: 1px solid var(--_edge);
   border-radius: min(var(--_r), var(--_h) / 2);
   background-color: var(--_fill);
-  color: var(--strata-color-text-default);
+  color: var(--syntara-color-text-default);
   font-family: inherit;
-  font-size: var(--strata-font-size-md);
-  line-height: var(--strata-line-height-normal);
-  letter-spacing: var(--strata-font-tracking-md);
+  font-size: var(--syntara-font-size-md);
+  line-height: var(--syntara-line-height-normal);
+  letter-spacing: var(--syntara-font-tracking-md);
   text-align: start;
   cursor: default;
   outline: none;
 }
 .field[data-field-size='sm'] .trigger {
-  --_h: calc(var(--strata-control-height) - var(--strata-space-2));
-  --_r: calc((var(--strata-radius-field) + var(--strata-space-1) / 2) * 0.8);
-  --_pad: calc(var(--strata-control-padding-inline) - var(--strata-space-1));
-  font-size: var(--strata-font-size-sm);
-  letter-spacing: var(--strata-font-tracking-sm);
+  --_h: calc(var(--syntara-control-height) - var(--syntara-space-2));
+  --_r: calc((var(--syntara-radius-field) + var(--syntara-space-1) / 2) * 0.8);
+  --_pad: calc(var(--syntara-control-padding-inline) - var(--syntara-space-1));
+  font-size: var(--syntara-font-size-sm);
+  letter-spacing: var(--syntara-font-tracking-sm);
 }
 .field[data-field-size='lg'] .trigger {
-  --_h: calc(var(--strata-control-height) + var(--strata-space-4));
-  --_r: calc((var(--strata-radius-field) + var(--strata-space-1) / 2) * 1.25);
-  --_pad: calc(var(--strata-control-padding-inline) + var(--strata-space-1));
+  --_h: calc(var(--syntara-control-height) + var(--syntara-space-4));
+  --_r: calc((var(--syntara-radius-field) + var(--syntara-space-1) / 2) * 1.25);
+  --_pad: calc(var(--syntara-control-padding-inline) + var(--syntara-space-1));
 }
 /* Continuous corners where supported, on the trigger and the list (radii unchanged). */
 @supports (corner-shape: squircle) {
@@ -69,54 +69,54 @@
   }
 }
 /* Round-shape brands: true round ends, like Button and the other fields at the same radius. */
-@container style(--strata-radius-button: var(--strata-radius-pill)) {
+@container style(--syntara-radius-button: var(--syntara-radius-pill)) {
   .trigger {
     corner-shape: round;
   }
 }
 
 .trigger[data-hovered] {
-  --_edge: var(--strata-color-text-subtle);
+  --_edge: var(--syntara-color-text-subtle);
 }
 /* Focus = the 2px ring (the accessible indicator) plus a soft halo; the ring "arrives" by settling its offset. */
 .trigger[data-focus-visible] {
-  --_edge: var(--strata-color-focus-ring);
-  outline: 2px solid var(--strata-color-focus-ring);
+  --_edge: var(--syntara-color-focus-ring);
+  outline: 2px solid var(--syntara-color-focus-ring);
   outline-offset: 2px;
 }
 /* While the list is open the trigger keeps the halo and opens up (surface.default, no inset), so it reads as the
    thing the popover belongs to. */
 .field[data-open] .trigger {
-  --_edge: var(--strata-color-focus-ring);
-  --_fill: var(--strata-color-surface-default);
+  --_edge: var(--syntara-color-focus-ring);
+  --_fill: var(--syntara-color-surface-default);
   --_inset: transparent;
 }
 .field[data-invalid] .trigger {
-  --_edge: var(--strata-color-feedback-danger-solid);
-  --_halo: var(--strata-color-feedback-danger-solid);
+  --_edge: var(--syntara-color-feedback-danger-solid);
+  --_halo: var(--syntara-color-feedback-danger-solid);
 }
 .trigger[data-disabled] {
-  --_edge: var(--strata-color-border-default);
-  --_fill: var(--strata-color-surface-sunken);
+  --_edge: var(--syntara-color-border-default);
+  --_fill: var(--syntara-color-surface-sunken);
   --_inset: transparent;
-  color: var(--strata-color-text-disabled);
+  color: var(--syntara-color-text-disabled);
 }
 
 .value {
   display: flex;
   align-items: center;
-  gap: var(--strata-space-2);
+  gap: var(--syntara-space-2);
   flex: 1;
   min-inline-size: 0;
   overflow: hidden;
   white-space: nowrap;
 }
 .value[data-placeholder] {
-  color: var(--strata-color-text-subtle);
+  color: var(--syntara-color-text-subtle);
 }
 .trigger[data-disabled] .value,
 .trigger[data-disabled] .value[data-placeholder] {
-  color: var(--strata-color-text-disabled);
+  color: var(--syntara-color-text-disabled);
 }
 .valueText {
   overflow: hidden;
@@ -128,25 +128,25 @@
   flex: none;
   align-items: center;
   justify-content: center;
-  inline-size: calc(var(--_h) - var(--strata-space-2));
-  color: var(--strata-color-text-subtle);
+  inline-size: calc(var(--_h) - var(--syntara-space-2));
+  color: var(--syntara-color-text-subtle);
 }
 .chevron {
   inline-size: 1.15em;
   block-size: 1.15em;
-  stroke-width: var(--strata-icon-stroke, 1.5);
+  stroke-width: var(--syntara-icon-stroke, 1.5);
 }
 .field[data-open] .chevron {
   rotate: 180deg;
 }
 .field[data-open] .chevronBox {
-  color: var(--strata-color-text-default);
+  color: var(--syntara-color-text-default);
 }
 .value .icon {
   color: inherit;
 }
 .trigger[data-disabled] .chevronBox {
-  color: var(--strata-color-text-disabled);
+  color: var(--syntara-color-text-disabled);
 }
 
 /* ——— Popover + list (kept identical to combobox.module.css) ——— */
@@ -164,21 +164,21 @@
    * any backdrop) over the border box, the rim light (dark only) as a masked ::after ring, a border.subtle
    * hairline ring and the overlay shadow. Only text.default and text.subtle sit directly on it.
    */
-  --_glass: color-mix(in srgb, var(--strata-color-surface-raised) calc(var(--strata-glass-opacity) * 100% + 8%), transparent);
+  --_glass: color-mix(in srgb, var(--syntara-color-surface-raised) calc(var(--syntara-glass-opacity) * 100% + 8%), transparent);
   border: 1px solid transparent;
-  border-radius: var(--strata-radius-container);
+  border-radius: var(--syntara-radius-container);
   /* Sheen over the glass face, both over the whole border box: the 1px ring must carry the same tint, or it shows
      the page unfiltered (a modal underlay's dim doesn't reach a nested backdrop-filter), which reads as a bright
      outline. The rim is drawn by ::after instead (see RIM below). */
-  background: var(--strata-sheen), var(--_glass);
-  -webkit-backdrop-filter: blur(var(--strata-glass-blur)) saturate(1.6);
-  backdrop-filter: blur(var(--strata-glass-blur)) saturate(1.6);
-  box-shadow: 0 0 0 var(--strata-hairline) var(--strata-color-border-subtle), var(--strata-shadow-overlay);
-  color: var(--strata-color-text-default);
-  font-family: var(--strata-font-body);
-  font-size: var(--strata-font-size-md);
-  letter-spacing: var(--strata-font-tracking-md);
-  line-height: var(--strata-line-height-normal);
+  background: var(--syntara-sheen), var(--_glass);
+  -webkit-backdrop-filter: blur(var(--syntara-glass-blur)) saturate(1.6);
+  backdrop-filter: blur(var(--syntara-glass-blur)) saturate(1.6);
+  box-shadow: 0 0 0 var(--syntara-hairline) var(--syntara-color-border-subtle), var(--syntara-shadow-overlay);
+  color: var(--syntara-color-text-default);
+  font-family: var(--syntara-font-body);
+  font-size: var(--syntara-font-size-md);
+  letter-spacing: var(--syntara-font-tracking-md);
+  line-height: var(--syntara-line-height-normal);
   outline: none;
   /* Grow out of the point on the trigger the popover is attached to. */
   transform-origin: var(--trigger-anchor-point, top);
@@ -192,18 +192,18 @@
   border-radius: inherit;
   padding: 1px;
   background: linear-gradient(135deg, var(--_rim, transparent), transparent 60%);
-  mask-image: linear-gradient(var(--strata-color-text-default), var(--strata-color-text-default)),
-    linear-gradient(var(--strata-color-text-default), var(--strata-color-text-default));
+  mask-image: linear-gradient(var(--syntara-color-text-default), var(--syntara-color-text-default)),
+    linear-gradient(var(--syntara-color-text-default), var(--syntara-color-text-default));
   mask-clip: content-box, border-box;
   mask-composite: exclude;
   -webkit-mask-composite: xor;
   pointer-events: none;
 }
-/* Dark only: --strata-sheen is `none` exactly in light schemes (CONVENTIONS "Surface recipe"). The query runs on the
+/* Dark only: --syntara-sheen is `none` exactly in light schemes (CONVENTIONS "Surface recipe"). The query runs on the
    ::after's originating element, which carries the copied scope attributes, so portalled overlays resolve it too. */
-@container not style(--strata-sheen: none) {
+@container not style(--syntara-sheen: none) {
   .popover::after {
-    --_rim: var(--strata-rim);
+    --_rim: var(--syntara-rim);
   }
 }
 @media (forced-colors: active) {
@@ -213,7 +213,7 @@
 }
 @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
   .popover {
-    --_glass: var(--strata-color-surface-raised);
+    --_glass: var(--syntara-color-surface-raised);
   }
 }
 
@@ -221,42 +221,42 @@
   box-sizing: border-box;
   flex: 1;
   min-block-size: 0;
-  max-block-size: calc(var(--strata-space-16) * 5);
+  max-block-size: calc(var(--syntara-space-16) * 5);
   overflow-y: auto;
   overscroll-behavior: contain;
-  padding: var(--strata-space-1);
-  scroll-padding-block: var(--strata-space-1);
+  padding: var(--syntara-space-1);
+  scroll-padding-block: var(--syntara-space-1);
   outline: none;
 }
 
 .section + .section {
-  margin-block-start: var(--strata-space-1);
-  padding-block-start: var(--strata-space-1);
-  box-shadow: inset 0 var(--strata-hairline) 0 var(--strata-color-border-subtle);
+  margin-block-start: var(--syntara-space-1);
+  padding-block-start: var(--syntara-space-1);
+  box-shadow: inset 0 var(--syntara-hairline) 0 var(--syntara-color-border-subtle);
 }
 .sectionHeader {
-  padding-block: var(--strata-space-1);
-  padding-inline: calc(var(--strata-control-padding-inline) - var(--strata-space-1));
-  color: var(--strata-color-text-subtle);
-  font-size: var(--strata-font-size-xs);
-  font-weight: var(--strata-font-weight-medium);
-  letter-spacing: var(--strata-font-tracking-xs);
-  line-height: var(--strata-line-height-snug);
+  padding-block: var(--syntara-space-1);
+  padding-inline: calc(var(--syntara-control-padding-inline) - var(--syntara-space-1));
+  color: var(--syntara-color-text-subtle);
+  font-size: var(--syntara-font-size-xs);
+  font-weight: var(--syntara-font-weight-medium);
+  letter-spacing: var(--syntara-font-tracking-xs);
+  line-height: var(--syntara-line-height-snug);
 }
 
 .item {
   /* Concentric with the list: the container radius minus the listbox inset (floored at a small key-like corner). */
-  --item-radius: max(min(var(--strata-radius-badge), var(--strata-space-1)), calc(var(--strata-radius-container) - var(--strata-space-1)));
+  --item-radius: max(min(var(--syntara-radius-badge), var(--syntara-space-1)), calc(var(--syntara-radius-container) - var(--syntara-space-1)));
   box-sizing: border-box;
   display: flex;
   align-items: center;
-  gap: var(--strata-space-2);
-  min-block-size: calc(var(--strata-control-height) - var(--strata-space-2));
-  padding-block: var(--strata-space-1);
+  gap: var(--syntara-space-2);
+  min-block-size: calc(var(--syntara-control-height) - var(--syntara-space-2));
+  padding-block: var(--syntara-space-1);
   /* Listbox padding + this = control padding, so option text lines up with the trigger's text. */
-  padding-inline: calc(var(--strata-control-padding-inline) - var(--strata-space-1)) var(--strata-space-2);
+  padding-inline: calc(var(--syntara-control-padding-inline) - var(--syntara-space-1)) var(--syntara-space-2);
   border-radius: var(--item-radius);
-  color: var(--strata-color-text-default);
+  color: var(--syntara-color-text-default);
   cursor: default;
   outline: none;
   forced-color-adjust: none;
@@ -265,20 +265,20 @@
    what shows through the glass. It fades in rather than blinking from row to row. */
 .item[data-hovered],
 .item[data-focused] {
-  background: var(--strata-color-surface-selected);
+  background: var(--syntara-color-surface-selected);
 }
 .item[data-focus-visible] {
-  outline: 2px solid var(--strata-color-focus-ring);
+  outline: 2px solid var(--syntara-color-focus-ring);
   outline-offset: -2px;
 }
 /* On glass only text.default/text.subtle are guaranteed legible, so a disabled option is text.subtle and simply
    never highlights (React Aria also marks it aria-disabled and skips it with the arrow keys). */
 .item[data-disabled] {
-  color: var(--strata-color-text-subtle);
+  color: var(--syntara-color-text-subtle);
 }
 .item[data-disabled] .itemDescription,
 .item[data-disabled] .icon {
-  color: var(--strata-color-text-subtle);
+  color: var(--syntara-color-text-subtle);
 }
 
 .icon {
@@ -286,17 +286,17 @@
   flex: none;
   align-items: center;
   justify-content: center;
-  color: var(--strata-color-text-subtle);
+  color: var(--syntara-color-text-subtle);
 }
 .icon > svg {
   inline-size: 1.15em;
   block-size: 1.15em;
-  stroke-width: var(--strata-icon-stroke, 1.5);
+  stroke-width: var(--syntara-icon-stroke, 1.5);
 }
 .item[data-hovered] .icon,
 .item[data-focused] .icon,
 .item[data-selected] .icon {
-  color: var(--strata-color-text-default);
+  color: var(--syntara-color-text-default);
 }
 
 .itemText {
@@ -311,13 +311,13 @@
   white-space: nowrap;
 }
 .item[data-selected] .itemLabel {
-  font-weight: var(--strata-font-weight-medium);
+  font-weight: var(--syntara-font-weight-medium);
 }
 .itemDescription {
-  color: var(--strata-color-text-subtle);
-  font-size: var(--strata-font-size-sm);
-  letter-spacing: var(--strata-font-tracking-sm);
-  line-height: var(--strata-line-height-snug);
+  color: var(--syntara-color-text-subtle);
+  font-size: var(--syntara-font-size-sm);
+  letter-spacing: var(--syntara-font-tracking-sm);
+  line-height: var(--syntara-line-height-snug);
 }
 
 .check {
@@ -325,8 +325,8 @@
   inline-size: 1.15em;
   block-size: 1.15em;
   margin-inline-start: auto;
-  color: var(--strata-color-text-default);
-  stroke-width: var(--strata-icon-stroke, 1.5);
+  color: var(--syntara-color-text-default);
+  stroke-width: var(--syntara-icon-stroke, 1.5);
   visibility: hidden;
 }
 .check[data-visible] {
@@ -340,9 +340,9 @@
     inset 0 1px 2px var(--_inset),
     0 0 0 4px color-mix(in oklab, var(--_halo) 0%, transparent);
   transition:
-    border-color var(--strata-motion-duration-fast) var(--strata-motion-easing),
-    background-color var(--strata-motion-duration-fast) var(--strata-motion-easing),
-    box-shadow var(--strata-motion-duration-fast) var(--strata-motion-easing);
+    border-color var(--syntara-motion-duration-fast) var(--syntara-motion-easing),
+    background-color var(--syntara-motion-duration-fast) var(--syntara-motion-easing),
+    box-shadow var(--syntara-motion-duration-fast) var(--syntara-motion-easing);
 }
 .trigger[data-focus-visible],
 .field[data-open] .trigger {
@@ -360,19 +360,19 @@
 .item:nth-child(7) { --_i: 6; }
 .item:nth-child(n + 8) { --_i: 7; }
 .chevronBox {
-  transition: color var(--strata-motion-duration-fast) var(--strata-motion-easing);
+  transition: color var(--syntara-motion-duration-fast) var(--syntara-motion-easing);
 }
 .item {
-  transition: background-color var(--strata-motion-duration-fast) var(--strata-motion-easing);
+  transition: background-color var(--syntara-motion-duration-fast) var(--syntara-motion-easing);
 }
 .icon {
-  transition: color var(--strata-motion-duration-fast) var(--strata-motion-easing);
+  transition: color var(--syntara-motion-duration-fast) var(--syntara-motion-easing);
 }
 .popover[data-entering] {
-  animation: popover-fade-in var(--strata-motion-duration-normal) var(--strata-motion-easing-out);
+  animation: popover-fade-in var(--syntara-motion-duration-normal) var(--syntara-motion-easing-out);
 }
 .popover[data-exiting] {
-  animation: popover-fade-out var(--strata-motion-duration-fast) var(--strata-motion-easing) forwards;
+  animation: popover-fade-out var(--syntara-motion-duration-fast) var(--syntara-motion-easing) forwards;
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -382,10 +382,10 @@
       inset 0 1px 2px var(--_inset),
       0 0 0 0 color-mix(in oklab, var(--_halo) 18%, transparent);
     transition:
-      border-color var(--strata-motion-duration-fast) var(--strata-motion-easing),
-      background-color var(--strata-motion-duration-fast) var(--strata-motion-easing),
-      box-shadow var(--strata-motion-duration-fast) var(--strata-motion-easing),
-      outline-offset var(--strata-motion-duration-fast) var(--strata-motion-easing);
+      border-color var(--syntara-motion-duration-fast) var(--syntara-motion-easing),
+      background-color var(--syntara-motion-duration-fast) var(--syntara-motion-easing),
+      box-shadow var(--syntara-motion-duration-fast) var(--syntara-motion-easing),
+      outline-offset var(--syntara-motion-duration-fast) var(--syntara-motion-easing);
   }
   .trigger[data-focus-visible],
   .field[data-open] .trigger {
@@ -393,10 +393,10 @@
       inset 0 1px 2px var(--_inset),
       0 0 0 4px color-mix(in oklab, var(--_halo) 18%, transparent);
     transition:
-      background-color var(--strata-motion-duration-fast) var(--strata-motion-easing),
-      border-color var(--strata-motion-duration-fast) var(--strata-motion-easing),
-      box-shadow var(--strata-motion-duration-spring) var(--strata-motion-spring),
-      outline-offset var(--strata-motion-duration-spring) var(--strata-motion-spring);
+      background-color var(--syntara-motion-duration-fast) var(--syntara-motion-easing),
+      border-color var(--syntara-motion-duration-fast) var(--syntara-motion-easing),
+      box-shadow var(--syntara-motion-duration-spring) var(--syntara-motion-spring),
+      outline-offset var(--syntara-motion-duration-spring) var(--syntara-motion-spring);
   }
   .trigger:not([data-focus-visible]) {
     outline-offset: 0;
@@ -404,38 +404,38 @@
   /* Rows step in as the list opens: a fade and the popover's 4px slide, 30ms apart (a quarter of duration-fast),
      so the cascade finishes with the panel's spring. Rows are interactive the whole time. */
   .item {
-    animation: item-in var(--strata-motion-duration-normal) var(--strata-motion-easing-out)
-      calc(var(--_i, 0) * var(--strata-motion-duration-fast) / 4) backwards;
+    animation: item-in var(--syntara-motion-duration-normal) var(--syntara-motion-easing-out)
+      calc(var(--_i, 0) * var(--syntara-motion-duration-fast) / 4) backwards;
   }
   /* The chevron flips with the spring (a hint of overshoot, then settles). */
   .chevron {
-    transition: rotate var(--strata-motion-duration-spring) var(--strata-motion-spring);
+    transition: rotate var(--syntara-motion-duration-spring) var(--syntara-motion-spring);
   }
   .item {
     transition:
-      background-color var(--strata-motion-duration-fast) var(--strata-motion-easing),
-      scale var(--strata-motion-duration-spring) var(--strata-motion-spring);
+      background-color var(--syntara-motion-duration-fast) var(--syntara-motion-easing),
+      scale var(--syntara-motion-duration-spring) var(--syntara-motion-spring);
   }
   .item[data-pressed] {
     scale: 0.96;
     transition:
-      background-color var(--strata-motion-duration-fast) var(--strata-motion-easing),
-      scale var(--strata-motion-duration-fast) var(--strata-motion-easing);
+      background-color var(--syntara-motion-duration-fast) var(--syntara-motion-easing),
+      scale var(--syntara-motion-duration-fast) var(--syntara-motion-easing);
   }
   /* The tick springs in when an option becomes the value (and when the list opens on it). */
   .check[data-visible] {
-    animation: check-in var(--strata-motion-duration-spring) var(--strata-motion-spring);
+    animation: check-in var(--syntara-motion-duration-spring) var(--syntara-motion-spring);
   }
   /* Enter from the trigger: opacity eases out, scale + a 4px slide ride the spring. Exit is quicker, no spring. */
   .popover[data-entering] {
     animation:
-      popover-fade-in var(--strata-motion-duration-normal) var(--strata-motion-easing-out),
-      popover-move-in var(--strata-motion-duration-spring) var(--strata-motion-spring);
+      popover-fade-in var(--syntara-motion-duration-normal) var(--syntara-motion-easing-out),
+      popover-move-in var(--syntara-motion-duration-spring) var(--syntara-motion-spring);
   }
   .popover[data-exiting] {
     animation:
-      popover-fade-out var(--strata-motion-duration-fast) var(--strata-motion-easing) forwards,
-      popover-move-out var(--strata-motion-duration-fast) var(--strata-motion-easing) forwards;
+      popover-fade-out var(--syntara-motion-duration-fast) var(--syntara-motion-easing) forwards,
+      popover-move-out var(--syntara-motion-duration-fast) var(--syntara-motion-easing) forwards;
   }
 }
 /* Slide from the side the popover opens towards (placement is physical, as is translate). */

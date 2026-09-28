@@ -1,12 +1,12 @@
 'use client';
 
-import { Avatar, Chip, ChipGroup } from '@strata/react';
-import { IconHospital, IconPill, IconTestTube, IconVideo } from '@strata/icons';
+import { Avatar, Chip, ChipGroup } from '@syntara/react';
+import { IconHospital, IconPill, IconTestTube, IconVideo } from '@syntara/icons';
 
 // A leading icon gives way to the check when selected; an avatar is covered by a check disc.
 export default function Example() {
   return (
-    <div style={{ display: 'grid', gap: 'var(--strata-space-5)' }}>
+    <div style={{ display: 'grid', gap: 'var(--syntara-space-5)' }}>
       <ChipGroup label="Where" defaultSelectedKeys={['video']}>
         <Chip id="video" icon={<IconVideo />}>Video</Chip>
         <Chip id="clinic" icon={<IconHospital />}>In clinic</Chip>

@@ -1,13 +1,13 @@
-# @strata/codemods
+# @syntara/codemods
 
-Codemods for Strata's breaking changes. Every breaking change ships with one (`GOVERNANCE.md` §5).
+Codemods for Syntara's breaking changes. Every breaking change ships with one (`GOVERNANCE.md` §5).
 
 ```sh
-npx @strata/codemods <transform> <path…> [--dry] [--print] [--source=<module>]
+npx @syntara/codemods <transform> <path…> [--dry] [--print] [--source=<module>]
 ```
 
 - `--dry` changes nothing and lists the files that would change. Add `--print` to see the new source.
-- `--source` names another module that exports Strata's components, for registry installs: `--source=@/components/ui/button`.
+- `--source` names another module that exports Syntara's components, for registry installs: `--source=@/components/ui/button`.
 - Commit or stash your work first, so the codemod's changes are a diff of their own.
 
 ## The rule every transform follows
@@ -22,7 +22,7 @@ A transform rewrites only what it can be sure of. Anything else that might need 
 
 ### button-variant-danger-to-tone
 
-Rewrites a literal `variant="danger"` (also `{'danger'}` and `` {`danger`} ``) on `Button` imported from `@strata/react` or `@strata/react/ui/button`, including renamed and namespace imports.
+Rewrites a literal `variant="danger"` (also `{'danger'}` and `` {`danger`} ``) on `Button` imported from `@syntara/react` or `@syntara/react/ui/button`, including renamed and namespace imports.
 
 Reports and doesn't rewrite:
 
@@ -48,5 +48,5 @@ Doesn't look at:
 4. Name it in the deprecation record in the component's `meta.json`. `pnpm check:meta` fails if the file doesn't exist.
 
 ```sh
-pnpm --filter @strata/codemods test
+pnpm --filter @syntara/codemods test
 ```

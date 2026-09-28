@@ -14,57 +14,57 @@
  * conventions allow: they scale with every size token and every type pair.
  */
 .amount {
-  --_size: var(--strata-font-size-3xl);
-  --_tracking: var(--strata-font-tracking-3xl);
-  --_ink: var(--strata-color-text-default);
+  --_size: var(--syntara-font-size-3xl);
+  --_tracking: var(--syntara-font-tracking-3xl);
+  --_ink: var(--syntara-color-text-default);
 
   box-sizing: border-box;
   display: inline-block;
   position: relative;
   max-inline-size: 100%;
   color: var(--_ink);
-  font-family: var(--strata-font-heading);
+  font-family: var(--syntara-font-heading);
   font-size: var(--_size);
   font-variant-numeric: tabular-nums lining-nums;
-  font-weight: var(--strata-font-weight-regular);
+  font-weight: var(--syntara-font-weight-regular);
   letter-spacing: var(--_tracking);
   line-height: 1;
   white-space: nowrap;
 }
 
 .amount[data-size='sm'] {
-  --_size: var(--strata-font-size-2xl);
-  --_tracking: var(--strata-font-tracking-2xl);
-  font-weight: var(--strata-font-weight-medium);
+  --_size: var(--syntara-font-size-2xl);
+  --_tracking: var(--syntara-font-tracking-2xl);
+  font-weight: var(--syntara-font-weight-medium);
 }
 .amount[data-size='lg'] {
-  --_size: var(--strata-font-size-4xl);
-  --_tracking: var(--strata-font-tracking-4xl);
+  --_size: var(--syntara-font-size-4xl);
+  --_tracking: var(--syntara-font-tracking-4xl);
   font-variant-numeric: proportional-nums lining-nums;
 }
 .amount[data-size='xl'] {
-  --_size: var(--strata-font-size-5xl);
-  --_tracking: var(--strata-font-tracking-5xl);
+  --_size: var(--syntara-font-size-5xl);
+  --_tracking: var(--syntara-font-tracking-5xl);
   font-variant-numeric: proportional-nums lining-nums;
 }
 
 .amount[data-tone='brand'] {
-  --_ink: var(--strata-color-text-brand);
+  --_ink: var(--syntara-color-text-brand);
 }
 .amount[data-tone='accent'] {
-  --_ink: var(--strata-color-accent-text);
+  --_ink: var(--syntara-color-accent-text);
 }
 .amount[data-tone='info'] {
-  --_ink: var(--strata-color-feedback-info-fg);
+  --_ink: var(--syntara-color-feedback-info-fg);
 }
 .amount[data-tone='success'] {
-  --_ink: var(--strata-color-feedback-success-fg);
+  --_ink: var(--syntara-color-feedback-success-fg);
 }
 .amount[data-tone='warning'] {
-  --_ink: var(--strata-color-feedback-warning-fg);
+  --_ink: var(--syntara-color-feedback-warning-fg);
 }
 .amount[data-tone='danger'] {
-  --_ink: var(--strata-color-feedback-danger-fg);
+  --_ink: var(--syntara-color-feedback-danger-fg);
 }
 
 .figure {
@@ -81,7 +81,7 @@
   /* Open tracking at small size (the figure's tight tracking would crowd a multi-letter sign like "US$"). */
   letter-spacing: 0;
   vertical-align: top;
-  color: var(--strata-color-text-subtle);
+  color: var(--syntara-color-text-subtle);
   /* Line box 1 → the sign's box starts at the figure's box top; nudge it down onto the digits' cap line. */
   translate: 0 0.2em;
 }
@@ -99,7 +99,7 @@
 
 /* Inline: the sign in the flow, same size, a step quieter. */
 .amount[data-symbol='inline'] .currency {
-  color: var(--strata-color-text-subtle);
+  color: var(--syntara-color-text-subtle);
 }
 
 /* ---- fraction --------------------------------------------------------- */
@@ -108,7 +108,7 @@
 .amount[data-symbol='raised'] .fraction {
   font-size: 0.55em;
   letter-spacing: 0;
-  color: var(--strata-color-text-subtle);
+  color: var(--syntara-color-text-subtle);
 }
 
 /* ---- accessibility ---------------------------------------------------- */

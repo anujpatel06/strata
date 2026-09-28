@@ -72,11 +72,11 @@ export interface ComponentMeta {
   files: string[];
   /** npm packages the component files import (besides react). */
   dependencies: string[];
-  /** Other Strata registry items it imports, by name (e.g. "button"). */
+  /** Other Syntara registry items it imports, by name (e.g. "button"). */
   registryDependencies: string[];
   /** Link to the React Aria docs page it is built on, if any. */
   reactAria?: string;
-  /** Minimal usage snippet (TSX) shown under "Usage". Import from '@strata/react'. */
+  /** Minimal usage snippet (TSX) shown under "Usage". Import from '@syntara/react'. */
   usage: string;
   examples: ExampleDoc[];
   props: PropDoc[];
@@ -88,7 +88,7 @@ export interface ComponentMeta {
   /** Tokens this component reads, e.g. ["color.action.primary.*", "radius.button", "control-height"]. */
   tokens: string[];
   /**
-   * Other packages a consumer imports to use this component, beyond '@strata/react'. Leave it out when there are none.
+   * Other packages a consumer imports to use this component, beyond '@syntara/react'. Leave it out when there are none.
    * The MCP server's get_component returns it. `pnpm check:meta` checks each package is in `dependencies` and each name is exported.
    */
   imports?: ImportDoc[];

@@ -2,7 +2,7 @@
  * The three reference tenants. A tenant is data, not code: brand.json (≤6 inputs) + content.json (copy).
  * The JSON is shape-checked at load so a malformed file fails loudly with the path, not as a blank preview.
  */
-import { TYPE_PAIRS, isValidHex, type BrandInput } from '@strata/theme-engine';
+import { TYPE_PAIRS, isValidHex, type BrandInput } from '@syntara/theme-engine';
 import type { TenantContent } from './preview/content-types';
 
 import velaBrand from '../../../tenants/vela/brand.json';
@@ -26,7 +26,7 @@ const SHAPES = ['sharp', 'soft', 'round'];
 const DENSITIES = ['comfortable', 'compact'];
 
 function fail(path: string, problem: string): never {
-  throw new Error(`Strata: tenants/${path} ${problem}`);
+  throw new Error(`Syntara: tenants/${path} ${problem}`);
 }
 
 function isRecord(value: unknown): value is Record<string, unknown> {

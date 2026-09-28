@@ -18,7 +18,7 @@ import {
   IconInfoCircle,
   IconSearch,
   type Icon as TablerIcon,
-} from '@strata/icons';
+} from '@syntara/icons';
 import type { Tone } from './content-types';
 
 export interface GlyphProps {

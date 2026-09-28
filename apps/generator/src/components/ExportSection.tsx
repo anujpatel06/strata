@@ -1,6 +1,6 @@
 import { useEffect, useId, useMemo, useRef, useState } from 'react';
-import { IconCheck, IconCopy, IconDownload, IconFileCode } from '@strata/icons';
-import { toCSS, toDTCG, toFigmaFiles, type FigmaModes, type Theme } from '@strata/theme-engine';
+import { IconCheck, IconCopy, IconDownload, IconFileCode } from '@syntara/icons';
+import { toCSS, toDTCG, toFigmaFiles, type FigmaModes, type Theme } from '@syntara/theme-engine';
 import type { TenantId } from '../tenants';
 import type { ExportFormat } from '../url-state';
 import { Segmented, type SegmentedOption } from './Segmented';

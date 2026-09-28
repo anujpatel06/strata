@@ -1,7 +1,7 @@
 'use client';
 
 /**
- * The live server-driven UI demo: a screen document on one side, what <StrataScreen> draws from it on the other,
+ * The live server-driven UI demo: a screen document on one side, what <SyntaraScreen> draws from it on the other,
  * and below them what the validator, the renderer (onIssue) and the host (onAction) saw.
  *
  * The toolbar is the component preview's (components/preview): same controls, same classes. Tenant, scheme,
@@ -19,7 +19,7 @@ import {
   IconSun,
   IconTextDirectionLtr,
   IconTextDirectionRtl,
-} from '@strata/icons';
+} from '@syntara/icons';
 import {
   Badge,
   Button,
@@ -33,9 +33,9 @@ import {
   Tooltip,
   TooltipTrigger,
   type BadgeProps,
-} from '@strata/react';
-import { validateScreen, type ValidationResult } from '@strata/sdui';
-import { StrataScreen, type Action, type ActionContext, type Issue, type IssueCode } from '@strata/sdui/react';
+} from '@syntara/react';
+import { validateScreen, type ValidationResult } from '@syntara/sdui';
+import { SyntaraScreen, type Action, type ActionContext, type Issue, type IssueCode } from '@syntara/sdui/react';
 import { useCallback, useEffect, useId, useMemo, useRef, useState, type ReactNode } from 'react';
 import type { Key } from 'react-aria-components';
 import { useSiteScheme } from '@/components/home/use-site-scheme';
@@ -290,7 +290,7 @@ export function SduiDemoClient({ examples, tenants }: { examples: DemoExample[];
               {tenants.map((t) => (
                 <TooltipTrigger key={t.id} delay={400}>
                   <ToggleButton id={t.id} aria-label={t.name} className={preview.dotToggle}>
-                    <span className={preview.dot} data-strata-theme={t.id} aria-hidden="true" />
+                    <span className={preview.dot} data-syntara-theme={t.id} aria-hidden="true" />
                   </ToggleButton>
                   <Tooltip>{t.name}</Tooltip>
                 </TooltipTrigger>
@@ -402,7 +402,7 @@ export function SduiDemoClient({ examples, tenants }: { examples: DemoExample[];
           </div>
           <ThemeScope
             theme={tenant?.id}
-            data-strata-scheme={scheme ?? 'site'}
+            data-syntara-scheme={scheme ?? 'site'}
             density={density}
             locale={locale}
             className={styles.stage}
@@ -411,7 +411,7 @@ export function SduiDemoClient({ examples, tenants }: { examples: DemoExample[];
           >
             <div className={styles.screen}>
               {parsed.ok ? (
-                <StrataScreen document={parsed.doc} onAction={onAction} onIssue={onIssue} fallback={<HostFallback />} />
+                <SyntaraScreen document={parsed.doc} onAction={onAction} onIssue={onIssue} fallback={<HostFallback />} />
               ) : (
                 <HostFallback />
               )}

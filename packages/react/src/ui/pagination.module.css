@@ -5,7 +5,7 @@
 
 .root {
   box-sizing: border-box;
-  container: strata-pagination / inline-size;
+  container: syntara-pagination / inline-size;
   display: flex;
   justify-content: center;
   inline-size: 100%;
@@ -15,7 +15,7 @@
 .list {
   display: flex;
   align-items: center;
-  gap: var(--strata-space-1);
+  gap: var(--syntara-space-1);
   margin: 0;
   padding: 0;
   list-style: none;
@@ -39,21 +39,21 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: var(--strata-space-1);
-  min-block-size: var(--strata-control-height);
-  min-inline-size: var(--strata-control-height);
+  gap: var(--syntara-space-1);
+  min-block-size: var(--syntara-control-height);
+  min-inline-size: var(--syntara-control-height);
   margin: 0;
   padding-block: 0;
-  padding-inline: var(--strata-space-2);
+  padding-inline: var(--syntara-space-2);
   border: 1px solid transparent;
-  border-radius: var(--strata-radius-button);
+  border-radius: var(--syntara-radius-button);
   background-color: transparent;
-  color: var(--strata-color-text-default);
+  color: var(--syntara-color-text-default);
   font-family: inherit;
-  font-size: var(--strata-font-size-md);
+  font-size: var(--syntara-font-size-md);
   font-variant-numeric: tabular-nums;
-  font-weight: var(--strata-font-weight-medium);
-  line-height: var(--strata-line-height-tight);
+  font-weight: var(--syntara-font-weight-medium);
+  line-height: var(--syntara-line-height-tight);
   letter-spacing: inherit;
   white-space: nowrap;
   cursor: pointer;
@@ -63,15 +63,15 @@
 }
 
 .button[data-hovered] {
-  background-color: color-mix(in oklab, var(--strata-color-text-default) 6%, transparent);
+  background-color: color-mix(in oklab, var(--syntara-color-text-default) 6%, transparent);
 }
 
 .button[data-pressed] {
-  background-color: color-mix(in oklab, var(--strata-color-text-default) 10%, transparent);
+  background-color: color-mix(in oklab, var(--syntara-color-text-default) 10%, transparent);
 }
 
 .button[data-focus-visible] {
-  outline: 2px solid var(--strata-color-focus-ring);
+  outline: 2px solid var(--syntara-color-focus-ring);
   outline-offset: 2px;
 }
 
@@ -94,7 +94,7 @@
 .page[aria-current='page'][data-hovered],
 .page[aria-current='page'][data-pressed] {
   background-color: transparent;
-  font-weight: var(--strata-font-weight-semibold);
+  font-weight: var(--syntara-font-weight-semibold);
 }
 
 .currentPill {
@@ -102,13 +102,13 @@
   position: absolute;
   inset: -1px;
   z-index: -1;
-  border: 1px solid var(--strata-color-border-default);
-  border-radius: var(--strata-radius-button);
-  background-color: var(--strata-color-surface-raised);
-  box-shadow: var(--strata-shadow-highlight), var(--strata-shadow-raised);
+  border: 1px solid var(--syntara-color-border-default);
+  border-radius: var(--syntara-radius-button);
+  background-color: var(--syntara-color-surface-raised);
+  box-shadow: var(--syntara-shadow-highlight), var(--syntara-shadow-raised);
   opacity: 0;
   pointer-events: none;
-  transition: opacity var(--strata-motion-duration-fast) var(--strata-motion-easing);
+  transition: opacity var(--syntara-motion-duration-fast) var(--syntara-motion-easing);
 }
 
 .page[aria-current='page'] > .currentPill {
@@ -120,18 +120,18 @@
 }
 
 .step {
-  padding-inline: var(--strata-space-2) var(--strata-space-3);
+  padding-inline: var(--syntara-space-2) var(--syntara-space-3);
 }
 
 .stepItem:last-child .step {
-  padding-inline: var(--strata-space-3) var(--strata-space-2);
+  padding-inline: var(--syntara-space-3) var(--syntara-space-2);
 }
 
 /* Boundary: still focusable (focus is never dropped), announced as disabled, drawn as disabled. */
 .step[aria-disabled='true'],
 .button[data-disabled] {
   background-color: transparent;
-  color: var(--strata-color-text-disabled);
+  color: var(--syntara-color-text-disabled);
   cursor: default;
 }
 
@@ -152,43 +152,43 @@
 .ellipsis {
   align-items: center;
   justify-content: center;
-  min-inline-size: var(--strata-control-height);
-  min-block-size: var(--strata-control-height);
-  color: var(--strata-color-text-subtle);
-  font-size: var(--strata-font-size-md);
+  min-inline-size: var(--syntara-control-height);
+  min-block-size: var(--syntara-control-height);
+  color: var(--syntara-color-text-subtle);
+  font-size: var(--syntara-font-size-md);
   user-select: none;
 }
 
 .button {
   transition-property: background-color, border-color, color;
-  transition-duration: var(--strata-motion-duration-fast);
-  transition-timing-function: var(--strata-motion-easing);
+  transition-duration: var(--syntara-motion-duration-fast);
+  transition-timing-function: var(--syntara-motion-easing);
 }
 
 @media (prefers-reduced-motion: no-preference) {
   /* Press: dip to 0.97 fast, spring back on release. */
   .button {
     transition-property: background-color, border-color, color, scale;
-    transition-duration: var(--strata-motion-duration-fast), var(--strata-motion-duration-fast),
-      var(--strata-motion-duration-fast), var(--strata-motion-duration-spring);
-    transition-timing-function: var(--strata-motion-easing), var(--strata-motion-easing), var(--strata-motion-easing),
-      var(--strata-motion-spring);
+    transition-duration: var(--syntara-motion-duration-fast), var(--syntara-motion-duration-fast),
+      var(--syntara-motion-duration-fast), var(--syntara-motion-duration-spring);
+    transition-timing-function: var(--syntara-motion-easing), var(--syntara-motion-easing), var(--syntara-motion-easing),
+      var(--syntara-motion-spring);
   }
 
   .button[data-pressed]:not([aria-disabled='true'], [aria-current='page']) {
     scale: 0.97;
-    transition-duration: var(--strata-motion-duration-fast);
-    transition-timing-function: var(--strata-motion-easing);
+    transition-duration: var(--syntara-motion-duration-fast);
+    transition-timing-function: var(--syntara-motion-easing);
   }
 
   /* The new current page's key pops in with the spring (the animation restarts whenever a button becomes current). */
   .page[aria-current='page'] > .currentPill {
-    animation: strata-pagination-key var(--strata-motion-duration-spring) var(--strata-motion-spring);
+    animation: syntara-pagination-key var(--syntara-motion-duration-spring) var(--syntara-motion-spring);
   }
 
   /* Previous/next chevrons lean 2px the way they go on hover (mirrored in RTL). */
   .dirIcon {
-    transition: translate var(--strata-motion-duration-spring) var(--strata-motion-spring);
+    transition: translate var(--syntara-motion-duration-spring) var(--syntara-motion-spring);
   }
 
   .dirIcon:dir(rtl) {
@@ -196,11 +196,11 @@
   }
 
   .step[data-hovered]:not([aria-disabled='true']) .dirIcon {
-    translate: calc(var(--_nudge) * var(--_nudge-dir, 1) * var(--strata-space-1) / 2) 0;
+    translate: calc(var(--_nudge) * var(--_nudge-dir, 1) * var(--syntara-space-1) / 2) 0;
   }
 }
 
-@keyframes strata-pagination-key {
+@keyframes syntara-pagination-key {
   from {
     scale: 0.8;
   }
@@ -213,15 +213,15 @@
 .summary {
   display: none;
   align-items: center;
-  padding-inline: var(--strata-space-2);
-  color: var(--strata-color-text-subtle);
-  font-size: var(--strata-font-size-sm);
+  padding-inline: var(--syntara-space-2);
+  color: var(--syntara-color-text-subtle);
+  font-size: var(--syntara-font-size-sm);
   white-space: nowrap;
 }
 
 .summary .num {
-  color: var(--strata-color-text-default);
-  font-weight: var(--strata-font-weight-medium);
+  color: var(--syntara-color-text-default);
+  font-weight: var(--syntara-font-weight-medium);
 }
 
 .summaryCompact {
@@ -230,7 +230,7 @@
 
 /* Compact: previous/next are icon-only; the text stays as the accessible name. */
 .root[data-variant='compact'] .step {
-  padding-inline: var(--strata-space-2);
+  padding-inline: var(--syntara-space-2);
 }
 
 .root[data-variant='compact'] .stepLabel {
@@ -242,10 +242,10 @@
   white-space: nowrap;
 }
 
-@container strata-pagination (inline-size < 520px) {
+@container syntara-pagination (inline-size < 520px) {
   .step,
   .stepItem:last-child .step {
-    padding-inline: var(--strata-space-2);
+    padding-inline: var(--syntara-space-2);
   }
 
   .stepLabel {
@@ -258,7 +258,7 @@
   }
 }
 
-@container strata-pagination (inline-size < 400px) {
+@container syntara-pagination (inline-size < 400px) {
   .pageItem {
     display: none;
   }

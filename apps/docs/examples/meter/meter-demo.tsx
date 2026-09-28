@@ -1,6 +1,6 @@
 'use client';
 
-import { Meter } from '@strata/react';
+import { Meter } from '@syntara/react';
 
 export default function Example() {
   return (

@@ -10,14 +10,14 @@ import {
   useSlottedContext,
   type DialogProps as RACDialogProps,
 } from 'react-aria-components';
-import { IconX } from '@strata/icons';
+import { IconX } from '@syntara/icons';
 import { Button } from './button';
 import styles from './sheet.module.css';
 
 const cx = (...c: Array<string | false | null | undefined>) => c.filter(Boolean).join(' ');
 
 /** Overlays portal to <body>: copy the trigger's ThemeScope attributes (and dir/lang) onto the overlay root. */
-const SCOPE_ATTRS = ['data-strata-theme', 'data-strata-scheme', 'data-strata-density'] as const;
+const SCOPE_ATTRS = ['data-syntara-theme', 'data-syntara-scheme', 'data-syntara-density'] as const;
 function mirrorScope(overlay: HTMLElement, source: Element | null | undefined): void {
   if (!source || overlay.contains(source)) return;
   for (const name of SCOPE_ATTRS) {

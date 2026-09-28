@@ -1,6 +1,6 @@
 /*
  * Generator chrome — monochrome ink on warm grey, so the only colour on screen is the brand being generated.
- * Chrome tokens are --ui-*. The previewed brand lives entirely in --strata-* variables scoped to the preview frame.
+ * Chrome tokens are --ui-*. The previewed brand lives entirely in --syntara-* variables scoped to the preview frame.
  * Every text token is ≥4.5:1 on --ui-bg, --ui-panel and --ui-panel-2; --ui-control is ≥3:1 (non-text, WCAG 1.4.11).
  */
 
@@ -106,23 +106,23 @@ body {
   text-rendering: optimizeLegibility;
 }
 
-/* Zero-specificity focus style: the chrome gets an ink ring; the preview (any [data-strata-scheme] subtree)
+/* Zero-specificity focus style: the chrome gets an ink ring; the preview (any [data-syntara-scheme] subtree)
    gets its own brand focus ring unless its components define something more specific. */
 :where(:focus-visible) {
   outline: 2px solid var(--ui-text);
   outline-offset: 2px;
 }
-:where([data-strata-scheme]) :where(:focus-visible) {
-  outline-color: var(--strata-color-focus-ring, currentColor);
+:where([data-syntara-scheme]) :where(:focus-visible) {
+  outline-color: var(--syntara-color-focus-ring, currentColor);
 }
 
 ::selection {
   background: var(--ui-text);
   color: var(--ui-bg);
 }
-:where([data-strata-scheme]) ::selection {
-  background: var(--strata-color-surface-selected, Highlight);
-  color: var(--strata-color-text-default, HighlightText);
+:where([data-syntara-scheme]) ::selection {
+  background: var(--syntara-color-surface-selected, Highlight);
+  color: var(--syntara-color-text-default, HighlightText);
 }
 
 @media (prefers-reduced-motion: reduce) {

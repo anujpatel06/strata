@@ -6,8 +6,8 @@
  * server (color-data.ts); this file only handles hover, focus and copying.
  */
 
-import { IconCheck } from '@strata/icons';
-import { Eyebrow, ThemeScope, ToggleButton, ToggleButtonGroup, toast } from '@strata/react';
+import { IconCheck } from '@syntara/icons';
+import { Eyebrow, ThemeScope, ToggleButton, ToggleButtonGroup, toast } from '@syntara/react';
 import Link from 'next/link';
 import { useId, useState, type CSSProperties, type Key } from 'react';
 import { Header, ListBox, ListBoxItem, ListBoxSection } from 'react-aria-components';
@@ -63,7 +63,7 @@ export function ColorsView({ tenants }: { tenants: ColorTenant[] }) {
             {tenants.map((t) => (
               <li key={t.id}>
                 <a href={`#${t.id}`} className={styles.jumpLink}>
-                  <span className={styles.jumpDot} data-strata-theme={t.id} aria-hidden="true" />
+                  <span className={styles.jumpDot} data-syntara-theme={t.id} aria-hidden="true" />
                   {t.name}
                 </a>
               </li>
@@ -117,7 +117,7 @@ function TenantColors({ tenant, format }: { tenant: ColorTenant; format: CopyFor
     <section id={tenant.id} aria-labelledby={titleId} className={styles.tenant}>
       {/* A brand specimen, not a spec sheet: the name in the tenant's own heading face, its two brand colours as
           chips, the rest of the inputs as one quiet caption. The header is a ThemeScope in the site's scheme. */}
-      <ThemeScope theme={tenant.id} data-strata-scheme="site" className={styles.tenantHeader}>
+      <ThemeScope theme={tenant.id} data-syntara-scheme="site" className={styles.tenantHeader}>
         <Eyebrow lead="rule" tone="accent">
           {tenant.description}
         </Eyebrow>

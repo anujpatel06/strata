@@ -1,7 +1,7 @@
 'use client';
 
-import { IconMoon, IconSun } from '@strata/icons';
-import { Tab, TabList, TabPanel, Tabs, ToggleButton, ToggleButtonGroup } from '@strata/react';
+import { IconMoon, IconSun } from '@syntara/icons';
+import { Tab, TabList, TabPanel, Tabs, ToggleButton, ToggleButtonGroup } from '@syntara/react';
 import type { Key } from 'react-aria-components';
 import { AccessibilityPanel } from './accessibility-panel';
 import { ControlsPanel } from './controls-panel';

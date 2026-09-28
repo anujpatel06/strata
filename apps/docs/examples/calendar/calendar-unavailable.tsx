@@ -2,7 +2,7 @@
 
 import { isWeekend, parseDate, type DateValue } from '@internationalized/date';
 import { useLocale } from 'react-aria-components';
-import { Calendar } from '@strata/react';
+import { Calendar } from '@syntara/react';
 
 export default function Example() {
   const { locale } = useLocale();

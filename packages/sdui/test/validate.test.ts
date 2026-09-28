@@ -161,7 +161,7 @@ describe('no brand or tenant in a screen', () => {
 
 describe('deprecated API is not in the contract', () => {
   it('rejects Button variant "danger" and names the replacement', () => {
-    expectInvalid(screen(button({ variant: 'danger' })), /variant "danger" isn't accepted\. Deprecated in @strata\/react 0\.2\.0 \(use tone="danger"/);
+    expectInvalid(screen(button({ variant: 'danger' })), /variant "danger" isn't accepted\. Deprecated in @syntara\/react 0\.2\.0 \(use tone="danger"/);
     expect(validateScreen(screen(button({ variant: 'primary', tone: 'danger' }))).valid).toBe(true);
   });
 });
@@ -214,7 +214,7 @@ describe('accessibility is part of the contract', () => {
 });
 
 describe('structure and versions', () => {
-  it('rejects unknown node types, including names that exist in @strata/react but are not on the wire', () => {
+  it('rejects unknown node types, including names that exist in @syntara/react but are not on the wire', () => {
     expectInvalid(screen({ type: 'Carousel' }), /Unknown node type "Carousel"/);
     expectInvalid(screen({ type: 'ThemeScope' }), /Unknown node type "ThemeScope"/);
     expectInvalid(screen({ type: '__proto__' }), /Unknown node type "__proto__"/);
@@ -252,7 +252,7 @@ describe('the entry point', () => {
     const src = path.resolve(__dirname, '../src');
     for (const f of readdirSync(src).filter((f) => f.endsWith('.ts'))) {
       const code = readFileSync(path.join(src, f), 'utf8');
-      expect(code, f).not.toMatch(/from ['"](react|react-dom|@strata\/react|@strata\/icons)['"]/);
+      expect(code, f).not.toMatch(/from ['"](react|react-dom|@syntara\/react|@syntara\/icons)['"]/);
     }
   });
 });

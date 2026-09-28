@@ -27,9 +27,9 @@ describe('HTML report', () => {
   it('is one file: no scripts, no links, no requests', () => {
     const html = toHtml(result(), { title: 'x' });
     expect(html).not.toMatch(/<script|<link|<img|@import|url\(/i);
-    expect(html).toContain('--strata-color-surface-canvas');
-    expect(html).toContain('data-strata-scheme="auto"');
-    expect(html).toContain('[data-strata-scheme="dark"]');
+    expect(html).toContain('--syntara-color-surface-canvas');
+    expect(html).toContain('data-syntara-scheme="auto"');
+    expect(html).toContain('[data-syntara-scheme="dark"]');
   });
 
   it('escapes what it prints', () => {
@@ -70,9 +70,9 @@ describe('text report', () => {
 describe('CLI', () => {
   let dir: string;
   beforeAll(() => {
-    dir = realpathSync(mkdtempSync(path.join(tmpdir(), 'strata-audit-cli-')));
+    dir = realpathSync(mkdtempSync(path.join(tmpdir(), 'syntara-audit-cli-')));
     writeFileSync(path.join(dir, 'a.css'), '.a {\n  color: #5a5a5d;\n  margin-left: 10px;\n}\n');
-    writeFileSync(path.join(dir, 'clean.css'), '.a { color: var(--strata-color-text-default); }\n');
+    writeFileSync(path.join(dir, 'clean.css'), '.a { color: var(--syntara-color-text-default); }\n');
   });
   afterAll(() => rmSync(dir, { recursive: true, force: true }));
   const run = (...args: string[]) => spawnSync('node', [cli, ...args], { cwd: dir, encoding: 'utf8' });
@@ -110,7 +110,7 @@ describe('CLI', () => {
   it('--fix writes the safe fixes, says what it changed and what it left, and a second run changes nothing', () => {
     const r = run('a.css', '--fix', '--format', 'json');
     expect(r.status).toBe(0);
-    const after = '.a {\n  color: var(--strata-color-text-subtle);\n  margin-inline-start: 10px;\n}\n';
+    const after = '.a {\n  color: var(--syntara-color-text-subtle);\n  margin-inline-start: 10px;\n}\n';
     expect(readFileSync(path.join(dir, 'a.css'), 'utf8')).toBe(after);
     expect(r.stderr).toMatch(/applied 2 safe fixes/);
     expect(r.stderr).toMatch(/left 1 finding/);

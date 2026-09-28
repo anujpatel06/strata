@@ -1,9 +1,9 @@
-# @strata/mcp
+# @syntara/mcp
 
-Strata's MCP server. AI coding agents read components, tokens, patterns, icons and usage rules from the same files the docs site reads, and check their own code with the drift auditor.
+Syntara's MCP server. AI coding agents read components, tokens, patterns, icons and usage rules from the same files the docs site reads, and check their own code with the drift auditor.
 
 - Transport: stdio.
-- Server name: `strata`. The version comes from `package.json`.
+- Server name: `syntara`. The version comes from `package.json`.
 - **Read-only.** No tool writes a file. See [Read-only](#read-only).
 - Responses are compact JSON with no prose around them.
 
@@ -14,15 +14,15 @@ The server reads the repo when a tool is called. There is no build step.
 | Data | Source |
 |---|---|
 | Components | `packages/react/meta/*.meta.json` (ADR-007) |
-| Tokens | `@strata/theme-engine` run on `tenants/<id>/brand.json` |
+| Tokens | `@syntara/theme-engine` run on `tenants/<id>/brand.json` |
 | Patterns | `apps/docs/blocks/blocks.json` and `apps/docs/blocks/<name>/<name>.tsx` |
 | Examples | `apps/docs/examples/<component>/*.tsx` |
 | Icons | `packages/icons/src/index.ts` and the files it re-exports from `packages/icons/src/icons/` |
-| Audit and token matching | `@strata/audit` |
+| Audit and token matching | `@syntara/audit` |
 
 A file is read again when its modified time or size changes, so an edit to a meta file shows up on the next call.
 
-The repo root is three folders up from this package. Set `STRATA_ROOT` to use another checkout.
+The repo root is three folders up from this package. Set `SYNTARA_ROOT` to use another checkout.
 
 ## Tools
 
@@ -31,11 +31,11 @@ The repo root is three folders up from this package. Set `STRATA_ROOT` to use an
 | `list_components` | `{ category? }` | `name`, `title`, `maturity`, `purpose`, and `deprecations: n` when the component has any |
 | `get_component` | `{ name }` | import line, `imports` (other packages it needs), props, `typeNotes`, deprecations (what, replacement, since, removal, codemod), keyboard, accessibility notes, do, don't, tokens, usage snippet, example names |
 | `get_tokens` | `{ category?, tenant?, scheme? }` | With a category: `{ token, cssVar, value }` for each token. With none: a count for each category |
-| `find_token` | `{ value, tenant?, scheme?, category? }` | The nearest token for a raw value, with its distance and the reason. From `findToken` in `@strata/audit` |
+| `find_token` | `{ value, tenant?, scheme?, category? }` | The nearest token for a raw value, with its distance and the reason. From `findToken` in `@syntara/audit` |
 | `get_pattern` | `{ name?, includeSource? }` | With no name: the list of patterns. With a name: components, structure, source path. The code only with `includeSource: true` |
-| `audit_snippet` | `{ code, language?, tenant? }` | `score` (0–100) and findings: rule, severity, line, message, fix. From `auditSource` and `scoreOf` in `@strata/audit` |
+| `audit_snippet` | `{ code, language?, tenant? }` | `score` (0–100) and findings: rule, severity, line, message, fix. From `auditSource` and `scoreOf` in `@syntara/audit` |
 | `get_example` | `{ component, example? }` | The source of one docs example. Default: the component's `-demo` example |
-| `find_icon` | `{ query, limit? }` | Icons from `@strata/icons` that match, best first: `name`, `group`, and `synonymOf` when a synonym led there. With no match: `icons: []`, the `closest` names and a `note` that says so |
+| `find_icon` | `{ query, limit? }` | Icons from `@syntara/icons` that match, best first: `name`, `group`, and `synonymOf` when a synonym led there. With no match: `icons: []`, the `closest` names and a `note` that says so |
 
 `get_example` and `find_icon` are additions to the six tools in BRIEF §8. Agents copy working code more reliably than they read prop tables, and these are the files the docs site renders. In the agent eval, runs with the server imported icons that don't exist (`IconAward`, `IconMinus`, `IconClipboardCheck` and others; `evals/runs/iter-1/INVALID.md`, `evals/runs/iter-2/NOTES.md`), because the server had no way to look one up.
 
@@ -43,9 +43,9 @@ The repo root is three folders up from this package. Set `STRATA_ROOT` to use an
 
 Both come from the component's meta file (`packages/react/meta/schema.ts`: `ImportDoc`, `TypeNote`), so the docs and the server can't disagree. `pnpm check:meta` validates them.
 
-- **`imports`**: `[{ line, why }]`. The exact import line for another package the consumer needs, e.g. `import { parseDate, parseDateTime, today, getLocalTimeZone, type DateValue } from '@internationalized/date';` for `date-picker`. **The consumer must have that package installed** (`pnpm add @internationalized/date`). `@strata/react` depends on it, but a consumer's own code can only import packages in its own `package.json`: under pnpm's default layout the import fails otherwise, as it did in the eval's first iteration. The package must be one of the component's `dependencies`, and `check:meta` checks that it exports every name.
+- **`imports`**: `[{ line, why }]`. The exact import line for another package the consumer needs, e.g. `import { parseDate, parseDateTime, today, getLocalTimeZone, type DateValue } from '@internationalized/date';` for `date-picker`. **The consumer must have that package installed** (`pnpm add @internationalized/date`). `@syntara/react` depends on it, but a consumer's own code can only import packages in its own `package.json`: under pnpm's default layout the import fails otherwise, as it did in the eval's first iteration. The package must be one of the component's `dependencies`, and `check:meta` checks that it exports every name.
 - **`typeNotes`**: `[{ prop?, note, example? }]`. A type that is easy to get wrong, with one line of code that type-checks. Each note is based on a type error an eval run hit, or on the component's own types.
-- A component without them has neither key. No `imports` means `@strata/react` is all it needs.
+- A component without them has neither key. No `imports` means `@syntara/react` is all it needs.
 
 Filled today: `imports` for `date-picker` and `calendar`; `typeNotes` for `button`, `chip`, `combobox`, `data-table`, `empty-state`, `icon-tile`, `menu`, `select`, `tabs` and `toggle-group`.
 
@@ -75,21 +75,21 @@ Name inputs (component, example, pattern, tenant) accept kebab-case names only. 
 
 | URI | File |
 |---|---|
-| `strata://agents` | `AGENTS.md` at the repo root: the rules for agents, including trust levels |
-| `strata://governance` | `GOVERNANCE.md` at the repo root |
+| `syntara://agents` | `AGENTS.md` at the repo root: the rules for agents, including trust levels |
+| `syntara://governance` | `GOVERNANCE.md` at the repo root |
 
 If the file doesn't exist, reading the resource returns a "not found" error. The server never makes up content.
 
 ## Setup
 
-The package isn't published yet. `npx @strata/mcp` will work after Phase 6. Until then, point your client at the file in a checkout of this repo. Run `pnpm install` in the repo first.
+The package isn't published yet. `npx @syntara/mcp` will work after Phase 6. Until then, point your client at the file in a checkout of this repo. Run `pnpm install` in the repo first.
 
-Replace `/path/to/strata` with the absolute path of your checkout.
+Replace `/path/to/syntara` with the absolute path of your checkout.
 
 ### Claude Code
 
 ```sh
-claude mcp add strata -- node /path/to/strata/packages/mcp/bin/cli.mjs
+claude mcp add syntara -- node /path/to/syntara/packages/mcp/bin/cli.mjs
 ```
 
 Or in `.mcp.json` at the root of your project:
@@ -97,9 +97,9 @@ Or in `.mcp.json` at the root of your project:
 ```json
 {
   "mcpServers": {
-    "strata": {
+    "syntara": {
       "command": "node",
-      "args": ["/path/to/strata/packages/mcp/bin/cli.mjs"]
+      "args": ["/path/to/syntara/packages/mcp/bin/cli.mjs"]
     }
   }
 }
@@ -112,9 +112,9 @@ Or in `.mcp.json` at the root of your project:
 ```json
 {
   "mcpServers": {
-    "strata": {
+    "syntara": {
       "command": "node",
-      "args": ["/path/to/strata/packages/mcp/bin/cli.mjs"]
+      "args": ["/path/to/syntara/packages/mcp/bin/cli.mjs"]
     }
   }
 }
@@ -127,10 +127,10 @@ Or in `.mcp.json` at the root of your project:
 ```json
 {
   "servers": {
-    "strata": {
+    "syntara": {
       "type": "stdio",
       "command": "node",
-      "args": ["/path/to/strata/packages/mcp/bin/cli.mjs"]
+      "args": ["/path/to/syntara/packages/mcp/bin/cli.mjs"]
     }
   }
 }
@@ -138,7 +138,7 @@ Or in `.mcp.json` at the root of your project:
 
 ### Another checkout
 
-Add `"env": { "STRATA_ROOT": "/path/to/other/strata" }` to the server entry.
+Add `"env": { "SYNTARA_ROOT": "/path/to/other/syntara" }` to the server entry.
 
 ### Check that it runs
 
@@ -171,7 +171,7 @@ Trust levels (ADR-008, GOVERNANCE.md §6) are stated in the instructions the ser
 - Each fix from `audit_snippet` has `safe: true` or `safe: false`.
 - An agent may apply `safe: true` fixes on its own. This is the ambient level.
 - Every other fix needs a person to decide. So does anything that adds a component, changes a token or breaks an API.
-- The rules are in `strata://agents`.
+- The rules are in `syntara://agents`.
 
 The server states these rules. It can't enforce what an agent does with its own file tools.
 
@@ -180,7 +180,7 @@ The server states these rules. It can't enforce what an agent does with its own 
 Measured on 2026-09-28 with:
 
 ```sh
-pnpm --filter @strata/mcp test sizes
+pnpm --filter @syntara/mcp test sizes
 ```
 
 Sizes are UTF-8 bytes of the JSON text. The test fails if a response goes over its budget.
@@ -215,25 +215,25 @@ These are bytes, not tokens. Token counts depend on the model and haven't been m
 ## Tests
 
 ```sh
-pnpm --filter @strata/mcp test
-pnpm --filter @strata/mcp typecheck
+pnpm --filter @syntara/mcp test
+pnpm --filter @syntara/mcp typecheck
 ```
 
 - `test/tools.test.ts`: every tool, with the auditor mocked.
-- `test/icons.test.ts`: `find_icon`, checked against the real `@strata/icons` exports.
+- `test/icons.test.ts`: `find_icon`, checked against the real `@syntara/icons` exports.
 - `test/protocol.test.ts`: the server through the SDK's in-memory transport, and `bin/cli.mjs` over stdio.
 - `test/sizes.test.ts`: the byte budgets.
-- `test/audit.integration.test.ts`: the real auditor. It is skipped, and prints why, while `@strata/audit` doesn't export `auditSource`, `scoreOf` and `findToken`.
+- `test/audit.integration.test.ts`: the real auditor. It is skipped, and prints why, while `@syntara/audit` doesn't export `auditSource`, `scoreOf` and `findToken`.
 
 ## Limits
 
 - **It needs a checkout of the repo.** The data isn't bundled in the package. Publishing to npm (Phase 6) needs a decision on how the data ships.
-- **Token names are derived.** The CSS variable is the contract. The dotted name comes from rules in `src/tokens.ts`, for example `--strata-font-size-md` → `font.size.md`. Density tokens and a few others have no group, so they keep their CSS name: `control-height`, `hairline`. The `tokens` list in `get_component` comes from the meta files as written, and some of those names differ from the derived ones (`icon.stroke` and `icon-stroke` both appear).
+- **Token names are derived.** The CSS variable is the contract. The dotted name comes from rules in `src/tokens.ts`, for example `--syntara-font-size-md` → `font.size.md`. Density tokens and a few others have no group, so they keep their CSS name: `control-height`, `hairline`. The `tokens` list in `get_component` comes from the meta files as written, and some of those names differ from the derived ones (`icon.stroke` and `icon-stroke` both appear).
 - **Density tokens use the tenant's own density.** There is no `density` input.
 - **A pattern's `structure` is the first paragraph of the comment at the top of its source**, up to six sentences. It is as good as that comment.
-- **A pattern's `components` come from its import of `@strata/react`.** Icons and other packages aren't listed.
+- **A pattern's `components` come from its import of `@syntara/react`.** Icons and other packages aren't listed.
 - **`find_icon` matches words, not drawings.** Beyond the synonym list it can't tell what an icon looks like. `synonymOf` marks a match by meaning, so the agent can judge it.
 - **`imports` and `typeNotes` are only as complete as the meta files.** They cover the traps the eval found and the same traps confirmed in other components' types.
 - **`audit_snippet` accepts up to 100,000 characters** of `tsx` or `css`.
-- **`find_token` and `audit_snippet` depend on `@strata/audit`.** If it can't be loaded they return an error and the other tools keep working. The auditor finds tenants on its own; `STRATA_ROOT` is not passed to it.
+- **`find_token` and `audit_snippet` depend on `@syntara/audit`.** If it can't be loaded they return an error and the other tools keep working. The auditor finds tenants on its own; `SYNTARA_ROOT` is not passed to it.
 - **No recorded agent run yet.** BRIEF §8 asks for a recorded run where Claude Code builds a screen using only this server. That hasn't been done.

@@ -4,7 +4,7 @@
   margin: 0;
   padding: 0;
   border: 0;
-  background-color: var(--strata-color-border-subtle);
+  background-color: var(--syntara-color-border-subtle);
 }
 
 .separator:not([aria-orientation='vertical']) {
@@ -26,12 +26,12 @@
   box-sizing: border-box;
   display: flex;
   align-items: center;
-  gap: var(--strata-space-3);
+  gap: var(--syntara-space-3);
   inline-size: 100%;
-  color: var(--strata-color-text-subtle);
-  font-size: var(--strata-font-size-xs);
-  font-weight: var(--strata-font-weight-medium);
-  line-height: var(--strata-line-height-snug);
+  color: var(--syntara-color-text-subtle);
+  font-size: var(--syntara-font-size-xs);
+  font-weight: var(--syntara-font-weight-medium);
+  line-height: var(--syntara-line-height-snug);
 }
 
 /* The hairlines fade in from the edges toward the label, so the divider feels light rather than ruled. */
@@ -42,11 +42,11 @@
 .line {
   flex: 1 1 0;
   block-size: 1px;
-  background-image: linear-gradient(var(--_toward-label), transparent, var(--strata-color-border-default));
+  background-image: linear-gradient(var(--_toward-label), transparent, var(--syntara-color-border-default));
 }
 
 .line:last-child {
-  background-image: linear-gradient(var(--_toward-label), var(--strata-color-border-default), transparent);
+  background-image: linear-gradient(var(--_toward-label), var(--syntara-color-border-default), transparent);
 }
 
 .label {

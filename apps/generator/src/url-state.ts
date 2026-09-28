@@ -24,7 +24,7 @@ import {
   type Scheme,
   type Shape,
   type TypePairId,
-} from '@strata/theme-engine';
+} from '@syntara/theme-engine';
 import { getTenant, isTenantId, type TenantId } from './tenants';
 
 export const TABS = ['preview', 'accessibility', 'tokens'] as const;

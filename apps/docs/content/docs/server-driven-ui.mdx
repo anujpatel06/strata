@@ -3,11 +3,11 @@ import { NativeTokenChecks, NeverOnTheWire, OutOfSlice, SliceSummary, SliceTable
 
 Some apps don’t build their screens into the app. The server sends each screen as JSON and the app draws it, so a new layout reaches people without an app release. For those apps, a design system also has to exist as a schema: which components a server may send, with which props, and what a client does with anything it doesn’t know.
 
-`@strata/sdui` is that schema for Strata. It’s generated from the same `meta.json` files as these docs, so the contract and the components can’t drift apart. It comes with a validator for the server and one reference renderer for the web. There is no native renderer (<AdrLink n="019" />).
+`@syntara/sdui` is that schema for Syntara. It’s generated from the same `meta.json` files as these docs, so the contract and the components can’t drift apart. It comes with a validator for the server and one reference renderer for the web. There is no native renderer (<AdrLink n="019" />).
 
 ## Try it
 
-The editor holds the document a server would send, and the screen is what `<StrataScreen>` draws from it. Change the tenant in the toolbar: the screen takes on the new brand, and the JSON stays the same. Then use **Break it** to see what the validator and the renderer do with a bad document.
+The editor holds the document a server would send, and the screen is what `<SyntaraScreen>` draws from it. Change the tenant in the toolbar: the screen takes on the new brand, and the JSON stays the same. Then use **Break it** to see what the validator and the renderer do with a bad document.
 
 <SduiDemo />
 
@@ -17,11 +17,11 @@ Direction follows the language of the copy. Each example says `"locale": "en-IN"
 
 ```tsx
 'use client';
-import { ThemeScope } from '@strata/react';
-import { StrataScreen } from '@strata/sdui/react';
+import { ThemeScope } from '@syntara/react';
+import { SyntaraScreen } from '@syntara/sdui/react';
 
 <ThemeScope theme="vela" scheme="dark" locale="en-IN">
-  <StrataScreen
+  <SyntaraScreen
     document={json}
     onAction={(action, { nodeType, nodeId }) => route(action)}
     onIssue={(issue) => log(issue.code, issue.path, issue.message)}
@@ -58,7 +58,7 @@ No node takes these props:
 
 ## Native tokens
 
-The token build (`pnpm tokens`) also writes two files per tenant: `StrataTokens.kt` for Jetpack Compose and `StrataTokens.swift` for SwiftUI. They hold the same colours, spacing, radii, type and motion as the CSS, light and dark. The build reads the colours back out of each file and checks every contrast pair on them. On this page, the same check runs again when the site is built:
+The token build (`pnpm tokens`) also writes two files per tenant: `SyntaraTokens.kt` for Jetpack Compose and `SyntaraTokens.swift` for SwiftUI. They hold the same colours, spacing, radii, type and motion as the CSS, light and dark. The build reads the colours back out of each file and checks every contrast pair on them. On this page, the same check runs again when the site is built:
 
 <NativeTokenChecks />
 
@@ -66,12 +66,12 @@ What that does and doesn’t prove:
 
 - The Swift files were type-checked with `swiftc` against the macOS SDK. They have not been built for iOS.
 - The Kotlin files have **not** been compiled. No Kotlin compiler was installed, so tests check their structure instead.
-- No native components exist. These files give an app team Strata’s tokens, not its buttons.
+- No native components exist. These files give an app team Syntara’s tokens, not its buttons.
 
 The full notes, including units, touch targets and what CSS has that native doesn’t, are in [`README-native.md`](https://github.com/anujpatel06/strata/blob/main/packages/tokens/README-native.md).
 
 ## What this is not
 
 <Callout tone="neutral" title="A contract and one web renderer">
-  Not a server-driven UI framework: no fetching, caching, state or analytics. No native renderer: `<StrataScreen>` is web only, and an Android or iOS client would have to be written against the schema. And not every component: inputs, overlays, tables and charts aren’t in the slice.
+  Not a server-driven UI framework: no fetching, caching, state or analytics. No native renderer: `<SyntaraScreen>` is web only, and an Android or iOS client would have to be written against the schema. And not every component: inputs, overlays, tables and charts aren’t in the slice.
 </Callout>

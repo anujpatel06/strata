@@ -8,32 +8,32 @@
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  gap: var(--strata-space-2);
+  gap: var(--syntara-space-2);
   min-inline-size: 0;
 }
 
 .items {
   display: flex;
   flex-direction: column;
-  gap: var(--strata-space-2);
+  gap: var(--syntara-space-2);
 }
 
 /* A little more air between the group label/description and the options. */
 .items:not(:first-child) {
-  margin-block-start: var(--strata-space-1);
+  margin-block-start: var(--syntara-space-1);
 }
 
 .group[data-orientation='horizontal'] > .items {
   flex-flow: row wrap;
-  gap: var(--strata-space-2) var(--strata-space-5);
+  gap: var(--syntara-space-2) var(--syntara-space-5);
 }
 
 .group[data-variant='card'] > .items {
-  gap: var(--strata-space-3);
+  gap: var(--syntara-space-3);
 }
 
 .group[data-variant='card'][data-orientation='horizontal'] > .items > .card {
-  flex: 1 1 calc(var(--strata-space-16) * 3);
+  flex: 1 1 calc(var(--syntara-space-16) * 3);
 }
 
 /* ------------------------------------------------------------------ *
@@ -41,8 +41,8 @@
  * ------------------------------------------------------------------ */
 
 .radio {
-  --_box: calc(var(--strata-control-height) / 4 + var(--strata-space-2));
-  --_gap: var(--strata-space-2);
+  --_box: calc(var(--syntara-control-height) / 4 + var(--syntara-space-2));
+  --_gap: var(--syntara-space-2);
 
   box-sizing: border-box;
   display: flex;
@@ -58,12 +58,12 @@
   gap: var(--_gap);
   inline-size: fit-content;
   max-inline-size: 100%;
-  min-inline-size: var(--strata-space-6);
-  min-block-size: var(--strata-space-6);
-  padding-block: calc((var(--strata-space-6) - 1lh) / 2);
-  color: var(--strata-color-text-default);
-  font-size: var(--strata-font-size-md);
-  line-height: var(--strata-line-height-normal);
+  min-inline-size: var(--syntara-space-6);
+  min-block-size: var(--syntara-space-6);
+  padding-block: calc((var(--syntara-space-6) - 1lh) / 2);
+  color: var(--syntara-color-text-default);
+  font-size: var(--syntara-font-size-md);
+  line-height: var(--syntara-line-height-normal);
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
 }
@@ -75,9 +75,9 @@
   inline-size: var(--_box);
   block-size: var(--_box);
   margin-block-start: calc((1lh - var(--_box)) / 2);
-  border: 1px solid var(--strata-color-border-strong);
+  border: 1px solid var(--syntara-color-border-strong);
   border-radius: 50%;
-  background-color: var(--strata-color-surface-default);
+  background-color: var(--syntara-color-surface-default);
 }
 
 .circle::after {
@@ -88,7 +88,7 @@
   inline-size: 40%;
   block-size: 40%;
   border-radius: 50%;
-  background-color: var(--strata-color-action-primary-fg);
+  background-color: var(--syntara-color-action-primary-fg);
   /* Hidden by opacity (not scale) so the state holds without motion; the spring scale is added below. */
   opacity: 0;
 }
@@ -105,14 +105,14 @@
 /* --- states --- */
 
 .button[data-hovered] .circle {
-  border-color: var(--strata-color-text-subtle);
+  border-color: var(--syntara-color-text-subtle);
 }
 
 .button[data-selected] .circle {
-  border-color: var(--strata-color-action-primary-bg);
-  background-color: var(--strata-color-action-primary-bg);
+  border-color: var(--syntara-color-action-primary-bg);
+  background-color: var(--syntara-color-action-primary-bg);
   /* Solid fill: sheen + raised shadow. */
-  box-shadow: var(--strata-shadow-highlight), var(--strata-shadow-raised);
+  box-shadow: var(--syntara-shadow-highlight), var(--syntara-shadow-raised);
 }
 
 .button[data-selected] .circle::after {
@@ -120,8 +120,8 @@
 }
 
 .button[data-selected][data-hovered] .circle {
-  border-color: var(--strata-color-action-primary-hover);
-  background-color: var(--strata-color-action-primary-hover);
+  border-color: var(--syntara-color-action-primary-hover);
+  background-color: var(--syntara-color-action-primary-hover);
 }
 
 .circle {
@@ -129,20 +129,20 @@
 }
 
 .button[data-focus-visible] .circle {
-  outline: 2px solid var(--strata-color-focus-ring);
+  outline: 2px solid var(--syntara-color-focus-ring);
   outline-offset: 2px;
 }
 
 .button[data-invalid] .circle {
-  border-color: var(--strata-color-feedback-danger-solid);
+  border-color: var(--syntara-color-feedback-danger-solid);
 }
 
 .button[data-invalid][data-selected] .circle {
-  background-color: var(--strata-color-feedback-danger-solid);
+  background-color: var(--syntara-color-feedback-danger-solid);
 }
 
 .button[data-invalid][data-selected] .circle::after {
-  background-color: var(--strata-color-feedback-danger-on-solid);
+  background-color: var(--syntara-color-feedback-danger-on-solid);
 }
 
 .button[data-disabled] {
@@ -150,22 +150,22 @@
 }
 
 .button[data-disabled] .circle {
-  border-color: var(--strata-color-border-default);
-  background-color: var(--strata-color-surface-sunken);
+  border-color: var(--syntara-color-border-default);
+  background-color: var(--syntara-color-surface-sunken);
 }
 
 .button[data-disabled][data-selected] .circle {
-  border-color: var(--strata-color-text-disabled);
-  background-color: var(--strata-color-text-disabled);
+  border-color: var(--syntara-color-text-disabled);
+  background-color: var(--syntara-color-text-disabled);
   box-shadow: none;
 }
 
 .button[data-disabled][data-selected] .circle::after {
-  background-color: var(--strata-color-surface-default);
+  background-color: var(--syntara-color-surface-default);
 }
 
 .button[data-disabled] .label {
-  color: var(--strata-color-text-disabled);
+  color: var(--syntara-color-text-disabled);
 }
 
 /* ------------------------------------------------------------------ *
@@ -174,12 +174,12 @@
 
 .card {
   position: relative;
-  padding-block: var(--strata-space-3);
-  padding-inline: var(--strata-space-4);
-  border: 1px solid var(--strata-color-border-default);
-  border-radius: var(--strata-radius-field);
-  background-color: var(--strata-color-surface-default);
-  box-shadow: var(--strata-shadow-raised);
+  padding-block: var(--syntara-space-3);
+  padding-inline: var(--syntara-space-4);
+  border: 1px solid var(--syntara-color-border-default);
+  border-radius: var(--syntara-radius-field);
+  background-color: var(--syntara-color-surface-default);
+  box-shadow: var(--syntara-shadow-raised);
 }
 
 .card > .button {
@@ -187,11 +187,11 @@
 }
 
 .card .label {
-  font-weight: var(--strata-font-weight-medium);
+  font-weight: var(--syntara-font-weight-medium);
 }
 
 .card .help {
-  font-size: var(--strata-font-size-sm);
+  font-size: var(--syntara-font-size-sm);
 }
 
 /* The label covers the whole card: one big target, focus ring drawn around the card. */
@@ -199,7 +199,7 @@
   content: '';
   position: absolute;
   inset: -1px;
-  border-radius: var(--strata-radius-field);
+  border-radius: var(--syntara-radius-field);
 }
 
 .card > .button[data-focus-visible] .circle {
@@ -211,57 +211,57 @@
 }
 
 .card > .button[data-focus-visible]::after {
-  outline: 2px solid var(--strata-color-focus-ring);
+  outline: 2px solid var(--syntara-color-focus-ring);
   outline-offset: 2px;
 }
 
 .card:has(> .button[data-hovered]) {
-  border-color: var(--strata-color-border-strong);
+  border-color: var(--syntara-color-border-strong);
 }
 
 .card[data-selected] {
-  border-color: var(--strata-color-action-primary-bg);
-  background-color: var(--strata-color-surface-selected);
+  border-color: var(--syntara-color-action-primary-bg);
+  background-color: var(--syntara-color-surface-selected);
   /* A second hairline inside so selection reads by weight, not only colour; the raised shadow stays. */
-  box-shadow: inset 0 0 0 1px var(--strata-color-action-primary-bg), var(--strata-shadow-raised);
+  box-shadow: inset 0 0 0 1px var(--syntara-color-action-primary-bg), var(--syntara-shadow-raised);
 }
 
 .card[data-invalid] {
-  border-color: var(--strata-color-feedback-danger-solid);
+  border-color: var(--syntara-color-feedback-danger-solid);
 }
 
 .card[data-invalid][data-selected] {
-  box-shadow: inset 0 0 0 1px var(--strata-color-feedback-danger-solid), var(--strata-shadow-raised);
+  box-shadow: inset 0 0 0 1px var(--syntara-color-feedback-danger-solid), var(--syntara-shadow-raised);
 }
 
 .card[data-disabled] {
-  border-color: var(--strata-color-border-subtle);
-  background-color: var(--strata-color-surface-sunken);
+  border-color: var(--syntara-color-border-subtle);
+  background-color: var(--syntara-color-surface-sunken);
   box-shadow: none;
 }
 
 .card[data-disabled] .help {
-  color: var(--strata-color-text-disabled);
+  color: var(--syntara-color-text-disabled);
 }
 
 /* Colour, shadow and opacity fades hold with reduced motion; the dot then fades instead of springing. */
 .circle {
   transition:
-    background-color var(--strata-motion-duration-fast) var(--strata-motion-easing),
-    border-color var(--strata-motion-duration-fast) var(--strata-motion-easing),
-    box-shadow var(--strata-motion-duration-fast) var(--strata-motion-easing),
-    outline-offset var(--strata-motion-duration-fast) var(--strata-motion-easing);
+    background-color var(--syntara-motion-duration-fast) var(--syntara-motion-easing),
+    border-color var(--syntara-motion-duration-fast) var(--syntara-motion-easing),
+    box-shadow var(--syntara-motion-duration-fast) var(--syntara-motion-easing),
+    outline-offset var(--syntara-motion-duration-fast) var(--syntara-motion-easing);
 }
 
 .circle::after {
-  transition: opacity var(--strata-motion-duration-fast) var(--strata-motion-easing);
+  transition: opacity var(--syntara-motion-duration-fast) var(--syntara-motion-easing);
 }
 
 .card {
   transition:
-    background-color var(--strata-motion-duration-fast) var(--strata-motion-easing),
-    border-color var(--strata-motion-duration-fast) var(--strata-motion-easing),
-    box-shadow var(--strata-motion-duration-fast) var(--strata-motion-easing);
+    background-color var(--syntara-motion-duration-fast) var(--syntara-motion-easing),
+    border-color var(--syntara-motion-duration-fast) var(--syntara-motion-easing),
+    box-shadow var(--syntara-motion-duration-fast) var(--syntara-motion-easing);
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -269,70 +269,70 @@
      back past 1 while the dot springs out of the centre. A transition, so radios that mount selected stay still. */
   .circle {
     transition:
-      background-color var(--strata-motion-duration-fast) var(--strata-motion-easing),
-      border-color var(--strata-motion-duration-fast) var(--strata-motion-easing),
-      box-shadow var(--strata-motion-duration-fast) var(--strata-motion-easing),
-      outline-offset var(--strata-motion-duration-spring) var(--strata-motion-spring),
-      scale var(--strata-motion-duration-spring) var(--strata-motion-spring);
+      background-color var(--syntara-motion-duration-fast) var(--syntara-motion-easing),
+      border-color var(--syntara-motion-duration-fast) var(--syntara-motion-easing),
+      box-shadow var(--syntara-motion-duration-fast) var(--syntara-motion-easing),
+      outline-offset var(--syntara-motion-duration-spring) var(--syntara-motion-spring),
+      scale var(--syntara-motion-duration-spring) var(--syntara-motion-spring);
   }
 
   .button[data-pressed]:not([data-disabled]) .circle {
     scale: 0.85;
     transition-duration:
-      var(--strata-motion-duration-fast), var(--strata-motion-duration-fast), var(--strata-motion-duration-fast),
-      var(--strata-motion-duration-spring), var(--strata-motion-duration-fast);
+      var(--syntara-motion-duration-fast), var(--syntara-motion-duration-fast), var(--syntara-motion-duration-fast),
+      var(--syntara-motion-duration-spring), var(--syntara-motion-duration-fast);
     transition-timing-function:
-      var(--strata-motion-easing), var(--strata-motion-easing), var(--strata-motion-easing), var(--strata-motion-spring),
-      var(--strata-motion-easing);
+      var(--syntara-motion-easing), var(--syntara-motion-easing), var(--syntara-motion-easing), var(--syntara-motion-spring),
+      var(--syntara-motion-easing);
   }
 
   /* The dot springs out from the centre (slight overshoot) and shrinks back quickly when deselected. */
   .circle::after {
     scale: 0;
     transition:
-      opacity var(--strata-motion-duration-fast) var(--strata-motion-easing),
-      scale var(--strata-motion-duration-fast) var(--strata-motion-easing);
+      opacity var(--syntara-motion-duration-fast) var(--syntara-motion-easing),
+      scale var(--syntara-motion-duration-fast) var(--syntara-motion-easing);
   }
 
   .button[data-selected] .circle::after {
     scale: 1;
     transition:
-      opacity var(--strata-motion-duration-fast) var(--strata-motion-easing),
-      scale var(--strata-motion-duration-spring) var(--strata-motion-spring);
+      opacity var(--syntara-motion-duration-fast) var(--syntara-motion-easing),
+      scale var(--syntara-motion-duration-spring) var(--syntara-motion-spring);
   }
 
   /* Card variant: an interactive card, so it lifts 1px with one shadow step deeper on hover, and presses to 0.98
      (a big target gives less than a button). */
   .card {
     transition:
-      background-color var(--strata-motion-duration-fast) var(--strata-motion-easing),
-      border-color var(--strata-motion-duration-fast) var(--strata-motion-easing),
-      box-shadow var(--strata-motion-duration-normal) var(--strata-motion-easing),
-      translate var(--strata-motion-duration-spring) var(--strata-motion-spring),
-      scale var(--strata-motion-duration-spring) var(--strata-motion-spring);
+      background-color var(--syntara-motion-duration-fast) var(--syntara-motion-easing),
+      border-color var(--syntara-motion-duration-fast) var(--syntara-motion-easing),
+      box-shadow var(--syntara-motion-duration-normal) var(--syntara-motion-easing),
+      translate var(--syntara-motion-duration-spring) var(--syntara-motion-spring),
+      scale var(--syntara-motion-duration-spring) var(--syntara-motion-spring);
   }
 
   .card:has(> .button[data-hovered]):not([data-disabled], :has(> .button[data-pressed])) {
     translate: 0 -1px;
-    box-shadow: var(--strata-shadow-raised), var(--strata-shadow-raised);
+    box-shadow: var(--syntara-shadow-raised), var(--syntara-shadow-raised);
   }
 
   .card[data-selected]:has(> .button[data-hovered]):not([data-disabled], :has(> .button[data-pressed])) {
-    box-shadow: inset 0 0 0 1px var(--strata-color-action-primary-bg), var(--strata-shadow-raised), var(--strata-shadow-raised);
+    box-shadow: inset 0 0 0 1px var(--syntara-color-action-primary-bg), var(--syntara-shadow-raised), var(--syntara-shadow-raised);
   }
 
   .card[data-invalid][data-selected]:has(> .button[data-hovered]):not([data-disabled], :has(> .button[data-pressed])) {
-    box-shadow: inset 0 0 0 1px var(--strata-color-feedback-danger-solid), var(--strata-shadow-raised), var(--strata-shadow-raised);
+    box-shadow: inset 0 0 0 1px var(--syntara-color-feedback-danger-solid), var(--syntara-shadow-raised), var(--syntara-shadow-raised);
   }
 
   .card:has(> .button[data-pressed]):not([data-disabled]) {
     scale: 0.98;
     transition-duration:
-      var(--strata-motion-duration-fast), var(--strata-motion-duration-fast), var(--strata-motion-duration-fast),
-      var(--strata-motion-duration-fast), var(--strata-motion-duration-fast);
+      var(--syntara-motion-duration-fast), var(--syntara-motion-duration-fast), var(--syntara-motion-duration-fast),
+      var(--syntara-motion-duration-fast), var(--syntara-motion-duration-fast);
     transition-timing-function:
-      var(--strata-motion-easing), var(--strata-motion-easing), var(--strata-motion-easing), var(--strata-motion-easing),
-      var(--strata-motion-easing);
+      var(--syntara-motion-easing), var(--syntara-motion-easing), var(--syntara-motion-easing), var(--syntara-motion-easing),
+      var(--syntara-motion-easing);
   }
 
   /* When the card is pressed, the circle rides along with it rather than pressing on its own. */

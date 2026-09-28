@@ -8,19 +8,19 @@
 //    a control that focus only passed through (a toggle group focuses its last item on Tab) and must not show.
 // 2. Menu and Popover: open the first one with the keyboard, press Escape, and nothing may stay mounted.
 // Runs with and without reduced motion, against the production site:
-//   pnpm --filter @strata/docs build && (cd apps/docs && npx next start -p 3000), then node scripts/check-overlay-exit.mjs
+//   pnpm --filter @syntara/docs build && (cd apps/docs && npx next start -p 3000), then node scripts/check-overlay-exit.mjs
 import { existsSync } from 'node:fs';
 import { launchBrowser } from './launch-browser.mjs';
 
-const base = process.env.STRATA_BASE_URL ?? 'http://localhost:3000';
+const base = process.env.SYNTARA_BASE_URL ?? 'http://localhost:3000';
 const tooltipRoutes = ['/docs/components/button', '/docs/components/tooltip', '/docs/components/toggle-group'];
 // The page where the fault was first seen outside the component pages.
 if (existsSync('apps/docs/content/docs/server-driven-ui.mdx')) tooltipRoutes.push('/docs/server-driven-ui');
 const popoverRoutes = ['/docs/components/menu', '/docs/components/popover'];
 const TABS = 30;
-// Longer than the slowest overlay exit (--strata-motion-duration-normal, 200ms).
+// Longer than the slowest overlay exit (--syntara-motion-duration-normal, 200ms).
 const SETTLE = 350;
-// Early enough to catch a tooltip that is fading out (--strata-motion-duration-fast, 120ms).
+// Early enough to catch a tooltip that is fading out (--syntara-motion-duration-fast, 120ms).
 const EARLY = 40;
 // A tooltip sits 6 to 8px from its control. Further away means it didn't follow the control when the page scrolled.
 const MAX_GAP = 16;

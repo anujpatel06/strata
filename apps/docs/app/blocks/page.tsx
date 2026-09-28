@@ -7,7 +7,7 @@ import styles from './blocks.module.css';
 
 export const metadata: Metadata = {
   title: 'Blocks',
-  description: 'Full pages built only from Strata components. Same code for every tenant; only tokens and copy change.',
+  description: 'Full pages built only from Syntara components. Same code for every tenant; only tokens and copy change.',
 };
 
 /** Each block in the overview is drawn in the next tenant along, so the grid shows the same code in every brand. */
@@ -35,7 +35,7 @@ export default function Blocks() {
           Whole screens, <em>one codebase</em>
         </>
       }
-      description="Full pages built only from Strata components. Switch tenant and the code stays the same; only tokens and copy change. Copy the source into your project and own it."
+      description="Full pages built only from Syntara components. Switch tenant and the code stays the same; only tokens and copy change. Copy the source into your project and own it."
     >
       <BlockOverview items={overviewItems()} />
       <div className={styles.list}>

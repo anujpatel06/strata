@@ -1,5 +1,5 @@
 import { useEffect, useId, useState, type KeyboardEvent } from 'react';
-import { IconAlertCircle } from '@strata/icons';
+import { IconAlertCircle } from '@syntara/icons';
 import { parseHex } from '../url-state';
 import styles from './ColorField.module.css';
 import ui from './ui.module.css';

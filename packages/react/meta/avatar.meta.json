@@ -16,10 +16,10 @@
   ],
   "dependencies": [
     "react-aria-components",
-    "@strata/icons"
+    "@syntara/icons"
   ],
   "registryDependencies": [],
-  "usage": "import { Avatar, AvatarGroup } from '@strata/react';\n\nexport function Members() {\n  return (\n    <AvatarGroup aria-label=\"Members on this plan\" max={3}>\n      <Avatar name=\"Priya Raman\" src=\"/avatars/priya.jpg\" />\n      <Avatar name=\"Daniel Okafor\" />\n      <Avatar name=\"Mei Lin\" />\n      <Avatar name=\"Omar Haddad\" />\n    </AvatarGroup>\n  );\n}",
+  "usage": "import { Avatar, AvatarGroup } from '@syntara/react';\n\nexport function Members() {\n  return (\n    <AvatarGroup aria-label=\"Members on this plan\" max={3}>\n      <Avatar name=\"Priya Raman\" src=\"/avatars/priya.jpg\" />\n      <Avatar name=\"Daniel Okafor\" />\n      <Avatar name=\"Mei Lin\" />\n      <Avatar name=\"Omar Haddad\" />\n    </AvatarGroup>\n  );\n}",
   "examples": [
     {
       "name": "avatar-demo",

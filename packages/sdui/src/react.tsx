@@ -1,14 +1,14 @@
 'use client';
 
 /**
- * @strata/sdui/react — the reference web renderer. <StrataScreen document onAction onIssue fallback />
+ * @syntara/sdui/react — the reference web renderer. <SyntaraScreen document onAction onIssue fallback />
  *
  * It prepares the document (src/prepare.ts: tolerant of newer minors, strict about everything else), then maps each
- * node to a @strata/react component through REGISTRY, an explicit table. It never looks a component up by name in
+ * node to a @syntara/react component through REGISTRY, an explicit table. It never looks a component up by name in
  * the package's exports, never renders a string as markup, and never throws: a node that fails while drawing is
  * replaced by its fallback (or nothing) and reported.
  *
- * Theme, scheme, density and locale come from the ThemeScope around it, like any other Strata UI.
+ * Theme, scheme, density and locale come from the ThemeScope around it, like any other Syntara UI.
  */
 import {
   Component,
@@ -22,7 +22,7 @@ import {
   type MouseEvent,
   type ReactNode,
 } from 'react';
-import * as StrataIcons from '@strata/icons';
+import * as SyntaraIcons from '@syntara/icons';
 import {
   Alert,
   Amount,
@@ -61,7 +61,7 @@ import {
   type SeparatorProps,
   type StatTileProps,
   type TagProps,
-} from '@strata/react';
+} from '@syntara/react';
 import { directionOf } from './contract';
 import { prepareScreen, type Action, type Issue, type PreparedNode } from './prepare';
 
@@ -74,7 +74,7 @@ export interface ActionContext {
   nodeType: string;
 }
 
-export interface StrataScreenProps {
+export interface SyntaraScreenProps {
   /** The screen document, as parsed JSON. It is checked before anything is drawn. */
   document: unknown;
   /**
@@ -107,9 +107,9 @@ type Draw = {
  * Icons: a table from each icon's own name, built once. Lookups go through a Map, never into the module.
  * ------------------------------------------------------------------ */
 
-const ICONS = new Map<string, StrataIcons.Icon>(
-  (Object.values(StrataIcons) as unknown[])
-    .filter((v): v is StrataIcons.Icon => typeof v === 'function' && typeof (v as { iconName?: unknown }).iconName === 'string')
+const ICONS = new Map<string, SyntaraIcons.Icon>(
+  (Object.values(SyntaraIcons) as unknown[])
+    .filter((v): v is SyntaraIcons.Icon => typeof v === 'function' && typeof (v as { iconName?: unknown }).iconName === 'string')
     .map((icon) => [icon.iconName, icon]),
 );
 
@@ -136,7 +136,7 @@ const p = (node: PreparedNode): Props => node.props ?? {};
 
 const gap = (token: unknown, fallback: string) => {
   const t = typeof token === 'string' ? token : fallback;
-  return t === 'section-gap' ? 'var(--strata-section-gap)' : `var(--strata-${t})`;
+  return t === 'section-gap' ? 'var(--syntara-section-gap)' : `var(--syntara-${t})`;
 };
 const FLEX_ALIGN: Record<string, string> = { start: 'flex-start', center: 'center', end: 'flex-end', stretch: 'stretch', baseline: 'baseline' };
 const FLEX_JUSTIFY: Record<string, string> = { start: 'flex-start', center: 'center', end: 'flex-end', between: 'space-between' };
@@ -149,8 +149,8 @@ function textStyle(size: string, extra: CSSProperties = {}): CSSProperties {
     margin: 0,
     minInlineSize: 0,
     overflowWrap: 'anywhere',
-    fontSize: `var(--strata-font-size-${size})`,
-    letterSpacing: `var(--strata-font-tracking-${size})`,
+    fontSize: `var(--syntara-font-size-${size})`,
+    letterSpacing: `var(--syntara-font-tracking-${size})`,
     ...extra,
   };
 }
@@ -453,9 +453,9 @@ export const REGISTRY: ReadonlyMap<string, Renderer> = new Map<string, Renderer>
       const size = typeof x.size === 'string' ? x.size : 'md';
       const weight = typeof x.weight === 'string' ? x.weight : 'regular';
       const style = textStyle(size, {
-        lineHeight: 'var(--strata-line-height-normal)',
-        fontWeight: `var(--strata-font-weight-${weight})`,
-        color: x.tone === 'subtle' ? 'var(--strata-color-text-subtle)' : 'var(--strata-color-text-default)',
+        lineHeight: 'var(--syntara-line-height-normal)',
+        fontWeight: `var(--syntara-font-weight-${weight})`,
+        color: x.tone === 'subtle' ? 'var(--syntara-color-text-subtle)' : 'var(--syntara-color-text-default)',
         fontVariantNumeric: x.numeric === true ? 'tabular-nums' : undefined,
       });
       return (
@@ -473,10 +473,10 @@ export const REGISTRY: ReadonlyMap<string, Renderer> = new Map<string, Renderer>
       const size = typeof x.size === 'string' ? x.size : (HEADING_SIZE[level] ?? 'lg');
       const H = `h${level}` as 'h1';
       const style = textStyle(size, {
-        fontFamily: 'var(--strata-font-heading)',
-        lineHeight: 'var(--strata-line-height-tight)',
-        fontWeight: 'var(--strata-font-weight-semibold)',
-        color: 'var(--strata-color-text-default)',
+        fontFamily: 'var(--syntara-font-heading)',
+        lineHeight: 'var(--syntara-line-height-tight)',
+        fontWeight: 'var(--syntara-font-weight-semibold)',
+        color: 'var(--syntara-color-text-default)',
       });
       return (
         <H data-sdui-node="Heading" style={style}>
@@ -549,9 +549,9 @@ function drawNode(node: PreparedNode | undefined, path: string, ctx: Ctx): React
 }
 
 /**
- * Draws a screen document with Strata components. Put it inside a ThemeScope: the screen carries no theme.
+ * Draws a screen document with Syntara components. Put it inside a ThemeScope: the screen carries no theme.
  */
-export function StrataScreen({ document, onAction, onIssue, fallback = null }: StrataScreenProps): JSX.Element {
+export function SyntaraScreen({ document, onAction, onIssue, fallback = null }: SyntaraScreenProps): JSX.Element {
   const prepared = useMemo(() => prepareScreen(document), [document]);
   // Handlers in refs, so a new function each render doesn't redraw the screen.
   const handlers = useRef({ onAction, onIssue });
@@ -598,7 +598,7 @@ export function StrataScreen({ document, onAction, onIssue, fallback = null }: S
   };
 
   return (
-    <div data-strata-screen={screen.id} lang={screen.locale} dir={directionOf(screen.locale)} onClickCapture={onClickCapture}>
+    <div data-syntara-screen={screen.id} lang={screen.locale} dir={directionOf(screen.locale)} onClickCapture={onClickCapture}>
       {drawNode(root, '/root', ctx)}
     </div>
   );

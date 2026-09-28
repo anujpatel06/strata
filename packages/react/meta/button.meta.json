@@ -16,7 +16,7 @@
   ],
   "registryDependencies": [],
   "reactAria": "https://react-spectrum.adobe.com/react-aria/Button.html",
-  "usage": "import { Button } from '@strata/react';\n\nexport function SaveButton() {\n  return <Button onPress={() => save()}>Save changes</Button>;\n}",
+  "usage": "import { Button } from '@syntara/react';\n\nexport function SaveButton() {\n  return <Button onPress={() => save()}>Save changes</Button>;\n}",
   "examples": [
     {
       "name": "button-demo",

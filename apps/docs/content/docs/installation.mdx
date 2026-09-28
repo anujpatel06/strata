@@ -1,10 +1,10 @@
-Strata installs two ways: from npm, or by copying a component’s source files into your project (<AdrLink n="011" />). Both give you the same components and the same tokens. Every component page has the exact steps.
+Syntara installs two ways: from npm, or by copying a component’s source files into your project (<AdrLink n="011" />). Both give you the same components and the same tokens. Every component page has the exact steps.
 
 <Callout tone="info" title="Not on npm yet">
-  `@strata/react` and `@strata/tokens` are published in Phase 6. Until then, copy the files by hand. The npm steps below show how the packages will work.
+  `@syntara/react` and `@syntara/tokens` are published in Phase 6. Until then, copy the files by hand. The npm steps below show how the packages will work.
 </Callout>
 
-You need React 19 and a bundler that handles CSS — Next.js and Vite both do out of the box. Strata doesn’t use Tailwind, so it works with or without it.
+You need React 19 and a bundler that handles CSS — Next.js and Vite both do out of the box. Syntara doesn’t use Tailwind, so it works with or without it.
 
 ## With npm
 
@@ -12,9 +12,9 @@ You need React 19 and a bundler that handles CSS — Next.js and Vite both do ou
 
 ### Install the packages
 
-<PackageCommand add="@strata/react @strata/tokens" />
+<PackageCommand add="@syntara/react @syntara/tokens" />
 
-`@strata/react` has the components and `ThemeScope`. `@strata/tokens` has the token CSS for every tenant. React and React DOM are peer dependencies; React Aria and the icons come with the package.
+`@syntara/react` has the components and `ThemeScope`. `@syntara/tokens` has the token CSS for every tenant. React and React DOM are peer dependencies; React Aria and the icons come with the package.
 
 ### Import the CSS once
 
@@ -23,18 +23,18 @@ At your app root — `app/layout.tsx` in Next.js, `src/main.tsx` in Vite — imp
 <CodeBlock title="app/layout.tsx">
 
 ```tsx
-import '@strata/tokens/dist/strata.css';
-import '@strata/react/styles.css';
+import '@syntara/tokens/dist/syntara.css';
+import '@syntara/react/styles.css';
 ```
 
 </CodeBlock>
 
-`dist/strata.css` holds every tenant, each scoped to `[data-strata-theme="<id>"]`. If your app only ever shows one brand, import `@strata/tokens/dist/<id>/tokens.css` instead; it puts that tenant on `:root`.
+`dist/syntara.css` holds every tenant, each scoped to `[data-syntara-theme="<id>"]`. If your app only ever shows one brand, import `@syntara/tokens/dist/<id>/tokens.css` instead; it puts that tenant on `:root`.
 
 ### Wrap your app in a ThemeScope
 
 ```tsx
-import { Button, ThemeScope } from '@strata/react';
+import { Button, ThemeScope } from '@syntara/react';
 
 export default function App() {
   return (
@@ -45,7 +45,7 @@ export default function App() {
 }
 ```
 
-Each component also has its own entry point, e.g. `import { Button } from '@strata/react/ui/button'`.
+Each component also has its own entry point, e.g. `import { Button } from '@syntara/react/ui/button'`.
 
 </Steps>
 
@@ -55,19 +55,19 @@ Every component page has a **Manual** tab with the full source of each file.
 
 1. Install the npm packages the component lists — usually `react-aria-components` and `@tabler/icons-react`; date components also need `@internationalized/date`.
 2. Copy its `.tsx` and `.module.css` files into one folder, such as `components/ui`.
-3. Copy any Strata components it uses into the same folder. Files import each other as `./button`, so the folder can live anywhere.
-4. Load a token file once at your app root. Take one from `@strata/tokens`, or copy the **CSS** export on the [Themes](/themes) page.
+3. Copy any Syntara components it uses into the same folder. Files import each other as `./button`, so the folder can live anywhere.
+4. Load a token file once at your app root. Take one from `@syntara/tokens`, or copy the **CSS** export on the [Themes](/themes) page.
 
-The files are yours from then on. They are CSS Modules that read `--strata-*` variables, and nothing else.
+The files are yours from then on. They are CSS Modules that read `--syntara-*` variables, and nothing else.
 
 ## Set the theme
 
 Token CSS keys off three attributes on one element — `<html>` for the whole app, or a `ThemeScope` for part of it.
 
 ```html
-<html data-strata-theme="vela" data-strata-scheme="auto" data-strata-density="compact">
+<html data-syntara-theme="vela" data-syntara-scheme="auto" data-syntara-density="compact">
 ```
 
-With a single tenant’s `tokens.css`, the tenant is already on `:root`. Put the scheme and density attributes on `<html>`. To give regions of a page different tenants or schemes, load `strata.css` and pass `theme` to each `ThemeScope`.
+With a single tenant’s `tokens.css`, the tenant is already on `:root`. Put the scheme and density attributes on `<html>`. To give regions of a page different tenants or schemes, load `syntara.css` and pass `theme` to each `ThemeScope`.
 
 See [Theming](/docs/theming), [Dark mode](/docs/dark-mode) and [Density](/docs/density) for the rest.

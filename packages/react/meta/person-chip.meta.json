@@ -14,13 +14,13 @@
   ],
   "dependencies": [
     "react-aria-components",
-    "@strata/icons"
+    "@syntara/icons"
   ],
   "registryDependencies": [
     "avatar"
   ],
   "reactAria": "https://react-spectrum.adobe.com/react-aria/TagGroup.html",
-  "usage": "import { PersonChip, PersonChipGroup } from '@strata/react';\n\nexport function Covered() {\n  return (\n    <PersonChipGroup aria-label=\"Covered members\">\n      <PersonChip name=\"Arjun Shah\" />\n      <PersonChip name=\"Priya Shah\" />\n      <PersonChip name=\"Father\" placeholder />\n    </PersonChipGroup>\n  );\n}",
+  "usage": "import { PersonChip, PersonChipGroup } from '@syntara/react';\n\nexport function Covered() {\n  return (\n    <PersonChipGroup aria-label=\"Covered members\">\n      <PersonChip name=\"Arjun Shah\" />\n      <PersonChip name=\"Priya Shah\" />\n      <PersonChip name=\"Father\" placeholder />\n    </PersonChipGroup>\n  );\n}",
   "examples": [
     {
       "name": "person-chip-demo",

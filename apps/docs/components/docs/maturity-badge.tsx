@@ -1,4 +1,4 @@
-import { Badge, Link, Tooltip, TooltipTrigger } from '@strata/react';
+import { Badge, Link, Tooltip, TooltipTrigger } from '@syntara/react';
 import styles from './maturity-badge.module.css';
 
 export type Maturity = 'alpha' | 'beta' | 'stable';

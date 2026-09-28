@@ -1,5 +1,5 @@
 {
-  "name": "@strata/generator",
+  "name": "@syntara/generator",
   "version": "0.1.0",
   "private": true,
   "type": "module",
@@ -11,8 +11,8 @@
     "typecheck": "tsc -p tsconfig.json"
   },
   "dependencies": {
-    "@strata/icons": "workspace:*",
-    "@strata/theme-engine": "workspace:*",
+    "@syntara/icons": "workspace:*",
+    "@syntara/theme-engine": "workspace:*",
     "react": "^19.2.0",
     "react-dom": "^19.2.0"
   },

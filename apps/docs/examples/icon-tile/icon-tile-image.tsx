@@ -1,6 +1,6 @@
 'use client';
 
-import { IconTile } from '@strata/react';
+import { IconTile } from '@syntara/react';
 
 // A merchant logo as an image. Logos bring their own colours, so an image tile defaults to the neutral face.
 const logo =
@@ -9,7 +9,7 @@ const logo =
 
 export default function Example() {
   return (
-    <div style={{ display: 'flex', gap: 'var(--strata-space-3)' }}>
+    <div style={{ display: 'flex', gap: 'var(--syntara-space-3)' }}>
       <IconTile src={logo} alt="Corner Grocer" size="lg" />
       <IconTile src={logo} alt="Corner Grocer" size="lg" tint="warning" />
     </div>

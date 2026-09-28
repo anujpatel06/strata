@@ -6,9 +6,9 @@
   "maturity": "alpha",
   "exports": ["Pagination"],
   "files": ["pagination.tsx", "pagination.module.css"],
-  "dependencies": ["react-aria-components", "@strata/icons"],
+  "dependencies": ["react-aria-components", "@syntara/icons"],
   "registryDependencies": [],
-  "usage": "import { useState } from 'react';\nimport { Pagination } from '@strata/react';\n\nexport function Results() {\n  const [page, setPage] = useState(1);\n  return <Pagination page={page} pageCount={12} onPageChange={setPage} />;\n}",
+  "usage": "import { useState } from 'react';\nimport { Pagination } from '@syntara/react';\n\nexport function Results() {\n  const [page, setPage] = useState(1);\n  return <Pagination page={page} pageCount={12} onPageChange={setPage} />;\n}",
   "examples": [
     { "name": "pagination-demo", "title": "Pagination", "description": "Previous, next, boundary pages and siblings around the current page." },
     { "name": "pagination-compact", "title": "Compact", "description": "\"Page 3 of 12\" between previous and next, for tight spaces." },

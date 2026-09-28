@@ -8,7 +8,7 @@ import {
   type SearchFieldProps as RACSearchFieldProps,
   type ValidationResult,
 } from 'react-aria-components';
-import { IconSearch, IconX } from '@strata/icons';
+import { IconSearch, IconX } from '@syntara/icons';
 import { Description, FieldError, FieldGroup, Input, Label, type FieldSize } from './text-field';
 import styles from './search-field.module.css';
 

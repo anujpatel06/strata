@@ -1,12 +1,12 @@
-# AGENTS.md — building with Strata
+# AGENTS.md — building with Syntara
 
-For AI coding agents that write product UI with Strata, or change Strata itself. People should read `GOVERNANCE.md`.
+For AI coding agents that write product UI with Syntara, or change Syntara itself. People should read `GOVERNANCE.md`.
 
-Strata is a multi-brand design system. One codebase renders every brand, in light and dark, left to right and right to left. A brand is data: tokens and copy. If your code names a brand or a colour, it's wrong.
+Syntara is a multi-brand design system. One codebase renders every brand, in light and dark, left to right and right to left. A brand is data: tokens and copy. If your code names a brand or a colour, it's wrong.
 
 ## Look it up, don't guess
 
-With the Strata MCP server connected:
+With the Syntara MCP server connected:
 
 | Need | Tool |
 |---|---|
@@ -19,12 +19,12 @@ With the Strata MCP server connected:
 | An icon's exact name | `find_icon` |
 | Is my code on-system? | `audit_snippet`, before you finish |
 
-Without the server, read `packages/react/meta/<name>.meta.json` and `apps/docs/examples/<name>/`, and icon names in `@strata/icons/src/icons/`.
+Without the server, read `packages/react/meta/<name>.meta.json` and `apps/docs/examples/<name>/`, and icon names in `@syntara/icons/src/icons/`.
 
 ## Rules
 
-1. **Use Strata components.** Import from `@strata/react`. No native `<button>`, `<input>`, `<select>`, `<textarea>` or `<table>` where a component exists. Icons come from `@strata/icons`: look each name up with `find_icon`. Never guess one; if none fits, use no icon.
-2. **Tokens only.** Colours, spacing, radii, font sizes and weights are `var(--strata-*)`. No hex, `rgb()`, `hsl()` or `oklch()`. No pixel values except `0`, `1px` and `2px`.
+1. **Use Syntara components.** Import from `@syntara/react`. No native `<button>`, `<input>`, `<select>`, `<textarea>` or `<table>` where a component exists. Icons come from `@syntara/icons`: look each name up with `find_icon`. Never guess one; if none fits, use no icon.
+2. **Tokens only.** Colours, spacing, radii, font sizes and weights are `var(--syntara-*)`. No hex, `rgb()`, `hsl()` or `oklch()`. No pixel values except `0`, `1px` and `2px`.
 3. **Logical properties only.** `margin-inline-start`, `padding-inline`, `inset-inline-end`, `text-align: start`. Never `left` or `right`.
 4. **Every control has a name.** Icon-only buttons need `aria-label`. Fields need a `label`. Images need `alt`.
 5. **Status is never colour alone.** Pair it with an icon or words.
@@ -43,10 +43,10 @@ Without the server, read `packages/react/meta/<name>.meta.json` and `apps/docs/e
 
 A fix marked `safe: false` is a suggestion. Show it; don't apply it without being asked.
 
-## If Strata can't do what you need
+## If Syntara can't do what you need
 
 Don't work around it with raw CSS or a native element. Say what's missing, build the closest thing from existing components, and leave a comment that names the gap. A one-off stays in the product, outside the system.
 
-## Changing Strata itself
+## Changing Syntara itself
 
 Read `CLAUDE.md`, `packages/react/CONVENTIONS.md` and `GOVERNANCE.md` §5 first. Every number you report comes from a script, with the command next to it.

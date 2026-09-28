@@ -1,7 +1,7 @@
 {
-  "name": "@strata/icons",
+  "name": "@syntara/icons",
   "version": "0.1.0",
-  "description": "Strata's own icon set: curvy, minimal outline icons on a 24px grid. React components; colour follows text, stroke follows the --strata-icon-stroke token.",
+  "description": "Syntara's own icon set: curvy, minimal outline icons on a 24px grid. React components; colour follows text, stroke follows the --syntara-icon-stroke token.",
   "type": "module",
   "license": "MIT",
   "sideEffects": false,

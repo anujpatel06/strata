@@ -1,7 +1,7 @@
 'use client';
 
-import { IconCheck, IconCopy } from '@strata/icons';
-import { Button, Tooltip, TooltipTrigger } from '@strata/react';
+import { IconCheck, IconCopy } from '@syntara/icons';
+import { Button, Tooltip, TooltipTrigger } from '@syntara/react';
 import { useEffect, useRef, useState, type ReactNode } from 'react';
 import styles from './code.module.css';
 

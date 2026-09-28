@@ -1,6 +1,6 @@
 'use client';
 
-import { StatTile, StatTileGroup } from '@strata/react';
+import { StatTile, StatTileGroup } from '@syntara/react';
 
 export default function Example() {
   return (

@@ -6,10 +6,10 @@
   "maturity": "beta",
   "exports": ["DatePicker", "DateRangePicker"],
   "files": ["date-picker.tsx", "date-picker.module.css"],
-  "dependencies": ["react-aria-components", "@internationalized/date", "@strata/icons"],
+  "dependencies": ["react-aria-components", "@internationalized/date", "@syntara/icons"],
   "registryDependencies": ["calendar", "text-field"],
   "reactAria": "https://react-spectrum.adobe.com/react-aria/DatePicker.html",
-  "usage": "import { DatePicker } from '@strata/react';\n\nexport function IncidentDate() {\n  return <DatePicker label=\"Date of incident\" onChange={(date) => console.log(date?.toString())} />;\n}",
+  "usage": "import { DatePicker } from '@syntara/react';\n\nexport function IncidentDate() {\n  return <DatePicker label=\"Date of incident\" onChange={(date) => console.log(date?.toString())} />;\n}",
   "examples": [
     { "name": "date-picker-demo", "title": "Date picker", "description": "Type the date or pick it from the calendar." },
     { "name": "date-picker-range", "title": "Range", "description": "DateRangePicker with two months in the popover." },

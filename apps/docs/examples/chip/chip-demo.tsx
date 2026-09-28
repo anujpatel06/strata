@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Chip, ChipGroup, type Selection } from '@strata/react';
+import { Chip, ChipGroup, type Selection } from '@syntara/react';
 
 // Filter chips with counts. "All" is on when nothing else is: picking a category turns it off, clearing them turns it back on.
 export default function Example() {

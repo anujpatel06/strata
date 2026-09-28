@@ -4,7 +4,7 @@
  * component catalogue. The grid renders in every tenant's theme (a neobank, an insurer, a grocer, a health
  * benefits app, the site), so the copy stays about money any of them moves, and every name is invented.
  *
- * Figures are illustrative product data, not claims about Strata: nothing here is measured or reported.
+ * Figures are illustrative product data, not claims about Syntara: nothing here is measured or reported.
  * Money is USD and formatted in en-US whatever the locale, because the copy is English (see showcase-grid.tsx).
  */
 

@@ -1,7 +1,7 @@
 'use client';
 
-import { IconTerminal2 } from '@strata/icons';
-import { Tab, TabList, TabPanel, Tabs } from '@strata/react';
+import { IconTerminal2 } from '@syntara/icons';
+import { Tab, TabList, TabPanel, Tabs } from '@syntara/react';
 import { useEffect, useRef, useState, type Key } from 'react';
 import { CopyButton } from './code-frame';
 import styles from './package-tabs.module.css';
@@ -9,8 +9,8 @@ import code from './code.module.css';
 
 export type PackageManager = 'pnpm' | 'npm' | 'yarn' | 'bun';
 const MANAGERS: readonly PackageManager[] = ['pnpm', 'npm', 'yarn', 'bun'];
-const STORAGE_KEY = 'strata-docs-pm';
-const EVENT = 'strata-docs-pm';
+const STORAGE_KEY = 'syntara-docs-pm';
+const EVENT = 'syntara-docs-pm';
 
 function isManager(v: unknown): v is PackageManager {
   return typeof v === 'string' && (MANAGERS as readonly string[]).includes(v);

@@ -17,7 +17,7 @@ import {
   type ListBoxSectionProps,
   type ValidationResult,
 } from 'react-aria-components';
-import { IconCheck, IconChevronDown } from '@strata/icons';
+import { IconCheck, IconChevronDown } from '@syntara/icons';
 import { Description, FieldError, FieldGroup, Input, Label, type FieldSize } from './text-field';
 import styles from './combobox.module.css';
 
@@ -28,7 +28,7 @@ const cx = (...c: Array<string | false | null | undefined>) => c.filter(Boolean)
  * attributes (theme, scheme, density — and dir/lang if React Aria hasn't set them) onto it, so the popover
  * is a scope of its own and renders with the same tokens. Same approach as dialog.tsx.
  */
-const SCOPE_ATTRS = ['data-strata-theme', 'data-strata-scheme', 'data-strata-density'] as const;
+const SCOPE_ATTRS = ['data-syntara-theme', 'data-syntara-scheme', 'data-syntara-density'] as const;
 function mirrorScope(overlay: HTMLElement | null, source: Element | null): void {
   if (!overlay || !source || overlay.contains(source)) return;
   for (const name of SCOPE_ATTRS) {

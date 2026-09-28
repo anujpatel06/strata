@@ -1,5 +1,5 @@
 import { useMemo, type CSSProperties } from 'react';
-import { toCssVariables, type Density, type Scheme, type Theme } from '@strata/theme-engine';
+import { toCssVariables, type Density, type Scheme, type Theme } from '@syntara/theme-engine';
 import { OverviewScreen } from '../preview';
 import type { Tenant } from '../tenants';
 import styles from './PreviewPanel.module.css';
@@ -13,7 +13,7 @@ interface PreviewPanelProps {
 
 /**
  * A browser-chrome frame around the reference screen. The frame's inner div is the only place brand tokens exist:
- * every --strata-* variable is set inline from the generated theme, so re-skinning is one style recalculation.
+ * every --syntara-* variable is set inline from the generated theme, so re-skinning is one style recalculation.
  */
 export function PreviewPanel({ theme, scheme, density, tenant }: PreviewPanelProps) {
   const vars = useMemo(() => toCssVariables(theme, scheme, density) as CSSProperties, [theme, scheme, density]);
@@ -34,8 +34,8 @@ export function PreviewPanel({ theme, scheme, density, tenant }: PreviewPanelPro
           <div
             className={styles.themed}
             style={vars}
-            data-strata-scheme={scheme}
-            data-strata-density={density}
+            data-syntara-scheme={scheme}
+            data-syntara-density={density}
             dir={tenant.content.dir}
             lang={tenant.content.locale}
           >

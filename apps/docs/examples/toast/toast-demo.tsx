@@ -1,10 +1,10 @@
 'use client';
 
-import { Button, ToastRegion, toast } from '@strata/react';
+import { Button, ToastRegion, toast } from '@syntara/react';
 
 export default function Example() {
   return (
-    <div style={{ display: 'flex', flexWrap: 'wrap', gap: 'var(--strata-space-2)', justifyContent: 'center' }}>
+    <div style={{ display: 'flex', flexWrap: 'wrap', gap: 'var(--syntara-space-2)', justifyContent: 'center' }}>
       {/* Mount one ToastRegion per app, inside your ThemeScope. Extra regions are ignored. */}
       <ToastRegion />
       <Button variant="outline" onPress={() => toast({ title: 'Draft saved' })}>

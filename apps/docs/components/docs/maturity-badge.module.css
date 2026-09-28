@@ -2,14 +2,14 @@
 .link.link {
   display: inline-flex;
   align-items: center;
-  min-block-size: var(--strata-space-6);
-  min-inline-size: var(--strata-space-6);
-  border-radius: var(--strata-radius-badge);
+  min-block-size: var(--syntara-space-6);
+  min-inline-size: var(--syntara-space-6);
+  border-radius: var(--syntara-radius-badge);
   text-decoration: none;
 }
 .link.link > :last-child {
-  transition: box-shadow var(--strata-motion-duration-fast) var(--strata-motion-easing);
+  transition: box-shadow var(--syntara-motion-duration-fast) var(--syntara-motion-easing);
 }
 .link.link:hover > :last-child {
-  box-shadow: 0 0 0 1px var(--strata-color-border-strong);
+  box-shadow: 0 0 0 1px var(--syntara-color-border-strong);
 }

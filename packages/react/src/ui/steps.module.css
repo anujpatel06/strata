@@ -4,10 +4,10 @@
  */
 
 .root {
-  --_marker: calc(var(--strata-control-height) - var(--strata-space-2));
+  --_marker: calc(var(--syntara-control-height) - var(--syntara-space-2));
 
   box-sizing: border-box;
-  container: strata-steps / inline-size;
+  container: syntara-steps / inline-size;
   inline-size: 100%;
   min-inline-size: 0;
 }
@@ -40,7 +40,7 @@
   grid-template-areas:
     'marker label'
     '. description';
-  column-gap: var(--strata-space-2);
+  column-gap: var(--syntara-space-2);
   align-items: center;
   min-inline-size: 0;
   text-align: start;
@@ -50,7 +50,7 @@
   margin: 0;
   padding: 0;
   border: 0;
-  border-radius: var(--strata-radius-badge);
+  border-radius: var(--syntara-radius-badge);
   background-color: transparent;
   color: inherit;
   font: inherit;
@@ -61,7 +61,7 @@
 }
 
 .button[data-focus-visible] {
-  outline: 2px solid var(--strata-color-focus-ring);
+  outline: 2px solid var(--syntara-color-focus-ring);
   outline-offset: 2px;
 }
 
@@ -73,8 +73,8 @@
 
 /* Completed steps you can go back to: the marker brightens on hover (colour only). */
 .button[data-hovered] .marker {
-  border-color: var(--strata-color-action-primary-hover);
-  background-color: var(--strata-color-action-primary-hover);
+  border-color: var(--syntara-color-action-primary-hover);
+  background-color: var(--syntara-color-action-primary-hover);
 }
 
 .marker {
@@ -84,30 +84,30 @@
   place-items: center;
   inline-size: var(--_marker);
   block-size: var(--_marker);
-  border: 1px solid var(--strata-color-border-strong);
-  border-radius: var(--strata-radius-pill);
-  color: var(--strata-color-text-subtle);
-  font-size: var(--strata-font-size-sm);
+  border: 1px solid var(--syntara-color-border-strong);
+  border-radius: var(--syntara-radius-pill);
+  color: var(--syntara-color-text-subtle);
+  font-size: var(--syntara-font-size-sm);
   font-variant-numeric: tabular-nums;
-  font-weight: var(--strata-font-weight-medium);
+  font-weight: var(--syntara-font-weight-medium);
   line-height: 1;
 }
 
 .label {
   grid-area: label;
   min-inline-size: 0;
-  color: var(--strata-color-text-subtle);
-  font-size: var(--strata-font-size-sm);
-  font-weight: var(--strata-font-weight-medium);
-  line-height: var(--strata-line-height-snug);
+  color: var(--syntara-color-text-subtle);
+  font-size: var(--syntara-font-size-sm);
+  font-weight: var(--syntara-font-weight-medium);
+  line-height: var(--syntara-line-height-snug);
 }
 
 .description {
   grid-area: description;
   min-inline-size: 0;
-  color: var(--strata-color-text-subtle);
-  font-size: var(--strata-font-size-xs);
-  line-height: var(--strata-line-height-snug);
+  color: var(--syntara-color-text-subtle);
+  font-size: var(--syntara-font-size-xs);
+  line-height: var(--syntara-line-height-snug);
 }
 
 .check {
@@ -119,32 +119,32 @@
 
 /* Solid fill: sheen + raised shadow, never an overlay behind the tick. */
 .step[data-status='complete'] .marker {
-  border-color: var(--strata-color-action-primary-bg);
-  background-color: var(--strata-color-action-primary-bg);
-  box-shadow: var(--strata-shadow-highlight), var(--strata-shadow-raised);
-  color: var(--strata-color-action-primary-fg);
+  border-color: var(--syntara-color-action-primary-bg);
+  background-color: var(--syntara-color-action-primary-bg);
+  box-shadow: var(--syntara-shadow-highlight), var(--syntara-shadow-raised);
+  color: var(--syntara-color-action-primary-fg);
 }
 
 /* Current: a 2px brand ring plus a soft 4px halo so "you are here" reads at a glance (the ring alone
    carries the state; the halo is decoration). */
 .step[data-status='current'] .marker {
-  border: 2px solid var(--strata-color-action-primary-bg);
-  background-color: var(--strata-color-surface-default);
-  box-shadow: 0 0 0 4px color-mix(in oklab, var(--strata-color-action-primary-bg) 16%, transparent);
-  color: var(--strata-color-text-default);
-  font-weight: var(--strata-font-weight-semibold);
+  border: 2px solid var(--syntara-color-action-primary-bg);
+  background-color: var(--syntara-color-surface-default);
+  box-shadow: 0 0 0 4px color-mix(in oklab, var(--syntara-color-action-primary-bg) 16%, transparent);
+  color: var(--syntara-color-text-default);
+  font-weight: var(--syntara-font-weight-semibold);
 }
 
 .step:is([data-status='complete'], [data-status='current']) .label {
-  color: var(--strata-color-text-default);
+  color: var(--syntara-color-text-default);
 }
 
 .connector {
   position: relative;
   display: block;
   overflow: hidden;
-  border-radius: var(--strata-radius-pill);
-  background-color: var(--strata-color-border-default);
+  border-radius: var(--syntara-radius-pill);
+  background-color: var(--syntara-color-border-default);
 }
 
 /* The brand fill is its own layer, so it can fade in (reduced motion) or sweep along the line (motion on). */
@@ -153,7 +153,7 @@
   position: absolute;
   inset: 0;
   border-radius: inherit;
-  background-color: var(--strata-color-action-primary-bg);
+  background-color: var(--syntara-color-action-primary-bg);
   opacity: 0;
 }
 
@@ -164,12 +164,12 @@
 .marker,
 .label {
   transition-property: background-color, border-color, color, box-shadow;
-  transition-duration: var(--strata-motion-duration-normal);
-  transition-timing-function: var(--strata-motion-easing);
+  transition-duration: var(--syntara-motion-duration-normal);
+  transition-timing-function: var(--syntara-motion-easing);
 }
 
 .connector::after {
-  transition: opacity var(--strata-motion-duration-slow) var(--strata-motion-easing);
+  transition: opacity var(--syntara-motion-duration-slow) var(--syntara-motion-easing);
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -178,8 +178,8 @@
     scale: 0 1;
     transform-origin: left center;
     transition-property: opacity, scale;
-    transition-duration: var(--strata-motion-duration-fast), var(--strata-motion-duration-slow);
-    transition-timing-function: var(--strata-motion-easing), var(--strata-motion-easing-out);
+    transition-duration: var(--syntara-motion-duration-fast), var(--syntara-motion-duration-slow);
+    transition-timing-function: var(--syntara-motion-easing), var(--syntara-motion-easing-out);
   }
 
   .connector:dir(rtl)::after {
@@ -197,36 +197,36 @@
 
   /* …and the tick draws itself in, after a beat. */
   .check path {
-    animation: strata-steps-check var(--strata-motion-duration-slow) var(--strata-motion-easing-out) var(--strata-motion-duration-fast) both;
+    animation: syntara-steps-check var(--syntara-motion-duration-slow) var(--syntara-motion-easing-out) var(--syntara-motion-duration-fast) both;
   }
 
   /* The marker that just became current or complete pops with the spring. */
   .step:is([data-status='current'], [data-status='complete']) .marker {
-    animation: strata-steps-pop var(--strata-motion-duration-spring) var(--strata-motion-spring);
+    animation: syntara-steps-pop var(--syntara-motion-duration-spring) var(--syntara-motion-spring);
   }
 
   .button {
-    transition: scale var(--strata-motion-duration-spring) var(--strata-motion-spring);
+    transition: scale var(--syntara-motion-duration-spring) var(--syntara-motion-spring);
   }
 
   .button[data-pressed] {
     scale: 0.97;
-    transition-duration: var(--strata-motion-duration-fast);
-    transition-timing-function: var(--strata-motion-easing);
+    transition-duration: var(--syntara-motion-duration-fast);
+    transition-timing-function: var(--syntara-motion-easing);
   }
 
   .segment {
-    transition: background-color var(--strata-motion-duration-slow) var(--strata-motion-easing);
+    transition: background-color var(--syntara-motion-duration-slow) var(--syntara-motion-easing);
   }
 }
 
-@keyframes strata-steps-check {
+@keyframes syntara-steps-check {
   from {
     stroke-dashoffset: 1;
   }
 }
 
-@keyframes strata-steps-pop {
+@keyframes syntara-steps-pop {
   from {
     scale: 0.9;
   }
@@ -238,14 +238,14 @@
 
 .root[data-orientation='horizontal'] .list {
   align-items: flex-start;
-  gap: var(--strata-space-3);
+  gap: var(--syntara-space-3);
 }
 
 .root[data-orientation='horizontal'] .step {
   display: flex;
   flex: 1 1 0;
   align-items: flex-start;
-  gap: var(--strata-space-3);
+  gap: var(--syntara-space-3);
   min-inline-size: 0;
 }
 
@@ -258,8 +258,8 @@
 }
 
 .root[data-orientation='horizontal'] .connector {
-  flex: 1 1 var(--strata-space-6);
-  min-inline-size: var(--strata-space-4);
+  flex: 1 1 var(--syntara-space-6);
+  min-inline-size: var(--syntara-space-4);
   block-size: 2px;
   /* Centred on the marker. */
   margin-block-start: calc(var(--_marker) / 2 - 1px);
@@ -275,7 +275,7 @@
 
 .root[data-orientation='vertical'] .step {
   position: relative;
-  padding-block-end: var(--strata-space-6);
+  padding-block-end: var(--syntara-space-6);
 }
 
 .root[data-orientation='vertical'] .step:last-child {
@@ -284,13 +284,13 @@
 
 .root[data-orientation='vertical'] .connector {
   position: absolute;
-  inset-block: calc(var(--_marker) + var(--strata-space-1)) var(--strata-space-1);
+  inset-block: calc(var(--_marker) + var(--syntara-space-1)) var(--syntara-space-1);
   inset-inline-start: calc(var(--_marker) / 2 - 1px);
   inline-size: 2px;
 }
 
 .root[data-orientation='vertical'] .description {
-  margin-block-start: calc(var(--strata-space-1) * -1);
+  margin-block-start: calc(var(--syntara-space-1) * -1);
 }
 
 /* ------------------------------------------------------------------ *
@@ -299,51 +299,51 @@
 
 .compact {
   display: none;
-  gap: var(--strata-space-2);
+  gap: var(--syntara-space-2);
 }
 
 .summary {
   display: flex;
   flex-wrap: wrap;
   align-items: baseline;
-  column-gap: var(--strata-space-2);
+  column-gap: var(--syntara-space-2);
   margin: 0;
-  font-size: var(--strata-font-size-sm);
-  line-height: var(--strata-line-height-snug);
+  font-size: var(--syntara-font-size-sm);
+  line-height: var(--syntara-line-height-snug);
 }
 
 .summaryCount {
-  color: var(--strata-color-text-subtle);
+  color: var(--syntara-color-text-subtle);
   font-variant-numeric: tabular-nums;
 }
 
 .summaryDot {
-  color: var(--strata-color-text-subtle);
+  color: var(--syntara-color-text-subtle);
 }
 
 .summaryLabel {
   min-inline-size: 0;
-  color: var(--strata-color-text-default);
-  font-weight: var(--strata-font-weight-medium);
+  color: var(--syntara-color-text-default);
+  font-weight: var(--syntara-font-weight-medium);
 }
 
 .segments {
   display: flex;
-  gap: var(--strata-space-1);
+  gap: var(--syntara-space-1);
 }
 
 .segment {
   flex: 1 1 0;
-  block-size: var(--strata-space-1);
-  border-radius: var(--strata-radius-pill);
-  background-color: var(--strata-color-border-default);
+  block-size: var(--syntara-space-1);
+  border-radius: var(--syntara-radius-pill);
+  background-color: var(--syntara-color-border-default);
 }
 
 .segment:is([data-status='complete'], [data-status='current']) {
-  background-color: var(--strata-color-action-primary-bg);
+  background-color: var(--syntara-color-action-primary-bg);
 }
 
-@container strata-steps (inline-size < 480px) {
+@container syntara-steps (inline-size < 480px) {
   .root[data-orientation='horizontal'] .list {
     display: none;
   }
@@ -353,7 +353,7 @@
   }
 }
 
-@container strata-steps (480px <= inline-size < 640px) {
+@container syntara-steps (480px <= inline-size < 640px) {
   .root[data-orientation='horizontal'][data-size='lg'] .list {
     display: none;
   }

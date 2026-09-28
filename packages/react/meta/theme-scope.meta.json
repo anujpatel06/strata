@@ -1,7 +1,7 @@
 {
   "name": "theme-scope",
   "title": "Theme Scope",
-  "description": "Applies a Strata theme, colour scheme and density to everything inside it.",
+  "description": "Applies a Syntara theme, colour scheme and density to everything inside it.",
   "category": "layout",
   "maturity": "alpha",
   "exports": [
@@ -15,7 +15,7 @@
     "react-aria-components"
   ],
   "registryDependencies": [],
-  "usage": "import { ThemeScope } from '@strata/react';\n\nexport function App() {\n  return (\n    <ThemeScope theme=\"qamar\" scheme=\"dark\" locale=\"ar-AE\">\n      {/* your app */}\n    </ThemeScope>\n  );\n}",
+  "usage": "import { ThemeScope } from '@syntara/react';\n\nexport function App() {\n  return (\n    <ThemeScope theme=\"qamar\" scheme=\"dark\" locale=\"ar-AE\">\n      {/* your app */}\n    </ThemeScope>\n  );\n}",
   "examples": [
     {
       "name": "theme-scope-demo",
@@ -27,7 +27,7 @@
       "component": "ThemeScope",
       "name": "theme",
       "type": "string",
-      "description": "Tenant id whose tokens are loaded under [data-strata-theme]. Omit to inherit the page theme."
+      "description": "Tenant id whose tokens are loaded under [data-syntara-theme]. Omit to inherit the page theme."
     },
     {
       "component": "ThemeScope",

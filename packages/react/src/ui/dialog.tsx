@@ -10,7 +10,7 @@ import {
   useSlottedContext,
   type DialogProps as RACDialogProps,
 } from 'react-aria-components';
-import { IconX } from '@strata/icons';
+import { IconX } from '@syntara/icons';
 import { Button } from './button';
 import styles from './dialog.module.css';
 
@@ -20,10 +20,10 @@ const cx = (...c: Array<string | false | null | undefined>) => c.filter(Boolean)
 
 /**
  * Overlays portal to <body>, outside any ThemeScope, so scoped tokens would not reach them. At open time we
- * copy the scope's data-strata-* attributes (and dir/lang) from the element the overlay belongs to onto the
+ * copy the scope's data-syntara-* attributes (and dir/lang) from the element the overlay belongs to onto the
  * overlay root, which makes the root a scope of its own. Nested overlays find the attributes on their parent.
  */
-const SCOPE_ATTRS = ['data-strata-theme', 'data-strata-scheme', 'data-strata-density'] as const;
+const SCOPE_ATTRS = ['data-syntara-theme', 'data-syntara-scheme', 'data-syntara-density'] as const;
 function mirrorScope(overlay: HTMLElement, source: Element | null | undefined): void {
   if (!source || overlay.contains(source)) return;
   for (const name of SCOPE_ATTRS) {

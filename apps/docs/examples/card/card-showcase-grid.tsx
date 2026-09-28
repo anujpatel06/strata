@@ -1,6 +1,6 @@
 'use client';
 
-import { Card, CardDescription, CardFooter, CardHeader, CardMedia, CardTitle } from '@strata/react';
+import { Card, CardDescription, CardFooter, CardHeader, CardMedia, CardTitle } from '@syntara/react';
 import type { CSSProperties } from 'react';
 
 const studies = [
@@ -9,17 +9,17 @@ const studies = [
   { id: 'support', glow: 'none', title: 'Answers before a ticket', text: 'Search that reads the policy, so most questions end on the first screen.', year: '2023' },
 ] as const;
 
-const bar = (inlineSize: string): CSSProperties => ({ display: 'block', inlineSize, blockSize: 'var(--strata-space-1)', borderRadius: 'var(--strata-radius-pill)', background: 'var(--strata-color-border-default)' });
-const phone: CSSProperties = { display: 'grid', alignContent: 'start', gap: 'var(--strata-space-2)', inlineSize: 'calc(var(--strata-space-16) * 1.5)', blockSize: 'calc(var(--strata-space-16) * 2.5)', padding: 'var(--strata-space-3)', boxSizing: 'border-box', borderRadius: 'var(--strata-space-5)', background: 'var(--strata-color-surface-raised)', boxShadow: '0 0 0 1px var(--strata-color-border-default), var(--strata-shadow-raised)' };
+const bar = (inlineSize: string): CSSProperties => ({ display: 'block', inlineSize, blockSize: 'var(--syntara-space-1)', borderRadius: 'var(--syntara-radius-pill)', background: 'var(--syntara-color-border-default)' });
+const phone: CSSProperties = { display: 'grid', alignContent: 'start', gap: 'var(--syntara-space-2)', inlineSize: 'calc(var(--syntara-space-16) * 1.5)', blockSize: 'calc(var(--syntara-space-16) * 2.5)', padding: 'var(--syntara-space-3)', boxSizing: 'border-box', borderRadius: 'var(--syntara-space-5)', background: 'var(--syntara-color-surface-raised)', boxShadow: '0 0 0 1px var(--syntara-color-border-default), var(--syntara-shadow-raised)' };
 
 export default function Example() {
   return (
-    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 260px), 1fr))', gap: 'var(--strata-space-6)', inlineSize: '100%' }}>
+    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 260px), 1fr))', gap: 'var(--syntara-space-6)', inlineSize: '100%' }}>
       {studies.map((s) => (
         <Card key={s.id} variant="showcase" interactive>
           <CardMedia glow={s.glow}>
             <div role="img" aria-label={`${s.title} on a phone`} style={phone}>
-              <span style={{ ...bar('40%'), background: 'var(--strata-color-text-brand)' }} />
+              <span style={{ ...bar('40%'), background: 'var(--syntara-color-text-brand)' }} />
               <span style={bar('90%')} />
               <span style={bar('70%')} />
             </div>

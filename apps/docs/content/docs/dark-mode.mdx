@@ -1,11 +1,11 @@
-Every Strata theme has a light and a dark scheme, generated and contrast-checked together. Which one you see is one attribute.
+Every Syntara theme has a light and a dark scheme, generated and contrast-checked together. Which one you see is one attribute.
 
 ## Choose a scheme
 
 <Table aria-label="Scheme values">
   <thead>
     <tr>
-      <th scope="col">`data-strata-scheme`</th>
+      <th scope="col">`data-syntara-scheme`</th>
       <th scope="col">Result</th>
     </tr>
   </thead>
@@ -17,7 +17,7 @@ Every Strata theme has a light and a dark scheme, generated and contrast-checked
 </Table>
 
 ```html
-<html data-strata-theme="vela" data-strata-scheme="auto">
+<html data-syntara-theme="vela" data-syntara-scheme="auto">
 ```
 
 For part of a page, use `ThemeScope`:
@@ -37,12 +37,12 @@ This site keeps `auto` as the default and stores an explicit choice in `localSto
 ```tsx
 const script = `try {
   const s = localStorage.getItem('scheme');
-  if (s === 'light' || s === 'dark') document.documentElement.dataset.strataScheme = s;
+  if (s === 'light' || s === 'dark') document.documentElement.dataset.syntaraScheme = s;
 } catch {}`;
 
 export default function RootLayout({ children }) {
   return (
-    <html data-strata-scheme="auto" suppressHydrationWarning>
+    <html data-syntara-scheme="auto" suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={{ __html: script }} />
       </head>

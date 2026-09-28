@@ -1,6 +1,6 @@
 import { createRef } from 'react';
 import { render, screen } from '@testing-library/react';
-import { generateTheme, toCssVariables, type BrandInput } from '@strata/theme-engine';
+import { generateTheme, toCssVariables, type BrandInput } from '@syntara/theme-engine';
 import {
   contrastRatio,
   hexToRgb8,
@@ -144,9 +144,9 @@ describe('feature card contrast', () => {
   };
   const glowBlock = /--_glow: light-dark\(([\s\S]*?)\);\n/.exec(css)?.[1] ?? '';
   const [SL, SD] = [...glowBlock.matchAll(/action-primary-bg\) (\d+)%/g)].map((m) => Number(m[1]));
-  const STOP = num(/var\(--_glow\) 0%, var\(--strata-color-surface-raised\) (\d+)%/);
-  const AL = num(/--_star: light-dark\(\s*color-mix\(in srgb, var\(--strata-color-surface-raised\) (\d+)%/) / 100;
-  const AD = num(/color-mix\(in srgb, var\(--strata-color-text-default\) (\d+)%, transparent\)\s*\);/) / 100;
+  const STOP = num(/var\(--_glow\) 0%, var\(--syntara-color-surface-raised\) (\d+)%/);
+  const AL = num(/--_star: light-dark\(\s*color-mix\(in srgb, var\(--syntara-color-surface-raised\) (\d+)%/) / 100;
+  const AD = num(/color-mix\(in srgb, var\(--syntara-color-text-default\) (\d+)%, transparent\)\s*\);/) / 100;
 
   type Rgb = [number, number, number];
   const toLab = (hex: string) => linearRgbToOklab(hexToRgb8(hex).map((v) => srgbToLinear(v / 255)) as Rgb);
@@ -166,7 +166,7 @@ describe('feature card contrast', () => {
   // The sheen (surface recipe) is proven on plain surface.raised by the engine, not on the glow: over the dark glow it
   // would drop text.subtle and text.brand to 4.15:1 (qamar, at a 6% peak, measured 2026-09-27; the peak is now 8%). So the feature variant opts out.
   it('layers the sheen on default cards and keeps it off the feature glow', () => {
-    expect(css).toMatch(/--_sheen: var\(--strata-sheen\);/);
+    expect(css).toMatch(/--_sheen: var\(--syntara-sheen\);/);
     expect(css).toMatch(/var\(--_sheen\) padding-box,\s*var\(--_face\) padding-box/);
     const feature = /\.card\[data-variant='feature'\] \{([\s\S]*?)\n\}/.exec(css)?.[1] ?? '';
     expect(feature).toMatch(/--_sheen: none;/);
@@ -267,7 +267,7 @@ describe('showcase card and CardMedia', () => {
 /*
  * Showcase card contrast proof. All showcase text sits on the solid face; the face roles are read from the CSS
  * (`--_fill: light-dark(<light role>, <dark role>)` in the showcase rule). In dark the surface recipe's sheen lies
- * over the face: its peak (parsed from the engine's --strata-sheen) is mixed into the face in sRGB, as the engine's
+ * over the face: its peak (parsed from the engine's --syntara-sheen) is mixed into the face in sRGB, as the engine's
  * own sheen test does. text.default, text.subtle and text.brand must reach 4.5:1 on the face and on the sheen's
  * peak, for the five tenants and the engine's 1,000 fuzz brands. The glow must stay inside CardMedia.
  */
@@ -279,7 +279,7 @@ describe('showcase card contrast', () => {
   ).process;
   const css = node.getBuiltinModule('node:fs').readFileSync(`${node.cwd()}/src/ui/card.module.css`, 'utf8');
   const rule = /\.card\[data-variant='showcase'\] \{([\s\S]*?)\n\}/.exec(css)?.[1] ?? '';
-  const fill = /--_fill: light-dark\(var\(--strata-color-([a-z-]+)\), var\(--strata-color-([a-z-]+)\)\);/.exec(rule);
+  const fill = /--_fill: light-dark\(var\(--syntara-color-([a-z-]+)\), var\(--syntara-color-([a-z-]+)\)\);/.exec(rule);
   const role = (v: string) => v.replace('-', '.') as 'surface.raised';
   const FACE = { light: role(fill?.[1] ?? ''), dark: role(fill?.[2] ?? '') };
   const TEXT = ['text.default', 'text.subtle', 'text.brand'] as const;
@@ -306,7 +306,7 @@ describe('showcase card contrast', () => {
         const face = r[FACE[scheme]].hex;
         const faces = [face];
         if (scheme === 'dark') {
-          const sheen = toCssVariables(theme, 'dark')['--strata-sheen'] ?? '';
+          const sheen = toCssVariables(theme, 'dark')['--syntara-sheen'] ?? '';
           const peak = Number(/(\d+)%, transparent\) 20%/.exec(sheen)?.[1] ?? NaN) / 100;
           if (!Number.isFinite(peak)) throw new Error(`sheen peak not found: ${sheen}`);
           const A = hexToRgb8(face);

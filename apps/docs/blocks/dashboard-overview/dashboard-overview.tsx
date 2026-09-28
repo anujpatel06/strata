@@ -5,7 +5,7 @@
  * a page header, an alert, KPI tiles, recent activity and two side cards.
  *
  * Every string and number comes from `content` (see ./dashboard-overview.content.ts); every colour, size and
- * space from --strata-* tokens. Layout follows the block's own width (container queries), so it works in a
+ * space from --syntara-* tokens. Layout follows the block's own width (container queries), so it works in a
  * narrow preview as well as a full page. Wrap it in a <ThemeScope> (theme, scheme, locale) as you would a page.
  *
  * Headings and landmarks: `headingLevel` (default 1) is the level of the page title; sections use the next
@@ -48,7 +48,7 @@ import {
   toast,
   useCommandShortcut,
   type DataTableColumn,
-} from '@strata/react';
+} from '@syntara/react';
 import {
   IconArrowDownLeft,
   IconArrowUpRight,
@@ -62,7 +62,7 @@ import {
   IconSettings,
   IconSparkles,
   IconUser,
-} from '@strata/icons';
+} from '@syntara/icons';
 import {
   useId,
   useLayoutEffect,

@@ -1,6 +1,6 @@
 'use client';
 
-import { Button, Tooltip, TooltipTrigger } from '@strata/react';
+import { Button, Tooltip, TooltipTrigger } from '@syntara/react';
 
 export default function Example() {
   return (

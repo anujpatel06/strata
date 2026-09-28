@@ -98,7 +98,7 @@ describe('toast + ToastRegion', () => {
 
   it('copies theme, scheme, density, lang and dir from where it is mounted', () => {
     render(
-      <div data-strata-theme="qamar" data-strata-scheme="dark" data-strata-density="compact" dir="rtl" lang="ar">
+      <div data-syntara-theme="qamar" data-syntara-scheme="dark" data-syntara-density="compact" dir="rtl" lang="ar">
         <ToastRegion placement="top" className="mine" />
       </div>,
     );
@@ -106,9 +106,9 @@ describe('toast + ToastRegion', () => {
       toast('Saved');
     });
     const region = screen.getByRole('region');
-    expect(region).toHaveAttribute('data-strata-theme', 'qamar');
-    expect(region).toHaveAttribute('data-strata-scheme', 'dark');
-    expect(region).toHaveAttribute('data-strata-density', 'compact');
+    expect(region).toHaveAttribute('data-syntara-theme', 'qamar');
+    expect(region).toHaveAttribute('data-syntara-scheme', 'dark');
+    expect(region).toHaveAttribute('data-syntara-density', 'compact');
     expect(region).toHaveAttribute('lang', 'ar');
     expect(region).toHaveAttribute('dir', 'rtl');
     expect(region).toHaveAttribute('data-placement', 'top');
@@ -152,11 +152,11 @@ describe('toast: filled status icon and action weight', () => {
       toast({ title: 'Done', tone: 'success' }, { timeout: null });
       toast({ title: 'Broken', tone: 'danger' }, { timeout: null });
     });
-    const icon = (name: string) => screen.getByRole('alertdialog', { name }).querySelector('[data-strata-icon]');
-    expect(icon('Done')).toHaveAttribute('data-strata-icon', 'seal-check-filled');
-    expect(icon('Broken')).toHaveAttribute('data-strata-icon', 'alert-triangle-filled');
+    const icon = (name: string) => screen.getByRole('alertdialog', { name }).querySelector('[data-syntara-icon]');
+    expect(icon('Done')).toHaveAttribute('data-syntara-icon', 'seal-check-filled');
+    expect(icon('Broken')).toHaveAttribute('data-syntara-icon', 'alert-triangle-filled');
     expect(icon('Done')?.closest('[aria-hidden="true"]')).not.toBeNull();
-    expect(icon('Plain')).toHaveAttribute('data-strata-icon', 'info-circle-filled');
+    expect(icon('Plain')).toHaveAttribute('data-syntara-icon', 'info-circle-filled');
   });
 
   it('lets `icon` replace the status shape, still decorative', () => {
@@ -166,7 +166,7 @@ describe('toast: filled status icon and action weight', () => {
     });
     const custom = screen.getByTestId('custom-icon');
     expect(custom.closest('[aria-hidden="true"]')).not.toBeNull();
-    expect(screen.getByRole('alertdialog', { name: 'Copied' }).querySelector('[data-strata-icon="seal-check-filled"]')).toBeNull();
+    expect(screen.getByRole('alertdialog', { name: 'Copied' }).querySelector('[data-syntara-icon="seal-check-filled"]')).toBeNull();
   });
 
   it('weights the action by severity: contrast for danger and warning, outline otherwise', () => {
@@ -205,11 +205,11 @@ describe('toast: status icon contrast proof', () => {
   const css = readUiCss('toast.module.css');
 
   it('reads the roles it proves from the CSS', () => {
-    expect(css).toMatch(/--_face: var\(--strata-color-surface-raised\)/);
-    expect(css).toMatch(/var\(--strata-sheen\) padding-box/);
+    expect(css).toMatch(/--_face: var\(--syntara-color-surface-raised\)/);
+    expect(css).toMatch(/var\(--syntara-sheen\) padding-box/);
     for (const t of STATUS_TONES) {
-      expect(css).toContain(`--_tone: var(--strata-color-feedback-${t}-fg);`);
-      expect(css).toContain(`--strata-icon-on: var(--strata-color-feedback-${t}-bg);`);
+      expect(css).toContain(`--_tone: var(--syntara-color-feedback-${t}-fg);`);
+      expect(css).toContain(`--syntara-icon-on: var(--syntara-color-feedback-${t}-bg);`);
     }
   });
 

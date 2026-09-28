@@ -4,30 +4,30 @@
  */
 
 .sparkline {
-  --_c: var(--strata-chart-1, var(--strata-color-text-brand));
-  --_ring: var(--strata-color-surface-raised);
+  --_c: var(--syntara-chart-1, var(--syntara-color-text-brand));
+  --_ring: var(--syntara-color-surface-raised);
   box-sizing: border-box;
   display: block;
   inline-size: 100%;
-  min-inline-size: var(--strata-space-12);
-  block-size: var(--strata-space-8);
+  min-inline-size: var(--syntara-space-12);
+  block-size: var(--syntara-space-8);
   line-height: 0;
 }
 
 .sparkline[data-tone='neutral'] {
-  --_c: var(--strata-color-text-subtle);
+  --_c: var(--syntara-color-text-subtle);
 }
 .sparkline[data-tone='info'] {
-  --_c: var(--strata-color-feedback-info-fg);
+  --_c: var(--syntara-color-feedback-info-fg);
 }
 .sparkline[data-tone='success'] {
-  --_c: var(--strata-color-feedback-success-fg);
+  --_c: var(--syntara-color-feedback-success-fg);
 }
 .sparkline[data-tone='warning'] {
-  --_c: var(--strata-color-feedback-warning-fg);
+  --_c: var(--syntara-color-feedback-warning-fg);
 }
 .sparkline[data-tone='danger'] {
-  --_c: var(--strata-color-feedback-danger-fg);
+  --_c: var(--syntara-color-feedback-danger-fg);
 }
 
 .svg {
@@ -62,7 +62,7 @@
   stroke-linecap: round;
   stroke-linejoin: round;
   /* Dark only: a soft bloom in the line's colour. Decoration; static. */
-  filter: drop-shadow(0 0 var(--strata-space-1) light-dark(transparent, color-mix(in oklab, var(--_c) 55%, transparent)));
+  filter: drop-shadow(0 0 var(--syntara-space-1) light-dark(transparent, color-mix(in oklab, var(--_c) 55%, transparent)));
 }
 
 /* The end dot wears a 2px ring in the surface colour (override --_ring on other surfaces). */
@@ -85,19 +85,19 @@
 @media (prefers-reduced-motion: no-preference) {
   .line {
     stroke-dasharray: 1 1;
-    animation: spark-draw calc(var(--strata-motion-duration-slow) * 2) var(--strata-motion-easing-out) backwards;
+    animation: spark-draw calc(var(--syntara-motion-duration-slow) * 2) var(--syntara-motion-easing-out) backwards;
   }
 
   .area {
-    animation: spark-fade calc(var(--strata-motion-duration-slow) * 2) var(--strata-motion-easing-out)
-      var(--strata-motion-duration-slow) backwards;
+    animation: spark-fade calc(var(--syntara-motion-duration-slow) * 2) var(--syntara-motion-easing-out)
+      var(--syntara-motion-duration-slow) backwards;
   }
 
   .dot {
     transform-box: fill-box;
     transform-origin: center;
-    animation: spark-pop var(--strata-motion-duration-spring) var(--strata-motion-spring)
-      calc(var(--strata-motion-duration-slow) * 2) backwards;
+    animation: spark-pop var(--syntara-motion-duration-spring) var(--syntara-motion-spring)
+      calc(var(--syntara-motion-duration-slow) * 2) backwards;
   }
 }
 

@@ -1,9 +1,9 @@
 #!/usr/bin/env node
 /**
- * Builds the Strata shadcn registry from the same source as the npm package.
+ * Builds the Syntara shadcn registry from the same source as the npm package.
  *
  *   pnpm registry                                    (repo root; = node packages/react/scripts/build-registry.mjs)
- *   STRATA_REGISTRY_URL=https://strata.dev pnpm registry
+ *   SYNTARA_REGISTRY_URL=https://syntara.dev pnpm registry
  *
  * Reads  packages/react/meta/*.meta.json + packages/react/src/ui/*   and   tenants/<id>/brand.json
  *        apps/docs/blocks/blocks.json + apps/docs/blocks/<block>/*
@@ -11,18 +11,18 @@
  * shadcn install route from everything users see (ADR-011, 2026-09-27). Kept so it can come back.
  *   registry.json                 index of every item (shadcn registry schema, files without content)
  *   <component>.json              registry:ui — .tsx + .module.css inlined, side by side in the user's ui folder
- *   strata-tokens-<id>.json       registry:file — styles/strata-<id>.css (the --strata-* variables components read)
- *   theme-<id>.json               registry:theme — the shadcn bridge: a Strata palette as shadcn cssVars
- *   strata.json                   registry:style — "init": house tokens + ThemeScope
+ *   syntara-tokens-<id>.json       registry:file — styles/syntara-<id>.css (the --syntara-* variables components read)
+ *   theme-<id>.json               registry:theme — the shadcn bridge: a Syntara palette as shadcn cssVars
+ *   syntara.json                   registry:style — "init": house tokens + ThemeScope
  *   <block>.json                  registry:block — a page from apps/docs/blocks/<block>/ (tsx + module.css + content.ts),
- *                                 installed into <components>/<block>/ with its '@strata/react' imports rewritten to
+ *                                 installed into <components>/<block>/ with its '@syntara/react' imports rewritten to
  *                                 the user's ui alias (@/components/ui/<component>)
  *
  * Install:  npx shadcn@latest add <base>/r/button.json
- *      or   components.json → "registries": { "@strata": "<base>/r/{name}.json" }, then  npx shadcn@latest add @strata/button
+ *      or   components.json → "registries": { "@syntara": "<base>/r/{name}.json" }, then  npx shadcn@latest add @syntara/button
  *
  * Options: --out <dir> (default packages/react/registry) · --pkg <dir> (default packages/react; for fixtures)
- *          --tenants <dir> (default tenants) · --blocks <dir> (default apps/docs/blocks) · --base <url> (overrides STRATA_REGISTRY_URL)
+ *          --tenants <dir> (default tenants) · --blocks <dir> (default apps/docs/blocks) · --base <url> (overrides SYNTARA_REGISTRY_URL)
  * Re-runnable; wipes --out first. Components with errors are skipped and reported; exit 1 if any.
  */
 import { existsSync, mkdirSync, readFileSync, readdirSync, rmSync, writeFileSync } from 'node:fs';
@@ -36,11 +36,11 @@ const DEFAULT_PKG = path.resolve(here, '..');
 const ITEM_SCHEMA = 'https://ui.shadcn.com/schema/registry-item.json';
 const REGISTRY_SCHEMA = 'https://ui.shadcn.com/schema/registry.json';
 /** Where component files sit in the registry. The CLI keeps the part after "ui/" → <user ui alias>/<file>. */
-const UI_PREFIX = 'registry/strata/ui';
+const UI_PREFIX = 'registry/syntara/ui';
 
 /** Used when tenants/house/brand.json doesn't exist. Placeholder until Anuj picks the house brand. */
 export const HOUSE_FALLBACK = {
-  name: 'Strata',
+  name: 'Syntara',
   primary: '#1c2230',
   accent: '#2f6fed',
   neutral: 'neutral',
@@ -114,9 +114,9 @@ export function importProblems(meta, uiDir) {
         problems.push(`${file}: import '${spec}' breaks registry installs — use a sibling './<name>' import`);
         continue;
       }
-      // @strata/icons is a standalone package (ADR-014), like any npm dependency; the rule is about the barrel.
-      if (spec.startsWith('@strata/') && spec !== '@strata/icons') {
-        problems.push(`${file}: import '${spec}' — components must not import the barrel or other Strata packages`);
+      // @syntara/icons is a standalone package (ADR-014), like any npm dependency; the rule is about the barrel.
+      if (spec.startsWith('@syntara/') && spec !== '@syntara/icons') {
+        problems.push(`${file}: import '${spec}' — components must not import the barrel or other Syntara packages`);
         continue;
       }
       const pkg = packageName(spec);
@@ -184,12 +184,12 @@ export function itemProblems(item, { inline }) {
 /* ------------------------------------------------------------------ blocks */
 
 /** Where block files sit in the registry. The CLI keeps the part after "components/" → <user components alias>/<block>/<file>. */
-const BLOCK_PREFIX = 'registry/strata/components';
+const BLOCK_PREFIX = 'registry/syntara/components';
 /** Import path a block uses for a component once installed. The CLI rewrites "@/components/ui" to the user's ui alias. */
 const UI_IMPORT = '@/components/ui';
 
 /** Export name → component file (without extension), from the export statements in src/ui/*.tsx. */
-export function strataExportMap(uiDir) {
+export function syntaraExportMap(uiDir) {
   const map = new Map();
   if (!existsSync(uiDir)) return map;
   for (const file of readdirSync(uiDir).sort()) {
@@ -210,14 +210,14 @@ export function strataExportMap(uiDir) {
 }
 
 /**
- * Rewrites `import { A, type B } from '@strata/react'` into one import per component file,
+ * Rewrites `import { A, type B } from '@syntara/react'` into one import per component file,
  * `import { A, type B } from '@/components/ui/<file>'`, so an installed block uses the user's copied components.
  * Returns the new source, the component files it uses and any problems.
  */
-export function rewriteStrataImports(source, exportMap) {
+export function rewriteSyntaraImports(source, exportMap) {
   const components = new Set();
   const problems = [];
-  const code = source.replace(/import\s+(type\s+)?\{([^}]*)\}\s*from\s*['"]@strata\/react['"];?/g, (_all, typeOnly, list) => {
+  const code = source.replace(/import\s+(type\s+)?\{([^}]*)\}\s*from\s*['"]@syntara\/react['"];?/g, (_all, typeOnly, list) => {
     /** file → specifiers, in source order */
     const byFile = new Map();
     for (const raw of list.split(',')) {
@@ -226,7 +226,7 @@ export function rewriteStrataImports(source, exportMap) {
       const name = spec.replace(/^type\s+/, '').split(/\s+as\s+/)[0].trim();
       const file = exportMap.get(name);
       if (!file) {
-        problems.push(`imports '${name}' from '@strata/react', which no src/ui file exports`);
+        problems.push(`imports '${name}' from '@syntara/react', which no src/ui file exports`);
         continue;
       }
       components.add(file);
@@ -238,8 +238,8 @@ export function rewriteStrataImports(source, exportMap) {
       .map(([file, specs]) => `import ${typeOnly ? 'type ' : ''}{ ${specs.join(', ')} } from '${UI_IMPORT}/${file}';`)
       .join('\n');
   });
-  if (/from\s*['"]@strata\/react['"]|import\s*['"]@strata\/react['"]/.test(code)) {
-    problems.push(`has an '@strata/react' import that isn't a named import list — use import { … } from '@strata/react'`);
+  if (/from\s*['"]@syntara\/react['"]|import\s*['"]@syntara\/react['"]/.test(code)) {
+    problems.push(`has an '@syntara/react' import that isn't a named import list — use import { … } from '@syntara/react'`);
   }
   return { code, components, problems };
 }
@@ -251,7 +251,7 @@ export function buildBlockItems({ blocksDir, uiDir, url, pin, componentNames }) 
   const rows = [];
   const index = path.join(blocksDir, 'blocks.json');
   if (!existsSync(index)) return { items, problems, rows };
-  const exportMap = strataExportMap(uiDir);
+  const exportMap = syntaraExportMap(uiDir);
   for (const block of readJson(index)) {
     const { name } = block;
     const dir = path.join(blocksDir, name);
@@ -272,7 +272,7 @@ export function buildBlockItems({ blocksDir, uiDir, url, pin, componentNames }) 
     for (const file of files) {
       let content = readFileSync(path.join(dir, file), 'utf8');
       if (/\.(tsx?)$/.test(file)) {
-        const rewritten = rewriteStrataImports(content, exportMap);
+        const rewritten = rewriteSyntaraImports(content, exportMap);
         content = rewritten.code;
         rewritten.components.forEach((c) => components.add(c));
         blockProblems.push(...rewritten.problems.map((p) => `${file}: ${p}`));
@@ -284,9 +284,9 @@ export function buildBlockItems({ blocksDir, uiDir, url, pin, componentNames }) 
             if (target.includes('/') || !exists) blockProblems.push(`${file}: import '${spec}' is not a file in the block folder`);
             continue;
           }
-          // @strata/icons is a standalone package (ADR-014) and becomes an npm dependency, as it does for components.
-          const strataPackage = spec.startsWith('@strata/') && spec !== '@strata/icons';
-          if (spec.startsWith('.') || spec.startsWith('@/') || spec.startsWith('~/') || spec.startsWith('/') || strataPackage) {
+          // @syntara/icons is a standalone package (ADR-014) and becomes an npm dependency, as it does for components.
+          const syntaraPackage = spec.startsWith('@syntara/') && spec !== '@syntara/icons';
+          if (spec.startsWith('.') || spec.startsWith('@/') || spec.startsWith('~/') || spec.startsWith('/') || syntaraPackage) {
             blockProblems.push(`${file}: import '${spec}' breaks registry installs`);
             continue;
           }
@@ -329,7 +329,7 @@ export function buildBlockItems({ blocksDir, uiDir, url, pin, componentNames }) 
 async function loadEngine() {
   // theme-engine ships TypeScript source; Vite (already a devDependency here) runs it without a build step.
   const { runnerImport } = await import('vite');
-  const { module } = await runnerImport('@strata/theme-engine', { root: DEFAULT_PKG, configFile: false, logLevel: 'silent' });
+  const { module } = await runnerImport('@syntara/theme-engine', { root: DEFAULT_PKG, configFile: false, logLevel: 'silent' });
   return module;
 }
 
@@ -354,7 +354,7 @@ export async function buildRegistry({
   outDir = path.join(REPO_ROOT, 'packages/react/registry'),
   tenantsDir = path.join(REPO_ROOT, 'tenants'),
   blocksDir = path.join(REPO_ROOT, 'apps/docs/blocks'),
-  base = process.env.STRATA_REGISTRY_URL || 'http://localhost:3000',
+  base = process.env.SYNTARA_REGISTRY_URL || 'http://localhost:3000',
 } = {}) {
   base = base.replace(/\/+$/, '');
   const url = (name) => `${base}/r/${name}.json`;
@@ -420,7 +420,7 @@ export async function buildRegistry({
       // The CLI prints `docs` once per item in the tree, so only leaves carry the hint (it still shows once per install).
       docs: (meta.registryDependencies ?? []).length
         ? undefined
-        : `Strata components read --strata-* tokens. Install them once: npx shadcn@latest add ${url('strata')}`,
+        : `Syntara components read --syntara-* tokens. Install them once: npx shadcn@latest add ${url('syntara')}`,
       meta: { maturity: meta.maturity, exports: meta.exports },
     });
     rows.push([name, 'registry:ui', meta.files.length, (meta.dependencies ?? []).length, (meta.registryDependencies ?? []).length, 'ok']);
@@ -441,31 +441,31 @@ export async function buildRegistry({
     const failed = theme.checks.filter((c) => !c.pass);
     if (failed.length) errors.push(`${id}: ${failed.length} contrast check(s) fail — not published`);
     // :root carries the tenant; ThemeScope elements without a theme attribute re-scope scheme/density;
-    // [data-strata-theme="<id>"] keeps working when several tenant files are loaded (the last one is the default).
-    const selector = `:root, [data-strata-theme="${id}"], [data-strata-scheme]:not([data-strata-theme])`;
+    // [data-syntara-theme="<id>"] keeps working when several tenant files are loaded (the last one is the default).
+    const selector = `:root, [data-syntara-theme="${id}"], [data-syntara-scheme]:not([data-syntara-theme])`;
     const css = engine.toCSS(theme, { selector });
     const fonts = engine.googleFontsHref(theme.typePair);
     items.push({
       $schema: ITEM_SCHEMA,
-      name: `strata-tokens-${id}`,
+      name: `syntara-tokens-${id}`,
       type: 'registry:file',
-      title: `Strata tokens — ${theme.input.name}`,
-      description: `Every --strata-* variable for ${theme.input.name} (light, dark, both densities). Import styles/strata-${id}.css once, at your app root.`,
-      files: [{ path: `registry/strata/styles/strata-${id}.css`, type: 'registry:file', target: `styles/strata-${id}.css`, content: css }],
+      title: `Syntara tokens — ${theme.input.name}`,
+      description: `Every --syntara-* variable for ${theme.input.name} (light, dark, both densities). Import styles/syntara-${id}.css once, at your app root.`,
+      files: [{ path: `registry/syntara/styles/syntara-${id}.css`, type: 'registry:file', target: `styles/syntara-${id}.css`, content: css }],
       docs:
-        `Import the tokens once at your app root, e.g. import './styles/strata-${id}.css' (Vite: src/main.tsx; Next: app/layout.tsx). ` +
-        `Dark mode: <html data-strata-scheme="dark"> or <ThemeScope scheme="dark">. Fonts: ${fonts}`,
+        `Import the tokens once at your app root, e.g. import './styles/syntara-${id}.css' (Vite: src/main.tsx; Next: app/layout.tsx). ` +
+        `Dark mode: <html data-syntara-scheme="dark"> or <ThemeScope scheme="dark">. Fonts: ${fonts}`,
       categories: ['tokens'],
     });
-    rows.push([`strata-tokens-${id}`, 'registry:file', 1, 0, 0, failed.length ? 'CONTRAST FAIL' : 'ok']);
+    rows.push([`syntara-tokens-${id}`, 'registry:file', 1, 0, 0, failed.length ? 'CONTRAST FAIL' : 'ok']);
 
     const cssVars = engine.toShadcnCssVars(theme);
     items.push({
       $schema: ITEM_SCHEMA,
       name: `theme-${id}`,
       type: 'registry:theme',
-      title: `${theme.input.name} (Strata) for shadcn/ui`,
-      description: `The ${theme.input.name} palette from Strata as shadcn/ui variables — light and dark, contrast-checked to WCAG 2.2 AA.`,
+      title: `${theme.input.name} (Syntara) for shadcn/ui`,
+      description: `The ${theme.input.name} palette from Syntara as shadcn/ui variables — light and dark, contrast-checked to WCAG 2.2 AA.`,
       cssVars,
       categories: ['theme'],
     });
@@ -485,19 +485,19 @@ export async function buildRegistry({
   rows.push(...blocks.rows);
 
   /* ---- init item ---- */
-  const initDeps = ['strata-tokens-house', 'theme-scope'];
+  const initDeps = ['syntara-tokens-house', 'theme-scope'];
   const missingInit = initDeps.filter((d) => !items.some((i) => i.name === d));
-  if (missingInit.length) errors.push(`strata: init item needs ${missingInit.join(', ')}`);
+  if (missingInit.length) errors.push(`syntara: init item needs ${missingInit.join(', ')}`);
   items.push({
     $schema: ITEM_SCHEMA,
-    name: 'strata',
+    name: 'syntara',
     type: 'registry:style',
-    title: 'Strata',
-    description: 'Strata base: the house tokens (styles/strata-house.css) and ThemeScope. Install once before any component.',
+    title: 'Syntara',
+    description: 'Syntara base: the house tokens (styles/syntara-house.css) and ThemeScope. Install once before any component.',
     registryDependencies: initDeps.map(url),
     categories: ['style'],
   });
-  rows.push(['strata', 'registry:style', 0, 0, initDeps.length, missingInit.length ? 'ERROR' : 'ok']);
+  rows.push(['syntara', 'registry:style', 0, 0, initDeps.length, missingInit.length ? 'ERROR' : 'ok']);
 
   /* ---- validate + write ---- */
   for (const item of items) {
@@ -514,7 +514,7 @@ export async function buildRegistry({
 
   const index = {
     $schema: REGISTRY_SCHEMA,
-    name: 'strata',
+    name: 'syntara',
     homepage: base,
     items: items.map(({ $schema, ...item }) => ({
       ...item,
@@ -541,7 +541,7 @@ async function main() {
     outDir: path.resolve(flag('out') ?? path.join(REPO_ROOT, 'packages/react/registry')),
     tenantsDir: path.resolve(flag('tenants') ?? path.join(REPO_ROOT, 'tenants')),
     blocksDir: path.resolve(flag('blocks') ?? path.join(REPO_ROOT, 'apps/docs/blocks')),
-    base: flag('base') ?? process.env.STRATA_REGISTRY_URL ?? 'http://localhost:3000',
+    base: flag('base') ?? process.env.SYNTARA_REGISTRY_URL ?? 'http://localhost:3000',
   });
   console.log(table(result.rows));
   const shown = result.outDir.startsWith(REPO_ROOT) ? path.relative(REPO_ROOT, result.outDir) : result.outDir;

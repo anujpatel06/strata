@@ -26,12 +26,12 @@ export interface ValidationResult {
 }
 
 /** Keywords the schema files use besides JSON Schema's own. Other validators ignore x- keywords; ajv needs them named. */
-export const STRATA_KEYWORDS = ['x-strata', 'x-strata-rule', 'x-strata-message'] as const;
+export const SYNTARA_KEYWORDS = ['x-syntara', 'x-syntara-rule', 'x-syntara-message'] as const;
 
 /** A strict ajv instance with every schema added. Exposed for tests and for tools that want the raw validator. */
 export function createAjv(): Ajv2020 {
   const ajv = new Ajv2020({ strict: true, allErrors: true, verbose: true, discriminator: true });
-  ajv.addVocabulary([...STRATA_KEYWORDS]);
+  ajv.addVocabulary([...SYNTARA_KEYWORDS]);
   for (const schema of SCHEMAS) ajv.addSchema(schema);
   return ajv;
 }
@@ -40,7 +40,7 @@ let compiled: ValidateFunction | undefined;
 function screenValidator(): ValidateFunction {
   if (!compiled) {
     const fn = createAjv().getSchema(urn('screen'));
-    if (!fn) throw new Error('screen schema missing: run pnpm --filter @strata/sdui generate');
+    if (!fn) throw new Error('screen schema missing: run pnpm --filter @syntara/sdui generate');
     compiled = fn;
   }
   return compiled;
@@ -91,9 +91,9 @@ function message(doc: unknown, e: ErrorObject): { message: string; rule?: string
   const parent = (e.parentSchema ?? {}) as Schema;
   const node = nodeAt(doc, e.instancePath);
   const who = node ? `${node.type}` : 'Screen';
-  const rule = parent['x-strata-rule'] as { id: string; message: string } | undefined;
+  const rule = parent['x-syntara-rule'] as { id: string; message: string } | undefined;
   if (rule) return { message: rule.message, rule: rule.id };
-  const custom = parent['x-strata-message'];
+  const custom = parent['x-syntara-message'];
   if (typeof custom === 'string') return { message: `${who}: ${last(e.instancePath)} ${custom}` };
 
   switch (e.keyword) {
@@ -116,7 +116,7 @@ function message(doc: unknown, e: ErrorObject): { message: string; rule?: string
       const allowed = (e.params as { allowedValues: unknown[] }).allowedValues;
       const field = last(e.instancePath);
       if (field === 'icon')
-        return { message: `${who}: unknown icon ${JSON.stringify(e.data)}. Icon names come from @strata/icons (schema/manifest.json "icons").` };
+        return { message: `${who}: unknown icon ${JSON.stringify(e.data)}. Icon names come from @syntara/icons (schema/manifest.json "icons").` };
       const excluded = node ? manifest.nodes[node.type]?.excluded.find((x) => x.prop === field && x.value === e.data) : undefined;
       if (excluded) return { message: `${who}: ${field} ${JSON.stringify(e.data)} isn't accepted. ${excluded.reason}` };
       return { message: `${who}: ${field} ${JSON.stringify(e.data)} isn't one of ${list(allowed)}.` };
@@ -155,11 +155,11 @@ function message(doc: unknown, e: ErrorObject): { message: string; rule?: string
   }
 }
 
-/** Accessibility rules by node type: node schema allOf[i] carries `x-strata-rule`. */
+/** Accessibility rules by node type: node schema allOf[i] carries `x-syntara-rule`. */
 const RULES = new Map<string, Array<{ id: string; message: string } | undefined>>(
   SCHEMAS.filter((s) => Array.isArray(s.allOf)).map((s) => [
-    (s['x-strata'] as { node: string }).node,
-    (s.allOf as Schema[]).map((r) => r['x-strata-rule'] as { id: string; message: string } | undefined),
+    (s['x-syntara'] as { node: string }).node,
+    (s.allOf as Schema[]).map((r) => r['x-syntara-rule'] as { id: string; message: string } | undefined),
   ]),
 );
 
@@ -181,7 +181,7 @@ const isDeeper = (path: string, than: string) => path.startsWith(`${than}/`);
 /**
  * Turns ajv's errors into one message per problem:
  * - Every error inside an accessibility rule (a node schema's allOf) becomes that rule's message, once per node.
- * - A combinator with its own shape message (x-strata-message) replaces its branch errors at the same spot, and
+ * - A combinator with its own shape message (x-syntara-message) replaces its branch errors at the same spot, and
  *   gives way to a more specific error deeper in (an unknown icon inside a label).
  * - Other combinator failures add nothing to their branch errors and are dropped.
  * - A wrong action kind (a Link with an event) is reported once, not as three field errors.
@@ -203,7 +203,7 @@ export function formatErrors(doc: unknown, errors: ErrorObject[]): ValidationErr
     else plain.push(e);
   }
 
-  const shaped = plain.filter((e) => COMBINATORS.includes(e.keyword) && ((e.parentSchema ?? {}) as Schema)['x-strata-message']);
+  const shaped = plain.filter((e) => COMBINATORS.includes(e.keyword) && ((e.parentSchema ?? {}) as Schema)['x-syntara-message']);
   const wrongAction = plain.filter((e) => e.keyword === 'const' && e.instancePath.endsWith('/action/type'));
   const kept = plain.filter((e) => {
     if (shaped.includes(e)) return !plain.some((x) => x !== e && !COMBINATORS.includes(x.keyword) && isDeeper(x.instancePath, e.instancePath));

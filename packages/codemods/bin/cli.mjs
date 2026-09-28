@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 /**
- * strata-codemods <transform> <path…> [--dry] [--print] [--source=<module>]
+ * syntara-codemods <transform> <path…> [--dry] [--print] [--source=<module>]
  *
- *   npx @strata/codemods button-variant-danger-to-tone src
+ *   npx @syntara/codemods button-variant-danger-to-tone src
  *
  * Runs one transform from ../transforms over .tsx, .ts, .jsx and .js files with jscodeshift. `--dry` changes nothing
  * and shows what would change; add `--print` to see the new source. Every line the transform reports is a place it
@@ -26,7 +26,7 @@ const paths = rest.filter((a) => !a.startsWith('-'));
 const flags = rest.filter((a) => a.startsWith('-'));
 
 if (!name || name === '--help' || name === '-h' || paths.length === 0) {
-  console.log(`Usage: strata-codemods <transform> <path…> [--dry] [--print] [--source=<module>]\n\nTransforms:\n  ${available.join('\n  ')}`);
+  console.log(`Usage: syntara-codemods <transform> <path…> [--dry] [--print] [--source=<module>]\n\nTransforms:\n  ${available.join('\n  ')}`);
   process.exit(name && name !== '--help' && name !== '-h' ? 1 : 0);
 }
 const transform = path.join(transformsDir, `${name}.ts`);

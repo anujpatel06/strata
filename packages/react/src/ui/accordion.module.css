@@ -7,7 +7,7 @@
 }
 
 .item {
-  border-block-end: 1px solid var(--strata-color-border-subtle);
+  border-block-end: 1px solid var(--syntara-color-border-subtle);
 }
 
 .item:last-child {
@@ -24,21 +24,21 @@
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
-  gap: var(--strata-space-4);
+  gap: var(--syntara-space-4);
   inline-size: 100%;
-  min-block-size: var(--strata-control-height);
+  min-block-size: var(--syntara-control-height);
   margin: 0;
   /* 16px comfortable, 12px compact. */
-  padding-block: calc(var(--strata-control-height) / 2 - var(--strata-space-1));
+  padding-block: calc(var(--syntara-control-height) / 2 - var(--syntara-space-1));
   padding-inline: 0;
   border: 0;
-  border-radius: var(--strata-radius-badge);
+  border-radius: var(--syntara-radius-badge);
   background-color: transparent;
-  color: var(--strata-color-text-default);
+  color: var(--syntara-color-text-default);
   font-family: inherit;
-  font-size: var(--strata-font-size-md);
-  font-weight: var(--strata-font-weight-medium);
-  line-height: var(--strata-line-height-snug);
+  font-size: var(--syntara-font-size-md);
+  font-weight: var(--syntara-font-weight-medium);
+  line-height: var(--syntara-line-height-snug);
   letter-spacing: inherit;
   text-align: start;
   cursor: pointer;
@@ -51,12 +51,12 @@
 }
 
 .trigger[data-focus-visible] {
-  outline: 2px solid var(--strata-color-focus-ring);
+  outline: 2px solid var(--syntara-color-focus-ring);
   outline-offset: 2px;
 }
 
 .trigger[data-disabled] {
-  color: var(--strata-color-text-disabled);
+  color: var(--syntara-color-text-disabled);
   cursor: default;
 }
 
@@ -66,21 +66,21 @@
   display: inline-grid;
   flex: none;
   place-items: center;
-  inline-size: var(--strata-space-6);
-  block-size: var(--strata-space-6);
+  inline-size: var(--syntara-space-6);
+  block-size: var(--syntara-space-6);
   /* Centred on the first line of a title that wraps. */
-  margin-block: calc((1lh - var(--strata-space-6)) / 2);
-  border-radius: var(--strata-radius-pill);
-  color: var(--strata-color-text-subtle);
+  margin-block: calc((1lh - var(--syntara-space-6)) / 2);
+  border-radius: var(--syntara-radius-pill);
+  color: var(--syntara-color-text-subtle);
 }
 
 .trigger[data-hovered] .chevronChip {
-  background-color: color-mix(in oklab, var(--strata-color-text-default) 8%, transparent);
-  color: var(--strata-color-text-default);
+  background-color: color-mix(in oklab, var(--syntara-color-text-default) 8%, transparent);
+  color: var(--syntara-color-text-default);
 }
 
 .item[data-expanded] > .heading .chevronChip {
-  color: var(--strata-color-text-default);
+  color: var(--syntara-color-text-default);
 }
 
 .chevron {
@@ -93,7 +93,7 @@
 
 .trigger[data-disabled] .chevronChip {
   background-color: transparent;
-  color: var(--strata-color-text-disabled);
+  color: var(--syntara-color-text-disabled);
 }
 
 /*
@@ -123,14 +123,14 @@
   min-block-size: 0;
   overflow: clip;
   /* Room for focus rings on links inside the panel. */
-  overflow-clip-margin: var(--strata-space-1);
+  overflow-clip-margin: var(--syntara-space-1);
 }
 
 .content {
-  padding-block-end: calc(var(--strata-control-height) / 2 - var(--strata-space-1));
-  color: var(--strata-color-text-subtle);
-  font-size: var(--strata-font-size-md);
-  line-height: var(--strata-line-height-normal);
+  padding-block-end: calc(var(--syntara-control-height) / 2 - var(--syntara-space-1));
+  color: var(--syntara-color-text-subtle);
+  font-size: var(--syntara-font-size-md);
+  line-height: var(--syntara-line-height-normal);
   text-wrap: pretty;
   opacity: 0;
 }
@@ -144,43 +144,43 @@
 }
 
 .content > :where(* + *) {
-  margin-block-start: var(--strata-space-3);
+  margin-block-start: var(--syntara-space-3);
 }
 
 /* Colour and opacity fades stay on with reduced motion; they don't move anything. */
 .chevronChip {
   transition-property: background-color, color;
-  transition-duration: var(--strata-motion-duration-fast);
-  transition-timing-function: var(--strata-motion-easing);
+  transition-duration: var(--syntara-motion-duration-fast);
+  transition-timing-function: var(--syntara-motion-easing);
 }
 
 .content {
-  transition: opacity var(--strata-motion-duration-fast) var(--strata-motion-easing);
+  transition: opacity var(--syntara-motion-duration-fast) var(--syntara-motion-easing);
 }
 
 .item[data-expanded] > .panel > .clip > .content {
-  transition-duration: var(--strata-motion-duration-slow);
-  transition-timing-function: var(--strata-motion-easing-out);
+  transition-duration: var(--syntara-motion-duration-slow);
+  transition-timing-function: var(--syntara-motion-easing-out);
 }
 
 @media (prefers-reduced-motion: no-preference) {
   .panel {
-    transition: grid-template-rows var(--strata-motion-duration-normal) var(--strata-motion-easing);
+    transition: grid-template-rows var(--syntara-motion-duration-normal) var(--syntara-motion-easing);
   }
 
   .item[data-expanded] > .panel {
-    transition-duration: var(--strata-motion-duration-slow);
-    transition-timing-function: var(--strata-motion-easing-out);
+    transition-duration: var(--syntara-motion-duration-slow);
+    transition-timing-function: var(--syntara-motion-easing-out);
   }
 
   /* The chevron flips with the spring: a small overshoot past 180° that settles. */
   .chevron {
-    transition: rotate var(--strata-motion-duration-spring) var(--strata-motion-spring);
+    transition: rotate var(--syntara-motion-duration-spring) var(--syntara-motion-spring);
   }
 
   /* Content drops 4px into place as it opens. */
   .content {
-    translate: 0 calc(var(--strata-space-1) * -1);
+    translate: 0 calc(var(--syntara-space-1) * -1);
     transition-property: opacity, translate;
   }
 
@@ -197,7 +197,7 @@
   }
 
   .trigger:not([data-pressed]) .chevronChip {
-    transition-duration: var(--strata-motion-duration-fast), var(--strata-motion-duration-fast), var(--strata-motion-duration-spring);
-    transition-timing-function: var(--strata-motion-easing), var(--strata-motion-easing), var(--strata-motion-spring);
+    transition-duration: var(--syntara-motion-duration-fast), var(--syntara-motion-duration-fast), var(--syntara-motion-duration-spring);
+    transition-timing-function: var(--syntara-motion-easing), var(--syntara-motion-easing), var(--syntara-motion-spring);
   }
 }

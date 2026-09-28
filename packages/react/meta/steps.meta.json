@@ -8,7 +8,7 @@
   "files": ["steps.tsx", "steps.module.css"],
   "dependencies": ["react-aria-components"],
   "registryDependencies": [],
-  "usage": "import { Steps } from '@strata/react';\n\nconst steps = [\n  { id: 'details', label: 'Details' },\n  { id: 'upload', label: 'Upload' },\n  { id: 'review', label: 'Review' },\n];\n\nexport function ClaimProgress() {\n  return <Steps current=\"upload\" steps={steps} />;\n}",
+  "usage": "import { Steps } from '@syntara/react';\n\nconst steps = [\n  { id: 'details', label: 'Details' },\n  { id: 'upload', label: 'Upload' },\n  { id: 'review', label: 'Review' },\n];\n\nexport function ClaimProgress() {\n  return <Steps current=\"upload\" steps={steps} />;\n}",
   "examples": [
     { "name": "steps-demo", "title": "Steps", "description": "Three steps; the second is current." },
     { "name": "steps-navigable", "title": "Go back to a step", "description": "onStepPress turns completed steps into buttons." },

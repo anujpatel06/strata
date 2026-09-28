@@ -1,18 +1,18 @@
 import { fireEvent, render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { ThemeScope } from '@strata/react';
+import { ThemeScope } from '@syntara/react';
 import { manifest } from '../src/index';
-import { REGISTRY, StrataScreen, type Issue } from '../src/react';
+import { REGISTRY, SyntaraScreen, type Issue } from '../src/react';
 
 const doc = (root: unknown, version = '1.0.0') => ({ schemaVersion: version, screen: { id: 'test', title: 'Test', locale: 'en-IN' }, root });
 const stack = (...children: unknown[]) => ({ type: 'Stack', children });
 const event = (name: string, payload?: Record<string, unknown>) => ({ type: 'event', name, ...(payload ? { payload } : {}) });
 
-function draw(root: unknown, props: Partial<Parameters<typeof StrataScreen>[0]> = {}) {
+function draw(root: unknown, props: Partial<Parameters<typeof SyntaraScreen>[0]> = {}) {
   const issues: Issue[] = [];
   const onIssue = vi.fn((i: Issue) => issues.push(i));
   const onAction = vi.fn();
-  const utils = render(<StrataScreen document={doc(root)} onIssue={onIssue} onAction={onAction} {...props} />);
+  const utils = render(<SyntaraScreen document={doc(root)} onIssue={onIssue} onAction={onAction} {...props} />);
   return { ...utils, issues, onIssue, onAction };
 }
 
@@ -172,13 +172,13 @@ describe('each node draws with its role and accessible name', () => {
     expect(screen.getByRole('heading', { level: 1, name: 'Your rewards' })).toBeInTheDocument();
     const stackEl = container.querySelector('[data-sdui-node="Stack"]') as HTMLElement;
     const inlineEl = container.querySelector('[data-sdui-node="Inline"]') as HTMLElement;
-    expect(stackEl.style.gap).toBe('var(--strata-section-gap)');
-    expect(inlineEl.style.gap).toBe('var(--strata-space-3)');
+    expect(stackEl.style.gap).toBe('var(--syntara-section-gap)');
+    expect(inlineEl.style.gap).toBe('var(--syntara-space-3)');
     expect(inlineEl.style.justifyContent).toBe('space-between');
-    expect(screen.getByText('Item total').style.color).toBe('var(--strata-color-text-subtle)');
+    expect(screen.getByText('Item total').style.color).toBe('var(--syntara-color-text-subtle)');
     // Every style value the renderer writes is a token, a keyword or a flex value: no raw sizes or colours.
     for (const el of container.querySelectorAll<HTMLElement>('[data-sdui-node]')) {
-      for (const prop of Array.from(el.style)) expect(el.style.getPropertyValue(prop), `${prop}`).toMatch(/^(var\(--strata-[a-z0-9-]+\)|[a-z-]+|0(px)?)$/);
+      for (const prop of Array.from(el.style)) expect(el.style.getPropertyValue(prop), `${prop}`).toMatch(/^(var\(--syntara-[a-z0-9-]+\)|[a-z-]+|0(px)?)$/);
     }
   });
 });
@@ -226,7 +226,7 @@ describe('actions', () => {
   it('without a handler, a Button reports no-action-handler and a Link still has its href', async () => {
     const issues: Issue[] = [];
     render(
-      <StrataScreen
+      <SyntaraScreen
         document={doc(stack({ type: 'Button', children: 'Go', action: event('go') }, { type: 'Link', children: 'Help', action: { type: 'navigate', href: '/help' } }))}
         onIssue={(i) => issues.push(i)}
       />,
@@ -260,7 +260,7 @@ describe('unknowns and fallbacks', () => {
   it.each(['ThemeScope', '__proto__', 'constructor', 'toString', 'Dialog'])('draws nothing for a node of type %j', (type) => {
     const { container } = draw(stack({ type }, { type: 'Text', children: 'Only this' }));
     expect(container.textContent).toBe('Only this');
-    expect(container.querySelector('[data-strata-theme]')).toBeNull();
+    expect(container.querySelector('[data-syntara-theme]')).toBeNull();
   });
 
   it('ignores an unknown prop and uses the default for an unknown value', () => {
@@ -272,7 +272,7 @@ describe('unknowns and fallbacks', () => {
   it('draws the host fallback for an invalid document and reports every error', () => {
     const issues: Issue[] = [];
     render(
-      <StrataScreen
+      <SyntaraScreen
         document={doc({ type: 'Button', props: { size: 'icon' }, children: [{ icon: 'x' }], action: event('close') })}
         onIssue={(i) => issues.push(i)}
         fallback={<p>This screen isn't available.</p>}
@@ -286,14 +286,14 @@ describe('unknowns and fallbacks', () => {
 
   it('draws the host fallback for a newer major', () => {
     const issues: Issue[] = [];
-    render(<StrataScreen document={doc({ type: 'Text', children: 'Hi' }, '2.0.0')} onIssue={(i) => issues.push(i)} fallback={<p>Update the app</p>} />);
+    render(<SyntaraScreen document={doc({ type: 'Text', children: 'Hi' }, '2.0.0')} onIssue={(i) => issues.push(i)} fallback={<p>Update the app</p>} />);
     expect(screen.getByText('Update the app')).toBeInTheDocument();
     expect(screen.queryByText('Hi')).toBeNull();
     expect(issues.map((i) => i.code)).toEqual(['unsupported-version']);
   });
 
   it('draws nothing (not an error) when no fallback is given', () => {
-    const { container } = render(<StrataScreen document={{ nonsense: true }} />);
+    const { container } = render(<SyntaraScreen document={{ nonsense: true }} />);
     expect(container.innerHTML).toBe('');
   });
 });
@@ -329,10 +329,10 @@ describe('RTL and locale', () => {
   it('a document with no locale follows the ThemeScope around it', () => {
     render(
       <ThemeScope locale="ar-AE">
-        <StrataScreen document={noLocale(arabic)} />
+        <SyntaraScreen document={noLocale(arabic)} />
       </ThemeScope>,
     );
-    const root = screen.getByText('الرصيد المتاح').closest('[data-strata-screen]');
+    const root = screen.getByText('الرصيد المتاح').closest('[data-syntara-screen]');
     expect(root).not.toHaveAttribute('dir');
     expect(root).not.toHaveAttribute('lang');
     expect(root?.closest('[dir]')).toHaveAttribute('dir', 'rtl');
@@ -341,10 +341,10 @@ describe('RTL and locale', () => {
   it('English copy stays left to right inside a right-to-left client', () => {
     render(
       <ThemeScope locale="ar-AE">
-        <StrataScreen document={inLocale('en-IN', { type: 'Text', children: '−₹1,240 on 1 Oct.' })} />
+        <SyntaraScreen document={inLocale('en-IN', { type: 'Text', children: '−₹1,240 on 1 Oct.' })} />
       </ThemeScope>,
     );
-    const root = screen.getByText('−₹1,240 on 1 Oct.').closest('[data-strata-screen]');
+    const root = screen.getByText('−₹1,240 on 1 Oct.').closest('[data-syntara-screen]');
     expect(root).toHaveAttribute('lang', 'en-IN');
     expect(root).toHaveAttribute('dir', 'ltr');
   });
@@ -352,10 +352,10 @@ describe('RTL and locale', () => {
   it('Arabic copy runs right to left inside a left-to-right client', () => {
     render(
       <ThemeScope locale="en-IN">
-        <StrataScreen document={inLocale('ar-AE', arabic)} />
+        <SyntaraScreen document={inLocale('ar-AE', arabic)} />
       </ThemeScope>,
     );
-    expect(screen.getByText('الرصيد المتاح').closest('[data-strata-screen]')).toHaveAttribute('dir', 'rtl');
+    expect(screen.getByText('الرصيد المتاح').closest('[data-syntara-screen]')).toHaveAttribute('dir', 'rtl');
   });
 
   it('reads direction from the script when the locale names one, and ignores a locale it can’t read', async () => {
@@ -372,7 +372,7 @@ describe('RTL and locale', () => {
 
   it('carries no theme of its own', () => {
     const { container } = draw({ type: 'Text', children: 'Hi' });
-    expect(container.querySelector('[data-strata-theme], [data-strata-scheme]')).toBeNull();
+    expect(container.querySelector('[data-syntara-theme], [data-syntara-scheme]')).toBeNull();
   });
 });
 
@@ -380,11 +380,11 @@ describe('keys', () => {
   it('keeps DOM nodes across re-renders and reorders, keyed by id', () => {
     const a = { type: 'Button', id: 'a', children: 'First', action: event('a') };
     const b = { type: 'Button', id: 'b', children: 'Second', action: event('b') };
-    const { rerender } = render(<StrataScreen document={doc(stack(a, b))} />);
+    const { rerender } = render(<SyntaraScreen document={doc(stack(a, b))} />);
     const first = screen.getByRole('button', { name: 'First' });
-    rerender(<StrataScreen document={doc(stack(a, b))} />);
+    rerender(<SyntaraScreen document={doc(stack(a, b))} />);
     expect(screen.getByRole('button', { name: 'First' })).toBe(first);
-    rerender(<StrataScreen document={doc(stack(b, a))} />);
+    rerender(<SyntaraScreen document={doc(stack(b, a))} />);
     expect(screen.getByRole('button', { name: 'First' })).toBe(first);
     expect(screen.getAllByRole('button').map((x) => x.textContent)).toEqual(['Second', 'First']);
   });

@@ -1,6 +1,6 @@
 'use client';
 
-import { Badge, Card, CardAction, CardContent, CardDescription, CardHeader, CardTitle, Meter } from '@strata/react';
+import { Badge, Card, CardAction, CardContent, CardDescription, CardHeader, CardTitle, Meter } from '@syntara/react';
 
 export default function Example() {
   return (

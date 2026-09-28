@@ -5,7 +5,7 @@ describe('findToken', () => {
   it('exact colour, one role', () => {
     expect(findToken('#5a5a5d')).toEqual({
       token: 'color.text.subtle',
-      cssVar: '--strata-color-text-subtle',
+      cssVar: '--syntara-color-text-subtle',
       value: '#5a5a5d',
       distance: 0,
       exact: true,
@@ -27,7 +27,7 @@ describe('findToken', () => {
     expect(m.exact).toBe(false);
     expect(m.distance).toBeGreaterThan(0);
     expect(m.reason).toBe(`#1f56e0 → ${m.token} (ΔE ${m.distance})`);
-    expect(m.cssVar).toBe('--strata-' + m.token.replace(/\./g, '-').replace(/[A-Z]/g, (c) => '-' + c.toLowerCase()));
+    expect(m.cssVar).toBe('--syntara-' + m.token.replace(/\./g, '-').replace(/[A-Z]/g, (c) => '-' + c.toLowerCase()));
   });
 
   it('reads rgb, hsl, oklch and names, and treats a see-through colour as not exact', () => {
@@ -44,13 +44,13 @@ describe('findToken', () => {
   });
 
   it('lengths: exact and nearest, by category, named as the MCP server names them', () => {
-    expect(findToken('16px', { category: 'space' })).toMatchObject({ token: 'space.4', cssVar: '--strata-space-4', value: '16px', exact: true, distance: 0 });
+    expect(findToken('16px', { category: 'space' })).toMatchObject({ token: 'space.4', cssVar: '--syntara-space-4', value: '16px', exact: true, distance: 0 });
     expect(findToken('1rem', { category: 'space' })).toMatchObject({ token: 'space.4', exact: true });
     expect(findToken('18px', { category: 'space' })).toMatchObject({ exact: false, distance: 2 });
-    expect(findToken('14px', { category: 'font-size' })).toMatchObject({ token: 'font.size.md', cssVar: '--strata-font-size-md', exact: true });
+    expect(findToken('14px', { category: 'font-size' })).toMatchObject({ token: 'font.size.md', cssVar: '--syntara-font-size-md', exact: true });
     expect(findToken('8px', { category: 'radius' })).toMatchObject({ token: 'radius.badge', exact: true });
     expect(findToken('12px', { category: 'radius' })).toMatchObject({ exact: true, alternatives: ['radius.field'] });
-    expect(findToken('600', { category: 'font-weight' })).toMatchObject({ token: 'font.weight.semibold', cssVar: '--strata-font-weight-semibold', value: '600', exact: true });
+    expect(findToken('600', { category: 'font-weight' })).toMatchObject({ token: 'font.weight.semibold', cssVar: '--syntara-font-weight-semibold', value: '600', exact: true });
     expect(findToken('650', { category: 'font-weight' })).toMatchObject({ exact: false, distance: 50 });
   });
 

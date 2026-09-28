@@ -6,17 +6,17 @@
 
 .switch {
   /* Resolved against the md font token (not em) so the description below lines up regardless of its own size. */
-  --_w: calc(var(--strata-font-size-md) * 2.5714);
-  --_h: calc(var(--strata-font-size-md) * 1.4286);
+  --_w: calc(var(--syntara-font-size-md) * 2.5714);
+  --_h: calc(var(--syntara-font-size-md) * 1.4286);
   --_pad: 2px;
-  --_gap: var(--strata-space-2);
+  --_gap: var(--syntara-space-2);
 
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
   gap: 2px;
   min-inline-size: 0;
-  font-size: var(--strata-font-size-md);
+  font-size: var(--syntara-font-size-md);
 }
 
 .button {
@@ -26,10 +26,10 @@
   gap: var(--_gap);
   inline-size: fit-content;
   max-inline-size: 100%;
-  min-block-size: var(--strata-space-6);
-  padding-block: calc((var(--strata-space-6) - 1lh) / 2);
-  color: var(--strata-color-text-default);
-  line-height: var(--strata-line-height-normal);
+  min-block-size: var(--syntara-space-6);
+  padding-block: calc((var(--syntara-space-6) - 1lh) / 2);
+  color: var(--syntara-color-text-default);
+  line-height: var(--syntara-line-height-normal);
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
 }
@@ -45,8 +45,8 @@
   block-size: var(--_h);
   margin-block-start: calc((1lh - var(--_h)) / 2);
   padding: var(--_pad);
-  border-radius: var(--strata-radius-pill);
-  background-color: var(--strata-color-border-strong);
+  border-radius: var(--syntara-radius-pill);
+  background-color: var(--syntara-color-border-strong);
 }
 
 .track:dir(rtl) {
@@ -60,9 +60,9 @@
   display: block;
   inline-size: var(--_t);
   block-size: var(--_t);
-  border-radius: var(--strata-radius-pill);
-  background-color: var(--strata-color-action-primary-fg);
-  box-shadow: var(--strata-shadow-raised);
+  border-radius: var(--syntara-radius-pill);
+  background-color: var(--syntara-color-action-primary-fg);
+  box-shadow: var(--syntara-shadow-raised);
 }
 
 .label {
@@ -77,19 +77,19 @@
 /* --- states --- */
 
 .button[data-hovered] .track {
-  background-color: var(--strata-color-text-subtle);
+  background-color: var(--syntara-color-text-subtle);
 }
 
 .button[data-selected] .track {
   /* Without motion the thumb is placed by alignment; with motion it's translated (below) so it can spring. */
   justify-content: flex-end;
-  background-color: var(--strata-color-action-primary-bg);
+  background-color: var(--syntara-color-action-primary-bg);
   /* Solid fill: sheen + raised shadow. */
-  box-shadow: var(--strata-shadow-highlight), var(--strata-shadow-raised);
+  box-shadow: var(--syntara-shadow-highlight), var(--syntara-shadow-raised);
 }
 
 .button[data-selected][data-hovered] .track {
-  background-color: var(--strata-color-action-primary-hover);
+  background-color: var(--syntara-color-action-primary-hover);
 }
 
 .track {
@@ -97,7 +97,7 @@
 }
 
 .button[data-focus-visible] .track {
-  outline: 2px solid var(--strata-color-focus-ring);
+  outline: 2px solid var(--syntara-color-focus-ring);
   outline-offset: 2px;
 }
 
@@ -106,29 +106,29 @@
 }
 
 .button[data-disabled] .track {
-  background-color: color-mix(in oklab, var(--strata-color-border-strong) 40%, transparent);
+  background-color: color-mix(in oklab, var(--syntara-color-border-strong) 40%, transparent);
 }
 
 .button[data-disabled][data-selected] .track {
-  background-color: color-mix(in oklab, var(--strata-color-action-primary-bg) 40%, transparent);
+  background-color: color-mix(in oklab, var(--syntara-color-action-primary-bg) 40%, transparent);
   box-shadow: none;
 }
 
 /* Muted, but the same thumb in both schemes (a solid surface thumb reads as a hole on dark canvases). */
 .button[data-disabled] .thumb {
-  background-color: color-mix(in oklab, var(--strata-color-action-primary-fg) 70%, transparent);
+  background-color: color-mix(in oklab, var(--syntara-color-action-primary-fg) 70%, transparent);
   box-shadow: none;
 }
 
 .button[data-disabled] .label {
-  color: var(--strata-color-text-disabled);
+  color: var(--syntara-color-text-disabled);
 }
 
 .track {
   transition:
-    background-color var(--strata-motion-duration-fast) var(--strata-motion-easing),
-    box-shadow var(--strata-motion-duration-fast) var(--strata-motion-easing),
-    outline-offset var(--strata-motion-duration-fast) var(--strata-motion-easing);
+    background-color var(--syntara-motion-duration-fast) var(--syntara-motion-easing),
+    box-shadow var(--syntara-motion-duration-fast) var(--syntara-motion-easing),
+    outline-offset var(--syntara-motion-duration-fast) var(--syntara-motion-easing);
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -143,9 +143,9 @@
     translate: calc(var(--_dir) * var(--_x)) 0;
     scale: var(--_s) 1;
     transition:
-      translate var(--strata-motion-duration-spring) var(--strata-motion-spring),
-      scale var(--strata-motion-duration-spring) var(--strata-motion-spring),
-      background-color var(--strata-motion-duration-fast) var(--strata-motion-easing);
+      translate var(--syntara-motion-duration-spring) var(--syntara-motion-spring),
+      scale var(--syntara-motion-duration-spring) var(--syntara-motion-spring),
+      background-color var(--syntara-motion-duration-fast) var(--syntara-motion-easing);
   }
 
   .button[data-selected] .track {
@@ -169,16 +169,16 @@
      above, which carries the thumb across with a small overshoot. */
   .button[data-pressed]:not([data-disabled]) .thumb {
     transition:
-      translate var(--strata-motion-duration-fast) var(--strata-motion-easing),
-      scale var(--strata-motion-duration-fast) var(--strata-motion-easing),
-      background-color var(--strata-motion-duration-fast) var(--strata-motion-easing);
+      translate var(--syntara-motion-duration-fast) var(--syntara-motion-easing),
+      scale var(--syntara-motion-duration-fast) var(--syntara-motion-easing),
+      background-color var(--syntara-motion-duration-fast) var(--syntara-motion-easing);
   }
 
   /* Focus arrives: the ring's offset grows 0 → 2px on the spring. */
   .track {
     transition:
-      background-color var(--strata-motion-duration-fast) var(--strata-motion-easing),
-      box-shadow var(--strata-motion-duration-fast) var(--strata-motion-easing),
-      outline-offset var(--strata-motion-duration-spring) var(--strata-motion-spring);
+      background-color var(--syntara-motion-duration-fast) var(--syntara-motion-easing),
+      box-shadow var(--syntara-motion-duration-fast) var(--syntara-motion-easing),
+      outline-offset var(--syntara-motion-duration-spring) var(--syntara-motion-spring);
   }
 }

@@ -3,7 +3,7 @@
 /**
  * Sign in — email and password with a show/hide toggle, "keep me signed in", a passkey option and legal links.
  * A centred card on narrow containers; from 960px of its own width it becomes two columns with a brand panel
- * in the tenant's primary action colours. Built only from Strata components; copy comes from `content`.
+ * in the tenant's primary action colours. Built only from Syntara components; copy comes from `content`.
  *
  * `headingLevel` (default 1) is the level of the sign-in title. Above 1 the block is embedded in another page and
  * renders no <main> or <footer> landmarks.
@@ -23,8 +23,8 @@ import {
   TextField,
   ToastRegion,
   toast,
-} from '@strata/react';
-import { IconEye, IconEyeOff, IconKey } from '@strata/icons';
+} from '@syntara/react';
+import { IconEye, IconEyeOff, IconKey } from '@syntara/icons';
 import { Fragment, useId, useRef, useState, type FormEvent, type JSX, type MouseEvent, type ReactNode } from 'react';
 import { signInContent, type SignInContent } from './sign-in.content';
 import styles from './sign-in.module.css';

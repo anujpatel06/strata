@@ -5,9 +5,9 @@
 .note.note {
   max-inline-size: 100%;
   align-items: center;
-  padding-block: calc(var(--strata-space-1) / 2);
-  border-radius: calc(var(--strata-space-5) / 2);
-  line-height: var(--strata-line-height-snug);
+  padding-block: calc(var(--syntara-space-1) / 2);
+  border-radius: calc(var(--syntara-space-5) / 2);
+  line-height: var(--syntara-line-height-snug);
   white-space: normal;
   text-wrap: pretty;
 }

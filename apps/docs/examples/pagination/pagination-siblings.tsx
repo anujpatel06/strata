@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Pagination } from '@strata/react';
+import { Pagination } from '@syntara/react';
 
 export default function Example() {
   const [page, setPage] = useState(10);

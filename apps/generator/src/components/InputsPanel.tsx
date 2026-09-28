@@ -1,5 +1,5 @@
 import { useEffect, useId, useRef, type Dispatch } from 'react';
-import type { Density, NeutralTemperature, Shape } from '@strata/theme-engine';
+import type { Density, NeutralTemperature, Shape } from '@syntara/theme-engine';
 import { TENANTS, type TenantId } from '../tenants';
 import type { AppAction, AppState } from '../url-state';
 import { ColorField } from './ColorField';

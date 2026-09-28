@@ -1,18 +1,18 @@
 #!/usr/bin/env node
 /**
- * Docs styles that restyle a Strata component must outweigh the component's own rule.
+ * Docs styles that restyle a Syntara component must outweigh the component's own rule.
  *
  *   node scripts/check-override-weight.mjs          report, exit 1 on any finding
  *   node scripts/check-override-weight.mjs --fix    double the class in the stylesheet
  *
- * Why: a class passed to a Strata component (`<Card className={styles.promo}>`) lands on the same element as the
+ * Why: a class passed to a Syntara component (`<Card className={styles.promo}>`) lands on the same element as the
  * component's own class. `.promo` and the component's `.root` weigh the same, so whichever stylesheet the bundler
  * emits later wins, and that order changes when the import graph changes. On 2026-09-28 adding one package to the
  * site reordered the stylesheets and the Portfolio block grew 8,000px wide.
  * Writing the class twice (`.promo.promo`) makes the site's rule win in any order. This script finds single-class
- * selectors for classes that are passed to a component imported from '@strata/react' in the same folder's TSX.
+ * selectors for classes that are passed to a component imported from '@syntara/react' in the same folder's TSX.
  *
- * It reads `import styles from './x.module.css'` and `styles.name` inside the opening tag of a Strata component.
+ * It reads `import styles from './x.module.css'` and `styles.name` inside the opening tag of a Syntara component.
  * It can't see a class that reaches a component some other way (a variable, a helper, a spread).
  */
 import { readFileSync, readdirSync, statSync, writeFileSync } from 'node:fs';
@@ -29,10 +29,10 @@ const walk = (dir) =>
     return statSync(p).isDirectory() ? (f === 'node_modules' || f.startsWith('.next') ? [] : walk(p)) : p.endsWith('.tsx') ? [p] : [];
   });
 
-/** Class names from a stylesheet that the TSX passes to a Strata component. */
+/** Class names from a stylesheet that the TSX passes to a Syntara component. */
 function classesOnComponents(source) {
   const components = new Set();
-  for (const m of source.matchAll(/import\s*\{([^}]*)\}\s*from\s*['"]@strata\/react['"]/g)) {
+  for (const m of source.matchAll(/import\s*\{([^}]*)\}\s*from\s*['"]@syntara\/react['"]/g)) {
     for (const part of m[1].split(',')) {
       const name = part.trim();
       if (name && !name.startsWith('type ')) components.add(name.split(/\s+as\s+/).at(-1));
@@ -137,6 +137,6 @@ for (const dir of DIRS) {
     if (fix) writeFileSync(cssFile, next);
   }
 }
-if (total === 0) console.log('Every style that restyles a Strata component outweighs the component’s own rule.');
+if (total === 0) console.log('Every style that restyles a Syntara component outweighs the component’s own rule.');
 else console.log(`\n${total} selector(s) in ${files} file(s) weigh the same as the component they restyle.${fix ? ' Doubled.' : ' Run with --fix, then check the pages.'}`);
 process.exitCode = total > 0 && !fix ? 1 : 0;

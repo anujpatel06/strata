@@ -15,7 +15,7 @@ import {
   SidebarSearch,
   SidebarSection,
   SidebarUser,
-} from '@strata/react';
+} from '@syntara/react';
 import {
   IconBuilding,
   IconClock,
@@ -28,7 +28,7 @@ import {
   IconShieldLock,
   IconSparkles,
   IconUsers,
-} from '@strata/icons';
+} from '@syntara/icons';
 
 export default function Example() {
   // The search is a launcher: it opens a command palette, and ⌘K / Ctrl+K opens it too.

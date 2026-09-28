@@ -124,14 +124,14 @@ describe('CommandDialog', () => {
 
   it('opens with Ctrl+K and carries ThemeScope attributes', () => {
     render(
-      <div data-strata-theme="qamar" data-strata-scheme="dark" dir="rtl" lang="ar">
+      <div data-syntara-theme="qamar" data-syntara-scheme="dark" dir="rtl" lang="ar">
         <Example />
       </div>,
     );
     fireEvent.keyDown(document, { key: 'K', ctrlKey: true });
-    const overlay = screen.getByRole('dialog').closest('[data-strata-theme]')!;
+    const overlay = screen.getByRole('dialog').closest('[data-syntara-theme]')!;
     expect(overlay.parentElement).toBe(document.body);
-    expect(overlay).toHaveAttribute('data-strata-theme', 'qamar');
+    expect(overlay).toHaveAttribute('data-syntara-theme', 'qamar');
     expect(overlay).toHaveAttribute('dir', 'rtl');
   });
 });

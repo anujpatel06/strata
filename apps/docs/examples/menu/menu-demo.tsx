@@ -1,7 +1,7 @@
 'use client';
 
-import { Button, Menu, MenuItem, MenuSeparator, MenuTrigger } from '@strata/react';
-import { IconArchive, IconCopy, IconDotsVertical, IconPencil, IconTrash } from '@strata/icons';
+import { Button, Menu, MenuItem, MenuSeparator, MenuTrigger } from '@syntara/react';
+import { IconArchive, IconCopy, IconDotsVertical, IconPencil, IconTrash } from '@syntara/icons';
 
 export default function Example() {
   return (

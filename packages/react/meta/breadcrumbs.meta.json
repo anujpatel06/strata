@@ -6,10 +6,10 @@
   "maturity": "alpha",
   "exports": ["Breadcrumbs", "Breadcrumb"],
   "files": ["breadcrumbs.tsx", "breadcrumbs.module.css"],
-  "dependencies": ["react-aria-components", "@strata/icons"],
+  "dependencies": ["react-aria-components", "@syntara/icons"],
   "registryDependencies": [],
   "reactAria": "https://react-spectrum.adobe.com/react-aria/Breadcrumbs.html",
-  "usage": "import { Breadcrumb, Breadcrumbs } from '@strata/react';\n\nexport function ClaimTrail() {\n  return (\n    <Breadcrumbs>\n      <Breadcrumb href=\"/\">Home</Breadcrumb>\n      <Breadcrumb href=\"/claims\">Claims</Breadcrumb>\n      <Breadcrumb>CLM-20481</Breadcrumb>\n    </Breadcrumbs>\n  );\n}",
+  "usage": "import { Breadcrumb, Breadcrumbs } from '@syntara/react';\n\nexport function ClaimTrail() {\n  return (\n    <Breadcrumbs>\n      <Breadcrumb href=\"/\">Home</Breadcrumb>\n      <Breadcrumb href=\"/claims\">Claims</Breadcrumb>\n      <Breadcrumb>CLM-20481</Breadcrumb>\n    </Breadcrumbs>\n  );\n}",
   "examples": [
     { "name": "breadcrumbs-demo", "title": "Breadcrumbs", "description": "A three-level trail; the last item is the current page." },
     { "name": "breadcrumbs-collapsed", "title": "Collapsed", "description": "maxItems folds the middle of a long trail into an ellipsis button that expands it." },

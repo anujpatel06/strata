@@ -1,5 +1,5 @@
 {
-  "name": "strata-eval-app",
+  "name": "syntara-eval-app",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -10,9 +10,9 @@
     "typecheck": "tsc -p tsconfig.json --noEmit"
   },
   "dependencies": {
-    "@strata/icons": "__PACK_ICONS__",
-    "@strata/react": "__PACK_REACT__",
-    "@strata/tokens": "__PACK_TOKENS__",
+    "@syntara/icons": "__PACK_ICONS__",
+    "@syntara/react": "__PACK_REACT__",
+    "@syntara/tokens": "__PACK_TOKENS__",
     "react": "^19.2.0",
     "react-dom": "^19.2.0"
   },
@@ -25,9 +25,9 @@
   },
   "pnpm": {
     "overrides": {
-      "@strata/icons": "__PACK_ICONS__",
-      "@strata/react": "__PACK_REACT__",
-      "@strata/tokens": "__PACK_TOKENS__"
+      "@syntara/icons": "__PACK_ICONS__",
+      "@syntara/react": "__PACK_REACT__",
+      "@syntara/tokens": "__PACK_TOKENS__"
     }
   }
 }

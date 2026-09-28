@@ -1,7 +1,7 @@
 'use client';
 
-import { IconBuildingBank, IconCreditCard, IconWallet } from '@strata/icons';
-import { Combobox, ComboboxItem, ComboboxSection } from '@strata/react';
+import { IconBuildingBank, IconCreditCard, IconWallet } from '@syntara/icons';
+import { Combobox, ComboboxItem, ComboboxSection } from '@syntara/react';
 
 export default function Example() {
   return (

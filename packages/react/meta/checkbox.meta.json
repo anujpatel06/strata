@@ -14,13 +14,13 @@
   ],
   "dependencies": [
     "react-aria-components",
-    "@strata/icons"
+    "@syntara/icons"
   ],
   "registryDependencies": [
     "text-field"
   ],
   "reactAria": "https://react-spectrum.adobe.com/react-aria/Checkbox.html",
-  "usage": "import { Checkbox, CheckboxGroup } from '@strata/react';\n\nexport function Channels() {\n  return (\n    <CheckboxGroup label=\"Notify me by\" defaultValue={['email']}>\n      <Checkbox value=\"email\">Email</Checkbox>\n      <Checkbox value=\"sms\">SMS</Checkbox>\n    </CheckboxGroup>\n  );\n}",
+  "usage": "import { Checkbox, CheckboxGroup } from '@syntara/react';\n\nexport function Channels() {\n  return (\n    <CheckboxGroup label=\"Notify me by\" defaultValue={['email']}>\n      <Checkbox value=\"email\">Email</Checkbox>\n      <Checkbox value=\"sms\">SMS</Checkbox>\n    </CheckboxGroup>\n  );\n}",
   "examples": [
     {
       "name": "checkbox-demo",

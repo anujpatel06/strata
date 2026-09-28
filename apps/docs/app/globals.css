@@ -1,36 +1,36 @@
 /*
- * Docs site base styles. Colours, type, radius and spacing come only from --strata-* tokens (house theme on
- * :root, tenants under [data-strata-theme]). The --docs-* variables below are page geometry, derived from
+ * Docs site base styles. Colours, type, radius and spacing come only from --syntara-* tokens (house theme on
+ * :root, tenants under [data-syntara-theme]). The --docs-* variables below are page geometry, derived from
  * the space scale — not design tokens.
  */
 
 :root {
-  --docs-header-height: calc(var(--strata-space-12) + var(--strata-space-2)); /* 56px */
-  --docs-gutter: var(--strata-space-4);
-  --docs-container: calc(var(--strata-space-16) * 22); /* 1408px */
-  --docs-sidebar: calc(var(--strata-space-16) * 3.75); /* 240px */
-  --docs-toc: calc(var(--strata-space-16) * 3.5); /* 224px */
-  --docs-prose: calc(var(--strata-space-16) * 11.5); /* 736px */
-  --docs-hairline: 1px solid var(--strata-color-border-subtle);
-  --docs-hover: color-mix(in oklab, var(--strata-color-text-default) 6%, transparent);
+  --docs-header-height: calc(var(--syntara-space-12) + var(--syntara-space-2)); /* 56px */
+  --docs-gutter: var(--syntara-space-4);
+  --docs-container: calc(var(--syntara-space-16) * 22); /* 1408px */
+  --docs-sidebar: calc(var(--syntara-space-16) * 3.75); /* 240px */
+  --docs-toc: calc(var(--syntara-space-16) * 3.5); /* 224px */
+  --docs-prose: calc(var(--syntara-space-16) * 11.5); /* 736px */
+  --docs-hairline: 1px solid var(--syntara-color-border-subtle);
+  --docs-hover: color-mix(in oklab, var(--syntara-color-text-default) 6%, transparent);
   /* Marketing-page rhythm (home): one radius for every standalone card (the house container radius, the same one
      Card, StatTile and CodeBlock use) and one gap between cards in a grid. Declared here so they resolve in the
      house theme even when read inside a tenant ThemeScope. */
-  --docs-card-radius: var(--strata-radius-container);
-  --docs-card-gap: var(--strata-space-4);
-  scroll-padding-block-start: calc(var(--docs-header-height) + var(--strata-space-6));
+  --docs-card-radius: var(--syntara-radius-container);
+  --docs-card-gap: var(--syntara-space-4);
+  scroll-padding-block-start: calc(var(--docs-header-height) + var(--syntara-space-6));
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
 }
 
 @media (min-width: 768px) {
   :root {
-    --docs-gutter: var(--strata-space-6);
+    --docs-gutter: var(--syntara-space-6);
   }
 }
 @media (min-width: 1280px) {
   :root {
-    --docs-gutter: var(--strata-space-8);
+    --docs-gutter: var(--syntara-space-8);
   }
 }
 
@@ -41,7 +41,7 @@
 }
 
 html {
-  background: var(--strata-color-surface-canvas);
+  background: var(--syntara-color-surface-canvas);
 }
 
 body {
@@ -49,11 +49,11 @@ body {
   min-block-size: 100dvh;
   display: flex;
   flex-direction: column;
-  background: var(--strata-color-surface-canvas);
-  color: var(--strata-color-text-default);
-  font-family: var(--strata-font-body);
-  font-size: var(--strata-font-size-md);
-  line-height: var(--strata-line-height-normal);
+  background: var(--syntara-color-surface-canvas);
+  color: var(--syntara-color-text-default);
+  font-family: var(--syntara-font-body);
+  font-size: var(--syntara-font-size-md);
+  line-height: var(--syntara-line-height-normal);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
@@ -61,9 +61,9 @@ body {
 
 /* Any themed element — ThemeScope, or an overlay root that mirrored a scope's attributes — re-resolves
    the inherited basics from its own tokens (overlays portal to <body>, outside the ThemeScope). */
-[data-strata-theme] {
-  color: var(--strata-color-text-default);
-  font-family: var(--strata-font-body);
+[data-syntara-theme] {
+  color: var(--syntara-color-text-default);
+  font-family: var(--syntara-font-body);
 }
 
 h1,
@@ -112,18 +112,18 @@ a {
 @media (prefers-reduced-motion: no-preference) {
   :where(a, button, [tabindex]) {
     outline-offset: 0;
-    transition: outline-offset var(--strata-motion-duration-fast) var(--strata-motion-easing);
+    transition: outline-offset var(--syntara-motion-duration-fast) var(--syntara-motion-easing);
   }
 }
 
 :where(a:focus-visible, button:focus-visible, [tabindex]:focus-visible) {
-  outline: 2px solid var(--strata-color-focus-ring);
+  outline: 2px solid var(--syntara-color-focus-ring);
   outline-offset: 2px;
-  border-radius: var(--strata-radius-badge);
+  border-radius: var(--syntara-radius-badge);
 }
 
 ::selection {
-  background: color-mix(in oklab, var(--strata-color-text-default) 16%, transparent);
+  background: color-mix(in oklab, var(--syntara-color-text-default) 16%, transparent);
 }
 
 .visually-hidden {

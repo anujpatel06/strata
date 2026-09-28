@@ -8,13 +8,13 @@
 .fields.fields {
   display: grid;
   align-content: start;
-  gap: var(--strata-field-gap);
+  gap: var(--syntara-field-gap);
 }
 
 /* A hand-built field (label + segmented control) with the same label-to-control gap as TextField and Select. */
 .field {
   display: grid;
-  gap: var(--strata-space-2);
+  gap: var(--syntara-space-2);
 }
 
 /* Money in the input lines up like money everywhere else. */
@@ -32,12 +32,12 @@
 .switches.switches {
   display: grid;
   align-content: start;
-  gap: var(--strata-space-4);
+  gap: var(--syntara-space-4);
 }
 
 .meters.meters {
   display: grid;
-  gap: var(--strata-space-3);
+  gap: var(--syntara-space-3);
 }
 
 .between.between {
@@ -52,39 +52,39 @@
 /* ---- Text ---- */
 
 .strong {
-  color: var(--strata-color-text-default);
-  font-size: var(--strata-font-size-sm);
-  font-weight: var(--strata-font-weight-medium);
-  letter-spacing: var(--strata-font-tracking-sm);
+  color: var(--syntara-color-text-default);
+  font-size: var(--syntara-font-size-sm);
+  font-weight: var(--syntara-font-weight-medium);
+  letter-spacing: var(--syntara-font-tracking-sm);
 }
 
 .muted {
-  color: var(--strata-color-text-subtle);
-  font-size: var(--strata-font-size-xs);
-  letter-spacing: var(--strata-font-tracking-xs);
+  color: var(--syntara-color-text-subtle);
+  font-size: var(--syntara-font-size-xs);
+  letter-spacing: var(--syntara-font-tracking-xs);
 }
 
 /* Money reads left to right in any layout ("−$4,800.00" never becomes "$4,800.00−"). */
 .number {
   direction: ltr;
   unicode-bidi: isolate;
-  color: var(--strata-color-text-default);
-  font-size: var(--strata-font-size-sm);
-  font-weight: var(--strata-font-weight-semibold);
+  color: var(--syntara-color-text-default);
+  font-size: var(--syntara-font-size-sm);
+  font-weight: var(--syntara-font-weight-semibold);
   font-variant-numeric: tabular-nums;
-  letter-spacing: var(--strata-font-tracking-sm);
+  letter-spacing: var(--syntara-font-tracking-sm);
   white-space: nowrap;
 }
 
 /* The line beside the submit button: what happens next. Starts where the button ends and shares its text
    baseline; on a narrow card it drops under the button, still start-aligned. */
 .note {
-  flex: 1 1 calc(var(--strata-space-16) * 2.5);
+  flex: 1 1 calc(var(--syntara-space-16) * 2.5);
   min-inline-size: 0;
-  color: var(--strata-color-text-subtle);
-  font-size: var(--strata-font-size-sm);
-  letter-spacing: var(--strata-font-tracking-sm);
-  line-height: var(--strata-line-height-snug);
+  color: var(--syntara-color-text-subtle);
+  font-size: var(--syntara-font-size-sm);
+  letter-spacing: var(--syntara-font-tracking-sm);
+  line-height: var(--syntara-line-height-snug);
   text-wrap: pretty;
 }
 
@@ -92,32 +92,32 @@
 
 .revenue.revenue {
   display: grid;
-  gap: var(--strata-space-4);
+  gap: var(--syntara-space-4);
 }
 
 .headline {
   display: flex;
   flex-wrap: wrap;
   align-items: baseline;
-  gap: var(--strata-space-2) var(--strata-space-4);
+  gap: var(--syntara-space-2) var(--syntara-space-4);
 }
 
 .headlineMeta {
   display: inline-flex;
   align-items: center;
-  gap: var(--strata-space-2);
+  gap: var(--syntara-space-2);
 }
 
 .channels {
   display: grid;
-  gap: var(--strata-space-3);
+  gap: var(--syntara-space-3);
 }
 
 /* Three channel figures in a row, each with its own sparkline; they stack when the card is narrow. */
 .split.split {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(calc(var(--strata-space-16) * 3), 1fr));
-  gap: var(--strata-space-4);
+  grid-template-columns: repeat(auto-fit, minmax(calc(var(--syntara-space-16) * 3), 1fr));
+  gap: var(--syntara-space-4);
 }
 
 /* Ghost tiles inside a card: no inset of their own, so their labels line up with the eyebrow, the chart and the
@@ -132,38 +132,38 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-block-end: var(--strata-space-3);
+  margin-block-end: var(--syntara-space-3);
 }
 
 .promoTitle.promoTitle {
-  font-size: var(--strata-font-size-2xl);
-  letter-spacing: var(--strata-font-tracking-2xl);
-  line-height: var(--strata-line-height-tight);
+  font-size: var(--syntara-font-size-2xl);
+  letter-spacing: var(--syntara-font-tracking-2xl);
+  line-height: var(--syntara-line-height-tight);
 }
 
 .promoFigure.promoFigure {
   display: grid;
   align-content: end;
-  gap: var(--strata-space-1);
+  gap: var(--syntara-space-1);
   flex: 1;
 }
 
 .promoActions.promoActions {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: var(--strata-space-2);
+  gap: var(--syntara-space-2);
 }
 
 /* On the feature card's glow only text.default and text.subtle are proven at 4.5:1, so the perks use those. */
 .subtle {
-  color: var(--strata-color-text-subtle);
-  font-size: var(--strata-font-size-xs);
-  letter-spacing: var(--strata-font-tracking-xs);
+  color: var(--syntara-color-text-subtle);
+  font-size: var(--syntara-font-size-xs);
+  letter-spacing: var(--syntara-font-tracking-xs);
 }
 
 .perks {
   display: grid;
-  gap: var(--strata-space-4);
+  gap: var(--syntara-space-4);
   margin: 0;
   padding: 0;
   list-style: none;
@@ -172,13 +172,13 @@
 .perk {
   display: flex;
   align-items: center;
-  gap: var(--strata-space-3);
+  gap: var(--syntara-space-3);
 }
 
 .pairFooter.pairFooter {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: var(--strata-space-2);
+  gap: var(--syntara-space-2);
   margin-block-start: auto;
 }
 
@@ -194,11 +194,11 @@
 .row {
   display: flex;
   align-items: center;
-  gap: var(--strata-space-3);
+  gap: var(--syntara-space-3);
   min-inline-size: 0;
-  padding-block: var(--strata-space-3);
+  padding-block: var(--syntara-space-3);
   /* Hairline divider between rows, drawn as a shadow (CONVENTIONS, Finesse). */
-  box-shadow: inset 0 calc(var(--strata-hairline) * -1) 0 var(--strata-color-border-subtle);
+  box-shadow: inset 0 calc(var(--syntara-hairline) * -1) 0 var(--syntara-color-border-subtle);
 }
 .row:first-child {
   padding-block-start: 0;
@@ -212,7 +212,7 @@
   display: grid;
   flex: 1;
   min-inline-size: 0;
-  line-height: var(--strata-line-height-snug);
+  line-height: var(--syntara-line-height-snug);
 }
 .rowText > * {
   overflow: hidden;
@@ -223,28 +223,28 @@
 .rowFigure {
   display: grid;
   justify-items: end;
-  gap: var(--strata-space-1);
-  line-height: var(--strata-line-height-snug);
+  gap: var(--syntara-space-1);
+  line-height: var(--syntara-line-height-snug);
 }
 
 .spark.spark {
   flex: none;
-  inline-size: calc(var(--strata-space-16) + var(--strata-space-2));
-  block-size: var(--strata-space-8);
+  inline-size: calc(var(--syntara-space-16) + var(--syntara-space-2));
+  block-size: var(--syntara-space-8);
 }
 
 .change {
   unicode-bidi: isolate;
-  font-size: var(--strata-font-size-xs);
-  font-weight: var(--strata-font-weight-medium);
+  font-size: var(--syntara-font-size-xs);
+  font-weight: var(--syntara-font-weight-medium);
   font-variant-numeric: tabular-nums;
-  letter-spacing: var(--strata-font-tracking-xs);
+  letter-spacing: var(--syntara-font-tracking-xs);
 }
 .change[data-tone='up'] {
-  color: var(--strata-color-feedback-success-fg);
+  color: var(--syntara-color-feedback-success-fg);
 }
 .change[data-tone='down'] {
-  color: var(--strata-color-feedback-danger-fg);
+  color: var(--syntara-color-feedback-danger-fg);
 }
 
 /* On a narrow card the names get the room: the trend lines step aside (they're decorative; the % stays). */
@@ -266,14 +266,14 @@
 
 .schedule.schedule {
   display: grid;
-  gap: var(--strata-space-2);
-  font-size: var(--strata-font-size-sm);
+  gap: var(--syntara-space-2);
+  font-size: var(--syntara-font-size-sm);
 }
 
 .scheduleRow {
   display: flex;
   justify-content: space-between;
-  gap: var(--strata-space-3);
+  gap: var(--syntara-space-3);
 }
 
 /* ---- Transfer ---- */
@@ -282,5 +282,5 @@
   display: flex;
   flex-wrap: wrap;
   align-items: baseline;
-  gap: var(--strata-space-2) var(--strata-space-4);
+  gap: var(--syntara-space-2) var(--syntara-space-4);
 }

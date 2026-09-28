@@ -1,9 +1,9 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "urn:strata:sdui:v1:node:Heading",
+  "$id": "urn:syntara:sdui:v1:node:Heading",
   "title": "Heading",
   "description": "A heading. Pick the level that fits the screen outline. The schema's own text node.",
-  "x-strata": {
+  "x-syntara": {
     "node": "Heading",
     "component": null,
     "export": null,
@@ -21,7 +21,7 @@
       "const": "Heading"
     },
     "id": {
-      "$ref": "urn:strata:sdui:v1:defs#/$defs/NodeId"
+      "$ref": "urn:syntara:sdui:v1:defs#/$defs/NodeId"
     },
     "props": {
       "type": "object",
@@ -58,13 +58,13 @@
     },
     "fallback": {
       "description": "Rendered instead of this node by a client that doesn't know its type. Must be a node that client knows.",
-      "$ref": "urn:strata:sdui:v1:screen#/$defs/Node"
+      "$ref": "urn:syntara:sdui:v1:screen#/$defs/Node"
     }
   },
   "additionalProperties": false,
   "allOf": [
     {
-      "x-strata-rule": {
+      "x-syntara-rule": {
         "id": "heading-text",
         "message": "A Heading needs text: an empty heading is announced as a blank."
       },

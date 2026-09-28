@@ -5,8 +5,8 @@
  * showcase toolbar. The hero's colour glow and its one coloured word follow that pick, so switching tenants
  * re-lights the whole top of the page, not just the grid.
  *
- * Both read the tenant's tokens by carrying its data-strata-theme attribute (the tenant CSS, and the
- * "Your colour" stylesheet the showcase injects, are already on the page). data-strata-scheme="site" makes them
+ * Both read the tenant's tokens by carrying its data-syntara-theme attribute (the tenant CSS, and the
+ * "Your colour" stylesheet the showcase injects, are already on the page). data-syntara-scheme="site" makes them
  * follow the site's light/dark, whatever the showcase's own scheme toggle says, because they sit on the site canvas.
  */
 
@@ -14,9 +14,9 @@ import { createContext, useCallback, useContext, useMemo, useState, type ReactNo
 import styles from './home-stage.module.css';
 
 interface StageState {
-  /** data-strata-theme id the glow reads its colours from. */
+  /** data-syntara-theme id the glow reads its colours from. */
   glow: string;
-  /** data-strata-theme id the headline accent reads text.brand from. Only ids whose text.brand passes on the house canvas. */
+  /** data-syntara-theme id the headline accent reads text.brand from. Only ids whose text.brand passes on the house canvas. */
   accent: string;
 }
 
@@ -53,7 +53,7 @@ export function HomeStage({ initialTheme, children }: { initialTheme: string; ch
 export function HeroGlow() {
   const glow = useContext(Ctx)?.glow;
   return (
-    <div aria-hidden className={styles.glow} data-strata-theme={glow} data-strata-scheme={glow ? 'site' : undefined}>
+    <div aria-hidden className={styles.glow} data-syntara-theme={glow} data-syntara-scheme={glow ? 'site' : undefined}>
       <span className={styles.glowPrimary} />
       <span className={styles.glowAccent} />
       <span className={styles.glowFlank} />
@@ -65,7 +65,7 @@ export function HeroGlow() {
 export function HeroAccent({ className, children }: { className?: string; children: ReactNode }) {
   const accent = useContext(Ctx)?.accent;
   return (
-    <span className={className} data-strata-theme={accent} data-strata-scheme={accent ? 'site' : undefined}>
+    <span className={className} data-syntara-theme={accent} data-syntara-scheme={accent ? 'site' : undefined}>
       {children}
     </span>
   );

@@ -1,14 +1,14 @@
 'use client';
 
-import { ThemeScope } from '@strata/react';
-import { toCSS, toCssVariables } from '@strata/theme-engine';
+import { ThemeScope } from '@syntara/react';
+import { toCSS, toCssVariables } from '@syntara/theme-engine';
 import { useDeferredValue, useMemo, type CSSProperties } from 'react';
 import { ShowcaseGrid } from '@/components/showcase/showcase-grid';
 import { useThemes } from './themes-provider';
 import styles from './preview.module.css';
 
 /**
- * data-strata-theme id of the live preview. The wrapper gets the theme inline (toCssVariables), which is instant
+ * data-syntara-theme id of the live preview. The wrapper gets the theme inline (toCssVariables), which is instant
  * and covers everything inside it. Overlays (dialogs, selects, tooltips) portal to <body> and copy this id when
  * they open (ADR-012), so the same theme is also written as a scoped stylesheet for them to resolve against.
  */
@@ -32,7 +32,7 @@ export function PreviewPanel() {
   const density = theme.input.density;
 
   const vars = useMemo(() => toCssVariables(theme, scheme, density) as CSSProperties, [theme, scheme, density]);
-  const overlayCss = useMemo(() => toCSS(theme, { selector: `[data-strata-theme="${PREVIEW_THEME_ID}"]` }), [theme]);
+  const overlayCss = useMemo(() => toCSS(theme, { selector: `[data-syntara-theme="${PREVIEW_THEME_ID}"]` }), [theme]);
 
   return (
     <>

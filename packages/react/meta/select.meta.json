@@ -15,13 +15,13 @@
   ],
   "dependencies": [
     "react-aria-components",
-    "@strata/icons"
+    "@syntara/icons"
   ],
   "registryDependencies": [
     "text-field"
   ],
   "reactAria": "https://react-spectrum.adobe.com/react-aria/Select.html",
-  "usage": "import { Select, SelectItem } from '@strata/react';\n\nexport function PlanPicker() {\n  return (\n    <Select label=\"Plan\" placeholder=\"Choose a plan\" onSelectionChange={(key) => console.log(key)}>\n      <SelectItem id=\"starter\">Starter</SelectItem>\n      <SelectItem id=\"team\">Team</SelectItem>\n      <SelectItem id=\"business\">Business</SelectItem>\n    </Select>\n  );\n}",
+  "usage": "import { Select, SelectItem } from '@syntara/react';\n\nexport function PlanPicker() {\n  return (\n    <Select label=\"Plan\" placeholder=\"Choose a plan\" onSelectionChange={(key) => console.log(key)}>\n      <SelectItem id=\"starter\">Starter</SelectItem>\n      <SelectItem id=\"team\">Team</SelectItem>\n      <SelectItem id=\"business\">Business</SelectItem>\n    </Select>\n  );\n}",
   "examples": [
     {
       "name": "select-demo",
@@ -262,7 +262,7 @@
       "example": "onSelectionChange={(key) => setTopic(key === null ? null : String(key))}"
     },
     {
-      "note": "Key is React Aria's Key: string | number. React's Key also allows bigint, so state typed with it fails the check. Import Key from @strata/react instead: import { type Key } from '@strata/react'. String ids work too.",
+      "note": "Key is React Aria's Key: string | number. React's Key also allows bigint, so state typed with it fails the check. Import Key from @syntara/react instead: import { type Key } from '@syntara/react'. String ids work too.",
       "example": "const [topic, setTopic] = useState<Key | null>(null);"
     }
   ],

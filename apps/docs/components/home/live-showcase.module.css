@@ -1,9 +1,9 @@
 .root {
-  /* The frame keeps the site's radius even though the scope inside it re-points --strata-radius-*. */
-  --home-frame-radius: calc(var(--strata-radius-container) + var(--strata-space-1));
+  /* The frame keeps the site's radius even though the scope inside it re-points --syntara-radius-*. */
+  --home-frame-radius: calc(var(--syntara-radius-container) + var(--syntara-space-1));
   display: grid;
   grid-template-columns: minmax(0, 1fr);
-  gap: var(--strata-space-4);
+  gap: var(--syntara-space-4);
   min-inline-size: 0;
 }
 
@@ -11,40 +11,40 @@
 
 .toolbar {
   z-index: 20;
-  margin-inline: calc(var(--strata-space-2) * -1);
+  margin-inline: calc(var(--syntara-space-2) * -1);
 }
 
 .toolbarInner {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: var(--strata-space-2) var(--strata-space-3);
-  padding: var(--strata-space-2);
+  gap: var(--syntara-space-2) var(--syntara-space-3);
+  padding: var(--syntara-space-2);
   border: 1px solid transparent;
   border-radius: var(--home-frame-radius);
   transition:
-    background-color var(--strata-motion-duration-normal) var(--strata-motion-easing),
-    border-color var(--strata-motion-duration-normal) var(--strata-motion-easing),
-    box-shadow var(--strata-motion-duration-normal) var(--strata-motion-easing);
+    background-color var(--syntara-motion-duration-normal) var(--syntara-motion-easing),
+    border-color var(--syntara-motion-duration-normal) var(--syntara-motion-easing),
+    box-shadow var(--syntara-motion-duration-normal) var(--syntara-motion-easing);
 }
 @media (min-width: 768px) {
   /* Sticky under the site header on wide screens, so the controls stay in reach while you scroll the grid.
      The toolbar is the scroll-state container; its inner bar turns to glass while it floats. */
   .toolbar {
     position: sticky;
-    inset-block-start: calc(var(--docs-header-height) + var(--strata-space-2));
+    inset-block-start: calc(var(--docs-header-height) + var(--syntara-space-2));
     container-type: scroll-state;
   }
   .toolbarInner {
-    background: var(--strata-glass-bg);
-    border-color: var(--strata-color-border-default);
-    box-shadow: var(--strata-shadow-overlay);
-    -webkit-backdrop-filter: blur(var(--strata-glass-blur)) saturate(1.6);
-    backdrop-filter: blur(var(--strata-glass-blur)) saturate(1.6);
+    background: var(--syntara-glass-bg);
+    border-color: var(--syntara-color-border-default);
+    box-shadow: var(--syntara-shadow-overlay);
+    -webkit-backdrop-filter: blur(var(--syntara-glass-blur)) saturate(1.6);
+    backdrop-filter: blur(var(--syntara-glass-blur)) saturate(1.6);
   }
   @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
     .toolbarInner {
-      background: var(--strata-color-surface-raised);
+      background: var(--syntara-color-surface-raised);
     }
   }
   /* Where the browser can tell (scroll-state queries), the bar is plain at rest and only floats once stuck.
@@ -63,9 +63,9 @@
 /* Tenant chips: the segmented control scrolls sideways on narrow screens rather than wrapping. The padding
    leaves room for the focus ring, which would otherwise be clipped by the scroll box. */
 .chipScroller {
-  max-inline-size: calc(100% + var(--strata-space-2));
-  margin: calc(var(--strata-space-1) * -1);
-  padding: var(--strata-space-1);
+  max-inline-size: calc(100% + var(--syntara-space-2));
+  margin: calc(var(--syntara-space-1) * -1);
+  padding: var(--syntara-space-1);
   overflow-x: auto;
   scrollbar-width: none;
 }
@@ -78,45 +78,45 @@
 }
 
 .chip.chip {
-  gap: var(--strata-space-2);
+  gap: var(--syntara-space-2);
 }
 
 .dot {
   flex: none;
-  inline-size: calc(var(--strata-space-2) + var(--strata-space-1));
-  block-size: calc(var(--strata-space-2) + var(--strata-space-1));
-  border-radius: var(--strata-radius-pill);
-  box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--strata-color-text-default) 20%, transparent);
+  inline-size: calc(var(--syntara-space-2) + var(--syntara-space-1));
+  block-size: calc(var(--syntara-space-2) + var(--syntara-space-1));
+  border-radius: var(--syntara-radius-pill);
+  box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--syntara-color-text-default) 20%, transparent);
 }
 
 .tag {
-  padding-inline: var(--strata-space-1);
-  border-radius: var(--strata-radius-badge);
-  background: color-mix(in oklab, var(--strata-color-text-default) 8%, transparent);
-  color: var(--strata-color-text-subtle);
-  font-size: var(--strata-font-size-xs);
-  font-weight: var(--strata-font-weight-medium);
-  line-height: var(--strata-line-height-normal);
+  padding-inline: var(--syntara-space-1);
+  border-radius: var(--syntara-radius-badge);
+  background: color-mix(in oklab, var(--syntara-color-text-default) 8%, transparent);
+  color: var(--syntara-color-text-subtle);
+  font-size: var(--syntara-font-size-xs);
+  font-weight: var(--syntara-font-weight-medium);
+  line-height: var(--syntara-line-height-normal);
 }
 
 .picker {
   display: flex;
   align-items: center;
-  gap: var(--strata-space-2);
+  gap: var(--syntara-space-2);
 }
 
 /* The native colour input, drawn as a swatch the size of a small control. */
 .swatch {
   flex: none;
-  box-shadow: var(--strata-shadow-raised);
+  box-shadow: var(--syntara-shadow-raised);
   transition:
-    border-color var(--strata-motion-duration-fast) var(--strata-motion-easing),
-    outline-offset var(--strata-motion-duration-fast) var(--strata-motion-easing);
-  inline-size: calc(var(--strata-control-height) - var(--strata-space-2));
-  block-size: calc(var(--strata-control-height) - var(--strata-space-2));
+    border-color var(--syntara-motion-duration-fast) var(--syntara-motion-easing),
+    outline-offset var(--syntara-motion-duration-fast) var(--syntara-motion-easing);
+  inline-size: calc(var(--syntara-control-height) - var(--syntara-space-2));
+  block-size: calc(var(--syntara-control-height) - var(--syntara-space-2));
   padding: 0;
-  border: 1px solid var(--strata-color-border-strong);
-  border-radius: var(--strata-radius-field);
+  border: 1px solid var(--syntara-color-border-strong);
+  border-radius: var(--syntara-radius-field);
   background: transparent;
   cursor: pointer;
   overflow: hidden;
@@ -133,31 +133,31 @@
   border-radius: 0;
 }
 .swatch:hover {
-  border-color: var(--strata-color-text-subtle);
+  border-color: var(--syntara-color-text-subtle);
 }
 @media (prefers-reduced-motion: no-preference) {
   .swatch {
     transition:
-      border-color var(--strata-motion-duration-fast) var(--strata-motion-easing),
-      outline-offset var(--strata-motion-duration-fast) var(--strata-motion-easing),
-      scale var(--strata-motion-duration-spring) var(--strata-motion-spring);
+      border-color var(--syntara-motion-duration-fast) var(--syntara-motion-easing),
+      outline-offset var(--syntara-motion-duration-fast) var(--syntara-motion-easing),
+      scale var(--syntara-motion-duration-spring) var(--syntara-motion-spring);
   }
   .swatch:active {
     scale: 0.9;
   }
 }
 .swatch:focus-visible {
-  outline: 2px solid var(--strata-color-focus-ring);
+  outline: 2px solid var(--syntara-color-focus-ring);
   outline-offset: 2px;
 }
 
 .hex.hex {
-  inline-size: calc(var(--strata-space-16) + var(--strata-space-12));
+  inline-size: calc(var(--syntara-space-16) + var(--syntara-space-12));
 }
 .hex.hex input {
-  block-size: calc(var(--strata-control-height) - var(--strata-space-2));
-  font-family: var(--strata-font-mono);
-  font-size: var(--strata-font-size-sm);
+  block-size: calc(var(--syntara-control-height) - var(--syntara-space-2));
+  font-family: var(--syntara-font-mono);
+  font-size: var(--syntara-font-size-sm);
 }
 
 .scheme.scheme {
@@ -179,16 +179,16 @@
 
 .field {
   --_primary: light-dark(
-    color-mix(in oklab, var(--strata-color-action-primary-bg) 16%, transparent),
-    color-mix(in oklab, var(--strata-color-action-primary-bg) 30%, transparent)
+    color-mix(in oklab, var(--syntara-color-action-primary-bg) 16%, transparent),
+    color-mix(in oklab, var(--syntara-color-action-primary-bg) 30%, transparent)
   );
   --_accent: light-dark(
-    color-mix(in oklab, var(--strata-color-accent-bg) 14%, transparent),
-    color-mix(in oklab, var(--strata-color-accent-bg) 22%, transparent)
+    color-mix(in oklab, var(--syntara-color-accent-bg) 14%, transparent),
+    color-mix(in oklab, var(--syntara-color-accent-bg) 22%, transparent)
   );
   position: absolute;
   z-index: -1;
-  inset-block: calc(var(--strata-space-16) * -2) calc(var(--strata-space-16) * -1.5);
+  inset-block: calc(var(--syntara-space-16) * -2) calc(var(--syntara-space-16) * -1.5);
   inset-inline: calc(var(--docs-gutter) * -1);
   background:
     radial-gradient(40% 40% at 25% 35%, var(--_primary), transparent),
@@ -200,16 +200,16 @@
 }
 
 .scope.scope {
-  --_inset: var(--strata-space-3);
+  --_inset: var(--syntara-space-3);
   padding: var(--_inset);
   border: 1px solid transparent;
-  border-radius: calc(var(--strata-radius-container) + var(--_inset));
+  border-radius: calc(var(--syntara-radius-container) + var(--_inset));
   box-shadow:
-    0 0 0 var(--strata-hairline) var(--strata-color-border-subtle),
-    var(--strata-shadow-highlight),
-    var(--strata-shadow-overlay),
-    0 var(--strata-space-12) calc(var(--strata-space-16) * 2) calc(var(--strata-space-10) * -1)
-      color-mix(in oklab, var(--strata-color-action-primary-bg) 22%, transparent);
+    0 0 0 var(--syntara-hairline) var(--syntara-color-border-subtle),
+    var(--syntara-shadow-highlight),
+    var(--syntara-shadow-overlay),
+    0 var(--syntara-space-12) calc(var(--syntara-space-16) * 2) calc(var(--syntara-space-10) * -1)
+      color-mix(in oklab, var(--syntara-color-action-primary-bg) 22%, transparent);
   overflow: clip;
 }
 @supports (corner-shape: squircle) {
@@ -219,7 +219,7 @@
 }
 @media (min-width: 768px) {
   .scope.scope {
-    --_inset: var(--strata-space-6);
+    --_inset: var(--syntara-space-6);
   }
 }
 
@@ -230,22 +230,22 @@
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;
-  gap: var(--strata-space-1) var(--strata-space-2);
-  color: var(--strata-color-text-subtle);
-  font-size: var(--strata-font-size-sm);
+  gap: var(--syntara-space-1) var(--syntara-space-2);
+  color: var(--syntara-color-text-subtle);
+  font-size: var(--syntara-font-size-sm);
   text-align: center;
 }
 
 .solverIcon {
   flex: none;
-  inline-size: var(--strata-space-4);
-  block-size: var(--strata-space-4);
-  color: var(--strata-color-text-default);
+  inline-size: var(--syntara-space-4);
+  block-size: var(--syntara-space-4);
+  color: var(--syntara-color-text-default);
 }
 
 .solverName {
-  color: var(--strata-color-text-default);
-  font-weight: var(--strata-font-weight-medium);
+  color: var(--syntara-color-text-default);
+  font-weight: var(--syntara-font-weight-medium);
 }
 
 .solverFigure {
@@ -254,12 +254,12 @@
 
 .solverLink {
   text-decoration-color: color-mix(in oklab, currentColor 35%, transparent);
-  transition: text-decoration-color var(--strata-motion-duration-fast) var(--strata-motion-easing);
+  transition: text-decoration-color var(--syntara-motion-duration-fast) var(--syntara-motion-easing);
   display: inline-flex;
   align-items: center;
-  gap: var(--strata-space-1);
-  color: var(--strata-color-text-default);
-  font-weight: var(--strata-font-weight-medium);
+  gap: var(--syntara-space-1);
+  color: var(--syntara-color-text-default);
+  font-weight: var(--syntara-font-weight-medium);
   text-decoration: underline;
   text-decoration-thickness: 1px;
   text-underline-offset: 0.25em;
@@ -270,17 +270,17 @@
 }
 
 .arrow {
-  --_nudge: calc(var(--strata-space-1) / 2);
-  inline-size: calc(var(--strata-space-4) - 2px);
-  block-size: calc(var(--strata-space-4) - 2px);
+  --_nudge: calc(var(--syntara-space-1) / 2);
+  inline-size: calc(var(--syntara-space-4) - 2px);
+  block-size: calc(var(--syntara-space-4) - 2px);
 }
 .arrow:dir(rtl) {
-  --_nudge: calc(var(--strata-space-1) / -2);
+  --_nudge: calc(var(--syntara-space-1) / -2);
   scale: -1 1;
 }
 @media (prefers-reduced-motion: no-preference) {
   .arrow {
-    transition: translate var(--strata-motion-duration-spring) var(--strata-motion-spring);
+    transition: translate var(--syntara-motion-duration-spring) var(--syntara-motion-spring);
   }
   .solverLink:hover .arrow {
     translate: var(--_nudge) 0;

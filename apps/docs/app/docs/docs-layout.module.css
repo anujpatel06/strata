@@ -9,12 +9,12 @@
 @media (min-width: 768px) {
   .container {
     grid-template-columns: var(--docs-sidebar) minmax(0, 1fr);
-    gap: var(--strata-space-8);
+    gap: var(--syntara-space-8);
   }
 }
 @media (min-width: 1280px) {
   .container {
-    gap: var(--strata-space-12);
+    gap: var(--syntara-space-12);
   }
 }
 
@@ -35,8 +35,8 @@
   overflow-y: auto;
   overscroll-behavior: contain;
   scrollbar-width: thin;
-  margin-inline-start: calc(var(--strata-space-2) * -1);
-  padding-inline-start: var(--strata-space-2);
+  margin-inline-start: calc(var(--syntara-space-2) * -1);
+  padding-inline-start: var(--syntara-space-2);
 }
 
 .main {

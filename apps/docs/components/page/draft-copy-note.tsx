@@ -4,8 +4,8 @@
  * the tenant's screen. It reads only the data: no tenant id here, so any tenant whose copyReview is a draft gets it,
  * and it disappears on its own when the status becomes "reviewed".
  */
-import { IconPencil } from '@strata/icons';
-import { Badge } from '@strata/react';
+import { IconPencil } from '@syntara/icons';
+import { Badge } from '@syntara/react';
 import styles from './draft-copy-note.module.css';
 
 /** content.json `copyReview`, as lib/tenants.ts exposes it on TenantInfo. */

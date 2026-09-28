@@ -1,5 +1,5 @@
 /**
- * @strata/theme-engine — public entry point.
+ * @syntara/theme-engine — public entry point.
  * Owners: theme.ts / color.ts / type-pairs.ts / foundations.ts (engine core),
  *         css-vars.ts / export/* (exporters). Names below are the contract.
  */

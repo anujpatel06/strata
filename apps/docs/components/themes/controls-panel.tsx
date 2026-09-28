@@ -1,6 +1,6 @@
 'use client';
 
-import { IconRotate } from '@strata/icons';
+import { IconRotate } from '@syntara/icons';
 import {
   Badge,
   Button,
@@ -11,8 +11,8 @@ import {
   Switch,
   ToggleButton,
   ToggleButtonGroup,
-} from '@strata/react';
-import { TYPE_PAIRS, type Density, type NeutralTemperature, type Shape, type TypePairId } from '@strata/theme-engine';
+} from '@syntara/react';
+import { TYPE_PAIRS, type Density, type NeutralTemperature, type Shape, type TypePairId } from '@syntara/theme-engine';
 import { useEffect, useId, useRef, type ReactNode } from 'react';
 import type { Key, Selection } from 'react-aria-components';
 import { DraftCopyNote, isDraftCopy } from '@/components/page/draft-copy-note';

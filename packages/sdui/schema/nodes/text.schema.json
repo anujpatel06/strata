@@ -1,9 +1,9 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "urn:strata:sdui:v1:node:Text",
+  "$id": "urn:syntara:sdui:v1:node:Text",
   "title": "Text",
   "description": "A paragraph of body text. The schema's own text node.",
-  "x-strata": {
+  "x-syntara": {
     "node": "Text",
     "component": null,
     "export": null,
@@ -21,7 +21,7 @@
       "const": "Text"
     },
     "id": {
-      "$ref": "urn:strata:sdui:v1:defs#/$defs/NodeId"
+      "$ref": "urn:syntara:sdui:v1:defs#/$defs/NodeId"
     },
     "props": {
       "type": "object",
@@ -70,7 +70,7 @@
     },
     "fallback": {
       "description": "Rendered instead of this node by a client that doesn't know its type. Must be a node that client knows.",
-      "$ref": "urn:strata:sdui:v1:screen#/$defs/Node"
+      "$ref": "urn:syntara:sdui:v1:screen#/$defs/Node"
     }
   },
   "additionalProperties": false

@@ -1,5 +1,5 @@
 .list {
   display: grid;
-  gap: calc(var(--strata-space-16) + var(--strata-space-8));
-  margin-block-start: var(--strata-space-16);
+  gap: calc(var(--syntara-space-16) + var(--syntara-space-8));
+  margin-block-start: var(--syntara-space-16);
 }

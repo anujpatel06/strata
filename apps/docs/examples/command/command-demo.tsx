@@ -1,8 +1,8 @@
 'use client';
 
 import { useState } from 'react';
-import { Button, CommandDialog, CommandItem, CommandSection, Kbd, useCommandShortcut } from '@strata/react';
-import { IconArrowsExchange, IconCreditCard, IconFileText, IconSearch, IconSettings, IconUser } from '@strata/icons';
+import { Button, CommandDialog, CommandItem, CommandSection, Kbd, useCommandShortcut } from '@syntara/react';
+import { IconArrowsExchange, IconCreditCard, IconFileText, IconSearch, IconSettings, IconUser } from '@syntara/icons';
 
 export default function Example() {
   const [isOpen, setOpen] = useState(false);

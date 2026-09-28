@@ -22,7 +22,7 @@ export interface Harness {
 /** A server and a client joined by the SDK's in-memory transport. */
 export async function connect(options: ServerOptions = {}): Promise<Harness> {
   const server = createServer(options);
-  const client = new Client({ name: 'strata-mcp-test', version: '0.0.0' });
+  const client = new Client({ name: 'syntara-mcp-test', version: '0.0.0' });
   const [a, b] = InMemoryTransport.createLinkedPair();
   await Promise.all([server.connect(a), client.connect(b)]);
   return {

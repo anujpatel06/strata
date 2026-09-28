@@ -1,9 +1,9 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "urn:strata:sdui:v1:screen",
-  "title": "Strata screen",
-  "description": "A screen sent from a server and drawn with Strata components. It has no theme, tenant, scheme or density: those belong to the client that renders it.",
-  "x-strata": {
+  "$id": "urn:syntara:sdui:v1:screen",
+  "title": "Syntara screen",
+  "description": "A screen sent from a server and drawn with Syntara components. It has no theme, tenant, scheme or density: those belong to the client that renders it.",
+  "x-syntara": {
     "schemaVersion": "1.0.0",
     "source": "sdui"
   },
@@ -18,7 +18,7 @@
       "description": "The schema version the document was written for. semver; this schema accepts major 1.",
       "type": "string",
       "pattern": "^1\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)$",
-      "x-strata-message": "must be a 1.x.y version. A client supports one major; a document for another major is shown as the screen fallback."
+      "x-syntara-message": "must be a 1.x.y version. A client supports one major; a document for another major is shown as the screen fallback."
     },
     "screen": {
       "type": "object",
@@ -28,7 +28,7 @@
       ],
       "properties": {
         "id": {
-          "$ref": "urn:strata:sdui:v1:defs#/$defs/NodeId"
+          "$ref": "urn:syntara:sdui:v1:defs#/$defs/NodeId"
         },
         "title": {
           "description": "The screen's name, for the host app's title bar or document title. The renderer doesn't draw it.",
@@ -65,64 +65,64 @@
       },
       "oneOf": [
         {
-          "$ref": "urn:strata:sdui:v1:node:Button"
+          "$ref": "urn:syntara:sdui:v1:node:Button"
         },
         {
-          "$ref": "urn:strata:sdui:v1:node:Link"
+          "$ref": "urn:syntara:sdui:v1:node:Link"
         },
         {
-          "$ref": "urn:strata:sdui:v1:node:Badge"
+          "$ref": "urn:syntara:sdui:v1:node:Badge"
         },
         {
-          "$ref": "urn:strata:sdui:v1:node:Tag"
+          "$ref": "urn:syntara:sdui:v1:node:Tag"
         },
         {
-          "$ref": "urn:strata:sdui:v1:node:Alert"
+          "$ref": "urn:syntara:sdui:v1:node:Alert"
         },
         {
-          "$ref": "urn:strata:sdui:v1:node:Card"
+          "$ref": "urn:syntara:sdui:v1:node:Card"
         },
         {
-          "$ref": "urn:strata:sdui:v1:node:StatTile"
+          "$ref": "urn:syntara:sdui:v1:node:StatTile"
         },
         {
-          "$ref": "urn:strata:sdui:v1:node:StatTileGroup"
+          "$ref": "urn:syntara:sdui:v1:node:StatTileGroup"
         },
         {
-          "$ref": "urn:strata:sdui:v1:node:Avatar"
+          "$ref": "urn:syntara:sdui:v1:node:Avatar"
         },
         {
-          "$ref": "urn:strata:sdui:v1:node:Separator"
+          "$ref": "urn:syntara:sdui:v1:node:Separator"
         },
         {
-          "$ref": "urn:strata:sdui:v1:node:ProgressBar"
+          "$ref": "urn:syntara:sdui:v1:node:ProgressBar"
         },
         {
-          "$ref": "urn:strata:sdui:v1:node:Meter"
+          "$ref": "urn:syntara:sdui:v1:node:Meter"
         },
         {
-          "$ref": "urn:strata:sdui:v1:node:EmptyState"
+          "$ref": "urn:syntara:sdui:v1:node:EmptyState"
         },
         {
-          "$ref": "urn:strata:sdui:v1:node:Eyebrow"
+          "$ref": "urn:syntara:sdui:v1:node:Eyebrow"
         },
         {
-          "$ref": "urn:strata:sdui:v1:node:Amount"
+          "$ref": "urn:syntara:sdui:v1:node:Amount"
         },
         {
-          "$ref": "urn:strata:sdui:v1:node:IconTile"
+          "$ref": "urn:syntara:sdui:v1:node:IconTile"
         },
         {
-          "$ref": "urn:strata:sdui:v1:node:Stack"
+          "$ref": "urn:syntara:sdui:v1:node:Stack"
         },
         {
-          "$ref": "urn:strata:sdui:v1:node:Inline"
+          "$ref": "urn:syntara:sdui:v1:node:Inline"
         },
         {
-          "$ref": "urn:strata:sdui:v1:node:Text"
+          "$ref": "urn:syntara:sdui:v1:node:Text"
         },
         {
-          "$ref": "urn:strata:sdui:v1:node:Heading"
+          "$ref": "urn:syntara:sdui:v1:node:Heading"
         }
       ]
     }

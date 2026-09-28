@@ -1,8 +1,8 @@
 'use client';
 
 import { useState } from 'react';
-import { Button } from '@strata/react';
-import { IconSend } from '@strata/icons';
+import { Button } from '@syntara/react';
+import { IconSend } from '@syntara/icons';
 
 export default function Example() {
   const [isPending, setPending] = useState(false);

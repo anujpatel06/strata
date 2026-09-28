@@ -16,7 +16,7 @@
   ],
   "registryDependencies": [],
   "reactAria": "https://react-spectrum.adobe.com/react-aria/ProgressBar.html",
-  "usage": "import { ProgressBar } from '@strata/react';\n\nexport function Upload({ percent }: { percent: number }) {\n  return <ProgressBar label=\"Uploading receipts\" value={percent} showValue />;\n}",
+  "usage": "import { ProgressBar } from '@syntara/react';\n\nexport function Upload({ percent }: { percent: number }) {\n  return <ProgressBar label=\"Uploading receipts\" value={percent} showValue />;\n}",
   "examples": [
     {
       "name": "progress-demo",

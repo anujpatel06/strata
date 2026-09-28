@@ -1,6 +1,6 @@
 'use client';
 
-import { Select, SelectItem, SelectSection } from '@strata/react';
+import { Select, SelectItem, SelectSection } from '@syntara/react';
 
 export default function Example() {
   return (

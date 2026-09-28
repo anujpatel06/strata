@@ -7,7 +7,7 @@ import {
   IconSun,
   IconTextDirectionLtr,
   IconTextDirectionRtl,
-} from '@strata/icons';
+} from '@syntara/icons';
 import {
   Tab,
   TabList,
@@ -18,7 +18,7 @@ import {
   ToggleButtonGroup,
   Tooltip,
   TooltipTrigger,
-} from '@strata/react';
+} from '@syntara/react';
 import { Component, useEffect, useState, type ReactNode } from 'react';
 import type { Key } from 'react-aria-components';
 import { examples } from '@/lib/examples.generated';
@@ -40,12 +40,12 @@ function useSiteScheme(): Scheme {
   useEffect(() => {
     const media = window.matchMedia('(prefers-color-scheme: dark)');
     const read = () => {
-      const attr = document.documentElement.getAttribute('data-strata-scheme');
+      const attr = document.documentElement.getAttribute('data-syntara-scheme');
       setScheme(attr === 'dark' || (attr !== 'light' && media.matches) ? 'dark' : 'light');
     };
     read();
     const observer = new MutationObserver(read);
-    observer.observe(document.documentElement, { attributes: true, attributeFilter: ['data-strata-scheme'] });
+    observer.observe(document.documentElement, { attributes: true, attributeFilter: ['data-syntara-scheme'] });
     media.addEventListener('change', read);
     return () => {
       observer.disconnect();
@@ -140,7 +140,7 @@ export function PreviewClient({ name, label, align, tenants, code }: PreviewClie
                   {tenants.map((t) => (
                     <TooltipTrigger key={t.id} delay={400}>
                       <ToggleButton id={t.id} aria-label={t.name} className={styles.dotToggle}>
-                        <span className={styles.dot} data-strata-theme={t.id} aria-hidden="true" />
+                        <span className={styles.dot} data-syntara-theme={t.id} aria-hidden="true" />
                       </ToggleButton>
                       <Tooltip>{t.name}</Tooltip>
                     </TooltipTrigger>
@@ -202,7 +202,7 @@ export function PreviewClient({ name, label, align, tenants, code }: PreviewClie
         <TabPanel id="preview" shouldForceMount className={styles.panel}>
           <ThemeScope
             theme={tenant?.id}
-            data-strata-scheme={scheme ?? 'site'}
+            data-syntara-scheme={scheme ?? 'site'}
             density={density}
             locale={dir === 'rtl' ? 'ar-AE' : 'en-US'}
             className={styles.stage}

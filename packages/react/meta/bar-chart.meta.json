@@ -18,7 +18,7 @@
     "chart"
   ],
   "reactAria": "https://react-spectrum.adobe.com/react-aria/ListBox.html",
-  "usage": "import { BarChart } from '@strata/react';\n\nexport function Spending({ data }: { data: { month: string; spend: number }[] }) {\n  return <BarChart aria-label=\"Spending by month\" data={data} x=\"month\" highlight=\"Oct\" series={[{ key: 'spend', label: 'Spending' }]} />;\n}",
+  "usage": "import { BarChart } from '@syntara/react';\n\nexport function Spending({ data }: { data: { month: string; spend: number }[] }) {\n  return <BarChart aria-label=\"Spending by month\" data={data} x=\"month\" highlight=\"Oct\" series={[{ key: 'spend', label: 'Spending' }]} />;\n}",
   "examples": [
     {
       "name": "bar-chart-demo",
@@ -68,7 +68,7 @@
       "name": "series",
       "type": "{ key: string; label: string; color?: string }[]",
       "required": true,
-      "description": "What to plot, in palette order (--strata-chart-1..4). Up to 4; past that, fold the tail into \"Other\". color overrides the palette with a token."
+      "description": "What to plot, in palette order (--syntara-chart-1..4). Up to 4; past that, fold the tail into \"Other\". color overrides the palette with a token."
     },
     {
       "component": "BarChart",
@@ -168,7 +168,7 @@
       "Every chart also renders its data as a <table> with a caption, visually hidden unless showTable. No value is only reachable by hovering.",
       "The SVG, axis labels and the floating readout are aria-hidden: they repeat what the options and the table say.",
       "Pointer, pen and touch snap to the nearest x position (full-height bands), so nobody has to land on a 2px line or a thin bar.",
-      "Text never wears a series colour: labels, axes, legend and readout use text.default and text.subtle; the series colour is only on marks and swatches. Series colours come from --strata-chart-1..4, solved per brand and scheme to reach 3:1 on surfaces and stay distinguishable under colour-vision deficiency.",
+      "Text never wears a series colour: labels, axes, legend and readout use text.default and text.subtle; the series colour is only on marks and swatches. Series colours come from --syntara-chart-1..4, solved per brand and scheme to reach 3:1 on surfaces and stay distinguishable under colour-vision deficiency.",
       "A 2px focus ring surrounds the plot and axes while an x position has keyboard focus.",
       "Motion (line draw-in, area fade-up, bar growth, readout glide) sits behind prefers-reduced-motion: no-preference.",
       "There are no disabled or invalid states: a chart is read-only.",

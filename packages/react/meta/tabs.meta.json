@@ -9,7 +9,7 @@
   "dependencies": ["react-aria-components"],
   "registryDependencies": [],
   "reactAria": "https://react-spectrum.adobe.com/react-aria/Tabs.html",
-  "usage": "import { Tab, TabList, TabPanel, Tabs } from '@strata/react';\n\nexport function ClaimTabs() {\n  return (\n    <Tabs defaultSelectedKey=\"overview\">\n      <TabList aria-label=\"Claim details\">\n        <Tab id=\"overview\">Overview</Tab>\n        <Tab id=\"documents\" count={3}>Documents</Tab>\n      </TabList>\n      <TabPanel id=\"overview\">…</TabPanel>\n      <TabPanel id=\"documents\">…</TabPanel>\n    </Tabs>\n  );\n}",
+  "usage": "import { Tab, TabList, TabPanel, Tabs } from '@syntara/react';\n\nexport function ClaimTabs() {\n  return (\n    <Tabs defaultSelectedKey=\"overview\">\n      <TabList aria-label=\"Claim details\">\n        <Tab id=\"overview\">Overview</Tab>\n        <Tab id=\"documents\" count={3}>Documents</Tab>\n      </TabList>\n      <TabPanel id=\"overview\">…</TabPanel>\n      <TabPanel id=\"documents\">…</TabPanel>\n    </Tabs>\n  );\n}",
   "examples": [
     { "name": "tabs-demo", "title": "Tabs", "description": "Underline tabs for switching sections of a page." },
     { "name": "tabs-pill", "title": "Pill", "description": "A segmented control for switching views of the same data." },
@@ -65,7 +65,7 @@
   },
   "typeNotes": [
     {
-      "note": "Key is React Aria's Key: string | number. React's Key also allows bigint, so state typed with it fails the check. Import Key from @strata/react instead: import { type Key } from '@strata/react'. String ids work too.",
+      "note": "Key is React Aria's Key: string | number. React's Key also allows bigint, so state typed with it fails the check. Import Key from @syntara/react instead: import { type Key } from '@syntara/react'. String ids work too.",
       "example": "const [tab, setTab] = useState<Key>('overview');"
     }
   ],

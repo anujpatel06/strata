@@ -14,7 +14,7 @@
   ],
   "dependencies": [],
   "registryDependencies": [],
-  "usage": "import { Kbd, KbdGroup } from '@strata/react';\n\nexport function SearchHint() {\n  return (\n    <p>\n      Press{' '}\n      <KbdGroup>\n        <Kbd>⌘</Kbd>\n        <Kbd>K</Kbd>\n      </KbdGroup>{' '}\n      to search.\n    </p>\n  );\n}",
+  "usage": "import { Kbd, KbdGroup } from '@syntara/react';\n\nexport function SearchHint() {\n  return (\n    <p>\n      Press{' '}\n      <KbdGroup>\n        <Kbd>⌘</Kbd>\n        <Kbd>K</Kbd>\n      </KbdGroup>{' '}\n      to search.\n    </p>\n  );\n}",
   "examples": [
     {
       "name": "kbd-demo",

@@ -1,4 +1,4 @@
-# ADR-018: Position Strata on published evidence, and widen Phase 5 to match
+# ADR-018: Position Syntara on published evidence, and widen Phase 5 to match
 
 - **Status:** Accepted — decided by **Claude recommended, Anuj accepted**
 - **Date:** 2026-09-27
@@ -6,13 +6,13 @@
 
 ## Context
 
-- Anuj asked how Strata differs from shadcn/ui, 21st.dev and similar. Research: `docs/research/2026-09-27-differentiation.md`.
+- Anuj asked how Syntara differs from shadcn/ui, 21st.dev and similar. Research: `docs/research/2026-09-27-differentiation.md`.
 - Components are a commodity. Material already generates a contrast-safe role set from a seed colour. A July 2026 survey found an MCP server in 20 of 21 design systems. shadcn ships a raw-colour lint.
 - Not found anywhere: a reproducible public agent eval for a design system, a brand fidelity metric, or a drift tool that checks native elements, physical CSS properties and accessible names. These are absence-of-evidence findings.
 
 ## Decision
 
-- **Pitch:** Strata publishes reproducible proof that any brand gets an accessible theme and that AI agents build correctly with it, across brands and RTL. It doesn't claim better components or a new kind of theme generator.
+- **Pitch:** Syntara publishes reproducible proof that any brand gets an accessible theme and that AI agents build correctly with it, across brands and RTL. It doesn't claim better components or a new kind of theme generator.
 - **Agent eval (BRIEF §10) widens:**
   - scores reported per model, with the harness, prompts and run command public;
   - prompts tagged for accessibility, RTL and multi-brand, each with its own score;

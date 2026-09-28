@@ -1,4 +1,4 @@
-# Strata — build log
+# Syntara — build log
 
 One entry per session, newest first. Three headings: **Changed / Decided / Next**.
 Every decision names who made the call: **Anuj**, **Claude recommended, Anuj accepted**, or **Claude** (pending Anuj's review).
@@ -6,15 +6,35 @@ Numbers only with the command that produced them. Design trade-offs get an ADR i
 
 ---
 
+## 2026-09-28 (rename) — the project is Syntara
+
+**Changed**
+- **The project is renamed from Strata to Syntara**, in one case-preserving pass over every tracked text file except `evals/runs/`: 11,063 occurrences in 747 files, two of them also renamed on disk. Counts from `git grep -I -o -i syntara -- . ':!evals/runs' | wc -l` and `git diff --name-only | wc -l`.
+- The npm scope is `@syntara/*`. The CLIs are `syntara-audit`, `syntara-mcp`, `syntara-codemods`.
+- **Tokens are renamed with it:** `--strata-*` → `--syntara-*` (8,405 occurrences) and `data-strata-*` → `data-syntara-*` (319). No token value changed and no component behaviour changed.
+- The MCP server is `syntara`, so its tools are `syntara__get_component` and the rest; its resources are `syntara://agents` and `syntara://governance`. Server-driven UI schema ids are `urn:syntara:sdui:v1:*`. Script environment variables are `SYNTARA_REGISTRY_URL`, `SYNTARA_BASE_URL`, `SYNTARA_LOCAL_FONTS`. The Kotlin and Swift exports are `SyntaraTokens`, `SyntaraColors` and the rest, and the two native snapshots are renamed to match.
+- A breaking changeset for all eight published packages, spelling out the four things a consumer has to rewrite.
+
+**Decided**
+- **ADR-029, the rename and how far it reaches — Anuj.** The token prefix and the wire contract change with the name, because a design system whose every custom property reads `--strata-` is still called Strata to the people using it, and doing it after 1.0 would cost the same with users attached.
+- **The GitHub repository keeps its name — Anuj's call, not taken here.** 20 links in the docs, ADRs and RFCs point at `github.com/anujpatel06/strata` and are left exactly as they are. Renaming the repository breaks every clone and every link anyone already holds; GitHub's redirect would keep these links working once he does it.
+- **The eval records are not rewritten — Claude.** All 803 files under `evals/runs/` are byte-identical, and so are the generated `results.md`, `results.json` and `results.svg`, which record the literal tarball names and workspace paths of runs that happened (`packs/strata-react-0.1.0.tgz`). Rewriting them would report an install that never took place. `score.mjs` now accepts either scope so archived runs still score; `evals/README.md` says that re-scoring `iter-1` or `iter-2` needs `SOURCE_ROOT` pointed at a pre-rename checkout, because the auditor no longer knows `--strata-*`.
+
+**Next**
+- Anuj: rename the GitHub repository if he wants it to match, and decide whether `@syntara` is the scope to reserve on npm.
+- A codemod for the token prefix, if there is ever a consumer to migrate. GOVERNANCE.md already sets that policy for deprecations.
+
+---
+
 ## 2026-09-28 (Phase 5a) — server-driven UI, native tokens, Hindi tenant, and fixes from the eval
 
 **Changed**
-- `packages/sdui` (new): a JSON Schema per component generated from `meta.json`, `validateScreen`, and `StrataScreen`, a reference renderer for the web. 26 node types. New docs page, /docs/server-driven-ui, with a live demo.
+- `packages/sdui` (new): a JSON Schema per component generated from `meta.json`, `validateScreen`, and `SyntaraScreen`, a reference renderer for the web. 26 node types. New docs page, /docs/server-driven-ui, with a live demo.
 - `packages/theme-engine`: `toCompose` and `toSwiftUI`. The token build writes a Kotlin and a Swift file per tenant and re-checks every contrast pair on the exported values.
 - Tenant **Haat** (hi-IN), with a Devanagari type pair (Mukta) whose line heights and tracking were set by measuring for clipping. New `scripts/check-script-clipping.mjs`. The docs show "Hindi copy: draft" wherever Haat's copy appears.
 - `packages/mcp`: new tool `find_icon`; `get_component` returns `imports` and `typeNotes`. `AGENTS.md` gains an icon rule and a narrow-screen rule.
 - Components: ToggleButtonGroup wraps when it doesn't fit; `Key` is exported; StatTile marks bad news with a shape and a word for screen readers (ADR-028).
-- Docs CSS: 163 selectors that restyle a Strata component now outweigh it. New `scripts/check-override-weight.mjs`, in CI and `/verify` (ADR-026).
+- Docs CSS: 163 selectors that restyle a Syntara component now outweigh it. New `scripts/check-override-weight.mjs`, in CI and `/verify` (ADR-026).
 - The schema validator named the wrong node for errors inside a slot called `action`. Fixed, with tests.
 
 **Decided**
@@ -37,7 +57,7 @@ Numbers only with the command that produced them. Design trade-offs get an ADR i
 - The homepage still says "three tenants", and the docs index doesn't list Haat.
 
 **A regression caught and fixed before commit**
-- Adding `@strata/sdui` to the docs changed the order of the site's stylesheets, and the Portfolio block grew from 1,440px to over 8,000px wide in every left-to-right tenant. Typecheck, 1,422 tests, the build and the drift gate all passed with it broken. A subagent's screenshot review found it.
+- Adding `@syntara/sdui` to the docs changed the order of the site's stylesheets, and the Portfolio block grew from 1,440px to over 8,000px wide in every left-to-right tenant. Typecheck, 1,422 tests, the build and the drift gate all passed with it broken. A subagent's screenshot review found it.
 - After the fix, every block in four tenants at 1,440 and 390px was compared pixel by pixel with 9061227. Portfolio is identical. Two small differences remain and are kept: the dashboard's "View all" icon, and a 15px mark at the top of the request flow.
 
 **Results**
@@ -49,8 +69,8 @@ Numbers only with the command that produced them. Design trade-offs get an ADR i
 - `node scripts/check-script-clipping.mjs --pairs=bilingual-devanagari`: no clipping in 5,616 cases.
 - `pnpm check:meta`: 53 / 53. `pnpm registry`: 73 items. `node scripts/check-override-weight.mjs`: 0.
 - `pnpm drift apps/docs --min-score 95`: passes, 98.8, 60 findings.
-- `pnpm --filter @strata/docs build`: 81 pages. `node scripts/check-ssr-tabs.mjs`: 0 of 80.
-- `STRATA_BASE_URL=http://localhost:3016 node scripts/axe-sweep.mjs`: 113 routes × light/dark, 0 violation nodes, 0 page errors.
+- `pnpm --filter @syntara/docs build`: 81 pages. `node scripts/check-ssr-tabs.mjs`: 0 of 80.
+- `SYNTARA_BASE_URL=http://localhost:3016 node scripts/axe-sweep.mjs`: 113 routes × light/dark, 0 violation nodes, 0 page errors.
 - Horizontal overflow, every block × 5 tenants at 1,440 and 390px: 0.
 - Dark-scheme brand fidelity, examined: of 1,000 brands, 108 get a slightly deeper fill so labels stay white as in light (median distance 3.0), and 92 dark brands are lightened so they don't vanish on a dark canvas. All 33 moves over 10 are in the second group; 26 of them are near-black brands. By design (ADR-006), not a fault.
 
@@ -64,7 +84,7 @@ Numbers only with the command that produced them. Design trade-offs get an ADR i
 
 **Changed**
 - `Tooltip` (`packages/react/src/ui/tooltip.tsx`, `tooltip.module.css`): a tooltip closed by a swap to the next tooltip now unmounts.
-  - Cause: a fault in React Aria 1.21.1, reproduced with its own components and no Strata code. Tooltips on the buttons of a `ToggleButtonGroup` stay mounted when Tab leaves the group. On Tab the group moves focus to its last item, that item's tooltip replaces the open one with `shouldSkipAnimation`, and the closed tooltip ends up mounted as `[data-exiting]` with no position, at 0,0. Tooltips on plain buttons don't do it. It isn't the CSS animation: it happens with reduced motion and with no CSS at all.
+  - Cause: a fault in React Aria 1.21.1, reproduced with its own components and no Syntara code. Tooltips on the buttons of a `ToggleButtonGroup` stay mounted when Tab leaves the group. On Tab the group moves focus to its last item, that item's tooltip replaces the open one with `shouldSkipAnimation`, and the closed tooltip ends up mounted as `[data-exiting]` with no position, at 0,0. Tooltips on plain buttons don't do it. It isn't the CSS animation: it happens with reduced motion and with no CSS at all.
   - Fix: the component hands React Aria a trigger state with `shouldSkipAnimation: false`, so the tooltip always takes the path that ends. The swap stays instant: the tooltip gets `data-instant`, and the CSS skips the enter and exit animation for it.
 - `Tooltip`: no fade for a tooltip that never appeared. A toggle group moves focus to its last item on Tab so that the browser's Tab leaves the group. That item's tooltip opened and closed before the first paint, then faded out for 120ms ("Compact" on the preview toolbar). The component now marks a tooltip that closes before its first frame as `data-instant`.
 - `Tooltip`: a tooltip opened by keyboard focus stays open when that focus scrolls the page. React Aria closes tooltips on any scroll, so "Copy code" on the component pages closed as soon as it opened. While the trigger has keyboard focus, only a scroll the person made (wheel, touch, pointer or key) closes it.
@@ -79,8 +99,8 @@ Numbers only with the command that produced them. Design trade-offs get an ADR i
 - Fix it in the component, not with a patched dependency. 1.21.1 is the newest `react-aria-components` (`npm view react-aria-components version`) — **Claude**.
 
 **Results**
-- Stale tooltips: 802 failures before the fix, 0 after (first version of the check). Pass-through flashes: 5 failures with only the first fix, 0 with both. Final: `tooltips checked: 88; menus and popovers checked: 4; failures: 0` — `STRATA_BASE_URL=http://localhost:3010 node scripts/check-overlay-exit.mjs`, on the production build.
-- With `/docs/server-driven-ui` included (working tree, built to `.next-tooltipfix`): `tooltips checked: 98; menus and popovers checked: 4; failures: 0` — `STRATA_BASE_URL=http://localhost:3011 node scripts/check-overlay-exit.mjs`.
+- Stale tooltips: 802 failures before the fix, 0 after (first version of the check). Pass-through flashes: 5 failures with only the first fix, 0 with both. Final: `tooltips checked: 88; menus and popovers checked: 4; failures: 0` — `SYNTARA_BASE_URL=http://localhost:3010 node scripts/check-overlay-exit.mjs`, on the production build.
+- With `/docs/server-driven-ui` included (working tree, built to `.next-tooltipfix`): `tooltips checked: 98; menus and popovers checked: 4; failures: 0` — `SYNTARA_BASE_URL=http://localhost:3011 node scripts/check-overlay-exit.mjs`.
 - Scroll: 8 failures without the fix, 0 with it. Final check on the scratch build: `tooltips checked: 96; menus and popovers checked: 4; failures: 0`.
 - Menu and Popover don't have the fault: they passed on the build without the fix too.
 - `/verify`, all steps pass: `pnpm typecheck`; `pnpm test` (react 445, theme-engine 224, icons 245, mcp 143, audit 74, codemods 8); `pnpm test:themes` 118,000 / 118,000; `pnpm check:meta` 53/53; `pnpm registry` 71 items; docs build 80 pages; `node scripts/check-ssr-tabs.mjs` 0 of 79 pages; `node scripts/axe-sweep.mjs` 0 violation nodes on 105 routes × 2 schemes.
@@ -96,10 +116,10 @@ Numbers only with the command that produced them. Design trade-offs get an ADR i
 **Changed**
 - Ran the agent eval twice. Iteration 1 is invalid and kept on record (`evals/runs/iter-1/INVALID.md`). Iteration 2 is the result (`evals/results.md`).
 - Harness fixes, each found by reading runs:
-  - `node_modules` is copied into each workspace, not linked. File search doesn't follow links, so in iteration 1 only 2 of 50 runs without context imported from `@strata/react`, and 31 said the packages weren't installed.
+  - `node_modules` is copied into each workspace, not linked. File search doesn't follow links, so in iteration 1 only 2 of 50 runs without context imported from `@syntara/react`, and 31 said the packages weren't installed.
   - The eval stops at the account's usage limit and records nothing for the runs it cuts short. In iteration 2 the limit produced 84 empty runs and 3 half-finished ones; all 87 were thrown away and run again.
   - The leak check no longer flags a run's own files. Its first 5 reports were all false.
-  - Each result records whether the run read the installed packages, and whether the screen imports from `@strata/react`.
+  - Each result records whether the run read the installed packages, and whether the screen imports from `@syntara/react`.
 - CI runs the drift gate, `pnpm drift apps/docs --min-score 95`.
 - Docs: the MCP page shows the eval's results with their limits.
 
@@ -133,11 +153,11 @@ Numbers only with the command that produced them. Design trade-offs get an ADR i
 - `pnpm test:themes`: 118,000 / 118,000 checks; 2,000 / 2,000 chart palettes; adjustments per brand median 4, max 7.
 - `pnpm check:meta`: 53 / 53. `pnpm registry`: 71 items, all ok.
 - `pnpm drift apps/docs --min-score 95`: passes, score 98.8, 60 findings.
-- `pnpm --filter @strata/docs build`: 80 pages. `node scripts/check-ssr-tabs.mjs`: 0 of 79 pages with a tab list missing its panel.
-- `STRATA_BASE_URL=http://localhost:3010 node scripts/axe-sweep.mjs`: 105 routes × light/dark, 0 violation nodes, 0 page errors.
+- `pnpm --filter @syntara/docs build`: 80 pages. `node scripts/check-ssr-tabs.mjs`: 0 of 79 pages with a tab list missing its panel.
+- `SYNTARA_BASE_URL=http://localhost:3010 node scripts/axe-sweep.mjs`: 105 routes × light/dark, 0 violation nodes, 0 page errors.
 
 **What the eval says, and doesn't**
-- With Strata installed and readable, the agent used it in every run, in both conditions. The baseline is already strong.
+- With Syntara installed and readable, the agent used it in every run, in both conditions. The baseline is already strong.
 - The server's clearest effect is on drift (19 findings to 0) and on effort (fewer turns, lower cost).
 - It made no difference to type errors and did worse on narrow screens.
 - One model, one agent, 50 runs a side. No claim here holds for another model.
@@ -185,7 +205,7 @@ Numbers only with the command that produced them. Design trade-offs get an ADR i
 - `packages/theme-engine`: `brandFidelity(theme)`, the distance between each brand input and the fill that carries it. In the fuzz report and in each tenant's `contrast-report.json`.
 - `AGENTS.md` (root) and `.github/CODEOWNERS`.
 - `evals/` (new): 25 prompts, the template app, `setup`, `run`, `score` and `report` scripts, and a README with the method and its limits.
-- `packages/tokens`: `@strata/theme-engine` moved to dev dependencies. The eval's setup found that installing the packed package tried to fetch the engine from npm.
+- `packages/tokens`: `@syntara/theme-engine` moved to dev dependencies. The eval's setup found that installing the packed package tried to fetch the engine from npm.
 - CI runs the drift gate: `pnpm drift apps/docs --min-score 95`.
 - Docs: the MCP page describes the real server.
 
@@ -197,7 +217,7 @@ Numbers only with the command that produced them. Design trade-offs get an ADR i
 - Native elements in the docs app (a skip link, anchors, two tables) stay as findings. No exemptions were added to raise the score — **Claude**.
 
 **Results**
-- `pnpm --filter @strata/audit test`: 74 passing. `pnpm --filter @strata/mcp test`: 143 passing, including 3 against the real auditor. `pnpm --filter @strata/theme-engine test`: 224 passing.
+- `pnpm --filter @syntara/audit test`: 74 passing. `pnpm --filter @syntara/mcp test`: 143 passing, including 3 against the real auditor. `pnpm --filter @syntara/theme-engine test`: 224 passing.
 - `pnpm drift apps/docs`: score 98.8. 60 findings (24 errors, 36 warnings) in 4,598 places looked at; 34 have a safe fix. By rule: 35 off-scale space, 23 native elements, 1 off-scale radius, 1 physical property.
 - `pnpm drift packages/react/src/ui`: score 99.9. 1 finding, the `<table>` in `chart.tsx`.
 - Brand fidelity over 1,000 random brands (`pnpm test:themes`), ΔE in OKLab × 100:
@@ -206,7 +226,7 @@ Numbers only with the command that produced them. Design trade-offs get an ADR i
   - accent, light: kept exactly 88.4%, p95 3.1, largest 5.6
   - accent, dark: kept exactly 77.5%, p95 8.0, largest 25.0
 - Tenants (`pnpm tokens`): Vela, Harbor, Qamar and Care keep both brand colours exactly in both schemes. The house theme's near-black `#18181b` ships as `#4a4a4e` in dark, a distance of 20.0.
-- MCP response sizes: see the MCP docs page; `pnpm --filter @strata/mcp test sizes`.
+- MCP response sizes: see the MCP docs page; `pnpm --filter @syntara/mcp test sizes`.
 - Smoke runs of the eval, one prompt: two early runs leaked (one read a neighbouring workspace, one read an earlier run's memory notes) and were thrown away. After the fix, neither of the two runs read anything outside its workspace. They're not results and aren't kept.
 
 **Known gaps**
@@ -226,27 +246,27 @@ Numbers only with the command that produced them. Design trade-offs get an ADR i
 ## 2026-09-27 (registry, icons, hydration) — `pnpm registry` passes; icons flip under RTL; component pages hydrate
 
 **Changed**
-- `packages/react/scripts/build-registry.mjs`: `buildBlockItems` rejected every `@strata/*` import, so the 7 blocks that import `@strata/icons` were skipped and the build exited 1. Components never failed because `importProblems` already exempts `@strata/icons` (ADR-014). Blocks now get the same exemption: the package is added to the item's `dependencies`. Other `@strata/*` imports are still errors.
-- `packages/react/CONVENTIONS.md`: the allowed-imports line lists `@strata/icons` instead of `@tabler/icons-react`.
-- Tabler selectors replaced in `button`, `link` and `toggle-group` CSS. They matched Tabler's class names, which `@strata/icons` doesn't render, so two rules were dead:
-  - The RTL flip for arrows and chevrons only worked with `data-directional`. It now matches `[data-strata-icon^='arrow']` and `[data-strata-icon^='chevron']`. Not yet checked in a browser.
-  - The icon stroke rule now matches `[data-strata-icon]`. ThemeScope already applied the same value, so nothing looked different.
-- `button.test.tsx`: the pending test looked for `.tabler-icon-plus`, which could never be there, so it passed without testing anything. It now looks for `[data-strata-icon="plus"]`.
-- Comments that described Tabler behaviour in `button.tsx`, `button.module.css`, `link.module.css` and `badge.module.css` now describe `@strata/icons`. `steps.tsx` and `checkbox.tsx` still credit Tabler for their path geometry, which is accurate.
+- `packages/react/scripts/build-registry.mjs`: `buildBlockItems` rejected every `@syntara/*` import, so the 7 blocks that import `@syntara/icons` were skipped and the build exited 1. Components never failed because `importProblems` already exempts `@syntara/icons` (ADR-014). Blocks now get the same exemption: the package is added to the item's `dependencies`. Other `@syntara/*` imports are still errors.
+- `packages/react/CONVENTIONS.md`: the allowed-imports line lists `@syntara/icons` instead of `@tabler/icons-react`.
+- Tabler selectors replaced in `button`, `link` and `toggle-group` CSS. They matched Tabler's class names, which `@syntara/icons` doesn't render, so two rules were dead:
+  - The RTL flip for arrows and chevrons only worked with `data-directional`. It now matches `[data-syntara-icon^='arrow']` and `[data-syntara-icon^='chevron']`. Not yet checked in a browser.
+  - The icon stroke rule now matches `[data-syntara-icon]`. ThemeScope already applied the same value, so nothing looked different.
+- `button.test.tsx`: the pending test looked for `.tabler-icon-plus`, which could never be there, so it passed without testing anything. It now looks for `[data-syntara-icon="plus"]`.
+- Comments that described Tabler behaviour in `button.tsx`, `button.module.css`, `link.module.css` and `badge.module.css` now describe `@syntara/icons`. `steps.tsx` and `checkbox.tsx` still credit Tabler for their path geometry, which is accurate.
 - Icon stroke is 1.5 everywhere. CONVENTIONS "Icons match text" said 1.75 and cited Tabler; it now names the token. The 1.75 fallbacks in `chip` and `eyebrow` CSS are 1.5 (the token is always set to 1.5, so nothing looked different). Two places did render at 1.75 and now follow the token: the portfolio block's next-step icon and the file icons in docs code blocks.
 - Hydration fix brought over from the `infallible-merkle-6dffef` worktree, where another session wrote it:
   - Cause: the component page (a server component) rendered `Tabs`, `TabList`, `Tab` and `TabPanel` directly. React Aria chose the default tab from a collection that was still empty, so the server HTML had no selected tab and no panel, and hydration threw React error 418.
   - Fix: the new client component `apps/docs/components/docs/install-tabs.tsx` creates the tabs; the page passes only the panel contents. No change to the Tabs component.
   - New `scripts/check-ssr-tabs.mjs` fails when a prerendered page has a tab list without a panel. It is step 8 of `/verify` and runs in CI after the build.
   - Tabs meta: one Do and one Don't about server components.
-- Registry build: a `workspace:*` dependency is written as the package's own version (`@strata/icons@^0.1.0`). Also from that worktree.
+- Registry build: a `workspace:*` dependency is written as the package's own version (`@syntara/icons@^0.1.0`). Also from that worktree.
 - Accordion: closed panels in server-rendered HTML are `display: none` again. The panel's `display: grid` beat the browser's `[hidden]` rule, so until React Aria mounted, links inside a closed panel could take keyboard focus while invisible. Found by running axe on `/blocks` with the site's scripts blocked.
 
 **Decided**
 - Fix the hydration error in the docs page, not in Tabs — **Claude** (pending Anuj), as the other session recorded it.
 - The Accordion finding is a real fault, not a false one as the showcase-card entry calls it: without the fix a keyboard user can tab into hidden links before hydration, or for good if scripts fail — **Claude** (pending Anuj). The Meter finding in the same state is false: `role="meter progressbar"` is valid ARIA that axe-core 4.13 rejects.
 - Icon stroke is 1.5, as ADR-014 says, not the 1.75 in CONVENTIONS — **Anuj**.
-- Treat `@strata/icons` in blocks the way components already treat it — **Claude recommended, Anuj accepted**. Not a design trade-off: it applies ADR-014 to a check that was missed when Tabler was replaced. The registry stays internal (ADR-011 revision).
+- Treat `@syntara/icons` in blocks the way components already treat it — **Claude recommended, Anuj accepted**. Not a design trade-off: it applies ADR-014 to a check that was missed when Tabler was replaced. The registry stays internal (ADR-011 revision).
 
 **Results**
 - `pnpm registry`: exit 1 with 7 errors, 64 items → exit 0, 71 items (7 blocks `ok`).
@@ -258,14 +278,14 @@ Numbers only with the command that produced them. Design trade-offs get an ADR i
   - `pnpm test:themes`: 118,000 / 118,000 checks; 2,000 / 2,000 chart palettes; adjustments per brand median 4, max 7.
   - `pnpm check:meta`: 53 / 53; 18 alpha · 35 beta · 0 stable.
   - `pnpm registry`: 71 items, exit 0.
-  - `NEXT_DIST_DIR=.next-verify pnpm --filter @strata/docs build`: 80 pages.
+  - `NEXT_DIST_DIR=.next-verify pnpm --filter @syntara/docs build`: 80 pages.
   - `NEXT_DIST_DIR=.next-verify node scripts/check-ssr-tabs.mjs`: 79 pages, 323 tab lists, 0 pages with a tab list missing its panel.
-  - `STRATA_BASE_URL=http://localhost:3021 node scripts/axe-sweep.mjs` against `next start -p 3021`: 105 routes × light/dark, 0 violation nodes, 0 page errors.
+  - `SYNTARA_BASE_URL=http://localhost:3021 node scripts/axe-sweep.mjs` against `next start -p 3021`: 105 routes × light/dark, 0 violation nodes, 0 page errors.
 - Before the hydration fix the sweep gave 40 page errors (#418 on 20 component pages × 2 schemes) and 8 violation nodes on `/blocks`. The 8 appear only when axe runs before hydration: 1 run in 18 under load, every run with the site's scripts blocked. After the Accordion fix that state gives 1, the Meter false finding.
 - Screenshots (`node scripts/shoot.mjs`, playground and the built site), looked at one by one: arrows in Button and Link point left under Qamar RTL and right under Vela; the portfolio block's next-step icon and the code block file icons read clearly at the 1.5 stroke.
 
 **Next**
-- `@strata/icons` is not on npm, so a registry install that needs it would still fail. Only matters if the registry is published again.
+- `@syntara/icons` is not on npm, so a registry install that needs it would still fail. Only matters if the registry is published again.
 - `Tabs` rendered straight from a server component without `defaultSelectedKey` can fail the same way in any Next.js app. Not yet reported to React Aria.
 - The docs header's search button shows its icon off-centre at 390px in dark mode.
 - The `infallible-merkle-6dffef` worktree can be discarded once Anuj has checked nothing else in it is wanted.
@@ -279,11 +299,11 @@ Numbers only with the command that produced them. Design trade-offs get an ADR i
 - RFC flow: `docs/rfcs/000-template.md`, RFC-001, two issue templates and a pull request template.
 - Button: new `tone` (`neutral` | `danger`) on `primary`, `outline` and `ghost`. `variant="danger"` is deprecated; it renders exactly as before (`data-variant="danger"` included) and warns once in development. AlertDialog uses the new prop. New `button-tone` example.
 - Deprecations are records: `Deprecation`, `PropDoc.deprecated` and `PropDoc.deprecatedValues` in the meta schema. `pnpm check:meta` checks them (every field, removal is a later major, the codemod and RFC exist). Component pages show them.
-- New package `@strata/codemods` with `button-variant-danger-to-tone` and a CLI. It was run on `apps/` and `packages/react/test`: 3 usages rewritten, 3 places reported for a person to read (all three turned out to need no change).
+- New package `@syntara/codemods` with `button-variant-danger-to-tone` and a CLI. It was run on `apps/` and `packages/react/test`: 3 usages rewritten, 3 places reported for a person to read (all three turned out to need no change).
 - The settings block had a local override that made an outline button look destructive. It now uses `variant="outline" tone="danger"`, and the override's CSS is gone.
 - Engine: the four `feedback.*.fg` roles are also solved on `surface.canvas` and `surface.raised`. No token value moved; tenants still need 3 adjustments each (`pnpm tokens`).
 - Docs: governance and changelog pages; the decision list no longer shows raw `**` marks or clipped text.
-- CI runs `pnpm check:meta`. `scripts/axe-sweep.mjs` takes `STRATA_BASE_URL`. README numbers, repo map and roadmap brought up to date.
+- CI runs `pnpm check:meta`. `scripts/axe-sweep.mjs` takes `SYNTARA_BASE_URL`. README numbers, repo map and roadmap brought up to date.
 
 **Decided**
 - `variant="danger"` → `tone="danger"`, not `tone="critical"` as the brief said: twelve components and the tokens already say `danger` (RFC-001, ADR-021) — **Claude recommended, Anuj accepted**.
@@ -297,12 +317,12 @@ Numbers only with the command that produced them. Design trade-offs get an ADR i
 - `pnpm typecheck`: clean.
 - `pnpm test`: 435 components · 219 engine · 245 icons · 8 codemods, all passing.
 - `pnpm test:themes`: 118,000 / 118,000 checks, 118 per brand (was 102); 2,000 / 2,000 chart palettes; adjustments per brand median 4, max 7.
-- Danger label contrast on outline and ghost buttons, worst case over 5 tenants and 1,000 fuzz brands, light and dark: 6.10:1 on `surface.selected`, 6.18:1 on `feedback.danger.bg` — `pnpm --filter @strata/react exec vitest run test/button.test.tsx -t "contrast proof"`.
+- Danger label contrast on outline and ghost buttons, worst case over 5 tenants and 1,000 fuzz brands, light and dark: 6.10:1 on `surface.selected`, 6.18:1 on `feedback.danger.bg` — `pnpm --filter @syntara/react exec vitest run test/button.test.tsx -t "contrast proof"`.
 - `pnpm check:meta`: 53 / 53; 18 alpha · 35 beta · 0 stable.
-- `pnpm --filter @strata/docs build`: 80 pages.
-- `STRATA_BASE_URL=http://localhost:3010 node scripts/axe-sweep.mjs`: 105 routes × light/dark, 0 violation nodes.
+- `pnpm --filter @syntara/docs build`: 80 pages.
+- `SYNTARA_BASE_URL=http://localhost:3010 node scripts/axe-sweep.mjs`: 105 routes × light/dark, 0 violation nodes.
 - **Failing, and already failing at commit 31cde5d:**
-  - `pnpm registry`: 7 errors, all blocks that import `@strata/icons`. Fixed later the same day; see the registry entry above.
+  - `pnpm registry`: 7 errors, all blocks that import `@syntara/icons`. Fixed later the same day; see the registry entry above.
   - The production docs build logs React error #418 (hydration) on 20 component pages in both schemes. The mismatch is in the Installation tabs. Confirmed by building 31cde5d in a separate worktree.
   - Both are being fixed in separate sessions.
 
@@ -320,7 +340,7 @@ Numbers only with the command that produced them. Design trade-offs get an ADR i
 
 **Changed**
 - Governance page: new "Maturity" section with the criteria and how each is checked. Alpha (the floor) = complete meta, a test file, keyboard tests when meta lists keys, ≥3 examples, axe 0 light + dark, renders in all five tenants. Beta = alpha + used in a block or the homepage showcase + a person decides the API is settled (then it changes only by deprecation). Stable = beta + published on npm + a dated manual accessibility review (`review.a11y`) + production use + one release without a breaking change.
-- `pnpm check:meta` enforces the automatable criteria: a declared beta/stable that misses one is an error; an alpha that misses the floor is a printed note (nothing lower to move it to); stable is rejected while `@strata/react` is unpublished (`PUBLISHED_ON_NPM` in the script). New optional `review.a11y` meta field (a date, only for a real review).
+- `pnpm check:meta` enforces the automatable criteria: a declared beta/stable that misses one is an error; an alpha that misses the floor is a printed note (nothing lower to move it to); stable is rejected while `@syntara/react` is unpublished (`PUBLISHED_ON_NPM` in the script). New optional `review.a11y` meta field (a date, only for a real review).
 - The component page badge is now a link to the criteria with a tooltip on hover and focus; /docs/components shows a legend with counts per level read from meta.
 - Maturity before → after (`pnpm check:meta`): 13 alpha · 40 beta · 0 stable → 18 alpha · 35 beta · 0 stable. 15 beta → alpha (not used in a block, <3 examples, or no keyboard test); 10 alpha → beta (used in blocks, criteria met). Sidebar (being rebuilt) and Chip (new today) meet the beta checks but stay alpha.
 
@@ -343,12 +363,12 @@ Numbers only with the command that produced them. Design trade-offs get an ADR i
 - Docs only. No code, tokens or components changed.
 
 **Decided**
-- Position Strata on published evidence; widen Phase 5 with a per-model eval, a brand fidelity metric and auditor autofix (ADR-018) — **Claude recommended, Anuj accepted**.
+- Position Syntara on published evidence; widen Phase 5 with a per-model eval, a brand fidelity metric and auditor autofix (ADR-018) — **Claude recommended, Anuj accepted**.
 - Mobile story is a server-driven UI schema plus native token export, not native components (ADR-019) — **Claude recommended, Anuj accepted**. Claude first recommended a native Compose slice and changed that after the research.
 - Add a Hindi tenant with per-script type tokens (ADR-020) — **Claude recommended, Anuj accepted**.
 
 **Results**
-- None. The research contains no Strata-measured numbers, and its figures must not appear on the site as Strata metrics.
+- None. The research contains no Syntara-measured numbers, and its figures must not appear on the site as Syntara metrics.
 
 **Open for Anuj**
 - Hindi tenant: name, industry and six brand inputs; who reviews the Hindi copy.
@@ -382,11 +402,11 @@ Numbers only with the command that produced them. Design trade-offs get an ADR i
 **Changed**
 - New /docs/color "Using colour": roles by job with live swatches, and a safe-pairs matrix generated from contrast-pairs.json with the worst ratio across tenants. Rules with reasons for brand colour, status, charts, glass/gradients/tints and fields. Live do/don't. How to check your own pair.
 - The matrix found **focus.ring on surface.selected at 2.97:1 (Care dark)**, which was unguarded. Added it to contrast-pairs.json, and `text.brand` on `surface.selected` too (it had been passing by luck at 4.82). Now 102 checks per brand; the solver lightens Care's dark ring to #90b7ff (7.2:1).
-- Engine: `--strata-sheen` (dark: a 115° band peaking at 8% text.default; light: none). text.subtle stays ≥ 6.86:1 at its brightest pixel over tenants and fuzz (test).
+- Engine: `--syntara-sheen` (dark: a 115° band peaking at 8% text.default; light: none). text.subtle stays ≥ 6.86:1 at its brightest pixel over tenants and fuzz (test).
 - Toast and Alert rebuilt to Anuj's toast reference:
   - sheen, hairline and rim; filled status icons (shape `feedback.*.fg`, knockout `feedback.*.bg`, worst 6.09:1; `solid` failed 3:1 in three places);
   - icon | title and description | one action; action weight by severity (`contrast` for danger/warning).
-  - `@strata/icons` gains 6 filled status icons (243 total).
+  - `@syntara/icons` gains 6 filled status icons (243 total).
 - The surface recipe is applied to card, stat-tile, data-table, empty-state, popover, menu, the select/combobox listboxes, date-picker, dialog, sheet and command. On glass, the face is +8 points more opaque so text stays ≥ 4.72:1 (test in popover).
 - Docs: the site's dark scope copies every scheme-dependent variable (diffed, not a prefix list). Before this, sheen, rim, glow and glass never switched to dark in previews.
 
@@ -411,7 +431,7 @@ Numbers only with the command that produced them. Design trade-offs get an ADR i
   - a clearer segmented selection (and a StrictMode fix: the pill ended hidden under `next dev`);
   - CardTitle at 600;
   - x labels thinned by pixel distance.
-- `@strata/icons`: 235 icons (health, commerce, media, travel and system domains added).
+- `@syntara/icons`: 235 icons (health, commerce, media, travel and system domains added).
 - Care is re-based on the KYB **web** prototype (ADR-015 revision). `benefits-overview` replaces `benefits-home`. New `portfolio` block (dark fintech, with Anuj's five references as the bar). The homepage showcase is rewritten as a bento of product moments.
 
 **Decided**
@@ -438,9 +458,9 @@ Numbers only with the command that produced them. Design trade-offs get an ADR i
 ## 2026-09-27 (evening) — own icons, editorial voice, Care tenant, Geist
 
 **Changed**
-- `@strata/icons` (ADR-014): 95 curvy, minimal icons drawn to one spec (24 grid, 1.5 stroke, `--strata-icon-stroke`). Tabler is replaced everywhere except the GitHub and React logos (official marks, docs only). `pnpm --filter @strata/icons sheet` renders the review sheet.
+- `@syntara/icons` (ADR-014): 95 curvy, minimal icons drawn to one spec (24 grid, 1.5 stroke, `--syntara-icon-stroke`). Tabler is replaced everywhere except the GitHub and React logos (official marks, docs only). `pnpm --filter @syntara/icons sheet` renders the review sheet.
 - Editorial voice (ADR-015):
-  - engine: `editorial` type pair (Fraunces with italics and optical size, DM Sans, DM Mono), `paper` neutral, `--strata-font-tracking-caps`, `--strata-icon-stroke`;
+  - engine: `editorial` type pair (Fraunces with italics and optical size, DM Sans, DM Mono), `paper` neutral, `--syntara-font-tracking-caps`, `--syntara-icon-stroke`;
   - components: Eyebrow, Amount, Meter, Tag, PersonChip/PersonChipGroup, Avatar `tint="auto"` and placeholders, and `<em>` as the brand italic in headings.
 - **Care** tenant (sage/coral, paper, round, editorial; built from Anuj's KYB prototype language, with no client names) and a `benefits-home` block that rebuilds the KYB home screen.
 - Engine contrast pairs added: `text.subtle` on `surface.selected`, `text.brand` on `surface.sunken`, and `feedback.*.fg` on `surface.sunken`. That makes 98 checks per brand (was 86).
@@ -469,12 +489,12 @@ Numbers only with the command that produced them. Design trade-offs get an ADR i
 ## 2026-09-27 — shadcn removed from the product; tactile restyle; finesse pass started
 
 **Changed**
-- No shadcn anywhere users look: docs site, Brand Generator and README. Install is npm or copying the source. `/r/*.json` is no longer served, `pnpm registry` writes to `packages/react/registry/` (gitignored), and the Registry docs page was deleted. The engine's shadcn exporter stays as internal code. `@strata/tokens` now ships `dist` (`files`).
+- No shadcn anywhere users look: docs site, Brand Generator and README. Install is npm or copying the source. `/r/*.json` is no longer served, `pnpm registry` writes to `packages/react/registry/` (gitignored), and the Registry docs page was deleted. The engine's shadcn exporter stays as internal code. `@syntara/tokens` now ships `dist` (`files`).
 - Engine tokens:
   - motion: `duration-slow`, `easing-out`, and a damped spring (stiffness 400, damping 28) sampled into `linear()`, which settles in 402ms;
   - elevation: `shadow-highlight`;
   - glass: `glass-bg`/`blur`/`opacity`, with the opacity *solved* per scheme;
-  - finesse: radii retuned (sharp 6/6/10/4, soft 10/10/16/6, round pill/14/22/pill), softer layered shadows, `--strata-hairline` (0.5px on 2× screens), and `--strata-font-tracking-*` (Inter dynamic-metrics curve, 0 for Arabic pairs).
+  - finesse: radii retuned (sharp 6/6/10/4, soft 10/10/16/6, round pill/14/22/pill), softer layered shadows, `--syntara-hairline` (0.5px on 2× screens), and `--syntara-font-tracking-*` (Inter dynamic-metrics curve, 0 for Arabic pairs).
 - DTCG leaves: 325 (was 316). The spring easing and tracking are CSS-only.
 - Tactile restyle of all 41 components and the site, in parallel by owner group:
   - spring press, sliding `SelectionIndicator` (tabs, toggle group), drawn checkmarks;
@@ -551,9 +571,9 @@ Numbers only with the command that produced them. Design trade-offs get an ADR i
 ## 2026-09-26/27 — v0.2: shadcn-level component library, docs site, registry
 
 **Changed**
-- `@strata/react`: 41 components on React Aria + CSS Modules, each with a meta.json, tests and docs examples (136).
-- `apps/docs`: Next.js 16 site themed by Strata itself. It has component pages (live Preview/Code per tenant, scheme, direction and density; install tabs; API; accessibility; tokens), Blocks (5), Themes (the generator rebuilt with Strata components), Colors, and ⌘K search.
-- Registry: 55 shadcn-schema-valid items (components, blocks, token files, `theme-<tenant>` bridge items, `@strata/strata` base). Verified with shadcn CLI 4.21 through URL installs, namespaced installs and dependency resolution.
+- `@syntara/react`: 41 components on React Aria + CSS Modules, each with a meta.json, tests and docs examples (136).
+- `apps/docs`: Next.js 16 site themed by Syntara itself. It has component pages (live Preview/Code per tenant, scheme, direction and density; install tabs; API; accessibility; tokens), Blocks (5), Themes (the generator rebuilt with Syntara components), Colors, and ⌘K search.
+- Registry: 55 shadcn-schema-valid items (components, blocks, token files, `theme-<tenant>` bridge items, `@syntara/syntara` base). Verified with shadcn CLI 4.21 through URL installs, namespaced installs and dependency resolution.
 - npm build: Vite library mode with `preserveModules`; `'use client'` kept; `dist/styles.css`; types verified with bundler and nodenext resolution.
 - Engine: `toShadcnCssVars` / `toShadcnCSS`. Feedback text is now checked against selected rows too (86 checks per theme), and feedback text is a step deeper, so the solver still never touches the system palette.
 - Built by parallel agents (5 component owners, docs, registry, blocks, home, themes). Every change was integrated, reviewed and verified by the lead.
@@ -564,7 +584,7 @@ Numbers only with the command that produced them. Design trade-offs get an ADR i
 - Scope: ~30 core components + full site this round — **Anuj**.
 - Overlays copy their scope's attributes; ThemeScope owns the locale (ADR-012) — **Claude recommended**, Anuj to confirm.
 - House brand `tenants/house/brand.json` (#18181B, monochrome) so tenant colours are the only colour on the site — **Claude**.
-- Registry token selector `:root, [data-strata-theme="<id>"], [data-strata-scheme]:not([data-strata-theme])` — **Claude**.
+- Registry token selector `:root, [data-syntara-theme="<id>"], [data-syntara-scheme]:not([data-syntara-theme])` — **Claude**.
 - Docs examples use fixed dates so static pages hydrate identically on any day — **Claude**.
 
 **Results**
@@ -580,7 +600,7 @@ Numbers only with the command that produced them. Design trade-offs get an ADR i
 - Not yet on npm; the registry URL must be set at deploy (`NEXT_PUBLIC_SITE_URL`).
 
 **Next**
-- Anuj: review the site locally (`pnpm --filter @strata/docs dev`), confirm ADR-012, deploy the docs to Vercel.
+- Anuj: review the site locally (`pnpm --filter @syntara/docs dev`), confirm ADR-012, deploy the docs to Vercel.
 - Then Phase 4 (governance + deprecation demo) and Phase 5 (MCP + drift audit + agent eval).
 
 ---
@@ -594,7 +614,7 @@ Numbers only with the command that produced them. Design trade-offs get an ADR i
 - README, CLAUDE.md, CONTRIBUTING, CI workflow, Changesets config, `pnpm screenshots` (Playwright + axe).
 
 **Decided**
-- Repo built in the cloud, then saved to `~/projects/strata` — **Anuj**.
+- Repo built in the cloud, then saved to `~/projects/syntara` — **Anuj**.
 - Headless primitives: React Aria Components (ADR-002) — **Anuj**.
 - Styling: CSS Modules + CSS custom properties (ADR-003) — **Anuj**.
 - TypeScript pinned to 5.9, not 7.0, for tooling compatibility — **Claude**.
@@ -610,9 +630,9 @@ Numbers only with the command that produced them. Design trade-offs get an ADR i
 - Theme fuzz: 1,000 brands, 78,000 / 78,000 checks pass; median 0.42 ms per theme; adjustments per brand median 4 (was 12 before retuning) — `pnpm test:themes`.
 - Tenants: Vela, Harbor, Qamar each 78/78 checks, 3 adjustments, 316 tokens — `pnpm tokens`.
 - Tests: 132 passing across engine + exporters — `pnpm test`.
-- axe (wcag2a/aa, 2.1 a/aa, 2.2 aa): 0 violations on 6 preview pages — `pnpm screenshots` (run here with `STRATA_LOCAL_FONTS`, since the build sandbox can't reach Google Fonts).
+- axe (wcag2a/aa, 2.1 a/aa, 2.2 aa): 0 violations on 6 preview pages — `pnpm screenshots` (run here with `SYNTARA_LOCAL_FONTS`, since the build sandbox can't reach Google Fonts).
 
-- Hosted demo: single-file build (`pnpm --filter @strata/generator build:single`) published as a private claude.ai page; Download is hidden there (the host sandbox blocks page-started downloads), Copy stays; `#vela` / `#harbor` / `#qamar` deep-link a tenant — **Claude**.
+- Hosted demo: single-file build (`pnpm --filter @syntara/generator build:single`) published as a private claude.ai page; Download is hidden there (the host sandbox blocks page-started downloads), Copy stays; `#vela` / `#harbor` / `#qamar` deep-link a tenant — **Claude**.
 
 **Open questions for Anuj**
 - Pure-red brands get white labels in light mode but ink labels in dark (ink already passes there). Match the schemes by deepening the dark fill, or keep the brand exact? (ADR-006)

@@ -1,7 +1,7 @@
 'use client';
 
-import { Button, DialogTrigger, Popover } from '@strata/react';
-import { IconInfoCircle } from '@strata/icons';
+import { Button, DialogTrigger, Popover } from '@syntara/react';
+import { IconInfoCircle } from '@syntara/icons';
 
 export default function Example() {
   return (
@@ -10,7 +10,7 @@ export default function Example() {
         <IconInfoCircle aria-hidden />
       </Button>
       <Popover showArrow placement="top">
-        <p style={{ margin: 0, maxInlineSize: 'calc(var(--strata-space-16) * 4)', fontSize: 'var(--strata-font-size-sm)' }}>
+        <p style={{ margin: 0, maxInlineSize: 'calc(var(--syntara-space-16) * 4)', fontSize: 'var(--syntara-font-size-sm)' }}>
           Available balance excludes payments that are still pending. It updates within a few minutes of each transaction.
         </p>
       </Popover>

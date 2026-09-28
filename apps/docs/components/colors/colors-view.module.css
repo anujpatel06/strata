@@ -3,16 +3,16 @@
 .root {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
-  gap: calc(var(--strata-space-16) * 1.25);
+  gap: calc(var(--syntara-space-16) * 1.25);
   min-inline-size: 0;
-  margin-block-start: var(--strata-space-8);
+  margin-block-start: var(--syntara-space-8);
 }
 
 /* ---- Toolbar ---- */
 
 .intro {
   display: grid;
-  gap: var(--strata-space-3);
+  gap: var(--syntara-space-3);
 }
 
 .toolbar {
@@ -21,25 +21,25 @@
   flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
-  gap: var(--strata-space-3) var(--strata-space-6);
-  margin-inline: calc(var(--strata-space-2) * -1);
-  padding: var(--strata-space-2);
-  border-radius: calc(var(--strata-radius-container) + var(--strata-space-1));
+  gap: var(--syntara-space-3) var(--syntara-space-6);
+  margin-inline: calc(var(--syntara-space-2) * -1);
+  padding: var(--syntara-space-2);
+  border-radius: calc(var(--syntara-radius-container) + var(--syntara-space-1));
 }
 @media (min-width: 768px) {
   .toolbar {
     position: sticky;
-    inset-block-start: calc(var(--docs-header-height) + var(--strata-space-2));
-    background: color-mix(in oklab, var(--strata-color-surface-canvas) 85%, transparent);
-    -webkit-backdrop-filter: saturate(1.8) blur(var(--strata-space-3));
-    backdrop-filter: saturate(1.8) blur(var(--strata-space-3));
+    inset-block-start: calc(var(--docs-header-height) + var(--syntara-space-2));
+    background: color-mix(in oklab, var(--syntara-color-surface-canvas) 85%, transparent);
+    -webkit-backdrop-filter: saturate(1.8) blur(var(--syntara-space-3));
+    backdrop-filter: saturate(1.8) blur(var(--syntara-space-3));
   }
 }
 
 .jumpList {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--strata-space-1);
+  gap: var(--syntara-space-1);
   margin: 0;
   padding: 0;
   list-style: none;
@@ -48,41 +48,41 @@
 .jumpLink {
   display: inline-flex;
   align-items: center;
-  gap: var(--strata-space-2);
-  block-size: calc(var(--strata-space-8) + var(--strata-space-1));
-  padding-inline: var(--strata-space-3);
-  border-radius: var(--strata-radius-pill);
-  color: var(--strata-color-text-subtle);
-  font-size: var(--strata-font-size-md);
-  letter-spacing: var(--strata-font-tracking-md);
-  font-weight: var(--strata-font-weight-medium);
+  gap: var(--syntara-space-2);
+  block-size: calc(var(--syntara-space-8) + var(--syntara-space-1));
+  padding-inline: var(--syntara-space-3);
+  border-radius: var(--syntara-radius-pill);
+  color: var(--syntara-color-text-subtle);
+  font-size: var(--syntara-font-size-md);
+  letter-spacing: var(--syntara-font-tracking-md);
+  font-weight: var(--syntara-font-weight-medium);
   transition:
-    background-color var(--strata-motion-duration-fast) var(--strata-motion-easing),
-    color var(--strata-motion-duration-fast) var(--strata-motion-easing);
+    background-color var(--syntara-motion-duration-fast) var(--syntara-motion-easing),
+    color var(--syntara-motion-duration-fast) var(--syntara-motion-easing);
 }
 .jumpLink:hover {
   background: var(--docs-hover);
-  color: var(--strata-color-text-default);
+  color: var(--syntara-color-text-default);
 }
-/* Carries data-strata-theme, so it paints in that tenant's primary. */
+/* Carries data-syntara-theme, so it paints in that tenant's primary. */
 .jumpDot {
-  inline-size: var(--strata-space-2);
-  block-size: var(--strata-space-2);
-  border-radius: var(--strata-radius-pill);
-  background: var(--strata-color-action-primary-bg);
-  box-shadow: inset 0 0 0 var(--strata-hairline) color-mix(in oklab, var(--strata-color-text-default) 18%, transparent);
+  inline-size: var(--syntara-space-2);
+  block-size: var(--syntara-space-2);
+  border-radius: var(--syntara-radius-pill);
+  background: var(--syntara-color-action-primary-bg);
+  box-shadow: inset 0 0 0 var(--syntara-hairline) color-mix(in oklab, var(--syntara-color-text-default) 18%, transparent);
 }
 
 .format {
   display: flex;
   align-items: center;
-  gap: var(--strata-space-3);
+  gap: var(--syntara-space-3);
 }
 
 .formatLabel {
-  color: var(--strata-color-text-subtle);
-  font-size: var(--strata-font-size-sm);
-  font-weight: var(--strata-font-weight-medium);
+  color: var(--syntara-color-text-subtle);
+  font-size: var(--syntara-font-size-sm);
+  font-weight: var(--syntara-font-weight-medium);
 }
 
 /* ---- Tenant ---- */
@@ -90,65 +90,65 @@
 .tenant {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
-  gap: var(--strata-space-6);
+  gap: var(--syntara-space-6);
   min-inline-size: 0;
-  scroll-margin-block-start: calc(var(--docs-header-height) + var(--strata-space-16) + var(--strata-space-4));
+  scroll-margin-block-start: calc(var(--docs-header-height) + var(--syntara-space-16) + var(--syntara-space-4));
 }
 
 /* The draft-copy note (DraftCopyNote), tucked up under the header it's about. */
 .copyNote {
   justify-self: start;
-  margin-block-start: calc(var(--strata-space-3) * -1);
+  margin-block-start: calc(var(--syntara-space-3) * -1);
 }
 
 .tenantHeader.tenantHeader {
   display: grid;
   justify-items: start;
-  gap: var(--strata-space-2);
-  padding-block-start: var(--strata-space-5);
-  box-shadow: inset 0 var(--strata-hairline) 0 0 var(--strata-color-border-default);
+  gap: var(--syntara-space-2);
+  padding-block-start: var(--syntara-space-5);
+  box-shadow: inset 0 var(--syntara-hairline) 0 0 var(--syntara-color-border-default);
   background: transparent;
 }
 
 /* The tenant's own heading face at display size: Vela's Inter Tight, Harbor's serif, Care's Fraunces. */
 .tenantTitle {
-  font-family: var(--strata-font-heading);
-  font-size: var(--strata-font-size-4xl);
-  font-weight: var(--strata-font-weight-semibold);
-  line-height: var(--strata-line-height-tight);
-  letter-spacing: var(--strata-font-tracking-4xl);
+  font-family: var(--syntara-font-heading);
+  font-size: var(--syntara-font-size-4xl);
+  font-weight: var(--syntara-font-weight-semibold);
+  line-height: var(--syntara-line-height-tight);
+  letter-spacing: var(--syntara-font-tracking-4xl);
 }
 
 .tenantCaption {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: var(--strata-space-1) var(--strata-space-2);
-  color: var(--strata-color-text-subtle);
-  font-size: var(--strata-font-size-sm);
-  letter-spacing: var(--strata-font-tracking-sm);
+  gap: var(--syntara-space-1) var(--syntara-space-2);
+  color: var(--syntara-color-text-subtle);
+  font-size: var(--syntara-font-size-sm);
+  letter-spacing: var(--syntara-font-tracking-sm);
   font-variant-numeric: tabular-nums;
 }
 .captionItem {
   display: inline-flex;
   align-items: center;
-  gap: var(--strata-space-2);
+  gap: var(--syntara-space-2);
   white-space: nowrap;
 }
 .captionSep {
-  color: var(--strata-color-border-strong);
+  color: var(--syntara-color-border-strong);
 }
 
 .factSwatch {
-  inline-size: var(--strata-space-3);
-  block-size: var(--strata-space-3);
-  border-radius: var(--strata-radius-pill);
-  box-shadow: inset 0 0 0 var(--strata-hairline) color-mix(in oklab, var(--strata-color-text-default) 20%, transparent);
+  inline-size: var(--syntara-space-3);
+  block-size: var(--syntara-space-3);
+  border-radius: var(--syntara-radius-pill);
+  box-shadow: inset 0 0 0 var(--syntara-hairline) color-mix(in oklab, var(--syntara-color-text-default) 20%, transparent);
 }
 
 .panels {
   display: grid;
-  gap: var(--strata-space-4);
+  gap: var(--syntara-space-4);
 }
 @media (min-width: 1200px) {
   .panels {
@@ -161,29 +161,29 @@
   container-type: inline-size;
   display: grid;
   grid-template-columns: minmax(0, 1fr);
-  gap: var(--strata-space-4);
+  gap: var(--syntara-space-4);
   min-inline-size: 0;
-  padding: var(--strata-space-3);
-  border: 1px solid var(--strata-color-border-subtle);
-  border-radius: var(--strata-radius-container);
+  padding: var(--syntara-space-3);
+  border: 1px solid var(--syntara-color-border-subtle);
+  border-radius: var(--syntara-radius-container);
 }
 @media (min-width: 768px) {
   .panel.panel {
-    padding: var(--strata-space-5);
+    padding: var(--syntara-space-5);
   }
 }
 
 .panelTitle {
-  color: var(--strata-color-text-default);
-  font-size: var(--strata-font-size-sm);
-  font-weight: var(--strata-font-weight-semibold);
+  color: var(--syntara-color-text-default);
+  font-size: var(--syntara-font-size-sm);
+  font-weight: var(--syntara-font-weight-semibold);
 }
 
 .table {
-  --_label: calc(var(--strata-space-16) + var(--strata-space-2));
-  --_gap: calc(var(--strata-space-1) * 0.5);
+  --_label: calc(var(--syntara-space-16) + var(--syntara-space-2));
+  --_gap: calc(var(--syntara-space-1) * 0.5);
   display: grid;
-  gap: var(--strata-space-1);
+  gap: var(--syntara-space-1);
 }
 
 .stepRow,
@@ -196,14 +196,14 @@
 
 .swatches {
   display: grid;
-  gap: var(--strata-space-1);
+  gap: var(--syntara-space-1);
   outline: none;
 }
 
 /* Narrow panels: the ramp name moves above its row so the 12 swatches get the full width. */
 @container (max-width: 520px) {
   .table {
-    --_gap: calc(var(--strata-space-1) * 0.25);
+    --_gap: calc(var(--syntara-space-1) * 0.25);
   }
   .stepRow,
   .row {
@@ -214,35 +214,35 @@
   }
   .rampLabel {
     grid-column: 1 / -1;
-    margin-block: var(--strata-space-2) var(--strata-space-1);
+    margin-block: var(--syntara-space-2) var(--syntara-space-1);
   }
 }
 
 .stepNumber {
-  color: var(--strata-color-text-subtle);
-  font-size: var(--strata-font-size-xs);
+  color: var(--syntara-color-text-subtle);
+  font-size: var(--syntara-font-size-xs);
   font-variant-numeric: tabular-nums;
   text-align: center;
 }
 
 .rampLabel {
-  color: var(--strata-color-text-subtle);
-  font-size: var(--strata-font-size-sm);
-  font-weight: var(--strata-font-weight-medium);
+  color: var(--syntara-color-text-subtle);
+  font-size: var(--syntara-font-size-sm);
+  font-weight: var(--syntara-font-weight-medium);
 }
 
 .swatch {
   position: relative;
   display: grid;
   place-items: end center;
-  block-size: var(--strata-space-10);
-  min-inline-size: var(--strata-space-6);
+  block-size: var(--syntara-space-10);
+  min-inline-size: var(--syntara-space-6);
   margin: 0;
-  padding: 0 0 var(--strata-space-1);
+  padding: 0 0 var(--syntara-space-1);
   border: 0;
-  border-radius: min(var(--strata-radius-field), var(--strata-space-1));
+  border-radius: min(var(--syntara-radius-field), var(--syntara-space-1));
   background: var(--swatch);
-  box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--strata-color-text-default) 8%, transparent);
+  box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--syntara-color-text-default) 8%, transparent);
   cursor: pointer;
   outline: none;
 }
@@ -255,12 +255,12 @@
 }
 .swatch[data-focus-visible] {
   z-index: 1;
-  outline: 2px solid var(--strata-color-focus-ring);
+  outline: 2px solid var(--syntara-color-focus-ring);
   outline-offset: 2px;
 }
 @media (prefers-reduced-motion: no-preference) {
   .swatch {
-    transition: scale var(--strata-motion-duration-fast) var(--strata-motion-easing);
+    transition: scale var(--syntara-motion-duration-fast) var(--syntara-motion-easing);
   }
 }
 @media (prefers-reduced-motion: reduce) {
@@ -271,9 +271,9 @@
 }
 
 .roleDot {
-  inline-size: calc(var(--strata-space-1) + 1px);
-  block-size: calc(var(--strata-space-1) + 1px);
-  border-radius: var(--strata-radius-pill);
+  inline-size: calc(var(--syntara-space-1) + 1px);
+  block-size: calc(var(--syntara-space-1) + 1px);
+  border-radius: var(--syntara-radius-pill);
   background: var(--swatch-ink);
   opacity: 0.8;
 }
@@ -284,65 +284,65 @@
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: var(--strata-space-1) var(--strata-space-3);
-  min-block-size: var(--strata-space-6);
-  color: var(--strata-color-text-subtle);
-  font-size: var(--strata-font-size-sm);
+  gap: var(--syntara-space-1) var(--syntara-space-3);
+  min-block-size: var(--syntara-space-6);
+  color: var(--syntara-color-text-subtle);
+  font-size: var(--syntara-font-size-sm);
 }
 
 .readoutHint {
-  color: var(--strata-color-text-subtle);
+  color: var(--syntara-color-text-subtle);
 }
 
 .readoutSwatch {
-  inline-size: var(--strata-space-4);
-  block-size: var(--strata-space-4);
-  border-radius: min(var(--strata-radius-field), var(--strata-space-1));
+  inline-size: var(--syntara-space-4);
+  block-size: var(--syntara-space-4);
+  border-radius: min(var(--syntara-radius-field), var(--syntara-space-1));
   background: var(--swatch);
-  box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--strata-color-text-default) 12%, transparent);
+  box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--syntara-color-text-default) 12%, transparent);
 }
 
 .readoutName {
-  color: var(--strata-color-text-default);
-  font-weight: var(--strata-font-weight-semibold);
+  color: var(--syntara-color-text-default);
+  font-weight: var(--syntara-font-weight-semibold);
 }
 
 .readoutValue {
   display: inline-flex;
   align-items: center;
-  gap: var(--strata-space-1);
-  font-family: var(--strata-font-mono);
-  font-size: var(--strata-font-size-xs);
+  gap: var(--syntara-space-1);
+  font-family: var(--syntara-font-mono);
+  font-size: var(--syntara-font-size-xs);
 }
 .readoutValue[data-selected] {
-  color: var(--strata-color-text-default);
+  color: var(--syntara-color-text-default);
 }
 
 .readoutCheck {
-  inline-size: var(--strata-space-3);
-  block-size: var(--strata-space-3);
+  inline-size: var(--syntara-space-3);
+  block-size: var(--syntara-space-3);
 }
 
 /* ---- Note ---- */
 
 .note {
-  color: var(--strata-color-text-subtle);
-  font-size: var(--strata-font-size-sm);
+  color: var(--syntara-color-text-subtle);
+  font-size: var(--syntara-font-size-sm);
 }
 
 .noteDot {
   display: inline-block;
-  inline-size: calc(var(--strata-space-1) + 1px);
-  block-size: calc(var(--strata-space-1) + 1px);
-  margin-inline-end: var(--strata-space-2);
-  border-radius: var(--strata-radius-pill);
-  background: var(--strata-color-text-subtle);
+  inline-size: calc(var(--syntara-space-1) + 1px);
+  block-size: calc(var(--syntara-space-1) + 1px);
+  margin-inline-end: var(--syntara-space-2);
+  border-radius: var(--syntara-radius-pill);
+  background: var(--syntara-color-text-subtle);
   vertical-align: middle;
 }
 
 .noteLink {
-  color: var(--strata-color-text-default);
-  font-weight: var(--strata-font-weight-medium);
+  color: var(--syntara-color-text-default);
+  font-weight: var(--syntara-font-weight-medium);
   text-decoration: underline;
   text-decoration-thickness: 1px;
   text-underline-offset: 0.25em;

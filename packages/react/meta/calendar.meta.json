@@ -6,10 +6,10 @@
   "maturity": "beta",
   "exports": ["Calendar", "RangeCalendar"],
   "files": ["calendar.tsx", "calendar.module.css"],
-  "dependencies": ["react-aria-components", "@internationalized/date", "@strata/icons"],
+  "dependencies": ["react-aria-components", "@internationalized/date", "@syntara/icons"],
   "registryDependencies": [],
   "reactAria": "https://react-spectrum.adobe.com/react-aria/Calendar.html",
-  "usage": "import { getLocalTimeZone, today } from '@internationalized/date';\nimport { Calendar } from '@strata/react';\n\nexport function AppointmentDate() {\n  return <Calendar aria-label=\"Appointment date\" minValue={today(getLocalTimeZone())} onChange={(date) => console.log(date.toString())} />;\n}",
+  "usage": "import { getLocalTimeZone, today } from '@internationalized/date';\nimport { Calendar } from '@syntara/react';\n\nexport function AppointmentDate() {\n  return <Calendar aria-label=\"Appointment date\" minValue={today(getLocalTimeZone())} onChange={(date) => console.log(date.toString())} />;\n}",
   "examples": [
     { "name": "calendar-demo", "title": "Calendar", "description": "Pick a single date. Today is marked with a dot." },
     { "name": "calendar-range", "title": "Range", "description": "RangeCalendar picks a start and end date." },

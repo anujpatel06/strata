@@ -31,11 +31,11 @@ describe('rules, from fixtures', () => {
     matches('tsx/style.tsx');
   });
 
-  it('native-element: elements with a Strata component fire; Strata components, hidden and colour inputs, and other elements do not', () => {
+  it('native-element: elements with a Syntara component fire; Syntara components, hidden and colour inputs, and other elements do not', () => {
     matches('tsx/native.tsx');
   });
 
-  it('missing-accessible-name on Strata components and images', () => {
+  it('missing-accessible-name on Syntara components and images', () => {
     matches('tsx/accessible-name.tsx');
   });
 
@@ -43,7 +43,7 @@ describe('rules, from fixtures', () => {
     matches('tsx/accessible-name-native.tsx', 'missing-accessible-name');
   });
 
-  it('deprecated-api: literal values on components from @strata/react fire; expressions, other libraries and other components do not', () => {
+  it('deprecated-api: literal values on components from @syntara/react fire; expressions, other libraries and other components do not', () => {
     matches('tsx/deprecated.tsx');
   });
 });
@@ -76,15 +76,15 @@ describe('severity and fixes', () => {
     ]);
     expect(severity('const a = <img src="x" />;', 'tsx')).toEqual(['missing-accessible-name:error']);
     expect(severity('const a = <a href="/">x</a>;', 'tsx')).toEqual(['native-element:error']);
-    expect(severity(`import { Button } from '@strata/react';\nconst a = <Button variant="danger">x</Button>;`, 'tsx')).toEqual(['deprecated-api:warning']);
+    expect(severity(`import { Button } from '@syntara/react';\nconst a = <Button variant="danger">x</Button>;`, 'tsx')).toEqual(['deprecated-api:warning']);
   });
 
   it('a raw colour is safe to fix only when one role has exactly that value', () => {
     const fix = (value: string) => auditSource(`.a { color: ${value}; }`, { language: 'css' }).findings[0]!.fix;
     // text.subtle is the only house role with #5a5a5d.
-    expect(fix('#5a5a5d')).toMatchObject({ safe: true, replacement: 'var(--strata-color-text-subtle)' });
-    expect(fix('#5A5A5D')).toMatchObject({ safe: true, replacement: 'var(--strata-color-text-subtle)' });
-    expect(fix('rgb(90 90 93)')).toMatchObject({ safe: true, replacement: 'var(--strata-color-text-subtle)' });
+    expect(fix('#5a5a5d')).toMatchObject({ safe: true, replacement: 'var(--syntara-color-text-subtle)' });
+    expect(fix('#5A5A5D')).toMatchObject({ safe: true, replacement: 'var(--syntara-color-text-subtle)' });
+    expect(fix('rgb(90 90 93)')).toMatchObject({ safe: true, replacement: 'var(--syntara-color-text-subtle)' });
     // Five roles are #ffffff, so there is no single right answer.
     expect(fix('#ffffff').safe).toBe(false);
     expect(fix('#ffffff').description).toMatch(/color\.action\.primary\.fg.*color\.accent\.fg/);
@@ -92,7 +92,7 @@ describe('severity and fixes', () => {
     expect(fix('#5a5a5e').safe).toBe(false);
     expect(fix('#5a5a5e').description).toMatch(/ΔE \d/);
     // Exact in colour but not opaque.
-    expect(fix('rgb(90 90 93 / 0.5)')).toMatchObject({ safe: false, replacement: 'color-mix(in oklab, var(--strata-color-text-subtle) 50%, transparent)' });
+    expect(fix('rgb(90 90 93 / 0.5)')).toMatchObject({ safe: false, replacement: 'color-mix(in oklab, var(--syntara-color-text-subtle) 50%, transparent)' });
     // Can't be resolved: advice only.
     expect(fix('rgb(var(--x) / 0.5)')).toMatchObject({ safe: false });
     expect(fix('rgb(var(--x) / 0.5)').replacement).toBeUndefined();
@@ -110,25 +110,25 @@ describe('severity and fixes', () => {
 
   it('a length is safe to fix only when it is px, exact and one token has it', () => {
     const fix = (decl: string) => auditSource(`.a { ${decl}; }`, { language: 'css' }).findings[0]!.fix;
-    expect(fix('gap: 8px')).toMatchObject({ safe: true, replacement: 'var(--strata-space-2)' });
-    expect(fix('gap: 0.5rem')).toMatchObject({ safe: false, replacement: 'var(--strata-space-2)' });
+    expect(fix('gap: 8px')).toMatchObject({ safe: true, replacement: 'var(--syntara-space-2)' });
+    expect(fix('gap: 0.5rem')).toMatchObject({ safe: false, replacement: 'var(--syntara-space-2)' });
     expect(fix('gap: 10px').safe).toBe(false);
-    expect(fix('margin-inline: -8px')).toMatchObject({ safe: true, replacement: 'calc(var(--strata-space-2) * -1)' });
+    expect(fix('margin-inline: -8px')).toMatchObject({ safe: true, replacement: 'calc(var(--syntara-space-2) * -1)' });
     // House: radius.button and radius.field are both 12px.
     expect(fix('border-radius: 12px').safe).toBe(false);
-    expect(fix('border-radius: 8px')).toMatchObject({ safe: true, replacement: 'var(--strata-radius-badge)' });
+    expect(fix('border-radius: 8px')).toMatchObject({ safe: true, replacement: 'var(--syntara-radius-badge)' });
   });
 
   it('native-element and missing-accessible-name are never safe', () => {
     const { findings } = audit('tsx/accessible-name-native.tsx');
     expect(findings.length).toBeGreaterThan(0);
     expect(findings.every((f) => f.fix.safe === false)).toBe(true);
-    expect(audit('tsx/native.tsx').findings[0]!.fix.description).toContain("import { Button } from '@strata/react'");
+    expect(audit('tsx/native.tsx').findings[0]!.fix.description).toContain("import { Button } from '@syntara/react'");
   });
 
   it('deprecated-api names the codemod, and is not safe with a spread or a clashing prop', () => {
     const { findings } = audit('tsx/deprecated.tsx');
-    expect(findings.every((f) => f.fix.description.includes('npx @strata/codemods button-variant-danger-to-tone'))).toBe(true);
+    expect(findings.every((f) => f.fix.description.includes('npx @syntara/codemods button-variant-danger-to-tone'))).toBe(true);
     expect(findings.map((f) => f.fix.safe)).toEqual([true, true, true, true, true, false, false]);
     expect(findings[0]!.fix.replacement).toBe('tone="danger"');
   });
@@ -140,7 +140,7 @@ describe('severity and fixes', () => {
     expect(auditSource(code, { filename: inRepo('apps/docs/components/data-table.tsx') }).findings).toHaveLength(1);
   });
 
-  it('inside the library, a sibling import is a Strata component', () => {
+  it('inside the library, a sibling import is a Syntara component', () => {
     const code = `import { Button } from './button';\nexport const A = () => <Button variant="danger">x</Button>;`;
     expect(auditSource(code, { filename: inRepo('packages/react/src/ui/toast.tsx') }).findings.map((f) => f.rule)).toEqual(['deprecated-api']);
     expect(auditSource(code, { filename: inRepo('apps/docs/components/x.tsx') }).findings).toEqual([]);
@@ -166,7 +166,7 @@ describe('language and positions', () => {
   });
 
   it('counts places looked at, split by rule', () => {
-    const { stats, findings } = auditSource('.a {\n  color: var(--strata-color-text-default);\n  gap: var(--strata-space-2);\n  display: flex;\n}\n', { language: 'css' });
+    const { stats, findings } = auditSource('.a {\n  color: var(--syntara-color-text-default);\n  gap: var(--syntara-space-2);\n  display: flex;\n}\n', { language: 'css' });
     expect(findings).toEqual([]);
     expect(stats).toMatchObject({ files: 1, lines: 5, opportunities: 2, opportunitiesByRule: { 'raw-color': 1, 'off-scale-space': 1 } });
     const empty = auditSource('', { language: 'css' });

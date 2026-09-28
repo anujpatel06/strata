@@ -1,14 +1,14 @@
 {
-  "name": "@strata/mcp",
+  "name": "@syntara/mcp",
   "version": "0.0.0",
-  "description": "Strata's MCP server: AI coding agents read components, tokens and usage rules from the same source people do.",
+  "description": "Syntara's MCP server: AI coding agents read components, tokens and usage rules from the same source people do.",
   "type": "module",
   "license": "MIT",
   "exports": {
     ".": "./src/index.ts"
   },
   "bin": {
-    "strata-mcp": "./bin/cli.mjs"
+    "syntara-mcp": "./bin/cli.mjs"
   },
   "files": [
     "bin",
@@ -23,8 +23,8 @@
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.30.0",
-    "@strata/audit": "workspace:*",
-    "@strata/theme-engine": "workspace:*",
+    "@syntara/audit": "workspace:*",
+    "@syntara/theme-engine": "workspace:*",
     "tsx": "^4.20.0",
     "zod": "^4.6.0"
   },

@@ -2,7 +2,7 @@
 
 import { createContext, useContext, type HTMLAttributes, type JSX, type ReactNode, type Ref } from 'react';
 import { useLocale } from 'react-aria-components';
-import { IconAlertCircleFilled, IconTrendingDown, IconTrendingUp } from '@strata/icons';
+import { IconAlertCircleFilled, IconTrendingDown, IconTrendingUp } from '@syntara/icons';
 import { Badge } from './badge';
 import styles from './stat-tile.module.css';
 

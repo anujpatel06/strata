@@ -1,6 +1,6 @@
 'use client';
 
-import { Tab, TabList, TabPanel, Tabs } from '@strata/react';
+import { Tab, TabList, TabPanel, Tabs } from '@syntara/react';
 import type { ReactNode } from 'react';
 
 export interface InstallTab {

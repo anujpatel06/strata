@@ -31,7 +31,7 @@ const namesIn = (json: { icons: Array<{ name: string }>; closest?: string[] }): 
 ];
 
 describe('reading the icon package', () => {
-  it('finds exactly the icons @strata/icons exports', () => {
+  it('finds exactly the icons @syntara/icons exports', () => {
     const parsed = allIcons(root).map((i) => i.name);
     expect(real.size).toBeGreaterThan(200);
     expect(new Set(parsed)).toEqual(real);
@@ -145,7 +145,7 @@ describe('find_icon', () => {
     const r = await h.call('find_icon', { query });
     expect(r.isError).toBe(false);
     expect(real.has(query)).toBe(false);
-    expect(r.json.note).toContain(`${query} is not exported by @strata/icons`);
+    expect(r.json.note).toContain(`${query} is not exported by @syntara/icons`);
     for (const name of namesIn(r.json)) expect(real.has(name), name).toBe(true);
     if (first === null) expect(r.json.icons).toEqual([]);
     else expect(r.json.icons[0].name).toBe(first);
@@ -214,7 +214,7 @@ describe('find_icon', () => {
 });
 
 describe('find_icon in a repo with other icons', () => {
-  const tmp = mkdtempSync(join(tmpdir(), 'strata-mcp-icons-'));
+  const tmp = mkdtempSync(join(tmpdir(), 'syntara-mcp-icons-'));
   mkdirSync(join(tmp, 'packages/react/meta'), { recursive: true });
   afterAll(() => {
     rmSync(tmp, { recursive: true, force: true });

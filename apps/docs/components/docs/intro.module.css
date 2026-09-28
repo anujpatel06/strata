@@ -1,7 +1,7 @@
 /* ---- Principles: the MDX <ol> inside gets display numerals and a two-column rhythm on wide screens ---- */
 .principles > ol {
   display: grid;
-  gap: var(--strata-space-6) var(--strata-space-8);
+  gap: var(--syntara-space-6) var(--syntara-space-8);
   margin: 0;
   padding: 0;
   list-style: none;
@@ -16,21 +16,21 @@
   counter-increment: principle;
   display: block;
   margin: 0;
-  padding-block-start: var(--strata-space-4);
-  box-shadow: inset 0 var(--strata-hairline) 0 0 var(--strata-color-border-subtle);
-  color: var(--strata-color-text-subtle);
-  font-size: var(--strata-font-size-md);
-  letter-spacing: var(--strata-font-tracking-md);
-  line-height: var(--strata-line-height-normal);
+  padding-block-start: var(--syntara-space-4);
+  box-shadow: inset 0 var(--syntara-hairline) 0 0 var(--syntara-color-border-subtle);
+  color: var(--syntara-color-text-subtle);
+  font-size: var(--syntara-font-size-md);
+  letter-spacing: var(--syntara-font-tracking-md);
+  line-height: var(--syntara-line-height-normal);
 }
 .principles > ol > li::before {
   content: counter(principle, decimal-leading-zero);
   display: block;
-  margin-block-end: var(--strata-space-2);
-  color: var(--strata-color-text-subtle);
-  font-family: var(--strata-font-mono);
-  font-size: var(--strata-font-size-xs);
-  letter-spacing: var(--strata-font-tracking-caps);
+  margin-block-end: var(--syntara-space-2);
+  color: var(--syntara-color-text-subtle);
+  font-family: var(--syntara-font-mono);
+  font-size: var(--syntara-font-size-xs);
+  letter-spacing: var(--syntara-font-tracking-caps);
   font-variant-numeric: tabular-nums;
 }
 /* The first principle is the one the rest follow from: it spans the row and reads a step larger. */
@@ -40,23 +40,23 @@
   }
 }
 .principles > ol > li:first-child > strong:first-child {
-  font-size: var(--strata-font-size-2xl);
-  letter-spacing: var(--strata-font-tracking-2xl);
+  font-size: var(--syntara-font-size-2xl);
+  letter-spacing: var(--syntara-font-tracking-2xl);
 }
 
 /* The bold lead-in becomes the principle's title, set in the heading face on its own line. */
 .principles > ol > li > strong:first-child {
   display: block;
-  margin-block-end: var(--strata-space-1);
-  color: var(--strata-color-text-default);
-  font-family: var(--strata-font-heading);
-  font-size: var(--strata-font-size-lg);
-  font-weight: var(--strata-font-weight-semibold);
-  letter-spacing: var(--strata-font-tracking-lg);
-  line-height: var(--strata-line-height-snug);
+  margin-block-end: var(--syntara-space-1);
+  color: var(--syntara-color-text-default);
+  font-family: var(--syntara-font-heading);
+  font-size: var(--syntara-font-size-lg);
+  font-weight: var(--syntara-font-weight-semibold);
+  letter-spacing: var(--syntara-font-tracking-lg);
+  line-height: var(--syntara-line-height-snug);
 }
 
-/* ---- Layers: the packages as strata. Each row sits one tint deeper than the one above it. ---- */
+/* ---- Layers: the packages as syntara. Each row sits one tint deeper than the one above it. ---- */
 .layers {
   display: grid;
   margin: 0;
@@ -64,10 +64,10 @@
   list-style: none;
   overflow: hidden;
   border: 1px solid transparent;
-  border-radius: var(--strata-radius-container);
+  border-radius: var(--syntara-radius-container);
   box-shadow:
-    0 0 0 var(--strata-hairline) var(--strata-color-border-subtle),
-    var(--strata-shadow-raised);
+    0 0 0 var(--syntara-hairline) var(--syntara-color-border-subtle),
+    var(--syntara-shadow-raised);
 }
 @supports (corner-shape: squircle) {
   .layers {
@@ -81,35 +81,35 @@
   grid-template-areas:
     'name figure'
     'what what';
-  gap: var(--strata-space-1) var(--strata-space-4);
-  padding-block: var(--strata-space-4);
-  padding-inline: var(--strata-space-5);
-  background: color-mix(in oklab, var(--strata-color-text-default) calc(var(--_depth) * 1.6%), var(--strata-color-surface-raised));
+  gap: var(--syntara-space-1) var(--syntara-space-4);
+  padding-block: var(--syntara-space-4);
+  padding-inline: var(--syntara-space-5);
+  background: color-mix(in oklab, var(--syntara-color-text-default) calc(var(--_depth) * 1.6%), var(--syntara-color-surface-raised));
 }
 .layer + .layer {
-  box-shadow: inset 0 var(--strata-hairline) 0 0 var(--strata-color-border-subtle);
+  box-shadow: inset 0 var(--syntara-hairline) 0 0 var(--syntara-color-border-subtle);
 }
 @media (min-width: 640px) {
   .layer {
-    grid-template-columns: calc(var(--strata-space-16) * 3) minmax(0, 1fr) auto;
+    grid-template-columns: calc(var(--syntara-space-16) * 3) minmax(0, 1fr) auto;
     grid-template-areas: 'name what figure';
     align-items: baseline;
-    gap: var(--strata-space-6);
+    gap: var(--syntara-space-6);
   }
 }
 .layerName {
   grid-area: name;
-  font-family: var(--strata-font-mono);
-  font-size: var(--strata-font-size-sm);
-  font-weight: var(--strata-font-weight-medium);
-  color: var(--strata-color-text-default);
+  font-family: var(--syntara-font-mono);
+  font-size: var(--syntara-font-size-sm);
+  font-weight: var(--syntara-font-weight-medium);
+  color: var(--syntara-color-text-default);
 }
 .layerWhat {
   grid-area: what;
-  color: var(--strata-color-text-subtle);
-  font-size: var(--strata-font-size-sm);
-  letter-spacing: var(--strata-font-tracking-sm);
-  line-height: var(--strata-line-height-normal);
+  color: var(--syntara-color-text-subtle);
+  font-size: var(--syntara-font-size-sm);
+  letter-spacing: var(--syntara-font-tracking-sm);
+  line-height: var(--syntara-line-height-normal);
   text-wrap: pretty;
 }
 .layerFigure {
@@ -117,21 +117,21 @@
   display: inline-flex;
   align-items: baseline;
   justify-self: end;
-  gap: var(--strata-space-1);
+  gap: var(--syntara-space-1);
   white-space: nowrap;
 }
 .layerNumber {
-  font-family: var(--strata-font-heading);
-  font-size: var(--strata-font-size-2xl);
-  font-weight: var(--strata-font-weight-semibold);
-  letter-spacing: var(--strata-font-tracking-2xl);
+  font-family: var(--syntara-font-heading);
+  font-size: var(--syntara-font-size-2xl);
+  font-weight: var(--syntara-font-weight-semibold);
+  letter-spacing: var(--syntara-font-tracking-2xl);
   line-height: 1;
   font-variant-numeric: tabular-nums;
 }
 .layerUnit {
-  color: var(--strata-color-text-subtle);
-  font-size: var(--strata-font-size-xs);
-  letter-spacing: var(--strata-font-tracking-xs);
+  color: var(--syntara-color-text-subtle);
+  font-size: var(--syntara-font-size-xs);
+  letter-spacing: var(--syntara-font-tracking-xs);
 }
 
 /* ---- Next steps: rows, not cards. Title, its one-line description, an arrow that nudges on hover. ---- */
@@ -142,7 +142,7 @@
   list-style: none;
 }
 .next > li + li {
-  box-shadow: inset 0 var(--strata-hairline) 0 0 var(--strata-color-border-subtle);
+  box-shadow: inset 0 var(--syntara-hairline) 0 0 var(--syntara-color-border-subtle);
 }
 .nextLink {
   display: grid;
@@ -151,50 +151,50 @@
     'title icon'
     'description icon';
   align-items: center;
-  gap: 0 var(--strata-space-4);
-  padding-block: var(--strata-space-4);
-  border-radius: var(--strata-radius-badge);
+  gap: 0 var(--syntara-space-4);
+  padding-block: var(--syntara-space-4);
+  border-radius: var(--syntara-radius-badge);
 }
 @media (min-width: 640px) {
   .nextLink {
-    grid-template-columns: calc(var(--strata-space-16) * 2.5) minmax(0, 1fr) auto;
+    grid-template-columns: calc(var(--syntara-space-16) * 2.5) minmax(0, 1fr) auto;
     grid-template-areas: 'title description icon';
     align-items: baseline;
   }
 }
 .nextTitle {
   grid-area: title;
-  font-family: var(--strata-font-heading);
-  font-size: var(--strata-font-size-lg);
-  font-weight: var(--strata-font-weight-semibold);
-  letter-spacing: var(--strata-font-tracking-lg);
+  font-family: var(--syntara-font-heading);
+  font-size: var(--syntara-font-size-lg);
+  font-weight: var(--syntara-font-weight-semibold);
+  letter-spacing: var(--syntara-font-tracking-lg);
 }
 .nextDescription {
   grid-area: description;
-  color: var(--strata-color-text-subtle);
-  font-size: var(--strata-font-size-md);
-  letter-spacing: var(--strata-font-tracking-md);
-  transition: color var(--strata-motion-duration-fast) var(--strata-motion-easing);
+  color: var(--syntara-color-text-subtle);
+  font-size: var(--syntara-font-size-md);
+  letter-spacing: var(--syntara-font-tracking-md);
+  transition: color var(--syntara-motion-duration-fast) var(--syntara-motion-easing);
 }
 .nextLink:hover .nextDescription {
-  color: var(--strata-color-text-default);
+  color: var(--syntara-color-text-default);
 }
 .nextIcon {
   grid-area: icon;
   align-self: center;
-  color: var(--strata-color-text-subtle);
+  color: var(--syntara-color-text-subtle);
 }
 .nextIcon:dir(rtl) {
   scale: -1 1;
 }
 @media (prefers-reduced-motion: no-preference) {
   .nextIcon {
-    transition: translate var(--strata-motion-duration-spring) var(--strata-motion-spring);
+    transition: translate var(--syntara-motion-duration-spring) var(--syntara-motion-spring);
   }
   .nextLink:hover .nextIcon {
-    translate: calc(var(--strata-space-1) / 2) 0;
+    translate: calc(var(--syntara-space-1) / 2) 0;
   }
   .nextLink:hover .nextIcon:dir(rtl) {
-    translate: calc(var(--strata-space-1) / -2) 0;
+    translate: calc(var(--syntara-space-1) / -2) 0;
   }
 }

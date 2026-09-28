@@ -1,6 +1,6 @@
 'use client';
 
-import { Badge, Card, CardContent, CardDescription, CardHeader, CardTitle } from '@strata/react';
+import { Badge, Card, CardContent, CardDescription, CardHeader, CardTitle } from '@syntara/react';
 
 const plans = [
   { id: 'health', title: 'Health cover', text: 'Hospital stays, day care and check-ups for the family.', status: 'Popular' },
@@ -9,7 +9,7 @@ const plans = [
 
 export default function Example() {
   return (
-    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: 'var(--strata-space-4)', inlineSize: '100%' }}>
+    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: 'var(--syntara-space-4)', inlineSize: '100%' }}>
       {plans.map((plan) => (
         <Card key={plan.id} interactive>
           <CardHeader>

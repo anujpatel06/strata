@@ -1,5 +1,5 @@
 /**
- * @strata/audit: the drift auditor. The CLI, the MCP server's audit_snippet and find_token tools and the
+ * @syntara/audit: the drift auditor. The CLI, the MCP server's audit_snippet and find_token tools and the
  * agent eval all call these functions.
  */
 import { readFileSync } from 'node:fs';

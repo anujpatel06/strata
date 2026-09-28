@@ -14,7 +14,7 @@ import {
   type TagListProps as AriaTagListProps,
   type TagProps as AriaTagProps,
 } from 'react-aria-components';
-import { IconX } from '@strata/icons';
+import { IconX } from '@syntara/icons';
 import styles from './chip.module.css';
 
 const cx = (...c: Array<string | false | null | undefined>) => c.filter(Boolean).join(' ');
@@ -107,7 +107,7 @@ export function ChipGroup<T extends object>({
 export interface ChipProps extends Omit<AriaTagProps, 'children' | 'textValue'> {
   /** The label. Keep it to one to three words. */
   children: ReactNode;
-  /** Leading icon from @strata/icons. Decorative: the label carries the meaning. In filter mode the check takes its place when selected. */
+  /** Leading icon from @syntara/icons. Decorative: the label carries the meaning. In filter mode the check takes its place when selected. */
   icon?: ReactNode;
   /** A leading Avatar (e.g. filtering by person). Pass `alt=""` so the name isn't read twice. */
   avatar?: ReactNode;

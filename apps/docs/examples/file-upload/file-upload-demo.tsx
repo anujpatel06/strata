@@ -1,6 +1,6 @@
 'use client';
 
-import { FileUpload } from '@strata/react';
+import { FileUpload } from '@syntara/react';
 
 export default function Example() {
   return (

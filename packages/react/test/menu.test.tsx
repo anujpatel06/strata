@@ -1,6 +1,6 @@
 import { render, screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { IconPencil } from '@strata/icons';
+import { IconPencil } from '@syntara/icons';
 import { I18nProvider } from 'react-aria-components';
 import { Button } from '../src/ui/button';
 import { Menu, MenuItem, MenuSection, MenuSeparator, MenuTrigger, SubmenuTrigger } from '../src/ui/menu';
@@ -147,7 +147,7 @@ describe('Menu', () => {
   it('passes className through and carries ThemeScope attributes into the popover', async () => {
     const user = userEvent.setup();
     const { container } = render(
-      <div data-strata-theme="harbor" data-strata-scheme="dark" dir="rtl">
+      <div data-syntara-theme="harbor" data-syntara-scheme="dark" dir="rtl">
         <MenuTrigger>
           <Button>More</Button>
           <Menu className="custom">
@@ -159,9 +159,9 @@ describe('Menu', () => {
     await user.click(screen.getByRole('button', { name: 'More' }));
     const menu = screen.getByRole('menu');
     expect(menu).toHaveClass('menu', 'custom');
-    const popover = menu.closest('[data-strata-theme]')!;
+    const popover = menu.closest('[data-syntara-theme]')!;
     expect(container).not.toContainElement(popover as HTMLElement);
-    expect(popover).toHaveAttribute('data-strata-theme', 'harbor');
+    expect(popover).toHaveAttribute('data-syntara-theme', 'harbor');
     expect(popover).toHaveAttribute('dir', 'rtl');
   });
 

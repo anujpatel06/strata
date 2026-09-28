@@ -7,7 +7,7 @@ import {
   IconExternalLink,
   IconMoon,
   IconSun,
-} from '@strata/icons';
+} from '@syntara/icons';
 import {
   Tab,
   TabList,
@@ -19,7 +19,7 @@ import {
   ToggleButtonGroup,
   Tooltip,
   TooltipTrigger,
-} from '@strata/react';
+} from '@syntara/react';
 import { Component, useEffect, useId, useState, type ReactNode } from 'react';
 import type { Key } from 'react-aria-components';
 import { DraftCopyNote } from '@/components/page/draft-copy-note';
@@ -42,12 +42,12 @@ function useSiteScheme(): Scheme {
   useEffect(() => {
     const media = window.matchMedia('(prefers-color-scheme: dark)');
     const read = () => {
-      const attr = document.documentElement.getAttribute('data-strata-scheme');
+      const attr = document.documentElement.getAttribute('data-syntara-scheme');
       setSiteScheme(attr === 'dark' || (attr !== 'light' && media.matches) ? 'dark' : 'light');
     };
     read();
     const observer = new MutationObserver(read);
-    observer.observe(document.documentElement, { attributes: true, attributeFilter: ['data-strata-scheme'] });
+    observer.observe(document.documentElement, { attributes: true, attributeFilter: ['data-syntara-scheme'] });
     media.addEventListener('change', read);
     return () => {
       observer.disconnect();
@@ -112,7 +112,7 @@ export function BlockViewerClient({ name, title, description, tenants, contents,
   const Block = BLOCK_COMPONENTS[name];
   const [view, setView] = useState<'preview' | 'code'>('preview');
   const [tenantId, setTenantId] = useState(tenants[0]?.id ?? '');
-  /** undefined = follow the site's scheme (the theme CSS resolves data-strata-scheme="site"). */
+  /** undefined = follow the site's scheme (the theme CSS resolves data-syntara-scheme="site"). */
   const [scheme, setScheme] = useState<Scheme | undefined>();
   const [viewport, setViewport] = useState<Viewport>('desktop');
   const siteScheme = useSiteScheme();
@@ -177,7 +177,7 @@ export function BlockViewerClient({ name, title, description, tenants, contents,
                 {tenants.map((t) => (
                   <TooltipTrigger key={t.id} delay={400}>
                     <ToggleButton id={t.id} aria-label={t.name} className={styles.dotToggle}>
-                      <span className={styles.dot} data-strata-theme={t.id} aria-hidden="true" />
+                      <span className={styles.dot} data-syntara-theme={t.id} aria-hidden="true" />
                     </ToggleButton>
                     <Tooltip>{t.name}</Tooltip>
                   </TooltipTrigger>
@@ -241,7 +241,7 @@ export function BlockViewerClient({ name, title, description, tenants, contents,
             <div className={styles.viewport} data-viewport={viewport}>
               <ThemeScope
                 theme={tenant?.id}
-                data-strata-scheme={scheme ?? 'site'}
+                data-syntara-scheme={scheme ?? 'site'}
                 locale={tenant?.locale}
                 className={styles.scope}
                 role="region"

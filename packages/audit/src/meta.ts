@@ -28,7 +28,7 @@ interface MetaFile {
   props: PropRecord[];
 }
 
-export interface StrataComponent {
+export interface SyntaraComponent {
   /** kebab-case meta name, e.g. "text-field". */
   name: string;
   /** The main export, e.g. "TextField". */
@@ -45,9 +45,9 @@ export interface DeprecatedProp {
 }
 
 export interface Meta {
-  components: Map<string, StrataComponent>;
+  components: Map<string, SyntaraComponent>;
   /** Every exported name → its component. */
-  exports: Map<string, StrataComponent>;
+  exports: Map<string, SyntaraComponent>;
   deprecations: DeprecatedProp[];
 }
 
@@ -61,7 +61,7 @@ export const NATIVE_TO_COMPONENT: Readonly<Record<string, string>> = {
   input: 'text-field',
 };
 /**
- * A literal type that is not listed here (color, time, week…) has no Strata component, so the native
+ * A literal type that is not listed here (color, time, week…) has no Syntara component, so the native
  * element is the right one and is not reported.
  */
 export const INPUT_TYPE_TO_COMPONENT: Readonly<Record<string, string>> = {
@@ -86,7 +86,7 @@ let cached: Meta | undefined;
 let cachedDir: string | undefined;
 
 export function metaDir(): string {
-  return process.env.STRATA_META_DIR ?? join(REPO_ROOT, 'packages/react/meta');
+  return process.env.SYNTARA_META_DIR ?? join(REPO_ROOT, 'packages/react/meta');
 }
 
 export function loadMeta(): Meta {
@@ -102,7 +102,7 @@ export function loadMeta(): Meta {
         continue; // another session may be part-way through writing it
       }
       if (!json.name || !Array.isArray(json.exports) || json.exports.length === 0) continue;
-      const component: StrataComponent = { name: json.name, exportName: json.exports[0]!, files: json.files ?? [] };
+      const component: SyntaraComponent = { name: json.name, exportName: json.exports[0]!, files: json.files ?? [] };
       meta.components.set(json.name, component);
       for (const name of json.exports) meta.exports.set(name, component);
       for (const prop of json.props ?? []) {

@@ -4,7 +4,7 @@
  * packages/theme-engine/src/contrast-pairs.json, and the two component files whose numbers the page quotes.
  * Nothing on the page is typed in by hand.
  */
-import { ROLES, contrastRatio, generateTheme, type Role, type Scheme, type Theme } from '@strata/theme-engine';
+import { ROLES, contrastRatio, generateTheme, type Role, type Scheme, type Theme } from '@syntara/theme-engine';
 import { cache } from 'react';
 import { HOUSE_ID } from '@/lib/house';
 import { readRepoFile } from '@/lib/repo';
@@ -201,9 +201,9 @@ export const getColorUsageData = cache((): ColorUsageData => {
   const cardCss = readRepoFile('packages', 'react', 'src', 'ui', 'card.module.css') ?? '';
   const glowBlock = /--_glow: light-dark\(([\s\S]*?)\);\n/.exec(cardCss)?.[1] ?? '';
   const [gl, gd] = [...glowBlock.matchAll(/action-primary-bg\) (\d+)%/g)].map((m) => Number(m[1]));
-  const stop = /var\(--_glow\) 0%, var\(--strata-color-surface-raised\) (\d+)%/.exec(cardCss)?.[1];
+  const stop = /var\(--_glow\) 0%, var\(--syntara-color-surface-raised\) (\d+)%/.exec(cardCss)?.[1];
   const fieldCss = readRepoFile('packages', 'react', 'src', 'ui', 'text-field.module.css') ?? '';
-  const fieldMix = /color-mix\(in oklab, var\(--strata-color-border-strong\) (\d+)%, var\(--strata-color-border-default\)\)/.exec(fieldCss)?.[1];
+  const fieldMix = /color-mix\(in oklab, var\(--syntara-color-border-strong\) (\d+)%, var\(--syntara-color-border-default\)\)/.exec(fieldCss)?.[1];
 
   return {
     tenants: infos.map(({ id, name, locale }) => ({ id, name, locale })),

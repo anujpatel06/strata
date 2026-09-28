@@ -64,15 +64,15 @@ describe('Sheet', () => {
   it('carries the ThemeScope attributes and direction into the portal', async () => {
     const user = userEvent.setup();
     render(
-      <div data-strata-theme="qamar" data-strata-scheme="dark" dir="rtl">
+      <div data-syntara-theme="qamar" data-syntara-scheme="dark" dir="rtl">
         <Example />
       </div>,
     );
     await user.click(screen.getByRole('button', { name: 'Filters' }));
-    const overlay = screen.getByRole('dialog').closest('[data-strata-theme]')!;
+    const overlay = screen.getByRole('dialog').closest('[data-syntara-theme]')!;
     expect(overlay.parentElement).toBe(document.body);
-    expect(overlay).toHaveAttribute('data-strata-theme', 'qamar');
-    expect(overlay).toHaveAttribute('data-strata-scheme', 'dark');
+    expect(overlay).toHaveAttribute('data-syntara-theme', 'qamar');
+    expect(overlay).toHaveAttribute('data-syntara-scheme', 'dark');
     expect(overlay).toHaveAttribute('dir', 'rtl');
   });
 });

@@ -5,15 +5,15 @@
 
 .root {
   --_bg: transparent;
-  --_fg: var(--strata-color-text-default);
+  --_fg: var(--syntara-color-text-default);
   --_border: transparent;
   /* Depth hook: solid fills get the top-edge sheen + raised shadow; flat variants (ghost, link) keep none. */
   --_shadow: none;
-  --_icon: var(--strata-space-4);
+  --_icon: var(--syntara-space-4);
   /* Height and corner: the same formula as the fields (text-field.module.css) at every size, so a Button next to a
      TextField, Select or SearchField of the same size matches it in height and radius. */
-  --_h: var(--strata-control-height);
-  --_r: calc(var(--strata-radius-field) + var(--strata-space-1) / 2);
+  --_h: var(--syntara-control-height);
+  --_r: calc(var(--syntara-radius-field) + var(--syntara-space-1) / 2);
 
   position: relative;
   box-sizing: border-box;
@@ -21,7 +21,7 @@
   flex-shrink: 0;
   align-items: center;
   justify-content: center;
-  gap: var(--strata-space-2);
+  gap: var(--syntara-space-2);
   block-size: var(--_h);
   min-inline-size: 0;
   margin: 0;
@@ -34,10 +34,10 @@
   box-shadow: var(--_shadow);
   color: var(--_fg);
   font-family: inherit;
-  font-size: var(--strata-font-size-md);
-  font-weight: var(--strata-font-weight-medium);
-  line-height: var(--strata-line-height-tight);
-  letter-spacing: var(--strata-font-tracking-md);
+  font-size: var(--syntara-font-size-md);
+  font-weight: var(--syntara-font-weight-medium);
+  line-height: var(--syntara-line-height-tight);
+  letter-spacing: var(--syntara-font-tracking-md);
   text-align: center;
   text-decoration: none;
   white-space: nowrap;
@@ -51,7 +51,7 @@
 }
 
 .root[data-focus-visible] {
-  outline: 2px solid var(--strata-color-focus-ring);
+  outline: 2px solid var(--syntara-color-focus-ring);
   outline-offset: 2px;
 }
 
@@ -64,7 +64,7 @@
 /* Round-shape brands (button token = pill) get true round ends: their field corner plus half a step reaches half
    the height, and a squircle would flatten it into a rounded rectangle. The style query compares tokens, so no
    radius value is hard-coded. */
-@container style(--strata-radius-button: var(--strata-radius-pill)) {
+@container style(--syntara-radius-button: var(--syntara-radius-pill)) {
   .root {
     corner-shape: round;
   }
@@ -79,13 +79,13 @@
   block-size: var(--_icon);
 }
 
-.root > [data-strata-icon],
-.pendingContent > [data-strata-icon] {
-  stroke-width: var(--strata-icon-stroke, 1.5);
+.root > [data-syntara-icon],
+.pendingContent > [data-syntara-icon] {
+  stroke-width: var(--syntara-icon-stroke, 1.5);
 }
 
 /* Arrows and chevrons point "forward", whichever way forward is. */
-:is(.root, .pendingContent) > :is([data-directional], [data-strata-icon^='arrow'], [data-strata-icon^='chevron']):dir(rtl) {
+:is(.root, .pendingContent) > :is([data-directional], [data-syntara-icon^='arrow'], [data-syntara-icon^='chevron']):dir(rtl) {
   scale: -1 1;
 }
 
@@ -94,58 +94,58 @@
  * ------------------------------------------------------------------ */
 
 .root[data-variant='primary'] {
-  --_bg: var(--strata-color-action-primary-bg);
-  --_fg: var(--strata-color-action-primary-fg);
-  --_border: var(--strata-color-action-primary-border);
+  --_bg: var(--syntara-color-action-primary-bg);
+  --_fg: var(--syntara-color-action-primary-fg);
+  --_border: var(--syntara-color-action-primary-border);
   /* Solid fill: sheen on the top edge + a soft raised shadow. Never a gradient behind the label (contrast is solved flat). */
-  --_shadow: var(--strata-shadow-highlight), var(--strata-shadow-raised);
+  --_shadow: var(--syntara-shadow-highlight), var(--syntara-shadow-raised);
 }
 .root[data-variant='primary'][data-hovered] {
-  --_bg: var(--strata-color-action-primary-hover);
-  --_border: var(--strata-color-action-primary-hover);
+  --_bg: var(--syntara-color-action-primary-hover);
+  --_border: var(--syntara-color-action-primary-hover);
 }
 .root[data-variant='primary'][data-pressed] {
-  --_bg: var(--strata-color-action-primary-pressed);
-  --_border: var(--strata-color-action-primary-pressed);
+  --_bg: var(--syntara-color-action-primary-pressed);
+  --_border: var(--syntara-color-action-primary-pressed);
   /* Pushed in: the sheen goes, the shadow stays tight. */
-  --_shadow: var(--strata-shadow-raised);
+  --_shadow: var(--syntara-shadow-raised);
 }
 
 .root[data-variant='secondary'] {
-  --_bg: var(--strata-color-action-secondary-bg);
-  --_fg: var(--strata-color-action-secondary-fg);
+  --_bg: var(--syntara-color-action-secondary-bg);
+  --_fg: var(--syntara-color-action-secondary-fg);
   /* Secondary fills sit close to the canvas; a same-hue edge gives the shape its outline. */
-  --_border: color-mix(in oklab, var(--strata-color-action-secondary-fg) 14%, transparent);
-  --_shadow: var(--strata-shadow-raised);
+  --_border: color-mix(in oklab, var(--syntara-color-action-secondary-fg) 14%, transparent);
+  --_shadow: var(--syntara-shadow-raised);
 }
 .root[data-variant='secondary'][data-hovered] {
-  --_bg: var(--strata-color-action-secondary-hover);
-  --_border: color-mix(in oklab, var(--strata-color-action-secondary-fg) 28%, transparent);
+  --_bg: var(--syntara-color-action-secondary-hover);
+  --_border: color-mix(in oklab, var(--syntara-color-action-secondary-fg) 28%, transparent);
 }
 .root[data-variant='secondary'][data-pressed] {
-  --_bg: var(--strata-color-action-secondary-pressed);
+  --_bg: var(--syntara-color-action-secondary-pressed);
 }
 
 .root[data-variant='outline'] {
-  --_bg: var(--strata-color-surface-default);
+  --_bg: var(--syntara-color-surface-default);
   /* Quiet edge + raised shadow at rest; hover deepens the border, not the shadow. The edge stays a full 1px
      (it's a control boundary), so the shadow is the only thing that softens it. */
-  --_border: var(--strata-color-border-default);
-  --_shadow: var(--strata-shadow-raised);
+  --_border: var(--syntara-color-border-default);
+  --_shadow: var(--syntara-shadow-raised);
 }
 .root[data-variant='outline'][data-hovered] {
-  --_bg: color-mix(in oklab, var(--strata-color-text-default) 4%, var(--strata-color-surface-default));
-  --_border: var(--strata-color-border-strong);
+  --_bg: color-mix(in oklab, var(--syntara-color-text-default) 4%, var(--syntara-color-surface-default));
+  --_border: var(--syntara-color-border-strong);
 }
 .root[data-variant='outline'][data-pressed] {
-  --_bg: color-mix(in oklab, var(--strata-color-text-default) 10%, var(--strata-color-surface-default));
+  --_bg: color-mix(in oklab, var(--syntara-color-text-default) 10%, var(--syntara-color-surface-default));
 }
 
 .root[data-variant='ghost'][data-hovered] {
-  --_bg: color-mix(in oklab, var(--strata-color-text-default) 6%, transparent);
+  --_bg: color-mix(in oklab, var(--syntara-color-text-default) 6%, transparent);
 }
 .root[data-variant='ghost'][data-pressed] {
-  --_bg: color-mix(in oklab, var(--strata-color-text-default) 10%, transparent);
+  --_bg: color-mix(in oklab, var(--syntara-color-text-default) 10%, transparent);
 }
 
 /*
@@ -154,10 +154,10 @@
  * outweighs the disabled rules further down.
  */
 .root:is([data-variant='danger'], [data-variant='primary'][data-tone='danger']):not([data-disabled]) {
-  --_bg: var(--strata-color-feedback-danger-solid);
-  --_fg: var(--strata-color-feedback-danger-on-solid);
-  --_border: var(--strata-color-feedback-danger-solid);
-  --_shadow: var(--strata-shadow-highlight), var(--strata-shadow-raised);
+  --_bg: var(--syntara-color-feedback-danger-solid);
+  --_fg: var(--syntara-color-feedback-danger-on-solid);
+  --_border: var(--syntara-color-feedback-danger-solid);
+  --_shadow: var(--syntara-shadow-highlight), var(--syntara-shadow-raised);
 }
 /*
  * Hover: the fill never changes. There is no feedback.danger.hover role, and any tint or overlay on the fill can
@@ -165,11 +165,11 @@
  * the shape instead. Proper fix: a feedback.danger.hover/pressed role in the theme engine.
  */
 .root:is([data-variant='danger'], [data-variant='primary'][data-tone='danger'])[data-hovered]:not([data-disabled]) {
-  --_shadow: var(--strata-shadow-highlight), var(--strata-shadow-raised),
-    0 0 0 4px color-mix(in oklab, var(--strata-color-feedback-danger-solid) 22%, transparent);
+  --_shadow: var(--syntara-shadow-highlight), var(--syntara-shadow-raised),
+    0 0 0 4px color-mix(in oklab, var(--syntara-color-feedback-danger-solid) 22%, transparent);
 }
 .root:is([data-variant='danger'], [data-variant='primary'][data-tone='danger'])[data-pressed]:not([data-disabled]) {
-  --_shadow: var(--strata-shadow-raised), 0 0 0 4px color-mix(in oklab, var(--strata-color-feedback-danger-solid) 30%, transparent);
+  --_shadow: var(--syntara-shadow-raised), 0 0 0 4px color-mix(in oklab, var(--syntara-color-feedback-danger-solid) 30%, transparent);
 }
 
 /*
@@ -180,25 +180,25 @@
  * Press is told apart by the edge and the scale.
  */
 .root[data-variant='outline'][data-tone='danger']:not([data-disabled]) {
-  --_fg: var(--strata-color-feedback-danger-fg);
-  --_bg: var(--strata-color-surface-default);
-  --_border: var(--strata-color-feedback-danger-border);
+  --_fg: var(--syntara-color-feedback-danger-fg);
+  --_bg: var(--syntara-color-surface-default);
+  --_border: var(--syntara-color-feedback-danger-border);
 }
 .root[data-variant='ghost'][data-tone='danger']:not([data-disabled]) {
-  --_fg: var(--strata-color-feedback-danger-fg);
+  --_fg: var(--syntara-color-feedback-danger-fg);
 }
 .root:is([data-variant='outline'], [data-variant='ghost'])[data-tone='danger']:is([data-hovered], [data-pressed]):not([data-disabled]) {
-  --_bg: var(--strata-color-feedback-danger-bg);
+  --_bg: var(--syntara-color-feedback-danger-bg);
 }
 .root[data-variant='outline'][data-tone='danger'][data-pressed]:not([data-disabled]) {
-  --_border: var(--strata-color-feedback-danger-fg);
+  --_border: var(--syntara-color-feedback-danger-fg);
 }
 
 .root[data-variant='link'] {
-  --_fg: var(--strata-color-text-brand);
+  --_fg: var(--syntara-color-text-brand);
   block-size: auto;
   /* No padding, but still a 24px target (WCAG 2.5.8). */
-  min-block-size: var(--strata-space-6);
+  min-block-size: var(--syntara-space-6);
   padding-inline: 0;
   text-underline-offset: 0.2em;
   text-decoration-thickness: 1px;
@@ -208,7 +208,7 @@
 }
 .root[data-variant='link'][data-focus-visible] {
   outline-offset: 2px;
-  border-radius: min(var(--_r), var(--strata-space-1));
+  border-radius: min(var(--_r), var(--syntara-space-1));
 }
 
 /*
@@ -218,19 +218,19 @@
  * × light/dark (seeded fuzzInputs() from theme-engine/scripts/fuzz.ts, pass 21). 12% / 20% stay well inside that.
  */
 .root[data-variant='contrast'] {
-  --_bg: var(--strata-color-surface-inverse);
-  --_fg: var(--strata-color-text-inverse);
-  --_border: var(--strata-color-surface-inverse);
-  --_shadow: var(--strata-shadow-highlight), var(--strata-shadow-raised);
+  --_bg: var(--syntara-color-surface-inverse);
+  --_fg: var(--syntara-color-text-inverse);
+  --_border: var(--syntara-color-surface-inverse);
+  --_shadow: var(--syntara-shadow-highlight), var(--syntara-shadow-raised);
 }
 .root[data-variant='contrast'][data-hovered] {
-  --_bg: color-mix(in oklab, var(--strata-color-surface-inverse) 88%, var(--strata-color-text-subtle));
+  --_bg: color-mix(in oklab, var(--syntara-color-surface-inverse) 88%, var(--syntara-color-text-subtle));
   --_border: var(--_bg);
 }
 .root[data-variant='contrast'][data-pressed] {
-  --_bg: color-mix(in oklab, var(--strata-color-surface-inverse) 80%, var(--strata-color-text-subtle));
+  --_bg: color-mix(in oklab, var(--syntara-color-surface-inverse) 80%, var(--syntara-color-text-subtle));
   --_border: var(--_bg);
-  --_shadow: var(--strata-shadow-raised);
+  --_shadow: var(--syntara-shadow-raised);
 }
 
 /* ------------------------------------------------------------------ *
@@ -238,26 +238,26 @@
  * ------------------------------------------------------------------ */
 
 .root[data-size='sm'] {
-  --_icon: calc(var(--strata-space-4) - 2px);
-  --_h: calc(var(--strata-control-height) - var(--strata-space-2));
-  --_r: calc((var(--strata-radius-field) + var(--strata-space-1) / 2) * 0.8);
-  gap: calc(var(--strata-space-2) - 2px);
-  font-size: var(--strata-font-size-sm);
-  letter-spacing: var(--strata-font-tracking-sm);
+  --_icon: calc(var(--syntara-space-4) - 2px);
+  --_h: calc(var(--syntara-control-height) - var(--syntara-space-2));
+  --_r: calc((var(--syntara-radius-field) + var(--syntara-space-1) / 2) * 0.8);
+  gap: calc(var(--syntara-space-2) - 2px);
+  font-size: var(--syntara-font-size-sm);
+  letter-spacing: var(--syntara-font-tracking-sm);
 }
 
 .root[data-size='lg'] {
-  --_icon: calc(var(--strata-space-4) + 2px);
+  --_icon: calc(var(--syntara-space-4) + 2px);
   /* A hero action: two steps taller, wider-set label, and the corner grows with the height so it reads as the
      same shape, only bigger (a pill brand stays a pill; the pill style query above still matches the token). */
-  --_h: calc(var(--strata-control-height) + var(--strata-space-4));
-  --_r: calc((var(--strata-radius-field) + var(--strata-space-1) / 2) * 1.25);
-  gap: calc(var(--strata-space-2) + 2px);
+  --_h: calc(var(--syntara-control-height) + var(--syntara-space-4));
+  --_r: calc((var(--syntara-radius-field) + var(--syntara-space-1) / 2) * 1.25);
+  gap: calc(var(--syntara-space-2) + 2px);
 }
 
 /* A leading icon is optically heavier than a letter, so its side gets one step less padding. */
 .root:not([data-size='icon'], [data-variant='link']):has(> svg:first-child:not(.spinnerOverlay)) {
-  padding-inline-start: calc(var(--_h) * 0.625 - var(--strata-space-1));
+  padding-inline-start: calc(var(--_h) * 0.625 - var(--syntara-space-1));
 }
 
 .root[data-size='icon'] {
@@ -275,15 +275,15 @@
  * ------------------------------------------------------------------ */
 
 .root[data-disabled] {
-  --_bg: color-mix(in oklab, var(--strata-color-text-default) 6%, transparent);
-  --_fg: var(--strata-color-text-disabled);
+  --_bg: color-mix(in oklab, var(--syntara-color-text-default) 6%, transparent);
+  --_fg: var(--syntara-color-text-disabled);
   --_border: transparent;
   --_shadow: none;
   cursor: default;
 }
 .root[data-variant='outline'][data-disabled] {
   --_bg: transparent;
-  --_border: var(--strata-color-border-default);
+  --_border: var(--syntara-color-border-default);
 }
 .root:is([data-variant='ghost'], [data-variant='link'])[data-disabled] {
   --_bg: transparent;
@@ -323,20 +323,20 @@
  */
 .root {
   transition-property: background-color, border-color, color, box-shadow, outline-offset;
-  transition-duration: var(--strata-motion-duration-fast);
-  transition-timing-function: var(--strata-motion-easing);
+  transition-duration: var(--syntara-motion-duration-fast);
+  transition-timing-function: var(--syntara-motion-easing);
 }
 
 @media (prefers-reduced-motion: no-preference) {
   .root {
     transition-property: background-color, border-color, color, box-shadow, outline-offset, translate, scale;
     transition-duration:
-      var(--strata-motion-duration-fast), var(--strata-motion-duration-fast), var(--strata-motion-duration-fast),
-      var(--strata-motion-duration-normal), var(--strata-motion-duration-spring), var(--strata-motion-duration-spring),
-      var(--strata-motion-duration-spring);
+      var(--syntara-motion-duration-fast), var(--syntara-motion-duration-fast), var(--syntara-motion-duration-fast),
+      var(--syntara-motion-duration-normal), var(--syntara-motion-duration-spring), var(--syntara-motion-duration-spring),
+      var(--syntara-motion-duration-spring);
     transition-timing-function:
-      var(--strata-motion-easing), var(--strata-motion-easing), var(--strata-motion-easing), var(--strata-motion-easing),
-      var(--strata-motion-spring), var(--strata-motion-spring), var(--strata-motion-spring);
+      var(--syntara-motion-easing), var(--syntara-motion-easing), var(--syntara-motion-easing), var(--syntara-motion-easing),
+      var(--syntara-motion-spring), var(--syntara-motion-spring), var(--syntara-motion-spring);
   }
 
   /* Hover lift: up 1px, one shadow step deeper. Not while pressed (the press sinks it back down). */
@@ -344,34 +344,34 @@
     translate: 0 -1px;
   }
   .root:is([data-variant='primary'], [data-variant='contrast'])[data-hovered]:not([data-pressed], [data-disabled]) {
-    --_shadow: var(--strata-shadow-highlight), var(--strata-shadow-raised), var(--strata-shadow-raised);
+    --_shadow: var(--syntara-shadow-highlight), var(--syntara-shadow-raised), var(--syntara-shadow-raised);
   }
   .root:is([data-variant='secondary'], [data-variant='outline'])[data-hovered]:not([data-pressed], [data-disabled]) {
-    --_shadow: var(--strata-shadow-raised), var(--strata-shadow-raised);
+    --_shadow: var(--syntara-shadow-raised), var(--syntara-shadow-raised);
   }
   .root:is([data-variant='danger'], [data-variant='primary'][data-tone='danger'])[data-hovered]:not([data-pressed], [data-disabled]) {
-    --_shadow: var(--strata-shadow-highlight), var(--strata-shadow-raised), var(--strata-shadow-raised),
-      0 0 0 4px color-mix(in oklab, var(--strata-color-feedback-danger-solid) 22%, transparent);
+    --_shadow: var(--syntara-shadow-highlight), var(--syntara-shadow-raised), var(--syntara-shadow-raised),
+      0 0 0 4px color-mix(in oklab, var(--syntara-color-feedback-danger-solid) 22%, transparent);
   }
 
   /* Press: in fast, out on the spring (the base list above applies on release). */
   .root[data-pressed]:not([data-variant='link'], [data-disabled], [data-pending]) {
     scale: 0.96;
     transition-duration:
-      var(--strata-motion-duration-fast), var(--strata-motion-duration-fast), var(--strata-motion-duration-fast),
-      var(--strata-motion-duration-fast), var(--strata-motion-duration-spring), var(--strata-motion-duration-fast),
-      var(--strata-motion-duration-fast);
+      var(--syntara-motion-duration-fast), var(--syntara-motion-duration-fast), var(--syntara-motion-duration-fast),
+      var(--syntara-motion-duration-fast), var(--syntara-motion-duration-spring), var(--syntara-motion-duration-fast),
+      var(--syntara-motion-duration-fast);
     transition-timing-function:
-      var(--strata-motion-easing), var(--strata-motion-easing), var(--strata-motion-easing), var(--strata-motion-easing),
-      var(--strata-motion-spring), var(--strata-motion-easing), var(--strata-motion-easing);
+      var(--syntara-motion-easing), var(--syntara-motion-easing), var(--syntara-motion-easing), var(--syntara-motion-easing),
+      var(--syntara-motion-spring), var(--syntara-motion-easing), var(--syntara-motion-easing);
   }
 
   .spinner {
-    animation: strata-button-spin calc(var(--strata-motion-duration-normal) * 4) linear infinite;
+    animation: syntara-button-spin calc(var(--syntara-motion-duration-normal) * 4) linear infinite;
   }
 }
 
-@keyframes strata-button-spin {
+@keyframes syntara-button-spin {
   to {
     rotate: 1turn;
   }

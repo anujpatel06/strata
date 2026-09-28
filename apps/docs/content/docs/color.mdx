@@ -1,4 +1,4 @@
-In Strata you pick colour by **role**, never by hex. A role names a job, such as `text.subtle` or `action.primary.bg`. The theme engine resolves every role for each brand in light and dark. It guarantees contrast only for the pairs listed on this page. Everything else is up to you, and this page shows how to get it right.
+In Syntara you pick colour by **role**, never by hex. A role names a job, such as `text.subtle` or `action.primary.bg`. The theme engine resolves every role for each brand in light and dark. It guarantees contrast only for the pairs listed on this page. Everything else is up to you, and this page shows how to get it right.
 
 Three rules cover most of it:
 
@@ -113,10 +113,10 @@ Inline status text isn’t checked on `surface.canvas` or `surface.raised`. On a
 
 ## Charts
 
-- **Series use `--strata-chart-1` to `--strata-chart-4` in that order.** Never reorder them by rank or value. Why: a category keeps its colour across charts and filters, so people don’t have to re-learn the legend.
+- **Series use `--syntara-chart-1` to `--syntara-chart-4` in that order.** Never reorder them by rank or value. Why: a category keeps its colour across charts and filters, so people don’t have to re-learn the legend.
 - **Series 1 follows the brand hue** when the brand has one. The engine solves the others per brand, so neighbours stay apart for protan, deutan and tritan colour blindness (<AdrLink n="016" />).
 - **Text never goes in a series colour.** Why: series promise 3:1, enough for bars and lines but not for text. The lowest on this site is <ChartWorst />.
-- **Grid lines use `--strata-chart-grid`** (`border.subtle`, decorative). **Axis labels use `--strata-chart-axis`** (`text.subtle`, checked for text).
+- **Grid lines use `--syntara-chart-grid`** (`border.subtle`, decorative). **Axis labels use `--syntara-chart-axis`** (`text.subtle`, checked for text).
 
 <ChartDemo />
 
@@ -124,8 +124,8 @@ Inline status text isn’t checked on `surface.canvas` or `surface.raised`. On a
 
 - **On glass, use only `text.default` and `text.subtle`.** The engine solves the glass opacity per brand (<GlassOpacity /> on this site) so those two reach 4.5:1 over any backdrop. Any other text colour goes on an opaque role, such as `surface.selected` for a highlighted row.
 - **Never put a gradient or overlay behind a label on a solid fill.** Why: the solver tunes some fills to exactly 4.5:1 with their label. Any tint can push them below it.
-- **Hover tints mix `text.default` at 6% over the surface:** `color-mix(in oklab, var(--strata-color-text-default) 6%, transparent)`. Why: it darkens in light mode and lightens in dark mode, in every brand, without a new colour.
-- **The feature card’s gradient is capped and proven.** It uses <FeatureGlow />. A test samples every pixel of it for text contrast in every tenant: `pnpm --filter @strata/react exec vitest run test/card.test.tsx`.
+- **Hover tints mix `text.default` at 6% over the surface:** `color-mix(in oklab, var(--syntara-color-text-default) 6%, transparent)`. Why: it darkens in light mode and lightens in dark mode, in every brand, without a new colour.
+- **The feature card’s gradient is capped and proven.** It uses <FeatureGlow />. A test samples every pixel of it for text contrast in every tenant: `pnpm --filter @syntara/react exec vitest run test/card.test.tsx`.
 
 ## Fields and borders
 
@@ -148,7 +148,7 @@ Each pair is live, in the brand you pick. The mistakes that would fail contrast 
 If you need a pair that isn’t listed, measure it for every brand you ship, in both schemes:
 
 ```ts
-import { contrastRatio, generateTheme } from '@strata/theme-engine';
+import { contrastRatio, generateTheme } from '@syntara/theme-engine';
 
 const theme = generateTheme(brand);
 for (const scheme of ['light', 'dark'] as const) {

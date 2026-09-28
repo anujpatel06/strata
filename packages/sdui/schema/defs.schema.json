@@ -1,9 +1,9 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "urn:strata:sdui:v1:defs",
-  "title": "Strata SDUI shared definitions",
+  "$id": "urn:syntara:sdui:v1:defs",
+  "title": "Syntara SDUI shared definitions",
   "description": "Actions, icons, links, images and layout tokens shared by every node schema.",
-  "x-strata": {
+  "x-syntara": {
     "schemaVersion": "1.0.0",
     "source": "sdui"
   },
@@ -14,7 +14,7 @@
       "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,63}$"
     },
     "IconName": {
-      "description": "An icon from @strata/icons, by its kebab-case name. Generated from the package's exports.",
+      "description": "An icon from @syntara/icons, by its kebab-case name. Generated from the package's exports.",
       "type": "string",
       "enum": [
         "accessible",
@@ -293,23 +293,23 @@
                 "$ref": "#/$defs/IconRef"
               }
             ],
-            "x-strata-message": "must be a string or { \"icon\": \"<name>\" }."
+            "x-syntara-message": "must be a string or { \"icon\": \"<name>\" }."
           }
         }
       ],
-      "x-strata-message": "must be a string, or a non-empty array of strings and { \"icon\": \"<name>\" } references."
+      "x-syntara-message": "must be a string, or a non-empty array of strings and { \"icon\": \"<name>\" } references."
     },
     "Href": {
       "description": "An https:// URL, or a path in the app that starts with a single \"/\".",
       "type": "string",
       "pattern": "^(?:https://[^\\s\\\\\\x00-\\x1f\\x7f/?#@][^\\s\\\\\\x00-\\x1f\\x7f]*|/(?![/\\\\])[^\\s\\\\\\x00-\\x1f\\x7f]*)$",
-      "x-strata-message": "must be an https:// URL or an app path that starts with one \"/\". javascript:, data:, http:, mailto:, tel: and \"//host\" links are rejected; send an event action for anything the app should decide."
+      "x-syntara-message": "must be an https:// URL or an app path that starts with one \"/\". javascript:, data:, http:, mailto:, tel: and \"//host\" links are rejected; send an event action for anything the app should decide."
     },
     "ImageUrl": {
       "description": "An image URL. https only.",
       "type": "string",
       "pattern": "^https://[^\\s\\\\\\x00-\\x1f\\x7f/?#@][^\\s\\\\\\x00-\\x1f\\x7f]*$",
-      "x-strata-message": "must be an https:// URL. data:, http: and relative image URLs are rejected."
+      "x-syntara-message": "must be an https:// URL. data:, http: and relative image URLs are rejected."
     },
     "NavigateAction": {
       "description": "Go to a destination. The host app decides how (router, in-app browser, system browser).",
@@ -391,7 +391,7 @@
       ]
     },
     "Gap": {
-      "description": "A space token (--strata-space-*), or section-gap, which follows the client's density.",
+      "description": "A space token (--syntara-space-*), or section-gap, which follows the client's density.",
       "type": "string",
       "enum": [
         "space-0",

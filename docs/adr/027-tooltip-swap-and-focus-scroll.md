@@ -6,7 +6,7 @@
 
 ## Context
 
-- React Aria 1.21.1 leaves a tooltip mounted at 0,0 when Tab leaves a `ToggleButtonGroup` (`docs/upstream/react-aria-tooltip-stays-mounted.md`). The fix in `Tooltip` takes React Aria off its skip-animation path, so Strata now decides how a swap between two tooltips looks.
+- React Aria 1.21.1 leaves a tooltip mounted at 0,0 when Tab leaves a `ToggleButtonGroup` (`docs/upstream/react-aria-tooltip-stays-mounted.md`). The fix in `Tooltip` takes React Aria off its skip-animation path, so Syntara now decides how a swap between two tooltips looks.
 - React Aria also closes a tooltip on any scroll. Keyboard focus scrolls its control into view, so a tooltip opened by focus closed as soon as it opened.
 
 ## Decision

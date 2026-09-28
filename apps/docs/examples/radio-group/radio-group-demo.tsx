@@ -1,6 +1,6 @@
 'use client';
 
-import { Radio, RadioGroup } from '@strata/react';
+import { Radio, RadioGroup } from '@syntara/react';
 
 export default function Example() {
   return (

@@ -1,6 +1,6 @@
 'use client';
 
-import { TextField } from '@strata/react';
+import { TextField } from '@syntara/react';
 import { useEffect, useState, type KeyboardEvent, type ReactNode } from 'react';
 import { parseHex } from './state';
 import styles from './controls.module.css';

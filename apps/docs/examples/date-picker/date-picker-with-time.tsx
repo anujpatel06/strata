@@ -1,7 +1,7 @@
 'use client';
 
 import { parseDateTime } from '@internationalized/date';
-import { DatePicker } from '@strata/react';
+import { DatePicker } from '@syntara/react';
 
 export default function Example() {
   return (

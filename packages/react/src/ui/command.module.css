@@ -7,17 +7,17 @@
   flex-direction: column;
   align-items: center;
   box-sizing: border-box;
-  padding: min(12dvh, calc(var(--strata-space-16) * 2)) var(--strata-space-4) var(--strata-space-4);
+  padding: min(12dvh, calc(var(--syntara-space-16) * 2)) var(--syntara-space-4) var(--syntara-space-4);
   /* Underlay: a light blur (a quarter of the glass blur) so the page recedes, and a fixed dim. Deliberately not
      the surface.inverse tint from CONVENTIONS: in dark schemes surface.inverse is near-white, so the tint turns the
      page into a grey fog and the dialog stops reading as "above" it. brightness() dims both schemes alike. */
-  -webkit-backdrop-filter: blur(calc(var(--strata-glass-blur) / 4)) brightness(0.6);
-  backdrop-filter: blur(calc(var(--strata-glass-blur) / 4)) brightness(0.6);
-  font-family: var(--strata-font-body);
-  font-size: var(--strata-font-size-md);
-  letter-spacing: var(--strata-font-tracking-md);
-  line-height: var(--strata-line-height-normal);
-  color: var(--strata-color-text-default);
+  -webkit-backdrop-filter: blur(calc(var(--syntara-glass-blur) / 4)) brightness(0.6);
+  backdrop-filter: blur(calc(var(--syntara-glass-blur) / 4)) brightness(0.6);
+  font-family: var(--syntara-font-body);
+  font-size: var(--syntara-font-size-md);
+  letter-spacing: var(--syntara-font-tracking-md);
+  line-height: var(--syntara-line-height-normal);
+  color: var(--syntara-color-text-default);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -32,7 +32,7 @@
   display: flex;
   flex-direction: column;
   inline-size: 100%;
-  max-inline-size: calc(var(--strata-space-16) * 9);
+  max-inline-size: calc(var(--syntara-space-16) * 9);
   max-block-size: 100%;
   overflow: hidden;
   /*
@@ -41,16 +41,16 @@
    * any backdrop) over the border box, the rim light (dark only) as a masked ::after ring, a border.subtle
    * hairline ring and the overlay shadow. Only text.default and text.subtle sit directly on it.
    */
-  --_glass: color-mix(in srgb, var(--strata-color-surface-raised) calc(var(--strata-glass-opacity) * 100% + 8%), transparent);
+  --_glass: color-mix(in srgb, var(--syntara-color-surface-raised) calc(var(--syntara-glass-opacity) * 100% + 8%), transparent);
   border: 1px solid transparent;
-  border-radius: var(--strata-radius-container);
+  border-radius: var(--syntara-radius-container);
   /* Sheen over the glass face, both over the whole border box: the 1px ring must carry the same tint, or it shows
      the page unfiltered (a modal underlay's dim doesn't reach a nested backdrop-filter), which reads as a bright
      outline. The rim is drawn by ::after instead (see RIM below). */
-  background: var(--strata-sheen), var(--_glass);
-  -webkit-backdrop-filter: blur(var(--strata-glass-blur)) saturate(1.6);
-  backdrop-filter: blur(var(--strata-glass-blur)) saturate(1.6);
-  box-shadow: 0 0 0 var(--strata-hairline) var(--strata-color-border-subtle), var(--strata-shadow-overlay);
+  background: var(--syntara-sheen), var(--_glass);
+  -webkit-backdrop-filter: blur(var(--syntara-glass-blur)) saturate(1.6);
+  backdrop-filter: blur(var(--syntara-glass-blur)) saturate(1.6);
+  box-shadow: 0 0 0 var(--syntara-hairline) var(--syntara-color-border-subtle), var(--syntara-shadow-overlay);
   outline: none;
   /* It grows from just above its middle: close to where the eye lands (the search field). */
   transform-origin: 50% 30%;
@@ -64,18 +64,18 @@
   border-radius: inherit;
   padding: 1px;
   background: linear-gradient(135deg, var(--_rim, transparent), transparent 60%);
-  mask-image: linear-gradient(var(--strata-color-text-default), var(--strata-color-text-default)),
-    linear-gradient(var(--strata-color-text-default), var(--strata-color-text-default));
+  mask-image: linear-gradient(var(--syntara-color-text-default), var(--syntara-color-text-default)),
+    linear-gradient(var(--syntara-color-text-default), var(--syntara-color-text-default));
   mask-clip: content-box, border-box;
   mask-composite: exclude;
   -webkit-mask-composite: xor;
   pointer-events: none;
 }
-/* Dark only: --strata-sheen is `none` exactly in light schemes (CONVENTIONS "Surface recipe"). The query runs on the
+/* Dark only: --syntara-sheen is `none` exactly in light schemes (CONVENTIONS "Surface recipe"). The query runs on the
    ::after's originating element, which carries the copied scope attributes, so portalled overlays resolve it too. */
-@container not style(--strata-sheen: none) {
+@container not style(--syntara-sheen: none) {
   .panel::after {
-    --_rim: var(--strata-rim);
+    --_rim: var(--syntara-rim);
   }
 }
 @media (forced-colors: active) {
@@ -92,7 +92,7 @@
 
 @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
   .panel {
-    --_glass: var(--strata-color-surface-raised);
+    --_glass: var(--syntara-color-surface-raised);
   }
 }
 
@@ -112,22 +112,22 @@
   display: flex;
   flex: none;
   align-items: center;
-  gap: var(--strata-space-2);
-  min-block-size: calc(var(--strata-control-height) + var(--strata-space-2));
-  padding-inline: var(--strata-space-4);
+  gap: var(--syntara-space-2);
+  min-block-size: calc(var(--syntara-control-height) + var(--syntara-space-2));
+  padding-inline: var(--syntara-space-4);
   /* Hairline divider (inset shadow; see .panel). */
-  box-shadow: inset 0 calc(var(--strata-hairline) * -1) 0 var(--strata-color-border-subtle);
+  box-shadow: inset 0 calc(var(--syntara-hairline) * -1) 0 var(--syntara-color-border-subtle);
 }
 /* Focus indicator: the input is flat, so the hairline under it thickens to a 2px focus-ring line while the input has
    focus (it always does while the palette is open; it goes away if focus moves to the panel). */
 .search:focus-within {
   /* The focus indicator is a full 2px line, independent of the hairline. */
-  box-shadow: inset 0 -2px 0 var(--strata-color-focus-ring);
+  box-shadow: inset 0 -2px 0 var(--syntara-color-focus-ring);
 }
 .searchIcon {
   flex: none;
-  color: var(--strata-color-text-subtle);
-  stroke-width: var(--strata-icon-stroke, 1.5);
+  color: var(--syntara-color-text-subtle);
+  stroke-width: var(--syntara-icon-stroke, 1.5);
 }
 .input {
   flex: 1 1 auto;
@@ -137,10 +137,10 @@
   margin: 0;
   border: 0;
   background: transparent;
-  color: var(--strata-color-text-default);
+  color: var(--syntara-color-text-default);
   font: inherit;
-  font-size: var(--strata-font-size-md);
-  caret-color: var(--strata-color-focus-ring);
+  font-size: var(--syntara-font-size-md);
+  caret-color: var(--syntara-color-focus-ring);
   outline: none;
   appearance: none;
 }
@@ -149,7 +149,7 @@
   outline: none;
 }
 .input::placeholder {
-  color: var(--strata-color-text-subtle);
+  color: var(--syntara-color-text-subtle);
   opacity: 1;
 }
 .input::-webkit-search-cancel-button,
@@ -160,24 +160,24 @@
 .list {
   flex: 1 1 auto;
   min-block-size: 0;
-  max-block-size: min(calc(var(--strata-space-16) * 5), 60dvh);
+  max-block-size: min(calc(var(--syntara-space-16) * 5), 60dvh);
   overflow-y: auto;
   overscroll-behavior: contain;
-  padding: var(--strata-space-1);
-  scroll-padding-block: var(--strata-space-1);
+  padding: var(--syntara-space-1);
+  scroll-padding-block: var(--syntara-space-1);
   outline: none;
 }
 
 .section:not(:first-child) {
-  margin-block-start: var(--strata-space-1);
+  margin-block-start: var(--syntara-space-1);
 }
 .sectionTitle {
-  padding: var(--strata-space-2) var(--strata-space-2) var(--strata-space-1);
-  font-size: var(--strata-font-size-xs);
-  font-weight: var(--strata-font-weight-medium);
-  letter-spacing: var(--strata-font-tracking-xs);
-  line-height: var(--strata-line-height-normal);
-  color: var(--strata-color-text-subtle);
+  padding: var(--syntara-space-2) var(--syntara-space-2) var(--syntara-space-1);
+  font-size: var(--syntara-font-size-xs);
+  font-weight: var(--syntara-font-weight-medium);
+  letter-spacing: var(--syntara-font-tracking-xs);
+  line-height: var(--syntara-line-height-normal);
+  color: var(--syntara-color-text-subtle);
 }
 
 /*
@@ -191,18 +191,18 @@
   isolation: isolate;
   display: flex;
   align-items: center;
-  gap: var(--strata-space-3);
-  min-block-size: var(--strata-control-height);
-  padding: var(--strata-space-1) var(--strata-space-2);
+  gap: var(--syntara-space-3);
+  min-block-size: var(--syntara-control-height);
+  padding: var(--syntara-space-1) var(--syntara-space-2);
   /* Concentric with the panel: its radius minus the list's inset (floored at a small key-like corner). */
-  --_radius: max(min(var(--strata-radius-badge), var(--strata-space-1)), calc(var(--strata-radius-container) - var(--strata-space-1)));
+  --_radius: max(min(var(--syntara-radius-badge), var(--syntara-space-1)), calc(var(--syntara-radius-container) - var(--syntara-space-1)));
   /* The active-row bar's inset (it moves in on rounder brands, see ::after). */
-  --_bar-inset: max(var(--strata-space-1), calc(var(--_radius) * 0.4));
+  --_bar-inset: max(var(--syntara-space-1), calc(var(--_radius) * 0.4));
   /* Room for the bar at the inline start: its inset plus a space-2 gap (= space-3 on sharp brands). */
-  padding-inline-start: calc(var(--_bar-inset) + var(--strata-space-2));
+  padding-inline-start: calc(var(--_bar-inset) + var(--syntara-space-2));
   border-radius: var(--_radius);
-  color: var(--strata-color-text-default);
-  line-height: var(--strata-line-height-snug);
+  color: var(--syntara-color-text-default);
+  line-height: var(--syntara-line-height-snug);
   text-decoration: none;
   cursor: default;
   user-select: none;
@@ -214,33 +214,33 @@
   position: absolute;
   z-index: -1;
   opacity: 0;
-  transition: opacity var(--strata-motion-duration-fast) var(--strata-motion-easing);
+  transition: opacity var(--syntara-motion-duration-fast) var(--syntara-motion-easing);
 }
 .item::before {
   inset: 0;
   border-radius: inherit;
-  background: var(--strata-color-surface-selected);
+  background: var(--syntara-color-surface-selected);
 }
 .item::after {
   /* The bar sits inside the row's corner curve, however round the brand is. */
-  inset-block: max(var(--strata-space-2), calc(var(--_radius) * 0.5));
+  inset-block: max(var(--syntara-space-2), calc(var(--_radius) * 0.5));
   inset-inline-start: var(--_bar-inset);
   inline-size: 2px;
   border-radius: 2px;
-  background: var(--strata-color-focus-ring);
+  background: var(--syntara-color-focus-ring);
 }
 .item[data-focused]::before,
 .item[data-focused]::after {
   opacity: 1;
 }
 .item[data-disabled] {
-  color: var(--strata-color-text-disabled);
+  color: var(--syntara-color-text-disabled);
   pointer-events: none;
 }
 
 @media (prefers-reduced-motion: no-preference) {
   .item {
-    transition: scale var(--strata-motion-duration-spring) var(--strata-motion-spring);
+    transition: scale var(--syntara-motion-duration-spring) var(--syntara-motion-spring);
   }
   .item::before {
     scale: 0.96;
@@ -251,8 +251,8 @@
   .item::before,
   .item::after {
     transition:
-      opacity var(--strata-motion-duration-fast) var(--strata-motion-easing),
-      scale var(--strata-motion-duration-spring) var(--strata-motion-spring);
+      opacity var(--syntara-motion-duration-fast) var(--syntara-motion-easing),
+      scale var(--syntara-motion-duration-spring) var(--syntara-motion-spring);
   }
   .item[data-focused]::before,
   .item[data-focused]::after {
@@ -269,19 +269,19 @@
   justify-content: center;
   inline-size: 1.125em;
   block-size: 1.125em;
-  color: var(--strata-color-text-subtle);
+  color: var(--syntara-color-text-subtle);
 }
 .icon svg {
   inline-size: 100%;
   block-size: 100%;
-  stroke-width: var(--strata-icon-stroke, 1.5);
+  stroke-width: var(--syntara-icon-stroke, 1.5);
 }
 .item[data-focused] .icon {
-  color: var(--strata-color-text-default);
+  color: var(--syntara-color-text-default);
 }
 /* text.subtle isn't solved against surface.selected, so on the highlighted row secondary text steps up. */
 .item[data-focused] :is(.description, .meta) {
-  color: var(--strata-color-text-default);
+  color: var(--syntara-color-text-default);
 }
 .text {
   display: grid;
@@ -297,29 +297,29 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  font-size: var(--strata-font-size-xs);
-  letter-spacing: var(--strata-font-tracking-xs);
-  line-height: var(--strata-line-height-normal);
-  color: var(--strata-color-text-subtle);
+  font-size: var(--syntara-font-size-xs);
+  letter-spacing: var(--syntara-font-tracking-xs);
+  line-height: var(--syntara-line-height-normal);
+  color: var(--syntara-color-text-subtle);
 }
 .meta {
   flex: none;
   margin-inline-start: auto;
-  font-size: var(--strata-font-size-xs);
-  letter-spacing: var(--strata-font-tracking-xs);
-  color: var(--strata-color-text-subtle);
+  font-size: var(--syntara-font-size-xs);
+  letter-spacing: var(--syntara-font-tracking-xs);
+  color: var(--syntara-color-text-subtle);
   font-variant-numeric: tabular-nums;
 }
 
 .empty {
   margin: 0;
-  padding: var(--strata-space-8) var(--strata-space-4);
+  padding: var(--syntara-space-8) var(--syntara-space-4);
   text-align: center;
-  font-size: var(--strata-font-size-sm);
-  color: var(--strata-color-text-subtle);
+  font-size: var(--syntara-font-size-sm);
+  color: var(--syntara-color-text-subtle);
 }
 .query {
-  color: var(--strata-color-text-default);
+  color: var(--syntara-color-text-default);
   overflow-wrap: anywhere;
 }
 
@@ -328,36 +328,36 @@
   flex: none;
   flex-wrap: wrap;
   align-items: center;
-  gap: var(--strata-space-2) var(--strata-space-4);
-  padding: var(--strata-space-2) var(--strata-space-4);
-  box-shadow: inset 0 var(--strata-hairline) 0 var(--strata-color-border-subtle);
-  font-size: var(--strata-font-size-xs);
-  letter-spacing: var(--strata-font-tracking-xs);
-  line-height: var(--strata-line-height-normal);
-  color: var(--strata-color-text-subtle);
+  gap: var(--syntara-space-2) var(--syntara-space-4);
+  padding: var(--syntara-space-2) var(--syntara-space-4);
+  box-shadow: inset 0 var(--syntara-hairline) 0 var(--syntara-color-border-subtle);
+  font-size: var(--syntara-font-size-xs);
+  letter-spacing: var(--syntara-font-tracking-xs);
+  line-height: var(--syntara-line-height-normal);
+  color: var(--syntara-color-text-subtle);
 }
 .hint {
   display: inline-flex;
   align-items: center;
-  gap: var(--strata-space-1);
+  gap: var(--syntara-space-1);
 }
 .kbd {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-inline-size: var(--strata-space-5);
-  block-size: var(--strata-space-5);
-  padding-inline: var(--strata-space-1);
+  min-inline-size: var(--syntara-space-5);
+  block-size: var(--syntara-space-5);
+  padding-inline: var(--syntara-space-1);
   border: 0;
-  border-radius: min(var(--strata-radius-badge), var(--strata-space-1));
-  background: var(--strata-color-surface-sunken);
+  border-radius: min(var(--syntara-radius-badge), var(--syntara-space-1));
+  background: var(--syntara-color-surface-sunken);
   box-shadow:
-    inset 0 0 0 var(--strata-hairline) var(--strata-color-border-default),
-    inset 0 -1px 0 color-mix(in oklab, var(--strata-color-border-default) 80%, transparent);
-  color: var(--strata-color-text-subtle);
-  font-family: var(--strata-font-mono);
-  font-size: var(--strata-font-size-xs);
-  font-weight: var(--strata-font-weight-medium);
+    inset 0 0 0 var(--syntara-hairline) var(--syntara-color-border-default),
+    inset 0 -1px 0 color-mix(in oklab, var(--syntara-color-border-default) 80%, transparent);
+  color: var(--syntara-color-text-subtle);
+  font-family: var(--syntara-font-mono);
+  font-size: var(--syntara-font-size-xs);
+  font-weight: var(--syntara-font-weight-medium);
   line-height: 1;
 }
 
@@ -365,20 +365,20 @@
    spring. Exits are quicker and never spring. With reduced motion the palette simply appears. */
 @media (prefers-reduced-motion: no-preference) {
   .overlay[data-entering] {
-    animation: fade var(--strata-motion-duration-normal) var(--strata-motion-easing-out);
+    animation: fade var(--syntara-motion-duration-normal) var(--syntara-motion-easing-out);
   }
   .overlay[data-exiting] {
-    animation: fade var(--strata-motion-duration-fast) var(--strata-motion-easing) reverse;
+    animation: fade var(--syntara-motion-duration-fast) var(--syntara-motion-easing) reverse;
   }
   .panel[data-entering] {
     animation:
-      fade var(--strata-motion-duration-normal) var(--strata-motion-easing-out),
-      grow var(--strata-motion-duration-spring) var(--strata-motion-spring);
+      fade var(--syntara-motion-duration-normal) var(--syntara-motion-easing-out),
+      grow var(--syntara-motion-duration-spring) var(--syntara-motion-spring);
   }
   .panel[data-exiting] {
     animation:
-      fade var(--strata-motion-duration-fast) var(--strata-motion-easing) reverse,
-      shrink var(--strata-motion-duration-fast) var(--strata-motion-easing) reverse;
+      fade var(--syntara-motion-duration-fast) var(--syntara-motion-easing) reverse,
+      shrink var(--syntara-motion-duration-fast) var(--syntara-motion-easing) reverse;
   }
 
   @keyframes fade {

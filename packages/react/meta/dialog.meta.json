@@ -14,13 +14,13 @@
   ],
   "dependencies": [
     "react-aria-components",
-    "@strata/icons"
+    "@syntara/icons"
   ],
   "registryDependencies": [
     "button"
   ],
   "reactAria": "https://react-spectrum.adobe.com/react-aria/Modal.html",
-  "usage": "import { Button, Dialog, DialogTrigger, TextField } from '@strata/react';\n\nexport function EditProfile() {\n  return (\n    <DialogTrigger>\n      <Button variant=\"outline\">Edit profile</Button>\n      <Dialog\n        title=\"Edit profile\"\n        description=\"Visible to everyone in your workspace.\"\n        footer={({ close }) => <Button onPress={close}>Save</Button>}\n      >\n        <TextField label=\"Full name\" />\n      </Dialog>\n    </DialogTrigger>\n  );\n}",
+  "usage": "import { Button, Dialog, DialogTrigger, TextField } from '@syntara/react';\n\nexport function EditProfile() {\n  return (\n    <DialogTrigger>\n      <Button variant=\"outline\">Edit profile</Button>\n      <Dialog\n        title=\"Edit profile\"\n        description=\"Visible to everyone in your workspace.\"\n        footer={({ close }) => <Button onPress={close}>Save</Button>}\n      >\n        <TextField label=\"Full name\" />\n      </Dialog>\n    </DialogTrigger>\n  );\n}",
   "examples": [
     {
       "name": "dialog-demo",
@@ -137,9 +137,9 @@
       "role=\"dialog\" named by the title (h2) and described by the description.",
       "Everything outside the dialog is hidden from assistive technology and page scrolling is locked while it is open.",
       "The close button is labelled \"Close\" and comes last in the tab order, after the footer actions.",
-      "Overlays render in a portal on <body>, outside any ThemeScope. When it opens, the overlay looks up data-strata-theme, data-strata-scheme, data-strata-density, dir and lang — each on the nearest ancestor that has it — starting from its trigger (or from where the component is rendered, when controlled), and copies them onto its own root — so it uses the same tenant tokens and direction as the page region it came from, and nested overlays inherit from their parent overlay.",
+      "Overlays render in a portal on <body>, outside any ThemeScope. When it opens, the overlay looks up data-syntara-theme, data-syntara-scheme, data-syntara-density, dir and lang — each on the nearest ancestor that has it — starting from its trigger (or from where the component is rendered, when controlled), and copies them onto its own root — so it uses the same tenant tokens and direction as the page region it came from, and nested overlays inherit from their parent overlay.",
       "Right-to-left: give the ThemeScope a locale (e.g. locale=\"ar-AE\"), which sets dir and wraps React Aria's I18nProvider, so arrow keys and start/end placement flip as well as the layout.",
-      "The backdrop blurs the page lightly and dims it with backdrop-filter: brightness(0.6), so it recedes in light and dark schemes alike. The panel is glass (--strata-glass-bg + backdrop blur); only text.default and text.subtle sit directly on it, the two roles the theme engine solves to 4.5:1 over any backdrop.",
+      "The backdrop blurs the page lightly and dims it with backdrop-filter: brightness(0.6), so it recedes in light and dark schemes alike. The panel is glass (--syntara-glass-bg + backdrop blur); only text.default and text.subtle sit directly on it, the two roles the theme engine solves to 4.5:1 over any backdrop.",
       "Motion: the panel fades in and springs up from 0.94 scale with an 8px rise, then the header, body and footer fade up in turn; on narrow screens it rises from the bottom edge instead. With prefers-reduced-motion it appears without moving."
     ]
   },

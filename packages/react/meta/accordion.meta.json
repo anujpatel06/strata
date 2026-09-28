@@ -6,10 +6,10 @@
   "maturity": "alpha",
   "exports": ["Accordion", "AccordionItem"],
   "files": ["accordion.tsx", "accordion.module.css"],
-  "dependencies": ["react-aria-components", "@strata/icons"],
+  "dependencies": ["react-aria-components", "@syntara/icons"],
   "registryDependencies": [],
   "reactAria": "https://react-spectrum.adobe.com/react-aria/DisclosureGroup.html",
-  "usage": "import { Accordion, AccordionItem } from '@strata/react';\n\nexport function ClaimFaq() {\n  return (\n    <Accordion defaultExpandedKeys={['documents']}>\n      <AccordionItem id=\"documents\" title=\"Which documents do I need?\">\n        An itemised invoice and the prescription.\n      </AccordionItem>\n      <AccordionItem id=\"timeline\" title=\"How long does a review take?\">\n        Most claims are reviewed within 3 working days.\n      </AccordionItem>\n    </Accordion>\n  );\n}",
+  "usage": "import { Accordion, AccordionItem } from '@syntara/react';\n\nexport function ClaimFaq() {\n  return (\n    <Accordion defaultExpandedKeys={['documents']}>\n      <AccordionItem id=\"documents\" title=\"Which documents do I need?\">\n        An itemised invoice and the prescription.\n      </AccordionItem>\n      <AccordionItem id=\"timeline\" title=\"How long does a review take?\">\n        Most claims are reviewed within 3 working days.\n      </AccordionItem>\n    </Accordion>\n  );\n}",
   "examples": [
     { "name": "accordion-demo", "title": "Accordion", "description": "One section open at a time." },
     { "name": "accordion-faq", "title": "FAQ, several open", "description": "allowsMultipleExpanded, a custom heading level and a disabled item." }

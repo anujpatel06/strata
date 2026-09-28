@@ -6,7 +6,7 @@
 
 ## Context
 
-- Strata's Indian tenants (Vela, Care) are en-IN. Nothing in the repo shows an Indic script.
+- Syntara's Indian tenants (Vela, Care) are en-IN. Nothing in the repo shows an Indic script.
 - Research (`docs/research/2026-09-27-differentiation.md`, §5): a Figma case study says Flipkart supports 11 Indian languages. No company-published guidance on Indic line height or truncation was found.
 - Devanagari has a headline and stacked marks above and below it. Line heights and truncation tuned for Latin can clip it.
 - Qamar already proved that a script and direction change needs no component changes (ADR-009).

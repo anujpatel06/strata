@@ -16,11 +16,11 @@
   ],
   "dependencies": [
     "react-aria-components",
-    "@strata/icons"
+    "@syntara/icons"
   ],
   "registryDependencies": [],
   "reactAria": "https://react-spectrum.adobe.com/react-aria/Autocomplete.html",
-  "usage": "import { useState } from 'react';\nimport { Button, CommandDialog, CommandItem, CommandSection, useCommandShortcut } from '@strata/react';\n\nexport function Search() {\n  const [isOpen, setOpen] = useState(false);\n  useCommandShortcut(() => setOpen(true));\n  return (\n    <>\n      <Button variant=\"outline\" onPress={() => setOpen(true)}>Search…</Button>\n      <CommandDialog isOpen={isOpen} onOpenChange={setOpen} placeholder=\"Search docs…\" onAction={(key) => navigate(`/components/${key}`)}>\n        <CommandSection title=\"Components\">\n          <CommandItem id=\"button\">Button</CommandItem>\n          <CommandItem id=\"dialog\" textValue=\"Dialog modal\">Dialog</CommandItem>\n        </CommandSection>\n      </CommandDialog>\n    </>\n  );\n}",
+  "usage": "import { useState } from 'react';\nimport { Button, CommandDialog, CommandItem, CommandSection, useCommandShortcut } from '@syntara/react';\n\nexport function Search() {\n  const [isOpen, setOpen] = useState(false);\n  useCommandShortcut(() => setOpen(true));\n  return (\n    <>\n      <Button variant=\"outline\" onPress={() => setOpen(true)}>Search…</Button>\n      <CommandDialog isOpen={isOpen} onOpenChange={setOpen} placeholder=\"Search docs…\" onAction={(key) => navigate(`/components/${key}`)}>\n        <CommandSection title=\"Components\">\n          <CommandItem id=\"button\">Button</CommandItem>\n          <CommandItem id=\"dialog\" textValue=\"Dialog modal\">Dialog</CommandItem>\n        </CommandSection>\n      </CommandDialog>\n    </>\n  );\n}",
   "examples": [
     {
       "name": "command-demo",
@@ -171,8 +171,8 @@
     "notes": [
       "The input is a combobox (WAI-ARIA APG pattern): it controls a role=\"listbox\" of options via aria-controls and points at the active option with aria-activedescendant, so focus never leaves the input. The results list scrolls without being a tab stop; the combobox relationship is what makes that keyboard-accessible (axe scrollable-region-focusable passes).",
       "The dialog and input are named by aria-label.",
-      "Overlays render in a portal on <body>, outside any ThemeScope. When it opens, the overlay looks up data-strata-theme, data-strata-scheme, data-strata-density, dir and lang — each on the nearest ancestor that has it — starting from its trigger (or from where the component is rendered, when controlled), and copies them onto its own root — so it uses the same tenant tokens and direction as the page region it came from, and nested overlays inherit from their parent overlay.",
-      "The backdrop blurs the page lightly and dims it with backdrop-filter: brightness(0.6), so it recedes in light and dark schemes alike. The panel is glass (--strata-glass-bg + backdrop blur); only text.default and text.subtle sit directly on it, the two roles the theme engine solves to 4.5:1 over any backdrop.",
+      "Overlays render in a portal on <body>, outside any ThemeScope. When it opens, the overlay looks up data-syntara-theme, data-syntara-scheme, data-syntara-density, dir and lang — each on the nearest ancestor that has it — starting from its trigger (or from where the component is rendered, when controlled), and copies them onto its own root — so it uses the same tenant tokens and direction as the page region it came from, and nested overlays inherit from their parent overlay.",
+      "The backdrop blurs the page lightly and dims it with backdrop-filter: brightness(0.6), so it recedes in light and dark schemes alike. The panel is glass (--syntara-glass-bg + backdrop blur); only text.default and text.subtle sit directly on it, the two roles the theme engine solves to 4.5:1 over any backdrop.",
       "Focus indicator: the hairline under the search field becomes a 2px focus-ring line while the input has focus.",
       "Motion: the panel fades in and springs up from 0.96 scale; the highlighted row's background blooms in and fades out as the arrow keys move, with a 2px focus-ring bar at its inline start so the active row is marked by shape as well as fill. With prefers-reduced-motion nothing moves; the highlight only fades."
     ]

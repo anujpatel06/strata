@@ -1,6 +1,6 @@
 'use client';
 
-import { Combobox, ComboboxItem } from '@strata/react';
+import { Combobox, ComboboxItem } from '@syntara/react';
 
 const countries = [
   { id: 'ar', name: 'Argentina' },

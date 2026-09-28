@@ -32,7 +32,7 @@ const root = path.join(RUNS, `iter-${iteration}`);
 const SOURCE_ROOT = readJson(path.join(CACHE, 'source.json'))?.root ?? REPO;
 const prompts = new Map(readPrompts().map((p) => [p.id, p]));
 const PLACEHOLDER = readFileSync(path.join(REPO, 'evals/template/src/screens/Screen.tsx'), 'utf8');
-// A brand named in code: theme="vela", tenant === 'qamar', data-strata-theme="care". Plain words in copy don't count.
+// A brand named in code: theme="vela", tenant === 'qamar', data-syntara-theme="care". Plain words in copy don't count.
 const TENANT_WORDS = /(theme|tenant|brand)[\w-]*\s*(?:===?|!==?|=|:)\s*\{?\s*["'`](vela|harbor|qamar|care|house)["'`]/gi;
 const AXE_TAGS = ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa'];
 
@@ -124,13 +124,13 @@ async function scoreRun(dir, browser) {
   score.toolCalls = result.toolCalls ?? {};
   score.readPackages = result.readPackages ?? null;
   if (!score.built) {
-    Object.assign(score, { importsStrata: false, typeErrors: null, audit: null, builds: false, views: [], brandNames: 0, onSystem: false, renders: false });
+    Object.assign(score, { importsSyntara: false, typeErrors: null, audit: null, builds: false, views: [], brandNames: 0, onSystem: false, renders: false });
     writeFileSync(path.join(dir, 'score.json'), JSON.stringify(score, null, 2) + '\n');
     return score;
   }
 
   // A scoring workspace: the installed template plus the agent's files.
-  const ws = path.join(os.tmpdir(), 'strata-evals-score', path.relative(RUNS, dir).replaceAll(path.sep, '__'));
+  const ws = path.join(os.tmpdir(), 'syntara-evals-score', path.relative(RUNS, dir).replaceAll(path.sep, '__'));
   rmSync(ws, { recursive: true, force: true });
   mkdirSync(ws, { recursive: true });
   for (const f of readdirSync(INSTALLED)) if (f !== 'node_modules' && f !== 'pnpm-lock.yaml') cpSync(path.join(INSTALLED, f), path.join(ws, f), { recursive: true });
@@ -141,7 +141,8 @@ async function scoreRun(dir, browser) {
   const sources = readdirSync(screens, { recursive: true }).map(String).filter((f) => /\.(tsx?|css)$/.test(f));
   score.files = sources.length;
   score.lines = sources.reduce((n, f) => n + readFileSync(path.join(screens, f), 'utf8').split('\n').length, 0);
-  score.importsStrata = sources.some((f) => /from ['"]@strata\/react['"]/.test(readFileSync(path.join(screens, f), 'utf8')));
+  // @strata/react is the pre-rename scope (see evals/README.md). Archived runs in iter-1 and iter-2 import it.
+  score.importsSyntara = sources.some((f) => /from ['"]@(?:syntara|strata)\/react['"]/.test(readFileSync(path.join(screens, f), 'utf8')));
   score.brandNames = sources.reduce((n, f) => n + (readFileSync(path.join(screens, f), 'utf8').match(TENANT_WORDS)?.length ?? 0), 0);
 
   try {

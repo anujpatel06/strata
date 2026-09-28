@@ -3,9 +3,9 @@
 //   /?tenant=vela|harbor|qamar|care|house&scheme=light|dark&locale=en-IN|ar-AE&density=comfortable|compact
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
-import { ThemeScope } from '@strata/react';
-import '@strata/react/styles.css';
-import '@strata/tokens/dist/strata.css';
+import { ThemeScope } from '@syntara/react';
+import '@syntara/react/styles.css';
+import '@syntara/tokens/dist/syntara.css';
 import './app.css';
 import Screen from './screens/Screen';
 

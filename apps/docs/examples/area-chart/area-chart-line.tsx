@@ -1,6 +1,6 @@
 'use client';
 
-import { LineChart } from '@strata/react';
+import { LineChart } from '@syntara/react';
 
 const data = [
   { day: 'Mon', web: 1240, ios: 860, android: 720 }, { day: 'Tue', web: 1380, ios: 910, android: 780 },

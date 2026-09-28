@@ -7,14 +7,14 @@
    thing on the page, so it settles rather than pops. Reduced motion: it's simply there. */
 @media (prefers-reduced-motion: no-preference) {
   .showcase {
-    animation: showcase-rise calc(var(--strata-motion-duration-slow) * 3) var(--strata-motion-easing-out) backwards;
-    animation-delay: calc(var(--strata-motion-duration-fast) * 4);
+    animation: showcase-rise calc(var(--syntara-motion-duration-slow) * 3) var(--syntara-motion-easing-out) backwards;
+    animation-delay: calc(var(--syntara-motion-duration-fast) * 4);
   }
 }
 @keyframes showcase-rise {
   from {
     opacity: 0;
-    translate: 0 var(--strata-space-10);
+    translate: 0 var(--syntara-space-10);
     scale: 0.98;
   }
 }

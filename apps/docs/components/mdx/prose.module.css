@@ -2,18 +2,18 @@
 
 /* Doubled class: beats the single-class `margin: 0` resets inside component and figure styles. */
 .flow.flow > * + * {
-  margin-block-start: var(--strata-space-4);
+  margin-block-start: var(--syntara-space-4);
 }
 .flow.flow > .h2,
 .flow.flow > section:has(> .h2) {
-  margin-block-start: var(--strata-space-12);
+  margin-block-start: var(--syntara-space-12);
 }
 .flow.flow > .h3,
 .flow.flow > section:has(> .h3) {
-  margin-block-start: var(--strata-space-8);
+  margin-block-start: var(--syntara-space-8);
 }
 .flow.flow > :is(.h2, .h3) + * {
-  margin-block-start: var(--strata-space-3);
+  margin-block-start: var(--syntara-space-3);
 }
 .flow.flow > :first-child {
   margin-block-start: 0;
@@ -22,23 +22,23 @@
 .h2,
 .h3,
 .h4 {
-  font-family: var(--strata-font-heading);
-  font-weight: var(--strata-font-weight-semibold);
-  letter-spacing: var(--strata-font-heading-tracking);
-  color: var(--strata-color-text-default);
+  font-family: var(--syntara-font-heading);
+  font-weight: var(--syntara-font-weight-semibold);
+  letter-spacing: var(--syntara-font-heading-tracking);
+  color: var(--syntara-color-text-default);
   text-wrap: balance;
 }
 .h2 {
-  font-size: var(--strata-font-size-2xl);
-  line-height: var(--strata-line-height-tight);
+  font-size: var(--syntara-font-size-2xl);
+  line-height: var(--syntara-line-height-tight);
 }
 .h3 {
-  font-size: var(--strata-font-size-lg);
-  line-height: var(--strata-line-height-snug);
+  font-size: var(--syntara-font-size-lg);
+  line-height: var(--syntara-line-height-snug);
 }
 .h4 {
-  font-size: var(--strata-font-size-md);
-  line-height: var(--strata-line-height-snug);
+  font-size: var(--syntara-font-size-md);
+  line-height: var(--syntara-line-height-snug);
 }
 /* Heading tracking is tuned for display sizes; at 16px and below tight faces (Inter Tight) lose their word spaces. */
 .h3,
@@ -50,17 +50,17 @@
 .ul,
 .ol {
   max-inline-size: 65ch;
-  font-size: var(--strata-font-size-lg);
-  line-height: var(--strata-line-height-normal);
+  font-size: var(--syntara-font-size-lg);
+  line-height: var(--syntara-line-height-normal);
   text-wrap: pretty;
 }
 .p {
-  color: var(--strata-color-text-default);
+  color: var(--syntara-color-text-default);
 }
 
 .ul,
 .ol {
-  padding-inline-start: var(--strata-space-6);
+  padding-inline-start: var(--syntara-space-6);
 }
 .ul {
   list-style: disc;
@@ -69,46 +69,46 @@
   list-style: decimal;
 }
 .li + .li {
-  margin-block-start: var(--strata-space-2);
+  margin-block-start: var(--syntara-space-2);
 }
 .li::marker {
-  color: var(--strata-color-text-subtle);
+  color: var(--syntara-color-text-subtle);
 }
 .li > .ul,
 .li > .ol {
-  margin-block-start: var(--strata-space-2);
+  margin-block-start: var(--syntara-space-2);
 }
 
 .a {
-  color: var(--strata-color-text-default);
-  font-weight: var(--strata-font-weight-medium);
+  color: var(--syntara-color-text-default);
+  font-weight: var(--syntara-font-weight-medium);
   text-decoration: underline;
   text-decoration-thickness: 1px;
-  text-decoration-color: var(--strata-color-border-strong);
+  text-decoration-color: var(--syntara-color-border-strong);
   text-underline-offset: 0.25em;
-  transition: text-decoration-color var(--strata-motion-duration-fast) var(--strata-motion-easing);
+  transition: text-decoration-color var(--syntara-motion-duration-fast) var(--syntara-motion-easing);
 }
 .a:hover {
   text-decoration-color: currentColor;
 }
 
 .strong {
-  font-weight: var(--strata-font-weight-semibold);
+  font-weight: var(--syntara-font-weight-semibold);
 }
 
 /* Inline code: the MDX `code` mapping, and any bare <code> in docs content (not inside a code block). */
 .code,
 .flow :where(:not(pre) > code) {
   padding-block: 1px;
-  padding-inline: var(--strata-space-1);
-  border-radius: var(--strata-radius-badge);
-  background: color-mix(in oklab, var(--strata-color-text-default) 7%, transparent);
-  font-family: var(--strata-font-mono);
-  font-size: var(--strata-font-size-md);
+  padding-inline: var(--syntara-space-1);
+  border-radius: var(--syntara-radius-badge);
+  background: color-mix(in oklab, var(--syntara-color-text-default) 7%, transparent);
+  font-family: var(--syntara-font-mono);
+  font-size: var(--syntara-font-size-md);
   overflow-wrap: anywhere;
 }
 .flow :where(.table, .small) :where(code) {
-  font-size: var(--strata-font-size-sm);
+  font-size: var(--syntara-font-size-sm);
 }
 @media (min-width: 640px) {
   .flow .table td:first-child > :where(code) {
@@ -118,13 +118,13 @@
 }
 
 .blockquote {
-  padding-inline-start: var(--strata-space-4);
-  border-inline-start: 2px solid var(--strata-color-border-default);
-  color: var(--strata-color-text-subtle);
+  padding-inline-start: var(--syntara-space-4);
+  border-inline-start: 2px solid var(--syntara-color-border-default);
+  color: var(--syntara-color-text-subtle);
 }
 
 .hr {
-  margin-block: var(--strata-space-10);
+  margin-block: var(--syntara-space-10);
   border: 0;
   border-block-start: var(--docs-hairline);
 }
@@ -142,11 +142,11 @@
 .tableWrap {
   inline-size: 100%;
   overflow-x: auto;
-  border-radius: var(--strata-radius-badge);
+  border-radius: var(--syntara-radius-badge);
   scrollbar-width: thin;
 }
 .tableWrap:focus-visible {
-  outline: 2px solid var(--strata-color-focus-ring);
+  outline: 2px solid var(--syntara-color-focus-ring);
   outline-offset: 2px;
 }
 
@@ -154,15 +154,15 @@
   inline-size: 100%;
   border-collapse: separate;
   border-spacing: 0;
-  font-size: var(--strata-font-size-md);
-  letter-spacing: var(--strata-font-tracking-md);
-  line-height: var(--strata-line-height-snug);
+  font-size: var(--syntara-font-size-md);
+  letter-spacing: var(--syntara-font-tracking-md);
+  line-height: var(--syntara-line-height-snug);
   font-variant-numeric: tabular-nums;
 }
 .table th,
 .table td {
-  padding-block: var(--strata-space-3);
-  padding-inline: var(--strata-space-3);
+  padding-block: var(--syntara-space-3);
+  padding-inline: var(--syntara-space-3);
   text-align: start;
   vertical-align: top;
 }
@@ -173,19 +173,19 @@
   padding-inline-end: 0;
 }
 .table th {
-  padding-block: 0 var(--strata-space-2);
-  color: var(--strata-color-text-subtle);
-  font-size: var(--strata-font-size-sm);
-  letter-spacing: var(--strata-font-tracking-sm);
-  font-weight: var(--strata-font-weight-medium);
+  padding-block: 0 var(--syntara-space-2);
+  color: var(--syntara-color-text-subtle);
+  font-size: var(--syntara-font-size-sm);
+  letter-spacing: var(--syntara-font-tracking-sm);
+  font-weight: var(--syntara-font-weight-medium);
   white-space: nowrap;
-  box-shadow: inset 0 calc(var(--strata-hairline) * -1) 0 0 var(--strata-color-border-default);
+  box-shadow: inset 0 calc(var(--syntara-hairline) * -1) 0 0 var(--syntara-color-border-default);
 }
 .table td {
-  color: var(--strata-color-text-default);
+  color: var(--syntara-color-text-default);
 }
 .table tr + tr td {
-  box-shadow: inset 0 var(--strata-hairline) 0 0 var(--strata-color-border-subtle);
+  box-shadow: inset 0 var(--syntara-hairline) 0 0 var(--syntara-color-border-subtle);
 }
 .table td[data-num],
 .table th[data-num] {
@@ -195,48 +195,48 @@
 /* ---- Steps ---- */
 .steps {
   counter-reset: step;
-  margin-inline-start: var(--strata-space-4);
-  padding-inline-start: var(--strata-space-8);
+  margin-inline-start: var(--syntara-space-4);
+  padding-inline-start: var(--syntara-space-8);
   border-inline-start: var(--docs-hairline);
 }
 .steps.steps > * + * {
-  margin-block-start: var(--strata-space-4);
+  margin-block-start: var(--syntara-space-4);
 }
 .steps > .h3 {
   position: relative;
   counter-increment: step;
 }
 .steps.steps > .h3 {
-  margin-block-start: var(--strata-space-10);
+  margin-block-start: var(--syntara-space-10);
 }
 .steps.steps > .h3:first-child {
   margin-block-start: 0;
 }
 .steps.steps > .h3 + * {
-  margin-block-start: var(--strata-space-3);
+  margin-block-start: var(--syntara-space-3);
 }
 .steps > .h3::before {
   content: counter(step);
   position: absolute;
   inset-block-start: 50%;
-  inset-inline-start: calc(-1 * (var(--strata-space-8) + var(--strata-space-4)) - 0.5px);
+  inset-inline-start: calc(-1 * (var(--syntara-space-8) + var(--syntara-space-4)) - 0.5px);
   translate: 0 -50%;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  inline-size: var(--strata-space-8);
-  block-size: var(--strata-space-8);
-  border: 1px solid var(--strata-color-border-subtle);
-  border-radius: var(--strata-radius-pill);
-  background: var(--strata-color-surface-canvas);
-  color: var(--strata-color-text-default);
-  font-family: var(--strata-font-mono);
-  font-size: var(--strata-font-size-sm);
-  font-weight: var(--strata-font-weight-medium);
+  inline-size: var(--syntara-space-8);
+  block-size: var(--syntara-space-8);
+  border: 1px solid var(--syntara-color-border-subtle);
+  border-radius: var(--syntara-radius-pill);
+  background: var(--syntara-color-surface-canvas);
+  color: var(--syntara-color-text-default);
+  font-family: var(--syntara-font-mono);
+  font-size: var(--syntara-font-size-sm);
+  font-weight: var(--syntara-font-weight-medium);
   letter-spacing: 0;
 }
 
 .small {
-  font-size: var(--strata-font-size-md);
-  color: var(--strata-color-text-subtle);
+  font-size: var(--syntara-font-size-md);
+  color: var(--syntara-color-text-subtle);
 }

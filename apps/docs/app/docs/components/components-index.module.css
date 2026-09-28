@@ -1,11 +1,11 @@
 .section {
   display: grid;
-  gap: var(--strata-space-4);
+  gap: var(--syntara-space-4);
 }
 
 .grid {
   display: grid;
-  gap: var(--strata-space-3);
+  gap: var(--syntara-space-3);
   margin: 0;
   padding: 0;
   list-style: none;
@@ -26,26 +26,26 @@
 
 .card.card {
   position: relative;
-  padding-block: var(--strata-space-4);
-  border-color: var(--strata-color-border-subtle);
-  background: var(--strata-color-surface-default);
-  box-shadow: var(--strata-shadow-raised);
+  padding-block: var(--syntara-space-4);
+  border-color: var(--syntara-color-border-subtle);
+  background: var(--syntara-color-surface-default);
+  box-shadow: var(--syntara-shadow-raised);
   transition:
-    border-color var(--strata-motion-duration-fast) var(--strata-motion-easing),
-    box-shadow var(--strata-motion-duration-fast) var(--strata-motion-easing);
+    border-color var(--syntara-motion-duration-fast) var(--syntara-motion-easing),
+    box-shadow var(--syntara-motion-duration-fast) var(--syntara-motion-easing);
 }
 /* The whole card is a link (stretched ::after), so it lifts: Tactile style's interactive-card hover. */
 .card.card:hover {
-  border-color: var(--strata-color-border-default);
-  box-shadow: var(--strata-shadow-overlay);
+  border-color: var(--syntara-color-border-default);
+  box-shadow: var(--syntara-shadow-overlay);
 }
 @media (prefers-reduced-motion: no-preference) {
   .card.card {
     transition:
-      border-color var(--strata-motion-duration-fast) var(--strata-motion-easing),
-      box-shadow var(--strata-motion-duration-fast) var(--strata-motion-easing),
-      translate var(--strata-motion-duration-fast) var(--strata-motion-easing),
-      scale var(--strata-motion-duration-spring) var(--strata-motion-spring);
+      border-color var(--syntara-motion-duration-fast) var(--syntara-motion-easing),
+      box-shadow var(--syntara-motion-duration-fast) var(--syntara-motion-easing),
+      translate var(--syntara-motion-duration-fast) var(--syntara-motion-easing),
+      scale var(--syntara-motion-duration-spring) var(--syntara-motion-spring);
   }
   .card.card:hover {
     translate: 0 -1px;
@@ -55,17 +55,17 @@
   }
 }
 .card.card:has(.link:focus-visible) {
-  outline: 2px solid var(--strata-color-focus-ring);
+  outline: 2px solid var(--syntara-color-focus-ring);
   outline-offset: 2px;
 }
 
 .header.header {
-  padding-inline: var(--strata-space-4);
+  padding-inline: var(--syntara-space-4);
 }
 
 .title.title {
-  font-size: var(--strata-font-size-md);
-  font-weight: var(--strata-font-weight-semibold);
+  font-size: var(--syntara-font-size-md);
+  font-weight: var(--syntara-font-weight-semibold);
 }
 
 .link {
@@ -87,7 +87,7 @@
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
-  font-size: var(--strata-font-size-sm);
+  font-size: var(--syntara-font-size-sm);
 }
 
 /* The badge sits beside the title only, so the description can use the full card width. */
@@ -100,18 +100,18 @@
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: var(--strata-space-2) var(--strata-space-4);
-  font-size: var(--strata-font-size-sm);
-  color: var(--strata-color-text-subtle);
+  gap: var(--syntara-space-2) var(--syntara-space-4);
+  font-size: var(--syntara-font-size-sm);
+  color: var(--syntara-color-text-subtle);
 }
 .legendLabel {
-  color: var(--strata-color-text-default);
-  font-weight: var(--strata-font-weight-medium);
+  color: var(--syntara-color-text-default);
+  font-weight: var(--syntara-font-weight-medium);
 }
 .legendList {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--strata-space-2) var(--strata-space-4);
+  gap: var(--syntara-space-2) var(--syntara-space-4);
   margin: 0;
   padding: 0;
   list-style: none;
@@ -119,23 +119,23 @@
 .legendItem {
   display: inline-flex;
   align-items: center;
-  gap: var(--strata-space-2);
+  gap: var(--syntara-space-2);
 }
 .legendCount {
-  color: var(--strata-color-text-default);
+  color: var(--syntara-color-text-default);
   font-variant-numeric: tabular-nums;
-  font-weight: var(--strata-font-weight-medium);
+  font-weight: var(--syntara-font-weight-medium);
 }
 .legendLink {
   display: inline-flex;
   align-items: center;
-  min-block-size: var(--strata-space-6);
-  color: var(--strata-color-text-brand);
+  min-block-size: var(--syntara-space-6);
+  color: var(--syntara-color-text-brand);
   text-decoration-line: underline;
   text-underline-offset: 0.2em;
-  border-radius: var(--strata-radius-badge);
+  border-radius: var(--syntara-radius-badge);
 }
 .legendLink:focus-visible {
-  outline: 2px solid var(--strata-color-focus-ring);
+  outline: 2px solid var(--syntara-color-focus-ring);
   outline-offset: 2px;
 }

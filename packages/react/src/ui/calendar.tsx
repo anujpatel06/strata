@@ -22,7 +22,7 @@ import {
   type RangeCalendarProps as RACRangeCalendarProps,
 } from 'react-aria-components';
 import type { DateDuration } from '@internationalized/date';
-import { IconChevronLeft, IconChevronRight } from '@strata/icons';
+import { IconChevronLeft, IconChevronRight } from '@syntara/icons';
 import styles from './calendar.module.css';
 
 const cx = (...c: Array<string | false | null | undefined>) => c.filter(Boolean).join(' ');

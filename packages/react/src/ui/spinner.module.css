@@ -1,6 +1,6 @@
 .spinner {
-  --_size: var(--strata-space-6);
-  --_cycle: calc(var(--strata-motion-duration-normal) * 5);
+  --_size: var(--syntara-space-6);
+  --_cycle: calc(var(--syntara-motion-duration-normal) * 5);
 
   box-sizing: border-box;
   display: inline-flex;
@@ -12,11 +12,11 @@
 }
 
 .spinner[data-size='sm'] {
-  --_size: var(--strata-space-4);
+  --_size: var(--syntara-space-4);
 }
 
 .spinner[data-size='lg'] {
-  --_size: var(--strata-space-8);
+  --_size: var(--syntara-space-8);
 }
 
 .svg {
@@ -36,7 +36,7 @@
   stroke-width: 2;
   opacity: calc(1 - var(--_trail) * 0.1);
   /* Each spoke starts its fade 1/8 of a cycle later: the bright spoke travels clockwise. */
-  animation: strata-spinner-fade var(--_cycle) linear infinite;
+  animation: syntara-spinner-fade var(--_cycle) linear infinite;
   animation-delay: calc(var(--_cycle) * (var(--_i) / 8 - 1));
 }
 
@@ -45,7 +45,7 @@
 }
 
 .spinner[data-size='lg'] .spoke {
-  stroke-width: var(--strata-icon-stroke, 1.5); /* ~2.3px at 32px */
+  stroke-width: var(--syntara-icon-stroke, 1.5); /* ~2.3px at 32px */
 }
 
 /* Reduced motion: the same opacity-only fade, at half speed. No rotation anywhere. */
@@ -56,7 +56,7 @@
   }
 }
 
-@keyframes strata-spinner-fade {
+@keyframes syntara-spinner-fade {
   from {
     opacity: 1;
   }

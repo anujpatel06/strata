@@ -1,6 +1,6 @@
 'use client';
 
-import { Checkbox, CheckboxGroup } from '@strata/react';
+import { Checkbox, CheckboxGroup } from '@syntara/react';
 
 export default function Example() {
   return (

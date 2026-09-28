@@ -1,7 +1,7 @@
-The Strata MCP server lets AI coding agents look up components, tokens and usage rules while they write code, and check their own work. It reads the same `meta.json` files as these pages.
+The Syntara MCP server lets AI coding agents look up components, tokens and usage rules while they write code, and check their own work. It reads the same `meta.json` files as these pages.
 
 <Callout tone="info" title="Not published yet">
-  The server works from a checkout of the repo today. `npx @strata/mcp` arrives with the npm release.
+  The server works from a checkout of the repo today. `npx @syntara/mcp` arrives with the npm release.
 </Callout>
 
 ## What it does
@@ -29,7 +29,7 @@ The Strata MCP server lets AI coding agents look up components, tokens and usage
 
 `get_component` also returns `imports` (other packages the component needs, such as the date functions for DatePicker) and `typeNotes` (types that agents got wrong in the eval, each with one correct line).
 
-It also serves two files as resources: `strata://agents` (`AGENTS.md`, the rules for agents) and `strata://governance`.
+It also serves two files as resources: `syntara://agents` (`AGENTS.md`, the rules for agents) and `syntara://governance`.
 
 ## Read-only
 
@@ -37,10 +37,10 @@ No tool writes a file. `audit_snippet` returns each fix marked `safe: true` or `
 
 ## Set it up
 
-Run `pnpm install` in a checkout of the repo, then point your client at the server. Replace `/path/to/strata` with the path of your checkout.
+Run `pnpm install` in a checkout of the repo, then point your client at the server. Replace `/path/to/syntara` with the path of your checkout.
 
 ```sh
-claude mcp add strata -- node /path/to/strata/packages/mcp/bin/cli.mjs
+claude mcp add syntara -- node /path/to/syntara/packages/mcp/bin/cli.mjs
 ```
 
 For Cursor (`.cursor/mcp.json`) and other clients that use the same format:
@@ -48,9 +48,9 @@ For Cursor (`.cursor/mcp.json`) and other clients that use the same format:
 ```json
 {
   "mcpServers": {
-    "strata": {
+    "syntara": {
       "command": "node",
-      "args": ["/path/to/strata/packages/mcp/bin/cli.mjs"]
+      "args": ["/path/to/syntara/packages/mcp/bin/cli.mjs"]
     }
   }
 }
@@ -80,11 +80,11 @@ Agents pay for every token, so responses are compact JSON with no prose around t
   </tbody>
 </Table>
 
-Measured on 2026-09-28 with `pnpm --filter @strata/mcp test sizes`. These are bytes, not tokens.
+Measured on 2026-09-28 with `pnpm --filter @syntara/mcp test sizes`. These are bytes, not tokens.
 
 ## Does it help?
 
-The numbers below are from before `find_icon`, `imports` and `typeNotes` were added. An eval ran 25 screen-building prompts with Claude Code, twice each, with and without the server. Both conditions had Strata installed.
+The numbers below are from before `find_icon`, `imports` and `typeNotes` were added. An eval ran 25 screen-building prompts with Claude Code, twice each, with and without the server. Both conditions had Syntara installed.
 
 <Table aria-label="Agent eval, iteration 2">
   <thead>

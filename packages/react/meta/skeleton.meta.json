@@ -14,7 +14,7 @@
   ],
   "dependencies": [],
   "registryDependencies": [],
-  "usage": "import { Skeleton, SkeletonText } from '@strata/react';\n\nexport function LoadingRow() {\n  return (\n    <div aria-busy=\"true\">\n      <Skeleton circle inlineSize={40} />\n      <SkeletonText lines={2} />\n    </div>\n  );\n}",
+  "usage": "import { Skeleton, SkeletonText } from '@syntara/react';\n\nexport function LoadingRow() {\n  return (\n    <div aria-busy=\"true\">\n      <Skeleton circle inlineSize={40} />\n      <SkeletonText lines={2} />\n    </div>\n  );\n}",
   "examples": [
     {
       "name": "skeleton-demo",

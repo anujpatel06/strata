@@ -1,7 +1,7 @@
 'use client';
 
-import { IconMenu2 } from '@strata/icons';
-import { Button, DialogTrigger, Sheet } from '@strata/react';
+import { IconMenu2 } from '@syntara/icons';
+import { Button, DialogTrigger, Sheet } from '@syntara/react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { MAIN_NAV, activeMainNav } from '@/lib/site';

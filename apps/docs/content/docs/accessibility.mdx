@@ -1,4 +1,4 @@
-Strata targets WCAG 2.2 AA. Two parts of that are built in rather than checked afterwards: colour contrast, which the theme engine guarantees for every brand, and keyboard and screen-reader behaviour, which comes from React Aria.
+Syntara targets WCAG 2.2 AA. Two parts of that are built in rather than checked afterwards: colour contrast, which the theme engine guarantees for every brand, and keyboard and screen-reader behaviour, which comes from React Aria.
 
 ## Contrast by construction
 
@@ -22,11 +22,11 @@ The report also lists how often the solver stepped in and why. One rule in it is
 
 ## Keyboard and screen readers
 
-Components are built on [React Aria Components](https://react-spectrum.adobe.com/react-aria/components.html) ([ADR-002](https://github.com/anujpatel06/strata/blob/main/docs/adr/002-headless-primitives-react-aria.md)). Focus management, roving focus in lists and grids, typeahead, focus trapping in dialogs and the ARIA patterns come from there; Strata doesn’t re-implement them. Each component page lists its keyboard interactions, taken from its `meta.json`.
+Components are built on [React Aria Components](https://react-spectrum.adobe.com/react-aria/components.html) ([ADR-002](https://github.com/anujpatel06/strata/blob/main/docs/adr/002-headless-primitives-react-aria.md)). Focus management, roving focus in lists and grids, typeahead, focus trapping in dialogs and the ARIA patterns come from there; Syntara doesn’t re-implement them. Each component page lists its keyboard interactions, taken from its `meta.json`.
 
 ## Built into every component
 
-- **Visible focus.** A 2px ring in `--strata-color-focus-ring`, checked at 3:1 against the canvas, default and raised surfaces in every tenant.
+- **Visible focus.** A 2px ring in `--syntara-color-focus-ring`, checked at 3:1 against the canvas, default and raised surfaces in every tenant.
 - **Target size.** Controls are at least 24 × 24 px (2.5.8), compact density included.
 - **Not by colour alone.** Status pairs colour with an icon and a word.
 - **Reduced motion.** Animations run only under `prefers-reduced-motion: no-preference`.

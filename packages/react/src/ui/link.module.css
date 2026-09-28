@@ -2,14 +2,14 @@
 
 .root {
   box-sizing: border-box;
-  color: var(--strata-color-text-brand);
+  color: var(--syntara-color-text-brand);
   font: inherit;
   text-decoration-line: underline;
   /* A quieter underline at rest (still always present, so the link never relies on colour); full on hover. */
   text-decoration-color: color-mix(in oklab, currentColor 45%, transparent);
   text-decoration-thickness: 1px;
   text-underline-offset: 0.2em;
-  border-radius: min(var(--strata-radius-field), var(--strata-space-1));
+  border-radius: min(var(--syntara-radius-field), var(--syntara-space-1));
   cursor: pointer;
   outline: none;
   outline-offset: 0;
@@ -22,15 +22,15 @@
 }
 
 .root[data-focus-visible] {
-  outline: 2px solid var(--strata-color-focus-ring);
+  outline: 2px solid var(--syntara-color-focus-ring);
   outline-offset: 2px;
 }
 
 .root[data-variant='standalone'] {
   display: inline-flex;
   align-items: center;
-  gap: var(--strata-space-1);
-  font-weight: var(--strata-font-weight-medium);
+  gap: var(--syntara-space-1);
+  font-weight: var(--syntara-font-weight-medium);
   /* The underline is always drawn but transparent, so on hover it fades in instead of popping. */
   text-decoration-color: transparent;
 }
@@ -47,17 +47,17 @@
   block-size: 1.15em;
 }
 
-.root > [data-strata-icon] {
-  stroke-width: var(--strata-icon-stroke, 1.5);
+.root > [data-syntara-icon] {
+  stroke-width: var(--syntara-icon-stroke, 1.5);
 }
 
 /* Arrows and chevrons point "forward", whichever way forward is. */
-.root > :is([data-directional], [data-strata-icon^='arrow'], [data-strata-icon^='chevron']):dir(rtl) {
+.root > :is([data-directional], [data-syntara-icon^='arrow'], [data-syntara-icon^='chevron']):dir(rtl) {
   scale: -1 1;
 }
 
 .root[data-disabled] {
-  color: var(--strata-color-text-disabled);
+  color: var(--syntara-color-text-disabled);
   text-decoration-thickness: 1px;
   cursor: default;
 }
@@ -68,20 +68,20 @@
 
 .root {
   transition:
-    text-decoration-color var(--strata-motion-duration-fast) var(--strata-motion-easing),
-    text-decoration-thickness var(--strata-motion-duration-fast) var(--strata-motion-easing),
-    color var(--strata-motion-duration-fast) var(--strata-motion-easing),
-    outline-offset var(--strata-motion-duration-fast) var(--strata-motion-easing);
+    text-decoration-color var(--syntara-motion-duration-fast) var(--syntara-motion-easing),
+    text-decoration-thickness var(--syntara-motion-duration-fast) var(--syntara-motion-easing),
+    color var(--syntara-motion-duration-fast) var(--syntara-motion-easing),
+    outline-offset var(--syntara-motion-duration-fast) var(--syntara-motion-easing);
 }
 
 @media (prefers-reduced-motion: no-preference) {
   .root[data-variant='standalone'] {
     transition:
-      text-decoration-color var(--strata-motion-duration-fast) var(--strata-motion-easing),
-      text-decoration-thickness var(--strata-motion-duration-fast) var(--strata-motion-easing),
-      color var(--strata-motion-duration-fast) var(--strata-motion-easing),
-      outline-offset var(--strata-motion-duration-fast) var(--strata-motion-easing),
-      scale var(--strata-motion-duration-spring) var(--strata-motion-spring);
+      text-decoration-color var(--syntara-motion-duration-fast) var(--syntara-motion-easing),
+      text-decoration-thickness var(--syntara-motion-duration-fast) var(--syntara-motion-easing),
+      color var(--syntara-motion-duration-fast) var(--syntara-motion-easing),
+      outline-offset var(--syntara-motion-duration-fast) var(--syntara-motion-easing),
+      scale var(--syntara-motion-duration-spring) var(--syntara-motion-spring);
   }
 
   /* Standalone links are buttons-sized targets, so they press like one. Inline links in running text don't. */
@@ -91,7 +91,7 @@
 
   /* The trailing arrow nudges forward on hover, on the spring. */
   .root[data-variant='standalone'] > svg:last-child:not(:first-child) {
-    transition: translate var(--strata-motion-duration-spring) var(--strata-motion-spring);
+    transition: translate var(--syntara-motion-duration-spring) var(--syntara-motion-spring);
   }
 
   .root[data-variant='standalone'][data-hovered] > svg:last-child:not(:first-child) {

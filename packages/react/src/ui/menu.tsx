@@ -18,7 +18,7 @@ import {
   type MenuSectionProps as RACMenuSectionProps,
   type SeparatorProps,
 } from 'react-aria-components';
-import { IconCheck, IconChevronRight } from '@strata/icons';
+import { IconCheck, IconChevronRight } from '@syntara/icons';
 import { Popover, type PopoverProps } from './popover';
 import styles from './menu.module.css';
 

@@ -1,6 +1,6 @@
 'use client';
 
-import { Accordion, AccordionItem } from '@strata/react';
+import { Accordion, AccordionItem } from '@syntara/react';
 
 export default function Example() {
   return (

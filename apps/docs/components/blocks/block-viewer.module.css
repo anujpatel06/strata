@@ -2,9 +2,9 @@
 
 .viewer {
   display: grid;
-  gap: var(--strata-space-4);
+  gap: var(--syntara-space-4);
   min-inline-size: 0;
-  scroll-margin-block-start: calc(var(--docs-header-height) + var(--strata-space-6));
+  scroll-margin-block-start: calc(var(--docs-header-height) + var(--syntara-space-6));
 }
 
 /* On /blocks each viewer rises in as it scrolls into view (a view() timeline, no scroll listener). The first
@@ -13,16 +13,16 @@
   @supports (animation-timeline: view()) {
     .viewer {
       /* The shorthand resets the timeline, so the timeline and range come after it. */
-      animation: viewer-reveal var(--strata-motion-easing-out) backwards;
+      animation: viewer-reveal var(--syntara-motion-easing-out) backwards;
       animation-timeline: view();
-      animation-range: entry 0% entry calc(var(--strata-space-16) * 3);
+      animation-range: entry 0% entry calc(var(--syntara-space-16) * 3);
     }
   }
 }
 @keyframes viewer-reveal {
   from {
     opacity: 0;
-    translate: 0 var(--strata-space-8);
+    translate: 0 var(--syntara-space-8);
   }
 }
 
@@ -30,41 +30,41 @@
   display: grid;
   grid-template-columns: auto minmax(0, 1fr);
   align-items: start;
-  gap: var(--strata-space-4);
-  padding-block-start: var(--strata-space-4);
-  box-shadow: inset 0 var(--strata-hairline) 0 0 var(--strata-color-border-default);
+  gap: var(--syntara-space-4);
+  padding-block-start: var(--syntara-space-4);
+  box-shadow: inset 0 var(--syntara-hairline) 0 0 var(--syntara-color-border-default);
 }
 @media (min-width: 768px) {
   .header {
-    gap: var(--strata-space-6);
+    gap: var(--syntara-space-6);
   }
 }
 
 /* The section number, set as a display figure in the subtle colour so the title still leads. */
 .number {
   min-inline-size: 2ch;
-  color: var(--strata-color-text-subtle);
-  font-family: var(--strata-font-heading);
-  font-size: var(--strata-font-size-3xl);
-  font-weight: var(--strata-font-weight-regular);
-  letter-spacing: var(--strata-font-tracking-3xl);
+  color: var(--syntara-color-text-subtle);
+  font-family: var(--syntara-font-heading);
+  font-size: var(--syntara-font-size-3xl);
+  font-weight: var(--syntara-font-weight-regular);
+  letter-spacing: var(--syntara-font-tracking-3xl);
   line-height: 1;
   font-variant-numeric: tabular-nums;
 }
 
 .heading {
-  max-inline-size: calc(var(--docs-prose) + var(--strata-space-16) * 2);
+  max-inline-size: calc(var(--docs-prose) + var(--syntara-space-16) * 2);
   display: grid;
   justify-items: start;
-  gap: var(--strata-space-2);
+  gap: var(--syntara-space-2);
 }
 
 .title {
-  font-family: var(--strata-font-heading);
-  font-size: var(--strata-font-size-2xl);
-  font-weight: var(--strata-font-weight-semibold);
-  letter-spacing: var(--strata-font-tracking-2xl);
-  line-height: var(--strata-line-height-tight);
+  font-family: var(--syntara-font-heading);
+  font-size: var(--syntara-font-size-2xl);
+  font-weight: var(--syntara-font-weight-semibold);
+  letter-spacing: var(--syntara-font-tracking-2xl);
+  line-height: var(--syntara-line-height-tight);
 }
 
 .anchor {
@@ -72,7 +72,7 @@
   text-decoration-color: transparent;
   text-decoration-thickness: 1px;
   text-underline-offset: 0.2em;
-  transition: text-decoration-color var(--strata-motion-duration-fast) var(--strata-motion-easing);
+  transition: text-decoration-color var(--syntara-motion-duration-fast) var(--syntara-motion-easing);
 }
 .anchor:hover {
   text-decoration-color: currentColor;
@@ -80,15 +80,15 @@
 
 .description {
   max-inline-size: 70ch;
-  color: var(--strata-color-text-subtle);
-  letter-spacing: var(--strata-font-tracking-md);
+  color: var(--syntara-color-text-subtle);
+  letter-spacing: var(--syntara-font-tracking-md);
   text-wrap: pretty;
 }
 
 .categories {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--strata-space-1);
+  gap: var(--syntara-space-1);
   margin: 0;
   padding: 0;
   list-style: none;
@@ -97,7 +97,7 @@
 /* ---- toolbar ------------------------------------------------------------ */
 
 .tabs.tabs {
-  gap: var(--strata-space-3);
+  gap: var(--syntara-space-3);
 }
 
 .toolbar {
@@ -105,7 +105,7 @@
   flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
-  gap: var(--strata-space-2);
+  gap: var(--syntara-space-2);
 }
 
 .viewTabs.viewTabs {
@@ -116,7 +116,7 @@
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: var(--strata-space-2);
+  gap: var(--syntara-space-2);
 }
 
 .controls[hidden] {
@@ -127,7 +127,7 @@
 .tenantPicker {
   display: inline-flex;
   align-items: center;
-  gap: var(--strata-space-2);
+  gap: var(--syntara-space-2);
 }
 .dots.dots {
   flex: none;
@@ -137,12 +137,12 @@
   box-shadow: none;
 }
 .dotToggle.dotToggle {
-  inline-size: var(--strata-space-6);
-  min-inline-size: var(--strata-space-6);
-  block-size: var(--strata-space-6);
-  min-block-size: var(--strata-space-6);
+  inline-size: var(--syntara-space-6);
+  min-inline-size: var(--syntara-space-6);
+  block-size: var(--syntara-space-6);
+  min-block-size: var(--syntara-space-6);
   padding: 0;
-  border-radius: var(--strata-radius-pill);
+  border-radius: var(--syntara-radius-pill);
   background: transparent;
   box-shadow: none;
 }
@@ -151,34 +151,34 @@
 }
 .dotToggle.dotToggle[data-selected] {
   background: transparent;
-  box-shadow: inset 0 0 0 2px var(--strata-color-text-default);
+  box-shadow: inset 0 0 0 2px var(--syntara-color-text-default);
 }
 .dot {
   display: block;
-  inline-size: var(--strata-space-3);
-  block-size: var(--strata-space-3);
-  border-radius: var(--strata-radius-pill);
-  background: var(--strata-color-action-primary-bg);
-  box-shadow: inset 0 0 0 var(--strata-hairline) color-mix(in oklab, var(--strata-color-text-default) 18%, transparent);
+  inline-size: var(--syntara-space-3);
+  block-size: var(--syntara-space-3);
+  border-radius: var(--syntara-radius-pill);
+  background: var(--syntara-color-action-primary-bg);
+  box-shadow: inset 0 0 0 var(--syntara-hairline) color-mix(in oklab, var(--syntara-color-text-default) 18%, transparent);
 }
 @media (prefers-reduced-motion: no-preference) {
   .dot {
-    transition: scale var(--strata-motion-duration-spring) var(--strata-motion-spring);
+    transition: scale var(--syntara-motion-duration-spring) var(--syntara-motion-spring);
   }
   .dotToggle.dotToggle[data-pressed] .dot {
     scale: 0.8;
   }
 }
 .tenantName {
-  min-inline-size: calc(var(--strata-space-12) + var(--strata-space-2));
-  color: var(--strata-color-text-default);
-  font-size: var(--strata-font-size-sm);
-  letter-spacing: var(--strata-font-tracking-sm);
-  font-weight: var(--strata-font-weight-medium);
+  min-inline-size: calc(var(--syntara-space-12) + var(--syntara-space-2));
+  color: var(--syntara-color-text-default);
+  font-size: var(--syntara-font-size-sm);
+  letter-spacing: var(--syntara-font-tracking-sm);
+  font-weight: var(--syntara-font-weight-medium);
 }
 
 .iconToggle.iconToggle {
-  padding-inline: var(--strata-space-2);
+  padding-inline: var(--syntara-space-2);
 }
 
 /* Simulated widths only mean something when the page is wider than a tablet. */
@@ -195,32 +195,32 @@
 .open {
   display: inline-flex;
   align-items: center;
-  gap: calc(var(--strata-space-2) - 2px);
-  block-size: max(calc(var(--strata-control-height) - var(--strata-space-2)), var(--strata-space-6));
-  padding-inline: var(--strata-space-3);
-  border: 1px solid var(--strata-color-border-strong);
-  border-radius: var(--strata-radius-button);
-  background: var(--strata-color-surface-default);
-  box-shadow: var(--strata-shadow-raised);
-  color: var(--strata-color-text-default);
-  font-size: var(--strata-font-size-sm);
-  font-weight: var(--strata-font-weight-medium);
+  gap: calc(var(--syntara-space-2) - 2px);
+  block-size: max(calc(var(--syntara-control-height) - var(--syntara-space-2)), var(--syntara-space-6));
+  padding-inline: var(--syntara-space-3);
+  border: 1px solid var(--syntara-color-border-strong);
+  border-radius: var(--syntara-radius-button);
+  background: var(--syntara-color-surface-default);
+  box-shadow: var(--syntara-shadow-raised);
+  color: var(--syntara-color-text-default);
+  font-size: var(--syntara-font-size-sm);
+  font-weight: var(--syntara-font-weight-medium);
   white-space: nowrap;
   transition:
-    background-color var(--strata-motion-duration-fast) var(--strata-motion-easing),
-    outline-offset var(--strata-motion-duration-fast) var(--strata-motion-easing);
+    background-color var(--syntara-motion-duration-fast) var(--syntara-motion-easing),
+    outline-offset var(--syntara-motion-duration-fast) var(--syntara-motion-easing);
 }
 
 .open:hover {
-  background: color-mix(in oklab, var(--strata-color-text-default) 6%, var(--strata-color-surface-default));
+  background: color-mix(in oklab, var(--syntara-color-text-default) 6%, var(--syntara-color-surface-default));
 }
 
 @media (prefers-reduced-motion: no-preference) {
   .open {
     transition:
-      background-color var(--strata-motion-duration-fast) var(--strata-motion-easing),
-      outline-offset var(--strata-motion-duration-fast) var(--strata-motion-easing),
-      scale var(--strata-motion-duration-spring) var(--strata-motion-spring);
+      background-color var(--syntara-motion-duration-fast) var(--syntara-motion-easing),
+      outline-offset var(--syntara-motion-duration-fast) var(--syntara-motion-easing),
+      scale var(--syntara-motion-duration-spring) var(--syntara-motion-spring);
   }
   .open:active {
     scale: 0.97;
@@ -228,14 +228,14 @@
 }
 
 .open svg {
-  inline-size: calc(var(--strata-space-4) - 2px);
-  block-size: calc(var(--strata-space-4) - 2px);
+  inline-size: calc(var(--syntara-space-4) - 2px);
+  block-size: calc(var(--syntara-space-4) - 2px);
 }
 
 /* ---- preview ------------------------------------------------------------ */
 
 .panel.panel {
-  border-radius: var(--strata-radius-container);
+  border-radius: var(--syntara-radius-container);
 }
 
 /* The preview stays mounted (block state survives a look at the code), but an inactive panel must not show. */
@@ -245,7 +245,7 @@
 
 /* The draft-copy note above the frame (DraftCopyNote); takes no room when there's nothing to say. */
 .copyStatus:not(:empty) {
-  margin-block-end: var(--strata-space-3);
+  margin-block-end: var(--syntara-space-3);
 }
 
 /* The block sits in a framed stage with real depth: hairline, top-edge sheen and a raised shadow, like a window
@@ -253,49 +253,49 @@
 .frame {
   overflow: hidden;
   border: 1px solid transparent;
-  border-radius: var(--strata-radius-container);
+  border-radius: var(--syntara-radius-container);
   box-shadow:
-    0 0 0 var(--strata-hairline) var(--strata-color-border-subtle),
-    var(--strata-shadow-highlight),
-    var(--strata-shadow-raised);
-  background-color: var(--strata-color-surface-sunken);
+    0 0 0 var(--syntara-hairline) var(--syntara-color-border-subtle),
+    var(--syntara-shadow-highlight),
+    var(--syntara-shadow-raised);
+  background-color: var(--syntara-color-surface-sunken);
   background-image: radial-gradient(
-    color-mix(in oklab, var(--strata-color-border-default) 55%, transparent) 1px,
+    color-mix(in oklab, var(--syntara-color-border-default) 55%, transparent) 1px,
     transparent 1px
   );
-  background-size: var(--strata-space-4) var(--strata-space-4);
+  background-size: var(--syntara-space-4) var(--syntara-space-4);
 }
 
 /* The frame answers the pointer: it rises a couple of pixels on the spring and its shadow deepens one step.
    The shadow change is a fade and always runs; the movement only with motion allowed. */
 .frame {
-  transition: box-shadow var(--strata-motion-duration-normal) var(--strata-motion-easing);
+  transition: box-shadow var(--syntara-motion-duration-normal) var(--syntara-motion-easing);
 }
 .frame:hover {
   box-shadow:
-    0 0 0 var(--strata-hairline) var(--strata-color-border-subtle),
-    var(--strata-shadow-highlight),
-    var(--strata-shadow-overlay);
+    0 0 0 var(--syntara-hairline) var(--syntara-color-border-subtle),
+    var(--syntara-shadow-highlight),
+    var(--syntara-shadow-overlay);
 }
 @media (prefers-reduced-motion: no-preference) {
   .frame {
     transition:
-      box-shadow var(--strata-motion-duration-normal) var(--strata-motion-easing),
-      translate var(--strata-motion-duration-spring) var(--strata-motion-spring);
+      box-shadow var(--syntara-motion-duration-normal) var(--syntara-motion-easing),
+      translate var(--syntara-motion-duration-spring) var(--syntara-motion-spring);
   }
   .frame:hover {
-    translate: 0 calc(var(--strata-space-1) / -2);
+    translate: 0 calc(var(--syntara-space-1) / -2);
   }
 }
 
 /* The stage the block renders in. Its inline size is what the block's container queries respond to. */
 .viewport {
-  --_frame-block: calc(var(--strata-space-16) * 12);
+  --_frame-block: calc(var(--syntara-space-16) * 12);
 
   inline-size: 100%;
   max-inline-size: 100%;
-  block-size: min(var(--_frame-block), calc(100dvh - var(--docs-header-height) - var(--strata-space-16)));
-  min-block-size: calc(var(--strata-space-16) * 8);
+  block-size: min(var(--_frame-block), calc(100dvh - var(--docs-header-height) - var(--syntara-space-16)));
+  min-block-size: calc(var(--syntara-space-16) * 8);
   margin-inline: auto;
 }
 
@@ -310,12 +310,12 @@
 
 .viewport:not([data-viewport='desktop']) {
   border-inline: var(--docs-hairline);
-  box-shadow: var(--strata-shadow-raised);
+  box-shadow: var(--syntara-shadow-raised);
 }
 
 @media (prefers-reduced-motion: no-preference) {
   .viewport {
-    transition: inline-size var(--strata-motion-duration-normal) var(--strata-motion-easing);
+    transition: inline-size var(--syntara-motion-duration-normal) var(--syntara-motion-easing);
   }
 }
 
@@ -334,9 +334,9 @@
 
 .message {
   margin: auto;
-  padding: var(--strata-space-8);
+  padding: var(--syntara-space-8);
   max-inline-size: 48ch;
-  color: var(--strata-color-text-subtle);
+  color: var(--syntara-color-text-subtle);
   text-align: center;
 }
 
@@ -347,7 +347,7 @@
 }
 
 .files.files {
-  gap: var(--strata-space-3);
+  gap: var(--syntara-space-3);
 }
 
 .fileList.fileList {
@@ -355,12 +355,12 @@
 }
 
 .filePanel.filePanel {
-  border-radius: var(--strata-radius-container);
+  border-radius: var(--syntara-radius-container);
 }
 
 /* Same height as the preview frame; long files scroll inside. */
 .filePanel.filePanel :global(pre) {
-  max-block-size: calc(var(--strata-space-16) * 11);
+  max-block-size: calc(var(--syntara-space-16) * 11);
   overflow: auto;
 }
 
@@ -368,7 +368,7 @@
 
 .steps {
   display: grid;
-  gap: var(--strata-space-6);
+  gap: var(--syntara-space-6);
   margin: 0;
   padding: 0;
   list-style: none;
@@ -376,36 +376,36 @@
 }
 .step {
   display: grid;
-  gap: var(--strata-space-3);
+  gap: var(--syntara-space-3);
   counter-increment: step;
 }
 .stepLabel {
   display: flex;
   align-items: baseline;
-  gap: var(--strata-space-2);
-  font-size: var(--strata-font-size-md);
-  letter-spacing: var(--strata-font-tracking-md);
-  font-weight: var(--strata-font-weight-medium);
+  gap: var(--syntara-space-2);
+  font-size: var(--syntara-font-size-md);
+  letter-spacing: var(--syntara-font-tracking-md);
+  font-weight: var(--syntara-font-weight-medium);
 }
 .stepLabel::before {
   content: counter(step);
-  color: var(--strata-color-text-subtle);
-  font-family: var(--strata-font-mono);
-  font-size: var(--strata-font-size-xs);
+  color: var(--syntara-color-text-subtle);
+  font-family: var(--syntara-font-mono);
+  font-size: var(--syntara-font-size-xs);
 }
 
 /* One quiet line under the preview instead of an install box after every block. */
 .caption {
-  color: var(--strata-color-text-subtle);
-  font-size: var(--strata-font-size-sm);
-  letter-spacing: var(--strata-font-tracking-sm);
+  color: var(--syntara-color-text-subtle);
+  font-size: var(--syntara-font-size-sm);
+  letter-spacing: var(--syntara-font-tracking-sm);
 }
 .caption code {
-  font-family: var(--strata-font-mono);
-  font-size: var(--strata-font-size-xs);
-  color: var(--strata-color-text-default);
+  font-family: var(--syntara-font-mono);
+  font-size: var(--syntara-font-size-xs);
+  color: var(--syntara-color-text-default);
 }
 .caption strong {
-  color: var(--strata-color-text-default);
-  font-weight: var(--strata-font-weight-medium);
+  color: var(--syntara-color-text-default);
+  font-weight: var(--syntara-font-weight-medium);
 }

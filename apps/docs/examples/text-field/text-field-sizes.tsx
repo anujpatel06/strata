@@ -1,6 +1,6 @@
 'use client';
 
-import { Button, TextField } from '@strata/react';
+import { Button, TextField } from '@syntara/react';
 
 // A field and a button of the same size share height and corner radius, so they sit flush in a row.
 export default function Example() {

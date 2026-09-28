@@ -13,7 +13,7 @@
 ## Decision
 
 - Use **React Aria Components** (Adobe) as the headless layer.
-- Strata owns all styling (ADR-003); states are styled through React Aria's data attributes (`[data-focus-visible]`, `[data-pressed]`, `[data-selected]`).
+- Syntara owns all styling (ADR-003); states are styled through React Aria's data attributes (`[data-focus-visible]`, `[data-pressed]`, `[data-selected]`).
 - Locale and direction come from React Aria's `I18nProvider`, driven by the tenant's `content.json`.
 
 ## Alternatives considered

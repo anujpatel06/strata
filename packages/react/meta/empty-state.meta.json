@@ -13,7 +13,7 @@
   ],
   "dependencies": [],
   "registryDependencies": [],
-  "usage": "import { IconFileText } from '@strata/icons';\nimport { Button, EmptyState } from '@strata/react';\n\nexport function NoClaims() {\n  return (\n    <EmptyState\n      icon={<IconFileText />}\n      title=\"No claims yet\"\n      description=\"When you submit a claim, you can track it here.\"\n      action={<Button>Start a claim</Button>}\n    />\n  );\n}",
+  "usage": "import { IconFileText } from '@syntara/icons';\nimport { Button, EmptyState } from '@syntara/react';\n\nexport function NoClaims() {\n  return (\n    <EmptyState\n      icon={<IconFileText />}\n      title=\"No claims yet\"\n      description=\"When you submit a claim, you can track it here.\"\n      action={<Button>Start a claim</Button>}\n    />\n  );\n}",
   "examples": [
     {
       "name": "empty-state-demo",

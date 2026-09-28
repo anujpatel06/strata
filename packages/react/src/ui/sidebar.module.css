@@ -20,25 +20,25 @@
 
 .sidebar,
 .flyout {
-  --_pad: var(--strata-space-3);
-  --_icon: calc(var(--strata-font-size-sm) * 1.25);
-  --_icon-box: var(--strata-control-height);
+  --_pad: var(--syntara-space-3);
+  --_icon: calc(var(--syntara-font-size-sm) * 1.25);
+  --_icon-box: var(--syntara-control-height);
   --_row-pad: calc((var(--_icon-box) - var(--_icon)) / 2);
-  --_panel: var(--strata-color-surface-default);
+  --_panel: var(--syntara-color-surface-default);
   --_radius: max(
-    min(var(--strata-radius-badge), var(--strata-space-2)),
-    min(var(--strata-radius-button), calc(var(--strata-radius-container) - var(--_pad)))
+    min(var(--syntara-radius-badge), var(--syntara-space-2)),
+    min(var(--syntara-radius-button), calc(var(--syntara-radius-container) - var(--_pad)))
   );
-  --_tint: color-mix(in oklab, var(--strata-color-text-default) 6%, transparent);
-  --_tint-strong: color-mix(in oklab, var(--strata-color-text-default) 10%, transparent);
+  --_tint: color-mix(in oklab, var(--syntara-color-text-default) 6%, transparent);
+  --_tint-strong: color-mix(in oklab, var(--syntara-color-text-default) 10%, transparent);
 }
 
 .sidebar {
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  gap: var(--strata-space-4);
-  inline-size: calc(var(--strata-space-16) * 4);
+  gap: var(--syntara-space-4);
+  inline-size: calc(var(--syntara-space-16) * 4);
   max-inline-size: 100%;
   /* As a flex item it may give way on narrow screens (labels ellipsize) instead of pushing the page wide. */
   min-inline-size: 0;
@@ -47,17 +47,17 @@
   padding-block: var(--_pad);
   background-color: var(--_panel);
   /* The flush edge: a hairline at the inline end (box-shadow keeps it 0.5px on 2× screens; flipped for RTL). */
-  box-shadow: inset calc(var(--strata-hairline) * -1) 0 0 var(--strata-color-border-subtle);
-  color: var(--strata-color-text-default);
-  font-family: var(--strata-font-body);
-  font-size: var(--strata-font-size-md);
-  letter-spacing: var(--strata-font-tracking-md);
-  line-height: var(--strata-line-height-normal);
+  box-shadow: inset calc(var(--syntara-hairline) * -1) 0 0 var(--syntara-color-border-subtle);
+  color: var(--syntara-color-text-default);
+  font-family: var(--syntara-font-body);
+  font-size: var(--syntara-font-size-md);
+  letter-spacing: var(--syntara-font-tracking-md);
+  line-height: var(--syntara-line-height-normal);
   text-align: start;
 }
 
 .sidebar:dir(rtl) {
-  box-shadow: inset var(--strata-hairline) 0 0 var(--strata-color-border-subtle);
+  box-shadow: inset var(--syntara-hairline) 0 0 var(--syntara-color-border-subtle);
 }
 
 .sidebar[data-collapsed] {
@@ -70,13 +70,13 @@
  * forced-colours mode.
  */
 .sidebar[data-variant='floating'] {
-  --_pad: var(--strata-space-4);
-  --_panel: var(--strata-color-surface-canvas);
+  --_pad: var(--syntara-space-4);
+  --_panel: var(--syntara-color-surface-canvas);
   border: 1px solid transparent;
-  border-radius: var(--strata-radius-container);
+  border-radius: var(--syntara-radius-container);
   box-shadow:
-    0 0 0 var(--strata-hairline) var(--strata-color-border-subtle),
-    var(--strata-shadow-raised);
+    0 0 0 var(--syntara-hairline) var(--syntara-color-border-subtle),
+    var(--syntara-shadow-raised);
 }
 
 @supports (corner-shape: squircle) {
@@ -100,9 +100,9 @@
 .header {
   position: relative;
   display: grid;
-  gap: var(--strata-space-3);
+  gap: var(--syntara-space-3);
   padding-inline: var(--_pad);
-  padding-block-end: var(--strata-space-4);
+  padding-block-end: var(--syntara-space-4);
 }
 
 /* The hairline under the brand block, inset to the content edges. */
@@ -110,8 +110,8 @@
   position: absolute;
   inset-block-end: 0;
   inset-inline: var(--_pad);
-  block-size: var(--strata-hairline);
-  background-color: var(--strata-color-border-subtle);
+  block-size: var(--syntara-hairline);
+  background-color: var(--syntara-color-border-subtle);
   content: '';
 }
 
@@ -125,7 +125,7 @@
 .brand {
   display: flex;
   align-items: center;
-  gap: var(--strata-space-3);
+  gap: var(--syntara-space-3);
   min-inline-size: 0;
   /* The logo centres in the same square as the item icons below it. */
   min-block-size: var(--_icon-box);
@@ -141,28 +141,28 @@
 .brandText {
   display: grid;
   flex: 1;
-  gap: calc(var(--strata-space-1) * 0.5);
+  gap: calc(var(--syntara-space-1) * 0.5);
   min-inline-size: 0;
 }
 
 .title {
   overflow: hidden;
-  color: var(--strata-color-text-default);
-  font-family: var(--strata-font-heading);
-  font-size: var(--strata-font-size-md);
-  font-weight: var(--strata-font-weight-semibold);
-  letter-spacing: var(--strata-font-heading-tracking);
-  line-height: var(--strata-line-height-tight);
+  color: var(--syntara-color-text-default);
+  font-family: var(--syntara-font-heading);
+  font-size: var(--syntara-font-size-md);
+  font-weight: var(--syntara-font-weight-semibold);
+  letter-spacing: var(--syntara-font-heading-tracking);
+  line-height: var(--syntara-line-height-tight);
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
 .subtitle {
   overflow: hidden;
-  color: var(--strata-color-text-subtle);
-  font-size: var(--strata-font-size-sm);
-  letter-spacing: var(--strata-font-tracking-sm);
-  line-height: var(--strata-line-height-snug);
+  color: var(--syntara-color-text-subtle);
+  font-size: var(--syntara-font-size-sm);
+  letter-spacing: var(--syntara-font-tracking-sm);
+  line-height: var(--syntara-line-height-snug);
   text-overflow: ellipsis;
   white-space: nowrap;
 }
@@ -179,14 +179,14 @@
   flex: none;
   place-items: center;
   /* 28px: over the 24px target minimum at every density. */
-  inline-size: calc(var(--strata-space-6) + var(--strata-space-1));
-  block-size: calc(var(--strata-space-6) + var(--strata-space-1));
+  inline-size: calc(var(--syntara-space-6) + var(--syntara-space-1));
+  block-size: calc(var(--syntara-space-6) + var(--syntara-space-1));
   margin: 0;
   padding: 0;
   border: 0;
-  border-radius: max(min(var(--strata-radius-badge), var(--strata-space-1)), calc(var(--_radius) - var(--strata-space-1)));
+  border-radius: max(min(var(--syntara-radius-badge), var(--syntara-space-1)), calc(var(--_radius) - var(--syntara-space-1)));
   background-color: transparent;
-  color: var(--strata-color-text-subtle);
+  color: var(--syntara-color-text-subtle);
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
   outline: 0 solid transparent;
@@ -196,13 +196,13 @@
 .iconButton > svg {
   inline-size: var(--_icon);
   block-size: var(--_icon);
-  stroke-width: var(--strata-icon-stroke, 1.5);
+  stroke-width: var(--syntara-icon-stroke, 1.5);
 }
 
 .iconButton[data-hovered],
 .iconButton[data-pressed] {
   background-color: var(--_tint);
-  color: var(--strata-color-text-default);
+  color: var(--syntara-color-text-default);
 }
 
 /* The panel glyph's rail sits at the inline start, like the panel. */
@@ -232,7 +232,7 @@
 .search > .searchKbd {
   position: absolute;
   inset-block-start: 50%;
-  inset-inline-end: calc(var(--_pad) + (var(--strata-control-height) - var(--strata-space-5)) / 2);
+  inset-inline-end: calc(var(--_pad) + (var(--syntara-control-height) - var(--syntara-space-5)) / 2);
   translate: 0 -50%;
   pointer-events: none;
 }
@@ -247,17 +247,17 @@
   box-sizing: border-box;
   display: flex;
   align-items: center;
-  gap: var(--strata-space-2);
-  min-block-size: var(--strata-control-height);
+  gap: var(--syntara-space-2);
+  min-block-size: var(--syntara-control-height);
   margin: 0;
   border: 1px solid transparent;
   border-radius: var(--_radius);
   background-color: var(--_tint);
-  box-shadow: 0 0 0 var(--strata-hairline) var(--strata-color-border-subtle);
-  color: var(--strata-color-text-subtle);
+  box-shadow: 0 0 0 var(--syntara-hairline) var(--syntara-color-border-subtle);
+  color: var(--syntara-color-text-subtle);
   font: inherit;
-  font-size: var(--strata-font-size-sm);
-  letter-spacing: var(--strata-font-tracking-sm);
+  font-size: var(--syntara-font-size-sm);
+  letter-spacing: var(--syntara-font-tracking-sm);
   text-align: start;
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
@@ -267,15 +267,15 @@
 
 .searchLauncher {
   inline-size: 100%;
-  padding-inline: calc((var(--strata-control-height) - var(--strata-space-4)) / 2 - 1px);
+  padding-inline: calc((var(--syntara-control-height) - var(--syntara-space-4)) / 2 - 1px);
 }
 
 .searchIcon,
 .searchTile > svg {
   flex: none;
-  inline-size: var(--strata-space-4);
-  block-size: var(--strata-space-4);
-  stroke-width: var(--strata-icon-stroke, 1.5);
+  inline-size: var(--syntara-space-4);
+  block-size: var(--syntara-space-4);
+  stroke-width: var(--syntara-icon-stroke, 1.5);
 }
 
 .searchPlaceholder {
@@ -296,7 +296,7 @@
 .searchLauncher[data-hovered],
 .searchTile[data-hovered] {
   background-color: var(--_tint-strong);
-  color: var(--strata-color-text-default);
+  color: var(--syntara-color-text-default);
 }
 
 /* ---- nav --------------------------------------------------------------- */
@@ -305,12 +305,12 @@
   display: flex;
   flex: 1;
   flex-direction: column;
-  gap: var(--strata-space-4);
+  gap: var(--syntara-space-4);
   min-block-size: 0;
   /* Room for the focus ring (2px offset + 2px ring) inside the scroll clip. */
-  padding-block: var(--strata-space-1);
+  padding-block: var(--syntara-space-1);
   padding-inline: var(--_pad);
-  margin-block: calc(var(--strata-space-1) * -1);
+  margin-block: calc(var(--syntara-space-1) * -1);
   overflow-y: auto;
   overscroll-behavior: contain;
   scrollbar-width: thin;
@@ -318,23 +318,23 @@
 
 .section {
   display: grid;
-  gap: var(--strata-space-1);
+  gap: var(--syntara-space-1);
 }
 
 .sectionTitle {
   /* Flush with the pill's edge (and the logo and search above), not indented to the icon. */
   padding-inline: 0;
-  padding-block-end: var(--strata-space-1);
-  color: var(--strata-color-text-subtle);
-  font-size: var(--strata-font-size-xs);
-  font-weight: var(--strata-font-weight-regular);
-  letter-spacing: var(--strata-font-tracking-xs);
-  line-height: var(--strata-line-height-snug);
+  padding-block-end: var(--syntara-space-1);
+  color: var(--syntara-color-text-subtle);
+  font-size: var(--syntara-font-size-xs);
+  font-weight: var(--syntara-font-weight-regular);
+  letter-spacing: var(--syntara-font-tracking-xs);
+  line-height: var(--syntara-line-height-snug);
 }
 
 .list {
   display: grid;
-  gap: calc(var(--strata-space-1) * 0.5);
+  gap: calc(var(--syntara-space-1) * 0.5);
   margin: 0;
   padding: 0;
   list-style: none;
@@ -355,7 +355,7 @@
  */
 .item {
   --_bg: transparent;
-  --_fg: var(--strata-color-text-subtle);
+  --_fg: var(--syntara-color-text-subtle);
   --_edge: transparent;
   --_ring: var(--_panel);
 
@@ -372,13 +372,13 @@
   border: 1px solid transparent;
   border-radius: var(--_radius);
   background-color: var(--_bg);
-  box-shadow: 0 0 0 var(--strata-hairline) var(--_edge);
+  box-shadow: 0 0 0 var(--syntara-hairline) var(--_edge);
   color: var(--_fg);
   font: inherit;
-  font-size: var(--strata-font-size-sm);
-  font-weight: var(--strata-font-weight-regular);
-  letter-spacing: var(--strata-font-tracking-sm);
-  line-height: var(--strata-line-height-tight);
+  font-size: var(--syntara-font-size-sm);
+  font-weight: var(--syntara-font-weight-regular);
+  letter-spacing: var(--syntara-font-tracking-sm);
+  line-height: var(--syntara-line-height-tight);
   text-align: start;
   text-decoration: none;
   cursor: pointer;
@@ -398,7 +398,7 @@
 
 .item[data-hovered] {
   --_bg: var(--_tint);
-  --_fg: var(--strata-color-text-default);
+  --_fg: var(--syntara-color-text-default);
 }
 
 .item[data-pressed] {
@@ -408,15 +408,15 @@
 /* The current page (and, on the icon rail, the group that holds it): the neutral raised pill. */
 .item:is([aria-current='page'], [data-current]),
 .sidebar[data-collapsed] .item[data-current-ancestor] {
-  --_bg: var(--strata-color-surface-raised);
-  --_fg: var(--strata-color-text-default);
-  --_edge: var(--strata-color-border-subtle);
-  --_ring: var(--strata-color-surface-raised);
+  --_bg: var(--syntara-color-surface-raised);
+  --_fg: var(--syntara-color-text-default);
+  --_edge: var(--syntara-color-border-subtle);
+  --_ring: var(--syntara-color-surface-raised);
   box-shadow:
-    0 0 0 var(--strata-hairline) var(--_edge),
-    var(--strata-shadow-highlight),
-    var(--strata-shadow-raised);
-  font-weight: var(--strata-font-weight-medium);
+    0 0 0 var(--syntara-hairline) var(--_edge),
+    var(--syntara-shadow-highlight),
+    var(--syntara-shadow-raised);
+  font-weight: var(--syntara-font-weight-medium);
 }
 
 .item[data-focus-visible],
@@ -424,12 +424,12 @@
 .searchLauncher[data-focus-visible],
 .searchTile[data-focus-visible],
 .avatarButton[data-focus-visible] {
-  outline: 2px solid var(--strata-color-focus-ring);
+  outline: 2px solid var(--syntara-color-focus-ring);
   outline-offset: 2px;
 }
 
 .item[data-disabled] {
-  --_fg: var(--strata-color-text-disabled);
+  --_fg: var(--syntara-color-text-disabled);
   cursor: default;
 }
 
@@ -445,19 +445,19 @@
 .icon > svg {
   inline-size: var(--_icon);
   block-size: var(--_icon);
-  stroke-width: var(--strata-icon-stroke, 1.5);
+  stroke-width: var(--syntara-icon-stroke, 1.5);
 }
 
 /* The count/badge dot on the icon: only on the rail (the label and count are in the tooltip and the name). */
 .marker {
   position: absolute;
-  inset-block-start: calc(var(--strata-space-1) * -0.5);
-  inset-inline-end: calc(var(--strata-space-1) * -0.5);
+  inset-block-start: calc(var(--syntara-space-1) * -0.5);
+  inset-inline-end: calc(var(--syntara-space-1) * -0.5);
   display: none;
-  inline-size: calc(var(--strata-space-1) * 1.5);
-  block-size: calc(var(--strata-space-1) * 1.5);
-  border-radius: var(--strata-radius-pill);
-  background-color: var(--strata-color-text-default);
+  inline-size: calc(var(--syntara-space-1) * 1.5);
+  block-size: calc(var(--syntara-space-1) * 1.5);
+  border-radius: var(--syntara-radius-pill);
+  background-color: var(--syntara-color-text-default);
   box-shadow: 0 0 0 2px var(--_ring);
 }
 
@@ -475,7 +475,7 @@
 }
 
 .count {
-  min-inline-size: var(--strata-space-5);
+  min-inline-size: var(--syntara-space-5);
   justify-content: center;
   font-variant-numeric: tabular-nums;
 }
@@ -490,11 +490,11 @@
 /* Points to the inline end while closed (to the left in RTL) and down once open. */
 .chevron {
   flex: none;
-  inline-size: var(--strata-space-4);
-  block-size: var(--strata-space-4);
-  margin-inline-end: calc(var(--strata-space-1) * -1);
-  color: var(--strata-color-text-subtle);
-  stroke-width: var(--strata-icon-stroke, 1.5);
+  inline-size: var(--syntara-space-4);
+  block-size: var(--syntara-space-4);
+  margin-inline-end: calc(var(--syntara-space-1) * -1);
+  color: var(--syntara-color-text-subtle);
+  stroke-width: var(--syntara-icon-stroke, 1.5);
   rotate: -90deg;
 }
 
@@ -524,7 +524,7 @@
   min-block-size: 0;
   overflow: clip;
   /* Room for focus rings on the nested links. */
-  overflow-clip-margin: var(--strata-space-1);
+  overflow-clip-margin: var(--syntara-space-1);
 }
 
 /*
@@ -534,29 +534,29 @@
 .subList {
   position: relative;
   display: grid;
-  gap: calc(var(--strata-space-1) * 0.5);
+  gap: calc(var(--syntara-space-1) * 0.5);
   margin: 0;
   margin-inline-start: calc(var(--_row-pad) + var(--_icon) / 2);
   padding: 0;
-  padding-block-start: calc(var(--strata-space-1) * 0.5);
-  padding-inline-start: var(--strata-space-2);
+  padding-block-start: calc(var(--syntara-space-1) * 0.5);
+  padding-inline-start: var(--syntara-space-2);
   list-style: none;
   opacity: 0;
-  transition: opacity var(--strata-motion-duration-fast) var(--strata-motion-easing);
+  transition: opacity var(--syntara-motion-duration-fast) var(--syntara-motion-easing);
 }
 
 .group[data-expanded] .subList {
   opacity: 1;
-  transition-duration: var(--strata-motion-duration-slow);
-  transition-timing-function: var(--strata-motion-easing-out);
+  transition-duration: var(--syntara-motion-duration-slow);
+  transition-timing-function: var(--syntara-motion-easing-out);
 }
 
 .subList::before {
   position: absolute;
-  inset-block: calc(var(--strata-space-1) * 0.5) var(--strata-space-1);
+  inset-block: calc(var(--syntara-space-1) * 0.5) var(--syntara-space-1);
   inset-inline-start: 0;
-  inline-size: var(--strata-hairline);
-  background-color: var(--strata-color-border-subtle);
+  inline-size: var(--syntara-hairline);
+  background-color: var(--syntara-color-border-subtle);
   content: '';
 }
 
@@ -564,40 +564,40 @@
   position: absolute;
   z-index: 1;
   inset-block: 30%;
-  inset-inline-start: calc(var(--strata-space-2) * -1 - 1px + var(--strata-hairline) / 2);
+  inset-inline-start: calc(var(--syntara-space-2) * -1 - 1px + var(--syntara-hairline) / 2);
   inline-size: 2px;
-  border-radius: var(--strata-radius-pill);
-  background-color: var(--strata-color-text-brand);
+  border-radius: var(--syntara-radius-pill);
+  background-color: var(--syntara-color-text-brand);
   content: '';
 }
 
 .subList .listItem[data-current] .icon {
-  color: var(--strata-color-text-brand);
+  color: var(--syntara-color-text-brand);
 }
 
 /* ---- collapsed group flyout ---------------------------------------------- */
 
 /* The popover's glass face (popover.module.css) is the panel here. */
 .flyout {
-  --_pad: var(--strata-space-1);
-  --_panel: var(--strata-color-surface-raised);
+  --_pad: var(--syntara-space-1);
+  --_panel: var(--syntara-color-surface-raised);
 }
 
 .flyoutDialog {
   display: grid;
-  gap: var(--strata-space-1);
-  min-inline-size: calc(var(--strata-space-16) * 3);
-  padding: var(--strata-space-1);
+  gap: var(--syntara-space-1);
+  min-inline-size: calc(var(--syntara-space-16) * 3);
+  padding: var(--syntara-space-1);
   outline: none;
 }
 
 .flyoutTitle {
-  padding-block: var(--strata-space-1);
+  padding-block: var(--syntara-space-1);
   padding-inline: var(--_row-pad);
-  color: var(--strata-color-text-subtle);
-  font-size: var(--strata-font-size-xs);
-  letter-spacing: var(--strata-font-tracking-xs);
-  line-height: var(--strata-line-height-snug);
+  color: var(--syntara-color-text-subtle);
+  font-size: var(--syntara-font-size-xs);
+  letter-spacing: var(--syntara-font-tracking-xs);
+  line-height: var(--syntara-line-height-snug);
 }
 
 .flyout .subList {
@@ -628,8 +628,8 @@
 }
 
 .tooltipCount {
-  margin-inline-start: var(--strata-space-2);
-  font-weight: var(--strata-font-weight-regular);
+  margin-inline-start: var(--syntara-space-2);
+  font-weight: var(--syntara-font-weight-regular);
   font-variant-numeric: tabular-nums;
 }
 
@@ -638,16 +638,16 @@
 /* Behind a full-width hairline: secondary items, then the user card with the toggle. */
 .footer {
   display: grid;
-  gap: var(--strata-space-3);
+  gap: var(--syntara-space-3);
   min-inline-size: 0;
-  padding-block-start: var(--strata-space-4);
+  padding-block-start: var(--syntara-space-4);
   padding-inline: var(--_pad);
-  box-shadow: inset 0 var(--strata-hairline) 0 var(--strata-color-border-subtle);
+  box-shadow: inset 0 var(--syntara-hairline) 0 var(--syntara-color-border-subtle);
 }
 
 .footer > * + .user {
   position: relative;
-  padding-block-start: var(--strata-space-3);
+  padding-block-start: var(--syntara-space-3);
 }
 
 /* An inset hairline between the footer's items and the user card. */
@@ -655,8 +655,8 @@
   position: absolute;
   inset-block-start: 0;
   inset-inline: 0;
-  block-size: var(--strata-hairline);
-  background-color: var(--strata-color-border-subtle);
+  block-size: var(--syntara-hairline);
+  background-color: var(--syntara-color-border-subtle);
   content: '';
 }
 
@@ -667,7 +667,7 @@
 .user {
   display: flex;
   align-items: center;
-  gap: var(--strata-space-2);
+  gap: var(--syntara-space-2);
   min-inline-size: 0;
 }
 
@@ -676,12 +676,12 @@
   display: flex;
   flex: 1;
   align-items: center;
-  gap: var(--strata-space-3);
+  gap: var(--syntara-space-3);
   min-inline-size: 0;
-  padding: var(--strata-space-2);
+  padding: var(--syntara-space-2);
   border: 1px solid transparent;
   border-radius: var(--_radius);
-  box-shadow: 0 0 0 var(--strata-hairline) var(--strata-color-border-subtle);
+  box-shadow: 0 0 0 var(--syntara-hairline) var(--syntara-color-border-subtle);
 }
 
 .userText {
@@ -698,22 +698,22 @@
 }
 
 .userName {
-  color: var(--strata-color-text-default);
-  font-size: var(--strata-font-size-sm);
-  font-weight: var(--strata-font-weight-medium);
-  letter-spacing: var(--strata-font-tracking-sm);
-  line-height: var(--strata-line-height-snug);
+  color: var(--syntara-color-text-default);
+  font-size: var(--syntara-font-size-sm);
+  font-weight: var(--syntara-font-weight-medium);
+  letter-spacing: var(--syntara-font-tracking-sm);
+  line-height: var(--syntara-line-height-snug);
 }
 
 .userDescription {
-  color: var(--strata-color-text-subtle);
-  font-size: var(--strata-font-size-xs);
-  letter-spacing: var(--strata-font-tracking-xs);
-  line-height: var(--strata-line-height-snug);
+  color: var(--syntara-color-text-subtle);
+  font-size: var(--syntara-font-size-xs);
+  letter-spacing: var(--syntara-font-tracking-xs);
+  line-height: var(--syntara-line-height-snug);
 }
 
 .userMenu {
-  margin-inline-start: calc(var(--strata-space-1) * -1);
+  margin-inline-start: calc(var(--syntara-space-1) * -1);
 }
 
 .sidebar[data-collapsed] .user {
@@ -745,10 +745,10 @@
 .searchTile,
 .avatarButton {
   transition:
-    background-color var(--strata-motion-duration-fast) var(--strata-motion-easing),
-    color var(--strata-motion-duration-fast) var(--strata-motion-easing),
-    box-shadow var(--strata-motion-duration-fast) var(--strata-motion-easing),
-    outline-offset var(--strata-motion-duration-fast) var(--strata-motion-easing);
+    background-color var(--syntara-motion-duration-fast) var(--syntara-motion-easing),
+    color var(--syntara-motion-duration-fast) var(--syntara-motion-easing),
+    box-shadow var(--syntara-motion-duration-fast) var(--syntara-motion-easing),
+    outline-offset var(--syntara-motion-duration-fast) var(--syntara-motion-easing);
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -758,11 +758,11 @@
   .searchTile,
   .avatarButton {
     transition:
-      background-color var(--strata-motion-duration-fast) var(--strata-motion-easing),
-      color var(--strata-motion-duration-fast) var(--strata-motion-easing),
-      box-shadow var(--strata-motion-duration-fast) var(--strata-motion-easing),
-      outline-offset var(--strata-motion-duration-spring) var(--strata-motion-spring),
-      scale var(--strata-motion-duration-spring) var(--strata-motion-spring);
+      background-color var(--syntara-motion-duration-fast) var(--syntara-motion-easing),
+      color var(--syntara-motion-duration-fast) var(--syntara-motion-easing),
+      box-shadow var(--syntara-motion-duration-fast) var(--syntara-motion-easing),
+      outline-offset var(--syntara-motion-duration-spring) var(--syntara-motion-spring),
+      scale var(--syntara-motion-duration-spring) var(--syntara-motion-spring);
   }
 
   .item[data-pressed],
@@ -778,21 +778,21 @@
 
   /* The chevron turns with the spring: a small overshoot that settles. */
   .chevron {
-    transition: rotate var(--strata-motion-duration-spring) var(--strata-motion-spring);
+    transition: rotate var(--syntara-motion-duration-spring) var(--syntara-motion-spring);
   }
 
   .panel {
-    transition: grid-template-rows var(--strata-motion-duration-normal) var(--strata-motion-easing);
+    transition: grid-template-rows var(--syntara-motion-duration-normal) var(--syntara-motion-easing);
   }
 
   .group[data-expanded] > .panel {
-    transition-duration: var(--strata-motion-duration-slow);
-    transition-timing-function: var(--strata-motion-easing-out);
+    transition-duration: var(--syntara-motion-duration-slow);
+    transition-timing-function: var(--syntara-motion-easing-out);
   }
 
   /* Nested rows drop 4px into place as the group opens. */
   .subList {
-    translate: 0 calc(var(--strata-space-1) * -1);
+    translate: 0 calc(var(--syntara-space-1) * -1);
     transition-property: opacity, translate;
   }
 
@@ -802,16 +802,16 @@
 
   /* The brand marker grows from its centre when a nested row becomes current. */
   .subList > .listItem[data-current]::before {
-    animation: sidebar-marker-in var(--strata-motion-duration-spring) var(--strata-motion-spring);
+    animation: sidebar-marker-in var(--syntara-motion-duration-spring) var(--syntara-motion-spring);
   }
 
   /* Labels fade in when the panel opens (they go at once when it collapses: less to look at). */
   .sidebar:not([data-collapsed]) :is(.label, .count, .badge, .brandText, .sectionTitle, .userText, .chevron) {
-    animation: sidebar-fade-in var(--strata-motion-duration-normal) var(--strata-motion-easing-out);
+    animation: sidebar-fade-in var(--syntara-motion-duration-normal) var(--syntara-motion-easing-out);
   }
 
   .sidebar[data-collapsed] .marker {
-    animation: sidebar-pop var(--strata-motion-duration-spring) var(--strata-motion-spring);
+    animation: sidebar-pop var(--syntara-motion-duration-spring) var(--syntara-motion-spring);
   }
 }
 

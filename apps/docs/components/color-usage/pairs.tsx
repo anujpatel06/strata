@@ -3,8 +3,8 @@
  * the lowest measured over every tenant (house included) in light and dark, floored to 2 decimals.
  * Wide screens get a matrix (rows: foreground role, columns: surface); narrow ones get the same data as grouped lists.
  */
-import { IconCheck } from '@strata/icons';
-import { roleToCssVar, type Role } from '@strata/theme-engine';
+import { IconCheck } from '@syntara/icons';
+import { roleToCssVar, type Role } from '@syntara/theme-engine';
 import { Callout } from '@/components/mdx/callout';
 import { floor2, getColorUsageData, type Kind, type Matrix } from './data';
 import { LiveScope } from './live';

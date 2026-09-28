@@ -2,7 +2,7 @@
  * Chip — something the user picks or removes, in a pill (always a pill, like PersonChip and Badge, in every brand
  * shape; no squircle, which would flatten the round ends).
  *
- * Height follows the control rhythm: md = --strata-control-height (a Button or TextField beside it), sm one 8px step
+ * Height follows the control rhythm: md = --syntara-control-height (a Button or TextField beside it), sm one 8px step
  * less. So a sm chip is the height of a md PersonChip in the comfortable density, and they sit together.
  *
  * Quiet at rest: surface.default and a border.default hairline (box-shadow, Finesse), text.default, regular weight.
@@ -16,7 +16,7 @@
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  gap: var(--strata-space-2);
+  gap: var(--syntara-space-2);
   min-inline-size: 0;
 }
 
@@ -25,11 +25,11 @@
   box-sizing: border-box;
   inline-size: fit-content;
   max-inline-size: 100%;
-  color: var(--strata-color-text-default);
-  font-size: var(--strata-font-size-sm);
-  font-weight: var(--strata-font-weight-medium);
-  letter-spacing: var(--strata-font-tracking-sm);
-  line-height: var(--strata-line-height-snug);
+  color: var(--syntara-color-text-default);
+  font-size: var(--syntara-font-size-sm);
+  font-weight: var(--syntara-font-weight-medium);
+  letter-spacing: var(--syntara-font-tracking-sm);
+  line-height: var(--syntara-line-height-snug);
   cursor: default;
 }
 
@@ -38,7 +38,7 @@
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: var(--strata-space-2);
+  gap: var(--syntara-space-2);
   min-inline-size: 0;
   margin: 0;
   padding: 0;
@@ -46,7 +46,7 @@
 }
 
 .list[data-size='sm'] {
-  gap: calc(var(--strata-space-1) * 1.5);
+  gap: calc(var(--syntara-space-1) * 1.5);
 }
 
 /*
@@ -55,11 +55,11 @@
  */
 .list[data-wrap='false'] {
   flex-wrap: nowrap;
-  margin: calc(var(--strata-space-1) * -1);
-  padding: var(--strata-space-1);
+  margin: calc(var(--syntara-space-1) * -1);
+  padding: var(--syntara-space-1);
   overflow-x: auto;
   overscroll-behavior-inline: contain;
-  scroll-padding-inline: var(--strata-space-1);
+  scroll-padding-inline: var(--syntara-space-1);
   scrollbar-width: none;
 }
 .list[data-wrap='false']::-webkit-scrollbar {
@@ -69,17 +69,17 @@
 /* ---- chip ---------------------------------------------------------------- */
 
 .chip {
-  --_h: var(--strata-control-height);
-  --_icon: var(--strata-space-4);
-  --_gap: var(--strata-space-2);
+  --_h: var(--syntara-control-height);
+  --_icon: var(--syntara-space-4);
+  --_gap: var(--syntara-space-2);
   /* Inline padding ~3/8 of the height (15px at 40, 12 at 32); a leading icon's side gets one 4px step less. */
   --_pad: calc(var(--_h) * 0.375);
-  --_lead: calc(var(--_pad) - var(--strata-space-1));
+  --_lead: calc(var(--_pad) - var(--syntara-space-1));
   /* The avatar and the remove button hug the round ends, inset evenly (concentric with the pill). */
   --_face: calc(var(--_h) * 0.75);
-  --_x: min(var(--strata-space-6), var(--_face));
-  --_bg: var(--strata-color-surface-default);
-  --_edge: var(--strata-color-border-default);
+  --_x: min(var(--syntara-space-6), var(--_face));
+  --_bg: var(--syntara-color-surface-default);
+  --_edge: var(--syntara-color-border-default);
 
   position: relative;
   box-sizing: border-box;
@@ -93,14 +93,14 @@
   padding-inline: var(--_pad);
   /* Transparent: keeps sizes equal across states and draws the edge in forced-colours mode. */
   border: 1px solid transparent;
-  border-radius: var(--strata-radius-pill);
+  border-radius: var(--syntara-radius-pill);
   background-color: var(--_bg);
-  box-shadow: 0 0 0 var(--strata-hairline) var(--_edge);
-  color: var(--strata-color-text-default);
-  font-family: var(--strata-font-body);
-  font-size: var(--strata-font-size-sm);
-  font-weight: var(--strata-font-weight-regular);
-  letter-spacing: var(--strata-font-tracking-sm);
+  box-shadow: 0 0 0 var(--syntara-hairline) var(--_edge);
+  color: var(--syntara-color-text-default);
+  font-family: var(--syntara-font-body);
+  font-size: var(--syntara-font-size-sm);
+  font-weight: var(--syntara-font-weight-regular);
+  letter-spacing: var(--syntara-font-tracking-sm);
   line-height: 1;
   white-space: nowrap;
   vertical-align: middle;
@@ -110,16 +110,16 @@
   outline: none;
   outline-offset: 0;
   transition:
-    background-color var(--strata-motion-duration-fast) var(--strata-motion-easing),
-    box-shadow var(--strata-motion-duration-fast) var(--strata-motion-easing),
-    color var(--strata-motion-duration-fast) var(--strata-motion-easing),
-    outline-offset var(--strata-motion-duration-fast) var(--strata-motion-easing);
+    background-color var(--syntara-motion-duration-fast) var(--syntara-motion-easing),
+    box-shadow var(--syntara-motion-duration-fast) var(--syntara-motion-easing),
+    color var(--syntara-motion-duration-fast) var(--syntara-motion-easing),
+    outline-offset var(--syntara-motion-duration-fast) var(--syntara-motion-easing);
 }
 
 .chip[data-size='sm'] {
-  --_h: calc(var(--strata-control-height) - var(--strata-space-2));
-  --_icon: calc(var(--strata-space-4) - 2px);
-  --_gap: calc(var(--strata-space-2) - 2px);
+  --_h: calc(var(--syntara-control-height) - var(--syntara-space-2));
+  --_icon: calc(var(--syntara-space-4) - 2px);
+  --_gap: calc(var(--syntara-space-2) - 2px);
 }
 
 /*
@@ -144,39 +144,39 @@
 }
 
 .chip[data-hovered] {
-  --_bg: color-mix(in oklab, var(--strata-color-text-default) 4%, var(--strata-color-surface-default));
-  --_edge: var(--strata-color-border-strong);
+  --_bg: color-mix(in oklab, var(--syntara-color-text-default) 4%, var(--syntara-color-surface-default));
+  --_edge: var(--syntara-color-border-strong);
 }
 
 .chip[data-selected] {
-  --_bg: var(--strata-color-surface-selected);
-  --_edge: color-mix(in oklab, var(--strata-color-text-brand) 45%, transparent);
+  --_bg: var(--syntara-color-surface-selected);
+  --_edge: color-mix(in oklab, var(--syntara-color-text-brand) 45%, transparent);
 
   box-shadow:
-    0 0 0 var(--strata-hairline) var(--_edge),
-    var(--strata-shadow-raised);
-  font-weight: var(--strata-font-weight-medium);
+    0 0 0 var(--syntara-hairline) var(--_edge),
+    var(--syntara-shadow-raised);
+  font-weight: var(--syntara-font-weight-medium);
 }
 .chip[data-selected][data-hovered] {
-  --_edge: color-mix(in oklab, var(--strata-color-text-brand) 65%, transparent);
+  --_edge: color-mix(in oklab, var(--syntara-color-text-brand) 65%, transparent);
 }
 
 .chip[data-focus-visible] {
   z-index: 1;
-  outline: 2px solid var(--strata-color-focus-ring);
+  outline: 2px solid var(--syntara-color-focus-ring);
   outline-offset: 2px;
 }
 
 .chip[data-disabled] {
   --_bg: transparent;
-  --_edge: var(--strata-color-border-subtle);
+  --_edge: var(--syntara-color-border-subtle);
 
-  box-shadow: 0 0 0 var(--strata-hairline) var(--_edge);
-  color: var(--strata-color-text-disabled);
+  box-shadow: 0 0 0 var(--syntara-hairline) var(--_edge);
+  color: var(--syntara-color-text-disabled);
   cursor: default;
 }
 .chip[data-disabled][data-selected] {
-  --_bg: var(--strata-color-surface-sunken);
+  --_bg: var(--syntara-color-surface-sunken);
 }
 
 /* Not every mode has a pointer action: input chips are only focused and removed. */
@@ -184,8 +184,8 @@
   cursor: default;
 }
 .chip[data-mode='input'][data-hovered]:not([data-disabled]) {
-  --_bg: var(--strata-color-surface-default);
-  --_edge: var(--strata-color-border-default);
+  --_bg: var(--syntara-color-surface-default);
+  --_edge: var(--syntara-color-border-default);
 }
 
 @media (forced-colors: active) {
@@ -205,14 +205,14 @@
   flex: 0 1 auto;
   min-inline-size: 0;
   overflow: hidden;
-  line-height: var(--strata-line-height-tight);
+  line-height: var(--syntara-line-height-tight);
   text-overflow: ellipsis;
 }
 .text[data-label]::after {
   display: block;
   block-size: 0;
   overflow: hidden;
-  font-weight: var(--strata-font-weight-medium);
+  font-weight: var(--syntara-font-weight-medium);
   visibility: hidden;
   content: attr(data-label);
   pointer-events: none;
@@ -221,16 +221,16 @@
 
 /* A quiet trailing number, a little closer to its label than a separate part would be. */
 .chip > [role='gridcell'] > .count {
-  margin-inline-start: max(var(--strata-space-1), calc(var(--_gap) - var(--strata-space-1)));
+  margin-inline-start: max(var(--syntara-space-1), calc(var(--_gap) - var(--syntara-space-1)));
 }
 .count {
   flex: none;
-  color: var(--strata-color-text-subtle);
+  color: var(--syntara-color-text-subtle);
   font-variant-numeric: tabular-nums;
-  font-weight: var(--strata-font-weight-medium);
+  font-weight: var(--syntara-font-weight-medium);
 }
 .chip[data-disabled] .count {
-  color: var(--strata-color-text-disabled);
+  color: var(--syntara-color-text-disabled);
 }
 
 /* ---- leading icon, check and avatar -------------------------------------- */
@@ -246,7 +246,7 @@
   block-size: var(--_icon);
 }
 .icon > svg:not(.check) {
-  stroke-width: var(--strata-icon-stroke, 1.5);
+  stroke-width: var(--syntara-icon-stroke, 1.5);
 }
 
 /* The check: one stroke that draws itself in (pathLength 1, dash offset 1.1 → 0), like Checkbox's. */
@@ -254,7 +254,7 @@
   flex: none;
   inline-size: var(--_icon);
   block-size: var(--_icon);
-  color: var(--strata-color-text-brand);
+  color: var(--syntara-color-text-brand);
   stroke-width: 2.5;
 }
 .check > path {
@@ -265,7 +265,7 @@
   stroke-dashoffset: 0;
 }
 .chip[data-disabled] .check {
-  color: var(--strata-color-text-disabled);
+  color: var(--syntara-color-text-disabled);
 }
 
 /* In a filter icon chip the icon steps aside for the check (choice chips keep their icon). */
@@ -289,7 +289,7 @@
 }
 /* The check's side of the chip reads like an icon's: one 4px step tighter. */
 .checkInner > .check {
-  margin-inline: calc(var(--strata-space-1) * -1) var(--_gap);
+  margin-inline: calc(var(--syntara-space-1) * -1) var(--_gap);
 }
 
 /* An Avatar sized by the chip (three classes outrank Avatar's own [data-size] rule), with no pop of its own. */
@@ -314,15 +314,15 @@
   place-items: center;
   inline-size: var(--_face);
   block-size: var(--_face);
-  border-radius: var(--strata-radius-pill);
-  background-color: var(--strata-color-action-primary-bg);
-  box-shadow: var(--strata-shadow-highlight);
+  border-radius: var(--syntara-radius-pill);
+  background-color: var(--syntara-color-action-primary-bg);
+  box-shadow: var(--syntara-shadow-highlight);
   opacity: 0;
 }
 .checkDisc > .check {
   inline-size: 62%;
   block-size: 62%;
-  color: var(--strata-color-action-primary-fg);
+  color: var(--syntara-color-action-primary-fg);
 }
 .chip[data-selected] .checkDisc {
   opacity: 1;
@@ -342,49 +342,49 @@
   margin-inline-end: 0;
   padding: 0;
   border: 0;
-  border-radius: var(--strata-radius-pill);
+  border-radius: var(--syntara-radius-pill);
   outline: none;
   outline-offset: 0;
   background: transparent;
-  color: var(--strata-color-text-subtle);
+  color: var(--syntara-color-text-subtle);
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
   transition:
-    background-color var(--strata-motion-duration-fast) var(--strata-motion-easing),
-    color var(--strata-motion-duration-fast) var(--strata-motion-easing),
-    outline-offset var(--strata-motion-duration-fast) var(--strata-motion-easing);
+    background-color var(--syntara-motion-duration-fast) var(--syntara-motion-easing),
+    color var(--syntara-motion-duration-fast) var(--syntara-motion-easing),
+    outline-offset var(--syntara-motion-duration-fast) var(--syntara-motion-easing);
 }
 /* The label and the × read as one unit: a slightly smaller gap before the button. */
 .chip > [role='gridcell'] > .remove {
-  margin-inline-start: calc(var(--_gap) - var(--strata-space-1));
+  margin-inline-start: calc(var(--_gap) - var(--syntara-space-1));
 }
 
 /* Keep the hit area at 24px or more (WCAG 2.5.8) when the button is drawn smaller (sm chips in compact brands). */
 .remove::before {
   position: absolute;
-  inset: min(0px, (var(--_x) - var(--strata-space-6)) / 2);
+  inset: min(0px, (var(--_x) - var(--syntara-space-6)) / 2);
   content: '';
 }
 
 .remove > svg {
   inline-size: 66%;
   block-size: 66%;
-  stroke-width: var(--strata-icon-stroke, 1.5);
+  stroke-width: var(--syntara-icon-stroke, 1.5);
 }
 
 .remove[data-hovered] {
-  background-color: color-mix(in oklab, var(--strata-color-text-default) 8%, transparent);
-  color: var(--strata-color-text-default);
+  background-color: color-mix(in oklab, var(--syntara-color-text-default) 8%, transparent);
+  color: var(--syntara-color-text-default);
 }
 
 .remove[data-focus-visible] {
-  outline: 2px solid var(--strata-color-focus-ring);
+  outline: 2px solid var(--syntara-color-focus-ring);
   outline-offset: 1px;
 }
 
 .remove[data-disabled] {
   background: transparent;
-  color: var(--strata-color-text-disabled);
+  color: var(--syntara-color-text-disabled);
   cursor: default;
 }
 
@@ -400,36 +400,36 @@
  * - Reduced motion: no scale, pop or slot animation; the check and colours still fade.
  */
 .check > path {
-  transition: stroke-dashoffset var(--strata-motion-duration-fast) var(--strata-motion-easing);
+  transition: stroke-dashoffset var(--syntara-motion-duration-fast) var(--syntara-motion-easing);
 }
 .icon > svg,
 .checkDisc {
-  transition: opacity var(--strata-motion-duration-fast) var(--strata-motion-easing);
+  transition: opacity var(--syntara-motion-duration-fast) var(--syntara-motion-easing);
 }
 
 @media (prefers-reduced-motion: no-preference) {
   .chip {
     animation:
-      chip-fade-in var(--strata-motion-duration-fast) var(--strata-motion-easing-out) backwards,
-      chip-pop var(--strata-motion-duration-spring) var(--strata-motion-spring) backwards;
+      chip-fade-in var(--syntara-motion-duration-fast) var(--syntara-motion-easing-out) backwards,
+      chip-pop var(--syntara-motion-duration-spring) var(--syntara-motion-spring) backwards;
     transition:
-      background-color var(--strata-motion-duration-fast) var(--strata-motion-easing),
-      box-shadow var(--strata-motion-duration-fast) var(--strata-motion-easing),
-      color var(--strata-motion-duration-fast) var(--strata-motion-easing),
-      outline-offset var(--strata-motion-duration-fast) var(--strata-motion-easing),
-      scale var(--strata-motion-duration-spring) var(--strata-motion-spring);
+      background-color var(--syntara-motion-duration-fast) var(--syntara-motion-easing),
+      box-shadow var(--syntara-motion-duration-fast) var(--syntara-motion-easing),
+      color var(--syntara-motion-duration-fast) var(--syntara-motion-easing),
+      outline-offset var(--syntara-motion-duration-fast) var(--syntara-motion-easing),
+      scale var(--syntara-motion-duration-spring) var(--syntara-motion-spring);
   }
   .list > .chip:nth-child(2) {
-    animation-delay: calc(var(--strata-motion-duration-fast) / 3);
+    animation-delay: calc(var(--syntara-motion-duration-fast) / 3);
   }
   .list > .chip:nth-child(3) {
-    animation-delay: calc(var(--strata-motion-duration-fast) / 3 * 2);
+    animation-delay: calc(var(--syntara-motion-duration-fast) / 3 * 2);
   }
   .list > .chip:nth-child(4) {
-    animation-delay: var(--strata-motion-duration-fast);
+    animation-delay: var(--syntara-motion-duration-fast);
   }
   .list > .chip:nth-child(n + 5) {
-    animation-delay: calc(var(--strata-motion-duration-fast) / 3 * 4);
+    animation-delay: calc(var(--syntara-motion-duration-fast) / 3 * 4);
   }
 
   .chip[data-pressed]:not([data-disabled], [data-mode='input']) {
@@ -437,22 +437,22 @@
   }
 
   .chip[data-selected] .check > path {
-    transition: stroke-dashoffset var(--strata-motion-duration-spring) var(--strata-motion-spring)
-      calc(var(--strata-motion-duration-fast) / 3);
+    transition: stroke-dashoffset var(--syntara-motion-duration-spring) var(--syntara-motion-spring)
+      calc(var(--syntara-motion-duration-fast) / 3);
   }
   .icon > svg {
     transition:
-      opacity var(--strata-motion-duration-fast) var(--strata-motion-easing),
-      scale var(--strata-motion-duration-spring) var(--strata-motion-spring);
+      opacity var(--syntara-motion-duration-fast) var(--syntara-motion-easing),
+      scale var(--syntara-motion-duration-spring) var(--syntara-motion-spring);
   }
   .checkSlot {
-    transition: grid-template-columns var(--strata-motion-duration-spring) var(--strata-motion-spring);
+    transition: grid-template-columns var(--syntara-motion-duration-spring) var(--syntara-motion-spring);
   }
   .checkDisc {
     scale: 0.6;
     transition:
-      opacity var(--strata-motion-duration-fast) var(--strata-motion-easing),
-      scale var(--strata-motion-duration-spring) var(--strata-motion-spring);
+      opacity var(--syntara-motion-duration-fast) var(--syntara-motion-easing),
+      scale var(--syntara-motion-duration-spring) var(--syntara-motion-spring);
   }
   .chip[data-selected] .checkDisc {
     scale: 1;
@@ -460,10 +460,10 @@
 
   .remove {
     transition:
-      background-color var(--strata-motion-duration-fast) var(--strata-motion-easing),
-      color var(--strata-motion-duration-fast) var(--strata-motion-easing),
-      outline-offset var(--strata-motion-duration-fast) var(--strata-motion-easing),
-      scale var(--strata-motion-duration-spring) var(--strata-motion-spring);
+      background-color var(--syntara-motion-duration-fast) var(--syntara-motion-easing),
+      color var(--syntara-motion-duration-fast) var(--syntara-motion-easing),
+      outline-offset var(--syntara-motion-duration-fast) var(--syntara-motion-easing),
+      scale var(--syntara-motion-duration-spring) var(--syntara-motion-spring);
   }
   .remove[data-pressed] {
     scale: 0.9;

@@ -4,7 +4,7 @@
  */
 import type { DensityTokens, Foundations, RampName, Role } from '../types';
 
-export const ENGINE_NAME = '@strata/theme-engine';
+export const ENGINE_NAME = '@syntara/theme-engine';
 export const ENGINE_VERSION = '0.1.0';
 export const GENERATOR_ID = `${ENGINE_NAME}@${ENGINE_VERSION}`;
 

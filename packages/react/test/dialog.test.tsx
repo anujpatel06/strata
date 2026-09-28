@@ -87,16 +87,16 @@ describe('Dialog', () => {
   it('copies the ThemeScope attributes of its trigger onto the portalled overlay', async () => {
     const user = userEvent.setup();
     render(
-      <div data-strata-theme="harbor" data-strata-scheme="dark" data-strata-density="compact" dir="rtl" lang="ar">
+      <div data-syntara-theme="harbor" data-syntara-scheme="dark" data-syntara-density="compact" dir="rtl" lang="ar">
         <Example />
       </div>,
     );
     await user.click(screen.getByRole('button', { name: 'Edit profile' }));
-    const overlay = screen.getByRole('dialog').closest('[data-strata-theme]')!;
+    const overlay = screen.getByRole('dialog').closest('[data-syntara-theme]')!;
     expect(overlay.parentElement).toBe(document.body);
-    expect(overlay).toHaveAttribute('data-strata-theme', 'harbor');
-    expect(overlay).toHaveAttribute('data-strata-scheme', 'dark');
-    expect(overlay).toHaveAttribute('data-strata-density', 'compact');
+    expect(overlay).toHaveAttribute('data-syntara-theme', 'harbor');
+    expect(overlay).toHaveAttribute('data-syntara-scheme', 'dark');
+    expect(overlay).toHaveAttribute('data-syntara-density', 'compact');
     expect(overlay).toHaveAttribute('dir', 'rtl');
     expect(overlay).toHaveAttribute('lang', 'ar');
   });
@@ -104,20 +104,20 @@ describe('Dialog', () => {
   it('creates the overlay with the scope attributes already set, so entry animations can resolve motion tokens', async () => {
     const user = userEvent.setup();
     render(
-      <div data-strata-theme="harbor" data-strata-scheme="dark" dir="rtl" lang="ar">
+      <div data-syntara-theme="harbor" data-syntara-scheme="dark" dir="rtl" lang="ar">
         <Example />
       </div>,
     );
     const late: string[] = [];
     const observer = new MutationObserver((records) => {
-      for (const r of records) if (r.attributeName && (r.target as Element).matches('.react-aria-ModalOverlay, [data-strata-theme]')) late.push(r.attributeName);
+      for (const r of records) if (r.attributeName && (r.target as Element).matches('.react-aria-ModalOverlay, [data-syntara-theme]')) late.push(r.attributeName);
     });
-    observer.observe(document.body, { subtree: true, attributes: true, attributeFilter: ['data-strata-theme', 'data-strata-scheme', 'dir', 'lang'] });
+    observer.observe(document.body, { subtree: true, attributes: true, attributeFilter: ['data-syntara-theme', 'data-syntara-scheme', 'dir', 'lang'] });
     await user.click(screen.getByRole('button', { name: 'Edit profile' }));
     observer.disconnect();
-    const overlay = screen.getByRole('dialog').closest('[data-strata-theme]')!;
+    const overlay = screen.getByRole('dialog').closest('[data-syntara-theme]')!;
     expect(overlay.parentElement).toBe(document.body);
-    expect(overlay).toHaveAttribute('data-strata-theme', 'harbor');
+    expect(overlay).toHaveAttribute('data-syntara-theme', 'harbor');
     // Set as props when the element is created, not patched on afterwards.
     expect(late).toEqual([]);
   });
@@ -125,48 +125,48 @@ describe('Dialog', () => {
   it('looks each scope attribute up separately (theme on :root, scheme on a nested scope)', async () => {
     const user = userEvent.setup();
     render(
-      <div data-strata-theme="house">
-        <div data-strata-scheme="dark">
+      <div data-syntara-theme="house">
+        <div data-syntara-scheme="dark">
           <Example />
         </div>
       </div>,
     );
     await user.click(screen.getByRole('button', { name: 'Edit profile' }));
-    const overlay = screen.getByRole('dialog').closest('[data-strata-scheme]')!;
+    const overlay = screen.getByRole('dialog').closest('[data-syntara-scheme]')!;
     expect(overlay.parentElement).toBe(document.body);
-    expect(overlay).toHaveAttribute('data-strata-scheme', 'dark');
-    expect(overlay).toHaveAttribute('data-strata-theme', 'house');
-    expect(overlay).not.toHaveAttribute('data-strata-density');
+    expect(overlay).toHaveAttribute('data-syntara-scheme', 'dark');
+    expect(overlay).toHaveAttribute('data-syntara-theme', 'house');
+    expect(overlay).not.toHaveAttribute('data-syntara-density');
   });
 
   it('copies a scheme-only ancestor when the theme lives on the document root', async () => {
-    document.documentElement.setAttribute('data-strata-theme', 'house');
+    document.documentElement.setAttribute('data-syntara-theme', 'house');
     try {
       const user = userEvent.setup();
       render(
-        <div data-strata-scheme="dark">
+        <div data-syntara-scheme="dark">
           <Example />
         </div>,
       );
       await user.click(screen.getByRole('button', { name: 'Edit profile' }));
-      const overlay = screen.getByRole('dialog').closest('[data-strata-scheme]')!;
+      const overlay = screen.getByRole('dialog').closest('[data-syntara-scheme]')!;
       expect(overlay.parentElement).toBe(document.body);
-      expect(overlay).toHaveAttribute('data-strata-scheme', 'dark');
+      expect(overlay).toHaveAttribute('data-syntara-scheme', 'dark');
     } finally {
-      document.documentElement.removeAttribute('data-strata-theme');
+      document.documentElement.removeAttribute('data-syntara-theme');
     }
   });
 
   it('copies the ThemeScope attributes when controlled, without a trigger', () => {
     render(
-      <div data-strata-theme="qamar" data-strata-scheme="light">
+      <div data-syntara-theme="qamar" data-syntara-scheme="light">
         <Dialog title="Controlled" isOpen>
           Body
         </Dialog>
       </div>,
     );
-    const overlay = screen.getByRole('dialog').closest('[data-strata-theme]')!;
-    expect(overlay).toHaveAttribute('data-strata-theme', 'qamar');
+    const overlay = screen.getByRole('dialog').closest('[data-syntara-theme]')!;
+    expect(overlay).toHaveAttribute('data-syntara-theme', 'qamar');
     expect(overlay.parentElement).toBe(document.body);
   });
 });

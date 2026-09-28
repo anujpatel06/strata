@@ -1,9 +1,9 @@
 'use client';
 
-import { IconAlertTriangle, IconCircleCheck, IconInbox } from '@strata/icons';
-import { Tab, TabList, TabPanel, Tabs } from '@strata/react';
+import { IconAlertTriangle, IconCircleCheck, IconInbox } from '@syntara/icons';
+import { Tab, TabList, TabPanel, Tabs } from '@syntara/react';
 
-const text = { margin: 0, color: 'var(--strata-color-text-subtle)', fontSize: 'var(--strata-font-size-md)' };
+const text = { margin: 0, color: 'var(--syntara-color-text-subtle)', fontSize: 'var(--syntara-font-size-md)' };
 
 export default function Example() {
   return (

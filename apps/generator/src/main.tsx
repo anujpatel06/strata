@@ -7,7 +7,7 @@ import { App } from './App';
 if (!document.documentElement.lang) document.documentElement.lang = 'en';
 
 const container = document.getElementById('root');
-if (!container) throw new Error('Strata Brand Generator: #root element missing from index.html');
+if (!container) throw new Error('Syntara Brand Generator: #root element missing from index.html');
 
 createRoot(container).render(
   <StrictMode>

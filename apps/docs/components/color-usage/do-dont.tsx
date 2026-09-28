@@ -1,11 +1,11 @@
 /**
- * Do / Don't pairs on /docs/color, rendered live with Strata components in the picked tenant.
+ * Do / Don't pairs on /docs/color, rendered live with Syntara components in the picked tenant.
  *
  * A "don't" that breaks contrast on purpose is drawn as an SVG picture with a text alternative (role="img"), so the
  * page itself never ships a failing text pair: it shows the mistake without making it. Every stage is `inert`,
  * because these are illustrations, not controls to tab through.
  */
-import { IconCheck, IconCircleX, IconX } from '@strata/icons';
+import { IconCheck, IconCircleX, IconX } from '@syntara/icons';
 import {
   Badge,
   Button,
@@ -17,7 +17,7 @@ import {
   Eyebrow,
   Link,
   TextField,
-} from '@strata/react';
+} from '@syntara/react';
 import type { ReactNode } from 'react';
 import { floor2, getColorUsageData } from './data';
 import { LiveScope, TenantPicker } from './live';
@@ -37,8 +37,8 @@ function Picture({ label, bg, fg, text, gradient }: { label: string; bg: string;
       {gradient && (
         <defs>
           <linearGradient id="dont-gradient" x1="0" y1="0" x2="1" y2="0">
-            <stop offset="0.2" style={{ stopColor: 'var(--strata-color-surface-default)', stopOpacity: 0 }} />
-            <stop offset="1" style={{ stopColor: 'var(--strata-color-surface-default)', stopOpacity: 0.7 }} />
+            <stop offset="0.2" style={{ stopColor: 'var(--syntara-color-surface-default)', stopOpacity: 0 }} />
+            <stop offset="1" style={{ stopColor: 'var(--syntara-color-surface-default)', stopOpacity: 0.7 }} />
           </linearGradient>
         </defs>
       )}
@@ -74,8 +74,8 @@ const PAIRS: Pair[] = [
       specimen: (
         <Picture
           label="Example of a mistake: red error text on a brand-coloured fill"
-          bg="--strata-color-action-primary-bg"
-          fg="--strata-color-feedback-danger-fg"
+          bg="--syntara-color-action-primary-bg"
+          fg="--syntara-color-feedback-danger-fg"
           text="Payment failed"
         />
       ),
@@ -199,8 +199,8 @@ const PAIRS: Pair[] = [
       specimen: (
         <Picture
           label="Example of a mistake: a button label over a gradient"
-          bg="--strata-color-action-primary-bg"
-          fg="--strata-color-action-primary-fg"
+          bg="--syntara-color-action-primary-bg"
+          fg="--syntara-color-action-primary-fg"
           text="Confirm transfer"
           gradient
         />
@@ -255,8 +255,8 @@ const PAIRS: Pair[] = [
       specimen: (
         <Picture
           label="Example of a mistake: a chart label written in the series colour"
-          bg="--strata-color-surface-default"
-          fg="--strata-chart-2"
+          bg="--syntara-color-surface-default"
+          fg="--syntara-chart-2"
           text="Groceries 38%"
         />
       ),

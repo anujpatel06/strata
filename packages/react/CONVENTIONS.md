@@ -1,7 +1,7 @@
-# @strata/react — component conventions
+# @syntara/react — component conventions
 
-Every component in this package ships **two ways from one source**: as the npm package `@strata/react`, and as a
-shadcn-compatible registry item (`npx shadcn@latest add @strata/<name>`) that copies the files into the user's project.
+Every component in this package ships **two ways from one source**: as the npm package `@syntara/react`, and as a
+shadcn-compatible registry item (`npx shadcn@latest add @syntara/<name>`) that copies the files into the user's project.
 The rules below make both work. Read them fully before writing a component.
 
 ## Files — flat, kebab-case, self-contained
@@ -18,7 +18,7 @@ apps/docs/examples/<name>/<name>-<variant>.tsx    more examples listed in meta.e
 - `src/ui` is **flat**. Registry installs put every file in the user's `components/ui/` folder, so imports between
   components MUST be sibling-relative: `import { Button } from './button';` — never `../`, never `@/`, never the barrel.
 - No shared util files. Need a class joiner? Define `const cx = (...c: Array<string | false | null | undefined>) => c.filter(Boolean).join(' ');` locally.
-- Allowed imports in `src/ui`: `react`, `react-aria-components`, `@internationalized/date`, `@strata/icons` (ADR-014; no other `@strata/*` package), sibling `./<name>`. List npm ones in `meta.dependencies`, siblings in `meta.registryDependencies`.
+- Allowed imports in `src/ui`: `react`, `react-aria-components`, `@internationalized/date`, `@syntara/icons` (ADR-014; no other `@syntara/*` package), sibling `./<name>`. List npm ones in `meta.dependencies`, siblings in `meta.registryDependencies`.
 - Do not edit `src/index.ts` (the lead generates it) or other agents' files.
 
 ## API style
@@ -30,7 +30,7 @@ apps/docs/examples/<name>/<name>-<variant>.tsx    more examples listed in meta.e
 - Shared vocabulary (use exactly these names/values):
   - `variant` = visual emphasis, never status. Button: `'primary' | 'secondary' | 'outline' | 'ghost' | 'link' | 'contrast'`.
     (`'danger'` is deprecated since 0.2.0 and removed in 1.0.0: use `tone="danger"`, RFC-001. Don't write it in new code.)
-  - `size` = `'sm' | 'md' | 'lg'` (+ `'icon'` for Button). Default `'md'`. `md` = `--strata-control-height`.
+  - `size` = `'sm' | 'md' | 'lg'` (+ `'icon'` for Button). Default `'md'`. `md` = `--syntara-control-height`.
   - `tone` = `'neutral' | 'info' | 'success' | 'warning' | 'danger'` (+ `'brand'` for Badge) for feedback colour.
     Button takes `'neutral' | 'danger'` on `primary`, `outline` and `ghost`.
   - Changing or removing a prop, a value or a `data-*` attribute on a beta or stable component is a deprecation:
@@ -42,20 +42,20 @@ apps/docs/examples/<name>/<name>-<variant>.tsx    more examples listed in meta.e
 
 ## Styling — tokens only (this is the whole design-system argument)
 
-- Only `var(--strata-*)` from `packages/theme-engine/src/types.ts` (the CSS variable contract). Semantic roles only.
+- Only `var(--syntara-*)` from `packages/theme-engine/src/types.ts` (the CSS variable contract). Semantic roles only.
 - Allowed literals: `0`, `1px`/`2px` hairlines and focus offsets, `%`, `fr`, `auto`, `em` for icon sizing, unitless numbers,
-  `transparent`, `currentColor`, `inherit`, and `color-mix(in oklab, var(--strata-color-…) N%, transparent)` for tints.
+  `transparent`, `currentColor`, `inherit`, and `color-mix(in oklab, var(--syntara-color-…) N%, transparent)` for tints.
 - **No raw colours, font sizes, font weights, radii, or spacing.** No tenant ids. No `@media (prefers-color-scheme)` — schemes come from tokens.
 - **Logical properties only** (`padding-inline`, `margin-block-start`, `inset-inline-end`, `text-align: start`,
   `border-start-start-radius`). Directional icons (chevrons, arrows) flip under `:dir(rtl)` with `scale: -1 1`.
 - States come from RAC data attributes: `[data-hovered]`, `[data-pressed]`, `[data-focus-visible]`, `[data-disabled]`,
   `[data-selected]`, `[data-invalid]`, `[data-open]`, `[data-entering]`, `[data-exiting]`, `[data-placement]`…
-- Focus: `outline: 2px solid var(--strata-color-focus-ring); outline-offset: 2px;` on `[data-focus-visible]` for every interactive part.
-- Controls: `min-block-size: var(--strata-control-height)`, `padding-inline: var(--strata-control-padding-inline)`,
-  radius `--strata-radius-button` (buttons) / `--strata-radius-field` (inputs) / `--strata-radius-container` (cards, dialogs, popovers)
-  / `--strata-radius-badge`. Text size `--strata-font-size-md` in controls, `sm`/`xs` for hints/badges. Headings use `--strata-font-heading` + `letter-spacing: var(--strata-font-heading-tracking)`.
+- Focus: `outline: 2px solid var(--syntara-color-focus-ring); outline-offset: 2px;` on `[data-focus-visible]` for every interactive part.
+- Controls: `min-block-size: var(--syntara-control-height)`, `padding-inline: var(--syntara-control-padding-inline)`,
+  radius `--syntara-radius-button` (buttons) / `--syntara-radius-field` (inputs) / `--syntara-radius-container` (cards, dialogs, popovers)
+  / `--syntara-radius-badge`. Text size `--syntara-font-size-md` in controls, `sm`/`xs` for hints/badges. Headings use `--syntara-font-heading` + `letter-spacing: var(--syntara-font-heading-tracking)`.
 - Surfaces: overlays are **glass** (see Depth). Inputs = `surface.default` + `border.strong`.
-  Hover tints = `color-mix(in oklab, var(--strata-color-text-default) 6%, transparent)` or `surface.selected`.
+  Hover tints = `color-mix(in oklab, var(--syntara-color-text-default) 6%, transparent)` or `surface.selected`.
 - Disabled: `text.disabled` + no pointer events on the visual, never opacity alone for text.
 - Motion and depth: see **Tactile style** below.
 - Numbers in tables/stats: `font-variant-numeric: tabular-nums`.
@@ -66,13 +66,13 @@ apps/docs/examples/<name>/<name>-<variant>.tsx    more examples listed in meta.e
 
 Quiet at rest, alive under the hand. Depth from layered shadow, not colour; motion that answers every press.
 
-**Motion tokens:** `--strata-motion-duration-{fast 120, normal 200, slow 320, spring ~400}ms`, `--strata-motion-easing`
-(standard), `--strata-motion-easing-out` (enters), `--strata-motion-spring` (a real damped spring as CSS `linear()`, ~4% overshoot;
-pair it with `--strata-motion-duration-spring`).
+**Motion tokens:** `--syntara-motion-duration-{fast 120, normal 200, slow 320, spring ~400}ms`, `--syntara-motion-easing`
+(standard), `--syntara-motion-easing-out` (enters), `--syntara-motion-spring` (a real damped spring as CSS `linear()`, ~4% overshoot;
+pair it with `--syntara-motion-duration-spring`).
 
 - **Hover:** colour, background, border and shadow fade in with `duration-fast` + `easing`. Always allowed.
 - **Press:** anything pressable (buttons, toggles, chips, tabs, menu items, switch thumb, checkbox/radio box, pagination, calendar
-  cells) does `scale: 0.97` on `[data-pressed]` and springs back: `transition: scale var(--strata-motion-duration-spring) var(--strata-motion-spring)`.
+  cells) does `scale: 0.97` on `[data-pressed]` and springs back: `transition: scale var(--syntara-motion-duration-spring) var(--syntara-motion-spring)`.
   Small targets (checkbox, radio, switch thumb) can go to `0.9`.
 - **Selection moves, it doesn't jump:** tabs, toggle groups and segmented controls use React Aria's `SelectionIndicator`
   (a sliding pill or underline). Checkbox checks draw in (`stroke-dashoffset`), radio dots and switch thumbs spring.
@@ -97,37 +97,37 @@ pair it with `--strata-motion-duration-spring`).
 - **State changes pop:** a checkbox/radio/switch turning on, a badge or chip appearing, a toast arriving. A short `scale` from 0.8→1 on the spring.
 - **Focus arrives:** the halo grows from 0 to its size on the spring, not a fade.
 - **Content enters:** stat values, card content and list rows fade up (`opacity` 0→1, `translate: 0 4px`→0) with `easing-out` over `duration-slow`,
-  staggered by `calc(var(--strata-motion-duration-fast) / 3)` per item where there's a natural order.
+  staggered by `calc(var(--syntara-motion-duration-fast) / 3)` per item where there's a natural order.
 - **Scroll reveal (site and blocks only, not components):** CSS scroll-driven animations (`animation-timeline: view()`) inside
   `@supports (animation-timeline: view())`, and never without the reduced-motion guard.
 - Everything still respects `prefers-reduced-motion`. Fades may remain; movement goes.
 
-**Depth tokens:** `--strata-shadow-raised`, `--strata-shadow-overlay`, `--strata-shadow-highlight` (inset top-edge sheen), and glass:
-`--strata-glass-bg`, `--strata-glass-blur`, `--strata-glass-opacity`.
+**Depth tokens:** `--syntara-shadow-raised`, `--syntara-shadow-overlay`, `--syntara-shadow-highlight` (inset top-edge sheen), and glass:
+`--syntara-glass-bg`, `--syntara-glass-blur`, `--syntara-glass-opacity`.
 
-- **Solid fills** (primary/danger buttons, checked checkbox/radio/switch, selected toggle, solid badges): `box-shadow: var(--strata-shadow-highlight), var(--strata-shadow-raised)`.
+- **Solid fills** (primary/danger buttons, checked checkbox/radio/switch, selected toggle, solid badges): `box-shadow: var(--syntara-shadow-highlight), var(--syntara-shadow-raised)`.
   **Never put a gradient or overlay behind a label.** The solver tunes fill + label to 4.5:1, sometimes with zero margin (pure red is exactly 4.50), so any tint can fail it.
-- **Secondary/outline controls:** `surface.default` + border + `--strata-shadow-raised`; hover deepens the border, not the shadow.
-- **Cards:** `surface.raised` + `border.subtle` hairline + `--strata-shadow-raised`. Only *interactive* cards lift on hover
-  (`translate: 0 -1px` + `--strata-shadow-overlay`).
-- **Rim light** (`--strata-rim`): a 1px edge brighter at the top-left that fades, like light catching glass. Draw it as a gradient
+- **Secondary/outline controls:** `surface.default` + border + `--syntara-shadow-raised`; hover deepens the border, not the shadow.
+- **Cards:** `surface.raised` + `border.subtle` hairline + `--syntara-shadow-raised`. Only *interactive* cards lift on hover
+  (`translate: 0 -1px` + `--syntara-shadow-overlay`).
+- **Rim light** (`--syntara-rim`): a 1px edge brighter at the top-left that fades, like light catching glass. Draw it as a gradient
   border with the background-clip trick, so it follows any radius: `border: 1px solid transparent;` and
-  `background: linear-gradient(<face>, <face>) padding-box, linear-gradient(135deg, var(--strata-rim), transparent 60%) border-box <face-colour>;`
+  `background: linear-gradient(<face>, <face>) padding-box, linear-gradient(135deg, var(--syntara-rim), transparent 60%) border-box <face-colour>;`
   (the trailing face colour fills the border box under the rim, so the faded part of the edge is the surface, not the page).
   Keep the `border.subtle` hairline shadow for the rest of the edge. The light is physical: top-left in RTL too, like shadows.
-  On a solid brand fill use `color-mix(in oklab, var(--strata-color-action-primary-fg) 45%, transparent)` instead of `--strata-rim`.
-  Opt-in on Card (`rim`), built into `Card variant="feature"`, `Sidebar variant="floating"` and `IconTile`. `--strata-glow` (the brand
+  On a solid brand fill use `color-mix(in oklab, var(--syntara-color-action-primary-fg) 45%, transparent)` instead of `--syntara-rim`.
+  Opt-in on Card (`rim`), built into `Card variant="feature"`, `Sidebar variant="floating"` and `IconTile`. `--syntara-glow` (the brand
   halo) is for one hero element per view: the feature card, the current-page bar in Sidebar.
-- **Inputs:** flat, bordered. Focus = the 2px ring plus a soft halo: `box-shadow: 0 0 0 4px color-mix(in oklab, var(--strata-color-focus-ring) 18%, transparent)`.
+- **Inputs:** flat, bordered. Focus = the 2px ring plus a soft halo: `box-shadow: 0 0 0 4px color-mix(in oklab, var(--syntara-color-focus-ring) 18%, transparent)`.
 - **Glass** is for floating layers only: popover, menu, select/combobox listbox, dialog, alert dialog, sheet, command palette.
   (Toast moved to the opaque **Surface recipe**, 2026-09-27: its sheen is proven on an opaque face only.)
-  `background: var(--strata-glass-bg); backdrop-filter: blur(var(--strata-glass-blur)) saturate(1.6);` (plus the `-webkit-` prefix),
-  `border: 1px solid var(--strata-color-border-default)`, `box-shadow: var(--strata-shadow-overlay)`. Add
-  `@supports not (backdrop-filter: blur(1px)) { background: var(--strata-color-surface-raised); }`.
+  `background: var(--syntara-glass-bg); backdrop-filter: blur(var(--syntara-glass-blur)) saturate(1.6);` (plus the `-webkit-` prefix),
+  `border: 1px solid var(--syntara-color-border-default)`, `box-shadow: var(--syntara-shadow-overlay)`. Add
+  `@supports not (backdrop-filter: blur(1px)) { background: var(--syntara-color-surface-raised); }`.
   The engine solves the glass opacity so **`text.default` and `text.subtle` reach 4.5:1 over any backdrop** (checked in `pnpm test:themes`).
   **Any other text colour on glass** (brand, feedback, disabled) must sit on an opaque role background, such as `surface.selected` for the highlighted row.
   Tooltips stay solid `surface.inverse`, because they're too small for glass to read as glass.
-- **Modal underlay:** `backdrop-filter: blur(calc(var(--strata-glass-blur) / 4)) brightness(0.6)`. A `surface.inverse` tint turned dark mode into a grey fog (it's near-white there); dimming works the same in both schemes. (C3's call, accepted by the lead.)
+- **Modal underlay:** `backdrop-filter: blur(calc(var(--syntara-glass-blur) / 4)) brightness(0.6)`. A `surface.inverse` tint turned dark mode into a grey fog (it's near-white there); dimming works the same in both schemes. (C3's call, accepted by the lead.)
 - **Sticky chrome** (the site header, sticky table headers) may use glass too, with the same text rule.
 - Extra allowed literals for this style: `scale` numbers, `saturate(1.6)`, `4px` halo/translate distances.
 
@@ -135,30 +135,30 @@ pair it with `--strata-motion-duration-spring`).
 
 Premium comes from restraint and consistency, not more effects. Check every component against these rules:
 
-- **Fewer, fainter lines.** A surface gets a shadow *or* a visible border, not both at full strength. Cards: `--strata-shadow-raised`
+- **Fewer, fainter lines.** A surface gets a shadow *or* a visible border, not both at full strength. Cards: `--syntara-shadow-raised`
   plus a hairline edge in `border.subtle`. Dividers inside surfaces (table rows, list separators, card sections) are hairlines too.
   **Draw hairlines as box-shadow, not border-width:** Chrome rounds borders below 1px up to 1px, but shadows keep 0.5px. Edge:
-  `box-shadow: 0 0 0 var(--strata-hairline) var(--strata-color-border-subtle), …`; divider: an inset shadow. Keep `1px solid transparent`
+  `box-shadow: 0 0 0 var(--syntara-hairline) var(--syntara-color-border-subtle), …`; divider: an inset shadow. Keep `1px solid transparent`
   underneath so box sizes don't change and forced-colors mode still draws an edge.
 - **Squircle vs pills:** `corner-shape: squircle` turns pill radii into rounded rectangles. Where a radius token can be the pill value, restore
-  round ends with `@container style(--strata-radius-button: var(--strata-radius-pill))`. Badges (always pills) get no squircle. Nested rows use
-  `max(min(var(--strata-radius-badge), var(--strata-space-1)), outer − inset)`, so a pill badge radius doesn't turn rows into pills. Input borders and focus rings keep 1px+ `border.strong` / 2px ring (WCAG 1.4.11).
-- **Concentric corners.** A rounded thing inside a rounded thing: inner radius = `max(var(--strata-radius-badge), outer radius − inset)`,
+  round ends with `@container style(--syntara-radius-button: var(--syntara-radius-pill))`. Badges (always pills) get no squircle. Nested rows use
+  `max(min(var(--syntara-radius-badge), var(--syntara-space-1)), outer − inset)`, so a pill badge radius doesn't turn rows into pills. Input borders and focus rings keep 1px+ `border.strong` / 2px ring (WCAG 1.4.11).
+- **Concentric corners.** A rounded thing inside a rounded thing: inner radius = `max(var(--syntara-radius-badge), outer radius − inset)`,
   e.g. a button in a card footer or a row highlight in a menu. Never a larger radius inside a smaller one.
 - **Continuous corners where supported:** `@supports (corner-shape: squircle) { corner-shape: squircle; }` on containers, buttons, fields and badges.
   (Squircle corners look tighter, so this only adds smoothness; radii stay the same.)
-- **Tracking follows size.** Every text style sets `letter-spacing: var(--strata-font-tracking-<same size key>)` next to its `font-size`.
+- **Tracking follows size.** Every text style sets `letter-spacing: var(--syntara-font-tracking-<same size key>)` next to its `font-size`.
   Headings and large numbers read tight; captions read open. (0 for Arabic-capable type pairs, automatically.)
-- **Numbers are typography.** Stats and amounts: `tabular-nums`, `font-weight: var(--strata-font-weight-semibold)`, size-matched tracking.
+- **Numbers are typography.** Stats and amounts: `tabular-nums`, `font-weight: var(--syntara-font-weight-semibold)`, size-matched tracking.
   Currency and units can be a size smaller in `text.subtle`.
 - **Quiet chips.** Badges are soft pills: tinted background, no border, `font-weight: medium`, `font-size: xs` + tracking. Solid badges keep the highlight.
-  Status dots are small (6px via `calc(var(--strata-space-1) * 1.5)`), never shouting.
-- **Calm tints.** Callouts: soft tinted surface, a `--strata-hairline` edge in the tone's border colour, and the tone carried by the icon chip.
+  Status dots are small (6px via `calc(var(--syntara-space-1) * 1.5)`), never shouting.
+- **Calm tints.** Callouts: soft tinted surface, a `--syntara-hairline` edge in the tone's border colour, and the tone carried by the icon chip.
   No thick borders or heavy fills. (Alert and Toast now follow the **Surface recipe** below: a neutral face, with the tone only in the filled status shape.)
 - **Hierarchy through weight and colour, not size jumps.** Section labels in `text.subtle`, `font-size: sm`; table headers `text.subtle`, `font-weight: medium`, no background fill.
-- **Air.** Table rows use `--strata-table-row-height` with comfortable inline padding; card content breathes at `--strata-card-inset`.
-  Icon + text pairs align on the text's cap height, with a `--strata-space-2` gap.
-- **Icons match text.** Icons follow the text colour at ~1.25× the font size, and outline icons use `stroke-width: var(--strata-icon-stroke, 1.5)` (ADR-014). Don't set another width.
+- **Air.** Table rows use `--syntara-table-row-height` with comfortable inline padding; card content breathes at `--syntara-card-inset`.
+  Icon + text pairs align on the text's cap height, with a `--syntara-space-2` gap.
+- **Icons match text.** Icons follow the text colour at ~1.25× the font size, and outline icons use `stroke-width: var(--syntara-icon-stroke, 1.5)` (ADR-014). Don't set another width.
 - **Every state is intentional.** Hover is a quiet tint, press is the spring scale, selected is `surface.selected`, and focus is the ring plus halo. Nothing changes abruptly.
 
 ## Surface recipe (from Anuj's toast reference, 2026-09-27)
@@ -169,9 +169,9 @@ implementations: `src/ui/toast.module.css`, `src/ui/alert.module.css`). Use exac
 
 **1. Background layers.** Opaque face, sheen on top:
 ```css
---_face: var(--strata-color-surface-raised);
+--_face: var(--syntara-color-surface-raised);
 background:
-  var(--strata-sheen) padding-box,                           /* dark: a 115° band peaking at 6% text.default; light: none */
+  var(--syntara-sheen) padding-box,                           /* dark: a 115° band peaking at 6% text.default; light: none */
   linear-gradient(var(--_face), var(--_face)) padding-box,   /* the face */
   var(--_rim) border-box,                                    /* the rim, dark only (see 2) */
   var(--_face);                                              /* fills the border box under the rim */
@@ -179,44 +179,44 @@ background:
 - Write the layer list in this order and nothing else. No extra gradients, tints or glows.
 - The face is **opaque** `surface.raised`, not glass, even on floating layers such as Toast: the engine proves text.subtle
   ≥ 4.5:1 at the sheen's brightest pixel on an opaque `surface.raised`/`surface.default` only (theme-engine `test/exporters.test.ts`,
-  measured ≥ 7.25:1). Sheen over glass only with the face made 8 points more opaque (`calc(var(--strata-glass-opacity) * 100% + 8%)`): text.default/subtle then stay ≥ 4.72:1 over black and white backdrops for tenants and 1,000 fuzz brands (proof: `test/popover.test.tsx`). Without the offset it fails (3.67:1).
+  measured ≥ 7.25:1). Sheen over glass only with the face made 8 points more opaque (`calc(var(--syntara-glass-opacity) * 100% + 8%)`): text.default/subtle then stay ≥ 4.72:1 over black and white backdrops for tenants and 1,000 fuzz brands (proof: `test/popover.test.tsx`). Without the offset it fails (3.67:1).
 - The sheen is physical light from the top-left, like the rim and shadows: it doesn't mirror in RTL.
 - **Text on it:** only `text.default` and `text.subtle`. Brand, feedback and disabled colours go on their own opaque fill
   (a button, a badge) or into the status shape.
 
 **2. The edge.**
-- Draw a hairline plus the elevation shadow, both as box-shadow: `box-shadow: 0 0 0 var(--strata-hairline) var(--strata-color-border-subtle), <elevation>;`
-  - `<elevation>` is `--strata-shadow-raised` for inline containers (Alert, cards) and `--strata-shadow-overlay` for floating ones (Toast).
+- Draw a hairline plus the elevation shadow, both as box-shadow: `box-shadow: 0 0 0 var(--syntara-hairline) var(--syntara-color-border-subtle), <elevation>;`
+  - `<elevation>` is `--syntara-shadow-raised` for inline containers (Alert, cards) and `--syntara-shadow-overlay` for floating ones (Toast).
   - No heavier shadows, and no tone-coloured edges: the tone lives in the status shape.
 - Keep `border: 1px solid transparent`: the rim paints there, and forced-colours mode draws it as the edge.
-- Add the rim in dark only. `--strata-sheen` is `none` exactly in light schemes, so it serves as the scheme signal without naming a scheme:
+- Add the rim in dark only. `--syntara-sheen` is `none` exactly in light schemes, so it serves as the scheme signal without naming a scheme:
   ```css
   --_rim: linear-gradient(transparent, transparent);
-  @container not style(--strata-sheen: none) { .x { --_rim: linear-gradient(135deg, var(--strata-rim), transparent 60%); } }
+  @container not style(--syntara-sheen: none) { .x { --_rim: linear-gradient(135deg, var(--syntara-rim), transparent 60%); } }
   ```
   Browsers without style queries get no rim, which is fine.
 
 **3. Radius and padding.**
-- Radius: `border-radius: var(--strata-radius-container)`, plus `corner-shape: squircle` under `@supports`.
-- Padding: the density's card inset, easing down on narrow boxes: `--_inset: clamp(var(--strata-space-4), <5–7%>, var(--strata-card-inset))`.
+- Radius: `border-radius: var(--syntara-radius-container)`, plus `corner-shape: squircle` under `@supports`.
+- Padding: the density's card inset, easing down on narrow boxes: `--_inset: clamp(var(--syntara-space-4), <5–7%>, var(--syntara-card-inset))`.
   - Inline padding is `var(--_inset)`.
-  - Block padding is `min(var(--_inset), var(--strata-space-5))` for a two-line message (Toast) or `…space-6` (Alert), so a message doesn't read as a card.
-- Width: a message row wants about 416px (`calc(var(--strata-space-16) * 6.5)`; Toast's width).
+  - Block padding is `min(var(--_inset), var(--syntara-space-5))` for a two-line message (Toast) or `…space-6` (Alert), so a message doesn't read as a card.
+- Width: a message row wants about 416px (`calc(var(--syntara-space-16) * 6.5)`; Toast's width).
 
 **4. Message layout.** `[status shape | title over description] … [one action]`, everything vertically centred (`align-items: center`).
-- The shape and the text are one flex group (`flex: 1 1 calc(var(--strata-space-16) * 3–4)`). The action is a sibling with `flex: none`.
+- The shape and the text are one flex group (`flex: 1 1 calc(var(--syntara-space-16) * 3–4)`). The action is a sibling with `flex: none`.
   The row is `flex-wrap: wrap; justify-content: flex-end`, so on narrow boxes the action wraps under the message at the inline end.
   The wrap is intrinsic: no container query, and it doesn't collapse in shrink-to-fit parents.
-- **Status shape:** the filled icons from `@strata/icons` (`IconSealCheckFilled` success, `IconInfoCircleFilled` info/neutral,
+- **Status shape:** the filled icons from `@syntara/icons` (`IconSealCheckFilled` success, `IconInfoCircleFilled` info/neutral,
   `IconAlertCircleFilled` warning, `IconAlertTriangleFilled` danger, `IconCircleCheckFilled` / `IconCircleXFilled` where a circle fits better).
-  - Size: `var(--strata-space-6)` square.
-  - Colour: set on the wrapper, `color: var(--strata-color-feedback-<tone>-fg); --strata-icon-on: var(--strata-color-feedback-<tone>-bg);`.
-    `--strata-icon-on` is the knockout colour of the glyph; outside a component it falls back to the page surface.
+  - Size: `var(--syntara-space-6)` square.
+  - Colour: set on the wrapper, `color: var(--syntara-color-feedback-<tone>-fg); --syntara-icon-on: var(--syntara-color-feedback-<tone>-bg);`.
+    `--syntara-icon-on` is the knockout colour of the glyph; outside a component it falls back to the page surface.
   - Don't use `feedback.<tone>.solid` for the shape: it falls below 3:1 on `surface.raised` (warning light 2.08, success dark 2.93, info dark 2.99).
   - Neutral: `text.subtle` shape with a `surface.raised` knockout, or no icon.
   - Decorative (`aria-hidden`): the title carries the meaning in words, and each tone has its own shape.
 - **Title:** `text.default`, `font-size-md`, semibold, `line-height-snug`, tracking md.
-  **Description:** `text.subtle`, `font-size-sm`, `line-height-normal`, tracking sm. Gap `calc(var(--strata-space-1) * 0.5)`.
+  **Description:** `text.subtle`, `font-size-sm`, `line-height-normal`, tracking sm. Gap `calc(var(--syntara-space-1) * 0.5)`.
 - **Dismiss:** keep it named and in the tab order, 24px target.
   - A floating container puts it on the top-end corner (a small round `surface.raised` button), revealed on hover of that item or focus inside it, and always visible on the front item on `(hover: none)`. The row keeps a single action.
   - An inline container keeps a quiet 24px icon button after the action.
@@ -228,7 +228,7 @@ background:
 
 **6. Contrast proofs.** Every surface built on this recipe ships a test that proves the following, reading the roles it proves from the CSS so they can't drift:
 - the status shape (`feedback.<tone>.fg`) ≥ **3:1** (WCAG 1.4.11) against the face **and** against the face under the sheen's peak
-  (`surface.raised` mixed with `text.default` at the peak in sRGB; the peak is parsed from `--strata-sheen`);
+  (`surface.raised` mixed with `text.default` at the peak in sRGB; the peak is parsed from `--syntara-sheen`);
 - the knocked-out glyph (`feedback.<tone>.bg`) ≥ **4.5:1** against the shape;
 - all of it for every tenant (vela, harbor, qamar, care, house) × light/dark and the engine's 1,000 fuzz brands (`fuzzInputs()`).
 
@@ -248,18 +248,18 @@ only the surfaces do. Ratios are never rounded up. If you put anything else on t
 
 Vitest + Testing Library + user-event, jsdom. Per component: renders with an accessible name/role; main interaction
 works by keyboard (e.g. Space/Enter toggles, arrows move, Escape closes); disabled/invalid state reflected in ARIA;
-className passthrough. Run: `pnpm --filter @strata/react exec vitest run test/<name>.test.tsx`.
+className passthrough. Run: `pnpm --filter @syntara/react exec vitest run test/<name>.test.tsx`.
 
 ## Examples (`apps/docs/examples/<name>/*.tsx`)
 
-- Each file: `'use client';` then `export default function Example() { … }`. Import components from `'@strata/react'`.
+- Each file: `'use client';` then `export default function Example() { … }`. Import components from `'@syntara/react'`.
 - Realistic, domain-neutral copy (no lorem ipsum, no tenant names, no real companies). Short: 5–40 lines.
 - Examples are rendered inside a `ThemeScope` by the docs site and the playground, so don't set themes yourself.
 - `<name>-demo` is the hero; add 2–5 more covering variants/sizes/states/composition (e.g. `button-variants`, `button-sizes`, `button-loading`, `button-with-icon`).
 
 ## Visual check — the playground
 
-`pnpm --filter @strata/playground dev --port <your port>` then open
+`pnpm --filter @syntara/playground dev --port <your port>` then open
 `/?c=<name>&tenant=vela|harbor|qamar&scheme=light|dark&dir=ltr|rtl&density=comfortable|compact`.
 It renders every example in `apps/docs/examples/<name>/`. Screenshot with Playwright (Chromium is preinstalled;
 `playwright` is a root devDependency) across tenants × schemes × RTL and look at the images before you finish.

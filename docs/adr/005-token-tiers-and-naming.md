@@ -15,7 +15,7 @@
 - **Semantic** — role-based: `surface`, `text`, `border`, `action`, `accent`, `focus`, `feedback`. The fixed list is `ROLES` in `packages/theme-engine/src/types.ts`.
 - **Component** — only when a semantic token can't express it: `button.*`, `input.*`, `table.row.height.{comfortable,compact}`.
 - **Rule:** components never reference primitives.
-- **Names:** `color.<category>.<role>.<state>`, e.g. `color.action.primary.hover`. CSS prefix `--strata-`, dots → dashes, camelCase → kebab: `--strata-color-feedback-success-on-solid`.
+- **Names:** `color.<category>.<role>.<state>`, e.g. `color.action.primary.hover`. CSS prefix `--syntara-`, dots → dashes, camelCase → kebab: `--syntara-color-feedback-success-on-solid`.
 - **Modes:** brand × scheme × density. Direction is handled by logical CSS, not tokens (ADR-009).
 
 ## Alternatives considered

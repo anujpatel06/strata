@@ -1,6 +1,6 @@
 'use client';
 
-import { Checkbox } from '@strata/react';
+import { Checkbox } from '@syntara/react';
 
 export default function Example() {
   return (

@@ -1,5 +1,5 @@
 /**
- * The Strata MCP server: eight read-only tools and two resources (BRIEF §8, ADR-008).
+ * The Syntara MCP server: eight read-only tools and two resources (BRIEF §8, ADR-008).
  *
  * Every tool returns one text block of compact JSON. Errors are tool errors (`isError: true`) whose message
  * says what to do next. No tool writes a file.
@@ -21,20 +21,20 @@ import { TOKEN_CATEGORIES, getTokens, requireTenant } from './tokens';
 
 const here = dirname(fileURLToPath(import.meta.url));
 
-export const SERVER_NAME = 'strata';
+export const SERVER_NAME = 'syntara';
 export const SERVER_VERSION: string = (
   JSON.parse(readFileSync(join(here, '../package.json'), 'utf8')) as { version: string }
 ).version;
 
 export const INSTRUCTIONS = [
-  'Strata is a multi-brand design system: React components from @strata/react, styled only with var(--strata-*) tokens.',
+  'Syntara is a multi-brand design system: React components from @syntara/react, styled only with var(--syntara-*) tokens.',
   'This server is read-only. It has no tool that writes files; you make the edits.',
   'Before writing UI: list_components, then get_component or get_example for each component you use. Use get_pattern for a whole screen.',
-  'get_component lists imports (other packages the component needs, with exact names) and typeNotes (types that are easy to get wrong). No imports means @strata/react is all you need.',
-  'Icons: look up every name with find_icon before you import it from @strata/icons. Never guess a name; if nothing fits, use no icon.',
+  'get_component lists imports (other packages the component needs, with exact names) and typeNotes (types that are easy to get wrong). No imports means @syntara/react is all you need.',
+  'Icons: look up every name with find_icon before you import it from @syntara/icons. Never guess a name; if nothing fits, use no icon.',
   'Never write a raw colour, size, radius or font weight. Use find_token to turn a raw value into a token.',
   'After writing UI: audit_snippet. Each finding has a fix with safe: true or false.',
-  'Trust levels: you may apply fixes with safe: true yourself (ambient level). Every other fix, and anything that adds a component, changes a token or breaks an API, needs a person to decide. Read strata://agents for the rules.',
+  'Trust levels: you may apply fixes with safe: true yourself (ambient level). Every other fix, and anything that adds a component, changes a token or breaks an API, needs a person to decide. Read syntara://agents for the rules.',
 ].join('\n');
 
 export const TOOL_NAMES = [
@@ -49,8 +49,8 @@ export const TOOL_NAMES = [
 ] as const;
 
 export const RESOURCES = {
-  agents: { uri: 'strata://agents', file: 'AGENTS.md', title: 'AGENTS.md', description: 'Rules for AI agents working with Strata, including trust levels.' },
-  governance: { uri: 'strata://governance', file: 'GOVERNANCE.md', title: 'GOVERNANCE.md', description: 'How Strata changes: who decides, versioning, deprecation, trust levels.' },
+  agents: { uri: 'syntara://agents', file: 'AGENTS.md', title: 'AGENTS.md', description: 'Rules for AI agents working with Syntara, including trust levels.' },
+  governance: { uri: 'syntara://governance', file: 'GOVERNANCE.md', title: 'GOVERNANCE.md', description: 'How Syntara changes: who decides, versioning, deprecation, trust levels.' },
 } as const;
 
 /** The largest snippet audit_snippet accepts, in characters. */
@@ -103,7 +103,7 @@ const schemeInput = z.enum(['light', 'dark']).optional().describe('Colour scheme
 const READ_ONLY = { readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: false } as const;
 
 export interface ServerOptions {
-  /** The Strata repo. Default: STRATA_ROOT, or the repo this package sits in. */
+  /** The Syntara repo. Default: SYNTARA_ROOT, or the repo this package sits in. */
   root?: string;
 }
 
@@ -115,7 +115,7 @@ export function createServer(options: ServerOptions = {}): McpServer {
     'list_components',
     {
       description:
-        'Lists every Strata component with its maturity and purpose. Call it first, before you pick components for a screen.',
+        'Lists every Syntara component with its maturity and purpose. Call it first, before you pick components for a screen.',
       inputSchema: {
         category: z.enum(CATEGORIES).optional().describe('Only return components in this category.'),
       },
@@ -205,7 +205,7 @@ export function createServer(options: ServerOptions = {}): McpServer {
     'audit_snippet',
     {
       description:
-        'Checks code for drift from Strata: raw values, native elements, physical CSS properties, missing accessible names, deprecated APIs. Returns findings with a fix each, and a score from 0 to 100. Call it on code you wrote before you show it.',
+        'Checks code for drift from Syntara: raw values, native elements, physical CSS properties, missing accessible names, deprecated APIs. Returns findings with a fix each, and a score from 0 to 100. Call it on code you wrote before you show it.',
       inputSchema: {
         code: z.string().min(1).max(MAX_SNIPPET).describe(`The source to check, up to ${MAX_SNIPPET} characters.`),
         language: z.enum(['tsx', 'css']).optional().describe('"tsx" or "css". Default "tsx".'),
@@ -254,7 +254,7 @@ export function createServer(options: ServerOptions = {}): McpServer {
     'find_icon',
     {
       description:
-        'Finds icons in @strata/icons by name or meaning, best first, with the group each belongs to. Call it for every icon before you import it; when nothing matches it says so and lists the closest real names.',
+        'Finds icons in @syntara/icons by name or meaning, best first, with the group each belongs to. Call it for every icon before you import it; when nothing matches it says so and lists the closest real names.',
       inputSchema: {
         query: z.string().min(1).max(64).describe('What the icon shows, e.g. "trash", "arrow down", "award", or a name you expect such as "IconMailOpened".'),
         limit: z.number().int().min(1).max(30).optional().describe(`How many icons to return, 1 to 30. Default ${DEFAULT_ICON_LIMIT}.`),
@@ -274,7 +274,7 @@ export function createServer(options: ServerOptions = {}): McpServer {
         if (!existsSync(file)) {
           throw new McpError(
             ErrorCode.InvalidParams,
-            `${r.uri} not found: ${r.file} does not exist at the root of the Strata repo. Tell the user; don't make up its content.`,
+            `${r.uri} not found: ${r.file} does not exist at the root of the Syntara repo. Tell the user; don't make up its content.`,
           );
         }
         return { contents: [{ uri: uri.href, mimeType: 'text/markdown', text: readFileSync(file, 'utf8') }] };

@@ -1,8 +1,8 @@
-# Strata — Build Brief
+# Syntara — Build Brief
 
 > **How to use:** create an empty repo, save this file as `BRIEF.md`, open Claude Code and say:
 > *"Read BRIEF.md end to end. Do Phase 0 only, then stop for my review."*
-> "Strata", the tenant names and the package scope are working names — rename freely.
+> "Syntara", the tenant names and the package scope are working names — rename freely.
 
 ---
 
@@ -16,7 +16,7 @@ I own design decisions. You pair with me on engineering and push back when I'm w
 
 ## 1. What we're building
 
-**Strata — a multi-brand design system that humans and AI agents build with.**
+**Syntara — a multi-brand design system that humans and AI agents build with.**
 
 1. **Brand Generator** — produces a complete, accessible theme for a new brand from ≤6 inputs.
 2. **One React library** — renders every brand from one codebase, in light/dark, comfortable/compact, LTR/RTL.
@@ -70,7 +70,7 @@ Content comes from `tenants/<name>/content.json`. Realistic copy and data — no
 pnpm workspaces monorepo:
 
 ```
-strata/
+syntara/
   packages/
     tokens/        DTCG 2025.10 JSON → CSS vars, TS types, Figma-variables JSON
     theme-engine/  brand inputs → full semantic token set (OKLCH) + contrast solver
@@ -99,7 +99,7 @@ strata/
 
 **Modes:** brand × scheme (light/dark) × density (comfortable/compact). Direction is handled by logical CSS, not tokens.
 
-**Format:** W3C DTCG Format Module 2025.10 — `$value`, `$type`, `$description`, `{alias}` references, Strata metadata under `$extensions` (e.g. `com.strata.deprecated`, `com.strata.since`). Build tool (Style Dictionary v4+ vs Terrazzo) decided in ADR-001.
+**Format:** W3C DTCG Format Module 2025.10 — `$value`, `$type`, `$description`, `{alias}` references, Syntara metadata under `$extensions` (e.g. `com.syntara.deprecated`, `com.syntara.since`). Build tool (Style Dictionary v4+ vs Terrazzo) decided in ADR-001.
 
 ---
 
@@ -183,12 +183,12 @@ Expose `AGENTS.md` as a resource. Runnable via `npx`. Setup docs for Claude Code
 
 ## 9. Drift auditor
 
-`strata audit <path> [--format json|html]`
+`syntara audit <path> [--format json|html]`
 
-**Checks:** raw colours (hex / rgb / hsl / oklch) in TSX/CSS · off-scale spacing, radius and font sizes · font-family literals · native elements where a Strata component exists (`<button>`, `<input>`, `<select>`, `<table>`) · physical CSS properties → logical · missing accessible names (basic).
+**Checks:** raw colours (hex / rgb / hsl / oklch) in TSX/CSS · off-scale spacing, radius and font sizes · font-family literals · native elements where a Syntara component exists (`<button>`, `<input>`, `<select>`, `<table>`) · physical CSS properties → logical · missing accessible names (basic).
 
-**Score:** 0–100, severity-weighted; formula documented in the README. Every finding carries a suggested fix (reuse `find_token`). HTML report is styled with Strata itself.
-**Autofix (ADR-018):** `strata audit --fix` applies a fix only where there's one safe answer (exact token match, physical → logical property). Everything else stays a suggestion. The MCP `audit_snippet` tool runs the same engine. Raw-colour linting alone overlaps with `@shadcn/lint`; the native-element, logical-property and accessible-name checks are what set this apart.
+**Score:** 0–100, severity-weighted; formula documented in the README. Every finding carries a suggested fix (reuse `find_token`). HTML report is styled with Syntara itself.
+**Autofix (ADR-018):** `syntara audit --fix` applies a fix only where there's one safe answer (exact token match, physical → logical property). Everything else stays a suggestion. The MCP `audit_snippet` tool runs the same engine. Raw-colour linting alone overlaps with `@shadcn/lint`; the native-element, logical-property and accessible-name checks are what set this apart.
 **CI gate:** `apps/reference` must score ≥95. Publish a badge.
 
 ---
@@ -197,10 +197,10 @@ Expose `AGENTS.md` as a resource. Runnable via `npx`. Setup docs for Claude Code
 
 - 25 prompts in `evals/prompts/` spanning real screens (e.g. "Build a transactions page with filters and CSV export", "Add a two-factor settings section").
 - Run each with Claude Code headless (`claude -p`) in a fresh worktree, twice:
-  **A** — Strata installed, no MCP, no AGENTS.md
-  **B** — Strata MCP (`--mcp-config`) + AGENTS.md
+  **A** — Syntara installed, no MCP, no AGENTS.md
+  **B** — Syntara MCP (`--mcp-config`) + AGENTS.md
   Same model, same prompts. Use `--strict-mcp-config` in both runs so no user-level MCP servers leak in.
-- Score each output: `strata audit` score · axe violations (render via Playwright) · renders without error.
+- Score each output: `syntara audit` score · axe violations (render via Playwright) · renders without error.
 - Output `evals/results.md` + a chart for `/story`: median audit score A vs B, % of runs fully on-system, a11y violations per screen.
 - **Report whatever the numbers are.** If B doesn't beat A, that's a finding: improve meta/AGENTS.md, re-run, and show the delta across iterations. Cap at 25 × 2 runs per iteration.
 
@@ -283,7 +283,7 @@ Max ~600 words of prose on the page. Everything else is interactive or visual.
 ## 15. Definition of done
 
 - [ ] Brand Generator live: anyone pastes a hex and sees 3 screens re-skin with an accessible theme in <1s.
-- [ ] `@<scope>/strata-tokens`, `strata-react`, `strata-mcp` published; `npx` MCP works in Claude Code and Cursor.
+- [ ] `@<scope>/syntara-tokens`, `syntara-react`, `syntara-mcp` published; `npx` MCP works in Claude Code and Cursor.
 - [ ] 3 tenants × 3 screens × light/dark × comfortable/compact, one tenant in Arabic RTL.
 - [ ] Theme fuzz result, audit score and eval A vs B — all reproducible from scripts.
 - [ ] ≥8 ADRs, GOVERNANCE.md, one real deprecation shipped with a codemod.

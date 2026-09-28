@@ -30,7 +30,7 @@ import {
   type LinkProps as RACLinkProps,
   type PressEvent,
 } from 'react-aria-components';
-import { IconChevronDown, IconDotsVertical, IconLayoutSidebar, IconSearch, IconSquareSmall } from '@strata/icons';
+import { IconChevronDown, IconDotsVertical, IconLayoutSidebar, IconSearch, IconSquareSmall } from '@syntara/icons';
 import { Avatar } from './avatar';
 import { Badge } from './badge';
 import { Kbd } from './kbd';
@@ -41,7 +41,7 @@ import styles from './sidebar.module.css';
 
 const cx = (...c: Array<string | false | null | undefined>) => c.filter(Boolean).join(' ');
 
-// The collapse toggle's glyph and the nested-item bullet live in @strata/icons with every other icon.
+// The collapse toggle's glyph and the nested-item bullet live in @syntara/icons with every other icon.
 const IconSidebarPanel = IconLayoutSidebar;
 const IconBullet = IconSquareSmall;
 
@@ -330,7 +330,7 @@ interface SidebarItemOwnProps {
   children: ReactNode;
   /** The group's label when the children are nested items. Optional: plain children before the items work too. */
   label?: ReactNode;
-  /** Leading icon from @strata/icons. Needed for the collapsed mode. Nested items default to a small square bullet. */
+  /** Leading icon from @syntara/icons. Needed for the collapsed mode. Nested items default to a small square bullet. */
   icon?: ReactNode;
   /** Marks the current page: `aria-current="page"` and the raised pill (plus the brand marker when nested). */
   isCurrent?: boolean;

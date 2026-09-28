@@ -1,7 +1,7 @@
 import { StrictMode, type ComponentType } from 'react';
 import { createRoot } from 'react-dom/client';
-import { generateTheme, toCSS, googleFontsHref, type BrandInput } from '@strata/theme-engine';
-import { ThemeScope } from '@strata/react';
+import { generateTheme, toCSS, googleFontsHref, type BrandInput } from '@syntara/theme-engine';
+import { ThemeScope } from '@syntara/react';
 import vela from '../../../tenants/vela/brand.json';
 import harbor from '../../../tenants/harbor/brand.json';
 import qamar from '../../../tenants/qamar/brand.json';
@@ -24,7 +24,7 @@ const dir = q.get('dir') === 'rtl' ? 'rtl' : 'ltr';
 const density = q.get('density') === 'compact' ? 'compact' : q.get('density') === 'comfortable' ? 'comfortable' : undefined;
 
 const css = Object.entries(TENANTS)
-  .map(([id, brand]) => toCSS(generateTheme(brand), { selector: `[data-strata-theme="${id}"]` }))
+  .map(([id, brand]) => toCSS(generateTheme(brand), { selector: `[data-syntara-theme="${id}"]` }))
   .join('\n');
 const style = document.createElement('style');
 style.textContent = css + `\nhtml,body{margin:0}`;
@@ -48,7 +48,7 @@ function App() {
     const comps = [...new Set(examples.map((e) => e.comp))].sort();
     return (
       <ThemeScope theme={tenant} scheme={scheme} style={{ minHeight: '100vh', padding: 24 }}>
-        <h1 style={{ marginTop: 0 }}>Strata playground</h1>
+        <h1 style={{ marginTop: 0 }}>Syntara playground</h1>
         <ul>{comps.map((x) => <li key={x}><a href={`?c=${x}&tenant=${tenant}&scheme=${scheme}`}>{x}</a></li>)}</ul>
       </ThemeScope>
     );
@@ -60,8 +60,8 @@ function App() {
         {list.length === 0 && <p>No examples found for “{c}”.</p>}
         {list.map(({ name, Component }) => (
           <section key={name} data-example={name} style={{ display: 'grid', gap: 12 }}>
-            <p style={{ margin: 0, fontFamily: 'var(--strata-font-mono)', fontSize: 12, color: 'var(--strata-color-text-subtle)' }}>{name}</p>
-            <div style={{ border: '1px solid var(--strata-color-border-default)', borderRadius: 'var(--strata-radius-container)', padding: 32, minHeight: 120, display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'var(--strata-color-surface-default)' }}>
+            <p style={{ margin: 0, fontFamily: 'var(--syntara-font-mono)', fontSize: 12, color: 'var(--syntara-color-text-subtle)' }}>{name}</p>
+            <div style={{ border: '1px solid var(--syntara-color-border-default)', borderRadius: 'var(--syntara-radius-container)', padding: 32, minHeight: 120, display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'var(--syntara-color-surface-default)' }}>
               <div style={{ inlineSize: '100%', maxInlineSize: 720, display: 'flex', justifyContent: 'center' }}><Component /></div>
             </div>
           </section>

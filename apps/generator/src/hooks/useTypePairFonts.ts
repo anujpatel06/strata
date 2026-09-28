@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { TYPE_PAIRS, googleFontsHref, type TypePair, type TypePairId } from '@strata/theme-engine';
+import { TYPE_PAIRS, googleFontsHref, type TypePair, type TypePairId } from '@syntara/theme-engine';
 
 /** Stylesheet hrefs already injected into <head>. Module-level so each pair loads at most once per page. */
 const injected = new Set<string>();
@@ -18,7 +18,7 @@ export function loadTypePairFonts(pair: TypePair): void {
   const link = document.createElement('link');
   link.rel = 'stylesheet';
   link.href = href;
-  link.dataset.strataFonts = pair.id;
+  link.dataset.syntaraFonts = pair.id;
   document.head.appendChild(link);
 }
 

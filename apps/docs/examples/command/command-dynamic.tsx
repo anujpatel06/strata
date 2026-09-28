@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Button, CommandDialog, CommandItem } from '@strata/react';
+import { Button, CommandDialog, CommandItem } from '@syntara/react';
 
 const people = [
   { id: 'pr', name: 'Priya Raman', team: 'Finance' },

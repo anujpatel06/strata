@@ -16,7 +16,7 @@ Three levels, published in `AGENTS.md` and served as an MCP resource:
 
 | Level | Agents may | Human role | Example |
 |---|---|---|---|
-| **Ambient** | auto-fix token drift | none; visible in the diff | `#1f56e0` → `var(--strata-color-action-primary-bg)` |
+| **Ambient** | auto-fix token drift | none; visible in the diff | `#1f56e0` → `var(--syntara-color-action-primary-bg)` |
 | **Soft gate** | open PRs for docs, meta, stories | approves | add a missing story |
 | **Hard gate** | propose only | RFC + design review + merge | new component, token-tier change, breaking change |
 

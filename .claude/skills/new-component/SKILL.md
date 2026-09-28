@@ -1,6 +1,6 @@
 ---
 name: new-component
-description: Scaffold and build a new Strata component end to end (tsx, CSS module, meta.json, tests, docs examples, registry) following packages/react/CONVENTIONS.md.
+description: Scaffold and build a new Syntara component end to end (tsx, CSS module, meta.json, tests, docs examples, registry) following packages/react/CONVENTIONS.md.
 argument-hint: "<kebab-name> [what it is for]"
 ---
 
@@ -15,7 +15,7 @@ New component: $ARGUMENTS
    - `packages/react/meta/<name>.meta.json`
    - `packages/react/test/<name>.test.tsx`
    - `apps/docs/examples/<name>/<name>-demo.tsx` + 2–5 more examples
-5. Run `pnpm --filter @strata/react gen:index`, then the component's tests, `pnpm check:meta` and `pnpm registry`.
+5. Run `pnpm --filter @syntara/react gen:index`, then the component's tests, `pnpm check:meta` and `pnpm registry`.
 6. Run `/screenshots <name>` in the playground and fix what you see.
 7. The docs page is generated from the meta file automatically. Check `/docs/components/<name>`.
 8. Add a line to `docs/log.md`.

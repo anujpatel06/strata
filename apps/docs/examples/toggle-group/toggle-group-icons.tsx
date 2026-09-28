@@ -1,7 +1,7 @@
 'use client';
 
-import { ToggleButton, ToggleButtonGroup } from '@strata/react';
-import { IconLayoutGrid, IconLayoutList, IconTable } from '@strata/icons';
+import { ToggleButton, ToggleButtonGroup } from '@syntara/react';
+import { IconLayoutGrid, IconLayoutList, IconTable } from '@syntara/icons';
 
 export default function Example() {
   return (

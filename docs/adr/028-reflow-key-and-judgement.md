@@ -15,9 +15,9 @@ Three faults, each found by measuring and not by review:
 ## Decision
 
 - **ToggleButtonGroup wraps onto more rows inside the same track.** A label longer than the track wraps inside its segment. CSS only, no new prop. Nothing changes when the options fit: 240 of 240 screenshots of the existing examples are pixel-identical.
-- **`@strata/react` exports the type `Key`.** Type-only and additive. It sits beside `Selection`, which was already exported the same way.
+- **`@syntara/react` exports the type `Key`.** Type-only and additive. It sits beside `Selection`, which was already exported the same way.
 - **StatTile marks bad news with a shape.** A filled alert mark replaces the trend arrow on a bad change; good news keeps its arrow; no change has no mark. The sign always shows direction. Screen readers hear a word after the number, from two new props, `betterLabel` and `worseLabel`, so it can be translated.
-- **The new glyphs are proven:** 5.43:1 and 6.18:1 against the pill, across tenants and 1,000 fuzz brands — `pnpm --filter @strata/react exec vitest run test/stat-tile.test.tsx`.
+- **The new glyphs are proven:** 5.43:1 and 6.18:1 against the pill, across tenants and 1,000 fuzz brands — `pnpm --filter @syntara/react exec vitest run test/stat-tile.test.tsx`.
 
 ## Alternatives considered
 

@@ -2,7 +2,7 @@
 
 import { useId, type HTMLAttributes, type JSX, type ReactNode, type Ref } from 'react';
 import { Button as AriaButton } from 'react-aria-components';
-import { IconAlertCircleFilled, IconAlertTriangleFilled, IconInfoCircleFilled, IconSealCheckFilled, IconX } from '@strata/icons';
+import { IconAlertCircleFilled, IconAlertTriangleFilled, IconInfoCircleFilled, IconSealCheckFilled, IconX } from '@syntara/icons';
 import styles from './alert.module.css';
 
 const cx = (...c: Array<string | false | null | undefined>) => c.filter(Boolean).join(' ');

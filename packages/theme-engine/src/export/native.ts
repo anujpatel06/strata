@@ -5,7 +5,7 @@
  * The model is built from the OUTPUT of toCssVariables(), for both schemes and both densities, so a
  * token added to the CSS contract reaches the Kotlin and Swift files without this file naming it:
  *
- *   --strata-<family>-<rest>  →  group (a data class / struct) + property (camelCase)
+ *   --syntara-<family>-<rest>  →  group (a data class / struct) + property (camelCase)
  *
  * Known families get a group and a unit (the RULES below). A family nobody has seen yet gets its own
  * group, named after its first segment, with the unit read from the value. A value that can't be
@@ -16,7 +16,7 @@
  * (Compose Color(0xFFRRGGBB), SwiftUI sRGB components over 255). No Display P3, no re-derivation
  * from OKLCH: that would change the values the contrast solver checked.
  *
- * Tokens only. Strata ships no native components (ADR-019).
+ * Tokens only. Syntara ships no native components (ADR-019).
  */
 import { toCssVariables } from '../css-vars';
 import { checkScheme } from '../roles';
@@ -35,8 +35,8 @@ export type NativeKind =
   | 'number' //        Float                     · Double
   | 'fontWeight' //    FontWeight                · Font.Weight
   | 'durationMs' //    Int (ms)                  · TimeInterval (s)
-  | 'cubicBezier' //   CubicBezierEasing         · StrataCubicBezier
-  | 'shadow' //        List<StrataShadowLayer>   · [StrataShadowLayer]
+  | 'cubicBezier' //   CubicBezierEasing         · SyntaraCubicBezier
+  | 'shadow' //        List<SyntaraShadowLayer>   · [SyntaraShadowLayer]
   | 'fontFamilies'; // List<String>              · [String]
 
 export interface NativeColor {
@@ -76,7 +76,7 @@ export interface NativeEntry {
 export interface NativeGroup {
   /** Type name: data class (Kotlin) and struct (Swift). */
   cls: string;
-  /** Accessor on StrataTheme, mirroring the CSS name: --strata-font-size-md → fontSize.md. */
+  /** Accessor on SyntaraTheme, mirroring the CSS name: --syntara-font-size-md → fontSize.md. */
   accessor: string;
   varies: NativeVaries;
   /** 'light' | 'dark', 'comfortable' | 'compact', or 'base'. */
@@ -100,11 +100,11 @@ export interface NativeModel {
  * packages/tokens/README-native.md with the same reason; a test checks both lists agree.
  */
 export const NATIVE_EXCLUSIONS: Readonly<Record<string, string>> = {
-  '--strata-motion-spring':
+  '--syntara-motion-spring':
     'A CSS linear() easing sampled from a spring. Neither platform takes a sampled curve. The spring itself (mass, stiffness, damping) is exported as `spring`, which Compose spring() and SwiftUI interpolatingSpring take directly.',
-  '--strata-sheen':
+  '--syntara-sheen':
     'A CSS linear-gradient (dark scheme only; "none" in light). Its angle is measured against the web box, so it has no fixed native value. It is decoration: a band of text.default at low opacity. An app that wants it can draw it with Brush.linearGradient or LinearGradient.',
-  '--strata-hairline':
+  '--syntara-hairline':
     'One device pixel on the web (1px, then 0.5px on 2× screens via a media query). Both platforms have this built in: Compose Dp.Hairline, SwiftUI 1 / displayScale from the environment.',
 };
 
@@ -126,7 +126,7 @@ interface GroupSpec {
 
 const G = {
   colors: {
-    cls: 'StrataColors',
+    cls: 'SyntaraColors',
     accessor: 'colors',
     varies: 'scheme',
     kind: 'color',
@@ -134,7 +134,7 @@ const G = {
       'Semantic colour roles and the chart palette for one colour scheme. Exact 8-bit sRGB values from the engine. `pnpm tokens` re-checks every contrast pair on the values as written.',
   },
   effects: {
-    cls: 'StrataEffects',
+    cls: 'SyntaraEffects',
     accessor: 'effects',
     varies: 'scheme',
     doc: (p) =>
@@ -144,10 +144,10 @@ const G = {
         : 'stack one .shadow() per layer; SwiftUI has no spread or inset, so those layers need custom drawing.') +
       ' Glass: glassBg is surface.raised at glassOpacity, which keeps body and secondary text at 4.5:1 over a black or white backdrop.',
   },
-  space: { cls: 'StrataSpace', accessor: 'space', varies: 'none', kind: 'dimension', doc: (p) => `Space scale, 4-point grid. Keys are multipliers: x4 = 4 × 4 = 16 ${p === 'compose' ? 'dp' : 'pt'}.` },
-  radius: { cls: 'StrataRadius', accessor: 'radius', varies: 'none', kind: 'dimension', doc: () => 'Corner radii. Follows the brand\'s shape input. 9999 means "fully round".' },
+  space: { cls: 'SyntaraSpace', accessor: 'space', varies: 'none', kind: 'dimension', doc: (p) => `Space scale, 4-point grid. Keys are multipliers: x4 = 4 × 4 = 16 ${p === 'compose' ? 'dp' : 'pt'}.` },
+  radius: { cls: 'SyntaraRadius', accessor: 'radius', varies: 'none', kind: 'dimension', doc: () => 'Corner radii. Follows the brand\'s shape input. 9999 means "fully round".' },
   fontFamily: {
-    cls: 'StrataFontFamilies',
+    cls: 'SyntaraFontFamilies',
     accessor: 'fontFamily',
     varies: 'none',
     kind: 'fontFamilies',
@@ -155,18 +155,18 @@ const G = {
       'Font family names in fallback order. The app must bundle these fonts and follow their licences; web fallbacks are left out because the system font is the native fallback. An empty list means the system font.',
   },
   fontSize: {
-    cls: 'StrataFontSizes',
+    cls: 'SyntaraFontSizes',
     accessor: 'fontSize',
     varies: 'none',
     kind: 'fontSize',
     doc: (p) =>
       p === 'compose'
         ? 'Type scale in sp, so sizes follow the user\'s font size setting.'
-        : 'Type scale in points at the default text size. Use StrataTheme.font(family:size:weight:) so sizes follow Dynamic Type.',
+        : 'Type scale in points at the default text size. Use SyntaraTheme.font(family:size:weight:) so sizes follow Dynamic Type.',
   },
-  fontWeight: { cls: 'StrataFontWeights', accessor: 'fontWeight', varies: 'none', kind: 'fontWeight', doc: () => 'Font weights. The bundled font must include each weight (or be a variable font).' },
+  fontWeight: { cls: 'SyntaraFontWeights', accessor: 'fontWeight', varies: 'none', kind: 'fontWeight', doc: () => 'Font weights. The bundled font must include each weight (or be a variable font).' },
   lineHeight: {
-    cls: 'StrataLineHeights',
+    cls: 'SyntaraLineHeights',
     accessor: 'lineHeight',
     varies: 'none',
     kind: 'em',
@@ -176,7 +176,7 @@ const G = {
         : 'Line heights as a multiple of the font size, like CSS. Exact on iOS: NSParagraphStyle minimum and maximum line height = multiple × point size. SwiftUI .lineSpacing() adds space between lines, so pass (multiple × size) − the font\'s own line height.',
   },
   tracking: {
-    cls: 'StrataTracking',
+    cls: 'SyntaraTracking',
     accessor: 'tracking',
     varies: 'none',
     kind: 'em',
@@ -186,24 +186,24 @@ const G = {
         : 'Letter spacing as a multiple of the font size. SwiftUI .tracking() takes points: pass value × size. 0 where the script of the type pair must not be letter-spaced (Arabic, Devanagari): spacing breaks the joins.',
   },
   motion: {
-    cls: 'StrataMotion',
+    cls: 'SyntaraMotion',
     accessor: 'motion',
     varies: 'none',
     doc: (p) =>
       p === 'compose'
         ? 'Durations in milliseconds (tween(durationMillis = …)) and easing curves.'
-        : 'Durations in seconds and easing curves (StrataCubicBezier.animation(duration:)).',
+        : 'Durations in seconds and easing curves (SyntaraCubicBezier.animation(duration:)).',
   },
   spring: {
-    cls: 'StrataSpring',
+    cls: 'SyntaraSpring',
     accessor: 'spring',
     varies: 'none',
     kind: 'number',
     doc: () => 'The damped spring the web samples into linear(), as physics: mass, stiffness, damping.',
   },
-  icon: { cls: 'StrataIcon', accessor: 'icon', varies: 'none', kind: 'number', doc: () => 'Icon stroke width, unitless, in the icon\'s own 24 × 24 drawing units.' },
+  icon: { cls: 'SyntaraIcon', accessor: 'icon', varies: 'none', kind: 'number', doc: () => 'Icon stroke width, unitless, in the icon\'s own 24 × 24 drawing units.' },
   density: {
-    cls: 'StrataDensityTokens',
+    cls: 'SyntaraDensityTokens',
     accessor: 'density',
     varies: 'density',
     kind: 'dimension',
@@ -229,7 +229,7 @@ const EM = /^-?(?:\d+\.?\d*|\.\d+)em$/;
 /** A font stack: not a bare number or a length. */
 const isStack = (v: string): boolean => !/^-?(?:\d+\.?\d*|\.\d+)(px|em|ms|%)?$/.test(v.trim());
 
-/** First match wins. Names are without the "--strata-" prefix. */
+/** First match wins. Names are without the "--syntara-" prefix. */
 const RULES: readonly Rule[] = [
   { re: /^color-(.+)$/, group: G.colors, prop: (m) => m[1]! },
   { re: /^chart-(.+)$/, group: G.colors, prop: (m) => `chart-${m[1]}` },
@@ -264,7 +264,7 @@ export function nativePropName(key: string): string {
 /** Name of the instance holding one variant of a group, as the exporters write it. */
 export function nativeInstanceName(platform: NativePlatform, group: Pick<NativeGroup, 'cls' | 'accessor'>, variant: string): string {
   // Constant groups are named after their class ("FontWeights"), never after a platform type ("FontWeight").
-  if (platform === 'compose') return variant === 'base' ? group.cls.replace(/^Strata/, '') : `${pascal(variant)}${pascal(group.accessor)}`;
+  if (platform === 'compose') return variant === 'base' ? group.cls.replace(/^Syntara/, '') : `${pascal(variant)}${pascal(group.accessor)}`;
   return variant === 'base' ? group.accessor : variant;
 }
 
@@ -412,7 +412,7 @@ export function buildNativeModel(theme: Theme, opts: NativeModelOptions = {}): N
   // Density tokens come from the Theme's shape, so the group follows DensityTokens without naming its keys.
   const densityVars = new Map<string, string>();
   for (const key of Object.keys(theme.foundations.density[defaultDensity])) {
-    densityVars.set(`--strata-${key.replace(/[A-Z]/g, (m) => '-' + m.toLowerCase())}`, key);
+    densityVars.set(`--syntara-${key.replace(/[A-Z]/g, (m) => '-' + m.toLowerCase())}`, key);
   }
 
   const googleFamilies = new Set(theme.typePair.googleFamilies);
@@ -452,7 +452,7 @@ export function buildNativeModel(theme: Theme, opts: NativeModelOptions = {}): N
       excluded.push({ cssVar: name, reason });
       continue;
     }
-    const short = name.replace(/^--strata-/, '');
+    const short = name.replace(/^--syntara-/, '');
     let spec: GroupSpec;
     let key: string;
     const densityKey = densityVars.get(name);
@@ -469,10 +469,10 @@ export function buildNativeModel(theme: Theme, opts: NativeModelOptions = {}): N
       const byScheme = densities.some((d) => vars.light[d]![name] !== vars.dark[d]![name]);
       const byDensity = SCHEMES.some((s) => new Set(densities.map((d) => vars[s][d]![name])).size > 1);
       spec = {
-        cls: `Strata${pascal(nativePropName(family!))}`,
+        cls: `Syntara${pascal(nativePropName(family!))}`,
         accessor: nativePropName(family!),
         varies: byScheme ? 'scheme' : byDensity ? 'density' : 'none',
-        doc: () => `--strata-${family}-* tokens.`,
+        doc: () => `--syntara-${family}-* tokens.`,
       };
       key = rest.length ? rest.join('-') : family!;
     }

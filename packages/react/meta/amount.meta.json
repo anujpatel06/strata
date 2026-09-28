@@ -16,7 +16,7 @@
   ],
   "registryDependencies": [],
   "reactAria": "https://react-spectrum.adobe.com/react-aria/useLocale.html",
-  "usage": "import { Amount } from '@strata/react';\n\nexport function WalletBalance() {\n  return <Amount value={18000} currency=\"INR\" locale=\"en-IN\" size=\"xl\" />;\n}",
+  "usage": "import { Amount } from '@syntara/react';\n\nexport function WalletBalance() {\n  return <Amount value={18000} currency=\"INR\" locale=\"en-IN\" size=\"xl\" />;\n}",
   "examples": [
     {
       "name": "amount-demo",

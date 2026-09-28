@@ -13,8 +13,8 @@ import {
   SidebarHeader,
   SidebarItem,
   SidebarSection,
-} from '@strata/react';
-import { IconLayoutDashboard, IconSparkles, IconTrendingUp, IconWallet } from '@strata/icons';
+} from '@syntara/react';
+import { IconLayoutDashboard, IconSparkles, IconTrendingUp, IconWallet } from '@syntara/icons';
 
 export default function Example() {
   return (

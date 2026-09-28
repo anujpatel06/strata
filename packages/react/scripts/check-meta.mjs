@@ -14,7 +14,7 @@
  *
  * Maturity criteria (the "Maturity" section of apps/docs/content/docs/governance.mdx; keep the two in step):
  *   alpha  = the floor: ≥3 examples · a test file · if meta lists keyboard interactions, a test drives the keyboard.
- *   beta   = alpha + imported from '@strata/react' by a block (apps/docs/blocks/**) or the homepage showcase.
+ *   beta   = alpha + imported from '@syntara/react' by a block (apps/docs/blocks/**) or the homepage showcase.
  *   stable = beta + published on npm + a dated manual accessibility review (meta.review.a11y).
  * A declared beta or stable that misses a criterion is an error. A declared alpha that misses the floor is a warning:
  * there is no lower level to move it to, so the gap is listed until someone closes it. Axe (0 violations on the docs
@@ -39,7 +39,7 @@ const CATEGORIES = ['actions', 'inputs', 'overlays', 'feedback', 'display', 'nav
 const MATURITY = ['alpha', 'beta', 'stable'];
 
 /**
- * @strata/react has never been published to npm (0.1.0 is built, not released), so nothing may be declared stable.
+ * @syntara/react has never been published to npm (0.1.0 is built, not released), so nothing may be declared stable.
  * package.json can't tell us this: it has publishConfig ready and no `private` flag, on purpose. Flip this to true
  * in the release that actually publishes the package.
  */
@@ -49,7 +49,7 @@ const blocksDir = path.join(REPO_ROOT, 'apps/docs/blocks');
 const showcaseDir = path.join(REPO_ROOT, 'apps/docs/components/showcase');
 const testDir = path.join(pkgDir, 'test');
 
-/** Every name imported from '@strata/react' by a block or the homepage showcase → the files that import it. */
+/** Every name imported from '@syntara/react' by a block or the homepage showcase → the files that import it. */
 function productUsage() {
   const walk = (dir) =>
     existsSync(dir)
@@ -61,7 +61,7 @@ function productUsage() {
   const used = new Map();
   for (const file of files) {
     const source = readFileSync(file, 'utf8');
-    for (const m of source.matchAll(/import\s+(?:type\s+)?\{([^}]*)\}\s*from\s*['"]@strata\/react['"]/g)) {
+    for (const m of source.matchAll(/import\s+(?:type\s+)?\{([^}]*)\}\s*from\s*['"]@syntara\/react['"]/g)) {
       for (const part of m[1].split(',')) {
         const n = part.trim().replace(/^type\s+/, '').split(/\s+as\s+/)[0];
         if (!n) continue;
@@ -95,7 +95,7 @@ function maturityGaps(meta, usage) {
   const exports = isStrArr(meta.exports) ? meta.exports : [];
   const where = new Set(exports.flatMap((e) => [...(usage.get(e) ?? [])]));
   if (where.size === 0) beta.push('is not used in any block or the homepage showcase');
-  if (!PUBLISHED_ON_NPM) stable.push('@strata/react is not published on npm yet, so nothing can be stable');
+  if (!PUBLISHED_ON_NPM) stable.push('@syntara/react is not published on npm yet, so nothing can be stable');
   if (!isStr(meta.review?.a11y)) stable.push('has no recorded manual accessibility review (review.a11y)');
   return { alpha, beta, stable, usedIn: [...where].sort() };
 }
@@ -187,7 +187,7 @@ export function packageLookup(dir) {
 
 /**
  * meta.imports (meta/schema.ts `ImportDoc`): packages a consumer imports next to the component. Each package must be
- * one of the component's dependencies (so it is installed with @strata/react, at a version that matches), and every
+ * one of the component's dependencies (so it is installed with @syntara/react, at a version that matches), and every
  * name must be exported by it: runtime names by the module, "type X" names by its declaration file.
  */
 export function consumerImportsProblems(imports, dependencies, lookup) {
@@ -197,7 +197,7 @@ export function consumerImportsProblems(imports, dependencies, lookup) {
     const at = `imports[${i}]`;
     if (typeof imp !== 'object' || imp === null) return out.push(`${at}: must be an object`);
     if (!isStr(imp.package)) out.push(`${at}.package: required non-empty string`);
-    else if (imp.package === '@strata/react') out.push(`${at}.package: @strata/react is already the import line; list other packages only`);
+    else if (imp.package === '@syntara/react') out.push(`${at}.package: @syntara/react is already the import line; list other packages only`);
     else if (!(dependencies ?? []).includes(imp.package)) out.push(`${at}.package: ${imp.package} isn't in dependencies, so it isn't installed with the component`);
     if (!isStr(imp.why)) out.push(`${at}.why: required non-empty string`);
     else if (imp.why.length > MAX_WHY) out.push(`${at}.why: ${imp.why.length} characters; keep it under ${MAX_WHY}`);
@@ -349,7 +349,7 @@ function checkMeta(name, file) {
     if (dep === name) errors.push('registryDependencies: lists itself');
   }
   if (isStrArr(meta.files)) errors.push(...importProblems(meta, uiDir));
-  if (isStr(meta.usage) && !/from ['"]@strata\/react['"]/.test(meta.usage)) warnings.push("usage: should import from '@strata/react'");
+  if (isStr(meta.usage) && !/from ['"]@syntara\/react['"]/.test(meta.usage)) warnings.push("usage: should import from '@syntara/react'");
 
   return { meta, errors, warnings, exported };
 }

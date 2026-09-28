@@ -15,7 +15,7 @@
     "react-aria-components"
   ],
   "registryDependencies": [],
-  "usage": "import { Spinner } from '@strata/react';\n\nexport function Loading() {\n  return <Spinner size=\"sm\" label=\"Loading claims\" />;\n}",
+  "usage": "import { Spinner } from '@syntara/react';\n\nexport function Loading() {\n  return <Spinner size=\"sm\" label=\"Loading claims\" />;\n}",
   "examples": [
     {
       "name": "spinner-demo",

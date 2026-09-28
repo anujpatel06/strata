@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Chip, ChipGroup, type Selection } from '@strata/react';
+import { Chip, ChipGroup, type Selection } from '@syntara/react';
 
 // Choice chips: exactly one is on, like a segmented control that wraps.
 export default function Example() {

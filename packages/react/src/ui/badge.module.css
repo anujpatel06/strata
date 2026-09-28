@@ -9,12 +9,12 @@
  */
 
 .badge {
-  --_bg: var(--strata-color-surface-sunken);
-  --_fg: var(--strata-color-text-default);
+  --_bg: var(--syntara-color-surface-sunken);
+  --_fg: var(--syntara-color-text-default);
   --_border: transparent;
-  --_dot: var(--strata-color-text-subtle);
-  --_h: var(--strata-space-6);
-  --_dot-size: calc(var(--strata-space-1) * 1.5);
+  --_dot: var(--syntara-color-text-subtle);
+  --_h: var(--syntara-space-6);
+  --_dot-size: calc(var(--syntara-space-1) * 1.5);
 
   box-sizing: border-box;
   display: inline-flex;
@@ -25,37 +25,37 @@
    * the icon centres itself. Font-independent: no per-font offsets.
    */
   align-items: baseline;
-  gap: var(--strata-space-1);
+  gap: var(--syntara-space-1);
   min-block-size: var(--_h);
   max-inline-size: 100%;
   padding-block: 0;
-  padding-inline: var(--strata-space-2);
+  padding-inline: var(--syntara-space-2);
   /* Edges are hairlines drawn as box-shadow (Finesse); the transparent 1px keeps sizes equal and draws the edge in
      forced colours. */
   border: 1px solid transparent;
-  border-radius: var(--strata-radius-pill);
+  border-radius: var(--syntara-radius-pill);
   background-color: var(--_bg);
-  box-shadow: inset 0 0 0 var(--strata-hairline) var(--_border);
+  box-shadow: inset 0 0 0 var(--syntara-hairline) var(--_border);
   color: var(--_fg);
-  font-family: var(--strata-font-body);
-  font-size: var(--strata-font-size-xs);
+  font-family: var(--syntara-font-body);
+  font-size: var(--syntara-font-size-xs);
   font-variant-numeric: tabular-nums;
-  font-weight: var(--strata-font-weight-medium);
-  letter-spacing: var(--strata-font-tracking-xs);
+  font-weight: var(--syntara-font-weight-medium);
+  letter-spacing: var(--syntara-font-tracking-xs);
   line-height: calc(var(--_h) - 2px);
   vertical-align: middle;
   white-space: nowrap;
   transition:
-    background-color var(--strata-motion-duration-fast) var(--strata-motion-easing),
-    color var(--strata-motion-duration-fast) var(--strata-motion-easing),
-    box-shadow var(--strata-motion-duration-fast) var(--strata-motion-easing);
+    background-color var(--syntara-motion-duration-fast) var(--syntara-motion-easing),
+    color var(--syntara-motion-duration-fast) var(--syntara-motion-easing),
+    box-shadow var(--syntara-motion-duration-fast) var(--syntara-motion-easing);
 }
 
 .badge[data-size='sm'] {
-  --_h: var(--strata-space-5);
+  --_h: var(--syntara-space-5);
 
-  gap: calc(var(--strata-space-1) * 0.75);
-  padding-inline: calc(var(--strata-space-2) * 0.75);
+  gap: calc(var(--syntara-space-1) * 0.75);
+  padding-inline: calc(var(--syntara-space-2) * 0.75);
 }
 
 /* ---- soft (default) --------------------------------------------------- */
@@ -67,36 +67,36 @@
  * same-hue edge there (data-table does, for selected rows); on ordinary surfaces the tint alone reads.
  */
 .badge[data-variant='soft'][data-tone='neutral'] {
-  --_bg: var(--strata-color-surface-sunken);
-  --_fg: var(--strata-color-text-default);
+  --_bg: var(--syntara-color-surface-sunken);
+  --_fg: var(--syntara-color-text-default);
   /* surface.sunken can be darker than the card it sits on (dark schemes), where a bare fill reads as a hole.
      A border.subtle hairline, like Tag's neutral, keeps it a chip. */
-  --_border: var(--strata-color-border-subtle);
+  --_border: var(--syntara-color-border-subtle);
 }
 .badge[data-variant='soft'][data-tone='brand'] {
-  --_bg: var(--strata-color-action-secondary-bg);
-  --_fg: var(--strata-color-action-secondary-fg);
-  --_dot: var(--strata-color-action-primary-bg);
+  --_bg: var(--syntara-color-action-secondary-bg);
+  --_fg: var(--syntara-color-action-secondary-fg);
+  --_dot: var(--syntara-color-action-primary-bg);
 }
 .badge[data-variant='soft'][data-tone='info'] {
-  --_bg: var(--strata-color-feedback-info-bg);
-  --_fg: var(--strata-color-feedback-info-fg);
-  --_dot: var(--strata-color-feedback-info-solid);
+  --_bg: var(--syntara-color-feedback-info-bg);
+  --_fg: var(--syntara-color-feedback-info-fg);
+  --_dot: var(--syntara-color-feedback-info-solid);
 }
 .badge[data-variant='soft'][data-tone='success'] {
-  --_bg: var(--strata-color-feedback-success-bg);
-  --_fg: var(--strata-color-feedback-success-fg);
-  --_dot: var(--strata-color-feedback-success-solid);
+  --_bg: var(--syntara-color-feedback-success-bg);
+  --_fg: var(--syntara-color-feedback-success-fg);
+  --_dot: var(--syntara-color-feedback-success-solid);
 }
 .badge[data-variant='soft'][data-tone='warning'] {
-  --_bg: var(--strata-color-feedback-warning-bg);
-  --_fg: var(--strata-color-feedback-warning-fg);
-  --_dot: var(--strata-color-feedback-warning-solid);
+  --_bg: var(--syntara-color-feedback-warning-bg);
+  --_fg: var(--syntara-color-feedback-warning-fg);
+  --_dot: var(--syntara-color-feedback-warning-solid);
 }
 .badge[data-variant='soft'][data-tone='danger'] {
-  --_bg: var(--strata-color-feedback-danger-bg);
-  --_fg: var(--strata-color-feedback-danger-fg);
-  --_dot: var(--strata-color-feedback-danger-solid);
+  --_bg: var(--syntara-color-feedback-danger-bg);
+  --_fg: var(--syntara-color-feedback-danger-fg);
+  --_dot: var(--syntara-color-feedback-danger-solid);
 }
 
 /* ---- solid ------------------------------------------------------------- */
@@ -105,31 +105,31 @@
   --_dot: currentColor;
 
   /* Solid fills get the tactile sheen + a hairline lift. Never a gradient: the solver tunes fill + label to 4.5:1. */
-  box-shadow: var(--strata-shadow-highlight), var(--strata-shadow-raised);
+  box-shadow: var(--syntara-shadow-highlight), var(--syntara-shadow-raised);
 }
 .badge[data-variant='solid'][data-tone='neutral'] {
-  --_bg: var(--strata-color-surface-inverse);
-  --_fg: var(--strata-color-text-inverse);
+  --_bg: var(--syntara-color-surface-inverse);
+  --_fg: var(--syntara-color-text-inverse);
 }
 .badge[data-variant='solid'][data-tone='brand'] {
-  --_bg: var(--strata-color-action-primary-bg);
-  --_fg: var(--strata-color-action-primary-fg);
+  --_bg: var(--syntara-color-action-primary-bg);
+  --_fg: var(--syntara-color-action-primary-fg);
 }
 .badge[data-variant='solid'][data-tone='info'] {
-  --_bg: var(--strata-color-feedback-info-solid);
-  --_fg: var(--strata-color-feedback-info-on-solid);
+  --_bg: var(--syntara-color-feedback-info-solid);
+  --_fg: var(--syntara-color-feedback-info-on-solid);
 }
 .badge[data-variant='solid'][data-tone='success'] {
-  --_bg: var(--strata-color-feedback-success-solid);
-  --_fg: var(--strata-color-feedback-success-on-solid);
+  --_bg: var(--syntara-color-feedback-success-solid);
+  --_fg: var(--syntara-color-feedback-success-on-solid);
 }
 .badge[data-variant='solid'][data-tone='warning'] {
-  --_bg: var(--strata-color-feedback-warning-solid);
-  --_fg: var(--strata-color-feedback-warning-on-solid);
+  --_bg: var(--syntara-color-feedback-warning-solid);
+  --_fg: var(--syntara-color-feedback-warning-on-solid);
 }
 .badge[data-variant='solid'][data-tone='danger'] {
-  --_bg: var(--strata-color-feedback-danger-solid);
-  --_fg: var(--strata-color-feedback-danger-on-solid);
+  --_bg: var(--syntara-color-feedback-danger-solid);
+  --_fg: var(--syntara-color-feedback-danger-on-solid);
 }
 
 /* ---- outline ----------------------------------------------------------- */
@@ -138,33 +138,33 @@
   --_bg: transparent;
 }
 .badge[data-variant='outline'][data-tone='neutral'] {
-  --_border: var(--strata-color-border-default);
-  --_fg: var(--strata-color-text-default);
+  --_border: var(--syntara-color-border-default);
+  --_fg: var(--syntara-color-text-default);
 }
 .badge[data-variant='outline'][data-tone='brand'] {
-  --_border: color-mix(in oklab, var(--strata-color-text-brand) 45%, transparent);
-  --_fg: var(--strata-color-text-brand);
-  --_dot: var(--strata-color-action-primary-bg);
+  --_border: color-mix(in oklab, var(--syntara-color-text-brand) 45%, transparent);
+  --_fg: var(--syntara-color-text-brand);
+  --_dot: var(--syntara-color-action-primary-bg);
 }
 .badge[data-variant='outline'][data-tone='info'] {
-  --_border: var(--strata-color-feedback-info-border);
-  --_fg: var(--strata-color-feedback-info-fg);
-  --_dot: var(--strata-color-feedback-info-solid);
+  --_border: var(--syntara-color-feedback-info-border);
+  --_fg: var(--syntara-color-feedback-info-fg);
+  --_dot: var(--syntara-color-feedback-info-solid);
 }
 .badge[data-variant='outline'][data-tone='success'] {
-  --_border: var(--strata-color-feedback-success-border);
-  --_fg: var(--strata-color-feedback-success-fg);
-  --_dot: var(--strata-color-feedback-success-solid);
+  --_border: var(--syntara-color-feedback-success-border);
+  --_fg: var(--syntara-color-feedback-success-fg);
+  --_dot: var(--syntara-color-feedback-success-solid);
 }
 .badge[data-variant='outline'][data-tone='warning'] {
-  --_border: var(--strata-color-feedback-warning-border);
-  --_fg: var(--strata-color-feedback-warning-fg);
-  --_dot: var(--strata-color-feedback-warning-solid);
+  --_border: var(--syntara-color-feedback-warning-border);
+  --_fg: var(--syntara-color-feedback-warning-fg);
+  --_dot: var(--syntara-color-feedback-warning-solid);
 }
 .badge[data-variant='outline'][data-tone='danger'] {
-  --_border: var(--strata-color-feedback-danger-border);
-  --_fg: var(--strata-color-feedback-danger-fg);
-  --_dot: var(--strata-color-feedback-danger-solid);
+  --_border: var(--syntara-color-feedback-danger-border);
+  --_fg: var(--syntara-color-feedback-danger-fg);
+  --_dot: var(--syntara-color-feedback-danger-solid);
 }
 
 /* ---- status ------------------------------------------------------------ */
@@ -177,36 +177,36 @@
  */
 .badge[data-variant='status'] {
   --_bg: transparent;
-  --_fg: var(--strata-color-text-default);
-  gap: var(--strata-space-2);
+  --_fg: var(--syntara-color-text-default);
+  gap: var(--syntara-space-2);
   padding-inline: 0;
-  font-size: var(--strata-font-size-sm);
-  letter-spacing: var(--strata-font-tracking-sm);
+  font-size: var(--syntara-font-size-sm);
+  letter-spacing: var(--syntara-font-tracking-sm);
 }
 .badge[data-variant='status'][data-size='sm'] {
-  gap: calc(var(--strata-space-2) * 0.75);
+  gap: calc(var(--syntara-space-2) * 0.75);
   padding-inline: 0;
-  font-size: var(--strata-font-size-xs);
-  letter-spacing: var(--strata-font-tracking-xs);
+  font-size: var(--syntara-font-size-xs);
+  letter-spacing: var(--syntara-font-tracking-xs);
 }
 .badge[data-variant='status'][data-tone='neutral'] {
-  --_fg: var(--strata-color-text-subtle);
-  --_dot: var(--strata-color-border-strong);
+  --_fg: var(--syntara-color-text-subtle);
+  --_dot: var(--syntara-color-border-strong);
 }
 .badge[data-variant='status'][data-tone='brand'] {
-  --_dot: var(--strata-color-action-primary-bg);
+  --_dot: var(--syntara-color-action-primary-bg);
 }
 .badge[data-variant='status'][data-tone='info'] {
-  --_dot: var(--strata-color-feedback-info-solid);
+  --_dot: var(--syntara-color-feedback-info-solid);
 }
 .badge[data-variant='status'][data-tone='success'] {
-  --_dot: var(--strata-color-feedback-success-solid);
+  --_dot: var(--syntara-color-feedback-success-solid);
 }
 .badge[data-variant='status'][data-tone='warning'] {
-  --_dot: var(--strata-color-feedback-warning-solid);
+  --_dot: var(--syntara-color-feedback-warning-solid);
 }
 .badge[data-variant='status'][data-tone='danger'] {
-  --_dot: var(--strata-color-feedback-danger-solid);
+  --_dot: var(--syntara-color-feedback-danger-solid);
 }
 
 /* ---- parts ------------------------------------------------------------- */
@@ -220,7 +220,7 @@
   /* 6px: a small light, never shouting. */
   inline-size: var(--_dot-size);
   block-size: var(--_dot-size);
-  border-radius: var(--strata-radius-pill);
+  border-radius: var(--syntara-radius-pill);
   background-color: var(--_dot);
 }
 
@@ -228,7 +228,7 @@
   display: inline-flex;
   flex: none;
   align-self: center;
-  margin-inline-start: calc(var(--strata-space-1) * -0.5);
+  margin-inline-start: calc(var(--syntara-space-1) * -0.5);
 }
 
 .icon > svg {
@@ -238,7 +238,7 @@
 
 /* In a pill the dot's halo needs a little more room before the label than the 4px gap gives. */
 .badge:not([data-variant='status']) > .dot {
-  margin-inline-end: calc(var(--strata-space-1) * 0.5);
+  margin-inline-end: calc(var(--syntara-space-1) * 0.5);
 }
 
 /* The status dot gets a soft same-hue halo, so "● Active" reads as a light, not a bullet. */
@@ -248,7 +248,7 @@
 
 /* Icons follow the theme's icon stroke (1.5 by default, ADR-014). */
 .icon > svg {
-  stroke-width: var(--strata-icon-stroke, 1.5);
+  stroke-width: var(--syntara-icon-stroke, 1.5);
 }
 
 /* ---- motion ------------------------------------------------------------ */
@@ -263,33 +263,33 @@
   /* (Written out per tone: CSS Modules renames keyframes inside `animation`, but not inside custom properties.) */
   .badge {
     animation:
-      badge-fade-in var(--strata-motion-duration-fast) var(--strata-motion-easing-out),
-      badge-pop-neutral var(--strata-motion-duration-spring) var(--strata-motion-spring);
+      badge-fade-in var(--syntara-motion-duration-fast) var(--syntara-motion-easing-out),
+      badge-pop-neutral var(--syntara-motion-duration-spring) var(--syntara-motion-spring);
   }
   .badge[data-tone='brand'] {
     animation:
-      badge-fade-in var(--strata-motion-duration-fast) var(--strata-motion-easing-out),
-      badge-pop-brand var(--strata-motion-duration-spring) var(--strata-motion-spring);
+      badge-fade-in var(--syntara-motion-duration-fast) var(--syntara-motion-easing-out),
+      badge-pop-brand var(--syntara-motion-duration-spring) var(--syntara-motion-spring);
   }
   .badge[data-tone='info'] {
     animation:
-      badge-fade-in var(--strata-motion-duration-fast) var(--strata-motion-easing-out),
-      badge-pop-info var(--strata-motion-duration-spring) var(--strata-motion-spring);
+      badge-fade-in var(--syntara-motion-duration-fast) var(--syntara-motion-easing-out),
+      badge-pop-info var(--syntara-motion-duration-spring) var(--syntara-motion-spring);
   }
   .badge[data-tone='success'] {
     animation:
-      badge-fade-in var(--strata-motion-duration-fast) var(--strata-motion-easing-out),
-      badge-pop-success var(--strata-motion-duration-spring) var(--strata-motion-spring);
+      badge-fade-in var(--syntara-motion-duration-fast) var(--syntara-motion-easing-out),
+      badge-pop-success var(--syntara-motion-duration-spring) var(--syntara-motion-spring);
   }
   .badge[data-tone='warning'] {
     animation:
-      badge-fade-in var(--strata-motion-duration-fast) var(--strata-motion-easing-out),
-      badge-pop-warning var(--strata-motion-duration-spring) var(--strata-motion-spring);
+      badge-fade-in var(--syntara-motion-duration-fast) var(--syntara-motion-easing-out),
+      badge-pop-warning var(--syntara-motion-duration-spring) var(--syntara-motion-spring);
   }
   .badge[data-tone='danger'] {
     animation:
-      badge-fade-in var(--strata-motion-duration-fast) var(--strata-motion-easing-out),
-      badge-pop-danger var(--strata-motion-duration-spring) var(--strata-motion-spring);
+      badge-fade-in var(--syntara-motion-duration-fast) var(--syntara-motion-easing-out),
+      badge-pop-danger var(--syntara-motion-duration-spring) var(--syntara-motion-spring);
   }
 }
 

@@ -6,7 +6,7 @@
 
 ## Context
 
-- Strata is adding charts. Brand colours are not a chart palette. The dataviz validator (`validate_palette.js`, dataviz skill) failed almost every tenant's `text.brand` + `accent.text`: the dark-mode lightness band, the chroma floor (Care sage 0.055, Harbor teal 0.068), CVD separation (Care light ΔE 4.3 protan) and the normal-vision floor (ΔE < 15).
+- Syntara is adding charts. Brand colours are not a chart palette. The dataviz validator (`validate_palette.js`, dataviz skill) failed almost every tenant's `text.brand` + `accent.text`: the dark-mode lightness band, the chroma floor (Care sage 0.055, Harbor teal 0.068), CVD separation (Care light ΔE 4.3 protan) and the normal-vision floor (ΔE < 15).
 - Any hex can be a brand (ADR-006), so a fixed palette can't carry the brand, and a hand-picked one per tenant can't cover generated brands.
 
 ## Decision
@@ -15,7 +15,7 @@
 - **Series 1 = the brand hue**, at the in-band lightness nearest the brand's own, with chroma lifted to ≥ 0.10. Near-grey brands (C < 0.02, e.g. the house brand `#18181b`) have no hue to keep: they take the accent's hue, else the first candidate (blue), and the theme carries a note.
 - **Series 2–4** walk a fixed candidate list (blue, orange, teal, magenta, amber, violet, green, red). A candidate is skipped if it is within 35° of a chosen hue (a navy next to a sky blue reads as "the same colour") or if no tone at that hue passes the pairwise checks. Tones sit as close to L 0.60 (light) / 0.64 (dark) as the checks allow. Fixed order means identity never depends on a ranking.
 - **Grid** = `border.subtle` (decorative), **axis** = `text.subtle` (text, already checked at 4.5:1). CSS aliases them with `var()`.
-- **Tokens:** `--strata-chart-{1,2,3,4}`, `--strata-chart-grid`, `--strata-chart-axis`; DTCG `semantic.<scheme>.chart.{1–4,grid,axis}` (grid/axis alias the role tokens). 339 DTCG tokens (was 327).
+- **Tokens:** `--syntara-chart-{1,2,3,4}`, `--syntara-chart-grid`, `--syntara-chart-axis`; DTCG `semantic.<scheme>.chart.{1–4,grid,axis}` (grid/axis alias the role tokens). 339 DTCG tokens (was 327).
 
 ## Alternatives considered
 

@@ -1,7 +1,7 @@
 'use client';
 
-import { IconLock, IconUsers, IconWorld } from '@strata/icons';
-import { Select, SelectItem } from '@strata/react';
+import { IconLock, IconUsers, IconWorld } from '@syntara/icons';
+import { Select, SelectItem } from '@syntara/react';
 
 export default function Example() {
   return (

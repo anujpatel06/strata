@@ -1,5 +1,5 @@
 /** The chart palette in use on /docs/color: four series in their fixed order, in the picked tenant. */
-import { BarChart, Card, CardContent, CardDescription, CardHeader, CardTitle } from '@strata/react';
+import { BarChart, Card, CardContent, CardDescription, CardHeader, CardTitle } from '@syntara/react';
 import { getColorUsageData } from './data';
 import { LiveScope } from './live';
 import styles from './color-usage.module.css';

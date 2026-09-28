@@ -1,37 +1,37 @@
 .nav {
   display: grid;
-  gap: var(--strata-space-6);
-  padding-block: var(--strata-space-8);
-  padding-inline-end: var(--strata-space-4);
+  gap: var(--syntara-space-6);
+  padding-block: var(--syntara-space-8);
+  padding-inline-end: var(--syntara-space-4);
 }
 
 .group {
   display: grid;
-  gap: var(--strata-space-1);
+  gap: var(--syntara-space-1);
 }
 
 .groupLabel {
-  padding-inline: var(--strata-space-2);
-  margin-block-end: var(--strata-space-1);
-  font-family: var(--strata-font-body);
-  font-size: var(--strata-font-size-sm);
-  font-weight: var(--strata-font-weight-semibold);
-  line-height: var(--strata-line-height-snug);
-  color: var(--strata-color-text-default);
+  padding-inline: var(--syntara-space-2);
+  margin-block-end: var(--syntara-space-1);
+  font-family: var(--syntara-font-body);
+  font-size: var(--syntara-font-size-sm);
+  font-weight: var(--syntara-font-weight-semibold);
+  line-height: var(--syntara-line-height-snug);
+  color: var(--syntara-color-text-default);
 }
 
 .section + .section {
-  margin-block-start: var(--strata-space-4);
+  margin-block-start: var(--syntara-space-4);
 }
 
 .sectionLabel {
-  padding-inline: var(--strata-space-2);
-  margin-block-end: var(--strata-space-1);
-  font-family: var(--strata-font-body);
-  font-size: var(--strata-font-size-xs);
-  font-weight: var(--strata-font-weight-medium);
-  line-height: var(--strata-line-height-snug);
-  color: var(--strata-color-text-subtle);
+  padding-inline: var(--syntara-space-2);
+  margin-block-end: var(--syntara-space-1);
+  font-family: var(--syntara-font-body);
+  font-size: var(--syntara-font-size-xs);
+  font-weight: var(--syntara-font-weight-medium);
+  line-height: var(--syntara-line-height-snug);
+  color: var(--syntara-color-text-subtle);
 }
 
 .list {
@@ -45,33 +45,33 @@
 .link {
   display: flex;
   align-items: center;
-  gap: var(--strata-space-2);
-  min-block-size: calc(var(--strata-space-8) - var(--strata-space-1));
-  padding-inline: var(--strata-space-2);
-  border-radius: var(--strata-radius-button);
-  color: var(--strata-color-text-subtle);
-  font-size: var(--strata-font-size-md);
-  line-height: var(--strata-line-height-snug);
+  gap: var(--syntara-space-2);
+  min-block-size: calc(var(--syntara-space-8) - var(--syntara-space-1));
+  padding-inline: var(--syntara-space-2);
+  border-radius: var(--syntara-radius-button);
+  color: var(--syntara-color-text-subtle);
+  font-size: var(--syntara-font-size-md);
+  line-height: var(--syntara-line-height-snug);
   transition:
-    background-color var(--strata-motion-duration-fast) var(--strata-motion-easing),
-    color var(--strata-motion-duration-fast) var(--strata-motion-easing);
+    background-color var(--syntara-motion-duration-fast) var(--syntara-motion-easing),
+    color var(--syntara-motion-duration-fast) var(--syntara-motion-easing);
 }
 .link:hover {
   background: var(--docs-hover);
-  color: var(--strata-color-text-default);
+  color: var(--syntara-color-text-default);
 }
 .link[aria-current='page'] {
-  background: var(--strata-color-surface-selected);
-  color: var(--strata-color-text-default);
-  font-weight: var(--strata-font-weight-medium);
+  background: var(--syntara-color-surface-selected);
+  color: var(--syntara-color-text-default);
+  font-weight: var(--syntara-font-weight-medium);
 }
 @media (prefers-reduced-motion: no-preference) {
   .link {
     transition:
-      background-color var(--strata-motion-duration-fast) var(--strata-motion-easing),
-      color var(--strata-motion-duration-fast) var(--strata-motion-easing),
-      outline-offset var(--strata-motion-duration-fast) var(--strata-motion-easing),
-      scale var(--strata-motion-duration-spring) var(--strata-motion-spring);
+      background-color var(--syntara-motion-duration-fast) var(--syntara-motion-easing),
+      color var(--syntara-motion-duration-fast) var(--syntara-motion-easing),
+      outline-offset var(--syntara-motion-duration-fast) var(--syntara-motion-easing),
+      scale var(--syntara-motion-duration-spring) var(--syntara-motion-spring);
   }
   .link:active {
     scale: 0.98;
@@ -84,11 +84,11 @@
 }
 
 .badge {
-  padding-inline: var(--strata-space-1);
-  border: 1px solid var(--strata-color-border-default);
-  border-radius: var(--strata-radius-badge);
-  color: var(--strata-color-text-subtle);
-  font-size: var(--strata-font-size-xs);
-  font-weight: var(--strata-font-weight-regular);
-  line-height: var(--strata-line-height-snug);
+  padding-inline: var(--syntara-space-1);
+  border: 1px solid var(--syntara-color-border-default);
+  border-radius: var(--syntara-radius-badge);
+  color: var(--syntara-color-text-subtle);
+  font-size: var(--syntara-font-size-xs);
+  font-weight: var(--syntara-font-weight-regular);
+  line-height: var(--syntara-line-height-snug);
 }

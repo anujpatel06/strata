@@ -1,14 +1,14 @@
 .scope {
   color-scheme: light;
-  background: var(--strata-color-surface-canvas);
-  color: var(--strata-color-text-default);
-  font-family: var(--strata-font-body);
-  font-size: var(--strata-font-size-md);
-  line-height: var(--strata-line-height-normal);
+  background: var(--syntara-color-surface-canvas);
+  color: var(--syntara-color-text-default);
+  font-family: var(--syntara-font-body);
+  font-size: var(--syntara-font-size-md);
+  line-height: var(--syntara-line-height-normal);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-.scope[data-strata-scheme='dark'] {
+.scope[data-syntara-scheme='dark'] {
   color-scheme: dark;
 }
 .scope *,
@@ -17,7 +17,7 @@
   box-sizing: border-box;
 }
 
-/* Icons from @strata/icons follow the theme's icon stroke. Zero specificity, so any component rule wins. */
-:where(.scope [data-strata-icon]) {
-  stroke-width: var(--strata-icon-stroke, 1.5);
+/* Icons from @syntara/icons follow the theme's icon stroke. Zero specificity, so any component rule wins. */
+:where(.scope [data-syntara-icon]) {
+  stroke-width: var(--syntara-icon-stroke, 1.5);
 }

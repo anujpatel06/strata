@@ -18,7 +18,7 @@
     "text-field"
   ],
   "reactAria": "https://react-spectrum.adobe.com/react-aria/Switch.html",
-  "usage": "import { Switch } from '@strata/react';\n\nexport function Alerts() {\n  return (\n    <Switch defaultSelected description=\"Get a notification for every card payment.\">\n      Payment alerts\n    </Switch>\n  );\n}",
+  "usage": "import { Switch } from '@syntara/react';\n\nexport function Alerts() {\n  return (\n    <Switch defaultSelected description=\"Get a notification for every card payment.\">\n      Payment alerts\n    </Switch>\n  );\n}",
   "examples": [
     {
       "name": "switch-demo",

@@ -1,5 +1,5 @@
 {
-  "name": "strata",
+  "name": "syntara",
   "private": true,
   "type": "module",
   "packageManager": "pnpm@10.28.0",
@@ -7,13 +7,13 @@
     "node": ">=22"
   },
   "scripts": {
-    "docs": "pnpm --filter @strata/docs dev",
-    "dev": "pnpm --filter @strata/generator dev",
+    "docs": "pnpm --filter @syntara/docs dev",
+    "dev": "pnpm --filter @syntara/generator dev",
     "build": "pnpm -r build",
     "test": "pnpm -r test",
-    "test:themes": "pnpm --filter @strata/theme-engine fuzz",
+    "test:themes": "pnpm --filter @syntara/theme-engine fuzz",
     "typecheck": "pnpm -r typecheck",
-    "tokens": "pnpm --filter @strata/tokens build",
+    "tokens": "pnpm --filter @syntara/tokens build",
     "screenshots": "node scripts/screenshots.mjs",
     "registry": "node packages/react/scripts/build-registry.mjs",
     "check:meta": "node packages/react/scripts/check-meta.mjs",

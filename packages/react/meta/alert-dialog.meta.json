@@ -16,7 +16,7 @@
     "dialog"
   ],
   "reactAria": "https://react-spectrum.adobe.com/react-aria/Modal.html",
-  "usage": "import { AlertDialog, Button, DialogTrigger } from '@strata/react';\n\nexport function DeleteCard({ onDelete }: { onDelete: () => Promise<void> }) {\n  return (\n    <DialogTrigger>\n      <Button tone=\"danger\">Delete card</Button>\n      <AlertDialog title=\"Delete this card?\" actionLabel=\"Delete\" tone=\"danger\" onAction={onDelete}>\n        Scheduled payments on this card will stop. This can’t be undone.\n      </AlertDialog>\n    </DialogTrigger>\n  );\n}",
+  "usage": "import { AlertDialog, Button, DialogTrigger } from '@syntara/react';\n\nexport function DeleteCard({ onDelete }: { onDelete: () => Promise<void> }) {\n  return (\n    <DialogTrigger>\n      <Button tone=\"danger\">Delete card</Button>\n      <AlertDialog title=\"Delete this card?\" actionLabel=\"Delete\" tone=\"danger\" onAction={onDelete}>\n        Scheduled payments on this card will stop. This can’t be undone.\n      </AlertDialog>\n    </DialogTrigger>\n  );\n}",
   "examples": [
     {
       "name": "alert-dialog-demo",
@@ -116,7 +116,7 @@
       "role=\"alertdialog\" named by the title and described by the message.",
       "Clicking the backdrop does nothing — the user must choose.",
       "Initial focus goes to Cancel for danger tone (least destructive choice) and to the action otherwise.",
-      "Overlays render in a portal on <body>, outside any ThemeScope. When it opens, the overlay looks up data-strata-theme, data-strata-scheme, data-strata-density, dir and lang — each on the nearest ancestor that has it — starting from its trigger (or from where the component is rendered, when controlled), and copies them onto its own root — so it uses the same tenant tokens and direction as the page region it came from, and nested overlays inherit from their parent overlay."
+      "Overlays render in a portal on <body>, outside any ThemeScope. When it opens, the overlay looks up data-syntara-theme, data-syntara-scheme, data-syntara-density, dir and lang — each on the nearest ancestor that has it — starting from its trigger (or from where the component is rendered, when controlled), and copies them onto its own root — so it uses the same tenant tokens and direction as the page region it came from, and nested overlays inherit from their parent overlay."
     ]
   },
   "guidelines": {

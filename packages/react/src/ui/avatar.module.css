@@ -5,9 +5,9 @@
  */
 
 .avatar {
-  --_size: var(--strata-space-8);
-  --_bg: var(--strata-color-surface-sunken);
-  --_fg: var(--strata-color-text-default);
+  --_size: var(--syntara-space-8);
+  --_bg: var(--syntara-color-surface-sunken);
+  --_fg: var(--syntara-color-text-default);
   /* The ring is the tint's own hue, so a pastel circle doesn't get a grey outline. Photos switch it to neutral. */
   --_ring: color-mix(in oklab, var(--_fg) 14%, transparent);
 
@@ -19,15 +19,15 @@
   inline-size: var(--_size);
   block-size: var(--_size);
   overflow: hidden;
-  border-radius: var(--strata-radius-pill);
+  border-radius: var(--syntara-radius-pill);
   background-color: var(--_bg);
   color: var(--_fg);
-  font-family: var(--strata-font-heading);
+  font-family: var(--syntara-font-heading);
   /* Initials at ~38% of the avatar: 24 → 9px, 32 → 12px, 40 → 15px. */
   font-size: calc(var(--_size) * 0.38);
   /* A monogram: semibold in the heading face (serif brands read like a letterpress mark). */
-  font-weight: var(--strata-font-weight-semibold);
-  letter-spacing: var(--strata-font-tracking-xs);
+  font-weight: var(--syntara-font-weight-semibold);
+  letter-spacing: var(--syntara-font-tracking-xs);
   line-height: 1;
   vertical-align: middle;
   user-select: none;
@@ -43,26 +43,26 @@
   inset: 0;
   border-radius: inherit;
   box-shadow:
-    var(--strata-shadow-highlight),
-    inset 0 0 0 var(--strata-hairline) var(--_ring);
+    var(--syntara-shadow-highlight),
+    inset 0 0 0 var(--syntara-hairline) var(--_ring);
   content: '';
   pointer-events: none;
 }
 
 .avatar:has(> .image[data-loaded]) {
-  --_ring: color-mix(in oklab, var(--strata-color-text-default) 14%, transparent);
+  --_ring: color-mix(in oklab, var(--syntara-color-text-default) 14%, transparent);
 }
 
 .avatar[data-size='sm'] {
-  --_size: var(--strata-space-6);
+  --_size: var(--syntara-space-6);
 }
 .avatar[data-size='lg'] {
-  --_size: var(--strata-space-10);
+  --_size: var(--syntara-space-10);
 }
 
 /* Square follows the brand's button shape, capped so round brands still read as square-ish. */
 .avatar[data-shape='square'] {
-  border-radius: min(var(--strata-radius-button), 30%);
+  border-radius: min(var(--syntara-radius-button), 30%);
 }
 
 @supports (corner-shape: squircle) {
@@ -75,33 +75,33 @@
 /* ---- tints (contrast-checked pairs only; see avatar.tsx) ---------------- */
 
 .avatar[data-tint='none'] {
-  --_bg: var(--strata-color-surface-sunken);
-  --_fg: var(--strata-color-text-default);
-  --_ring: color-mix(in oklab, var(--strata-color-text-default) 10%, transparent);
+  --_bg: var(--syntara-color-surface-sunken);
+  --_fg: var(--syntara-color-text-default);
+  --_ring: color-mix(in oklab, var(--syntara-color-text-default) 10%, transparent);
 }
 .avatar[data-tint='brand'] {
-  --_bg: var(--strata-color-action-secondary-bg);
-  --_fg: var(--strata-color-action-secondary-fg);
+  --_bg: var(--syntara-color-action-secondary-bg);
+  --_fg: var(--syntara-color-action-secondary-fg);
 }
 .avatar[data-tint='accent'] {
-  --_bg: var(--strata-color-accent-subtle);
-  --_fg: var(--strata-color-accent-text);
+  --_bg: var(--syntara-color-accent-subtle);
+  --_fg: var(--syntara-color-accent-text);
 }
 .avatar[data-tint='info'] {
-  --_bg: var(--strata-color-feedback-info-bg);
-  --_fg: var(--strata-color-feedback-info-fg);
+  --_bg: var(--syntara-color-feedback-info-bg);
+  --_fg: var(--syntara-color-feedback-info-fg);
 }
 .avatar[data-tint='success'] {
-  --_bg: var(--strata-color-feedback-success-bg);
-  --_fg: var(--strata-color-feedback-success-fg);
+  --_bg: var(--syntara-color-feedback-success-bg);
+  --_fg: var(--syntara-color-feedback-success-fg);
 }
 .avatar[data-tint='warning'] {
-  --_bg: var(--strata-color-feedback-warning-bg);
-  --_fg: var(--strata-color-feedback-warning-fg);
+  --_bg: var(--syntara-color-feedback-warning-bg);
+  --_fg: var(--syntara-color-feedback-warning-fg);
 }
 .avatar[data-tint='danger'] {
-  --_bg: var(--strata-color-feedback-danger-bg);
-  --_fg: var(--strata-color-feedback-danger-fg);
+  --_bg: var(--syntara-color-feedback-danger-bg);
+  --_fg: var(--syntara-color-feedback-danger-fg);
 }
 
 /* ---- placeholder -------------------------------------------------------- */
@@ -111,11 +111,11 @@
  * covers what's behind it in a group. A dashed line needs a real border (box-shadow can't dash).
  */
 .avatar[data-placeholder] {
-  --_bg: var(--strata-color-surface-default);
-  --_fg: var(--strata-color-text-subtle);
+  --_bg: var(--syntara-color-surface-default);
+  --_fg: var(--syntara-color-text-subtle);
 
   /* border.strong, softened: the "+" / "?" and the label carry the meaning; the dashes only suggest the seat. */
-  border: 1px dashed color-mix(in oklab, var(--strata-color-border-strong) 70%, transparent);
+  border: 1px dashed color-mix(in oklab, var(--syntara-color-border-strong) 70%, transparent);
 }
 .avatar[data-placeholder]::after {
   content: none;
@@ -136,7 +136,7 @@
   /* Sized from the avatar, not the fallback span (which shrink-wraps, so a % would resolve against nothing). */
   inline-size: calc(var(--_size) * 0.55);
   block-size: calc(var(--_size) * 0.55);
-  stroke-width: var(--strata-icon-stroke, 1.5);
+  stroke-width: var(--syntara-icon-stroke, 1.5);
 }
 
 .avatar[data-placeholder='add'] > .fallback > svg {
@@ -160,7 +160,7 @@
 /* ---- group ------------------------------------------------------------- */
 
 .group {
-  --_size: var(--strata-space-8);
+  --_size: var(--syntara-space-8);
 
   display: inline-flex;
   align-items: center;
@@ -168,10 +168,10 @@
 }
 
 .group[data-size='sm'] {
-  --_size: var(--strata-space-6);
+  --_size: var(--syntara-space-6);
 }
 .group[data-size='lg'] {
-  --_size: var(--strata-space-10);
+  --_size: var(--syntara-space-10);
 }
 
 .group > * + * {
@@ -180,16 +180,16 @@
 
 /* A ring in the page colour separates overlapping avatars. */
 .group > .avatar {
-  box-shadow: 0 0 0 2px var(--strata-color-surface-default);
+  box-shadow: 0 0 0 2px var(--syntara-color-surface-default);
 }
 
 .more {
-  --_bg: var(--strata-color-surface-sunken);
-  --_fg: var(--strata-color-text-subtle);
+  --_bg: var(--syntara-color-surface-sunken);
+  --_fg: var(--syntara-color-text-subtle);
 
-  font-family: var(--strata-font-body);
+  font-family: var(--syntara-font-body);
   font-size: calc(var(--_size) * 0.34);
-  font-weight: var(--strata-font-weight-medium);
+  font-weight: var(--syntara-font-weight-medium);
   font-variant-numeric: tabular-nums;
 }
 
@@ -207,23 +207,23 @@
 @media (prefers-reduced-motion: no-preference) {
   .avatar {
     animation:
-      avatar-fade-in var(--strata-motion-duration-fast) var(--strata-motion-easing-out) backwards,
-      avatar-pop var(--strata-motion-duration-spring) var(--strata-motion-spring) backwards;
+      avatar-fade-in var(--syntara-motion-duration-fast) var(--syntara-motion-easing-out) backwards,
+      avatar-pop var(--syntara-motion-duration-spring) var(--syntara-motion-spring) backwards;
   }
   .group > .avatar:nth-child(2) {
-    animation-delay: calc(var(--strata-motion-duration-fast) / 3);
+    animation-delay: calc(var(--syntara-motion-duration-fast) / 3);
   }
   .group > .avatar:nth-child(3) {
-    animation-delay: calc(var(--strata-motion-duration-fast) / 3 * 2);
+    animation-delay: calc(var(--syntara-motion-duration-fast) / 3 * 2);
   }
   .group > .avatar:nth-child(4) {
-    animation-delay: var(--strata-motion-duration-fast);
+    animation-delay: var(--syntara-motion-duration-fast);
   }
   .group > .avatar:nth-child(n + 5) {
-    animation-delay: calc(var(--strata-motion-duration-fast) / 3 * 4);
+    animation-delay: calc(var(--syntara-motion-duration-fast) / 3 * 4);
   }
   .image {
-    transition: opacity var(--strata-motion-duration-normal) var(--strata-motion-easing);
+    transition: opacity var(--syntara-motion-duration-normal) var(--syntara-motion-easing);
   }
 }
 

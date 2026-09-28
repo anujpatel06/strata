@@ -1,5 +1,5 @@
 /** Tiny monochrome glyphs for the segmented controls. Decorative: always aria-hidden. */
-import type { Density, Shape } from '@strata/theme-engine';
+import type { Density, Shape } from '@syntara/theme-engine';
 
 const CORNER_RADIUS: Record<Shape, number> = { sharp: 0, soft: 4, round: 8 };
 
@@ -26,8 +26,8 @@ export function DensityGlyph({ density }: { density: Density }) {
   );
 }
 
-/** Stacked, offset rounded layers — the Strata mark. */
-export function StrataMark({ size = 20 }: { size?: number }) {
+/** Stacked, offset rounded layers — the Syntara mark. */
+export function SyntaraMark({ size = 20 }: { size?: number }) {
   return (
     <svg width={size} height={size} viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
       <rect x="1" y="3" width="12" height="4" rx="2" />

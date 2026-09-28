@@ -11,7 +11,7 @@ function variants(kind: 'add' | 'dlx' | 'run', args: string): Record<PackageMana
 }
 
 export interface PackageCommandProps {
-  /** Packages to install, e.g. "@strata/react @strata/tokens". */
+  /** Packages to install, e.g. "@syntara/react @syntara/tokens". */
   add?: string;
   /** A package binary to execute, e.g. "tsx scripts/build.ts". */
   dlx?: string;

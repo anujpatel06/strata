@@ -5,14 +5,14 @@
   inset-block-start: 0;
   z-index: 40;
   inline-size: 100%;
-  background: var(--strata-glass-bg);
-  border-block-end: 1px solid var(--strata-color-border-subtle);
-  -webkit-backdrop-filter: blur(var(--strata-glass-blur)) saturate(1.6);
-  backdrop-filter: blur(var(--strata-glass-blur)) saturate(1.6);
+  background: var(--syntara-glass-bg);
+  border-block-end: 1px solid var(--syntara-color-border-subtle);
+  -webkit-backdrop-filter: blur(var(--syntara-glass-blur)) saturate(1.6);
+  backdrop-filter: blur(var(--syntara-glass-blur)) saturate(1.6);
 }
 @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
   .header {
-    background: var(--strata-color-surface-raised);
+    background: var(--syntara-color-surface-raised);
   }
 }
 
@@ -23,7 +23,7 @@
     .header {
       animation: header-depth linear both;
       animation-timeline: scroll(root block);
-      animation-range: 0 var(--strata-space-16);
+      animation-range: 0 var(--syntara-space-16);
     }
   }
 }
@@ -32,14 +32,14 @@
     box-shadow: none;
   }
   to {
-    box-shadow: var(--strata-shadow-raised);
+    box-shadow: var(--syntara-shadow-raised);
   }
 }
 
 .inner {
   display: flex;
   align-items: center;
-  gap: var(--strata-space-2);
+  gap: var(--syntara-space-2);
   block-size: var(--docs-header-height);
   max-inline-size: var(--docs-container);
   margin-inline: auto;
@@ -49,24 +49,24 @@
 .brand {
   display: inline-flex;
   align-items: center;
-  gap: var(--strata-space-2);
-  margin-inline-end: var(--strata-space-4);
-  color: var(--strata-color-text-default);
-  font-family: var(--strata-font-heading);
-  font-size: var(--strata-font-size-lg);
-  font-weight: var(--strata-font-weight-semibold);
-  letter-spacing: var(--strata-font-heading-tracking);
+  gap: var(--syntara-space-2);
+  margin-inline-end: var(--syntara-space-4);
+  color: var(--syntara-color-text-default);
+  font-family: var(--syntara-font-heading);
+  font-size: var(--syntara-font-size-lg);
+  font-weight: var(--syntara-font-weight-semibold);
+  letter-spacing: var(--syntara-font-heading-tracking);
 }
 /* The mark's three layers fan apart on hover — the logo's idea (stacked brands) acted out. Reduced-motion safe. */
 @media (prefers-reduced-motion: no-preference) {
   .brand svg rect {
-    transition: translate var(--strata-motion-duration-spring) var(--strata-motion-spring);
+    transition: translate var(--syntara-motion-duration-spring) var(--syntara-motion-spring);
   }
   .brand:hover svg rect:first-child {
-    translate: calc(var(--strata-space-1) / -2) 0;
+    translate: calc(var(--syntara-space-1) / -2) 0;
   }
   .brand:hover svg rect:last-child {
-    translate: calc(var(--strata-space-1) / 2) 0;
+    translate: calc(var(--syntara-space-1) / 2) 0;
   }
 }
 
@@ -82,7 +82,7 @@
 .mainNavList {
   display: flex;
   align-items: center;
-  gap: var(--strata-space-1);
+  gap: var(--syntara-space-1);
   margin: 0;
   padding: 0;
   list-style: none;
@@ -92,15 +92,15 @@
   isolation: isolate;
   display: inline-flex;
   align-items: center;
-  block-size: calc(var(--strata-space-8) + var(--strata-space-1));
-  padding-inline: var(--strata-space-3);
-  border-radius: var(--strata-radius-pill);
-  color: var(--strata-color-text-subtle);
-  font-size: var(--strata-font-size-md);
-  font-weight: var(--strata-font-weight-medium);
+  block-size: calc(var(--syntara-space-8) + var(--syntara-space-1));
+  padding-inline: var(--syntara-space-3);
+  border-radius: var(--syntara-radius-pill);
+  color: var(--syntara-color-text-subtle);
+  font-size: var(--syntara-font-size-md);
+  font-weight: var(--syntara-font-weight-medium);
   transition:
-    color var(--strata-motion-duration-fast) var(--strata-motion-easing),
-    outline-offset var(--strata-motion-duration-fast) var(--strata-motion-easing);
+    color var(--syntara-motion-duration-fast) var(--syntara-motion-easing),
+    outline-offset var(--syntara-motion-duration-fast) var(--syntara-motion-easing);
 }
 /* Hover: a soft pill grows in behind the link (a pseudo-element, so it can scale without scaling the text).
    Current page: the same pill, solid enough to read as "here". With reduced motion the pill only fades. */
@@ -113,35 +113,35 @@
   background-color: var(--docs-hover);
   opacity: 0;
   transition:
-    opacity var(--strata-motion-duration-fast) var(--strata-motion-easing),
-    background-color var(--strata-motion-duration-fast) var(--strata-motion-easing);
+    opacity var(--syntara-motion-duration-fast) var(--syntara-motion-easing),
+    background-color var(--syntara-motion-duration-fast) var(--syntara-motion-easing);
 }
 .mainNavLink:hover {
-  color: var(--strata-color-text-default);
+  color: var(--syntara-color-text-default);
 }
 .mainNavLink:hover::before {
   opacity: 1;
 }
 .mainNavLink[aria-current='page'] {
-  color: var(--strata-color-text-default);
+  color: var(--syntara-color-text-default);
 }
 .mainNavLink[aria-current='page']::before {
-  background-color: var(--strata-color-surface-selected);
+  background-color: var(--syntara-color-surface-selected);
   opacity: 1;
 }
 @media (prefers-reduced-motion: no-preference) {
   .mainNavLink {
     transition:
-      color var(--strata-motion-duration-fast) var(--strata-motion-easing),
-      outline-offset var(--strata-motion-duration-fast) var(--strata-motion-easing),
-      scale var(--strata-motion-duration-spring) var(--strata-motion-spring);
+      color var(--syntara-motion-duration-fast) var(--syntara-motion-easing),
+      outline-offset var(--syntara-motion-duration-fast) var(--syntara-motion-easing),
+      scale var(--syntara-motion-duration-spring) var(--syntara-motion-spring);
   }
   .mainNavLink::before {
     scale: 0.8 0.6;
     transition:
-      opacity var(--strata-motion-duration-fast) var(--strata-motion-easing),
-      background-color var(--strata-motion-duration-fast) var(--strata-motion-easing),
-      scale var(--strata-motion-duration-spring) var(--strata-motion-spring);
+      opacity var(--syntara-motion-duration-fast) var(--syntara-motion-easing),
+      background-color var(--syntara-motion-duration-fast) var(--syntara-motion-easing),
+      scale var(--syntara-motion-duration-spring) var(--syntara-motion-spring);
   }
   .mainNavLink:hover::before,
   .mainNavLink[aria-current='page']::before {
@@ -156,26 +156,26 @@
 .actions {
   display: flex;
   align-items: center;
-  gap: var(--strata-space-1);
+  gap: var(--syntara-space-1);
   margin-inline-start: auto;
 }
 
-/* Search trigger: a Strata outline Button dressed as a field. Doubled class beats the button's own rules. */
+/* Search trigger: a Syntara outline Button dressed as a field. Doubled class beats the button's own rules. */
 .search.search {
   justify-content: center;
-  gap: var(--strata-space-2);
-  inline-size: calc(var(--strata-space-8) + var(--strata-space-1));
-  block-size: calc(var(--strata-space-8) + var(--strata-space-1));
+  gap: var(--syntara-space-2);
+  inline-size: calc(var(--syntara-space-8) + var(--syntara-space-1));
+  block-size: calc(var(--syntara-space-8) + var(--syntara-space-1));
   padding-inline: 0;
-  border-color: var(--strata-color-border-subtle);
-  background-color: var(--strata-color-surface-default);
-  color: var(--strata-color-text-subtle);
-  font-weight: var(--strata-font-weight-regular);
+  border-color: var(--syntara-color-border-subtle);
+  background-color: var(--syntara-color-surface-default);
+  color: var(--syntara-color-text-subtle);
+  font-weight: var(--syntara-font-weight-regular);
   box-shadow: none;
 }
 .search.search[data-hovered] {
-  color: var(--strata-color-text-default);
-  border-color: var(--strata-color-border-default);
+  color: var(--syntara-color-text-default);
+  border-color: var(--syntara-color-border-default);
 }
 .searchIcon {
   flex: none;
@@ -187,9 +187,9 @@
 @media (min-width: 768px) {
   .search.search {
     justify-content: flex-start;
-    inline-size: calc(var(--strata-space-16) * 3);
-    padding-inline: var(--strata-space-3) var(--strata-space-1);
-    margin-inline-end: var(--strata-space-2);
+    inline-size: calc(var(--syntara-space-16) * 3);
+    padding-inline: var(--syntara-space-3) var(--syntara-space-1);
+    margin-inline-end: var(--syntara-space-2);
   }
   .searchLabel {
     display: inline;
@@ -205,7 +205,7 @@
 }
 @media (min-width: 1024px) {
   .search.search {
-    inline-size: calc(var(--strata-space-16) * 4.5);
+    inline-size: calc(var(--syntara-space-16) * 4.5);
   }
 }
 
@@ -214,43 +214,43 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  inline-size: calc(var(--strata-space-8) + var(--strata-space-1));
-  block-size: calc(var(--strata-space-8) + var(--strata-space-1));
+  inline-size: calc(var(--syntara-space-8) + var(--syntara-space-1));
+  block-size: calc(var(--syntara-space-8) + var(--syntara-space-1));
   padding: 0;
-  border-radius: var(--strata-radius-button);
-  color: var(--strata-color-text-default);
+  border-radius: var(--syntara-radius-button);
+  color: var(--syntara-color-text-default);
   transition:
-    background-color var(--strata-motion-duration-fast) var(--strata-motion-easing),
-    outline-offset var(--strata-motion-duration-fast) var(--strata-motion-easing);
+    background-color var(--syntara-motion-duration-fast) var(--syntara-motion-easing),
+    outline-offset var(--syntara-motion-duration-fast) var(--syntara-motion-easing);
 }
 .iconLink:hover {
   background: var(--docs-hover);
 }
 .iconLink svg {
-  inline-size: var(--strata-space-4);
-  block-size: var(--strata-space-4);
+  inline-size: var(--syntara-space-4);
+  block-size: var(--syntara-space-4);
 }
 @media (prefers-reduced-motion: no-preference) {
   .iconLink {
     transition:
-      background-color var(--strata-motion-duration-fast) var(--strata-motion-easing),
-      outline-offset var(--strata-motion-duration-fast) var(--strata-motion-easing),
-      scale var(--strata-motion-duration-spring) var(--strata-motion-spring);
+      background-color var(--syntara-motion-duration-fast) var(--syntara-motion-easing),
+      outline-offset var(--syntara-motion-duration-fast) var(--syntara-motion-easing),
+      scale var(--syntara-motion-duration-spring) var(--syntara-motion-spring);
   }
   .iconLink:active {
     scale: 0.9;
   }
 }
 
-/* Scheme icon follows <html data-strata-scheme> — correct before hydration. */
+/* Scheme icon follows <html data-syntara-scheme> — correct before hydration. */
 .schemeLight,
 .schemeDark,
 .schemeAuto {
   display: none;
 }
-:global(:root[data-strata-scheme='light']) .schemeLight,
-:global(:root[data-strata-scheme='dark']) .schemeDark,
-:global(:root[data-strata-scheme='auto']) .schemeAuto {
+:global(:root[data-syntara-scheme='light']) .schemeLight,
+:global(:root[data-syntara-scheme='dark']) .schemeDark,
+:global(:root[data-syntara-scheme='auto']) .schemeAuto {
   display: block;
 }
 /* When the scheme changes, the incoming icon turns in and fades up. An element that goes from display: none
@@ -259,13 +259,13 @@
 .schemeLight,
 .schemeDark,
 .schemeAuto {
-  animation: scheme-fade var(--strata-motion-duration-normal) var(--strata-motion-easing-out);
+  animation: scheme-fade var(--syntara-motion-duration-normal) var(--syntara-motion-easing-out);
 }
 @media (prefers-reduced-motion: no-preference) {
   .schemeLight,
   .schemeDark,
   .schemeAuto {
-    animation: scheme-turn var(--strata-motion-duration-spring) var(--strata-motion-spring);
+    animation: scheme-turn var(--syntara-motion-duration-spring) var(--syntara-motion-spring);
   }
 }
 @keyframes scheme-fade {

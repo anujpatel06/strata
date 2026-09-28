@@ -1,7 +1,7 @@
 'use client';
 
-import { Badge, Button, Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@strata/react';
-import { IconGitBranch } from '@strata/icons';
+import { Badge, Button, Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@syntara/react';
+import { IconGitBranch } from '@syntara/icons';
 
 const files = [
   { name: 'src/checkout/summary.tsx', change: '+42 −8' },
@@ -20,11 +20,11 @@ export default function Example() {
         </CardDescription>
       </CardHeader>
       <CardContent variant="inset">
-        <ul style={{ display: 'grid', gap: 'var(--strata-space-2)', margin: 0, padding: 0, listStyle: 'none', fontSize: 'var(--strata-font-size-sm)' }}>
+        <ul style={{ display: 'grid', gap: 'var(--syntara-space-2)', margin: 0, padding: 0, listStyle: 'none', fontSize: 'var(--syntara-font-size-sm)' }}>
           {files.map((f) => (
-            <li key={f.name} style={{ display: 'flex', justifyContent: 'space-between', gap: 'var(--strata-space-3)' }}>
-              <span dir="ltr" style={{ fontFamily: 'var(--strata-font-mono)', overflowWrap: 'anywhere' }}>{f.name}</span>
-              <span dir="ltr" style={{ color: 'var(--strata-color-text-subtle)', fontVariantNumeric: 'tabular-nums', whiteSpace: 'nowrap' }}>{f.change}</span>
+            <li key={f.name} style={{ display: 'flex', justifyContent: 'space-between', gap: 'var(--syntara-space-3)' }}>
+              <span dir="ltr" style={{ fontFamily: 'var(--syntara-font-mono)', overflowWrap: 'anywhere' }}>{f.name}</span>
+              <span dir="ltr" style={{ color: 'var(--syntara-color-text-subtle)', fontVariantNumeric: 'tabular-nums', whiteSpace: 'nowrap' }}>{f.change}</span>
             </li>
           ))}
         </ul>

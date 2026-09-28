@@ -1,13 +1,13 @@
 .card {
-  color: var(--strata-color-text-subtle);
+  color: var(--syntara-color-text-subtle);
   background: #ffffff;
-  margin-inline-start: var(--strata-space-2);
-  padding: var(--strata-space-1) 10px 1rem var(--strata-space-3);
-  inset-inline-end: calc(var(--strata-space-1) * -1);
-  border-radius: var(--strata-radius-badge);
+  margin-inline-start: var(--syntara-space-2);
+  padding: var(--syntara-space-1) 10px 1rem var(--syntara-space-3);
+  inset-inline-end: calc(var(--syntara-space-1) * -1);
+  border-radius: var(--syntara-radius-badge);
   border-start-start-radius: 12px;
-  font-size: var(--strata-font-size-md);
-  font-weight: var(--strata-font-weight-bold);
+  font-size: var(--syntara-font-size-md);
+  font-weight: var(--syntara-font-weight-bold);
   text-align: end;
   float: inline-start;
 }

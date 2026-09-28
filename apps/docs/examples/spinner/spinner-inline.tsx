@@ -1,6 +1,6 @@
 'use client';
 
-import { Spinner } from '@strata/react';
+import { Spinner } from '@syntara/react';
 
 export default function Example() {
   return (
@@ -8,10 +8,10 @@ export default function Example() {
       style={{
         display: 'flex',
         alignItems: 'center',
-        gap: 'var(--strata-space-2)',
+        gap: 'var(--syntara-space-2)',
         margin: 0,
-        color: 'var(--strata-color-text-subtle)',
-        fontSize: 'var(--strata-font-size-sm)',
+        color: 'var(--syntara-color-text-subtle)',
+        fontSize: 'var(--syntara-font-size-sm)',
       }}
     >
       {/* The spinner announces its label; the visible text repeats it for sighted users. */}

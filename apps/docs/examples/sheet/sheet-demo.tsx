@@ -1,7 +1,7 @@
 'use client';
 
-import { Button, Checkbox, CheckboxGroup, DialogTrigger, Sheet, TextField } from '@strata/react';
-import { IconAdjustmentsHorizontal } from '@strata/icons';
+import { Button, Checkbox, CheckboxGroup, DialogTrigger, Sheet, TextField } from '@syntara/react';
+import { IconAdjustmentsHorizontal } from '@syntara/icons';
 
 export default function Example() {
   return (

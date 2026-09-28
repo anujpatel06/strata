@@ -1,7 +1,7 @@
 'use client';
 
-import { IconSearch } from '@strata/icons';
-import { Button, Card, CardDescription, CardHeader, CardTitle, EmptyState } from '@strata/react';
+import { IconSearch } from '@syntara/icons';
+import { Button, Card, CardDescription, CardHeader, CardTitle, EmptyState } from '@syntara/react';
 
 export default function Example() {
   return (

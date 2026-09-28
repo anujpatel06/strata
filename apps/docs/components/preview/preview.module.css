@@ -7,11 +7,11 @@
 .frame {
   overflow: hidden;
   border: 1px solid transparent;
-  border-radius: var(--strata-radius-container);
-  background: var(--strata-color-surface-default);
+  border-radius: var(--syntara-radius-container);
+  background: var(--syntara-color-surface-default);
   box-shadow:
-    0 0 0 var(--strata-hairline) var(--strata-color-border-subtle),
-    var(--strata-shadow-raised);
+    0 0 0 var(--syntara-hairline) var(--syntara-color-border-subtle),
+    var(--syntara-shadow-raised);
 }
 @supports (corner-shape: squircle) {
   .frame {
@@ -24,9 +24,9 @@
   flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
-  gap: var(--strata-space-2);
-  padding: var(--strata-space-2);
-  box-shadow: inset 0 calc(var(--strata-hairline) * -1) 0 0 var(--strata-color-border-subtle);
+  gap: var(--syntara-space-2);
+  padding: var(--syntara-space-2);
+  box-shadow: inset 0 calc(var(--syntara-hairline) * -1) 0 0 var(--syntara-color-border-subtle);
 }
 
 .tabs.tabs {
@@ -37,13 +37,13 @@
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: var(--strata-space-2);
+  gap: var(--syntara-space-2);
 }
 
 .divider {
   inline-size: 0;
-  block-size: var(--strata-space-5);
-  box-shadow: 0 0 0 calc(var(--strata-hairline) / 2) var(--strata-color-border-default);
+  block-size: var(--syntara-space-5);
+  box-shadow: 0 0 0 calc(var(--syntara-hairline) / 2) var(--syntara-color-border-default);
 }
 
 .group.group {
@@ -54,7 +54,7 @@
 .tenantPicker {
   display: inline-flex;
   align-items: center;
-  gap: var(--strata-space-2);
+  gap: var(--syntara-space-2);
 }
 .dots.dots {
   flex: none;
@@ -64,41 +64,41 @@
   box-shadow: none;
 }
 .dotToggle.dotToggle {
-  inline-size: var(--strata-space-6);
-  min-inline-size: var(--strata-space-6);
-  block-size: var(--strata-space-6);
-  min-block-size: var(--strata-space-6);
+  inline-size: var(--syntara-space-6);
+  min-inline-size: var(--syntara-space-6);
+  block-size: var(--syntara-space-6);
+  min-block-size: var(--syntara-space-6);
   padding: 0;
-  border-radius: var(--strata-radius-pill);
+  border-radius: var(--syntara-radius-pill);
   background: transparent;
   box-shadow: none;
 }
 .dotToggle.dotToggle[data-hovered] {
   background: var(--docs-hover);
 }
-/* The dot carries data-strata-theme, so it paints in the tenant's own primary. The ring around it is drawn in the
+/* The dot carries data-syntara-theme, so it paints in the tenant's own primary. The ring around it is drawn in the
    site's tokens (a shadow on the button), and closes in around the selected tenant. */
 .dot {
   display: block;
-  inline-size: var(--strata-space-3);
-  block-size: var(--strata-space-3);
-  border-radius: var(--strata-radius-pill);
-  background: var(--strata-color-action-primary-bg);
-  box-shadow: inset 0 0 0 var(--strata-hairline) color-mix(in oklab, var(--strata-color-text-default) 18%, transparent);
+  inline-size: var(--syntara-space-3);
+  block-size: var(--syntara-space-3);
+  border-radius: var(--syntara-radius-pill);
+  background: var(--syntara-color-action-primary-bg);
+  box-shadow: inset 0 0 0 var(--syntara-hairline) color-mix(in oklab, var(--syntara-color-text-default) 18%, transparent);
 }
 .dotToggle.dotToggle[data-selected] {
   background: transparent;
-  box-shadow: inset 0 0 0 2px var(--strata-color-text-default);
+  box-shadow: inset 0 0 0 2px var(--syntara-color-text-default);
 }
 @media (prefers-reduced-motion: no-preference) {
   .dot {
-    transition: scale var(--strata-motion-duration-spring) var(--strata-motion-spring);
+    transition: scale var(--syntara-motion-duration-spring) var(--syntara-motion-spring);
   }
   .dotToggle.dotToggle[data-pressed] .dot {
     scale: 0.8;
   }
   .dotToggle.dotToggle[data-selected] .dot {
-    animation: dot-pop var(--strata-motion-duration-spring) var(--strata-motion-spring);
+    animation: dot-pop var(--syntara-motion-duration-spring) var(--syntara-motion-spring);
   }
 }
 @keyframes dot-pop {
@@ -107,15 +107,15 @@
   }
 }
 .tenantName {
-  min-inline-size: calc(var(--strata-space-12) + var(--strata-space-2));
-  color: var(--strata-color-text-default);
-  font-size: var(--strata-font-size-sm);
-  letter-spacing: var(--strata-font-tracking-sm);
-  font-weight: var(--strata-font-weight-medium);
+  min-inline-size: calc(var(--syntara-space-12) + var(--syntara-space-2));
+  color: var(--syntara-color-text-default);
+  font-size: var(--syntara-font-size-sm);
+  letter-spacing: var(--syntara-font-tracking-sm);
+  font-weight: var(--syntara-font-weight-medium);
 }
 
 .iconToggle.iconToggle {
-  padding-inline: var(--strata-space-2);
+  padding-inline: var(--syntara-space-2);
 }
 
 .panel.panel {
@@ -129,18 +129,18 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  min-block-size: calc(var(--strata-space-16) * 4 + var(--strata-space-6)); /* 280px */
-  padding-block: var(--strata-space-12);
-  padding-inline: var(--strata-space-6);
-  background-color: var(--strata-color-surface-canvas);
+  min-block-size: calc(var(--syntara-space-16) * 4 + var(--syntara-space-6)); /* 280px */
+  padding-block: var(--syntara-space-12);
+  padding-inline: var(--syntara-space-6);
+  background-color: var(--syntara-color-surface-canvas);
   /* The dot grid fades out toward the edges (a canvas-coloured vignette laid over the dots, never over the
      component), so the example in the middle is the focus of the stage. */
   background-image:
-    radial-gradient(ellipse 70% 80% at center, transparent 30%, var(--strata-color-surface-canvas)),
-    radial-gradient(color-mix(in oklab, var(--strata-color-border-default) 70%, transparent) 1px, transparent 1px);
+    radial-gradient(ellipse 70% 80% at center, transparent 30%, var(--syntara-color-surface-canvas)),
+    radial-gradient(color-mix(in oklab, var(--syntara-color-border-default) 70%, transparent) 1px, transparent 1px);
   background-size:
     100% 100%,
-    var(--strata-space-4) var(--strata-space-4);
+    var(--syntara-space-4) var(--syntara-space-4);
   background-position: center;
 }
 .stage.stage[data-align='start'] {
@@ -148,7 +148,7 @@
 }
 @media (min-width: 768px) {
   .stage.stage {
-    padding-inline: var(--strata-space-10);
+    padding-inline: var(--syntara-space-10);
   }
 }
 
@@ -157,7 +157,7 @@
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;
-  gap: var(--strata-space-3);
+  gap: var(--syntara-space-3);
   inline-size: 100%;
   min-inline-size: 0;
 }
@@ -167,13 +167,13 @@
 
 .message {
   max-inline-size: 48ch;
-  color: var(--strata-color-text-subtle);
-  font-size: var(--strata-font-size-md);
+  color: var(--syntara-color-text-subtle);
+  font-size: var(--syntara-font-size-md);
   text-align: center;
 }
 .message code {
-  font-family: var(--strata-font-mono);
-  font-size: var(--strata-font-size-sm);
+  font-family: var(--syntara-font-mono);
+  font-size: var(--syntara-font-size-sm);
 }
 
 /* Phones: density is the least-used control and would push the bar to a third line, so it waits for more room. */

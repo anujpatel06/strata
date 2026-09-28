@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Badge, Button, DataTable, DataTableToolbar, SearchField, type DataTableColumn, type DataTableSelection } from '@strata/react';
+import { Badge, Button, DataTable, DataTableToolbar, SearchField, type DataTableColumn, type DataTableSelection } from '@syntara/react';
 
 type Claim = { id: string; member: string; type: string; status: 'In review' | 'Approved' | 'Needs info'; amount: number };
 

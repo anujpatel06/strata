@@ -19,7 +19,7 @@
     "text-field"
   ],
   "reactAria": "https://react-spectrum.adobe.com/react-aria/RadioGroup.html",
-  "usage": "import { Radio, RadioGroup } from '@strata/react';\n\nexport function Payout() {\n  return (\n    <RadioGroup variant=\"card\" label=\"How should we pay you?\" defaultValue=\"bank\">\n      <Radio value=\"bank\" description=\"1–2 working days. No fee.\">Bank transfer</Radio>\n      <Radio value=\"instant\" description=\"In minutes. 1% fee.\">Instant payout</Radio>\n    </RadioGroup>\n  );\n}",
+  "usage": "import { Radio, RadioGroup } from '@syntara/react';\n\nexport function Payout() {\n  return (\n    <RadioGroup variant=\"card\" label=\"How should we pay you?\" defaultValue=\"bank\">\n      <Radio value=\"bank\" description=\"1–2 working days. No fee.\">Bank transfer</Radio>\n      <Radio value=\"instant\" description=\"In minutes. 1% fee.\">Instant payout</Radio>\n    </RadioGroup>\n  );\n}",
   "examples": [
     {
       "name": "radio-group-demo",

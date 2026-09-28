@@ -57,9 +57,9 @@ export function SiteFooter() {
       <div className={styles.inner}>
         <div className={styles.top}>
           <div className={styles.statement}>
-            <Link href="/" className={styles.brand} aria-label="Strata home">
+            <Link href="/" className={styles.brand} aria-label="Syntara home">
               <LogoMark size={20} />
-              <span aria-hidden="true">Strata</span>
+              <span aria-hidden="true">Syntara</span>
             </Link>
             <p className={styles.line}>
               One React library, <em>any brand</em>, accessible by construction.
@@ -93,7 +93,7 @@ export function SiteFooter() {
           <a href={githubTree('docs/adr')} className={styles.inlineLink}>
             docs/adr
           </a>
-          .{version ? <span className={styles.version}> @strata/react {version}</span> : null}
+          .{version ? <span className={styles.version}> @syntara/react {version}</span> : null}
         </p>
       </div>
     </footer>

@@ -78,7 +78,7 @@ export function radiusForShape(shape: Shape): Foundations['radius'] {
   return { ...r };
 }
 
-/** --strata-font-tracking-caps: open for Latin small caps; 0 for Arabic (joins) and scripts that set their own. */
+/** --syntara-font-tracking-caps: open for Latin small caps; 0 for Arabic (joins) and scripts that set their own. */
 export function capsTracking(pair: Pick<TypePair, 'supportsArabic' | 'script'>): string {
   if (pair.supportsArabic) return '0';
   return pair.script?.capsTracking ?? '0.08em';

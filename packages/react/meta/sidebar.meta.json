@@ -20,7 +20,7 @@
   ],
   "dependencies": [
     "react-aria-components",
-    "@strata/icons"
+    "@syntara/icons"
   ],
   "registryDependencies": [
     "avatar",
@@ -31,7 +31,7 @@
     "tooltip"
   ],
   "reactAria": "https://react-spectrum.adobe.com/react-aria/Disclosure.html",
-  "usage": "import { IconTile, Menu, MenuItem, Sidebar, SidebarFooter, SidebarHeader, SidebarItem, SidebarSearch, SidebarSection, SidebarUser } from '@strata/react';\nimport { IconLayoutGrid, IconSettings, IconSparkles, IconUsers } from '@strata/icons';\n\nexport function AppNav({ collapsed, onCollapsedChange, openSearch }) {\n  return (\n    <Sidebar aria-label=\"Main\" variant=\"floating\" collapsed={collapsed} onCollapsedChange={onCollapsedChange}>\n      <SidebarHeader logo={<IconTile tint=\"none\"><IconSparkles /></IconTile>} title=\"Tempo\" subtitle=\"Plan the team's week\" />\n      <SidebarSearch shortcut=\"⌘K\" onPress={openSearch} />\n      <SidebarSection title=\"General\">\n        <SidebarItem href=\"/\" icon={<IconLayoutGrid />}>Overview</SidebarItem>\n        <SidebarItem icon={<IconUsers />} label=\"Employees\" count={2}>\n          <SidebarItem href=\"/people/jonah\">Jonah Adams</SidebarItem>\n          <SidebarItem href=\"/people/yuri\" isCurrent>Yuri Jackson</SidebarItem>\n        </SidebarItem>\n      </SidebarSection>\n      <SidebarFooter>\n        <SidebarItem href=\"/settings\" icon={<IconSettings />}>Settings</SidebarItem>\n        <SidebarUser name=\"Maya Chen\" description=\"maya@example.com\" menu={<Menu><MenuItem id=\"out\">Sign out</MenuItem></Menu>} />\n      </SidebarFooter>\n    </Sidebar>\n  );\n}",
+  "usage": "import { IconTile, Menu, MenuItem, Sidebar, SidebarFooter, SidebarHeader, SidebarItem, SidebarSearch, SidebarSection, SidebarUser } from '@syntara/react';\nimport { IconLayoutGrid, IconSettings, IconSparkles, IconUsers } from '@syntara/icons';\n\nexport function AppNav({ collapsed, onCollapsedChange, openSearch }) {\n  return (\n    <Sidebar aria-label=\"Main\" variant=\"floating\" collapsed={collapsed} onCollapsedChange={onCollapsedChange}>\n      <SidebarHeader logo={<IconTile tint=\"none\"><IconSparkles /></IconTile>} title=\"Tempo\" subtitle=\"Plan the team's week\" />\n      <SidebarSearch shortcut=\"⌘K\" onPress={openSearch} />\n      <SidebarSection title=\"General\">\n        <SidebarItem href=\"/\" icon={<IconLayoutGrid />}>Overview</SidebarItem>\n        <SidebarItem icon={<IconUsers />} label=\"Employees\" count={2}>\n          <SidebarItem href=\"/people/jonah\">Jonah Adams</SidebarItem>\n          <SidebarItem href=\"/people/yuri\" isCurrent>Yuri Jackson</SidebarItem>\n        </SidebarItem>\n      </SidebarSection>\n      <SidebarFooter>\n        <SidebarItem href=\"/settings\" icon={<IconSettings />}>Settings</SidebarItem>\n        <SidebarUser name=\"Maya Chen\" description=\"maya@example.com\" menu={<Menu><MenuItem id=\"out\">Sign out</MenuItem></Menu>} />\n      </SidebarFooter>\n    </Sidebar>\n  );\n}",
   "examples": [
     {
       "name": "sidebar-demo",
@@ -178,7 +178,7 @@
       "component": "SidebarItem",
       "name": "icon",
       "type": "ReactNode",
-      "description": "Leading icon from @strata/icons. Needed for the collapsed mode. Nested items without one get a small square bullet."
+      "description": "Leading icon from @syntara/icons. Needed for the collapsed mode. Nested items without one get a small square bullet."
     },
     {
       "component": "SidebarItem",

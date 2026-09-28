@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Switch } from '@strata/react';
+import { Switch } from '@syntara/react';
 
 export default function Example() {
   const [autopay, setAutopay] = useState(false);

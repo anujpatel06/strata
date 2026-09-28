@@ -4,15 +4,15 @@ import { readdirSync } from 'node:fs';
 import path from 'node:path';
 
 const UI_DIR = path.resolve(__dirname, '../../packages/react/src/ui');
-const BARREL = '\0strata-react-barrel';
+const BARREL = '\0syntara-react-barrel';
 
-/** '@strata/react' → a live barrel of whatever exists in src/ui right now (components land while agents work). */
+/** '@syntara/react' → a live barrel of whatever exists in src/ui right now (components land while agents work). */
 function liveBarrel(): Plugin {
   return {
-    name: 'strata-live-barrel',
+    name: 'syntara-live-barrel',
     enforce: 'pre',
     resolveId(id) {
-      return id === '@strata/react' ? BARREL : null;
+      return id === '@syntara/react' ? BARREL : null;
     },
     load(id) {
       if (id !== BARREL) return null;

@@ -1,6 +1,6 @@
 import { useId, useMemo } from 'react';
-import { IconArrowNarrowRight, IconCheck, IconCircleCheck, IconCircleX, IconX } from '@strata/icons';
-import type { Adjustment, ContrastCheck, Scheme, Theme } from '@strata/theme-engine';
+import { IconArrowNarrowRight, IconCheck, IconCircleCheck, IconCircleX, IconX } from '@syntara/icons';
+import type { Adjustment, ContrastCheck, Scheme, Theme } from '@syntara/theme-engine';
 import { KIND_LABEL, SCHEME_LABEL, floorRatio, formatRequired } from './format';
 import styles from './AccessibilityPanel.module.css';
 import ui from './ui.module.css';

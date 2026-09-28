@@ -1,17 +1,17 @@
 .toc {
   display: grid;
-  gap: var(--strata-space-2);
-  font-size: var(--strata-font-size-sm);
+  gap: var(--syntara-space-2);
+  font-size: var(--syntara-font-size-sm);
 }
 
 .heading {
-  font-weight: var(--strata-font-weight-medium);
-  color: var(--strata-color-text-default);
+  font-weight: var(--syntara-font-weight-medium);
+  color: var(--syntara-color-text-default);
 }
 
 .list {
   display: grid;
-  gap: var(--strata-space-1);
+  gap: var(--syntara-space-1);
   margin: 0;
   padding: 0;
   list-style: none;
@@ -19,25 +19,25 @@
 }
 
 .list li[data-depth='3'] .link {
-  padding-inline-start: var(--strata-space-6);
+  padding-inline-start: var(--syntara-space-6);
 }
 
 .link {
   display: block;
   margin-inline-start: -1px;
-  padding-block: var(--strata-space-1);
-  padding-inline-start: var(--strata-space-3);
+  padding-block: var(--syntara-space-1);
+  padding-inline-start: var(--syntara-space-3);
   border-inline-start: 1px solid transparent;
-  color: var(--strata-color-text-subtle);
-  line-height: var(--strata-line-height-snug);
+  color: var(--syntara-color-text-subtle);
+  line-height: var(--syntara-line-height-snug);
   transition:
-    color var(--strata-motion-duration-fast) var(--strata-motion-easing),
-    border-color var(--strata-motion-duration-normal) var(--strata-motion-easing);
+    color var(--syntara-motion-duration-fast) var(--syntara-motion-easing),
+    border-color var(--syntara-motion-duration-normal) var(--syntara-motion-easing);
 }
 .link:hover {
-  color: var(--strata-color-text-default);
+  color: var(--syntara-color-text-default);
 }
 .link[aria-current='location'] {
-  border-inline-start-color: var(--strata-color-text-default);
-  color: var(--strata-color-text-default);
+  border-inline-start-color: var(--syntara-color-text-default);
+  color: var(--syntara-color-text-default);
 }

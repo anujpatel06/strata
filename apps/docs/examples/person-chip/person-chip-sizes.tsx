@@ -1,10 +1,10 @@
 'use client';
 
-import { PersonChip, PersonChipGroup } from '@strata/react';
+import { PersonChip, PersonChipGroup } from '@syntara/react';
 
 export default function Example() {
   return (
-    <div style={{ display: 'grid', gap: 'var(--strata-space-3)', justifyItems: 'start' }}>
+    <div style={{ display: 'grid', gap: 'var(--syntara-space-3)', justifyItems: 'start' }}>
       <PersonChipGroup aria-label="Reviewers" size="md">
         <PersonChip name="Daniel Okafor" />
         <PersonChip name="Mei Lin" />

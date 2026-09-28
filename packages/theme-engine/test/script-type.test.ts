@@ -66,20 +66,20 @@ describe('Haat: script tokens reach every exporter', () => {
 
   it('CSS variables: Devanagari line heights, caps tracking 0, the same names as every tenant', () => {
     const v = toCssVariables(theme, 'light');
-    expect(v['--strata-line-height-tight']).toBe('1.44');
-    expect(v['--strata-line-height-snug']).toBe('1.44');
-    expect(v['--strata-line-height-normal']).toBe('1.5');
-    expect(v['--strata-font-tracking-caps']).toBe('0');
-    expect(v['--strata-font-heading-tracking']).toBe('-0.01em');
-    expect(v['--strata-font-size-xs']).toBe('12px');
+    expect(v['--syntara-line-height-tight']).toBe('1.44');
+    expect(v['--syntara-line-height-snug']).toBe('1.44');
+    expect(v['--syntara-line-height-normal']).toBe('1.5');
+    expect(v['--syntara-font-tracking-caps']).toBe('0');
+    expect(v['--syntara-font-heading-tracking']).toBe('-0.01em');
+    expect(v['--syntara-font-size-xs']).toBe('12px');
     // The per-size curve is unchanged (it is 0 or negative; measured, it breaks no headline).
     const vela = toCssVariables(generateTheme({ ...HAAT, typePair: 'precise' }), 'light');
-    for (const k of ['xs', 'sm', 'md', 'lg', 'xl', '2xl', '3xl', '4xl', '5xl']) expect(v[`--strata-font-tracking-${k}`]).toBe(vela[`--strata-font-tracking-${k}`]);
+    for (const k of ['xs', 'sm', 'md', 'lg', 'xl', '2xl', '3xl', '4xl', '5xl']) expect(v[`--syntara-font-tracking-${k}`]).toBe(vela[`--syntara-font-tracking-${k}`]);
     // Same variable names, same order, as a Latin pair: consumers of toCssVariables need no change.
     expect(Object.keys(v)).toEqual(Object.keys(vela));
-    const css = toCSS(theme, { selector: '[data-strata-theme="haat"]' });
-    expect(css).toContain('--strata-line-height-tight: 1.44;');
-    expect(css).toContain('--strata-font-tracking-caps: 0;');
+    const css = toCSS(theme, { selector: '[data-syntara-theme="haat"]' });
+    expect(css).toContain('--syntara-line-height-tight: 1.44;');
+    expect(css).toContain('--syntara-font-tracking-caps: 0;');
   });
 
   it('DTCG: the same line heights, the token count still matches countTokens', () => {
@@ -87,7 +87,7 @@ describe('Haat: script tokens reach every exporter', () => {
     expect(doc.foundation.font.lineHeight.tight).toEqual({ $type: 'number', $value: 1.44 });
     expect(doc.foundation.font.lineHeight.snug).toEqual({ $type: 'number', $value: 1.44 });
     expect(doc.foundation.font.lineHeight.normal).toEqual({ $type: 'number', $value: 1.5 });
-    expect(doc.$extensions['com.strata.theme'].typePair.script.name).toBe('devanagari');
+    expect(doc.$extensions['com.syntara.theme'].typePair.script.name).toBe('devanagari');
     expect(countLeafTokens(doc)).toBe(countTokens());
     expect(theme.summary.tokenCount).toBe(countTokens());
   });
@@ -106,19 +106,25 @@ describe('Haat: script tokens reach every exporter', () => {
 
 describe('Latin and Arabic pairs are unchanged', () => {
   /**
-   * sha256 (first 16 hex) of each exporter's output, recorded before the Devanagari pair was added, for fuzz brands 1–8
-   * each forced onto one of the eight earlier pairs. Figma is not here: it gained font/lineHeight for every pair (a
-   * deliberate addition, so Figma carries the per-script values too).
+   * sha256 (first 16 hex) of each exporter's output, for fuzz brands 1–8 each forced onto one of the eight earlier
+   * pairs. Figma is not here: it gained font/lineHeight for every pair (a deliberate addition, so Figma carries the
+   * per-script values too).
+   *
+   * Recorded before the Devanagari pair was added, then **re-recorded on 2026-09-28 for the rename to Syntara**
+   * (ADR-029), which renamed every custom property in this output from `--strata-*` to `--syntara-*`. Before
+   * re-recording, each of these 32 outputs was hashed again with the name substituted back, and every one reproduced
+   * the pre-rename hash exactly — so the rename changed the token *names* and no token *value*. That check is not
+   * kept as a test: it only made sense against the pre-rename hashes, which this table replaces.
    */
   const BEFORE: [TypePairId, css: string, dtcg: string, shadcn: string, vars: string][] = [
-    ['precise', '7aed923959149375', '369720695b934a0e', '7203e48671e064c4', 'c3bf6dd136ba245e'],
-    ['calm', 'fda115060cb598db', '117db704cfb53a80', '9a41f46e44d2d587', '72b3aff1e01ba0c0'],
-    ['friendly', '550ec64582d21c80', 'b2831508b917ff4d', 'cfbc094057853330', '892219e547f059b3'],
-    ['technical', 'c9293988118cd8af', '746645f5baa3ac15', '6cf5405fc6bf1929', '0adf781546a76ee4'],
-    ['bilingual-round', '8fea273b9c6b76c8', 'c2332213c2617733', '1e72eb77878be1fe', 'b08e31d85e29410b'],
-    ['bilingual-classic', '36a5ca2c2cf14f53', '5ebe8b1ef3c4ac65', 'e3edde06adf4814b', '4d5586a9d57fa379'],
-    ['editorial', '7d05b01949c22167', 'dc88936f26181110', 'be3d7739fa4c943b', 'f4dcd48f02950f7a'],
-    ['modern', 'f99631d748927e97', '5bb338b500712beb', '522a9ddba219a067', '3df1ab4ac23a8293'],
+    ['precise', '1e3c13e70999f951', 'b71cda0e0880abe5', '7d28a1aad0f2c6d9', 'f670f86360cb0285'],
+    ['calm', '2464e0f12dcee3b8', 'd74a80cf1dbae997', '76867bc7a1f22b70', '6e627967ebadae6d'],
+    ['friendly', 'fb921f3fccb9d4b5', '1008ee523967a2a7', 'e38f3efee6290ae4', '53fa47c9c70f9bb8'],
+    ['technical', 'f50e1f3c7d957217', 'c2f561b6455836dd', '0c23a07967510672', '6af9aabddb5d63df'],
+    ['bilingual-round', 'b898bb6967bda38c', 'd35a2915c88578fd', '9ef142c32702e62b', '445c02b9fd9266d2'],
+    ['bilingual-classic', '7fdad2f84dedc61e', '6341ca5e75a39cbf', '47c9bbe33dc2a983', 'b75032d00a57f7e5'],
+    ['editorial', 'e64fad6fa3d699d5', 'e42c02bd04fb9a62', '8b7f0a706369ea2d', 'e41e2343596a9423'],
+    ['modern', '808f8ffdacc2ad8e', '8e537795ec21711a', '9de8d1fb2bdd5b94', '556fcbecbb155f39'],
   ];
   const inputs = fuzzInputs().slice(0, 8);
 

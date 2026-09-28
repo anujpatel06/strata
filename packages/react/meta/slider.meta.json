@@ -18,7 +18,7 @@
     "text-field"
   ],
   "reactAria": "https://react-spectrum.adobe.com/react-aria/Slider.html",
-  "usage": "import { Slider } from '@strata/react';\n\nexport function Budget() {\n  return <Slider label=\"Monthly budget\" defaultValue={60} />;\n}",
+  "usage": "import { Slider } from '@syntara/react';\n\nexport function Budget() {\n  return <Slider label=\"Monthly budget\" defaultValue={60} />;\n}",
   "examples": [
     {
       "name": "slider-demo",

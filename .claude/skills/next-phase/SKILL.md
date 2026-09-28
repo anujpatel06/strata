@@ -1,6 +1,6 @@
 ---
 name: next-phase
-description: Plan and start the next Strata phase from BRIEF.md §13 — plan first, ask Anuj about design trade-offs, build, verify, log, then stop for review.
+description: Plan and start the next Syntara phase from BRIEF.md §13 — plan first, ask Anuj about design trade-offs, build, verify, log, then stop for review.
 disable-model-invocation: true
 argument-hint: "[phase number]"
 ---

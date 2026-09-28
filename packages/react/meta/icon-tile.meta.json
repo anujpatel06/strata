@@ -15,7 +15,7 @@
   "registryDependencies": [
     "avatar"
   ],
-  "usage": "import { IconTile } from '@strata/react';\nimport { IconWallet } from '@strata/icons';\n\nexport function WalletTile() {\n  return (\n    <IconTile tint=\"solid\">\n      <IconWallet />\n    </IconTile>\n  );\n}",
+  "usage": "import { IconTile } from '@syntara/react';\nimport { IconWallet } from '@syntara/icons';\n\nexport function WalletTile() {\n  return (\n    <IconTile tint=\"solid\">\n      <IconWallet />\n    </IconTile>\n  );\n}",
   "examples": [
     {
       "name": "icon-tile-demo",
@@ -48,7 +48,7 @@
       "component": "IconTile",
       "name": "children",
       "type": "ReactNode",
-      "description": "An icon from @strata/icons. Sized to half the tile at the brand's icon stroke."
+      "description": "An icon from @syntara/icons. Sized to half the tile at the brand's icon stroke."
     },
     {
       "component": "IconTile",
@@ -104,7 +104,7 @@
   "typeNotes": [
     {
       "prop": "tint",
-      "note": "There is no 'neutral' tint (Badge's tone has one). The quiet, uncoloured tile is 'none'. The type is IconTileTint, exported from @strata/react.",
+      "note": "There is no 'neutral' tint (Badge's tone has one). The quiet, uncoloured tile is 'none'. The type is IconTileTint, exported from @syntara/react.",
       "example": "<IconTile tint={earned ? 'success' : 'none'}>"
     }
   ],

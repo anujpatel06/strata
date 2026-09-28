@@ -1,9 +1,9 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "urn:strata:sdui:v1:node:Card",
+  "$id": "urn:syntara:sdui:v1:node:Card",
   "title": "Card",
   "description": "A surface that groups related content and actions.",
-  "x-strata": {
+  "x-syntara": {
     "node": "Card",
     "component": "card",
     "export": "Card",
@@ -20,7 +20,7 @@
       "const": "Card"
     },
     "id": {
-      "$ref": "urn:strata:sdui:v1:defs#/$defs/NodeId"
+      "$ref": "urn:syntara:sdui:v1:defs#/$defs/NodeId"
     },
     "props": {
       "type": "object",
@@ -68,20 +68,20 @@
         },
         "oneOf": [
           {
-            "$ref": "urn:strata:sdui:v1:node:CardHeader"
+            "$ref": "urn:syntara:sdui:v1:node:CardHeader"
           },
           {
-            "$ref": "urn:strata:sdui:v1:node:CardContent"
+            "$ref": "urn:syntara:sdui:v1:node:CardContent"
           },
           {
-            "$ref": "urn:strata:sdui:v1:node:CardFooter"
+            "$ref": "urn:syntara:sdui:v1:node:CardFooter"
           }
         ]
       }
     },
     "fallback": {
       "description": "Rendered instead of this node by a client that doesn't know its type. Must be a node that client knows.",
-      "$ref": "urn:strata:sdui:v1:screen#/$defs/Node"
+      "$ref": "urn:syntara:sdui:v1:screen#/$defs/Node"
     }
   },
   "additionalProperties": false

@@ -1,10 +1,10 @@
 'use client';
 
-import { Tag } from '@strata/react';
+import { Tag } from '@syntara/react';
 
 export default function Example() {
   return (
-    <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 'var(--strata-space-2)' }}>
+    <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 'var(--syntara-space-2)' }}>
       <Tag tone="success" uppercase>
         Cashless
       </Tag>

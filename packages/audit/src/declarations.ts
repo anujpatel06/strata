@@ -163,7 +163,7 @@ function reportColor(decl: Declaration, sink: Sink, node: ValueNode, text: strin
   if (!match) {
     sink.report('raw-color', span.start, span.end, `${text} is a raw colour. Components and pages use colour roles only.`, {
       description:
-        'Use a colour role, var(--strata-color-…). For a tint, use color-mix(in oklab, var(--strata-color-…) N%, transparent). This value could not be resolved, so no role is suggested.',
+        'Use a colour role, var(--syntara-color-…). For a tint, use color-mix(in oklab, var(--syntara-color-…) N%, transparent). This value could not be resolved, so no role is suggested.',
       safe: false,
     });
     return;
@@ -352,7 +352,7 @@ function checkFontWeight(decl: Declaration, sink: Sink, nodes: ValueNode[]): voi
   const span = spanOf(decl, node);
   if (word === 'bolder' || word === 'lighter') {
     sink.report('raw-font-weight', span.start, span.end, `${node.value} is a relative font weight, not a token.`, {
-      description: 'Use a weight token: var(--strata-font-weight-regular), -medium, -semibold or -bold.',
+      description: 'Use a weight token: var(--syntara-font-weight-regular), -medium, -semibold or -bold.',
       safe: false,
     });
     return;
@@ -384,8 +384,8 @@ function checkFontWeight(decl: Declaration, sink: Sink, nodes: ValueNode[]): voi
 
 function familyAdvice(value: string): string {
   const v = value.toLowerCase();
-  if (/mono|courier|consolas|menlo/.test(v)) return 'var(--strata-font-mono)';
-  return 'var(--strata-font-body)';
+  if (/mono|courier|consolas|menlo/.test(v)) return 'var(--syntara-font-mono)';
+  return 'var(--syntara-font-body)';
 }
 
 function checkFontFamily(decl: Declaration, sink: Sink, nodes: ValueNode[]): void {
@@ -398,11 +398,11 @@ function checkFontFamily(decl: Declaration, sink: Sink, nodes: ValueNode[]): voi
     return;
   }
   // A private custom property (var(--_font)) can't be followed from here, so it passes. A fallback list after a
-  // token, such as var(--strata-font-mono), monospace, is a literal again.
+  // token, such as var(--syntara-font-mono), monospace, is a literal again.
   if (onlyOne && isVar(first)) {
     const name = first.nodes[0]?.value ?? '';
     const fallback = fallbackOf(first).filter((n) => n.type !== 'space');
-    if (fallback.length === 0 || name.startsWith('--strata-font-')) {
+    if (fallback.length === 0 || name.startsWith('--syntara-font-')) {
       sink.pass('font-family-literal');
       return;
     }
@@ -416,7 +416,7 @@ function checkFontFamily(decl: Declaration, sink: Sink, nodes: ValueNode[]): voi
     span.start,
     span.end,
     'This font family is written out. Fonts come from the brand\'s type pair.',
-    valueFix(decl, span, suggestion, `Use var(--strata-font-body), var(--strata-font-heading) or var(--strata-font-mono). Suggested: ${suggestion}.`, false),
+    valueFix(decl, span, suggestion, `Use var(--syntara-font-body), var(--syntara-font-heading) or var(--syntara-font-mono). Suggested: ${suggestion}.`, false),
   );
 }
 
@@ -429,7 +429,7 @@ function checkFontShorthand(decl: Declaration, sink: Sink, nodes: ValueNode[]): 
     return;
   }
   const last = words[words.length - 1]!;
-  if (isVar(last) && (last.nodes[0]?.value ?? '').startsWith('--strata-font-')) sink.pass('font-family-literal');
+  if (isVar(last) && (last.nodes[0]?.value ?? '').startsWith('--syntara-font-')) sink.pass('font-family-literal');
   else {
     sink.report('font-family-literal', decl.wholeStart, decl.wholeEnd, 'The font shorthand writes the family, size and weight as raw values.', {
       description: 'Write font-family, font-size and font-weight as separate declarations, each with its token.',

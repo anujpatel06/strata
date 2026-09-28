@@ -3,42 +3,42 @@
   --tooltip-shift: 0 0;
   z-index: 50;
   box-sizing: border-box;
-  max-inline-size: min(calc(var(--strata-space-16) * 4), calc(100vw - var(--strata-space-4) * 2));
-  padding: calc(var(--strata-space-1) * 1.5) var(--strata-space-2);
+  max-inline-size: min(calc(var(--syntara-space-16) * 4), calc(100vw - var(--syntara-space-4) * 2));
+  padding: calc(var(--syntara-space-1) * 1.5) var(--syntara-space-2);
   /* Solid inverse, never glass: too small to read as glass, and text.inverse is only solved on the solid fill. */
-  background: var(--strata-color-surface-inverse);
-  color: var(--strata-color-text-inverse);
-  border-radius: min(var(--strata-radius-button), calc(var(--strata-space-1) * 1.5));
+  background: var(--syntara-color-surface-inverse);
+  color: var(--syntara-color-text-inverse);
+  border-radius: min(var(--syntara-radius-button), calc(var(--syntara-space-1) * 1.5));
   /* Lifted off the page by the raised shadow; the sheen marks its top edge in dark schemes. */
-  box-shadow: var(--strata-shadow-highlight), var(--strata-shadow-raised);
+  box-shadow: var(--syntara-shadow-highlight), var(--syntara-shadow-raised);
   transform-origin: var(--trigger-anchor-point, center);
-  font-family: var(--strata-font-body);
-  font-size: var(--strata-font-size-xs);
-  font-weight: var(--strata-font-weight-medium);
-  line-height: var(--strata-line-height-snug);
+  font-family: var(--syntara-font-body);
+  font-size: var(--syntara-font-size-xs);
+  font-weight: var(--syntara-font-weight-medium);
+  line-height: var(--syntara-line-height-snug);
   text-align: start;
   overflow-wrap: break-word;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 .tooltip[data-placement='top'] {
-  --tooltip-shift: 0 var(--strata-space-1);
+  --tooltip-shift: 0 var(--syntara-space-1);
 }
 .tooltip[data-placement='bottom'] {
-  --tooltip-shift: 0 calc(var(--strata-space-1) * -1);
+  --tooltip-shift: 0 calc(var(--syntara-space-1) * -1);
 }
 .tooltip[data-placement='left'] {
-  --tooltip-shift: var(--strata-space-1) 0;
+  --tooltip-shift: var(--syntara-space-1) 0;
 }
 .tooltip[data-placement='right'] {
-  --tooltip-shift: calc(var(--strata-space-1) * -1) 0;
+  --tooltip-shift: calc(var(--syntara-space-1) * -1) 0;
 }
 
 .arrow svg {
   display: block;
-  inline-size: var(--strata-space-2);
-  block-size: var(--strata-space-2);
-  fill: var(--strata-color-surface-inverse);
+  inline-size: var(--syntara-space-2);
+  block-size: var(--syntara-space-2);
+  fill: var(--syntara-color-surface-inverse);
 }
 .arrow[data-placement='bottom'] svg {
   rotate: 180deg;
@@ -56,10 +56,10 @@
    [data-instant] marks a swap from one tooltip straight to the next: neither one animates. */
 @media (prefers-reduced-motion: no-preference) {
   .tooltip[data-entering]:not([data-instant]) {
-    animation: pop var(--strata-motion-duration-fast) var(--strata-motion-easing-out);
+    animation: pop var(--syntara-motion-duration-fast) var(--syntara-motion-easing-out);
   }
   .tooltip[data-exiting]:not([data-instant]) {
-    animation: fade var(--strata-motion-duration-fast) var(--strata-motion-easing) reverse;
+    animation: fade var(--syntara-motion-duration-fast) var(--syntara-motion-easing) reverse;
   }
 
   @keyframes pop {

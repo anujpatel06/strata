@@ -1,6 +1,6 @@
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { IconCopy } from '@strata/icons';
+import { IconCopy } from '@syntara/icons';
 import { Button } from '../src/ui/button';
 import { Tooltip, TooltipTrigger, type TooltipProps } from '../src/ui/tooltip';
 
@@ -58,14 +58,14 @@ describe('Tooltip', () => {
   it('carries the ThemeScope attributes of its trigger', async () => {
     const user = userEvent.setup();
     render(
-      <div data-strata-theme="vela" data-strata-scheme="dark" dir="rtl">
+      <div data-syntara-theme="vela" data-syntara-scheme="dark" dir="rtl">
         <Example />
       </div>,
     );
     await user.tab();
     const tooltip = await screen.findByRole('tooltip');
-    expect(tooltip).toHaveAttribute('data-strata-theme', 'vela');
-    expect(tooltip).toHaveAttribute('data-strata-scheme', 'dark');
+    expect(tooltip).toHaveAttribute('data-syntara-theme', 'vela');
+    expect(tooltip).toHaveAttribute('data-syntara-scheme', 'dark');
     expect(tooltip).toHaveAttribute('dir', 'rtl');
   });
 

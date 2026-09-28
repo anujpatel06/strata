@@ -13,21 +13,21 @@
  * The solid feedback roles were rejected: feedback.warning.solid is 1.85:1 on light sunken tracks.
  */
 .meter {
-  --_fill: var(--strata-color-text-brand);
-  --_track: var(--strata-color-surface-sunken);
-  --_track-size: calc(var(--strata-space-1) * 1.5);
+  --_fill: var(--syntara-color-text-brand);
+  --_track: var(--syntara-color-surface-sunken);
+  --_track-size: calc(var(--syntara-space-1) * 1.5);
   --_dir: 1;
 
   box-sizing: border-box;
   display: grid;
-  gap: var(--strata-space-2);
+  gap: var(--syntara-space-2);
   inline-size: 100%;
   min-inline-size: 0;
-  color: var(--strata-color-text-default);
-  font-family: var(--strata-font-body);
-  font-size: var(--strata-font-size-sm);
-  letter-spacing: var(--strata-font-tracking-sm);
-  line-height: var(--strata-line-height-snug);
+  color: var(--syntara-color-text-default);
+  font-family: var(--syntara-font-body);
+  font-size: var(--syntara-font-size-sm);
+  letter-spacing: var(--syntara-font-tracking-sm);
+  line-height: var(--syntara-line-height-snug);
 }
 
 .meter:dir(rtl) {
@@ -35,22 +35,22 @@
 }
 
 .meter[data-tone='accent'] {
-  --_fill: var(--strata-color-accent-text);
+  --_fill: var(--syntara-color-accent-text);
 }
 .meter[data-tone='neutral'] {
-  --_fill: var(--strata-color-text-subtle);
+  --_fill: var(--syntara-color-text-subtle);
 }
 .meter[data-tone='info'] {
-  --_fill: var(--strata-color-feedback-info-fg);
+  --_fill: var(--syntara-color-feedback-info-fg);
 }
 .meter[data-tone='success'] {
-  --_fill: var(--strata-color-feedback-success-fg);
+  --_fill: var(--syntara-color-feedback-success-fg);
 }
 .meter[data-tone='warning'] {
-  --_fill: var(--strata-color-feedback-warning-fg);
+  --_fill: var(--syntara-color-feedback-warning-fg);
 }
 .meter[data-tone='danger'] {
-  --_fill: var(--strata-color-feedback-danger-fg);
+  --_fill: var(--syntara-color-feedback-danger-fg);
 }
 
 /* ---- header ------------------------------------------------------------ */
@@ -60,17 +60,17 @@
   flex-wrap: wrap;
   align-items: baseline;
   justify-content: space-between;
-  column-gap: var(--strata-space-3);
-  row-gap: var(--strata-space-1);
+  column-gap: var(--syntara-space-3);
+  row-gap: var(--syntara-space-1);
   min-inline-size: 0;
 }
 
 .label {
   min-inline-size: 0;
-  color: var(--strata-color-text-default);
-  font-size: var(--strata-font-size-sm);
-  font-weight: var(--strata-font-weight-medium);
-  letter-spacing: var(--strata-font-tracking-sm);
+  color: var(--syntara-color-text-default);
+  font-size: var(--syntara-font-size-sm);
+  font-weight: var(--syntara-font-weight-medium);
+  letter-spacing: var(--syntara-font-tracking-sm);
 }
 
 /* With a label: value and caption sit together at the inline end ("₹7,400 used  of ₹18,000"). */
@@ -78,7 +78,7 @@
   display: flex;
   flex-wrap: wrap;
   align-items: baseline;
-  column-gap: var(--strata-space-1);
+  column-gap: var(--syntara-space-1);
   min-inline-size: 0;
   margin-inline-start: auto;
 }
@@ -88,25 +88,25 @@
 .meter[data-variant='card'] .readout {
   flex: 1 1 auto;
   justify-content: space-between;
-  column-gap: var(--strata-space-3);
+  column-gap: var(--syntara-space-3);
   margin-inline-start: 0;
 }
 
 .value {
-  color: var(--strata-color-text-default);
-  font-size: var(--strata-font-size-sm);
+  color: var(--syntara-color-text-default);
+  font-size: var(--syntara-font-size-sm);
   font-variant-numeric: tabular-nums;
-  font-weight: var(--strata-font-weight-medium);
-  letter-spacing: var(--strata-font-tracking-sm);
+  font-weight: var(--syntara-font-weight-medium);
+  letter-spacing: var(--syntara-font-tracking-sm);
   /* Isolated: its direction is set in the markup (the locale's, or its own text's for authored labels). */
   unicode-bidi: isolate;
 }
 
 .caption {
-  color: var(--strata-color-text-subtle);
-  font-size: var(--strata-font-size-xs);
+  color: var(--syntara-color-text-subtle);
+  font-size: var(--syntara-font-size-xs);
   font-variant-numeric: tabular-nums;
-  letter-spacing: var(--strata-font-tracking-xs);
+  letter-spacing: var(--syntara-font-tracking-xs);
   unicode-bidi: isolate;
 }
 
@@ -116,10 +116,10 @@
   position: relative;
   block-size: var(--_track-size);
   overflow: hidden;
-  border-radius: var(--strata-radius-pill);
+  border-radius: var(--syntara-radius-pill);
   background-color: var(--_track);
   /* A recessed channel: a faint inner shade along the top edge. */
-  box-shadow: inset 0 var(--strata-hairline) 1px color-mix(in oklab, var(--strata-color-text-default) 8%, transparent);
+  box-shadow: inset 0 var(--syntara-hairline) 1px color-mix(in oklab, var(--syntara-color-text-default) 8%, transparent);
 }
 
 /* Forced colours drop backgrounds: keep the channel and the fill visible. */
@@ -149,13 +149,13 @@
   .fill {
     inline-size: 100%;
     translate: calc((var(--_pct, 0%) - 100%) * var(--_dir)) 0;
-    transition: translate var(--strata-motion-duration-slow) var(--strata-motion-easing-out);
-    animation: strata-meter-fill calc(var(--strata-motion-duration-slow) * 2) var(--strata-motion-easing-out)
-      var(--strata-motion-duration-fast) backwards;
+    transition: translate var(--syntara-motion-duration-slow) var(--syntara-motion-easing-out);
+    animation: syntara-meter-fill calc(var(--syntara-motion-duration-slow) * 2) var(--syntara-motion-easing-out)
+      var(--syntara-motion-duration-fast) backwards;
   }
 }
 
-@keyframes strata-meter-fill {
+@keyframes syntara-meter-fill {
   from {
     translate: calc(-100% * var(--_dir)) 0;
   }
@@ -170,17 +170,17 @@
  * feedback fg roles are guaranteed 4.5:1 on surface.default, so the fill keeps its contrast.
  */
 .meter[data-variant='card'] {
-  --_track: var(--strata-color-surface-default);
-  --_track-size: calc(var(--strata-space-1) * 1.25);
+  --_track: var(--syntara-color-surface-default);
+  --_track-size: calc(var(--syntara-space-1) * 1.25);
 
-  gap: var(--strata-space-3);
-  padding-block: var(--strata-space-3) var(--strata-space-4);
-  padding-inline: var(--strata-space-4);
+  gap: var(--syntara-space-3);
+  padding-block: var(--syntara-space-3) var(--syntara-space-4);
+  padding-inline: var(--syntara-space-4);
   border-radius: max(
-    min(var(--strata-radius-badge), var(--strata-space-2)),
-    calc(var(--strata-radius-container) - var(--strata-card-inset) / 2)
+    min(var(--syntara-radius-badge), var(--syntara-space-2)),
+    calc(var(--syntara-radius-container) - var(--syntara-card-inset) / 2)
   );
-  background-color: var(--strata-color-surface-sunken);
+  background-color: var(--syntara-color-surface-sunken);
 }
 
 @supports (corner-shape: squircle) {
@@ -191,16 +191,16 @@
 
 .meter[data-variant='card'] .label {
   flex-basis: 100%;
-  color: var(--strata-color-text-subtle);
-  font-weight: var(--strata-font-weight-regular);
+  color: var(--syntara-color-text-subtle);
+  font-weight: var(--syntara-font-weight-regular);
 }
 
 .meter[data-variant='card'] .value {
-  font-size: var(--strata-font-size-md);
-  font-weight: var(--strata-font-weight-semibold);
-  letter-spacing: var(--strata-font-tracking-md);
+  font-size: var(--syntara-font-size-md);
+  font-weight: var(--syntara-font-weight-semibold);
+  letter-spacing: var(--syntara-font-tracking-md);
 }
 
 .meter[data-variant='card'] .track {
-  box-shadow: inset 0 0 0 var(--strata-hairline) var(--strata-color-border-subtle);
+  box-shadow: inset 0 0 0 var(--syntara-hairline) var(--syntara-color-border-subtle);
 }

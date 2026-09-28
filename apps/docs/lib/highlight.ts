@@ -1,7 +1,7 @@
 /**
  * Server-only syntax highlighting with Shiki, run while pages prerender (nothing ships to the client).
- * Dual theme through CSS light-dark(): tokens follow the computed `color-scheme`, which the Strata
- * theme CSS sets from data-strata-scheme — so code follows the site toggle and any ThemeScope.
+ * Dual theme through CSS light-dark(): tokens follow the computed `color-scheme`, which the Syntara
+ * theme CSS sets from data-syntara-scheme — so code follows the site toggle and any ThemeScope.
  *
  * Light uses github-light-default (Primer colours), not github-light: github-light's orange #e36209
  * is 3.4:1 on our code surface and fails WCAG 1.4.3. Its comment grey #6e7781 is 4.48:1 there, so it is

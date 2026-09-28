@@ -1,5 +1,5 @@
 /**
- * The only file that touches '@strata/audit'. `audit_snippet` and `find_token` call these two functions.
+ * The only file that touches '@syntara/audit'. `audit_snippet` and `find_token` call these two functions.
  *
  * The auditor is loaded on first use. If it is missing, or doesn't export the three functions yet, the tools
  * return an error that says so: the server still starts and the other tools still work.
@@ -65,7 +65,7 @@ interface Auditor {
 
 export class AuditorUnavailable extends Error {
   constructor(detail: string) {
-    super(`The Strata auditor (@strata/audit) can't be used: ${detail}`);
+    super(`The Syntara auditor (@syntara/audit) can't be used: ${detail}`);
     this.name = 'AuditorUnavailable';
   }
 }
@@ -76,7 +76,7 @@ let loaded: Promise<Auditor> | undefined;
 
 async function load(): Promise<Auditor> {
   // A variable specifier: the package may have no entry file yet, and that must not break the type check.
-  const specifier = '@strata/audit';
+  const specifier = '@syntara/audit';
   let mod: Record<string, unknown>;
   try {
     mod = (await import(specifier)) as Record<string, unknown>;

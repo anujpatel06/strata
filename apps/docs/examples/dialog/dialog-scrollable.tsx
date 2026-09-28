@@ -1,6 +1,6 @@
 'use client';
 
-import { Button, Dialog, DialogTrigger } from '@strata/react';
+import { Button, Dialog, DialogTrigger } from '@syntara/react';
 
 const sections = [
   ['Eligibility', 'You must hold an active account in good standing to join the programme.'],
@@ -22,8 +22,8 @@ export default function Example() {
       >
         {sections.map(([heading, body]) => (
           <section key={heading}>
-            <h3 style={{ margin: 0, fontSize: 'var(--strata-font-size-md)', fontWeight: 'var(--strata-font-weight-semibold)' }}>{heading}</h3>
-            <p style={{ margin: 'var(--strata-space-1) 0 0', color: 'var(--strata-color-text-subtle)' }}>{body}</p>
+            <h3 style={{ margin: 0, fontSize: 'var(--syntara-font-size-md)', fontWeight: 'var(--syntara-font-weight-semibold)' }}>{heading}</h3>
+            <p style={{ margin: 'var(--syntara-space-1) 0 0', color: 'var(--syntara-color-text-subtle)' }}>{body}</p>
           </section>
         ))}
       </Dialog>

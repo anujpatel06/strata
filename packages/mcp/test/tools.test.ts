@@ -82,7 +82,7 @@ describe('get_component', () => {
   it('returns what an agent needs to write a Button', async () => {
     const r = await h.call('get_component', { name: 'button' });
     expect(r.isError).toBe(false);
-    expect(r.json.import).toBe("import { Button } from '@strata/react';");
+    expect(r.json.import).toBe("import { Button } from '@syntara/react';");
     expect(r.json.maturity).toBe('beta');
     const variant = r.json.props.find((p: { name: string }) => p.name === 'variant');
     expect(variant).toMatchObject({ name: 'variant', default: "'primary'" });
@@ -232,19 +232,19 @@ describe('get_tokens', () => {
     expect(r.json.tokens).toHaveLength(48);
     const primary = r.json.tokens.find((t: { token: string }) => t.token === 'color.action.primary.bg');
     expect(Object.keys(primary)).toEqual(['token', 'cssVar', 'value']);
-    expect(primary.cssVar).toBe('--strata-color-action-primary-bg');
+    expect(primary.cssVar).toBe('--syntara-color-action-primary-bg');
     expect(primary.value).toMatch(/^#[0-9a-f]{6}$/);
   });
 
   it('names camelCase roles the way the engine does', async () => {
     const r = await h.call('get_tokens', { category: 'color' });
-    const t = r.json.tokens.find((x: { cssVar: string }) => x.cssVar === '--strata-color-feedback-danger-on-solid');
+    const t = r.json.tokens.find((x: { cssVar: string }) => x.cssVar === '--syntara-color-feedback-danger-on-solid');
     expect(t.token).toBe('color.feedback.danger.onSolid');
   });
 
   it('names foundation tokens by group', async () => {
     const space = (await h.call('get_tokens', { category: 'space' })).json.tokens;
-    expect(space).toContainEqual({ token: 'space.4', cssVar: '--strata-space-4', value: '16px' });
+    expect(space).toContainEqual({ token: 'space.4', cssVar: '--syntara-space-4', value: '16px' });
     const font = (await h.call('get_tokens', { category: 'font' })).json.tokens.map((t: { token: string }) => t.token);
     expect(font).toEqual(expect.arrayContaining(['font.size.md', 'font.weight.medium', 'font.tracking.caps', 'font.body']));
     const density = (await h.call('get_tokens', { category: 'density' })).json.tokens.map((t: { token: string }) => t.token);
@@ -286,7 +286,7 @@ describe('get_tokens', () => {
 describe('find_token', () => {
   const match = {
     token: 'color.action.primary.bg',
-    cssVar: '--strata-color-action-primary-bg',
+    cssVar: '--syntara-color-action-primary-bg',
     value: '#1f56e0',
     distance: 0.8,
     exact: false,
@@ -405,7 +405,7 @@ describe('audit_snippet', () => {
     column: 10,
     message: 'Raw colour #1f56e0.',
     snippet: 'color: #1f56e0;',
-    fix: { description: 'Use var(--strata-color-action-primary-bg)', replacement: 'var(--strata-color-action-primary-bg)', start: 20, end: 27, safe: true },
+    fix: { description: 'Use var(--syntara-color-action-primary-bg)', replacement: 'var(--syntara-color-action-primary-bg)', start: 20, end: 27, safe: true },
   };
   const advice = {
     rule: 'native-element',
@@ -415,7 +415,7 @@ describe('audit_snippet', () => {
     column: 3,
     message: 'Native <button>.',
     snippet: '<button>',
-    fix: { description: 'Use Button from @strata/react', safe: false },
+    fix: { description: 'Use Button from @syntara/react', safe: false },
   };
 
   it('returns the score and compact findings', async () => {
@@ -431,14 +431,14 @@ describe('audit_snippet', () => {
           severity: 'error',
           line: 2,
           message: 'Raw colour #1f56e0.',
-          fix: { description: 'Use var(--strata-color-action-primary-bg)', replacement: 'var(--strata-color-action-primary-bg)', safe: true },
+          fix: { description: 'Use var(--syntara-color-action-primary-bg)', replacement: 'var(--syntara-color-action-primary-bg)', safe: true },
         },
         {
           rule: 'native-element',
           severity: 'warning',
           line: 5,
           message: 'Native <button>.',
-          fix: { description: 'Use Button from @strata/react', safe: false },
+          fix: { description: 'Use Button from @syntara/react', safe: false },
         },
       ],
     });

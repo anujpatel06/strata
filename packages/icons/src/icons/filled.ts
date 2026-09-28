@@ -5,22 +5,22 @@
  *
  * Technique  The shape is `fill: currentColor; stroke: none`, so it takes the text colour like every other icon.
  *            The glyph (check, !, i, x) is a stroke, and its dots are fills, in
- *              var(--strata-icon-on, var(--strata-color-surface-default, #fff))
+ *              var(--syntara-icon-on, var(--syntara-color-surface-default, #fff))
  *            That is a knockout without masks or ids, so it survives SSR, repeated ids and registry copies, and a
- *            theme or component can set it. Components set --strata-icon-on to the colour that pairs with the
+ *            theme or component can set it. Components set --syntara-icon-on to the colour that pairs with the
  *            shape: Toast and Alert use feedback.<tone>.fg for the shape and feedback.<tone>.bg for the glyph (an
  *            engine-checked 4.5:1 pair). Outside a component, the glyph falls back to the page surface, so it reads
  *            as a hole in both schemes (a plain #fff would vanish into a near-white shape in dark mode), and to
- *            white outside Strata. `var()` in an SVG presentation attribute is checked in Chromium.
+ *            white outside Syntara. `var()` in an SVG presentation attribute is checked in Chromium.
  * Weight     The glyph stroke is a fixed 2 (heavier than the 1.5 outline default), because a knocked-out line reads
- *            thinner than a drawn one. The `stroke` prop and --strata-icon-stroke don't change it.
+ *            thinner than a drawn one. The `stroke` prop and --syntara-icon-stroke don't change it.
  * Size       Filled shapes look larger than outlines of the same size, so they sit on the keylines themselves
  *            (circle r=9) rather than outside them, and the triangle is status.ts alert-triangle scaled 1.07 about
  *            its centre, to match the circle's optical weight.
  */
 import { createIcon } from '../create-icon';
 
-const KNOCK = 'var(--strata-icon-on, var(--strata-color-surface-default, #fff))';
+const KNOCK = 'var(--syntara-icon-on, var(--syntara-color-surface-default, #fff))';
 const shape = (d: string) => ['path', { d, fill: 'currentColor', stroke: 'none' }] as const;
 const disc = ['circle', { cx: 12, cy: 12, r: 9, fill: 'currentColor', stroke: 'none' }] as const;
 const glyph = (d: string) => ['path', { d, stroke: KNOCK, strokeWidth: 2 }] as const;

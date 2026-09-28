@@ -1,7 +1,7 @@
 'use client';
 
-import { IconReceipt } from '@strata/icons';
-import { Button, DataTable, EmptyState, type DataTableColumn } from '@strata/react';
+import { IconReceipt } from '@syntara/icons';
+import { Button, DataTable, EmptyState, type DataTableColumn } from '@syntara/react';
 
 type Invoice = { id: string; issued: string; amount: string };
 

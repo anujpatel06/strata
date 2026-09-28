@@ -1,6 +1,6 @@
 import { useId } from 'react';
-import { IconChevronDown } from '@strata/icons';
-import { TYPE_PAIRS, type TypePairId } from '@strata/theme-engine';
+import { IconChevronDown } from '@syntara/icons';
+import { TYPE_PAIRS, type TypePairId } from '@syntara/theme-engine';
 import styles from './TypeSelect.module.css';
 import ui from './ui.module.css';
 

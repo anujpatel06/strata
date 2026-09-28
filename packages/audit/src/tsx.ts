@@ -7,7 +7,7 @@ import { dirname, resolve, sep } from 'node:path';
 import ts from 'typescript';
 import type { Collector } from './collector';
 import { categoryOf, checkDeclaration, type Declaration } from './declarations';
-import { INPUT_TYPE_TO_COMPONENT, NATIVE_TO_COMPONENT, loadMeta, metaDir, type Meta, type StrataComponent } from './meta';
+import { INPUT_TYPE_TO_COMPONENT, NATIVE_TO_COMPONENT, loadMeta, metaDir, type Meta, type SyntaraComponent } from './meta';
 
 type Element = ts.JsxOpeningElement | ts.JsxSelfClosingElement;
 
@@ -17,8 +17,8 @@ interface Imported {
   name: string;
 }
 
-const STRATA_REACT = /^@strata\/react(\/|$)/;
-const STRATA_ICONS = /^@strata\/icons(\/|$)/;
+const SYNTARA_REACT = /^@syntara\/react(\/|$)/;
+const SYNTARA_ICONS = /^@syntara\/icons(\/|$)/;
 
 /** Attributes on native elements that take a colour. */
 const COLOR_ATTRIBUTES: Readonly<Record<string, string>> = {
@@ -82,8 +82,8 @@ class TsxAudit {
     visit(this.file);
   }
 
-  private isStrataModule(module: string): boolean {
-    if (STRATA_REACT.test(module)) return true;
+  private isSyntaraModule(module: string): boolean {
+    if (SYNTARA_REACT.test(module)) return true;
     // Inside the library, components import each other as siblings: './button'.
     if (module.startsWith('.') && this.collector.file !== '<snippet>') {
       const target = resolve(dirname(resolve(this.collector.file)), module);
@@ -92,16 +92,16 @@ class TsxAudit {
     return false;
   }
 
-  /** The Strata export a tag refers to, e.g. "Button", or null. */
-  private strataExport(tag: ts.JsxTagNameExpression): string | null {
+  /** The Syntara export a tag refers to, e.g. "Button", or null. */
+  private syntaraExport(tag: ts.JsxTagNameExpression): string | null {
     if (ts.isIdentifier(tag)) {
       const imported = this.imports.get(tag.text);
       if (!imported || imported.name === '*' || imported.name === 'default') return null;
-      return this.isStrataModule(imported.module) && this.meta.exports.has(imported.name) ? imported.name : null;
+      return this.isSyntaraModule(imported.module) && this.meta.exports.has(imported.name) ? imported.name : null;
     }
     if (ts.isPropertyAccessExpression(tag) && ts.isIdentifier(tag.expression)) {
       const imported = this.imports.get(tag.expression.text);
-      if (imported?.name === '*' && this.isStrataModule(imported.module) && this.meta.exports.has(tag.name.text)) return tag.name.text;
+      if (imported?.name === '*' && this.isSyntaraModule(imported.module) && this.meta.exports.has(tag.name.text)) return tag.name.text;
     }
     return null;
   }
@@ -110,11 +110,11 @@ class TsxAudit {
     if (ts.isIdentifier(tag)) {
       if (tag.text === 'svg') return true;
       const imported = this.imports.get(tag.text);
-      return !!imported && STRATA_ICONS.test(imported.module);
+      return !!imported && SYNTARA_ICONS.test(imported.module);
     }
     if (ts.isPropertyAccessExpression(tag) && ts.isIdentifier(tag.expression)) {
       const imported = this.imports.get(tag.expression.text);
-      return !!imported && STRATA_ICONS.test(imported.module);
+      return !!imported && SYNTARA_ICONS.test(imported.module);
     }
     return false;
   }
@@ -236,7 +236,7 @@ class TsxAudit {
       if (ts.isJsxElement(node) && node.openingElement !== el) {
         const tag = node.openingElement.tagName;
         if (ts.isIdentifier(tag) && tag.text === 'label') return true;
-        if (this.strataExport(tag) === 'Label') return true;
+        if (this.syntaraExport(tag) === 'Label') return true;
       }
       node = node.parent;
     }
@@ -248,20 +248,20 @@ class TsxAudit {
   private element(el: Element): void {
     const tag = el.tagName;
     const native = this.isNative(tag) ? (tag as ts.Identifier).text : null;
-    const strata = native ? null : this.strataExport(tag);
+    const syntara = native ? null : this.syntaraExport(tag);
     const start = el.getStart(this.file);
     const tagEnd = tag.getEnd();
 
     if (native) this.nativeElement(el, native, start, tagEnd);
-    else if (strata) this.strataElement(el, strata);
+    else if (syntara) this.syntaraElement(el, syntara);
 
-    this.accessibleName(el, native, strata, start, tagEnd);
-    if (strata) this.deprecated(el, strata);
+    this.accessibleName(el, native, syntara, start, tagEnd);
+    if (syntara) this.deprecated(el, syntara);
     if (native) this.colorAttributes(el);
     this.style(el);
   }
 
-  private replacementFor(el: Element, native: string): StrataComponent | undefined {
+  private replacementFor(el: Element, native: string): SyntaraComponent | undefined {
     let name = NATIVE_TO_COMPONENT[native];
     if (native === 'input') {
       const typeAttr = this.attribute(el, 'type');
@@ -283,22 +283,22 @@ class TsxAudit {
       'native-element',
       start,
       tagEnd,
-      `<${native}> is a native element. Strata has ${component.exportName} for this.`,
+      `<${native}> is a native element. Syntara has ${component.exportName} for this.`,
       {
-        description: `Use <${component.exportName}>: import { ${component.exportName} } from '@strata/react'. Its props differ from the native element's, so this is a rewrite by hand.`,
+        description: `Use <${component.exportName}>: import { ${component.exportName} } from '@syntara/react'. Its props differ from the native element's, so this is a rewrite by hand.`,
         safe: false,
       },
     );
   }
 
-  private strataElement(_el: Element, strata: string): void {
-    const component = this.meta.exports.get(strata);
-    if (!component || component.exportName !== strata) return;
+  private syntaraElement(_el: Element, syntara: string): void {
+    const component = this.meta.exports.get(syntara);
+    if (!component || component.exportName !== syntara) return;
     const targets = new Set([...Object.values(NATIVE_TO_COMPONENT), ...Object.values(INPUT_TYPE_TO_COMPONENT)]);
     if (targets.has(component.name)) this.collector.pass('native-element');
   }
 
-  private accessibleName(el: Element, native: string | null, strata: string | null, start: number, tagEnd: number): void {
+  private accessibleName(el: Element, native: string | null, syntara: string | null, start: number, tagEnd: number): void {
     const rule = 'missing-accessible-name' as const;
     const spread = this.hasSpread(el);
 
@@ -329,17 +329,17 @@ class TsxAudit {
 
     const buttonExports = this.meta.components.get('button');
     const linkExports = this.meta.components.get('link');
-    const isStrataButton = !!strata && strata === buttonExports?.exportName;
-    const isStrataLink = !!strata && strata === linkExports?.exportName;
-    const interactive = native === 'button' || native === 'a' || native === 'summary' || isStrataButton || isStrataLink;
+    const isSyntaraButton = !!syntara && syntara === buttonExports?.exportName;
+    const isSyntaraLink = !!syntara && syntara === linkExports?.exportName;
+    const interactive = native === 'button' || native === 'a' || native === 'summary' || isSyntaraButton || isSyntaraLink;
     if (!interactive) return;
 
-    const shown = native ? `<${native}>` : `<${strata}>`;
+    const shown = native ? `<${native}>` : `<${syntara}>`;
     const kids = this.children(el);
     const childrenProp = this.attribute(el, 'children');
     const text = childrenProp ? 'unknown' : this.textIn(kids);
 
-    if (isStrataButton && this.literal(this.attribute(el, 'size')) === 'icon') {
+    if (isSyntaraButton && this.literal(this.attribute(el, 'size')) === 'icon') {
       if (spread || this.named(el) || text !== 'none') this.collector.pass(rule);
       else {
         this.collector.report(rule, start, tagEnd, `${shown} with size="icon" has no aria-label or aria-labelledby.`, {
@@ -365,8 +365,8 @@ class TsxAudit {
     }
   }
 
-  private deprecated(el: Element, strata: string): void {
-    const records = this.meta.deprecations.filter((d) => d.component === strata);
+  private deprecated(el: Element, syntara: string): void {
+    const records = this.meta.deprecations.filter((d) => d.component === syntara);
     if (records.length === 0) return;
     let fired = false;
     for (const d of records) {
@@ -377,7 +377,7 @@ class TsxAudit {
       fired = true;
       const { record } = d;
       const what = d.value !== undefined ? `${d.prop}="${d.value}"` : d.prop;
-      const codemod = `npx @strata/codemods ${record.codemod} <path>`;
+      const codemod = `npx @syntara/codemods ${record.codemod} <path>`;
       const newProp = /^([A-Za-z][\w-]*)=/.exec(record.replacement)?.[1];
       const clash = newProp !== undefined && newProp !== d.prop && this.attribute(el, newProp) !== undefined;
       const canRewrite = d.value !== undefined && /^[A-Za-z][\w-]*=("[^"]*"|\{.*\})$/s.test(record.replacement);
@@ -393,7 +393,7 @@ class TsxAudit {
         'deprecated-api',
         attr.getStart(this.file),
         attr.getEnd(),
-        `${strata} ${what} is deprecated since ${record.since} and will be removed in ${record.removal}. ${record.reason}`,
+        `${syntara} ${what} is deprecated since ${record.since} and will be removed in ${record.removal}. ${record.reason}`,
         {
           description: `Use ${record.replacement}.${why} The codemod does the same across files: ${codemod} (${record.rfc}).`,
           ...(canRewrite ? { replacement: record.replacement, start: attr.getStart(this.file), end: attr.getEnd() } : {}),

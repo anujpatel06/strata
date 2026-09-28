@@ -1,5 +1,5 @@
 /* Code blocks: Shiki HTML inside a token-styled frame. Token colours use light-dark(), which follows the
-   computed color-scheme set by the Strata theme CSS. */
+   computed color-scheme set by the Syntara theme CSS. */
 
 .frame {
   position: relative;
@@ -9,11 +9,11 @@
   /* Finesse: a hairline edge drawn as a shadow (keeps 0.5px on 2x screens); the transparent border keeps the box
      size and gives forced-colors mode an edge. */
   border: 1px solid transparent;
-  border-radius: var(--strata-radius-container);
-  background: var(--strata-color-surface-default);
+  border-radius: var(--syntara-radius-container);
+  background: var(--syntara-color-surface-default);
   box-shadow:
-    0 0 0 var(--strata-hairline) var(--strata-color-border-subtle),
-    var(--strata-shadow-raised);
+    0 0 0 var(--syntara-hairline) var(--syntara-color-border-subtle),
+    var(--syntara-shadow-raised);
 }
 @supports (corner-shape: squircle) {
   .frame {
@@ -30,13 +30,13 @@
 .titleBar {
   display: flex;
   align-items: center;
-  gap: var(--strata-space-2);
-  block-size: calc(var(--strata-space-10) + var(--strata-space-1));
-  padding-inline: var(--strata-space-4) var(--strata-space-1);
-  box-shadow: inset 0 calc(var(--strata-hairline) * -1) 0 0 var(--strata-color-border-subtle);
-  color: var(--strata-color-text-subtle);
-  font-family: var(--strata-font-mono);
-  font-size: var(--strata-font-size-xs);
+  gap: var(--syntara-space-2);
+  block-size: calc(var(--syntara-space-10) + var(--syntara-space-1));
+  padding-inline: var(--syntara-space-4) var(--syntara-space-1);
+  box-shadow: inset 0 calc(var(--syntara-hairline) * -1) 0 0 var(--syntara-color-border-subtle);
+  color: var(--syntara-color-text-subtle);
+  font-family: var(--syntara-font-mono);
+  font-size: var(--syntara-font-size-xs);
 }
 .title {
   flex: 1;
@@ -47,21 +47,21 @@
 }
 
 .copy.copy {
-  inline-size: calc(var(--strata-space-8) + var(--strata-space-1));
-  block-size: calc(var(--strata-space-8) + var(--strata-space-1));
+  inline-size: calc(var(--syntara-space-8) + var(--syntara-space-1));
+  block-size: calc(var(--syntara-space-8) + var(--syntara-space-1));
   min-inline-size: 0;
   padding: 0;
-  color: var(--strata-color-text-subtle);
+  color: var(--syntara-color-text-subtle);
 }
 .copy.copy[data-hovered] {
-  color: var(--strata-color-text-default);
+  color: var(--syntara-color-text-default);
 }
 .copyFloating.copyFloating {
   position: absolute;
-  inset-block-start: var(--strata-space-1);
-  inset-inline-end: var(--strata-space-1);
+  inset-block-start: var(--syntara-space-1);
+  inset-inline-end: var(--syntara-space-1);
   z-index: 1;
-  background: var(--strata-color-surface-default);
+  background: var(--syntara-color-surface-default);
 }
 .frame[data-flush] .copyFloating.copyFloating {
   background: transparent;
@@ -71,7 +71,7 @@
   position: relative;
 }
 .body[data-collapsed] {
-  max-block-size: calc(var(--strata-space-16) * 5);
+  max-block-size: calc(var(--syntara-space-16) * 5);
   overflow: hidden;
   -webkit-mask-image: linear-gradient(to bottom, black 55%, transparent);
   mask-image: linear-gradient(to bottom, black 55%, transparent);
@@ -79,12 +79,12 @@
 
 .body :global(pre) {
   margin: 0;
-  padding-block: var(--strata-space-4);
-  padding-inline: var(--strata-space-4);
+  padding-block: var(--syntara-space-4);
+  padding-inline: var(--syntara-space-4);
   overflow-x: auto;
   background: transparent;
-  font-family: var(--strata-font-mono);
-  font-size: var(--strata-font-size-sm);
+  font-family: var(--syntara-font-mono);
+  font-size: var(--syntara-font-size-sm);
   line-height: 1.7;
   tab-size: 2;
   scrollbar-width: thin;
@@ -93,13 +93,13 @@
   text-align: start;
 }
 .frame:not([data-titled]) .body :global(pre) {
-  padding-inline-end: var(--strata-space-12);
+  padding-inline-end: var(--syntara-space-12);
 }
 .body[data-collapsed] :global(pre) {
   overflow: hidden;
 }
 .body :global(pre:focus-visible) {
-  outline: 2px solid var(--strata-color-focus-ring);
+  outline: 2px solid var(--syntara-color-focus-ring);
   outline-offset: -2px;
 }
 .body :global(code) {
@@ -114,11 +114,11 @@
 .expandBar {
   display: flex;
   justify-content: center;
-  padding-block: var(--strata-space-2) var(--strata-space-3);
+  padding-block: var(--syntara-space-2) var(--syntara-space-3);
 }
 .expandBar[data-collapsed] {
   position: absolute;
   inset-inline: 0;
   inset-block-end: 0;
-  padding-block: var(--strata-space-4);
+  padding-block: var(--syntara-space-4);
 }

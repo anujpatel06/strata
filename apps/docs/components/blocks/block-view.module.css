@@ -22,17 +22,17 @@
 .fallback {
   flex: 1;
   min-block-size: 100dvh;
-  background: var(--strata-color-surface-canvas);
+  background: var(--syntara-color-surface-canvas);
 }
 
 /* Docs chrome above the block: one centred line (DraftCopyNote) on the site's canvas, ruled off from the screen. */
 .docsBar.docsBar {
   display: flex;
   justify-content: center;
-  padding-block: var(--strata-space-2);
-  padding-inline: var(--strata-space-4);
-  border-block-end: var(--strata-hairline) solid var(--strata-color-border-subtle);
-  background: var(--strata-color-surface-canvas);
-  color: var(--strata-color-text-default);
-  font-family: var(--strata-font-body);
+  padding-block: var(--syntara-space-2);
+  padding-inline: var(--syntara-space-4);
+  border-block-end: var(--syntara-hairline) solid var(--syntara-color-border-subtle);
+  background: var(--syntara-color-surface-canvas);
+  color: var(--syntara-color-text-default);
+  font-family: var(--syntara-font-body);
 }

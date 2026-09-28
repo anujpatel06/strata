@@ -3,7 +3,7 @@
 .panel {
   display: flex;
   flex-direction: column;
-  gap: var(--strata-space-5);
+  gap: var(--syntara-space-5);
   min-inline-size: 0;
 }
 
@@ -11,28 +11,28 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: var(--strata-space-2);
-  min-block-size: var(--strata-space-8);
+  gap: var(--syntara-space-2);
+  min-block-size: var(--syntara-space-8);
 }
 
 .title {
   display: flex;
   align-items: center;
-  gap: var(--strata-space-2);
-  font-family: var(--strata-font-heading);
-  font-size: var(--strata-font-size-md);
-  font-weight: var(--strata-font-weight-semibold);
-  letter-spacing: var(--strata-font-heading-tracking);
+  gap: var(--syntara-space-2);
+  font-family: var(--syntara-font-heading);
+  font-size: var(--syntara-font-size-md);
+  font-weight: var(--syntara-font-weight-semibold);
+  letter-spacing: var(--syntara-font-heading-tracking);
 }
 
 .reset.reset {
-  margin-inline-end: calc(var(--strata-space-2) * -1);
+  margin-inline-end: calc(var(--syntara-space-2) * -1);
 }
 
 .field {
   display: flex;
   flex-direction: column;
-  gap: var(--strata-space-2);
+  gap: var(--syntara-space-2);
   min-inline-size: 0;
 }
 
@@ -40,22 +40,22 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: var(--strata-space-2);
-  min-block-size: var(--strata-space-6);
+  gap: var(--syntara-space-2);
+  min-block-size: var(--syntara-space-6);
 }
 
 .hint {
-  color: var(--strata-color-text-subtle);
-  font-size: var(--strata-font-size-sm);
-  line-height: var(--strata-line-height-snug);
+  color: var(--syntara-color-text-subtle);
+  font-size: var(--syntara-font-size-sm);
+  line-height: var(--syntara-line-height-snug);
 }
 
-/* Matches the Strata field label (text-field.module.css). */
+/* Matches the Syntara field label (text-field.module.css). */
 .label {
-  color: var(--strata-color-text-default);
-  font-size: var(--strata-font-size-sm);
-  font-weight: var(--strata-font-weight-medium);
-  line-height: var(--strata-line-height-snug);
+  color: var(--syntara-color-text-default);
+  font-size: var(--syntara-font-size-sm);
+  font-weight: var(--syntara-font-weight-medium);
+  line-height: var(--syntara-line-height-snug);
 }
 
 /* ------------------------------------------------------------------ presets */
@@ -64,20 +64,20 @@
 .copyNotes {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--strata-space-1);
-  margin-block-start: calc(var(--strata-space-3) * -1);
+  gap: var(--syntara-space-1);
+  margin-block-start: calc(var(--syntara-space-3) * -1);
 }
 
 /* Two columns of preset cards. The items wrapper is the group's only <div> child. */
 .presets.presets > div {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: var(--strata-space-2);
+  gap: var(--syntara-space-2);
 }
 
 .preset.preset {
-  padding-block: calc(var(--strata-space-2) + 2px);
-  padding-inline: var(--strata-space-3);
+  padding-block: calc(var(--syntara-space-2) + 2px);
+  padding-inline: var(--syntara-space-3);
 }
 
 /* Label row: name at the start, swatches at the end. The label is the button's last span. */
@@ -86,7 +86,7 @@
   flex: 1;
   align-items: center;
   justify-content: space-between;
-  gap: var(--strata-space-2);
+  gap: var(--syntara-space-2);
 }
 
 .presetName {
@@ -103,21 +103,21 @@
 }
 
 .dot {
-  inline-size: calc(var(--strata-space-3) + 2px);
-  block-size: calc(var(--strata-space-3) + 2px);
-  border-radius: var(--strata-radius-pill);
+  inline-size: calc(var(--syntara-space-3) + 2px);
+  block-size: calc(var(--syntara-space-3) + 2px);
+  border-radius: var(--syntara-radius-pill);
   box-shadow:
-    0 0 0 2px var(--strata-color-surface-default),
-    inset 0 0 0 1px color-mix(in oklab, var(--strata-color-text-default) 22%, transparent);
+    0 0 0 2px var(--syntara-color-surface-default),
+    inset 0 0 0 1px color-mix(in oklab, var(--syntara-color-text-default) 22%, transparent);
 }
 .dot + .dot {
-  margin-inline-start: calc(var(--strata-space-1) * -1);
+  margin-inline-start: calc(var(--syntara-space-1) * -1);
 }
 /* Selected cards sit on surface.selected, so the separating ring follows. */
 [data-selected] .dot {
   box-shadow:
-    0 0 0 2px var(--strata-color-surface-selected),
-    inset 0 0 0 1px color-mix(in oklab, var(--strata-color-text-default) 22%, transparent);
+    0 0 0 2px var(--syntara-color-surface-selected),
+    inset 0 0 0 1px color-mix(in oklab, var(--syntara-color-text-default) 22%, transparent);
 }
 
 .rtl {
@@ -127,8 +127,8 @@
 /* ------------------------------------------------------------------ colour */
 
 .hexField.hexField input {
-  font-family: var(--strata-font-mono);
-  font-size: var(--strata-font-size-sm);
+  font-family: var(--syntara-font-mono);
+  font-size: var(--syntara-font-size-sm);
   text-transform: uppercase;
   letter-spacing: 0.02em;
 }
@@ -137,11 +137,11 @@
 .swatchWrap.swatchWrap {
   position: relative;
   display: inline-flex;
-  inline-size: var(--strata-space-6);
-  block-size: var(--strata-space-6);
-  margin-inline-start: calc(var(--strata-space-1) * -1);
-  border-radius: var(--strata-radius-badge);
-  box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--strata-color-text-default) 16%, transparent);
+  inline-size: var(--syntara-space-6);
+  block-size: var(--syntara-space-6);
+  margin-inline-start: calc(var(--syntara-space-1) * -1);
+  border-radius: var(--syntara-radius-badge);
+  box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--syntara-color-text-default) 16%, transparent);
 }
 
 .picker.picker {
@@ -159,7 +159,7 @@
 }
 .picker.picker:focus-visible {
   opacity: 1;
-  outline: 2px solid var(--strata-color-focus-ring);
+  outline: 2px solid var(--syntara-color-focus-ring);
   outline-offset: 2px;
 }
 /* When focused it becomes visible; keep it looking like the swatch. */
@@ -168,11 +168,11 @@
 }
 .picker.picker::-webkit-color-swatch {
   border: 0;
-  border-radius: var(--strata-radius-badge);
+  border-radius: var(--syntara-radius-badge);
 }
 .picker.picker::-moz-color-swatch {
   border: 0;
-  border-radius: var(--strata-radius-badge);
+  border-radius: var(--syntara-radius-badge);
 }
 
 /* ------------------------------------------------------------------ segmented */
@@ -185,12 +185,12 @@
 .segment.segment {
   flex: 1 1 0;
   min-inline-size: 0;
-  padding-inline: var(--strata-space-2);
+  padding-inline: var(--syntara-space-2);
 }
 .segment.segment svg {
   flex: none;
-  inline-size: var(--strata-space-4);
-  block-size: var(--strata-space-4);
+  inline-size: var(--syntara-space-4);
+  block-size: var(--syntara-space-4);
 }
 
 /* ------------------------------------------------------------------ type */
@@ -199,35 +199,35 @@
   display: grid;
   grid-template-columns: auto minmax(0, 1fr);
   align-items: center;
-  column-gap: var(--strata-space-3);
+  column-gap: var(--syntara-space-3);
   row-gap: 2px;
-  padding-block: var(--strata-space-2);
-  padding-inline: var(--strata-space-3);
-  border-radius: var(--strata-radius-field);
-  background: var(--strata-color-surface-sunken);
+  padding-block: var(--syntara-space-2);
+  padding-inline: var(--syntara-space-3);
+  border-radius: var(--syntara-radius-field);
+  background: var(--syntara-color-surface-sunken);
 }
 
 .ag {
   grid-row: span 2;
-  font-size: var(--strata-font-size-2xl);
-  font-weight: var(--strata-font-weight-semibold);
+  font-size: var(--syntara-font-size-2xl);
+  font-weight: var(--syntara-font-weight-semibold);
   line-height: 1;
 }
 
 .specimenFonts {
   overflow: hidden;
-  font-size: var(--strata-font-size-sm);
-  font-weight: var(--strata-font-weight-medium);
-  line-height: var(--strata-line-height-snug);
+  font-size: var(--syntara-font-size-sm);
+  font-weight: var(--syntara-font-weight-medium);
+  line-height: var(--syntara-line-height-snug);
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
 .specimenText {
   overflow: hidden;
-  color: var(--strata-color-text-subtle);
-  font-size: var(--strata-font-size-sm);
-  line-height: var(--strata-line-height-snug);
+  color: var(--syntara-color-text-subtle);
+  font-size: var(--syntara-font-size-sm);
+  line-height: var(--syntara-line-height-snug);
   text-overflow: ellipsis;
   white-space: nowrap;
 }

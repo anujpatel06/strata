@@ -9,7 +9,7 @@ export const SCHEMA_VERSION = '1.0.0';
 export const SUPPORTED_MAJOR = Number(SCHEMA_VERSION.split('.')[0]);
 
 /** `$id` of a schema file. URNs, so nobody expects them to resolve over the network. */
-export const urn = (name: string): string => `urn:strata:sdui:v${SUPPORTED_MAJOR}:${name}`;
+export const urn = (name: string): string => `urn:syntara:sdui:v${SUPPORTED_MAJOR}:${name}`;
 
 export const SEMVER = /^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)$/;
 

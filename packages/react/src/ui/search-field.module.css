@@ -4,30 +4,30 @@
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  gap: var(--strata-space-2);
+  gap: var(--syntara-space-2);
   min-inline-size: 0;
 }
 
 /* The clear button sits in the end padding, centred on the same inset as the block padding. --_h is the box height
    from text-field's FieldGroup, so this follows the field's size. */
 .field .group {
-  padding-inline-end: calc((var(--_h) - var(--strata-space-6)) / 2 - 1px);
+  padding-inline-end: calc((var(--_h) - var(--syntara-space-6)) / 2 - 1px);
 }
 
 .icon {
   flex: none;
-  inline-size: var(--strata-space-4);
-  block-size: var(--strata-space-4);
-  color: var(--strata-color-text-subtle);
+  inline-size: var(--syntara-space-4);
+  block-size: var(--syntara-space-4);
+  color: var(--syntara-color-text-subtle);
 }
 
 /* The magnifier wakes up with the field. */
 .group[data-focus-within] .icon {
-  color: var(--strata-color-text-default);
+  color: var(--syntara-color-text-default);
 }
 
 [data-disabled] .icon {
-  color: var(--strata-color-text-disabled);
+  color: var(--syntara-color-text-disabled);
 }
 
 .input::-webkit-search-cancel-button,
@@ -42,15 +42,15 @@
   flex: none;
   align-items: center;
   justify-content: center;
-  inline-size: var(--strata-space-6);
-  block-size: var(--strata-space-6);
+  inline-size: var(--syntara-space-6);
+  block-size: var(--syntara-space-6);
   margin: 0;
   padding: 0;
   border: 0;
   /* Concentric with the box: its corner minus the clear button's inset, never below a key-like corner. */
-  border-radius: max(var(--strata-space-1), calc(min(var(--_r), var(--_h) / 2) - (var(--_h) - var(--strata-space-6)) / 2));
+  border-radius: max(var(--syntara-space-1), calc(min(var(--_r), var(--_h) / 2) - (var(--_h) - var(--syntara-space-6)) / 2));
   background-color: transparent;
-  color: var(--strata-color-text-subtle);
+  color: var(--syntara-color-text-subtle);
   cursor: pointer;
   outline: none;
   outline-offset: 0;
@@ -58,21 +58,21 @@
 }
 
 .clear > svg {
-  inline-size: calc(var(--strata-space-4) - 2px);
-  block-size: calc(var(--strata-space-4) - 2px);
+  inline-size: calc(var(--syntara-space-4) - 2px);
+  block-size: calc(var(--syntara-space-4) - 2px);
 }
 
 .clear[data-hovered] {
-  background-color: color-mix(in oklab, var(--strata-color-text-default) 6%, transparent);
-  color: var(--strata-color-text-default);
+  background-color: color-mix(in oklab, var(--syntara-color-text-default) 6%, transparent);
+  color: var(--syntara-color-text-default);
 }
 
 .clear[data-pressed] {
-  background-color: color-mix(in oklab, var(--strata-color-text-default) 10%, transparent);
+  background-color: color-mix(in oklab, var(--syntara-color-text-default) 10%, transparent);
 }
 
 .clear[data-focus-visible] {
-  outline: 2px solid var(--strata-color-focus-ring);
+  outline: 2px solid var(--syntara-color-focus-ring);
   outline-offset: 2px;
 }
 
@@ -89,27 +89,27 @@
 }
 
 .icon {
-  transition: color var(--strata-motion-duration-fast) var(--strata-motion-easing);
+  transition: color var(--syntara-motion-duration-fast) var(--syntara-motion-easing);
 }
 
 .clear {
   transition:
-    background-color var(--strata-motion-duration-fast) var(--strata-motion-easing),
-    color var(--strata-motion-duration-fast) var(--strata-motion-easing),
-    opacity var(--strata-motion-duration-fast) var(--strata-motion-easing),
-    visibility var(--strata-motion-duration-fast) allow-discrete,
-    outline-offset var(--strata-motion-duration-fast) var(--strata-motion-easing);
+    background-color var(--syntara-motion-duration-fast) var(--syntara-motion-easing),
+    color var(--syntara-motion-duration-fast) var(--syntara-motion-easing),
+    opacity var(--syntara-motion-duration-fast) var(--syntara-motion-easing),
+    visibility var(--syntara-motion-duration-fast) allow-discrete,
+    outline-offset var(--syntara-motion-duration-fast) var(--syntara-motion-easing);
 }
 
 @media (prefers-reduced-motion: no-preference) {
   .clear {
     transition:
-      background-color var(--strata-motion-duration-fast) var(--strata-motion-easing),
-      color var(--strata-motion-duration-fast) var(--strata-motion-easing),
-      opacity var(--strata-motion-duration-fast) var(--strata-motion-easing),
-      visibility var(--strata-motion-duration-fast) allow-discrete,
-      outline-offset var(--strata-motion-duration-spring) var(--strata-motion-spring),
-      scale var(--strata-motion-duration-spring) var(--strata-motion-spring);
+      background-color var(--syntara-motion-duration-fast) var(--syntara-motion-easing),
+      color var(--syntara-motion-duration-fast) var(--syntara-motion-easing),
+      opacity var(--syntara-motion-duration-fast) var(--syntara-motion-easing),
+      visibility var(--syntara-motion-duration-fast) allow-discrete,
+      outline-offset var(--syntara-motion-duration-spring) var(--syntara-motion-spring),
+      scale var(--syntara-motion-duration-spring) var(--syntara-motion-spring);
   }
 
   /* The field's halo grows on the spring (FieldGroup, text-field.module.css); the clear button pops in from 0.6

@@ -1,8 +1,8 @@
 'use client';
 
 /**
- * Settings — tabs for profile, notifications, security and billing, with a danger zone. Built only from Strata
- * components; every string, number and date comes from `content`, every visual value from --strata-* tokens.
+ * Settings — tabs for profile, notifications, security and billing, with a danger zone. Built only from Syntara
+ * components; every string, number and date comes from `content`, every visual value from --syntara-* tokens.
  *
  * `headingLevel` (default 1) is the level of the page title; cards use the next level and groups inside cards
  * the one after. Above 1 the block is embedded in another page and renders no <main> landmark.
@@ -36,7 +36,7 @@ import {
   ToggleButtonGroup,
   toast,
   type DataTableColumn,
-} from '@strata/react';
+} from '@syntara/react';
 import {
   IconCheck,
   IconCreditCard,
@@ -49,7 +49,7 @@ import {
   IconMoon,
   IconSun,
   IconUpload,
-} from '@strata/icons';
+} from '@syntara/icons';
 import { DropZone, FileTrigger, type FileDropItem } from 'react-aria-components';
 import {
   Fragment,

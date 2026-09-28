@@ -1,18 +1,18 @@
 .progress {
-  --_fill: var(--strata-color-accent-bg);
-  --_track-size: var(--strata-space-2);
+  --_fill: var(--syntara-color-accent-bg);
+  --_track-size: var(--syntara-space-2);
   --_dir: 1;
 
   box-sizing: border-box;
   display: grid;
-  gap: var(--strata-space-2);
+  gap: var(--syntara-space-2);
   inline-size: 100%;
   min-inline-size: 0;
-  color: var(--strata-color-text-default);
-  font-family: var(--strata-font-body);
-  font-size: var(--strata-font-size-sm);
-  letter-spacing: var(--strata-font-tracking-sm);
-  line-height: var(--strata-line-height-snug);
+  color: var(--syntara-color-text-default);
+  font-family: var(--syntara-font-body);
+  font-size: var(--syntara-font-size-sm);
+  letter-spacing: var(--syntara-font-tracking-sm);
+  line-height: var(--syntara-line-height-snug);
 }
 
 .progress:dir(rtl) {
@@ -20,42 +20,42 @@
 }
 
 .progress[data-size='sm'] {
-  --_track-size: var(--strata-space-1);
-  gap: calc(var(--strata-space-1) * 1.5);
+  --_track-size: var(--syntara-space-1);
+  gap: calc(var(--syntara-space-1) * 1.5);
 }
 
 .progress[data-tone='success'] {
-  --_fill: var(--strata-color-feedback-success-solid);
+  --_fill: var(--syntara-color-feedback-success-solid);
 }
 .progress[data-tone='warning'] {
-  --_fill: var(--strata-color-feedback-warning-solid);
+  --_fill: var(--syntara-color-feedback-warning-solid);
 }
 .progress[data-tone='danger'] {
-  --_fill: var(--strata-color-feedback-danger-solid);
+  --_fill: var(--syntara-color-feedback-danger-solid);
 }
 
 .header {
   display: flex;
   align-items: baseline;
   justify-content: space-between;
-  gap: var(--strata-space-3);
+  gap: var(--syntara-space-3);
   min-inline-size: 0;
 }
 
 .label {
   min-inline-size: 0;
-  color: var(--strata-color-text-default);
-  font-size: var(--strata-font-size-sm);
-  font-weight: var(--strata-font-weight-medium);
+  color: var(--syntara-color-text-default);
+  font-size: var(--syntara-font-size-sm);
+  font-weight: var(--syntara-font-weight-medium);
 }
 
 .value {
   flex: none;
   margin-inline-start: auto;
-  color: var(--strata-color-text-subtle);
-  font-size: var(--strata-font-size-sm);
+  color: var(--syntara-color-text-subtle);
+  font-size: var(--syntara-font-size-sm);
   font-variant-numeric: tabular-nums;
-  font-weight: var(--strata-font-weight-medium);
+  font-weight: var(--syntara-font-weight-medium);
   /* Takes its direction from its own text, so "4.1 of 5 GB" doesn't reorder on RTL pages. */
   unicode-bidi: plaintext;
 }
@@ -65,10 +65,10 @@
   position: relative;
   block-size: var(--_track-size);
   overflow: hidden;
-  border-radius: var(--strata-radius-pill);
-  background-color: var(--strata-color-surface-sunken);
+  border-radius: var(--syntara-radius-pill);
+  background-color: var(--syntara-color-surface-sunken);
   /* A recessed channel: a faint inner hairline shade along the top edge. */
-  box-shadow: inset 0 var(--strata-hairline) 1px color-mix(in oklab, var(--strata-color-text-default) 8%, transparent);
+  box-shadow: inset 0 var(--syntara-hairline) 1px color-mix(in oklab, var(--syntara-color-text-default) 8%, transparent);
 }
 
 /* --_pct comes from the component. Reduced motion: the fill simply has that width. */
@@ -79,7 +79,7 @@
   border-radius: inherit;
   background-color: var(--_fill);
   /* Solid fill: the tactile top-edge sheen (no label sits on it). */
-  box-shadow: var(--strata-shadow-highlight);
+  box-shadow: var(--syntara-shadow-highlight);
 }
 
 /* Indeterminate, reduced motion: a quiet full-width tint says "working" without moving. */
@@ -96,7 +96,7 @@
   .fill {
     inline-size: 100%;
     translate: calc((var(--_pct, 0%) - 100%) * var(--_dir)) 0;
-    transition: translate var(--strata-motion-duration-slow) var(--strata-motion-easing-out);
+    transition: translate var(--syntara-motion-duration-slow) var(--syntara-motion-easing-out);
   }
 
   /* Indeterminate: a segment sweeps across in the reading direction, easing in and out of each pass. */
@@ -107,11 +107,11 @@
     inline-size: 45%;
     background-color: var(--_fill);
     transition: none;
-    animation: strata-progress-slide calc(var(--strata-motion-duration-slow) * 5) ease-in-out infinite;
+    animation: syntara-progress-slide calc(var(--syntara-motion-duration-slow) * 5) ease-in-out infinite;
   }
 }
 
-@keyframes strata-progress-slide {
+@keyframes syntara-progress-slide {
   from {
     translate: calc(-100% * var(--_dir)) 0;
   }

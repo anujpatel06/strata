@@ -49,11 +49,11 @@
 - Codemod: `button-variant-danger-to-tone`.
 
   ```sh
-  npx @strata/codemods button-variant-danger-to-tone <path>
+  npx @syntara/codemods button-variant-danger-to-tone <path>
   ```
 
-- It rewrites `variant="danger"` and `variant={'danger'}` on `Button` imported from `@strata/react`, including renamed imports.
-- It reports, and doesn't rewrite, anything it can't be sure of: a `variant` that's an expression (`variant={isBad ? 'danger' : 'primary'}`), props that arrive through a spread, and a `Button` that doesn't come from `@strata/react`.
+- It rewrites `variant="danger"` and `variant={'danger'}` on `Button` imported from `@syntara/react`, including renamed imports.
+- It reports, and doesn't rewrite, anything it can't be sure of: a `variant` that's an expression (`variant={isBad ? 'danger' : 'primary'}`), props that arrive through a spread, and a `Button` that doesn't come from `@syntara/react`.
 - CSS that targets `[data-variant='danger']` keeps working until 1.0.0. The codemod doesn't touch CSS; the release notes say what to change.
 
 ## Open questions, as decided

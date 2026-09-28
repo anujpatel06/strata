@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { IconPlus } from '@strata/icons';
-import { generateTheme, type BrandInput } from '@strata/theme-engine';
+import { IconPlus } from '@syntara/icons';
+import { generateTheme, type BrandInput } from '@syntara/theme-engine';
 import { contrastRatio } from '../../theme-engine/src/color';
 import { Button } from '../src/ui/button';
 import { TENANTS, loadFuzzInputs, readUiCss } from './status-icon-contrast';
@@ -64,7 +64,7 @@ describe('Button', () => {
     expect(button).toHaveFocus();
     await user.keyboard('{Enter}');
     expect(onPress).not.toHaveBeenCalled();
-    expect(container.querySelector('[data-strata-icon="plus"]')).toBeNull();
+    expect(container.querySelector('[data-syntara-icon="plus"]')).toBeNull();
     expect(container.querySelector('.spinner')).not.toBeNull();
   });
 
@@ -225,7 +225,7 @@ describe('Button: tone', () => {
     expect(message).toContain('variant="danger" is deprecated');
     expect(message).toContain('tone="danger"');
     expect(message).toContain('1.0.0');
-    expect(message).toContain('npx @strata/codemods button-variant-danger-to-tone <path>');
+    expect(message).toContain('npx @syntara/codemods button-variant-danger-to-tone <path>');
   });
 
   it('does not warn in production', async () => {
@@ -345,7 +345,7 @@ describe('Button: tone="danger" contrast proof', () => {
     const kebab = (role: string) => role.replace(/\./g, '-').replace(/[A-Z]/g, (c) => `-${c.toLowerCase()}`);
     return [...block.matchAll(new RegExp(`${hook}:\\s*([^;]+);`, 'g'))].map((m) => {
       const value = m[1]!.trim();
-      const role = known.find((r) => value === `var(--strata-color-${kebab(r)})`);
+      const role = known.find((r) => value === `var(--syntara-color-${kebab(r)})`);
       if (!role) throw new Error(`${hook} is not a plain colour role: ${value}`);
       return role;
     });

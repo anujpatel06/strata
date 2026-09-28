@@ -1,6 +1,6 @@
 'use client';
 
-import { IconArrowUp, IconSelector } from '@strata/icons';
+import { IconArrowUp, IconSelector } from '@syntara/icons';
 import {
   useLayoutEffect,
   useMemo,
@@ -103,7 +103,7 @@ export type DataTableProps<T> = DataTableBaseProps<T> & DataTableLabelling;
 const SKELETON_WIDTHS = ['72%', '48%', '60%', '84%', '40%', '56%'];
 
 interface LoadingRow {
-  __strataLoading: number;
+  __syntaraLoading: number;
 }
 
 /** The Table fills in the name ("Select", "Select All"), checked and indeterminate state through the "selection" slot. */
@@ -159,10 +159,10 @@ export function DataTable<T>({
   const hasSelection = selectionMode !== 'none';
 
   const loadingRows = useMemo<LoadingRow[]>(
-    () => Array.from({ length: Math.max(1, loadingRowCount) }, (_, i) => ({ __strataLoading: i })),
+    () => Array.from({ length: Math.max(1, loadingRowCount) }, (_, i) => ({ __syntaraLoading: i })),
     [loadingRowCount],
   );
-  const loadingKeys = useMemo(() => loadingRows.map((r) => `strata-loading-${r.__strataLoading}`), [loadingRows]);
+  const loadingKeys = useMemo(() => loadingRows.map((r) => `syntara-loading-${r.__syntaraLoading}`), [loadingRows]);
 
   // Every row needs a row header. Without an explicit one React Aria would pick the first column — which is the
   // checkbox column when selection is on — so default to the first data column instead.
@@ -197,7 +197,7 @@ export function DataTable<T>({
       >
         <TableHeader className={styles.header}>
           {hasSelection && (
-            <Column id="strata-selection" className={cx(styles.column, styles.selectionColumn)}>
+            <Column id="syntara-selection" className={cx(styles.column, styles.selectionColumn)}>
               {selectionMode === 'multiple' ? <SelectionCheckbox isDisabled={isLoading} /> : <VisuallyHidden>Select</VisuallyHidden>}
             </Column>
           )}
@@ -225,7 +225,7 @@ export function DataTable<T>({
         {isLoading ? (
           <TableBody className={styles.body} items={loadingRows} dependencies={[columns, hasSelection, loadingLabel]}>
             {(item) => (
-              <Row id={`strata-loading-${item.__strataLoading}`} className={styles.row} data-skeleton="">
+              <Row id={`syntara-loading-${item.__syntaraLoading}`} className={styles.row} data-skeleton="">
                 {hasSelection && <Cell className={cx(styles.cell, styles.selectionCell)} />}
                 <Collection items={columns}>
                   {(col) => (
@@ -236,7 +236,7 @@ export function DataTable<T>({
                         className={styles.skeleton}
                         radius="badge"
                         blockSize="0.75em"
-                        inlineSize={SKELETON_WIDTHS[(item.__strataLoading + columns.indexOf(col)) % SKELETON_WIDTHS.length]}
+                        inlineSize={SKELETON_WIDTHS[(item.__syntaraLoading + columns.indexOf(col)) % SKELETON_WIDTHS.length]}
                       />
                     </Cell>
                   )}

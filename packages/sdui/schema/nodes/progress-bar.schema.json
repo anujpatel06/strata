@@ -1,9 +1,9 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "urn:strata:sdui:v1:node:ProgressBar",
+  "$id": "urn:syntara:sdui:v1:node:ProgressBar",
   "title": "ProgressBar",
   "description": "Shows how far a task has got, or that it is working when the duration is unknown.",
-  "x-strata": {
+  "x-syntara": {
     "node": "ProgressBar",
     "component": "progress",
     "export": "ProgressBar",
@@ -20,7 +20,7 @@
       "const": "ProgressBar"
     },
     "id": {
-      "$ref": "urn:strata:sdui:v1:defs#/$defs/NodeId"
+      "$ref": "urn:syntara:sdui:v1:defs#/$defs/NodeId"
     },
     "props": {
       "type": "object",
@@ -88,13 +88,13 @@
     },
     "fallback": {
       "description": "Rendered instead of this node by a client that doesn't know its type. Must be a node that client knows.",
-      "$ref": "urn:strata:sdui:v1:screen#/$defs/Node"
+      "$ref": "urn:syntara:sdui:v1:screen#/$defs/Node"
     }
   },
   "additionalProperties": false,
   "allOf": [
     {
-      "x-strata-rule": {
+      "x-syntara-rule": {
         "id": "progress-name",
         "message": "A ProgressBar needs a name: props.label (shown) or props.ariaLabel (read by screen readers only)."
       },

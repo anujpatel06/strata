@@ -1,6 +1,6 @@
 'use client';
 
-import { DataTable, type DataTableColumn } from '@strata/react';
+import { DataTable, type DataTableColumn } from '@syntara/react';
 
 type Transfer = { id: string; recipient: string; date: string; status: string; amount: string };
 

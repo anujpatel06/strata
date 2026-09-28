@@ -7,10 +7,10 @@
   inline-size: 100%;
   block-size: 1em;
   max-inline-size: 100%;
-  border-radius: var(--strata-radius-field);
+  border-radius: var(--syntara-radius-field);
   /* A translucent ink tint rather than surface.sunken: a slight tint on light surfaces and a slight lift
      on dark ones. (Sunken is darker than the card in dark schemes, so placeholders read as holes.) */
-  background-color: color-mix(in oklab, var(--strata-color-text-default) 8%, transparent);
+  background-color: color-mix(in oklab, var(--syntara-color-text-default) 8%, transparent);
 }
 
 .skeleton:dir(rtl) {
@@ -18,17 +18,17 @@
 }
 
 .skeleton[data-radius='container'] {
-  border-radius: var(--strata-radius-container);
+  border-radius: var(--syntara-radius-container);
 }
 .skeleton[data-radius='pill'] {
-  border-radius: var(--strata-radius-pill);
+  border-radius: var(--syntara-radius-pill);
 }
 .skeleton[data-radius='badge'] {
-  border-radius: var(--strata-radius-badge);
+  border-radius: var(--syntara-radius-badge);
 }
 
 .skeleton[data-circle] {
-  inline-size: var(--strata-space-10);
+  inline-size: var(--syntara-space-10);
   block-size: auto;
   aspect-ratio: 1;
 }
@@ -43,16 +43,16 @@
     background-image: linear-gradient(
       90deg,
       transparent 0%,
-      color-mix(in oklab, var(--strata-color-text-default) 6%, transparent) 50%,
+      color-mix(in oklab, var(--syntara-color-text-default) 6%, transparent) 50%,
       transparent 100%
     );
     background-repeat: no-repeat;
     background-size: 50% 100%;
-    animation: strata-skeleton-shimmer calc(var(--strata-motion-duration-normal) * 9) ease-in-out infinite;
+    animation: syntara-skeleton-shimmer calc(var(--syntara-motion-duration-normal) * 9) ease-in-out infinite;
   }
 }
 
-@keyframes strata-skeleton-shimmer {
+@keyframes syntara-skeleton-shimmer {
   0% {
     background-position-x: calc(50% - 150% * var(--_dir));
   }

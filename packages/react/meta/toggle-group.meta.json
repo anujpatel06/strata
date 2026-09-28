@@ -17,7 +17,7 @@
   ],
   "registryDependencies": [],
   "reactAria": "https://react-spectrum.adobe.com/react-aria/ToggleButtonGroup.html",
-  "usage": "import { ToggleButton, ToggleButtonGroup } from '@strata/react';\n\nexport function Period() {\n  return (\n    <ToggleButtonGroup aria-label=\"Period\" defaultSelectedKeys={['month']} disallowEmptySelection>\n      <ToggleButton id=\"week\">Week</ToggleButton>\n      <ToggleButton id=\"month\">Month</ToggleButton>\n      <ToggleButton id=\"year\">Year</ToggleButton>\n    </ToggleButtonGroup>\n  );\n}",
+  "usage": "import { ToggleButton, ToggleButtonGroup } from '@syntara/react';\n\nexport function Period() {\n  return (\n    <ToggleButtonGroup aria-label=\"Period\" defaultSelectedKeys={['month']} disallowEmptySelection>\n      <ToggleButton id=\"week\">Week</ToggleButton>\n      <ToggleButton id=\"month\">Month</ToggleButton>\n      <ToggleButton id=\"year\">Year</ToggleButton>\n    </ToggleButtonGroup>\n  );\n}",
   "examples": [
     {
       "name": "toggle-group-demo",
@@ -174,7 +174,7 @@
       "example": "onSelectionChange={(keys) => setFilter(String([...keys][0] ?? 'all'))}"
     },
     {
-      "note": "Key is React Aria's Key: string | number. React's Key also allows bigint, so state typed with it fails the check. Import Key from @strata/react instead: import { type Key } from '@strata/react'. String ids work too.",
+      "note": "Key is React Aria's Key: string | number. React's Key also allows bigint, so state typed with it fails the check. Import Key from @syntara/react instead: import { type Key } from '@syntara/react'. String ids work too.",
       "example": "const [period, setPeriod] = useState<Set<Key>>(new Set(['month']));"
     }
   ],

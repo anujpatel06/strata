@@ -7,8 +7,8 @@
  * (Select popovers) get the same tokens when they copy the scope's attributes (ADR-012).
  */
 
-import { IconArrowRight, IconMoon, IconShieldCheck, IconSun } from '@strata/icons';
-import { TextField, ThemeScope, ToggleButton, ToggleButtonGroup } from '@strata/react';
+import { IconArrowRight, IconMoon, IconShieldCheck, IconSun } from '@syntara/icons';
+import { TextField, ThemeScope, ToggleButton, ToggleButtonGroup } from '@syntara/react';
 import {
   contrastRatio,
   generateTheme,
@@ -18,7 +18,7 @@ import {
   toCssVariables,
   type BrandInput,
   type Theme,
-} from '@strata/theme-engine';
+} from '@syntara/theme-engine';
 import Link from 'next/link';
 import { useEffect, useMemo, useState, type Key } from 'react';
 import { ShowcaseGrid } from '@/components/showcase/showcase-grid';
@@ -28,7 +28,7 @@ import { useSiteScheme } from './use-site-scheme';
 import styles from './live-showcase.module.css';
 
 const CUSTOM = 'custom';
-/** data-strata-theme id for "Your colour". Scoped to this page's stylesheet. */
+/** data-syntara-theme id for "Your colour". Scoped to this page's stylesheet. */
 const CUSTOM_THEME_ID = 'home-yours';
 const DEFAULT_CUSTOM = '#0ea5e9';
 
@@ -39,17 +39,17 @@ const firstKey = (keys: Set<Key>): string | undefined => {
   return k == null ? undefined : String(k);
 };
 
-/** Colour + shadow variables of the dark scheme, for scopes that follow the site (data-strata-scheme="site"). */
+/** Colour + shadow variables of the dark scheme, for scopes that follow the site (data-syntara-scheme="site"). */
 function followSiteCss(theme: Theme, selector: string): string {
   const vars = toCssVariables(theme, 'dark');
   const body = Object.entries(vars)
-    .filter(([name]) => name.startsWith('--strata-color-') || name.startsWith('--strata-shadow-'))
+    .filter(([name]) => name.startsWith('--syntara-color-') || name.startsWith('--syntara-shadow-'))
     .map(([name, value]) => `${name}:${value};`)
     .join('');
-  const scope = `${selector}[data-strata-scheme="site"]`;
+  const scope = `${selector}[data-syntara-scheme="site"]`;
   return (
-    `:root[data-strata-scheme="dark"] ${scope}{color-scheme:dark;${body}}` +
-    `@media (prefers-color-scheme: dark){:root[data-strata-scheme="auto"] ${scope}{color-scheme:dark;${body}}}`
+    `:root[data-syntara-scheme="dark"] ${scope}{color-scheme:dark;${body}}` +
+    `@media (prefers-color-scheme: dark){:root[data-syntara-scheme="auto"] ${scope}{color-scheme:dark;${body}}}`
   );
 }
 
@@ -106,7 +106,7 @@ export function LiveShowcase({ tenants }: LiveShowcaseProps) {
   // Tenant themes are already on the page as CSS; they're generated here only for the solver summary.
   const theme = useMemo(() => generateTheme(isCustom ? customBrand : (tenant?.brand ?? customBrand)), [isCustom, customBrand, tenant]);
   const customCss = useMemo(() => {
-    const selector = `[data-strata-theme="${CUSTOM_THEME_ID}"]`;
+    const selector = `[data-syntara-theme="${CUSTOM_THEME_ID}"]`;
     const t = isCustom ? theme : generateTheme(customBrand);
     return toCSS(t, { selector }) + '\n' + followSiteCss(t, selector);
   }, [isCustom, theme, customBrand]);
@@ -123,7 +123,7 @@ export function LiveShowcase({ tenants }: LiveShowcaseProps) {
 
   const scopeProps =
     schemeChoice === 'site'
-      ? ({ 'data-strata-scheme': 'site' } as Record<string, string>)
+      ? ({ 'data-syntara-scheme': 'site' } as Record<string, string>)
       : { scheme: schemeChoice };
   const locale = isCustom ? undefined : tenant?.locale;
   const name = isCustom ? 'Your colour' : (tenant?.name ?? '');
@@ -220,7 +220,7 @@ export function LiveShowcase({ tenants }: LiveShowcaseProps) {
 
       <div className={styles.frame}>
         {/* The stage the grid floats on: the same colour field as the hero glow, fainter. Decorative. */}
-        <div aria-hidden className={styles.field} data-strata-theme={themeId} data-strata-scheme="site" />
+        <div aria-hidden className={styles.field} data-syntara-theme={themeId} data-syntara-scheme="site" />
         <ThemeScope theme={themeId} {...scopeProps} className={styles.scope}>
           <ShowcaseGrid locale={locale} motion />
         </ThemeScope>

@@ -1,6 +1,6 @@
 'use client';
 
-import { BarChart } from '@strata/react';
+import { BarChart } from '@syntara/react';
 
 const data = [
   { month: 'Jan', net: 1200 }, { month: 'Feb', net: -450 }, { month: 'Mar', net: 820 },

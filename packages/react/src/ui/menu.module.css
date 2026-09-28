@@ -1,12 +1,12 @@
 .popover {
-  --popover-padding: var(--strata-space-1);
+  --popover-padding: var(--syntara-space-1);
   display: flex;
   flex-direction: column;
 }
 /* The surface (glass face, sheen, rim, hairline edge, overlay shadow) is the Popover's surface recipe. Doubled class
    so it outranks the Popover's own rule whatever order the stylesheets load in. */
 .popover.popover {
-  letter-spacing: var(--strata-font-tracking-md);
+  letter-spacing: var(--syntara-font-tracking-md);
 }
 @supports (corner-shape: squircle) {
   .popover.popover,
@@ -18,7 +18,7 @@
 
 .menu {
   box-sizing: border-box;
-  min-inline-size: max(var(--trigger-width, var(--strata-space-0)), calc(var(--strata-space-16) * 2.5));
+  min-inline-size: max(var(--trigger-width, var(--syntara-space-0)), calc(var(--syntara-space-16) * 2.5));
   flex: 1 1 auto;
   min-block-size: 0;
   overflow-y: auto;
@@ -39,28 +39,28 @@
 .item {
   /* Concentric with the popover: its radius minus the popover's padding (floored at a small key-like corner). */
   --menu-item-radius: max(
-    min(var(--strata-radius-badge), var(--strata-space-1)),
-    calc(var(--strata-radius-container) - var(--popover-padding, var(--strata-space-1)))
+    min(var(--syntara-radius-badge), var(--syntara-space-1)),
+    calc(var(--syntara-radius-container) - var(--popover-padding, var(--syntara-space-1)))
   );
-  --_highlight: var(--strata-color-surface-selected);
+  --_highlight: var(--syntara-color-surface-selected);
   position: relative;
   isolation: isolate;
   display: flex;
   align-items: center;
-  gap: var(--strata-space-2);
-  min-block-size: calc(var(--strata-control-height) - var(--strata-space-2));
-  padding: var(--strata-space-1) var(--strata-space-2);
+  gap: var(--syntara-space-2);
+  min-block-size: calc(var(--syntara-control-height) - var(--syntara-space-2));
+  padding: var(--syntara-space-1) var(--syntara-space-2);
   border-radius: var(--menu-item-radius);
-  color: var(--strata-color-text-default);
-  font-size: var(--strata-font-size-md);
-  letter-spacing: var(--strata-font-tracking-md);
-  line-height: var(--strata-line-height-snug);
+  color: var(--syntara-color-text-default);
+  font-size: var(--syntara-font-size-md);
+  letter-spacing: var(--syntara-font-tracking-md);
+  line-height: var(--syntara-line-height-snug);
   text-decoration: none;
   cursor: default;
   user-select: none;
   outline: none;
   -webkit-tap-highlight-color: transparent;
-  transition: color var(--strata-motion-duration-fast) var(--strata-motion-easing);
+  transition: color var(--syntara-motion-duration-fast) var(--syntara-motion-easing);
 }
 .item::before {
   content: '';
@@ -70,7 +70,7 @@
   border-radius: inherit;
   background: var(--_highlight);
   opacity: 0;
-  transition: opacity var(--strata-motion-duration-fast) var(--strata-motion-easing);
+  transition: opacity var(--syntara-motion-duration-fast) var(--syntara-motion-easing);
 }
 .item[data-focused]::before,
 .item[data-open]::before {
@@ -82,20 +82,20 @@
   border-radius: var(--menu-item-radius);
 }
 .item[data-focus-visible] {
-  outline: 2px solid var(--strata-color-focus-ring);
+  outline: 2px solid var(--syntara-color-focus-ring);
   outline-offset: -2px;
 }
 /* Danger: at rest the label stays text.default (feedback colours aren't solved on glass) and the icon carries the
    red; highlighted, the row turns to feedback.danger.bg with feedback.danger.fg, a pair the engine solves. */
 .item[data-tone='danger'] {
-  --_highlight: var(--strata-color-feedback-danger-bg);
+  --_highlight: var(--syntara-color-feedback-danger-bg);
 }
 .item[data-tone='danger'][data-focused] {
-  color: var(--strata-color-feedback-danger-fg);
+  color: var(--syntara-color-feedback-danger-fg);
 }
 .item[data-disabled] {
   /* text.disabled is exempt from contrast (WCAG 1.4.3) and not solved on any surface, glass included. */
-  color: var(--strata-color-text-disabled);
+  color: var(--syntara-color-text-disabled);
   pointer-events: none;
 }
 .item[href] {
@@ -105,14 +105,14 @@
 @media (prefers-reduced-motion: no-preference) {
   .item {
     transition:
-      color var(--strata-motion-duration-fast) var(--strata-motion-easing),
-      scale var(--strata-motion-duration-spring) var(--strata-motion-spring);
+      color var(--syntara-motion-duration-fast) var(--syntara-motion-easing),
+      scale var(--syntara-motion-duration-spring) var(--syntara-motion-spring);
   }
   .item::before {
     scale: 0.96;
     transition:
-      opacity var(--strata-motion-duration-fast) var(--strata-motion-easing),
-      scale var(--strata-motion-duration-spring) var(--strata-motion-spring);
+      opacity var(--syntara-motion-duration-fast) var(--syntara-motion-easing),
+      scale var(--syntara-motion-duration-spring) var(--syntara-motion-spring);
   }
   .item[data-focused]::before,
   .item[data-open]::before {
@@ -122,16 +122,16 @@
   .item[data-pressed] {
     scale: 0.96;
     transition:
-      color var(--strata-motion-duration-fast) var(--strata-motion-easing),
-      scale var(--strata-motion-duration-fast) var(--strata-motion-easing);
+      color var(--syntara-motion-duration-fast) var(--syntara-motion-easing),
+      scale var(--syntara-motion-duration-fast) var(--syntara-motion-easing);
   }
   /* Rows step in as the menu opens: a fade and the popover's 4px nudge from the trigger, 30ms apart (a quarter of
      duration-fast), so the cascade finishes with the panel's spring. Items mount when the menu opens, so this runs
      once per open. Rows are interactive the whole time. */
   .item,
   .sectionTitle {
-    animation: menu-item-in var(--strata-motion-duration-normal) var(--strata-motion-easing-out)
-      calc(var(--_i, 0) * var(--strata-motion-duration-fast) / 4) backwards;
+    animation: menu-item-in var(--syntara-motion-duration-normal) var(--syntara-motion-easing-out)
+      calc(var(--_i, 0) * var(--syntara-motion-duration-fast) / 4) backwards;
   }
 }
 
@@ -162,15 +162,15 @@
   block-size: 1.125em;
 }
 .check {
-  color: var(--strata-color-text-default);
+  color: var(--syntara-color-text-default);
 }
 .icon {
-  color: var(--strata-color-text-subtle);
+  color: var(--syntara-color-text-subtle);
 }
 .icon svg,
 .check svg,
 .chevron {
-  stroke-width: var(--strata-icon-stroke, 1.5);
+  stroke-width: var(--syntara-icon-stroke, 1.5);
 }
 .icon svg {
   inline-size: 100%;
@@ -178,15 +178,15 @@
 }
 .item[data-focused] .icon,
 .item[data-open] .icon {
-  color: var(--strata-color-text-default);
+  color: var(--syntara-color-text-default);
 }
 /* The icon is decorative (aria-hidden); the label says what the item does. */
 .item[data-tone='danger'] .icon {
-  color: var(--strata-color-feedback-danger-fg);
+  color: var(--syntara-color-feedback-danger-fg);
 }
 .item[data-disabled] .icon,
 .item[data-disabled] .check {
-  color: var(--strata-color-text-disabled);
+  color: var(--syntara-color-text-disabled);
 }
 
 .text {
@@ -200,10 +200,10 @@
   white-space: nowrap;
 }
 .description {
-  font-size: var(--strata-font-size-xs);
-  letter-spacing: var(--strata-font-tracking-xs);
-  line-height: var(--strata-line-height-normal);
-  color: var(--strata-color-text-subtle);
+  font-size: var(--syntara-font-size-xs);
+  letter-spacing: var(--syntara-font-tracking-xs);
+  line-height: var(--syntara-line-height-normal);
+  color: var(--syntara-color-text-subtle);
 }
 /* text.subtle isn't solved against surface.selected, so on the highlighted row secondary text steps up to the
    label's colour (default, or danger fg on a danger row). */
@@ -212,27 +212,27 @@
   color: inherit;
 }
 .item[data-disabled] .description {
-  color: var(--strata-color-text-disabled);
+  color: var(--syntara-color-text-disabled);
 }
 
 .shortcut {
   flex: none;
   margin-inline-start: auto;
-  padding-inline-start: var(--strata-space-4);
-  font-family: var(--strata-font-body);
-  font-size: var(--strata-font-size-xs);
+  padding-inline-start: var(--syntara-space-4);
+  font-family: var(--syntara-font-body);
+  font-size: var(--syntara-font-size-xs);
   font-variant-numeric: tabular-nums;
-  letter-spacing: var(--strata-font-tracking-xs);
-  color: var(--strata-color-text-subtle);
+  letter-spacing: var(--syntara-font-tracking-xs);
+  color: var(--syntara-color-text-subtle);
 }
 .item[data-disabled] .shortcut {
-  color: var(--strata-color-text-disabled);
+  color: var(--syntara-color-text-disabled);
 }
 
 .chevron {
   flex: none;
   margin-inline-start: auto;
-  color: var(--strata-color-text-subtle);
+  color: var(--syntara-color-text-subtle);
 }
 /* The popover root always carries dir. Kept apart from :dir() (which some CSS pipelines rewrite to :lang()). */
 .popover[dir='rtl'] .chevron {
@@ -243,21 +243,21 @@
 }
 
 .section:not(:first-child) {
-  margin-block-start: var(--strata-space-1);
+  margin-block-start: var(--syntara-space-1);
 }
 .sectionTitle {
-  padding: var(--strata-space-1) var(--strata-space-2);
-  font-size: var(--strata-font-size-xs);
-  font-weight: var(--strata-font-weight-medium);
-  letter-spacing: var(--strata-font-tracking-xs);
-  line-height: var(--strata-line-height-normal);
-  color: var(--strata-color-text-subtle);
+  padding: var(--syntara-space-1) var(--syntara-space-2);
+  font-size: var(--syntara-font-size-xs);
+  font-weight: var(--syntara-font-weight-medium);
+  letter-spacing: var(--syntara-font-tracking-xs);
+  line-height: var(--syntara-line-height-normal);
+  color: var(--syntara-color-text-subtle);
 }
 
 .separator {
-  block-size: var(--strata-hairline);
-  margin-block: var(--strata-space-1);
-  margin-inline: calc(var(--strata-space-1) * -1);
+  block-size: var(--syntara-hairline);
+  margin-block: var(--syntara-space-1);
+  margin-inline: calc(var(--syntara-space-1) * -1);
   border: 0;
-  background: var(--strata-color-border-subtle);
+  background: var(--syntara-color-border-subtle);
 }

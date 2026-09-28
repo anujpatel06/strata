@@ -1,4 +1,4 @@
-import { Button, Checkbox, DataTable, Link, Select, TextArea, TextField } from '@strata/react';
+import { Button, Checkbox, DataTable, Link, Select, TextArea, TextField } from '@syntara/react';
 
 export function Fires() {
   return (

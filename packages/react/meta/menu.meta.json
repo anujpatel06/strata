@@ -18,13 +18,13 @@
   ],
   "dependencies": [
     "react-aria-components",
-    "@strata/icons"
+    "@syntara/icons"
   ],
   "registryDependencies": [
     "popover"
   ],
   "reactAria": "https://react-spectrum.adobe.com/react-aria/Menu.html",
-  "usage": "import { Button, Menu, MenuItem, MenuSeparator, MenuTrigger } from '@strata/react';\n\nexport function Actions() {\n  return (\n    <MenuTrigger>\n      <Button variant=\"outline\">Actions</Button>\n      <Menu onAction={(key) => console.log(key)}>\n        <MenuItem id=\"edit\" shortcut=\"⌘E\">Edit</MenuItem>\n        <MenuItem id=\"duplicate\">Duplicate</MenuItem>\n        <MenuSeparator />\n        <MenuItem id=\"delete\" tone=\"danger\">Delete</MenuItem>\n      </Menu>\n    </MenuTrigger>\n  );\n}",
+  "usage": "import { Button, Menu, MenuItem, MenuSeparator, MenuTrigger } from '@syntara/react';\n\nexport function Actions() {\n  return (\n    <MenuTrigger>\n      <Button variant=\"outline\">Actions</Button>\n      <Menu onAction={(key) => console.log(key)}>\n        <MenuItem id=\"edit\" shortcut=\"⌘E\">Edit</MenuItem>\n        <MenuItem id=\"duplicate\">Duplicate</MenuItem>\n        <MenuSeparator />\n        <MenuItem id=\"delete\" tone=\"danger\">Delete</MenuItem>\n      </Menu>\n    </MenuTrigger>\n  );\n}",
   "examples": [
     {
       "name": "menu-demo",
@@ -193,7 +193,7 @@
       "role=\"menu\" with menuitem, menuitemradio or menuitemcheckbox items depending on selectionMode.",
       "Shortcut hints are rendered in <kbd> and announced as part of the item’s description (aria-describedby).",
       "Danger items are marked by colour and should also say what they do (\"Delete claim\").",
-      "Overlays render in a portal on <body>, outside any ThemeScope. When it opens, the overlay looks up data-strata-theme, data-strata-scheme, data-strata-density, dir and lang — each on the nearest ancestor that has it — starting from its trigger (or from where the component is rendered, when controlled), and copies them onto its own root — so it uses the same tenant tokens and direction as the page region it came from, and nested overlays inherit from their parent overlay.",
+      "Overlays render in a portal on <body>, outside any ThemeScope. When it opens, the overlay looks up data-syntara-theme, data-syntara-scheme, data-syntara-density, dir and lang — each on the nearest ancestor that has it — starting from its trigger (or from where the component is rendered, when controlled), and copies them onto its own root — so it uses the same tenant tokens and direction as the page region it came from, and nested overlays inherit from their parent overlay.",
       "Right-to-left: give the ThemeScope a locale (e.g. locale=\"ar-AE\"), which sets dir and wraps React Aria's I18nProvider, so arrow keys and start/end placement flip as well as the layout.",
       "The menu is glass. The highlighted item gets an opaque surface.selected background (feedback.danger.bg for danger items) that fades and springs in, so every coloured text sits on a solved pair; descriptions and shortcuts switch to the label colour on that row, because text.subtle isn't solved against surface.selected. Items step in one after another as the menu opens (first 8, 30ms apart); pressed items scale to 0.96 and spring back; none of this moves with prefers-reduced-motion."
     ]
@@ -213,7 +213,7 @@
   "typeNotes": [
     {
       "prop": "onSelectionChange",
-      "note": "selectedKeys and onSelectionChange use Selection: 'all' or a Set<Key>. Import the type from @strata/react.",
+      "note": "selectedKeys and onSelectionChange use Selection: 'all' or a Set<Key>. Import the type from @syntara/react.",
       "example": "const [sort, setSort] = useState<Selection>(new Set(['newest']));"
     }
   ],

@@ -4,38 +4,38 @@
   z-index: 50;
   box-sizing: border-box;
   min-inline-size: 0;
-  max-inline-size: calc(100vw - var(--strata-space-4) * 2);
-  padding: var(--popover-padding, var(--strata-card-inset));
+  max-inline-size: calc(100vw - var(--syntara-space-4) * 2);
+  padding: var(--popover-padding, var(--syntara-card-inset));
   /*
    * Surface recipe on glass (CONVENTIONS "Surface recipe"). Layers, top to bottom: the engine's sheen and the glass
    * face over the whole border box, and the rim light (dark only) as a masked ::after ring. The edge is a
    * hairline ring in border.subtle (a box-shadow: Chromium rounds sub-pixel borders up to 1px); the transparent
    * border keeps the size, takes the glass tint and is the edge in forced-colours mode.
    *
-   * Glass text rule: the engine solves --strata-glass-opacity so text.default and text.subtle keep 4.5:1 over any
+   * Glass text rule: the engine solves --syntara-glass-opacity so text.default and text.subtle keep 4.5:1 over any
    * backdrop, with no margin to spare. The sheen brightens the face (dark), which would take that away (at the 8%
    * peak, text.subtle fell to 3.67:1 over a white backdrop), so this face is the glass opacity + 8 points. With the sheen
    * at its peak, text.default and text.subtle stay ≥ 4.72:1 over black and white backdrops, 5 tenants × 1,000 fuzz brands
    * (proved in test/popover.test.tsx, "glass + sheen contrast"). Only those two text roles sit directly on it;
    * anything else needs an opaque role background.
    */
-  --_glass: color-mix(in srgb, var(--strata-color-surface-raised) calc(var(--strata-glass-opacity) * 100% + 8%), transparent);
+  --_glass: color-mix(in srgb, var(--syntara-color-surface-raised) calc(var(--syntara-glass-opacity) * 100% + 8%), transparent);
   /* Sheen over the glass face, both over the whole border box: the 1px ring must carry the same tint, or it shows
      the page unfiltered (a modal underlay's dim doesn't reach a nested backdrop-filter), which reads as a bright
      outline. The rim is drawn by ::after instead (see RIM below). */
-  background: var(--strata-sheen), var(--_glass);
-  -webkit-backdrop-filter: blur(var(--strata-glass-blur)) saturate(1.6);
-  backdrop-filter: blur(var(--strata-glass-blur)) saturate(1.6);
+  background: var(--syntara-sheen), var(--_glass);
+  -webkit-backdrop-filter: blur(var(--syntara-glass-blur)) saturate(1.6);
+  backdrop-filter: blur(var(--syntara-glass-blur)) saturate(1.6);
   border: 1px solid transparent;
-  border-radius: var(--strata-radius-container);
-  box-shadow: 0 0 0 var(--strata-hairline) var(--strata-color-border-subtle), var(--strata-shadow-overlay);
+  border-radius: var(--syntara-radius-container);
+  box-shadow: 0 0 0 var(--syntara-hairline) var(--syntara-color-border-subtle), var(--syntara-shadow-overlay);
   outline: none;
   /* Grow out of the trigger: React Aria sets the anchor point relative to the popover. */
   transform-origin: var(--trigger-anchor-point, center);
-  font-family: var(--strata-font-body);
-  font-size: var(--strata-font-size-md);
-  line-height: var(--strata-line-height-normal);
-  color: var(--strata-color-text-default);
+  font-family: var(--syntara-font-body);
+  font-size: var(--syntara-font-size-md);
+  line-height: var(--syntara-line-height-normal);
+  color: var(--syntara-color-text-default);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -48,18 +48,18 @@
   border-radius: inherit;
   padding: 1px;
   background: linear-gradient(135deg, var(--_rim, transparent), transparent 60%);
-  mask-image: linear-gradient(var(--strata-color-text-default), var(--strata-color-text-default)),
-    linear-gradient(var(--strata-color-text-default), var(--strata-color-text-default));
+  mask-image: linear-gradient(var(--syntara-color-text-default), var(--syntara-color-text-default)),
+    linear-gradient(var(--syntara-color-text-default), var(--syntara-color-text-default));
   mask-clip: content-box, border-box;
   mask-composite: exclude;
   -webkit-mask-composite: xor;
   pointer-events: none;
 }
-/* Dark only: --strata-sheen is `none` exactly in light schemes (CONVENTIONS "Surface recipe"). The query runs on the
+/* Dark only: --syntara-sheen is `none` exactly in light schemes (CONVENTIONS "Surface recipe"). The query runs on the
    ::after's originating element, which carries the copied scope attributes, so portalled overlays resolve it too. */
-@container not style(--strata-sheen: none) {
+@container not style(--syntara-sheen: none) {
   .popover::after {
-    --_rim: var(--strata-rim);
+    --_rim: var(--syntara-rim);
   }
 }
 @media (forced-colors: active) {
@@ -69,7 +69,7 @@
 }
 @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
   .popover {
-    --_glass: var(--strata-color-surface-raised);
+    --_glass: var(--syntara-color-surface-raised);
   }
 }
 @supports (corner-shape: squircle) {
@@ -80,7 +80,7 @@
 /* Programmatic focus on open. Pseudo-class selector so page-level `[tabindex]:focus-visible` rules can't outrank it. */
 .popover:focus-visible {
   outline: none;
-  border-radius: var(--strata-radius-container);
+  border-radius: var(--syntara-radius-container);
 }
 .popover *,
 .popover *::before,
@@ -88,28 +88,28 @@
   box-sizing: border-box;
 }
 .popover[data-placement='top'] {
-  --popover-shift: 0 var(--strata-space-1);
+  --popover-shift: 0 var(--syntara-space-1);
 }
 .popover[data-placement='bottom'] {
-  --popover-shift: 0 calc(var(--strata-space-1) * -1);
+  --popover-shift: 0 calc(var(--syntara-space-1) * -1);
 }
 .popover[data-placement='left'] {
-  --popover-shift: var(--strata-space-1) 0;
+  --popover-shift: var(--syntara-space-1) 0;
 }
 .popover[data-placement='right'] {
-  --popover-shift: calc(var(--strata-space-1) * -1) 0;
+  --popover-shift: calc(var(--syntara-space-1) * -1) 0;
 }
 
 /* Arrow: the open path's fill covers the panel border where they meet, the stroke continues it. It takes the
    same glass tint as the panel (it can't blur on its own, but it's too small for that to show). */
 .arrow svg {
   display: block;
-  inline-size: var(--strata-space-3);
-  block-size: var(--strata-space-3);
+  inline-size: var(--syntara-space-3);
+  block-size: var(--syntara-space-3);
 }
 .arrow path {
   fill: var(--_glass);
-  stroke: var(--strata-color-border-subtle);
+  stroke: var(--syntara-color-border-subtle);
   stroke-width: 1px;
   vector-effect: non-scaling-stroke;
 }
@@ -130,13 +130,13 @@
 @media (prefers-reduced-motion: no-preference) {
   .popover[data-entering] {
     animation:
-      fade var(--strata-motion-duration-normal) var(--strata-motion-easing-out),
-      pop var(--strata-motion-duration-spring) var(--strata-motion-spring);
+      fade var(--syntara-motion-duration-normal) var(--syntara-motion-easing-out),
+      pop var(--syntara-motion-duration-spring) var(--syntara-motion-spring);
   }
   .popover[data-exiting] {
     animation:
-      fade var(--strata-motion-duration-fast) var(--strata-motion-easing) reverse,
-      settle var(--strata-motion-duration-fast) var(--strata-motion-easing) reverse;
+      fade var(--syntara-motion-duration-fast) var(--syntara-motion-easing) reverse,
+      settle var(--syntara-motion-duration-fast) var(--syntara-motion-easing) reverse;
   }
 
   @keyframes fade {

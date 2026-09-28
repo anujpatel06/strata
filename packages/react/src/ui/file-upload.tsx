@@ -11,7 +11,7 @@ import {
   type DropZoneProps,
   type ValidationResult,
 } from 'react-aria-components';
-import { IconAlertCircle, IconCircleCheck, IconFile, IconUpload, IconX } from '@strata/icons';
+import { IconAlertCircle, IconCircleCheck, IconFile, IconUpload, IconX } from '@syntara/icons';
 import { Button } from './button';
 import { Description, FieldError, Label } from './text-field';
 import styles from './file-upload.module.css';

@@ -1,5 +1,5 @@
 /*
- * DataTable — matches the Phase 1 activity table: hairline rows, row height from --strata-table-row-height,
+ * DataTable — matches the Phase 1 activity table: hairline rows, row height from --syntara-table-row-height,
  * block padding = row height − control height (so two-line cells keep the density difference).
  *
  * Private aliases (not theme tokens): --_row, --_head, --_pad-block. The `density` prop re-points them; the
@@ -7,9 +7,9 @@
  */
 
 .root {
-  --_row: var(--strata-table-row-height);
-  --_head: var(--strata-control-height);
-  --_pad-block: calc(var(--strata-table-row-height) - var(--strata-control-height));
+  --_row: var(--syntara-table-row-height);
+  --_head: var(--syntara-control-height);
+  --_pad-block: calc(var(--syntara-table-row-height) - var(--syntara-control-height));
 
   box-sizing: border-box;
   position: relative;
@@ -28,19 +28,19 @@
      rows (background-attachment: scroll), so the light stays on the frame. */
   --_rim: transparent;
   border: 1px solid transparent;
-  border-radius: var(--strata-radius-container);
+  border-radius: var(--syntara-radius-container);
   background:
-    var(--strata-sheen) padding-box,
-    linear-gradient(var(--strata-color-surface-default), var(--strata-color-surface-default)) padding-box,
-    linear-gradient(135deg, var(--_rim), transparent 60%) border-box var(--strata-color-surface-default);
-  box-shadow: 0 0 0 var(--strata-hairline) var(--strata-color-border-subtle), var(--strata-shadow-raised);
-  color: var(--strata-color-text-default);
+    var(--syntara-sheen) padding-box,
+    linear-gradient(var(--syntara-color-surface-default), var(--syntara-color-surface-default)) padding-box,
+    linear-gradient(135deg, var(--_rim), transparent 60%) border-box var(--syntara-color-surface-default);
+  box-shadow: 0 0 0 var(--syntara-hairline) var(--syntara-color-border-subtle), var(--syntara-shadow-raised);
+  color: var(--syntara-color-text-default);
 }
-/* Rim light in dark only (CONVENTIONS "Surface recipe"): --strata-sheen is `none` exactly in light schemes, so it's
+/* Rim light in dark only (CONVENTIONS "Surface recipe"): --syntara-sheen is `none` exactly in light schemes, so it's
    the scheme signal, and the rim can never show without the sheen. Browsers without style queries get no rim. */
-@container not style(--strata-sheen: none) {
+@container not style(--syntara-sheen: none) {
   .root {
-    --_rim: var(--strata-rim);
+    --_rim: var(--syntara-rim);
   }
 }
 
@@ -51,29 +51,29 @@
 }
 
 .root[data-density='compact'] {
-  --_row: calc(var(--strata-space-8) + var(--strata-space-1));
-  --_head: var(--strata-space-8);
-  --_pad-block: var(--strata-space-1);
+  --_row: calc(var(--syntara-space-8) + var(--syntara-space-1));
+  --_head: var(--syntara-space-8);
+  --_pad-block: var(--syntara-space-1);
 }
 
 .root[data-density='comfortable'] {
-  --_row: var(--strata-space-12);
-  --_head: var(--strata-space-10);
-  --_pad-block: var(--strata-space-2);
+  --_row: var(--syntara-space-12);
+  --_head: var(--syntara-space-10);
+  --_pad-block: var(--syntara-space-2);
 }
 
 .table {
   inline-size: 100%;
   border-collapse: separate;
   border-spacing: 0;
-  font-size: var(--strata-font-size-md);
-  letter-spacing: var(--strata-font-tracking-md);
-  line-height: var(--strata-line-height-snug);
+  font-size: var(--syntara-font-size-md);
+  letter-spacing: var(--syntara-font-tracking-md);
+  line-height: var(--syntara-line-height-snug);
   outline: none;
 }
 
 .table[data-focus-visible] {
-  outline: 2px solid var(--strata-color-focus-ring);
+  outline: 2px solid var(--syntara-color-focus-ring);
   outline-offset: -2px;
 }
 
@@ -85,16 +85,16 @@
   box-sizing: border-box;
   block-size: var(--_head);
   padding-block: 0;
-  padding-inline: var(--strata-space-4);
+  padding-inline: var(--syntara-space-4);
   /* Hierarchy through weight and colour: no fill, subtle medium text, one hairline under it (the same quiet
      border.subtle as the rows: the header is set apart by its type, not by a heavier line). */
   background-color: transparent;
-  box-shadow: inset 0 calc(var(--strata-hairline) * -1) 0 var(--strata-color-border-subtle);
-  color: var(--strata-color-text-subtle);
-  font-size: var(--strata-font-size-sm);
-  font-weight: var(--strata-font-weight-medium);
-  letter-spacing: var(--strata-font-tracking-sm);
-  line-height: var(--strata-line-height-snug);
+  box-shadow: inset 0 calc(var(--syntara-hairline) * -1) 0 var(--syntara-color-border-subtle);
+  color: var(--syntara-color-text-subtle);
+  font-size: var(--syntara-font-size-sm);
+  font-weight: var(--syntara-font-weight-medium);
+  letter-spacing: var(--syntara-font-tracking-sm);
+  line-height: var(--syntara-line-height-snug);
   text-align: start;
   vertical-align: middle;
   white-space: nowrap;
@@ -105,7 +105,7 @@
   position: sticky;
   inset-block-start: 0;
   z-index: 1;
-  background-color: var(--strata-color-surface-default);
+  background-color: var(--syntara-color-surface-default);
 }
 
 /*
@@ -114,14 +114,14 @@
  */
 @supports (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px)) {
   .sticky .column {
-    background-color: var(--strata-glass-bg);
-    -webkit-backdrop-filter: blur(var(--strata-glass-blur)) saturate(1.6);
-    backdrop-filter: blur(var(--strata-glass-blur)) saturate(1.6);
+    background-color: var(--syntara-glass-bg);
+    -webkit-backdrop-filter: blur(var(--syntara-glass-blur)) saturate(1.6);
+    backdrop-filter: blur(var(--syntara-glass-blur)) saturate(1.6);
   }
 }
 
 .column[data-focus-visible] {
-  outline: 2px solid var(--strata-color-focus-ring);
+  outline: 2px solid var(--syntara-color-focus-ring);
   outline-offset: -2px;
 }
 
@@ -133,7 +133,7 @@
 .columnInner {
   display: flex;
   align-items: center;
-  gap: var(--strata-space-1);
+  gap: var(--syntara-space-1);
   min-inline-size: 0;
 }
 
@@ -144,17 +144,17 @@
 }
 
 .column[data-allows-sorting][data-hovered] {
-  color: var(--strata-color-text-default);
+  color: var(--syntara-color-text-default);
 }
 
 .column[data-sort-direction] {
-  color: var(--strata-color-text-default);
+  color: var(--syntara-color-text-default);
 }
 
 .sortIcon {
   display: inline-flex;
   flex: none;
-  color: var(--strata-color-text-subtle);
+  color: var(--syntara-color-text-subtle);
 }
 
 .sortIcon:not([data-direction]) {
@@ -166,7 +166,7 @@
 }
 
 .sortIcon[data-direction] {
-  color: var(--strata-color-text-default);
+  color: var(--syntara-color-text-default);
 }
 
 .sortArrow {
@@ -195,8 +195,8 @@
 .cell {
   box-sizing: border-box;
   padding-block: var(--_pad-block);
-  padding-inline: var(--strata-space-4);
-  box-shadow: inset 0 calc(var(--strata-hairline) * -1) 0 var(--strata-color-border-subtle);
+  padding-inline: var(--syntara-space-4);
+  box-shadow: inset 0 calc(var(--syntara-hairline) * -1) 0 var(--syntara-color-border-subtle);
   text-align: start;
   vertical-align: middle;
   white-space: nowrap;
@@ -210,24 +210,24 @@
 /* Edge cells line up with the frame's inset (the card inset, so a table inside a card aligns with its title). */
 .column:first-child,
 .cell:first-child {
-  padding-inline-start: max(var(--strata-space-4), var(--strata-card-inset));
+  padding-inline-start: max(var(--syntara-space-4), var(--syntara-card-inset));
 }
 
 .column:last-child,
 .cell:last-child {
-  padding-inline-end: max(var(--strata-space-4), var(--strata-card-inset));
+  padding-inline-end: max(var(--syntara-space-4), var(--syntara-card-inset));
 }
 
 @media (hover: hover) {
   .row:not([data-skeleton]):hover {
     /* A quiet tint, not a block: the row answers the pointer without competing with selection. */
-    background-color: color-mix(in oklab, var(--strata-color-surface-selected) 45%, transparent);
+    background-color: color-mix(in oklab, var(--syntara-color-surface-selected) 45%, transparent);
   }
 }
 
 /* Pressing an actionable row answers immediately. */
 .table[data-actionable] .row[data-pressed]:not([data-disabled]) {
-  background-color: var(--strata-color-surface-selected);
+  background-color: var(--syntara-color-surface-selected);
 }
 
 /*
@@ -236,8 +236,8 @@
  */
 .row[data-selected],
 .row[data-selected]:hover {
-  --strata-color-text-subtle: var(--strata-color-text-default);
-  background-color: var(--strata-color-surface-selected);
+  --syntara-color-text-subtle: var(--syntara-color-text-default);
+  background-color: var(--syntara-color-surface-selected);
 }
 
 /* A soft badge's tint can match surface.selected; a faint same-hue edge keeps its shape readable (decorative:
@@ -257,7 +257,7 @@
   inset-block: 0;
   inset-inline-start: 0;
   inline-size: 2px;
-  background-color: var(--strata-color-action-primary-bg);
+  background-color: var(--syntara-color-action-primary-bg);
   opacity: 0;
   pointer-events: none;
 }
@@ -271,12 +271,12 @@
 }
 
 .row[data-disabled]:not([data-skeleton]) {
-  color: var(--strata-color-text-disabled);
+  color: var(--syntara-color-text-disabled);
 }
 
 .row[data-focus-visible],
 .cell[data-focus-visible] {
-  outline: 2px solid var(--strata-color-focus-ring);
+  outline: 2px solid var(--syntara-color-focus-ring);
   outline-offset: -2px;
 }
 
@@ -334,9 +334,9 @@
   display: grid;
   place-items: center;
   min-block-size: calc(var(--_row) * 3);
-  padding: var(--strata-space-6) var(--strata-space-4);
-  color: var(--strata-color-text-subtle);
-  font-size: var(--strata-font-size-md);
+  padding: var(--syntara-space-6) var(--syntara-space-4);
+  color: var(--syntara-color-text-subtle);
+  font-size: var(--syntara-font-size-md);
   text-align: center;
   white-space: normal;
 }
@@ -351,7 +351,7 @@
   flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
-  gap: var(--strata-space-2);
+  gap: var(--syntara-space-2);
   inline-size: 100%;
   min-inline-size: 0;
 }
@@ -362,8 +362,8 @@
   flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
-  column-gap: var(--strata-space-4);
-  row-gap: var(--strata-space-2);
+  column-gap: var(--syntara-space-4);
+  row-gap: var(--syntara-space-2);
   inline-size: 100%;
   min-inline-size: 0;
 }
@@ -371,53 +371,53 @@
 .footerSummary {
   flex: none;
   margin: 0;
-  color: var(--strata-color-text-subtle);
-  font-size: var(--strata-font-size-sm);
+  color: var(--syntara-color-text-subtle);
+  font-size: var(--syntara-font-size-sm);
   font-variant-numeric: tabular-nums;
-  line-height: var(--strata-line-height-snug);
+  line-height: var(--syntara-line-height-snug);
 }
 
 .summaryNum {
-  color: var(--strata-color-text-default);
-  font-weight: var(--strata-font-weight-medium);
+  color: var(--syntara-color-text-default);
+  font-weight: var(--syntara-font-weight-medium);
 }
 
 .footer .footerPagination {
   /* Wraps under the summary before it gets narrower than ~256px. */
-  flex: 1 1 calc(var(--strata-space-16) * 4);
+  flex: 1 1 calc(var(--syntara-space-16) * 4);
   inline-size: auto;
   justify-content: flex-end;
 }
 
 /* Colour and opacity fades stay on with reduced motion. */
 .row {
-  transition: background-color var(--strata-motion-duration-fast) var(--strata-motion-easing);
+  transition: background-color var(--syntara-motion-duration-fast) var(--syntara-motion-easing);
 }
 
 .cell:first-child::before {
-  transition: opacity var(--strata-motion-duration-normal) var(--strata-motion-easing);
+  transition: opacity var(--syntara-motion-duration-normal) var(--syntara-motion-easing);
 }
 
 .column,
 .sortIcon {
   transition-property: color, opacity;
-  transition-duration: var(--strata-motion-duration-fast);
-  transition-timing-function: var(--strata-motion-easing);
+  transition-duration: var(--syntara-motion-duration-fast);
+  transition-timing-function: var(--syntara-motion-easing);
 }
 
 @media (prefers-reduced-motion: no-preference) {
   /* Flipping the sort turns the arrow with the spring; a newly sorted column's arrow pops in. */
   .sortArrow {
-    transition: rotate var(--strata-motion-duration-spring) var(--strata-motion-spring);
-    animation: strata-table-sort-in var(--strata-motion-duration-spring) var(--strata-motion-spring);
+    transition: rotate var(--syntara-motion-duration-spring) var(--syntara-motion-spring);
+    animation: syntara-table-sort-in var(--syntara-motion-duration-spring) var(--syntara-motion-spring);
   }
 
   /* The brand bar grows from the row's centre when it's selected. */
   .cell:first-child::before {
     scale: 1 0;
     transition-property: opacity, scale;
-    transition-duration: var(--strata-motion-duration-fast), var(--strata-motion-duration-spring);
-    transition-timing-function: var(--strata-motion-easing), var(--strata-motion-spring);
+    transition-duration: var(--syntara-motion-duration-fast), var(--syntara-motion-duration-spring);
+    transition-timing-function: var(--syntara-motion-easing), var(--syntara-motion-spring);
   }
 
   .row[data-selected] > .cell:first-child::before {
@@ -425,7 +425,7 @@
   }
 }
 
-@keyframes strata-table-sort-in {
+@keyframes syntara-table-sort-in {
   from {
     opacity: 0;
     scale: 0.6;

@@ -20,7 +20,7 @@ export interface ManifestProp {
 }
 
 export interface ManifestNode {
-  /** meta = a @strata/react component (packages/react/meta); sdui = the schema's own node. */
+  /** meta = a @syntara/react component (packages/react/meta); sdui = the schema's own node. */
   source: 'meta' | 'sdui';
   component: string | null;
   maturity: 'alpha' | 'beta' | 'stable';

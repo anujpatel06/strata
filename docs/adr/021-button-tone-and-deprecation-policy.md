@@ -17,11 +17,11 @@
 - **Rename target:** `variant="danger"` → `tone="danger"`. Claude pushed back on `critical`; Anuj accepted.
 - **Scope:** `tone` applies to `primary`, `outline` and `ghost`. It's ignored, with a development warning, on the others.
 - **No observable change for old code:** `variant="danger"` renders as before, `data-variant="danger"` included.
-- **Removal:** at 1.0.0 only. Strata doesn't use the 0.x allowance to break in a minor.
+- **Removal:** at 1.0.0 only. Syntara doesn't use the 0.x allowance to break in a minor.
 - **Guarantee widened:** the four `feedback.*.fg` roles are now solved on `surface.canvas` and `surface.raised` too, so tone-coloured text is proven wherever a ghost button can sit. 118 checks per brand, was 102; 118,000 of 118,000 pass — `pnpm test:themes`.
 - **A deprecation is a record, not a comment:** `meta.json` holds since, removal, replacement, reason, codemod and RFC. `pnpm check:meta` fails if the codemod or RFC is missing, or if removal isn't a later major release.
 - **Outline danger keeps a danger-coloured border at rest**, so it reads as destructive before hover. Anuj accepted it at the Phase 4 review.
-- **Codemods never guess.** They rewrite literals on components imported from Strata, and report the rest with file and line.
+- **Codemods never guess.** They rewrite literals on components imported from Syntara, and report the rest with file and line.
 
 ## Alternatives considered
 

@@ -1,5 +1,5 @@
 /**
- * Where the Strata repo is, and the only ways this package turns a name into a path.
+ * Where the Syntara repo is, and the only ways this package turns a name into a path.
  * Every file read in the server goes through `inside()`, so nothing outside the repo root can be read.
  */
 import { existsSync, realpathSync } from 'node:fs';
@@ -29,17 +29,17 @@ export function isSafeName(name: string): boolean {
   return name.length <= 64 && SAFE_NAME.test(name);
 }
 
-/** STRATA_ROOT if set, otherwise three levels up from packages/mcp/src. */
+/** SYNTARA_ROOT if set, otherwise three levels up from packages/mcp/src. */
 export function findRoot(env: NodeJS.ProcessEnv = process.env): string {
-  const override = env.STRATA_ROOT;
+  const override = env.SYNTARA_ROOT;
   return resolve(override && override.trim() !== '' ? override : join(here, '../../..'));
 }
 
-/** Throws a ToolError when `root` doesn't look like a Strata checkout. */
+/** Throws a ToolError when `root` doesn't look like a Syntara checkout. */
 export function assertRoot(root: string): void {
   if (!existsSync(join(root, 'packages/react/meta'))) {
     throw new ToolError(
-      `No Strata repo at ${root} (packages/react/meta is missing). Set the STRATA_ROOT environment variable to the repo's path in the MCP server config.`,
+      `No Syntara repo at ${root} (packages/react/meta is missing). Set the SYNTARA_ROOT environment variable to the repo's path in the MCP server config.`,
     );
   }
 }
@@ -58,7 +58,7 @@ export function inside(root: string, ...parts: string[]): string {
   const check = (base: string, path: string): void => {
     const rel = relative(base, path);
     if (rel === '' || rel.startsWith('..' + sep) || rel === '..' || isAbsolute(rel)) {
-      throw new ToolError(`That path is outside the Strata repo. ${SAFE_NAME_MESSAGE}`);
+      throw new ToolError(`That path is outside the Syntara repo. ${SAFE_NAME_MESSAGE}`);
     }
   };
   check(root, target);

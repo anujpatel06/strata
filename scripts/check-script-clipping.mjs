@@ -238,11 +238,11 @@ function fontsOf(pair) {
 }
 
 async function measurePair(browser, pair, dpr, vars) {
-  const sizes = Object.keys(vars).filter((k) => k.startsWith('--strata-font-size-')).map((k) => [k.slice(19), parseFloat(vars[k])]);
+  const sizes = Object.keys(vars).filter((k) => k.startsWith('--syntara-font-size-')).map((k) => [k.slice(19), parseFloat(vars[k])]);
   const lhs =
     LH_OVERRIDE !== undefined
       ? [['override', LH_OVERRIDE]]
-      : Object.keys(vars).filter((k) => k.startsWith('--strata-line-height-')).map((k) => [k.slice(21), Number(vars[k])]);
+      : Object.keys(vars).filter((k) => k.startsWith('--syntara-line-height-')).map((k) => [k.slice(21), Number(vars[k])]);
   const strings = stringsFor(pair);
   const paragraph = strings.filter((s) => s.script !== 'latin').map((s) => s.text).join(' ') || strings.map((s) => s.text).join(' ');
   const page = await openPair(browser, pair, dpr);
@@ -537,7 +537,7 @@ try {
     }
 
     if (pair.script || id === 'precise') {
-      const sizes = Object.keys(vars).filter((k) => k.startsWith('--strata-font-size-')).map((k) => [k.slice(19), parseFloat(vars[k])]);
+      const sizes = Object.keys(vars).filter((k) => k.startsWith('--syntara-font-size-')).map((k) => [k.slice(19), parseFloat(vars[k])]);
       const allSizes = [[`10`, 10], [`11`, 11], ...sizes.filter(([, px]) => px <= 20)];
       const m = [];
       for (const dpr of DPRS) m.push(...(await marks(browser, pair, allSizes, dpr)));

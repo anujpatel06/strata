@@ -34,9 +34,9 @@ import {
   Steps,
   TextField,
   type FileUploadEntry,
-} from '@strata/react';
+} from '@syntara/react';
 import { getLocalTimeZone, today } from '@internationalized/date';
-import { IconChevronLeft, IconCircleCheck, IconLogout } from '@strata/icons';
+import { IconChevronLeft, IconCircleCheck, IconLogout } from '@syntara/icons';
 import {
   useEffect,
   useId,

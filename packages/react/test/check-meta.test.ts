@@ -71,7 +71,7 @@ describe('check-meta: imports (meta/schema.ts ImportDoc)', () => {
 
   it('rejects a package that is not one of the component’s dependencies', () => {
     expect(importsOf({}, [])).toContainEqual(expect.stringContaining("isn't in dependencies"));
-    expect(importsOf({ package: '@strata/react' })).toContainEqual(expect.stringContaining('already the import line'));
+    expect(importsOf({ package: '@syntara/react' })).toContainEqual(expect.stringContaining('already the import line'));
   });
 
   it('requires names and why, and rejects malformed or repeated names', () => {

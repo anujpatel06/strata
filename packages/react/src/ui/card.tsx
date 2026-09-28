@@ -113,7 +113,7 @@ export interface CardContentProps extends HTMLAttributes<HTMLDivElement> {
   /**
    * `default` = content sits on the card. `inset` = a pale inner surface (sunken fill, hairline edge, a corner
    * concentric with the card) for a table, list or code block that should read as one object inside the card.
-   * Inside it, `--strata-card-inset` is halved, so nested parts that align to the card inset (DataTable edge
+   * Inside it, `--syntara-card-inset` is halved, so nested parts that align to the card inset (DataTable edge
    * cells, for one) tighten to fit.
    */
   variant?: 'default' | 'inset';

@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Badge, DataTable, DataTablePagination, useSortedRows, type DataTableColumn, type DataTableSortDescriptor } from '@strata/react';
+import { Badge, DataTable, DataTablePagination, useSortedRows, type DataTableColumn, type DataTableSortDescriptor } from '@syntara/react';
 
 type Payment = { id: string; date: Date; payee: string; method: string; status: 'Paid' | 'Pending' | 'Failed' | 'Refunded'; amount: number };
 

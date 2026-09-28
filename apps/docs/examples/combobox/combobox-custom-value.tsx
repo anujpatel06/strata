@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Combobox, ComboboxItem } from '@strata/react';
+import { Combobox, ComboboxItem } from '@syntara/react';
 
 const titles = ['Account manager', 'Data analyst', 'Designer', 'Engineering manager', 'Product manager', 'Software engineer'];
 

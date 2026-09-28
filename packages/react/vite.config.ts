@@ -1,8 +1,8 @@
 /**
- * Library build for the npm package — `pnpm --filter @strata/react build`.
+ * Library build for the npm package — `pnpm --filter @syntara/react build`.
  *
  *   dist/index.js, dist/ui/<name>.js   ESM, one module per source file (preserveModules), 'use client' kept
- *   dist/styles.css                     every CSS Module, compiled — consumers import '@strata/react/styles.css' once
+ *   dist/styles.css                     every CSS Module, compiled — consumers import '@syntara/react/styles.css' once
  *   dist/types/**                       declarations (tsc -p tsconfig.build.json, run by emitDeclarations below)
  *
  * Dependencies and peers stay external. Tests use vitest.config.ts, not this file.
@@ -40,7 +40,7 @@ const USE_CLIENT = /^\s*(['"])use client\1;?/;
 function preserveUseClient(): Plugin {
   const clientModules = new Set<string>();
   return {
-    name: 'strata:preserve-use-client',
+    name: 'syntara:preserve-use-client',
     transform(code, id) {
       if (USE_CLIENT.test(code)) clientModules.add(id.split('?')[0]!);
       return null;
@@ -68,7 +68,7 @@ function emitDeclarations(): Plugin {
       d.isDirectory() ? walk(path.join(dir, d.name)) : d.name.endsWith('.d.ts') ? [path.join(dir, d.name)] : [],
     );
   return {
-    name: 'strata:emit-declarations',
+    name: 'syntara:emit-declarations',
     apply: 'build',
     closeBundle() {
       const tsc = path.join(root, 'node_modules/.bin/tsc');
@@ -78,10 +78,10 @@ function emitDeclarations(): Plugin {
   };
 }
 
-/** CSS Module class names: strata-<file>__<class> — readable in devtools, unique because file names are. */
+/** CSS Module class names: syntara-<file>__<class> — readable in devtools, unique because file names are. */
 function scopedName(local: string, filename: string): string {
   const file = path.basename(filename.split('?')[0]!).replace(/\.module\.css$/, '');
-  return `strata-${file}__${local}`;
+  return `syntara-${file}__${local}`;
 }
 
 export default defineConfig({

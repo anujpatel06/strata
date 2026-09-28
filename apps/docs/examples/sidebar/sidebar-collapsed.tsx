@@ -10,7 +10,7 @@ import {
   SidebarSearch,
   SidebarSection,
   SidebarUser,
-} from '@strata/react';
+} from '@syntara/react';
 import {
   IconBuilding,
   IconClock,
@@ -20,7 +20,7 @@ import {
   IconSettings,
   IconSparkles,
   IconUsers,
-} from '@strata/icons';
+} from '@syntara/icons';
 
 /** The icon rail. Tooltips name every icon; the Employees group opens its people in a popover. */
 export default function Example() {

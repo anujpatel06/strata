@@ -1,6 +1,6 @@
 'use client';
 
-import { Button, ToastRegion, toast } from '@strata/react';
+import { Button, ToastRegion, toast } from '@syntara/react';
 
 export default function Example() {
   function exportStatement() {

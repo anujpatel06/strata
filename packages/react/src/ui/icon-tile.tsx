@@ -22,7 +22,7 @@ export type IconTileTint = 'auto' | 'none' | 'solid' | AvatarTone;
 export type IconTileSize = 'sm' | 'md' | 'lg';
 
 export interface IconTileProps extends Omit<HTMLAttributes<HTMLSpanElement>, 'children'> {
-  /** An icon from @strata/icons (or any SVG). Ignored when `src` is set. */
+  /** An icon from @syntara/icons (or any SVG). Ignored when `src` is set. */
   children?: ReactNode;
   /** An image instead of an icon, e.g. an asset or merchant logo. Needs `alt`. */
   src?: string;

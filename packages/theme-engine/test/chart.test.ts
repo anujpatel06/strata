@@ -20,7 +20,7 @@ const TENANTS = {
   harbor: { name: 'Harbor', primary: '#1d6b63', accent: '#e07a3f', neutral: 'warm', shape: 'soft', typePair: 'calm', density: 'comfortable' },
   qamar: { name: 'Qamar', primary: '#f2a516', accent: '#7a2e8e', neutral: 'warm', shape: 'round', typePair: 'bilingual-round', density: 'comfortable' },
   care: { name: 'Care', primary: '#2d5f4f', accent: '#c2664a', neutral: 'paper', shape: 'round', typePair: 'editorial', density: 'comfortable' },
-  house: { name: 'Strata', primary: '#18181b', neutral: 'neutral', shape: 'soft', typePair: 'modern', density: 'comfortable' },
+  house: { name: 'Syntara', primary: '#18181b', neutral: 'neutral', shape: 'soft', typePair: 'modern', density: 'comfortable' },
 } satisfies Record<string, BrandInput>;
 
 const SCHEMES: readonly Scheme[] = ['light', 'dark'];
@@ -75,9 +75,9 @@ describe.each(Object.entries(TENANTS))('%s chart palette', (_, input) => {
       expect(s.chart.grid).toBe(s.roles['border.subtle'].hex);
       expect(s.chart.axis).toBe(s.roles['text.subtle'].hex);
       const vars = toCssVariables(theme, scheme);
-      s.chart.series.forEach((hex, i) => expect(vars[`--strata-chart-${i + 1}`]).toBe(hex));
-      expect(vars['--strata-chart-grid']).toBe('var(--strata-color-border-subtle)');
-      expect(vars['--strata-chart-axis']).toBe('var(--strata-color-text-subtle)');
+      s.chart.series.forEach((hex, i) => expect(vars[`--syntara-chart-${i + 1}`]).toBe(hex));
+      expect(vars['--syntara-chart-grid']).toBe('var(--syntara-color-border-subtle)');
+      expect(vars['--syntara-chart-axis']).toBe('var(--syntara-color-text-subtle)');
     }
   });
 });

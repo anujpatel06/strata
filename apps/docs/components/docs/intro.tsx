@@ -2,8 +2,8 @@
  * Editorial pieces for the /docs introduction (imported by content/docs/index.mdx). Server components: every
  * number is read from its source at build time (engine, meta files, tenant folders), never typed in.
  */
-import { IconArrowRight } from '@strata/icons';
-import { ROLES, countTokens } from '@strata/theme-engine';
+import { IconArrowRight } from '@syntara/icons';
+import { ROLES, countTokens } from '@syntara/theme-engine';
 import Link from 'next/link';
 import type { CSSProperties, ReactNode } from 'react';
 import { DOC_PAGES } from '@/lib/docs';
@@ -24,7 +24,7 @@ interface Layer {
 }
 
 /**
- * "What's in the box" as the stack it is: a brand file at the top, each package a stratum below it, and the one
+ * "What's in the box" as the stack it is: a brand file at the top, each package a layer below it, and the one
  * number that describes each layer at the end of its row.
  */
 export function Layers() {
@@ -34,19 +34,19 @@ export function Layers() {
   const layers: Layer[] = [
     { name: 'brand.json', what: 'A brand, as data. One file per tenant; nothing else changes.', figure: String(inputs), unit: 'inputs' },
     {
-      name: '@strata/theme-engine',
+      name: '@syntara/theme-engine',
       what: 'OKLCH ramps, semantic roles for light and dark, and a contrast solver that explains each change. No runtime dependencies.',
       figure: String(ROLES.length),
       unit: 'colour roles',
     },
     {
-      name: '@strata/tokens',
+      name: '@syntara/tokens',
       what: 'The built token files for every tenant: CSS variables, DTCG JSON and Figma variables.',
       figure: String(countTokens()),
       unit: 'tokens per theme',
     },
     {
-      name: '@strata/react',
+      name: '@syntara/react',
       what: 'Components on React Aria Components, styled with CSS Modules and tokens only.',
       figure: String(getAllMeta().length),
       unit: 'components',

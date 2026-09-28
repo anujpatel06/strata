@@ -1,6 +1,6 @@
-import { Button, Link } from '@strata/react';
-import { IconX } from '@strata/icons';
-import * as Icons from '@strata/icons';
+import { Button, Link } from '@syntara/react';
+import { IconX } from '@syntara/icons';
+import * as Icons from '@syntara/icons';
 import { Button as Other } from 'some-library';
 
 export function Fires() {

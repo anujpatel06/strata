@@ -7,7 +7,7 @@
 ## Context
 
 - Anuj's review of v0.2: the components felt dated, with no interaction or micro-interactions. The bar is the level of detail and polish in Apple's design.
-- Anuj: take *inspiration* from Apple, don't copy it. Strata must keep its own identity and stay multi-brand.
+- Anuj: take *inspiration* from Apple, don't copy it. Syntara must keep its own identity and stay multi-brand.
 - Glass and motion bring real accessibility risks (text over unknown backdrops, vestibular motion), and this is an accessibility-first portfolio.
 
 ## Decision

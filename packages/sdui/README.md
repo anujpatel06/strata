@@ -1,12 +1,12 @@
-# @strata/sdui
+# @syntara/sdui
 
-Strata as a server-driven UI contract. A server sends a screen as JSON, and a client draws it with Strata components.
+Syntara as a server-driven UI contract. A server sends a screen as JSON, and a client draws it with Syntara components.
 
 This package has three parts:
 
 - **The schema.** One JSON Schema (draft 2020-12) per component, generated from the component's `meta.json` (ADR-007, ADR-019). Plus a screen schema and a manifest.
 - **A validator.** `validateScreen(doc)` checks a document and returns errors a backend engineer can act on.
-- **A reference renderer for the web.** `<StrataScreen>` draws a document with `@strata/react`.
+- **A reference renderer for the web.** `<SyntaraScreen>` draws a document with `@syntara/react`.
 
 ## What this is not
 
@@ -16,7 +16,7 @@ This package has three parts:
 
 ## The slice
 
-26 node types: 22 from 15 `@strata/react` components, and 4 of the schema's own.
+26 node types: 22 from 15 `@syntara/react` components, and 4 of the schema's own.
 
 | Node | Component (meta) | `children` on the wire |
 |---|---|---|
@@ -116,7 +116,7 @@ Strings are always drawn as text. There's no `html` prop and no way to send mark
 
 ### Icons
 
-`{ "icon": "<name>" }`, where the name is the kebab-case name of an icon in `@strata/icons`. The list is generated from the package's exports, never kept by hand (`schema/manifest.json` → `icons`). Icons on the wire are always decorative: the text next to them carries the meaning.
+`{ "icon": "<name>" }`, where the name is the kebab-case name of an icon in `@syntara/icons`. The list is generated from the package's exports, never kept by hand (`schema/manifest.json` → `icons`). Icons on the wire are always decorative: the text next to them carries the meaning.
 
 ### Tokens only
 
@@ -157,7 +157,7 @@ These are schema constraints. A document that breaks one is invalid.
 
 ### How a deprecation reaches the schema (GOVERNANCE.md §5)
 
-1. A component deprecates a prop or value in a `@strata/react` minor release, with a record in its meta.
+1. A component deprecates a prop or value in a `@syntara/react` minor release, with a record in its meta.
 2. If the schema's current major already has it, it stays until the next major. The schema marks it `deprecated: true`, and the renderer reports `deprecated-value` when a document uses it.
 3. The next major of the schema removes it.
 4. If the schema never had it, it doesn't start having it (Button `variant: "danger"`).
@@ -184,30 +184,30 @@ Every issue has a `code`, a JSON pointer `path` into the document as sent, and a
 ## Validate
 
 ```ts
-import { validateScreen } from '@strata/sdui';
+import { validateScreen } from '@syntara/sdui';
 
 const { valid, errors } = validateScreen(doc);
 // errors: [{ path: '/root/children/2', rule: 'button-icon-size-name',
 //            message: 'A Button with size "icon" shows no text, so it needs props.ariaLabel.' }]
 ```
 
-No React import in this entry. It uses ajv in strict mode. The schema files use three keywords of their own (`x-strata`, `x-strata-rule`, `x-strata-message`). Other validators ignore `x-` keywords; with ajv strict mode, add them with `ajv.addVocabulary`.
+No React import in this entry. It uses ajv in strict mode. The schema files use three keywords of their own (`x-syntara`, `x-syntara-rule`, `x-syntara-message`). Other validators ignore `x-` keywords; with ajv strict mode, add them with `ajv.addVocabulary`.
 
 Cost: the first call compiles every schema; after that a check is quick. On one machine (darwin arm64, Node 26), with the order-status example: 64 ms for the first call, then 0.018 ms per document (mean of 1,000). A rough figure, not a benchmark:
 
 ```sh
-pnpm --filter @strata/sdui exec tsx scripts/time-validate.ts
+pnpm --filter @syntara/sdui exec tsx scripts/time-validate.ts
 ```
 
 ## Render
 
 ```tsx
 'use client';
-import { ThemeScope } from '@strata/react';
-import { StrataScreen } from '@strata/sdui/react';
+import { ThemeScope } from '@syntara/react';
+import { SyntaraScreen } from '@syntara/sdui/react';
 
 <ThemeScope theme="vela" scheme="dark" locale="en-IN">
-  <StrataScreen
+  <SyntaraScreen
     document={json}
     onAction={(action, { nodeType, nodeId }) => { /* route, or handle the event */ }}
     onIssue={(issue) => console.warn(issue.code, issue.path, issue.message)}
@@ -216,11 +216,11 @@ import { StrataScreen } from '@strata/sdui/react';
 </ThemeScope>
 ```
 
-- The theme, scheme, density and locale come from the `ThemeScope` around it, like any other Strata UI.
-- Nodes map to components through `REGISTRY`, an explicit table with one entry per node. The renderer never looks a name up in `@strata/react`'s exports, so `"ThemeScope"` or `"__proto__"` as a type draws nothing.
+- The theme, scheme, density and locale come from the `ThemeScope` around it, like any other Syntara UI.
+- Nodes map to components through `REGISTRY`, an explicit table with one entry per node. The renderer never looks a name up in `@syntara/react`'s exports, so `"ThemeScope"` or `"__proto__"` as a type draws nothing.
 - With `onAction`, a plain click on a link goes to the host, and the browser doesn't navigate. A modified click (open in a new tab) stays with the browser. Without `onAction`, links navigate natively and Buttons report `no-action-handler`.
 - Keys come from node ids, so a reordered list keeps its DOM nodes.
-- It imports every icon in `@strata/icons`, since any of them can arrive over the wire.
+- It imports every icon in `@syntara/icons`, since any of them can arrive over the wire.
 
 ## Native clients
 
@@ -236,8 +236,8 @@ import { StrataScreen } from '@strata/sdui/react';
 1. Make sure its `meta.json` is complete: props, types, defaults, deprecations.
 2. Add a `NodeSpec` to `NODES` in `src/wire.ts`: its children kind, and a rule for every prop meta can't derive (`text`, `icon`, `slot`, `action`, `children` or `exclude` with a reason). Add accessibility rules if it needs a name.
 3. Add its renderer to `REGISTRY` in `src/react.tsx`.
-4. Bump the minor in `src/contract.ts`, then run `pnpm --filter @strata/sdui generate`.
-5. Run `pnpm --filter @strata/sdui test`. The tests check that every meta prop is decided, that every docs example prop is on the wire or excluded with a reason, that the registry matches the manifest, and that the committed schema isn't stale.
+4. Bump the minor in `src/contract.ts`, then run `pnpm --filter @syntara/sdui generate`.
+5. Run `pnpm --filter @syntara/sdui test`. The tests check that every meta prop is decided, that every docs example prop is on the wire or excluded with a reason, that the registry matches the manifest, and that the committed schema isn't stale.
 
 ## Files
 
@@ -248,15 +248,15 @@ import { StrataScreen } from '@strata/sdui/react';
 | `scripts/build-schemas.ts` | The generator (pure). `scripts/generate.ts` writes its output. |
 | `schema/` | Generated and committed: `screen.schema.json`, `defs.schema.json`, `nodes/*.schema.json`, `manifest.json`. |
 | `src/validate.ts`, `src/prepare.ts` | The strict validator and the client's tolerant preparation. No React. |
-| `src/react.tsx` | `StrataScreen` and the registry. |
+| `src/react.tsx` | `SyntaraScreen` and the registry. |
 | `examples/` | Three example screens. |
 
 ## Commands
 
 ```sh
-pnpm --filter @strata/sdui generate    # meta.json → schema/
-pnpm --filter @strata/sdui test        # vitest (jsdom)
-pnpm --filter @strata/sdui typecheck
+pnpm --filter @syntara/sdui generate    # meta.json → schema/
+pnpm --filter @syntara/sdui test        # vitest (jsdom)
+pnpm --filter @syntara/sdui typecheck
 ```
 
 jsdom can't check contrast, so the tests check roles and accessible names. The axe sweep runs on the docs page.

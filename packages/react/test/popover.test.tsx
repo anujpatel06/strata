@@ -1,5 +1,5 @@
 import { render, screen, waitFor } from '@testing-library/react';
-import type { BrandInput } from '@strata/theme-engine';
+import type { BrandInput } from '@syntara/theme-engine';
 import userEvent from '@testing-library/user-event';
 import { Button } from '../src/ui/button';
 import { DialogTrigger } from '../src/ui/dialog';
@@ -47,14 +47,14 @@ describe('Popover', () => {
   it('carries the ThemeScope attributes of its trigger', async () => {
     const user = userEvent.setup();
     render(
-      <div data-strata-theme="harbor" data-strata-scheme="dark" lang="en-GB">
+      <div data-syntara-theme="harbor" data-syntara-scheme="dark" lang="en-GB">
         <Example />
       </div>,
     );
     await user.click(screen.getByRole('button', { name: 'Details' }));
     const popover = screen.getByRole('dialog');
-    expect(popover).toHaveAttribute('data-strata-theme', 'harbor');
-    expect(popover).toHaveAttribute('data-strata-scheme', 'dark');
+    expect(popover).toHaveAttribute('data-syntara-theme', 'harbor');
+    expect(popover).toHaveAttribute('data-syntara-scheme', 'dark');
     expect(popover).toHaveAttribute('lang', 'en-GB');
   });
 });
@@ -78,20 +78,20 @@ describe('glass + sheen contrast', () => {
   ).process;
   const read = (f: string) => node.getBuiltinModule('node:fs').readFileSync(`${node.cwd()}/${f}`, 'utf8');
   const FILES = ['popover', 'select', 'combobox', 'date-picker', 'dialog', 'sheet', 'command'];
-  const FACE = /--_glass: color-mix\(in srgb, var\(--strata-color-surface-raised\) calc\(var\(--strata-glass-opacity\) \* 100% \+ (\d+)%\), transparent\);/;
+  const FACE = /--_glass: color-mix\(in srgb, var\(--syntara-color-surface-raised\) calc\(var\(--syntara-glass-opacity\) \* 100% \+ (\d+)%\), transparent\);/;
 
   it('every glass surface uses the same face and layers the sheen over it', () => {
     const offsets = FILES.map((f) => {
       const css = read(`src/ui/${f}.module.css`);
-      expect(css, f).toMatch(/background: var\(--strata-sheen\), var\(--_glass\);/);
-      expect(css, f).not.toMatch(/var\(--strata-glass-bg\)/);
+      expect(css, f).toMatch(/background: var\(--syntara-sheen\), var\(--_glass\);/);
+      expect(css, f).not.toMatch(/var\(--syntara-glass-bg\)/);
       return Number(FACE.exec(css)?.[1]);
     });
     expect(new Set(offsets)).toEqual(new Set([8]));
   });
 
   it('text.default and text.subtle stay ≥ 4.5:1 under the sheen peak over any backdrop (tenants + fuzz, dark)', async () => {
-    const { generateTheme, toCssVariables } = await import('@strata/theme-engine');
+    const { generateTheme, toCssVariables } = await import('@syntara/theme-engine');
     const { contrastRatio, hexToRgb8, rgb8ToHex } = await import('../../theme-engine/src/color');
     // A variable specifier keeps tsc out of the fuzz script (it's Node-only; this package has no Node types).
     const fuzzModule = `${node.cwd()}/../theme-engine/scripts/fuzz.ts`;
@@ -108,7 +108,7 @@ describe('glass + sheen contrast', () => {
     let worst = Infinity;
     for (const input of [...tenants, ...fuzzInputs()]) {
       const theme = generateTheme(input);
-      const peak = Number(/(\d+)%, transparent\) 20%/.exec(toCssVariables(theme, 'dark')['--strata-sheen']!)![1]) / 100;
+      const peak = Number(/(\d+)%, transparent\) 20%/.exec(toCssVariables(theme, 'dark')['--syntara-sheen']!)![1]) / 100;
       const { roles, glass } = theme.schemes.dark;
       const face = Math.min(1, Math.round(glass.opacity * 100) / 100 + offset);
       for (const backdrop of ['#000000', '#ffffff']) {

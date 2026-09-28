@@ -14,7 +14,7 @@ function extents(svg: string): number[] {
   return nums;
 }
 
-describe('@strata/icons', () => {
+describe('@syntara/icons', () => {
   it('exports icons with unique names that match their export', () => {
     expect(icons.length).toBeGreaterThan(0);
     const names = new Set<string>();

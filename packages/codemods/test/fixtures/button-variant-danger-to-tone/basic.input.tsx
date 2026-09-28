@@ -1,4 +1,4 @@
-import { Button } from '@strata/react';
+import { Button } from '@syntara/react';
 
 export function Actions() {
   return (

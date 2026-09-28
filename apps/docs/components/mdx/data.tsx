@@ -9,8 +9,8 @@ import {
   generateTheme,
   roleToCssVar,
   type Role,
-} from '@strata/theme-engine';
-import { Amount, Badge, Eyebrow, ThemeScope } from '@strata/react';
+} from '@syntara/theme-engine';
+import { Amount, Badge, Eyebrow, ThemeScope } from '@syntara/react';
 import { checkCopyReview, DraftCopyNote } from '@/components/page/draft-copy-note';
 import { listRepoDir, readRepoFile } from '@/lib/repo';
 import { githubBlob } from '@/lib/site';
@@ -103,12 +103,12 @@ export function RolesTable() {
 /* ------------------------------------------------------------------ */
 
 const DENSITY_ROWS = [
-  ['controlHeight', '--strata-control-height', 'Buttons, fields, selects, toggles'],
-  ['controlPaddingInline', '--strata-control-padding-inline', 'Horizontal padding inside controls'],
-  ['tableRowHeight', '--strata-table-row-height', 'DataTable rows'],
-  ['cardInset', '--strata-card-inset', 'Card and dialog padding'],
-  ['sectionGap', '--strata-section-gap', 'Space between page sections'],
-  ['fieldGap', '--strata-field-gap', 'Space between form fields'],
+  ['controlHeight', '--syntara-control-height', 'Buttons, fields, selects, toggles'],
+  ['controlPaddingInline', '--syntara-control-padding-inline', 'Horizontal padding inside controls'],
+  ['tableRowHeight', '--syntara-table-row-height', 'DataTable rows'],
+  ['cardInset', '--syntara-card-inset', 'Card and dialog padding'],
+  ['sectionGap', '--syntara-section-gap', 'Space between page sections'],
+  ['fieldGap', '--syntara-field-gap', 'Space between form fields'],
 ] as const;
 
 export function DensityTable() {

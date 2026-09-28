@@ -27,7 +27,7 @@
   ],
   "registryDependencies": [],
   "reactAria": "https://react-spectrum.adobe.com/react-aria/ListBox.html",
-  "usage": "import { ChartLegend } from '@strata/react';\n\nexport function Legend() {\n  return <ChartLegend series={[{ key: 'income', label: 'Income' }, { key: 'spending', label: 'Spending' }]} />;\n}",
+  "usage": "import { ChartLegend } from '@syntara/react';\n\nexport function Legend() {\n  return <ChartLegend series={[{ key: 'income', label: 'Income' }, { key: 'spending', label: 'Spending' }]} />;\n}",
   "examples": [
     {
       "name": "chart-demo",
@@ -46,7 +46,7 @@
       "name": "series",
       "type": "ChartSeries[]",
       "required": true,
-      "description": "Series in palette order; each gets --strata-chart-<n> unless it sets color."
+      "description": "Series in palette order; each gets --syntara-chart-<n> unless it sets color."
     },
     {
       "component": "ChartLegend",

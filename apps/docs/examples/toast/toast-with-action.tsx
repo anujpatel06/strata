@@ -1,12 +1,12 @@
 'use client';
 
 import { useState } from 'react';
-import { Button, ToastRegion, toast } from '@strata/react';
+import { Button, ToastRegion, toast } from '@syntara/react';
 
 export default function Example() {
   const [archived, setArchived] = useState(0);
   return (
-    <div style={{ display: 'grid', gap: 'var(--strata-space-2)', justifyItems: 'center' }}>
+    <div style={{ display: 'grid', gap: 'var(--syntara-space-2)', justifyItems: 'center' }}>
       <ToastRegion />
       <Button
         variant="outline"
@@ -21,7 +21,7 @@ export default function Example() {
       >
         Archive claim
       </Button>
-      <span style={{ color: 'var(--strata-color-text-subtle)', fontSize: 'var(--strata-font-size-sm)' }}>Archived: {archived}</span>
+      <span style={{ color: 'var(--syntara-color-text-subtle)', fontSize: 'var(--syntara-font-size-sm)' }}>Archived: {archived}</span>
     </div>
   );
 }

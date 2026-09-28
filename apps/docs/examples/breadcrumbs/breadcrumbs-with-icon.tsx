@@ -1,7 +1,7 @@
 'use client';
 
-import { IconHome } from '@strata/icons';
-import { Breadcrumb, Breadcrumbs } from '@strata/react';
+import { IconHome } from '@syntara/icons';
+import { Breadcrumb, Breadcrumbs } from '@syntara/react';
 
 export default function Example() {
   return (

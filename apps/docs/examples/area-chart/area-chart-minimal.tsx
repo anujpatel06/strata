@@ -1,6 +1,6 @@
 'use client';
 
-import { AreaChart } from '@strata/react';
+import { AreaChart } from '@syntara/react';
 
 const data = [
   { hour: '09:00', requests: 320 }, { hour: '10:00', requests: 410 }, { hour: '11:00', requests: 385 },

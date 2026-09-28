@@ -18,7 +18,7 @@ vi.mock('../src/audit-bridge', async (original) => ({
   audit: async () => ({ findings: [], stats: { files: 1, lines: 1, opportunities: 1 }, score: 100 }),
   nearestToken: async () => ({
     token: 'space.4',
-    cssVar: '--strata-space-4',
+    cssVar: '--syntara-space-4',
     value: '16px',
     distance: 0,
     exact: true,
@@ -50,8 +50,8 @@ describe('protocol, in memory', () => {
     await h.close();
   });
 
-  it('is named strata, with the version from package.json', () => {
-    expect(h.client.getServerVersion()).toMatchObject({ name: 'strata', version: pkg.version });
+  it('is named syntara, with the version from package.json', () => {
+    expect(h.client.getServerVersion()).toMatchObject({ name: 'syntara', version: pkg.version });
   });
 
   it('tells agents to look icons up with find_icon, and where other imports are listed', () => {
@@ -62,14 +62,14 @@ describe('protocol, in memory', () => {
     expect(text).toContain('typeNotes');
   });
 
-  it('sends instructions that state read-only, the safe-fix rule and strata://agents', () => {
+  it('sends instructions that state read-only, the safe-fix rule and syntara://agents', () => {
     const text = h.client.getInstructions();
     expect(text).toBe(INSTRUCTIONS);
     expect(text).toContain('read-only');
     expect(text).toContain('no tool that writes files');
     expect(text).toContain('safe: true');
     expect(text).toContain('needs a person');
-    expect(text).toContain('strata://agents');
+    expect(text).toContain('syntara://agents');
   });
 
   it('lists exactly the eight tools', async () => {
@@ -97,27 +97,27 @@ describe('protocol, in memory', () => {
 
   it('lists the two resources', async () => {
     const { resources } = await h.client.listResources();
-    expect(resources.map((r) => r.uri).sort()).toEqual(['strata://agents', 'strata://governance']);
+    expect(resources.map((r) => r.uri).sort()).toEqual(['syntara://agents', 'syntara://governance']);
     for (const r of resources) expect(r.mimeType).toBe('text/markdown');
   });
 
-  it('serves GOVERNANCE.md as strata://governance', async () => {
-    const { contents } = await h.client.readResource({ uri: 'strata://governance' });
+  it('serves GOVERNANCE.md as syntara://governance', async () => {
+    const { contents } = await h.client.readResource({ uri: 'syntara://governance' });
     expect((contents[0] as { text: string }).text).toBe(readFileSync(join(root, 'GOVERNANCE.md'), 'utf8'));
   });
 
-  it('serves AGENTS.md as strata://agents, or says it is not found', async () => {
+  it('serves AGENTS.md as syntara://agents, or says it is not found', async () => {
     const file = join(root, 'AGENTS.md');
     if (existsSync(file)) {
-      const { contents } = await h.client.readResource({ uri: 'strata://agents' });
+      const { contents } = await h.client.readResource({ uri: 'syntara://agents' });
       expect((contents[0] as { text: string }).text).toBe(readFileSync(file, 'utf8'));
     } else {
-      await expect(h.client.readResource({ uri: 'strata://agents' })).rejects.toThrow(/strata:\/\/agents not found/);
+      await expect(h.client.readResource({ uri: 'syntara://agents' })).rejects.toThrow(/syntara:\/\/agents not found/);
     }
   });
 
   it('refuses a resource it does not have', async () => {
-    await expect(h.client.readResource({ uri: 'strata://../../etc/passwd' })).rejects.toThrow();
+    await expect(h.client.readResource({ uri: 'syntara://../../etc/passwd' })).rejects.toThrow();
     await expect(h.client.readResource({ uri: 'file:///etc/passwd' })).rejects.toThrow();
   });
 
@@ -135,8 +135,8 @@ describe('protocol, in memory', () => {
 });
 
 describe('a repo root with files missing', () => {
-  const empty = mkdtempSync(join(tmpdir(), 'strata-mcp-'));
-  const bare = mkdtempSync(join(tmpdir(), 'strata-mcp-'));
+  const empty = mkdtempSync(join(tmpdir(), 'syntara-mcp-'));
+  const bare = mkdtempSync(join(tmpdir(), 'syntara-mcp-'));
   mkdirSync(join(bare, 'packages/react/meta'), { recursive: true });
   writeFileSync(join(bare, 'GOVERNANCE.md'), '# Governance\n');
   afterAll(() => {
@@ -144,18 +144,18 @@ describe('a repo root with files missing', () => {
     rmSync(bare, { recursive: true, force: true });
   });
 
-  it('tells the agent to set STRATA_ROOT when the root is not a Strata repo', async () => {
+  it('tells the agent to set SYNTARA_ROOT when the root is not a Syntara repo', async () => {
     const h = await connect({ root: empty });
     const r = await h.call('list_components');
     expect(r.isError).toBe(true);
-    expect(r.json.error).toContain('STRATA_ROOT');
+    expect(r.json.error).toContain('SYNTARA_ROOT');
     await h.close();
   });
 
-  it('returns a clear "not found" for strata://agents when AGENTS.md does not exist', async () => {
+  it('returns a clear "not found" for syntara://agents when AGENTS.md does not exist', async () => {
     const h = await connect({ root: bare });
-    await expect(h.client.readResource({ uri: 'strata://agents' })).rejects.toThrow(/strata:\/\/agents not found: AGENTS\.md does not exist/);
-    const { contents } = await h.client.readResource({ uri: 'strata://governance' });
+    await expect(h.client.readResource({ uri: 'syntara://agents' })).rejects.toThrow(/syntara:\/\/agents not found: AGENTS\.md does not exist/);
+    const { contents } = await h.client.readResource({ uri: 'syntara://governance' });
     expect((contents[0] as { text: string }).text).toBe('# Governance\n');
     await h.close();
   });
@@ -183,10 +183,10 @@ describe('inside()', () => {
     expect(() => inside(root)).toThrow(ToolError);
   });
 
-  it('uses STRATA_ROOT when it is set', () => {
-    expect(findRoot({ STRATA_ROOT: '/some/checkout' })).toBe('/some/checkout');
+  it('uses SYNTARA_ROOT when it is set', () => {
+    expect(findRoot({ SYNTARA_ROOT: '/some/checkout' })).toBe('/some/checkout');
     expect(findRoot({})).toBe(join(here, '../../..'));
-    expect(findRoot({ STRATA_ROOT: '  ' })).toBe(join(here, '../../..'));
+    expect(findRoot({ SYNTARA_ROOT: '  ' })).toBe(join(here, '../../..'));
   });
 });
 
@@ -195,13 +195,13 @@ describe('protocol, over stdio', () => {
     const transport = new StdioClientTransport({
       command: process.execPath,
       args: [join(here, '../bin/cli.mjs')],
-      env: { ...(process.env as Record<string, string>), STRATA_ROOT: root },
+      env: { ...(process.env as Record<string, string>), SYNTARA_ROOT: root },
       stderr: 'pipe',
     });
-    const client = new Client({ name: 'strata-mcp-stdio-test', version: '0.0.0' });
+    const client = new Client({ name: 'syntara-mcp-stdio-test', version: '0.0.0' });
     try {
       await client.connect(transport);
-      expect(client.getServerVersion()).toMatchObject({ name: 'strata', version: pkg.version });
+      expect(client.getServerVersion()).toMatchObject({ name: 'syntara', version: pkg.version });
       expect((await client.listTools()).tools.map((t) => t.name).sort()).toEqual([...TOOL_NAMES].sort());
       expect((await client.listResources()).resources).toHaveLength(2);
       const result = await client.callTool({ name: 'get_component', arguments: { name: 'button' } });

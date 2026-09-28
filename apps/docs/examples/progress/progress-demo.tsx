@@ -1,6 +1,6 @@
 'use client';
 
-import { ProgressBar } from '@strata/react';
+import { ProgressBar } from '@syntara/react';
 
 export default function Example() {
   return (

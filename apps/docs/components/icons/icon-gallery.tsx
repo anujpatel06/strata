@@ -1,8 +1,8 @@
 'use client';
 
-import * as StrataIcons from '@strata/icons';
-import { IconCopy, IconSearch } from '@strata/icons';
-import type { Icon } from '@strata/icons';
+import * as SyntaraIcons from '@syntara/icons';
+import { IconCopy, IconSearch } from '@syntara/icons';
+import type { Icon } from '@syntara/icons';
 import {
   Button,
   EmptyState,
@@ -11,15 +11,15 @@ import {
   ToggleButton,
   ToggleButtonGroup,
   toast,
-} from '@strata/react';
+} from '@syntara/react';
 import { useMemo, useState, type CSSProperties } from 'react';
 import { Button as AriaButton } from 'react-aria-components';
 import { copyText } from '@/components/mdx/code-frame';
 import type { IconGroup } from './icon-data';
 import styles from './icons.module.css';
 
-/** Every export of @strata/icons that is an icon (createIcon stamps `iconName`; the helper itself has none). */
-const ICONS = StrataIcons as unknown as Record<string, Icon | undefined>;
+/** Every export of @syntara/icons that is an icon (createIcon stamps `iconName`; the helper itself has none). */
+const ICONS = SyntaraIcons as unknown as Record<string, Icon | undefined>;
 const iconOf = (name: string): Icon | undefined => (ICONS[name]?.iconName ? ICONS[name] : undefined);
 
 const SIZES = ['16', '20', '24', '32'] as const;
@@ -52,7 +52,7 @@ export function IconGallery({ groups, defaultStroke }: IconGalleryProps) {
   const shown = filtered.reduce((n, g) => n + g.names.length, 0);
 
   const copy = async (name: string) => {
-    const line = `import { ${name} } from '@strata/icons';`;
+    const line = `import { ${name} } from '@syntara/icons';`;
     const ok = await copyText(line);
     if (ok) {
       toast({ title: `Copied ${name}`, description: <code className={styles.toastCode}>{line}</code>, tone: 'success' });

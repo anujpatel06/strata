@@ -14,13 +14,13 @@
   ],
   "dependencies": [
     "react-aria-components",
-    "@strata/icons"
+    "@syntara/icons"
   ],
   "registryDependencies": [
     "button"
   ],
   "reactAria": "https://react-spectrum.adobe.com/react-aria/Toast.html",
-  "usage": "import { Button, ThemeScope, ToastRegion, toast } from '@strata/react';\n\n// Mount once, inside your ThemeScope (e.g. in the root layout).\nexport function App({ children }: { children: React.ReactNode }) {\n  return (\n    <ThemeScope theme=\"vela\">\n      {children}\n      <ToastRegion />\n    </ThemeScope>\n  );\n}\n\nexport function SaveButton() {\n  return <Button onPress={() => toast({ title: 'Changes saved', tone: 'success' })}>Save</Button>;\n}",
+  "usage": "import { Button, ThemeScope, ToastRegion, toast } from '@syntara/react';\n\n// Mount once, inside your ThemeScope (e.g. in the root layout).\nexport function App({ children }: { children: React.ReactNode }) {\n  return (\n    <ThemeScope theme=\"vela\">\n      {children}\n      <ToastRegion />\n    </ThemeScope>\n  );\n}\n\nexport function SaveButton() {\n  return <Button onPress={() => toast({ title: 'Changes saved', tone: 'success' })}>Save</Button>;\n}",
   "examples": [
     {
       "name": "toast-demo",
@@ -99,7 +99,7 @@
       "Toasts with an action do not auto-dismiss, so keyboard and screen reader users have time to reach it (WCAG 2.2.1).",
       "At most three toasts are visible; newer ones queue older ones.",
       "Built on React Aria's UNSTABLE Toast APIs; the maturity stays alpha until those are stable.",
-      "Surface recipe: an opaque surface.raised face under the engine's --strata-sheen (dark only). Only text.default and text.subtle sit on it; the engine proves text.subtle ≥ 4.5:1 at the sheen's brightest pixel.",
+      "Surface recipe: an opaque surface.raised face under the engine's --syntara-sheen (dark only). Only text.default and text.subtle sit on it; the engine proves text.subtle ≥ 4.5:1 at the sheen's brightest pixel.",
       "Each tone has its own filled shape (info circle, success seal, warning circled !, danger triangle), and the title says it in words too, so colour is never the only signal. The shape is feedback.<tone>.fg (≥ 6.09:1 against the toast face, WCAG 1.4.11 needs 3:1) with the glyph knocked out in feedback.<tone>.bg (≥ 5.43:1 against the shape), across every tenant and the 1,000 fuzz brands in both schemes. test/toast.test.tsx re-proves it.",
       "The close button is a 24×24px corner button, always in the tab order and named \"Close\" (localised). It shows when you hover that toast or focus anything in it, and it's always visible on the front toast on touch screens.",
       "Toasts slide in from the edge and grow from 0.94 on the spring, and the status shape pops as they land. With reduced motion, toasts only fade in and close at once; nothing slides or springs."

@@ -1,6 +1,6 @@
 'use client';
 
-import { Badge, Button, Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle, ThemeScope } from '@strata/react';
+import { Badge, Button, Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle, ThemeScope } from '@syntara/react';
 
 const TENANTS = [
   { theme: 'vela', locale: 'en-IN', title: 'Card ending 4821', body: 'Replacement card dispatched. Activate it when it arrives.', status: 'In transit', action: 'Track card' },

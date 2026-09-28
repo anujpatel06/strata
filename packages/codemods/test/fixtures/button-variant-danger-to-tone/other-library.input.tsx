@@ -1,5 +1,5 @@
 import { Button } from 'some-other-library';
-import { Card } from '@strata/react';
+import { Card } from '@syntara/react';
 
 export const a = (
   <Card>

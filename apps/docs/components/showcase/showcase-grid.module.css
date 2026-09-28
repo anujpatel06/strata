@@ -16,7 +16,7 @@
 }
 
 .grid {
-  --_gap: var(--strata-space-4);
+  --_gap: var(--syntara-space-4);
   display: grid;
   grid-template-columns: minmax(0, 1fr);
   gap: var(--_gap);
@@ -50,7 +50,7 @@
 
 @container (min-width: 960px) {
   .grid {
-    --_gap: var(--strata-space-5);
+    --_gap: var(--syntara-space-5);
     grid-template-columns: repeat(3, minmax(0, 1fr));
     grid-template-areas:
       'revenue   revenue   promo'
@@ -98,31 +98,31 @@
  * Reduced motion: no reveal, no movement; the shadow still deepens on hover.
  */
 .root[data-motion] .item > * {
-  transition: box-shadow var(--strata-motion-duration-normal) var(--strata-motion-easing);
+  transition: box-shadow var(--syntara-motion-duration-normal) var(--syntara-motion-easing);
 }
 .root[data-motion] .item:hover > :not([data-variant='feature']) {
   box-shadow:
-    0 0 0 var(--strata-hairline) var(--strata-color-border-subtle),
-    var(--strata-shadow-highlight),
-    var(--strata-shadow-overlay);
+    0 0 0 var(--syntara-hairline) var(--syntara-color-border-subtle),
+    var(--syntara-shadow-highlight),
+    var(--syntara-shadow-overlay);
 }
 @media (prefers-reduced-motion: no-preference) {
   .root[data-motion] .item > * {
     transition:
-      box-shadow var(--strata-motion-duration-normal) var(--strata-motion-easing),
-      translate var(--strata-motion-duration-spring) var(--strata-motion-spring);
+      box-shadow var(--syntara-motion-duration-normal) var(--syntara-motion-easing),
+      translate var(--syntara-motion-duration-spring) var(--syntara-motion-spring);
   }
   .root[data-motion] .item:hover > * {
-    translate: 0 calc(var(--strata-space-1) / -2);
+    translate: 0 calc(var(--syntara-space-1) / -2);
   }
 
   @supports (animation-timeline: view()) {
     .root[data-motion] .item {
-      --_from: calc(var(--_i, 0) * var(--strata-space-6));
+      --_from: calc(var(--_i, 0) * var(--syntara-space-6));
       /* The shorthand resets the timeline, so the timeline and range come after it. */
-      animation: showcase-reveal var(--strata-motion-easing-out) backwards;
+      animation: showcase-reveal var(--syntara-motion-easing-out) backwards;
       animation-timeline: view();
-      animation-range: entry var(--_from) entry calc(var(--_from) + var(--strata-space-16) * 3);
+      animation-range: entry var(--_from) entry calc(var(--_from) + var(--syntara-space-16) * 3);
     }
     /* The first row is on screen at load and arrives with the showcase's own entrance. */
     .root[data-motion] .item[data-area='revenue'],
@@ -143,6 +143,6 @@
 @keyframes showcase-reveal {
   from {
     opacity: 0;
-    translate: 0 var(--strata-space-6);
+    translate: 0 var(--syntara-space-6);
   }
 }

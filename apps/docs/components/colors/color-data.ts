@@ -13,7 +13,7 @@ import {
   type RampName,
   type Scheme,
   type Theme,
-} from '@strata/theme-engine';
+} from '@syntara/theme-engine';
 import { cache } from 'react';
 import { checkCopyReview } from '@/components/page/draft-copy-note';
 import { getHouseBrand, getTenants } from '@/lib/tenants';

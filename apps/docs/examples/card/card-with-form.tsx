@@ -1,6 +1,6 @@
 'use client';
 
-import { Button, Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle, TextField } from '@strata/react';
+import { Button, Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle, TextField } from '@syntara/react';
 
 export default function Example() {
   return (
@@ -10,7 +10,7 @@ export default function Example() {
           <CardTitle>Add a bank account</CardTitle>
           <CardDescription>Approved claims are paid into this account.</CardDescription>
         </CardHeader>
-        <CardContent style={{ display: 'grid', gap: 'var(--strata-field-gap)' }}>
+        <CardContent style={{ display: 'grid', gap: 'var(--syntara-field-gap)' }}>
           <TextField label="Account holder" name="holder" autoComplete="name" isRequired />
           <TextField label="Account number" name="account" inputMode="numeric" isRequired />
           <TextField label="IFSC" name="ifsc" description="11 characters, printed on your cheque book." />

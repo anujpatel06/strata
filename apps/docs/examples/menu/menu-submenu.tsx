@@ -1,7 +1,7 @@
 'use client';
 
-import { Button, Menu, MenuItem, MenuSeparator, MenuTrigger, SubmenuTrigger } from '@strata/react';
-import { IconFolder, IconMail, IconLink, IconShare } from '@strata/icons';
+import { Button, Menu, MenuItem, MenuSeparator, MenuTrigger, SubmenuTrigger } from '@syntara/react';
+import { IconFolder, IconMail, IconLink, IconShare } from '@syntara/icons';
 
 export default function Example() {
   return (

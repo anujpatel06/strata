@@ -26,13 +26,13 @@ export const viewport: Viewport = {
 export default function RootLayout({ children }: { children: ReactNode }) {
   const theme = getSiteTheme();
   return (
-    <html lang="en" dir="ltr" data-strata-scheme="auto" data-scroll-behavior="smooth" suppressHydrationWarning>
+    <html lang="en" dir="ltr" data-syntara-scheme="auto" data-scroll-behavior="smooth" suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={{ __html: SCHEME_SCRIPT }} />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link rel="stylesheet" href={theme.houseFontHref} />
-        <style id="strata-themes" dangerouslySetInnerHTML={{ __html: theme.css }} />
+        <style id="syntara-themes" dangerouslySetInnerHTML={{ __html: theme.css }} />
       </head>
       <body>
         <a href="#main" className={skip.skip}>

@@ -1,6 +1,6 @@
 import { render, screen, within } from '@testing-library/react';
 import { I18nProvider } from 'react-aria-components';
-import { generateTheme, type BrandInput } from '@strata/theme-engine';
+import { generateTheme, type BrandInput } from '@syntara/theme-engine';
 import { contrastRatio } from '../../theme-engine/src/color';
 import { StatTile, StatTileGroup, formatDelta } from '../src/ui/stat-tile';
 import { TENANTS, loadFuzzInputs, readUiCss } from './status-icon-contrast';
@@ -122,7 +122,7 @@ describe('StatTile', () => {
 
 describe('StatTile: good or bad news is not shown by colour alone (WCAG 1.4.1)', () => {
   const pill = (text: string) => screen.getByText(text).closest('[data-tone]') as HTMLElement;
-  const mark = (el: HTMLElement) => el.querySelector('[data-strata-icon]')?.getAttribute('data-strata-icon') ?? null;
+  const mark = (el: HTMLElement) => el.querySelector('[data-syntara-icon]')?.getAttribute('data-syntara-icon') ?? null;
 
   it('good news keeps the trend arrow; bad news shows an alert mark instead; no change shows neither', () => {
     const { rerender } = render(<StatTile label="Revenue" value="₹12,48,300" delta={0.064} />);
@@ -178,9 +178,9 @@ describe('StatTile: delta marks meet contrast on the pill, every tenant and 1,00
   it('reads the roles it proves from the CSS', () => {
     // The pill is a soft Badge: the mark is its text colour (fg) on its face (bg); the alert's "!" is knocked out to bg.
     for (const t of ['success', 'danger']) {
-      expect(badgeCss).toContain(`.badge[data-variant='soft'][data-tone='${t}'] {\n  --_bg: var(--strata-color-feedback-${t}-bg);\n  --_fg: var(--strata-color-feedback-${t}-fg);`);
+      expect(badgeCss).toContain(`.badge[data-variant='soft'][data-tone='${t}'] {\n  --_bg: var(--syntara-color-feedback-${t}-bg);\n  --_fg: var(--syntara-color-feedback-${t}-fg);`);
     }
-    expect(css).toMatch(/\.delta\[data-tone='danger'\] \{\n  --strata-icon-on: var\(--strata-color-feedback-danger-bg\);/);
+    expect(css).toMatch(/\.delta\[data-tone='danger'\] \{\n  --syntara-icon-on: var\(--syntara-color-feedback-danger-bg\);/);
   });
 
   function worst(inputs: BrandInput[], names?: string[]) {

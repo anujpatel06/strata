@@ -22,7 +22,7 @@ import {
   type Scheme,
   type Shape,
   type TypePairId,
-} from '@strata/theme-engine';
+} from '@syntara/theme-engine';
 import type { CopyReview } from '@/components/page/draft-copy-note';
 
 /** A starting point: a tenant's brand.json plus what the preview needs from its content.json. */
@@ -112,7 +112,7 @@ export function presetBrand(preset: ThemePreset): BrandInput {
 
 export function findPreset(presets: readonly ThemePreset[], id: string | null | undefined): ThemePreset {
   const fallback = presets[0];
-  if (!fallback) throw new Error('Strata /themes: no presets found under tenants/');
+  if (!fallback) throw new Error('Syntara /themes: no presets found under tenants/');
   return presets.find((p) => p.id === id) ?? fallback;
 }
 

@@ -8,7 +8,7 @@
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  gap: var(--strata-space-4);
+  gap: var(--syntara-space-4);
   inline-size: 100%;
   min-inline-size: 0;
 }
@@ -16,7 +16,7 @@
 .tabs[data-orientation='vertical'] {
   flex-direction: row;
   align-items: flex-start;
-  gap: var(--strata-space-6);
+  gap: var(--syntara-space-6);
 }
 
 /* ------------------------------------------------------------------ *
@@ -49,23 +49,23 @@
 .listUnderline[data-orientation='horizontal'] {
   /* Size from the container, not the tabs: lets the list scroll instead of widening flex/grid ancestors. */
   contain: inline-size;
-  gap: var(--strata-space-1);
+  gap: var(--syntara-space-1);
   /* Hairline drawn inside the scroller so it spans the visible width and sits under the indicator. */
-  box-shadow: inset 0 -1px 0 0 var(--strata-color-border-subtle);
+  box-shadow: inset 0 -1px 0 0 var(--syntara-color-border-subtle);
 }
 
 .listUnderline[data-orientation='vertical'] {
-  gap: var(--strata-space-1);
-  border-inline-start: 1px solid var(--strata-color-border-subtle);
+  gap: var(--syntara-space-1);
+  border-inline-start: 1px solid var(--syntara-color-border-subtle);
 }
 
 .listPill {
   align-self: flex-start;
-  gap: var(--strata-space-1);
-  padding: var(--strata-space-1);
-  background-color: var(--strata-color-surface-sunken);
+  gap: var(--syntara-space-1);
+  padding: var(--syntara-space-1);
+  background-color: var(--syntara-color-surface-sunken);
   /* Concentric with the tabs inside it. */
-  border-radius: calc(var(--strata-radius-button) + var(--strata-space-1));
+  border-radius: calc(var(--syntara-radius-button) + var(--syntara-space-1));
 }
 
 .listPill[data-orientation='vertical'] {
@@ -84,13 +84,13 @@
   flex: none;
   align-items: center;
   justify-content: center;
-  gap: var(--strata-space-2);
-  padding-inline: var(--strata-space-3);
-  border-radius: var(--strata-radius-button);
-  color: var(--strata-color-text-subtle);
-  font-size: var(--strata-font-size-md);
-  font-weight: var(--strata-font-weight-medium);
-  line-height: var(--strata-line-height-tight);
+  gap: var(--syntara-space-2);
+  padding-inline: var(--syntara-space-3);
+  border-radius: var(--syntara-radius-button);
+  color: var(--syntara-color-text-subtle);
+  font-size: var(--syntara-font-size-md);
+  font-weight: var(--syntara-font-weight-medium);
+  line-height: var(--syntara-line-height-tight);
   white-space: nowrap;
   cursor: default;
   outline: none;
@@ -99,17 +99,17 @@
 
 .tab[data-hovered],
 .tab[data-selected] {
-  color: var(--strata-color-text-default);
+  color: var(--syntara-color-text-default);
 }
 
 .tab[data-disabled] {
-  color: var(--strata-color-text-disabled);
+  color: var(--syntara-color-text-disabled);
 }
 
 .label {
   display: inline-flex;
   align-items: center;
-  gap: var(--strata-space-2);
+  gap: var(--syntara-space-2);
 }
 
 .label :where(svg) {
@@ -119,33 +119,33 @@
 }
 
 .tabUnderline {
-  min-block-size: var(--strata-control-height);
-  padding-inline: var(--strata-space-2);
+  min-block-size: var(--syntara-control-height);
+  padding-inline: var(--syntara-space-2);
 }
 
 /* The list is a scroll container, so an outset ring would be clipped: underline tabs draw it inset. */
 .tabUnderline[data-focus-visible] {
-  outline: 2px solid var(--strata-color-focus-ring);
+  outline: 2px solid var(--syntara-color-focus-ring);
   outline-offset: -2px;
 }
 
 .listUnderline[data-orientation='vertical'] > .tabUnderline {
   justify-content: flex-start;
-  padding-inline: var(--strata-space-3);
+  padding-inline: var(--syntara-space-3);
 }
 
 .tabPill {
-  min-block-size: calc(var(--strata-control-height) - var(--strata-space-2));
+  min-block-size: calc(var(--syntara-control-height) - var(--syntara-space-2));
 }
 
 .tabPill[data-focus-visible] {
-  outline: 2px solid var(--strata-color-focus-ring);
+  outline: 2px solid var(--syntara-color-focus-ring);
   outline-offset: 2px;
 }
 
 /* Selected pill label: the raised surface sits under it, so it gets the default text colour at full weight. */
 .tabPill[data-selected] {
-  color: var(--strata-color-text-default);
+  color: var(--syntara-color-text-default);
 }
 
 .listPill[data-orientation='vertical'] > .tabPill {
@@ -156,11 +156,11 @@
 .tab::before {
   content: '';
   position: absolute;
-  inset-block: var(--strata-space-1);
+  inset-block: var(--syntara-space-1);
   inset-inline: 0;
   z-index: -2;
-  border-radius: var(--strata-radius-button);
-  background-color: color-mix(in oklab, var(--strata-color-text-default) 6%, transparent);
+  border-radius: var(--syntara-radius-button);
+  background-color: color-mix(in oklab, var(--syntara-color-text-default) 6%, transparent);
   opacity: 0;
   pointer-events: none;
 }
@@ -183,24 +183,24 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-inline-size: var(--strata-space-5);
-  block-size: var(--strata-space-5);
-  padding-inline: var(--strata-space-1);
-  border-radius: var(--strata-radius-badge);
-  background-color: color-mix(in oklab, var(--strata-color-text-default) 8%, transparent);
-  color: var(--strata-color-text-subtle);
-  font-size: var(--strata-font-size-xs);
+  min-inline-size: var(--syntara-space-5);
+  block-size: var(--syntara-space-5);
+  padding-inline: var(--syntara-space-1);
+  border-radius: var(--syntara-radius-badge);
+  background-color: color-mix(in oklab, var(--syntara-color-text-default) 8%, transparent);
+  color: var(--syntara-color-text-subtle);
+  font-size: var(--syntara-font-size-xs);
   font-variant-numeric: tabular-nums;
-  font-weight: var(--strata-font-weight-medium);
+  font-weight: var(--syntara-font-weight-medium);
   line-height: 1;
 }
 
 .tab[data-selected] > .count {
-  color: var(--strata-color-text-default);
+  color: var(--syntara-color-text-default);
 }
 
 .tab[data-disabled] > .count {
-  color: var(--strata-color-text-disabled);
+  color: var(--syntara-color-text-disabled);
 }
 
 /* ------------------------------------------------------------------ *
@@ -219,7 +219,7 @@
   inset-inline-start: 0;
   inline-size: 100%;
   block-size: 2px;
-  background-color: var(--strata-color-action-primary-bg);
+  background-color: var(--syntara-color-action-primary-bg);
 }
 
 .listUnderline[data-orientation='vertical'] > .tabUnderline > .indicator {
@@ -236,19 +236,19 @@
   z-index: -1;
   inline-size: 100%;
   block-size: 100%;
-  background-color: var(--strata-color-surface-raised);
-  border-radius: var(--strata-radius-button);
+  background-color: var(--syntara-color-surface-raised);
+  border-radius: var(--syntara-radius-button);
   /* Raised pill: a hairline + top sheen + soft shadow, like a key sitting on the sunken track. */
-  box-shadow: 0 0 0 1px var(--strata-color-border-subtle), var(--strata-shadow-highlight), var(--strata-shadow-raised);
+  box-shadow: 0 0 0 1px var(--syntara-color-border-subtle), var(--syntara-shadow-highlight), var(--syntara-shadow-raised);
 }
 
 /* Hover and focus fades are colour/opacity only, so they stay on with reduced motion. */
 .tab {
-  transition: color var(--strata-motion-duration-fast) var(--strata-motion-easing);
+  transition: color var(--syntara-motion-duration-fast) var(--syntara-motion-easing);
 }
 
 .tab::before {
-  transition: opacity var(--strata-motion-duration-fast) var(--strata-motion-easing);
+  transition: opacity var(--syntara-motion-duration-fast) var(--syntara-motion-easing);
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -256,42 +256,42 @@
   .indicator {
     /* width/height first: RAC measures the rect after applying them, which keeps RTL slides aligned. */
     transition-property: width, height, translate;
-    transition-duration: var(--strata-motion-duration-spring);
-    transition-timing-function: var(--strata-motion-spring);
+    transition-duration: var(--syntara-motion-duration-spring);
+    transition-timing-function: var(--syntara-motion-spring);
   }
 
   /* Press: the label (not the tab box) dips to 0.96 and springs back. Scaling the tab itself would skew the
      rect RAC measures for the indicator slide, because tabs select on press start. */
   .label,
   .count {
-    transition: scale var(--strata-motion-duration-spring) var(--strata-motion-spring);
+    transition: scale var(--syntara-motion-duration-spring) var(--syntara-motion-spring);
   }
 
   .tab[data-pressed] > .label,
   .tab[data-pressed] > .count {
     scale: 0.96;
-    transition-duration: var(--strata-motion-duration-fast);
-    transition-timing-function: var(--strata-motion-easing);
+    transition-duration: var(--syntara-motion-duration-fast);
+    transition-timing-function: var(--syntara-motion-easing);
   }
 
   .tabPill[data-focus-visible] {
-    animation: strata-tabs-ring var(--strata-motion-duration-fast) var(--strata-motion-easing);
+    animation: syntara-tabs-ring var(--syntara-motion-duration-fast) var(--syntara-motion-easing);
   }
 
   /* The new panel settles in: fade + a 4px rise. */
   .panel:not([inert], [data-inert]) {
-    animation: strata-tabs-panel var(--strata-motion-duration-normal) var(--strata-motion-easing-out);
+    animation: syntara-tabs-panel var(--syntara-motion-duration-normal) var(--syntara-motion-easing-out);
   }
 }
 
 /* Focus "arrives": the ring's offset settles from 0 to 2px. */
-@keyframes strata-tabs-ring {
+@keyframes syntara-tabs-ring {
   from {
     outline-offset: 0;
   }
 }
 
-@keyframes strata-tabs-panel {
+@keyframes syntara-tabs-panel {
   from {
     opacity: 0;
     translate: 0 4px;
@@ -306,7 +306,7 @@
   box-sizing: border-box;
   flex: 1 1 auto;
   min-inline-size: 0;
-  border-radius: var(--strata-radius-container);
+  border-radius: var(--syntara-radius-container);
   outline: none;
 }
 
@@ -317,6 +317,6 @@
 }
 
 .panel[data-focus-visible] {
-  outline: 2px solid var(--strata-color-focus-ring);
+  outline: 2px solid var(--syntara-color-focus-ring);
   outline-offset: 2px;
 }

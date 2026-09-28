@@ -295,7 +295,7 @@ export function makeFixtureTheme(): Theme {
 /**
  * Every non-colour variable named in the CSS variable contract comment in src/types.ts,
  * parsed from the source so the tests fail if the contract grows without the exporter.
- * `{a,b}` groups are expanded; "--strata-color-<role>" is covered by roleToCssVar.
+ * `{a,b}` groups are expanded; "--syntara-color-<role>" is covered by roleToCssVar.
  */
 export function contractFoundationVars(): string[] {
   const src = readFileSync(fileURLToPath(new URL('../src/types.ts', import.meta.url)), 'utf8');
@@ -303,12 +303,12 @@ export function contractFoundationVars(): string[] {
   const end = src.indexOf('----- *', start);
   const comment = src.slice(start, end);
   const names = new Set<string>();
-  for (const m of comment.matchAll(/--strata-[a-z0-9-]*(?:\{([^}]*)\})?/g)) {
+  for (const m of comment.matchAll(/--syntara-[a-z0-9-]*(?:\{([^}]*)\})?/g)) {
     const [whole, group] = m;
     if (group !== undefined) {
       const prefix = whole.slice(0, whole.indexOf('{'));
       for (const item of group.split(',')) names.add(prefix + item.trim());
-    } else if (!whole.endsWith('-') && !whole.startsWith('--strata-color-')) {
+    } else if (!whole.endsWith('-') && !whole.startsWith('--syntara-color-')) {
       names.add(whole);
     }
   }
@@ -515,10 +515,10 @@ export function dtcgRoleProblems(doc: Obj, theme: Theme): string[] {
       if (hex !== c.hex) problems.push(`${path}: resolves to ${String(hex)}, theme has ${c.hex}`);
       if (c.ref && raw.$value !== `{primitive.color.${scheme}.${c.ref}}`) problems.push(`${path}: expected alias to ${c.ref}`);
       if (!c.ref && typeof raw.$value === 'string') problems.push(`${path}: literal role exported as alias`);
-      const ext = isObj(raw.$extensions) ? raw.$extensions['com.strata.adjusted'] : undefined;
+      const ext = isObj(raw.$extensions) ? raw.$extensions['com.syntara.adjusted'] : undefined;
       if (c.adjusted) {
         const expected = messages.get(c.adjusted.adjustmentId);
-        if (!isObj(ext)) problems.push(`${path}: adjusted role lacks com.strata.adjusted`);
+        if (!isObj(ext)) problems.push(`${path}: adjusted role lacks com.syntara.adjusted`);
         else {
           if (typeof ext.reason !== 'string' || !ext.reason) problems.push(`${path}: adjusted role has no reason`);
           if (expected !== undefined && ext.reason !== expected) problems.push(`${path}: reason does not match adjustment message`);
@@ -528,7 +528,7 @@ export function dtcgRoleProblems(doc: Obj, theme: Theme): string[] {
             problems.push(`${path}: adjusted.from alias does not resolve`);
         }
       } else if (ext !== undefined) {
-        problems.push(`${path}: unadjusted role carries com.strata.adjusted`);
+        problems.push(`${path}: unadjusted role carries com.syntara.adjusted`);
       }
     }
   }

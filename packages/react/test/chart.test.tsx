@@ -20,8 +20,8 @@ describe('chart helpers', () => {
   });
 
   it('chartColor points at the engine palette with a fallback', () => {
-    expect(chartColor(0)).toBe('var(--strata-chart-1, var(--strata-color-text-brand))');
-    expect(chartColor(5)).toContain('--strata-chart-2');
+    expect(chartColor(0)).toBe('var(--syntara-chart-1, var(--syntara-color-text-brand))');
+    expect(chartColor(5)).toContain('--syntara-chart-2');
   });
 
   it('formats missing values as a dash', () => {

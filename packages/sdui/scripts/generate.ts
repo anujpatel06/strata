@@ -1,5 +1,5 @@
 /**
- * pnpm --filter @strata/sdui generate
+ * pnpm --filter @syntara/sdui generate
  *
  * Writes the wire contract to packages/sdui/schema/: one JSON Schema per node (nodes/*.schema.json), the shared
  * definitions (defs.schema.json), the screen schema (screen.schema.json), manifest.json, and src/schemas.generated.ts
@@ -8,7 +8,7 @@
  */
 import { mkdirSync, readdirSync, rmSync, writeFileSync, existsSync } from 'node:fs';
 import path from 'node:path';
-import * as icons from '@strata/icons';
+import * as icons from '@syntara/icons';
 import { PKG_DIR, SCHEMA_DIR, buildSchemas, iconNamesFrom, readGapTokens, readMetas, readPrevious, schemasModule, serialise } from './build-schemas';
 
 const files = buildSchemas({

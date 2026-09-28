@@ -1,7 +1,7 @@
 'use client';
 
-import { Button, Menu, MenuItem, MenuSection, MenuSeparator, MenuTrigger } from '@strata/react';
-import { IconChevronDown } from '@strata/icons';
+import { Button, Menu, MenuItem, MenuSection, MenuSeparator, MenuTrigger } from '@syntara/react';
+import { IconChevronDown } from '@syntara/icons';
 
 export default function Example() {
   return (

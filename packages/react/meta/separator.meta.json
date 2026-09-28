@@ -16,7 +16,7 @@
   ],
   "registryDependencies": [],
   "reactAria": "https://react-spectrum.adobe.com/react-aria/Separator.html",
-  "usage": "import { Separator } from '@strata/react';\n\nexport function Sections() {\n  return (\n    <>\n      <p>Personal details</p>\n      <Separator />\n      <p>Bank details</p>\n    </>\n  );\n}",
+  "usage": "import { Separator } from '@syntara/react';\n\nexport function Sections() {\n  return (\n    <>\n      <p>Personal details</p>\n      <Separator />\n      <p>Bank details</p>\n    </>\n  );\n}",
   "examples": [
     {
       "name": "separator-demo",

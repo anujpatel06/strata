@@ -1,7 +1,7 @@
 'use client';
 
-import { IconDeviceDesktop, IconMoon, IconSun } from '@strata/icons';
-import { Button, Tooltip, TooltipTrigger } from '@strata/react';
+import { IconDeviceDesktop, IconMoon, IconSun } from '@syntara/icons';
+import { Button, Tooltip, TooltipTrigger } from '@syntara/react';
 import { useEffect, useState } from 'react';
 import { SCHEME_STORAGE_KEY, type SchemePreference } from '@/lib/scheme';
 import styles from './site-header.module.css';
@@ -10,12 +10,12 @@ const NEXT: Record<SchemePreference, SchemePreference> = { light: 'dark', dark: 
 const LABEL: Record<SchemePreference, string> = { light: 'Light', dark: 'Dark', auto: 'System' };
 
 function read(): SchemePreference {
-  const v = document.documentElement.getAttribute('data-strata-scheme');
+  const v = document.documentElement.getAttribute('data-syntara-scheme');
   return v === 'light' || v === 'dark' ? v : 'auto';
 }
 
 /**
- * Cycles light → dark → system. The icon is chosen by CSS from <html data-strata-scheme>, so the
+ * Cycles light → dark → system. The icon is chosen by CSS from <html data-syntara-scheme>, so the
  * server-rendered button is already right before hydration.
  */
 export function SchemeToggle() {
@@ -24,7 +24,7 @@ export function SchemeToggle() {
 
   const cycle = () => {
     const next = NEXT[read()];
-    document.documentElement.setAttribute('data-strata-scheme', next);
+    document.documentElement.setAttribute('data-syntara-scheme', next);
     try {
       if (next === 'auto') localStorage.removeItem(SCHEME_STORAGE_KEY);
       else localStorage.setItem(SCHEME_STORAGE_KEY, next);

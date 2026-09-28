@@ -11,12 +11,12 @@
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: var(--strata-space-2);
+  gap: var(--syntara-space-2);
   margin: 0;
   padding: 0;
 }
 .group[data-size='sm'] {
-  gap: calc(var(--strata-space-1) * 1.5);
+  gap: calc(var(--syntara-space-1) * 1.5);
 }
 
 .root {
@@ -24,46 +24,46 @@
 }
 
 .chip {
-  --_h: var(--strata-space-8);
-  --_face: var(--strata-space-6);
+  --_h: var(--syntara-space-8);
+  --_face: var(--syntara-space-6);
   --_inset: calc((var(--_h) - var(--_face)) / 2 - 1px);
 
   box-sizing: border-box;
   display: inline-flex;
   flex: none;
   align-items: center;
-  gap: var(--strata-space-2);
+  gap: var(--syntara-space-2);
   min-block-size: var(--_h);
   max-inline-size: 100%;
   padding-block: 0;
-  padding-inline: var(--_inset) var(--strata-space-3);
+  padding-inline: var(--_inset) var(--syntara-space-3);
   border: 1px solid transparent;
-  border-radius: var(--strata-radius-pill);
+  border-radius: var(--syntara-radius-pill);
   outline: none;
-  background-color: var(--strata-color-surface-default);
-  box-shadow: inset 0 0 0 var(--strata-hairline) var(--strata-color-border-default);
-  color: var(--strata-color-text-default);
-  font-family: var(--strata-font-body);
-  font-size: var(--strata-font-size-sm);
-  font-weight: var(--strata-font-weight-medium);
-  letter-spacing: var(--strata-font-tracking-sm);
+  background-color: var(--syntara-color-surface-default);
+  box-shadow: inset 0 0 0 var(--syntara-hairline) var(--syntara-color-border-default);
+  color: var(--syntara-color-text-default);
+  font-family: var(--syntara-font-body);
+  font-size: var(--syntara-font-size-sm);
+  font-weight: var(--syntara-font-weight-medium);
+  letter-spacing: var(--syntara-font-tracking-sm);
   line-height: 1;
   vertical-align: middle;
   white-space: nowrap;
   transition:
-    background-color var(--strata-motion-duration-fast) var(--strata-motion-easing),
-    box-shadow var(--strata-motion-duration-fast) var(--strata-motion-easing),
-    outline-offset var(--strata-motion-duration-fast) var(--strata-motion-easing);
+    background-color var(--syntara-motion-duration-fast) var(--syntara-motion-easing),
+    box-shadow var(--syntara-motion-duration-fast) var(--syntara-motion-easing),
+    outline-offset var(--syntara-motion-duration-fast) var(--syntara-motion-easing);
 }
 
 .chip[data-size='sm'] {
-  --_h: var(--strata-space-6);
-  --_face: calc(var(--strata-space-5) - 2px);
+  --_h: var(--syntara-space-6);
+  --_face: calc(var(--syntara-space-5) - 2px);
 
-  gap: calc(var(--strata-space-1) * 1.5);
-  padding-inline-end: var(--strata-space-2);
-  font-size: var(--strata-font-size-xs);
-  letter-spacing: var(--strata-font-tracking-xs);
+  gap: calc(var(--syntara-space-1) * 1.5);
+  padding-inline-end: var(--syntara-space-2);
+  font-size: var(--syntara-font-size-xs);
+  letter-spacing: var(--syntara-font-tracking-xs);
 }
 
 /* The avatar: sized by the chip (three classes outrank Avatar's own [data-size] rule), no pop of its own. */
@@ -82,10 +82,10 @@
 /* ---- placeholder -------------------------------------------------------- */
 
 .chip[data-placeholder] {
-  border: 1px dashed color-mix(in oklab, var(--strata-color-border-strong) 70%, transparent);
-  background-color: var(--strata-color-surface-sunken);
+  border: 1px dashed color-mix(in oklab, var(--syntara-color-border-strong) 70%, transparent);
+  background-color: var(--syntara-color-surface-sunken);
   box-shadow: none;
-  color: var(--strata-color-text-subtle);
+  color: var(--syntara-color-text-subtle);
 }
 
 /* The name reads as "not yet": italic in the heading face (a real italic in editorial brands), regular weight. */
@@ -93,33 +93,33 @@
   /* The italic's last letter leans past its box; give it room so the ellipsis clip doesn't shave it. */
   margin-inline-end: -2px;
   padding-inline-end: 2px;
-  font-family: var(--strata-font-heading);
+  font-family: var(--syntara-font-heading);
   font-style: italic;
-  font-weight: var(--strata-font-weight-regular);
+  font-weight: var(--syntara-font-weight-regular);
 }
 
 /* A dashed avatar inside a dashed pill: the face's dash steps back a little so the two lines don't compete. */
 .chip[data-placeholder] > .face.face {
-  border-color: color-mix(in oklab, var(--strata-color-border-strong) 55%, transparent);
+  border-color: color-mix(in oklab, var(--syntara-color-border-strong) 55%, transparent);
 }
 
 /* ---- removable (inside a TagGroup) -------------------------------------- */
 
 .chip[data-allows-removing] {
   padding-inline-end: var(--_inset);
-  gap: var(--strata-space-1);
+  gap: var(--syntara-space-1);
 }
 .chip[data-allows-removing] > .name {
-  margin-inline-end: calc(var(--strata-space-1) * 0.5);
+  margin-inline-end: calc(var(--syntara-space-1) * 0.5);
 }
 
 .chip[data-focus-visible] {
-  outline: 2px solid var(--strata-color-focus-ring);
+  outline: 2px solid var(--syntara-color-focus-ring);
   outline-offset: 2px;
 }
 
 .chip[data-disabled] {
-  color: var(--strata-color-text-disabled);
+  color: var(--syntara-color-text-disabled);
 }
 
 .remove {
@@ -133,41 +133,41 @@
   margin: 0;
   padding: 0;
   border: 0;
-  border-radius: var(--strata-radius-pill);
+  border-radius: var(--syntara-radius-pill);
   outline: none;
   background: transparent;
-  color: var(--strata-color-text-subtle);
+  color: var(--syntara-color-text-subtle);
   cursor: default;
   transition:
-    background-color var(--strata-motion-duration-fast) var(--strata-motion-easing),
-    color var(--strata-motion-duration-fast) var(--strata-motion-easing);
+    background-color var(--syntara-motion-duration-fast) var(--syntara-motion-easing),
+    color var(--syntara-motion-duration-fast) var(--syntara-motion-easing);
 }
 
 /* Keep the hit area at 24px or more (WCAG 2.5.8) even when the sm button is drawn smaller. */
 .remove::before {
   position: absolute;
-  inset: min(0px, (var(--_face) - var(--strata-space-6)) / 2);
+  inset: min(0px, (var(--_face) - var(--syntara-space-6)) / 2);
   content: '';
 }
 
 .remove > svg {
   inline-size: 60%;
   block-size: 60%;
-  stroke-width: var(--strata-icon-stroke, 1.5);
+  stroke-width: var(--syntara-icon-stroke, 1.5);
 }
 
 .remove[data-hovered] {
-  background-color: color-mix(in oklab, var(--strata-color-text-default) 8%, transparent);
-  color: var(--strata-color-text-default);
+  background-color: color-mix(in oklab, var(--syntara-color-text-default) 8%, transparent);
+  color: var(--syntara-color-text-default);
 }
 
 .remove[data-focus-visible] {
-  outline: 2px solid var(--strata-color-focus-ring);
+  outline: 2px solid var(--syntara-color-focus-ring);
   outline-offset: 1px;
 }
 
 .remove[data-disabled] {
-  color: var(--strata-color-text-disabled);
+  color: var(--syntara-color-text-disabled);
 }
 
 /* ---- motion ------------------------------------------------------------- */
@@ -179,29 +179,29 @@
 @media (prefers-reduced-motion: no-preference) {
   .chip {
     animation:
-      chip-fade-in var(--strata-motion-duration-fast) var(--strata-motion-easing-out) backwards,
-      chip-pop var(--strata-motion-duration-spring) var(--strata-motion-spring) backwards;
+      chip-fade-in var(--syntara-motion-duration-fast) var(--syntara-motion-easing-out) backwards,
+      chip-pop var(--syntara-motion-duration-spring) var(--syntara-motion-spring) backwards;
   }
   .group > .chip:nth-child(2) {
-    animation-delay: calc(var(--strata-motion-duration-fast) / 3);
+    animation-delay: calc(var(--syntara-motion-duration-fast) / 3);
   }
   .group > .chip:nth-child(3) {
-    animation-delay: calc(var(--strata-motion-duration-fast) / 3 * 2);
+    animation-delay: calc(var(--syntara-motion-duration-fast) / 3 * 2);
   }
   .group > .chip:nth-child(4) {
-    animation-delay: var(--strata-motion-duration-fast);
+    animation-delay: var(--syntara-motion-duration-fast);
   }
   .group > .chip:nth-child(n + 5) {
-    animation-delay: calc(var(--strata-motion-duration-fast) / 3 * 4);
+    animation-delay: calc(var(--syntara-motion-duration-fast) / 3 * 4);
   }
   .chip[data-focus-visible] {
     outline-offset: 2px;
   }
   .remove {
     transition:
-      background-color var(--strata-motion-duration-fast) var(--strata-motion-easing),
-      color var(--strata-motion-duration-fast) var(--strata-motion-easing),
-      scale var(--strata-motion-duration-spring) var(--strata-motion-spring);
+      background-color var(--syntara-motion-duration-fast) var(--syntara-motion-easing),
+      color var(--syntara-motion-duration-fast) var(--syntara-motion-easing),
+      scale var(--syntara-motion-duration-spring) var(--syntara-motion-spring);
   }
   .remove[data-pressed] {
     scale: 0.9;

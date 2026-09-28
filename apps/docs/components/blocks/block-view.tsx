@@ -1,6 +1,6 @@
 'use client';
 
-import { ThemeScope } from '@strata/react';
+import { ThemeScope } from '@syntara/react';
 import { useSearchParams } from 'next/navigation';
 import { DraftCopyNote, isDraftCopy } from '@/components/page/draft-copy-note';
 import { HOUSE_ID } from '@/lib/house';
@@ -33,11 +33,11 @@ export function BlockView({ name, tenants, contents }: BlockViewProps) {
       {/* The page is the block alone, so the docs' one word about it gets its own strip above the screen: the site's
           brand, language and direction, in the view's scheme. Only while this tenant's copy is an unreviewed draft. */}
       {isDraftCopy(review) && (
-        <ThemeScope theme={HOUSE_ID} data-strata-scheme={scheme} className={styles.docsBar}>
+        <ThemeScope theme={HOUSE_ID} data-syntara-scheme={scheme} className={styles.docsBar}>
           <DraftCopyNote review={review} />
         </ThemeScope>
       )}
-      <ThemeScope theme={tenant?.id} data-strata-scheme={scheme} locale={tenant?.locale} className={styles.scope}>
+      <ThemeScope theme={tenant?.id} data-syntara-scheme={scheme} locale={tenant?.locale} className={styles.scope}>
         {Block && <Block content={tenant ? contents[tenant.id] : undefined} headingLevel={1} />}
       </ThemeScope>
     </>

@@ -1,5 +1,5 @@
-import type { ThemeSummary } from '@strata/theme-engine';
-import { StrataMark } from './Glyphs';
+import type { ThemeSummary } from '@syntara/theme-engine';
+import { SyntaraMark } from './Glyphs';
 import styles from './Header.module.css';
 import ui from './ui.module.css';
 
@@ -8,10 +8,10 @@ export function Header({ summary }: { summary: ThemeSummary }) {
     <header className={styles.header}>
       <div className={styles.lockup}>
         <span className={styles.mark}>
-          <StrataMark size={20} />
+          <SyntaraMark size={20} />
         </span>
         <h1 className={styles.title}>
-          <span className={styles.name}>Strata</span>
+          <span className={styles.name}>Syntara</span>
           <span className={styles.divider} aria-hidden="true" />
           <span className={styles.product}>
             <span className={ui.srOnly}> </span>Brand Generator
