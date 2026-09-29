@@ -12,7 +12,7 @@ import {
   ToggleButtonGroup,
   toast,
 } from '@syntara/react';
-import { useMemo, useState, type CSSProperties } from 'react';
+import { useLayoutEffect, useMemo, useRef, useState, type CSSProperties, type RefObject } from 'react';
 import { Button as AriaButton } from 'react-aria-components';
 import { copyText } from '@/components/mdx/code-frame';
 import type { IconGroup } from './icon-data';
@@ -25,6 +25,56 @@ const iconOf = (name: string): Icon | undefined => (ICONS[name]?.iconName ? ICON
 const SIZES = ['16', '20', '24', '32'] as const;
 
 const normalise = (s: string) => s.toLowerCase().replace(/[^a-z0-9]/g, '');
+
+/**
+ * The browser jumped to #icons-<group> before this component hydrated, using the CSS fallback for the toolbar's
+ * height — which is a row short once the toolbar wraps. With the measured height in place, put the heading back
+ * under the toolbar. Only if it is still about where the browser left it: a reload that restored some other
+ * scroll position is left alone.
+ */
+function landOnFragment(host: HTMLElement): void {
+  const id = decodeURIComponent(window.location.hash.slice(1));
+  const heading = id ? document.getElementById(id) : null;
+  if (!heading || !host.contains(heading)) return;
+  const landing =
+    parseFloat(getComputedStyle(document.documentElement).scrollPaddingBlockStart || '0') +
+    parseFloat(getComputedStyle(heading).scrollMarginBlockStart || '0');
+  const { top } = heading.getBoundingClientRect();
+  if (top > 0 && top < landing - 1) heading.scrollIntoView({ behavior: 'instant', block: 'start' });
+}
+
+/**
+ * Publishes the sticky toolbar's height as `--_toolbar-block-size` on `root`, so a group heading's
+ * scroll-margin can clear it. It is measured, not written down: the toolbar wraps to two rows on a
+ * tablet and three on a phone, and the stroke slider's value label changes width as you drag.
+ */
+function useToolbarBlockSize(
+  root: RefObject<HTMLElement | null>,
+  toolbar: RefObject<HTMLElement | null>,
+): void {
+  useLayoutEffect(() => {
+    const host = root.current;
+    const el = toolbar.current;
+    if (!host || !el || typeof ResizeObserver === 'undefined') return;
+    let landed = false;
+    const observer = new ResizeObserver(([entry]) => {
+      if (!entry) return;
+      host.style.setProperty(
+        '--_toolbar-block-size',
+        `${entry.borderBoxSize[0]?.blockSize ?? entry.contentRect.height}px`,
+      );
+      if (!landed) {
+        landed = true;
+        landOnFragment(host);
+      }
+    });
+    observer.observe(el);
+    return () => {
+      observer.disconnect();
+      host.style.removeProperty('--_toolbar-block-size');
+    };
+  }, [root, toolbar]);
+}
 
 export interface IconGalleryProps {
   groups: IconGroup[];
@@ -40,6 +90,9 @@ export function IconGallery({ groups, defaultStroke }: IconGalleryProps) {
   const [query, setQuery] = useState('');
   const [size, setSize] = useState<string>('24');
   const [stroke, setStroke] = useState(defaultStroke);
+  const galleryRef = useRef<HTMLDivElement>(null);
+  const toolbarRef = useRef<HTMLDivElement>(null);
+  useToolbarBlockSize(galleryRef, toolbarRef);
 
   const total = groups.reduce((n, g) => n + g.names.length, 0);
   const filtered = useMemo(() => {
@@ -64,8 +117,8 @@ export function IconGallery({ groups, defaultStroke }: IconGalleryProps) {
   const sheetStyle = { '--_size': `${size}px`, '--_stroke': stroke } as CSSProperties;
 
   return (
-    <div className={styles.gallery}>
-      <div className={styles.toolbar}>
+    <div ref={galleryRef} className={styles.gallery}>
+      <div ref={toolbarRef} className={styles.toolbar}>
         <SearchField
           aria-label="Search icons"
           placeholder={`Search ${total} icons…`}

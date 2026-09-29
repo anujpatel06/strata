@@ -285,9 +285,14 @@
 .group {
   display: grid;
   gap: var(--syntara-space-3);
-  scroll-margin-block-start: calc(var(--docs-header-height) + var(--syntara-space-16) * 2);
 }
+/* The table of contents links to the heading's id, so the landing offset belongs on the heading, not on the
+   section around it. :root's scroll-padding already clears the site header; this clears the sticky toolbar
+   that sits under it, leaving the header's own space-6 of air above the heading. --_toolbar-block-size is
+   measured by the gallery (the toolbar wraps to two or three rows as the viewport narrows); the fallback is
+   the toolbar's own padding plus one control row, for the moment before hydration. */
 .groupTitle {
+  scroll-margin-block-start: var(--_toolbar-block-size, calc(var(--syntara-space-3) * 2 + var(--syntara-space-12)));
   display: flex;
   align-items: baseline;
   gap: var(--syntara-space-2);

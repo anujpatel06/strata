@@ -99,6 +99,58 @@ Measuring them first changed what three of them were.
 - Re-run after the fixes: clipping 0 / 42,768 · hydration 0 / 226 · theme links 0 / 5 · axe 0 nodes · overlays 0 ·
   SSR tabs 0 · drift 98.5 · override weight 0 · 1,448 tests pass.
 
+**Changed — the icons gallery lands on its headings**
+
+- **Jumping to a group from "On this page" left the heading under the toolbar.** The offset was on the wrong element:
+  `scroll-margin-block-start` sat on `.group`, the `<section>`, while the id the table of contents links to is on the
+  `<h3>` inside it — so the browser read 0 and landed the grid's first row under the sticky search/size/stroke bar.
+  The offset moves to `.groupTitle`, where the id is. Pre-existing, and equal for all ten groups; it is just more
+  visible the more groups there are.
+- **The offset is the toolbar's measured height, not a number written down.** The toolbar wraps: 73.5px at 1280px,
+  125.5px at 768px and below. A `ResizeObserver` in `icon-gallery.tsx` publishes it as `--_toolbar-block-size` on the
+  gallery, and the heading's scroll-margin reads it. `:root`'s `scroll-padding-block-start` already clears the site
+  header, so this clears only the toolbar and leaves the header's own `space-6` of air above the heading. The CSS
+  fallback — the toolbar's own padding plus one control row, both tokens — covers the frame before hydration.
+- **A deep link needed one more step.** The browser jumps to `#icons-<group>` before the gallery hydrates, so it uses
+  that fallback, which is a row short once the toolbar wraps: at 390px the heading was still hidden. The first
+  `ResizeObserver` callback now re-lands the fragment, but only if the heading is still about where the browser left
+  it, so a reload that restored some other scroll position is untouched.
+- **The table of contents highlight follows.** `toc.tsx` picked the last heading above a line derived from
+  `scroll-padding` alone, so with the heading now sitting lower the spy highlighted the group above it. It subtracts
+  each heading's own `scroll-margin-block-start` before comparing — a heading counts from where clicking its link
+  would land it. Headings with no scroll-margin, which is every MDX page, are unaffected.
+
+**Results — the icons gallery anchors** (build `V3e65Klx-BPhQGpPzPgeT`, served by `serve out -l 3210`)
+
+- Clicking each of `icons-navigation`, `icons-status`, `icons-objects`, `icons-health` at 1280 / 768 / 390px: heading
+  top **24.5px below the toolbar's bottom in all 12 cases**, and the right entry marked `aria-current="location"`.
+  Was 0 of 12 — the heading sat 56px *above* the toolbar's bottom at 1280px. Measured in the page with Playwright
+  against the served export.
+- `node scripts/shoot.mjs "http://localhost:3210/docs/icons#icons-status" out.png --width=1280 --height=420` and the
+  same for `#icons-travel` and `#icons-objects`, light and dark, at 1280px and 390px: heading visible in all six.
+- The `toc.tsx` edit is a no-op everywhere but this page, measured rather than argued: every route that renders the
+  shared `Toc` — the MDX docs pages, `/docs/components`, a component page, `/docs/icons` — **72 anchors clicked, and
+  only 10 have a non-zero `scroll-margin-block-start`**, the ten group headings at 73.5px. Every other anchor computes
+  0px, where the new expression is character-for-character the old one. All 72 highlight the entry that was clicked;
+  the one "mismatch" per page is `#main`, the skip link, which is not a table-of-contents entry.
+- `/colors` and `/blocks` do set `scroll-margin` (136px on `.tenant`, 80px on `.viewer`) but neither renders `DocsPage`,
+  so neither has this spy on it at all — `aria-current` appears nowhere on either page. Their offsets are for the plain
+  fragment jump and are untouched.
+- Re-run on `bf30a2c` — the component-stills merge, which makes `/docs/components` about three times taller — with this
+  change applied, by the session that built it: **45 anchors, 0 non-zero, 0 mismatches** beyond `#main` on each of
+  `/docs/components`, `/docs/components/button`, `/docs/components/select` and `/docs/accessibility` as an untouched
+  control. It matched the prediction made before the run. The build was proved to contain the change rather than
+  assumed to: 4 chunks in `out/_next/static` carry `scrollMarginBlockStart`. A build id alone would not have shown
+  that — it says whose build was served, not what was in it.
+- `node scripts/axe-sweep.mjs`: 113 × 2, 0 violation nodes. `node scripts/check-hydration.mjs`: 226 loaded, 0 failures.
+  `node scripts/check-narrow-overflow.mjs`: 113 routes at 320px, 0 scrolling sideways. `node scripts/check-csp.mjs`:
+  113 routes, 0 failures. `node scripts/check-ssr-tabs.mjs`: 81 pages, 326 tab lists, 0 missing a panel.
+  `node scripts/check-theme-links.mjs`: 0 / 5. `node scripts/check-override-weight.mjs`: 0.
+  `pnpm drift apps/docs --min-score 95`: 98.5. `pnpm typecheck`: clean, 11 packages.
+- Not fixed: the **last** group cannot clear the toolbar on a short viewport, because the page has already scrolled to
+  its end — at 390 × 620 `#icons-filled` lands 16px short. Nothing but bottom padding on the gallery would move it,
+  and that would leave dead space under every other group.
+
 **Next**
 
 - **Anuj:** reserve the `@syntara` npm scope (it is unclaimed, and the rename spent 11,063 occurrences on the name);
