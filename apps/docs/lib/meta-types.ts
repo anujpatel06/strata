@@ -32,4 +32,8 @@ export interface ComponentSummary {
   description: string;
   category: Category;
   maturity: 'alpha' | 'beta' | 'stable';
+  /** The example the component page opens with, and the one the index card draws as a still. */
+  example: string;
+  /** `meta.opens`: the caption for that still, on the components whose example shows only a trigger. */
+  opens?: string;
 }

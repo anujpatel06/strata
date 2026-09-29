@@ -258,5 +258,6 @@
     "glass.opacity",
     "sheen",
     "rim"
-  ]
+  ],
+  "opens": "trigger only — the menu opens under the button"
 }

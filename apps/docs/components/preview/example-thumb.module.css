@@ -1,0 +1,93 @@
+/*
+ * The still of an example inside a card on /docs/components.
+ *
+ * The stage is a fixed window; the canvas inside it is laid out a quarter wider and scaled back to the stage's
+ * width. That one ratio covers both ends of the set: a switch or a badge reads at close to its real size, while a
+ * table or a calendar gets a wider column to lay out in and is cropped by the stage rather than squeezed.
+ */
+
+/* The frame: it carries the hairline and the corner, so a caption's background follows them too. */
+.root {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--syntara-radius-container);
+  background: var(--syntara-color-surface-canvas);
+  box-shadow: 0 0 0 1px var(--syntara-color-border-subtle);
+}
+
+@supports (corner-shape: squircle) {
+  .root {
+    corner-shape: squircle;
+  }
+}
+
+.stage {
+  position: relative;
+  display: grid;
+  justify-items: center;
+  /* `safe` is the whole trick: an example that fits is centred, and one that is taller than the stage falls back
+     to the start edge instead, so a tall card is cropped along its bottom rather than sliced through its middle. */
+  align-content: safe center;
+  inline-size: 100%;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  /* Belt and braces with `inert`: nothing inside the still is a target. */
+  pointer-events: none;
+}
+
+.canvas {
+  display: grid;
+  justify-items: center;
+  inline-size: 100%;
+  /* Room for a focus ring or a shadow on the example, so nothing sits flush against the stage's edge. */
+  padding: var(--syntara-space-3);
+}
+
+/*
+ * `zoom`, not `scale`: it shrinks the canvas's layout box as well as its paint, so the stage's own centring sees
+ * the size the example really takes up. `scale` leaves a full-size box behind, which either floats a short example
+ * off centre or pushes a tall one's first line out of view, depending on the transform origin.
+ *
+ * Without `zoom` the canvas stays at the stage's width and its natural size: a plainer still, never a broken one.
+ */
+@supports (zoom: 1) {
+  .canvas {
+    /* Still 100%: under `zoom` a percentage resolves against the stage divided by the zoom, so this box lays out a
+       quarter wider in CSS pixels and is then drawn back at exactly the stage's width. Writing 125% here would
+       compound with the zoom and hang the canvas off the stage's inline-start edge. */
+    zoom: 0.8;
+  }
+}
+
+/*
+ * A tall example is cropped by the stage's bottom edge; this scrim fades it into the stage's own background so the
+ * crop reads as deliberate rather than as a cut-off render. An example that fits never reaches it, and where it
+ * does not it is the background painted over the background — invisible.
+ */
+.stage::after {
+  content: '';
+  position: absolute;
+  inset-block-end: 0;
+  inset-inline: 0;
+  block-size: var(--syntara-space-8);
+  background: linear-gradient(to top, var(--syntara-color-surface-canvas), transparent);
+}
+
+/*
+ * The caption, for the components whose example is only a trigger. It lies along the bottom of the still rather
+ * than under it, because those stills are mostly empty and the words belong to the picture. Its own fade covers
+ * the block-start padding only, so the text itself always sits on the solid background it was measured against.
+ */
+.caption {
+  position: absolute;
+  inset-block-end: 0;
+  inset-inline: 0;
+  margin: 0;
+  padding: var(--syntara-space-5) var(--syntara-space-3) var(--syntara-space-2);
+  background: linear-gradient(to top, var(--syntara-color-surface-canvas) calc(100% - var(--syntara-space-5)), transparent);
+  color: var(--syntara-color-text-subtle);
+  font-size: var(--syntara-font-size-xs);
+  line-height: var(--syntara-line-height-snug);
+  text-align: center;
+  text-wrap: balance;
+}

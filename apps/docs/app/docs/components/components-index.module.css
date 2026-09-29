@@ -59,6 +59,12 @@
   outline-offset: 2px;
 }
 
+/* The still sits inside the card's inline padding, above the title, and the header keeps the same rail. */
+.media {
+  padding-inline: var(--syntara-space-4);
+  padding-block-end: var(--syntara-space-3);
+}
+
 .header.header {
   padding-inline: var(--syntara-space-4);
 }

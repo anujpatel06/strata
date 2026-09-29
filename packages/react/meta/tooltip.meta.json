@@ -144,5 +144,6 @@
     "motion.duration.fast",
     "motion.easing-out",
     "motion.easing"
-  ]
+  ],
+  "opens": "trigger only — the label appears on hover or focus"
 }

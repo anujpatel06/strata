@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { DocsPage } from '@/components/docs/docs-page';
 import { H2, P } from '@/components/mdx/prose';
 import { getAllMeta, getComponentGroups } from '@/lib/meta';
+import { ExampleThumb } from '@/components/preview/example-thumb';
 import { slugify } from '@/lib/slug';
 import { MATURITY_HREF, MATURITY_SHORT, MaturityBadge, type Maturity } from '@/components/docs/maturity-badge';
 import styles from './components-index.module.css';
@@ -58,6 +59,10 @@ export default function ComponentsIndex() {
             {group.items.map((m) => (
               <li key={m.name}>
                 <Card variant="outline" className={styles.card}>
+                  {/* The same example the component page opens with, as a still: what the card links to, pictured. */}
+                  <div className={styles.media}>
+                    <ExampleThumb name={m.example} caption={m.opens} />
+                  </div>
                   <CardHeader className={styles.header}>
                     <CardTitle level={3} className={styles.title}>
                       <Link href={`/docs/components/${m.name}`} className={styles.link}>

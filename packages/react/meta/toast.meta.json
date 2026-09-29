@@ -160,5 +160,6 @@
     "space.5",
     "space.1",
     "space.2"
-  ]
+  ],
+  "opens": "triggers only — each one raises a toast"
 }
