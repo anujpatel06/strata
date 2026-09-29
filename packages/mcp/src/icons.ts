@@ -1,6 +1,7 @@
 /**
  * Icons, read from packages/icons/src when a tool is called. index.ts says which files are exported; in each file,
- * the `export const IconX = createIcon(` lines give the names. The group of an icon is the file it lives in.
+ * the exported icon lines give the names. Most icons are a `createIcon(` call; the duotone layer composes its
+ * outline twin instead, with `duotone(` or `untinted(` (ADR-036). The group of an icon is the file it lives in.
  *
  * The only hand-kept data is SYNONYMS: product words an agent types that aren't words in any icon name. Every
  * target there is an export name, and test/icons.test.ts checks each one against the real package.
@@ -236,9 +237,11 @@ export function exportedGroups(indexSource: string): string[] {
   return groups;
 }
 
-/** `export const IconX = createIcon(` at the start of a line, in source order. */
+/** `export const IconX = createIcon(` (or `duotone(` / `untinted(`) at the start of a line, in source order. */
 export function iconExports(source: string): string[] {
-  return [...source.matchAll(/^export\s+const\s+(Icon[A-Z0-9][A-Za-z0-9]*)\s*(?::[^=]+)?=\s*createIcon\s*\(/gm)].map((m) => m[1]!);
+  return [
+    ...source.matchAll(/^export\s+const\s+(Icon[A-Z0-9][A-Za-z0-9]*)\s*(?::[^=]+)?=\s*(?:createIcon|duotone|untinted)\s*\(/gm),
+  ].map((m) => m[1]!);
 }
 
 /** Every exported icon, read from the package source (cached until a file changes). */

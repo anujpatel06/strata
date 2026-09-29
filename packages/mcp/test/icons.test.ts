@@ -45,16 +45,19 @@ describe('reading the icon package', () => {
     expect(groups.get('IconSealCheckFilled')).toBe('filled');
   });
 
-  it('reads groups from index.ts and names from createIcon lines only', () => {
+  it('reads groups from index.ts and names from icon-defining lines only', () => {
     expect(exportedGroups("export { createIcon } from './create-icon';\nexport * from './icons/core';\nexport * from './icons/status.ts';")).toEqual(['core', 'status']);
     const source = [
       "export const IconA = createIcon('a', []);",
       "// export const IconGone = createIcon('gone', []);",
       "const IconHidden = createIcon('hidden', []);",
       "export const IconB: Icon = createIcon('b', []);",
+      // The duotone layer composes its outline twin rather than calling createIcon (ADR-036).
+      "export const IconADuotone = duotone(IconA, body(IconA));",
+      "export const IconBDuotone = untinted(IconB);",
       'export const ICON_SIZE = 24;',
     ].join('\n');
-    expect(iconExports(source)).toEqual(['IconA', 'IconB']);
+    expect(iconExports(source)).toEqual(['IconA', 'IconB', 'IconADuotone', 'IconBDuotone']);
   });
 
   it('splits names and queries into the same words', () => {
@@ -102,7 +105,15 @@ describe('find_icon', () => {
   it('finds an icon by the word in its name, best first, with its group', async () => {
     const r = await h.call('find_icon', { query: 'trash' });
     expect(r.isError).toBe(false);
-    expect(r.json).toEqual({ query: 'trash', icons: [{ name: 'IconTrash', group: 'core' }] });
+    // Both styles come back, so an agent can pick one, and the group says which is which. The outline ranks first
+    // because its name is the tighter match (ADR-036 gave every outline icon a duotone twin).
+    expect(r.json).toEqual({
+      query: 'trash',
+      icons: [
+        { name: 'IconTrash', group: 'core' },
+        { name: 'IconTrashDuotone', group: 'duotone' },
+      ],
+    });
   });
 
   it('accepts an export name and ranks the exact name first', async () => {

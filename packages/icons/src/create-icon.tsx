@@ -11,6 +11,9 @@
  *           shading. Aim for ≤ 3 subpaths. Dots are filled circles r≈1, not zero-length lines.
  * Metaphor  Common UI metaphors (people recognise them), drawn in this style. Brand logos are NOT redrawn.
  * Colour    currentColor only. Icons are decorative (aria-hidden) unless given an aria-label or title.
+ * Duotone   An opt-in second layer (ADR-036, ./icons/duotone.ts): the outline is reused untouched and a tint layer
+ *           is painted behind it. The outline drawing is never redrawn for duotone, which is why `node` is kept on
+ *           the component — a duotone icon composes its twin's nodes rather than copying them.
  */
 import type { JSX, SVGProps } from 'react';
 
@@ -25,7 +28,12 @@ export interface IconProps extends Omit<SVGProps<SVGSVGElement>, 'stroke'> {
   'aria-label'?: string;
 }
 
-export type Icon = ((props: IconProps) => JSX.Element) & { displayName: string; iconName: string };
+export type Icon = ((props: IconProps) => JSX.Element) & {
+  displayName: string;
+  iconName: string;
+  /** The drawing this icon is built from. Kept so a duotone twin can reuse the outline instead of copying it. */
+  node: IconNode;
+};
 
 export function createIcon(name: string, node: IconNode): Icon {
   const Component = ({ size = '1.25em', stroke, style, 'aria-label': label, ...rest }: IconProps): JSX.Element => (
@@ -55,5 +63,6 @@ export function createIcon(name: string, node: IconNode): Icon {
   const pascal = name.replace(/(^|-)([a-z0-9])/g, (_, __, c: string) => c.toUpperCase());
   Component.displayName = `Icon${pascal}`;
   Component.iconName = name;
+  Component.node = node;
   return Component as Icon;
 }

@@ -8,7 +8,7 @@
     "component": "stat-tile",
     "export": "StatTileGroup",
     "maturity": "beta",
-    "schemaVersion": "1.0.0",
+    "schemaVersion": "1.1.0",
     "source": "meta"
   },
   "type": "object",

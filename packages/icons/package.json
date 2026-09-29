@@ -11,7 +11,9 @@
   "scripts": {
     "test": "vitest run",
     "typecheck": "tsc -p tsconfig.json",
-    "sheet": "tsx scripts/sheet.tsx"
+    "sheet": "tsx scripts/sheet.tsx",
+    "sheet:batch": "tsx scripts/sheet-batch.tsx",
+    "check:tints": "tsx scripts/check-tint-overlap.tsx"
   },
   "peerDependencies": {
     "react": "^19.0.0"

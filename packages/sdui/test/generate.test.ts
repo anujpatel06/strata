@@ -224,11 +224,16 @@ describe('minor versions only add', () => {
   });
 
   it('asks for a minor bump when the wire gains something', () => {
+    // Derived from the shipping version, not hard-coded, so this keeps testing the rule after each real bump.
+    const [major, minor] = SCHEMA_VERSION.split('.').map(Number) as [number, number];
+    const nextMinor = `${major}.${minor + 1}.0`;
     const prev = base();
     const next = base();
     next.icons = [...next.icons, 'new-icon'];
-    expect(evolutionProblems(prev, next).join()).toMatch(/Bump SCHEMA_VERSION .* to 1\.1\.0/);
-    next.schemaVersion = '1.1.0';
+    expect(evolutionProblems(prev, next).join()).toMatch(
+      new RegExp(`Bump SCHEMA_VERSION .* to ${nextMinor.replace(/\./g, '\\.')}`),
+    );
+    next.schemaVersion = nextMinor;
     expect(evolutionProblems(prev, next)).toEqual([]);
   });
 });
