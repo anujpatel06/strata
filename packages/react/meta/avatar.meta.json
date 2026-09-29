@@ -133,7 +133,7 @@
       "Avatar is role=\"img\" named by `alt ?? name`; the inner <img> has alt=\"\" so the name is read once.",
       "alt=\"\" makes it decorative (aria-hidden) — use it when the name is printed beside it.",
       "AvatarGroup is role=\"group\"; give it an aria-label that says who the people are.",
-      "Initials are grapheme-safe (accents, emoji) and use a zero-width non-joiner for joining scripts such as Arabic, so two letters never fuse.",
+      "Initials are grapheme-safe (accents, emoji, vowel signs, conjuncts) and use a zero-width non-joiner for joining scripts such as Arabic, so two letters never fuse. In Brahmic scripts the initial is the base letter, marks dropped \u2014 \u0930\u0947\u0916\u093e \u092f\u093e\u0926\u0935 gives \u0930\u092f, not \u0930\u0947, which at this size reads as \u20b9 (ADR-032).",
       "The \"+N\" count is formatted and direction-isolated in the current locale.",
       "The ring (a hairline inner edge and top sheen) is decoration; the name carries the meaning.",
       "Initials use the heading face (serif in editorial brands) and each tint is a pair from packages/theme-engine/src/contrast-pairs.json: action.secondary.fg/bg, accent.text/accent.subtle, feedback.{info,success,warning,danger}.fg/bg, text.default/surface.sunken; placeholders use text.subtle on surface.default. text.brand on surface.selected is deliberately not used: the engine doesn't check it.",

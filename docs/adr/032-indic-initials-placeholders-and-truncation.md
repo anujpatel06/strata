@@ -1,6 +1,6 @@
 # ADR-032: Initials take the letter, date placeholders come from Intl, and a clip box gets room
 
-- **Status:** Accepted — **Claude** (pending Anuj's review). The initials rule is a judgement about how Hindi names read and is the one to overrule if he disagrees.
+- **Status:** Accepted — **Claude recommended, Anuj accepted** (2026-09-29). The initials rule was the one flagged to overrule; a second session did propose the opposite and it was not taken. Still open: whether a Hindi reader agrees that रय reads as initials.
 - **Date:** 2026-09-28
 - **Principles:** 7
 
@@ -24,6 +24,13 @@ Four faults were recorded in Phase 5a under "Found by measuring, not fixed". Mea
 
 - **Give all eleven `line-height: 1` rules a token.** Ten of them were not cutting anything, and the ones on icon boxes are right as they are. It would have made every pill taller in Arabic to fix one Hindi chip.
 - **Ship Hindi date strings.** Fixes Haat and no one else. Intl fixes every locale React Aria has not got to.
+- **One whole syllable, "रे" for "रेखा यादव".** Proposed independently by a second session that had not seen this ADR, on the
+  grounds that one syllable is what an initial in these scripts is, and that "रय" is not a thing anyone writes. It loses to the
+  ₹ problem: at avatar size, on the tints this component uses, a lone "रे" is the rupee sign, and an avatar that reads as a
+  currency symbol is worse than one that reads as an abbreviation. It also needs the conjunct halves rejoined by hand
+  (a cluster ending in a virama is half a letter), where dropping the marks makes conjunct splitting harmless: "श्रुति"
+  gives "श" whether the segmenter splits the conjunct or not. Revisit if a Hindi reader says otherwise — that is the open
+  question above, not the ₹ reasoning.
 - **Transliterate initials to Latin** ("रेखा" → "R"). Roman initials on a Hindi name are a different kind of wrong.
 - **Grapheme-aware truncation in JavaScript.** The general fix, and the only one that would work at every width. It needs per-element measurement and a ResizeObserver, which is a feature to specify, not something to add while fixing a defect. Worth an RFC if truncated Indic text shows up anywhere else.
 
@@ -32,4 +39,8 @@ Four faults were recorded in Phase 5a under "Found by measuring, not fixed". Mea
 - **Good:** nothing on the Hindi or Arabic blocks is cut, the date field reads in its own language, and initials read as initials.
 - **Bad:** the truncation fix is one block's CSS, not a system-wide answer. Any other component that truncates Indic text can still stop inside a cluster. `scripts/check-script-clipping.mjs` already reports this per type pair ("renders matched no prefix"), so the measurement exists; the fix does not.
 - **Bad:** the Intl fallback is keyed on a heuristic — non-Latin script, ASCII placeholder. If React Aria adds Hindi strings, ours stop being used, which is the right outcome but is not obvious from the code alone.
+- **Amended 2026-09-29:** where `Intl.Segmenter` is missing, initials approximate a grapheme cluster with a regular
+  expression instead of taking the first code point, which halved a flag and dropped a decomposed accent. Ported from
+  the session that proposed the syllable rule — it is orthogonal to which grapheme is chosen, and the answers above are
+  unchanged either way (`packages/react/test/avatar.test.tsx`, `describe('getInitials without Intl.Segmenter')`).
 - **Revisit when:** React Aria ships more locales; or truncated Indic text appears outside the activity table.

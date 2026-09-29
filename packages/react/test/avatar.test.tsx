@@ -39,6 +39,36 @@ describe('getInitials', () => {
   });
 });
 
+describe('getInitials without Intl.Segmenter', () => {
+  const Segmenter = Intl.Segmenter;
+  beforeEach(() => {
+    delete (Intl as { Segmenter?: typeof Intl.Segmenter }).Segmenter;
+  });
+  afterEach(() => {
+    (Intl as { Segmenter?: typeof Intl.Segmenter }).Segmenter = Segmenter;
+  });
+
+  it('approximates a grapheme cluster instead of taking the first code point', () => {
+    expect('Segmenter' in Intl).toBe(false);
+    // A decomposed accent stays on its letter; the first code point alone would have given "E".
+    expect(getInitials('e\u0301mile Zola').normalize('NFC')).toBe('\u00c9Z');
+    // Both halves of a flag, and a skin tone and ZWJ sequence, stay together.
+    expect(getInitials('\u{1f1ee}\u{1f1f3} India')).toBe('\u{1f1ee}\u{1f1f3}I');
+    expect(getInitials('\u{1f469}\u{1f3fd}\u200d\u{1f4bb} Dev')).toBe('\u{1f469}\u{1f3fd}\u200d\u{1f4bb}D');
+  });
+
+  it('gives the same answers as ADR-032 for Brahmic names', () => {
+    expect(getInitials('\u0930\u0947\u0916\u093e \u092f\u093e\u0926\u0935', 'hi-IN')).toBe('\u0930\u092f');
+    expect(getInitials('\u0915\u094d\u0937\u092e\u093e \u0936\u0930\u094d\u092e\u093e', 'hi-IN')).toBe('\u0915\u0936');
+    expect(getInitials('\u0905\u0902\u091c\u0932\u093f', 'hi-IN')).toBe('\u0905');
+  });
+
+  it('leaves Latin and Arabic initials unchanged', () => {
+    expect(getInitials('Priya Raman')).toBe('PR');
+    expect(getInitials('\u0645\u062d\u0645\u062f \u0639\u0644\u064a')).toBe('\u0645\u200c\u0639');
+  });
+});
+
 describe('Avatar', () => {
   it('is an image named by the person, showing initials', () => {
     render(<Avatar name="Priya Raman" />);

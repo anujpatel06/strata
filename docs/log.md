@@ -6,6 +6,62 @@ Numbers only with the command that produced them. Design trade-offs get an ADR i
 
 ---
 
+## 2026-09-29 (process) — the branch was fifteen commits stale, and the same bug had two answers
+
+Mostly repair of how this repo is being worked on, not new work. Anuj asked for a read on the process; the read found a
+concrete cost, so this entry is the cost and the fix.
+
+**Changed**
+- `v0.3-craft` was **15 commits behind `origin/main`** and had an uncommitted tree built on that stale base. It is now
+  fast-forwarded to `origin/main`; the work here is on `fix/avatar-grapheme-fallback`, a branch off its tip.
+- The stale tree is preserved unmerged on `wip/haat-hindi-copy` (commit `53b0a95`). It held three unrelated things: a
+  rewrite of Avatar initials, a rename of the Haat persona रेखा → नेहा across the tenant and two blocks, and a broad revision
+  of Haat's Hindi copy. Nothing was discarded and nothing was merged.
+- **Ported forward, and only this:** where `Intl.Segmenter` is missing, `getInitials` approximates a grapheme cluster
+  with a regular expression instead of taking the first code point. The old fallback took one half of a flag and dropped
+  a decomposed accent. `packages/react/src/ui/avatar.tsx`, one new constant and one changed line.
+- `docs/adr/032` records Anuj's call and the alternative it beat; `packages/react/meta/avatar.meta.json` now states the
+  Brahmic rule, which it had not.
+
+**Decided**
+- **Initials stay the base letter, रय — Claude recommended, Anuj accepted.** ADR-032 had flagged this as the rule to
+  overrule; a second session, working from the stale base and not having seen the ADR, independently shipped the
+  opposite (one syllable, रे). रय stands: a lone रे at avatar size is the rupee sign. Dropping the marks also makes
+  conjunct splitting harmless, where keeping the syllable whole needs the virama halves rejoined by hand.
+- **The Haat persona keeps the name रेखा — Claude recommended, Anuj accepted.** Renaming her to नेहा would have made the
+  initials fault invisible in the demo without fixing it, and रेखा यादव is the name ADR-032's rule is tested against.
+- **Haat's Hindi copy revision is not merged — Claude.** It is an area already waiting on Anuj's review, and it arrived
+  mixed into a defect fix. It waits on `wip/haat-hindi-copy` as its own thing.
+
+**Results**
+- `pnpm test`: **1,453 passing, 1 skipped** (474 components · 309 engine · 245 icons · 193 MCP · 150 schema · 74 auditor
+  · 8 codemods). Three of the component tests are new, in `describe('getInitials without Intl.Segmenter')`.
+- The new tests are a real regression test, not a restatement: with the first-code-point fallback put back,
+  `pnpm --filter @syntara/react exec vitest run test/avatar.test.tsx` fails 1 of 19. The Brahmic cases pass either way,
+  which is the point — ADR-032's answers do not depend on the fallback.
+- `pnpm typecheck`: clean, 11 packages. `pnpm check:meta`: exit 0, avatar `ok`.
+- Not re-run, because nothing here can move a pixel or a route: `test:themes`, `registry`, the docs build and the axe
+  sweep. `origin/main`'s own numbers for those stand in the entry below.
+
+**Found by measuring, not fixed**
+- **16 commit messages appear 2–3 times** across the branches, under different hashes — the same work committed more
+  than once by sessions that could not see each other. The reflog also shows two commits made on `v0.3-craft` on
+  2026-09-29 and then dropped by a reset; both survive elsewhere.
+- **ADR-030 is allocated twice:** `030-static-export-on-cloudflare.md` on `main` and `030-duotone-icon-layer.md` on
+  `origin/feat/duotone-icons`. It will collide when duotone merges. Not renumbered here — it is that branch's to fix.
+- `scripts/compare-renders.mjs` (untracked, from the stale tree) cites "ADR-030" for before/after pixel evidence. No
+  such ADR exists under that number or any other; the script is real and the decision it refers to was never written.
+- Nine branches existed, three with deleted remotes, and six worktrees, two of them in `/private/tmp` scratchpads that
+  a reboot would take. Pruned in this session.
+
+**Next**
+- Anuj: confirm with a Hindi reader that रय reads as initials rather than as an abbreviation — the one part of ADR-032
+  still resting on Claude's judgement.
+- Anuj: `wip/haat-hindi-copy` needs a read. The copy changes may well be improvements; they were never reviewed.
+- Whoever picks up duotone icons: renumber its ADR before merging.
+
+---
+
 ## 2026-09-29 — a still of every component on the index
 
 **Changed**
