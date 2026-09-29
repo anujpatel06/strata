@@ -1,6 +1,6 @@
 import { render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { CalendarDate } from '@internationalized/date';
+import { CalendarDate, parseDateTime } from '@internationalized/date';
 import { DatePicker, DateRangePicker } from '../src/ui/date-picker';
 
 const day = (n: number) => new CalendarDate(2026, 9, n);
@@ -91,6 +91,18 @@ describe('DateRangePicker', () => {
     await user.click(within(dialog).getByRole('button', { name: /September 10, 2026/ }));
     await user.click(within(dialog).getByRole('button', { name: /September 12, 2026/ }));
     expect(onChange).toHaveBeenCalledWith({ start: day(10), end: day(12) });
+  });
+
+  it('renders one kind of space between a time and its AM/PM (ADR-035)', async () => {
+    // Which space Intl puts there changed in CLDR 42, so the runtime that prerenders a page and the one that
+    // hydrates it can disagree on that character and hydration fails. The component picks one, whatever Intl says.
+    const { container } = render(<DatePicker label="When" granularity="minute" defaultValue={parseDateTime('2026-10-06T09:30')} />);
+    const spaceLike = /^[\u0020\u00A0\u2009\u202F]+$/;
+    const separators = [...container.querySelectorAll('[role="group"] span')]
+      .map((el) => el.textContent ?? '')
+      .filter((t) => t !== '' && spaceLike.test(t));
+    expect(separators.length).toBeGreaterThan(0);
+    for (const s of separators) expect([...s].every((c) => c === '\u202F')).toBe(true);
   });
 
   it('shows two months when asked', async () => {
