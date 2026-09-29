@@ -14,12 +14,15 @@ export function Toc({ items }: { items: TocItem[] }) {
       .filter((el): el is HTMLElement => el != null);
     if (headings.length === 0) return;
 
-    // The active heading is the last one whose top has scrolled past a line just under the sticky header.
+    // The active heading is the last one that has scrolled past a line just under the sticky header. A heading
+    // counts from where clicking its link would land it, so its own scroll-margin comes off the measurement —
+    // otherwise a page with sticky chrome of its own (the icon gallery's toolbar) highlights the heading above.
     const update = () => {
       const line = parseFloat(getComputedStyle(document.documentElement).scrollPaddingBlockStart || '0') + 8;
       let current = headings[0]!.id;
       for (const h of headings) {
-        if (h.getBoundingClientRect().top <= line) current = h.id;
+        const offset = parseFloat(getComputedStyle(h).scrollMarginBlockStart || '0') || 0;
+        if (h.getBoundingClientRect().top - offset <= line) current = h.id;
         else break;
       }
       const atBottom = window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 2;
