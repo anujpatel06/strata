@@ -10,17 +10,10 @@
   # <style> tag on every keystroke, and each preview scopes its own tokens the same way.
   Content-Security-Policy: default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; img-src 'self' data:; font-src 'self' https://fonts.gstatic.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; script-src 'self' 'unsafe-inline'
 
-# The server-driven UI demo validates a screen in the browser with Ajv, which compiles each JSON Schema into a
-# function with `new Function`. That needs 'unsafe-eval', and without it the page throws and never hydrates —
-# found on the first real deploy, because nothing applies this file locally or in CI. The exception is scoped to
-# the one page that needs it rather than widened across the site. Removing it means compiling the schemas ahead
-# of time (ajv standalone) so the browser never compiles one.
-/docs/server-driven-ui
-  X-Content-Type-Options: nosniff
-  Referrer-Policy: strict-origin-when-cross-origin
-  X-Frame-Options: DENY
-  Cross-Origin-Opener-Policy: same-origin
-  Content-Security-Policy: default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; img-src 'self' data:; font-src 'self' https://fonts.gstatic.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; script-src 'self' 'unsafe-inline' 'unsafe-eval'
+# No path needs 'unsafe-eval'. The server-driven UI demo used to, because ajv compiled its schemas in the browser
+# with `new Function`; they are compiled at build time now (ADR-034), so one rule covers the whole site. Scoping an
+# exception to that one path would not have worked anyway: Cloudflare Pages sends every matching rule's header, and
+# a browser given two Content-Security-Policy headers enforces both, so the stricter one still wins.
 
 # Hashed assets: the name changes when the bytes do, so they can be cached forever.
 /_next/static/*

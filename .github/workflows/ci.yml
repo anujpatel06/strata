@@ -56,6 +56,8 @@ jobs:
       - run: node scripts/check-theme-links.mjs
       # CONVENTIONS.md requires 320px; a page that scrolls sideways there looks fine until someone is on a phone
       - run: node scripts/check-narrow-overflow.mjs
+      # Nothing else applies apps/docs/public/_headers, so a CSP that breaks a page reaches production unseen
+      - run: node scripts/check-csp.mjs
 
       - name: Upload theme reports
         if: always()

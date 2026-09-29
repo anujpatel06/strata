@@ -6,9 +6,10 @@
  * The renderer is tolerant of newer minor versions (prepareScreen); see README "Unknowns".
  */
 import Ajv2020, { type ErrorObject, type ValidateFunction } from 'ajv/dist/2020.js';
-import { urn } from './contract';
+import { SYNTARA_KEYWORDS, urn } from './contract';
 import { manifest } from './manifest';
 import { SCHEMAS } from './schemas.generated';
+import precompiled from './validator.generated.js';
 import { CLIENT_OWNED, CLIENT_OWNED_REASON, EXCLUDED_EVERYWHERE, MARKUP_KEYS, MARKUP_REASON } from './wire';
 
 export interface ValidationError {
@@ -25,8 +26,8 @@ export interface ValidationResult {
   errors: ValidationError[];
 }
 
-/** Keywords the schema files use besides JSON Schema's own. Other validators ignore x- keywords; ajv needs them named. */
-export const SYNTARA_KEYWORDS = ['x-syntara', 'x-syntara-rule', 'x-syntara-message'] as const;
+/** Keywords the schema files use besides JSON Schema's own. Defined in contract.ts; re-exported here as before. */
+export { SYNTARA_KEYWORDS } from './contract';
 
 /** A strict ajv instance with every schema added. Exposed for tests and for tools that want the raw validator. */
 export function createAjv(): Ajv2020 {
@@ -36,14 +37,15 @@ export function createAjv(): Ajv2020 {
   return ajv;
 }
 
-let compiled: ValidateFunction | undefined;
+/**
+ * The screen validator, compiled by scripts/generate.ts rather than here. ajv builds a validator with
+ * `new Function`, which a Content-Security-Policy without 'unsafe-eval' forbids: the docs demo threw and the page
+ * never hydrated on the first real deploy. The schemas are fixed and only the document varies, so there is nothing
+ * to compile at run time (ADR-034). Behaviour is identical — the generator uses the same ajv options as
+ * createAjv(), and test/validate.test.ts checks the two agree.
+ */
 function screenValidator(): ValidateFunction {
-  if (!compiled) {
-    const fn = createAjv().getSchema(urn('screen'));
-    if (!fn) throw new Error('screen schema missing: run pnpm --filter @syntara/sdui generate');
-    compiled = fn;
-  }
-  return compiled;
+  return precompiled as ValidateFunction;
 }
 
 export function validateScreen(doc: unknown): ValidationResult {

@@ -66,3 +66,10 @@ export function directionOf(locale: unknown): 'ltr' | 'rtl' | undefined {
     return undefined;
   }
 }
+
+/**
+ * Keywords the schema files use besides JSON Schema's own. Other validators ignore x- keywords; ajv needs them
+ * named. Declared here, not in validate.ts, because the build-time generator needs them and validate.ts imports
+ * the validator that generator produces.
+ */
+export const SYNTARA_KEYWORDS = ['x-syntara', 'x-syntara-rule', 'x-syntara-message'] as const;
