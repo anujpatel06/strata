@@ -57,8 +57,21 @@ export function getMeta(name: string): ComponentMeta | undefined {
   return getAllMeta().find((m) => m.name === name);
 }
 
+/** The example a component leads with: the first in its meta file, or `<name>-demo` by convention. */
+export function heroExample(m: ComponentMeta): string {
+  return m.examples[0]?.name ?? `${m.name}-demo`;
+}
+
 export function toSummary(m: ComponentMeta): ComponentSummary {
-  return { name: m.name, title: m.title, description: m.description, category: m.category, maturity: m.maturity };
+  return {
+    name: m.name,
+    title: m.title,
+    description: m.description,
+    category: m.category,
+    maturity: m.maturity,
+    example: heroExample(m),
+    ...(m.opens ? { opens: m.opens } : {}),
+  };
 }
 
 export interface CategoryGroup {

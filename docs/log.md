@@ -6,6 +6,40 @@ Numbers only with the command that produced them. Design trade-offs get an ADR i
 
 ---
 
+## 2026-09-29 — a still of every component on the index
+
+**Changed**
+- `/docs/components` cards now open with a still of the component: the same example the component's own page leads with, rendered live into a stage above the title. New `apps/docs/components/preview/example-thumb.tsx` + `.module.css`.
+- The still is the /blocks thumbnail technique at a gentler ratio: the canvas lays out a quarter wider than the stage and is drawn back at the stage's width, so a switch reads at close to its real size while a table or a calendar gets room to lay out and is cropped rather than squeezed. It is `aria-hidden` and `inert`, so the card's title link stays the card's one target.
+- It mounts on approach (IntersectionObserver, two viewports of lead) and nothing renders on the server: fifty-three examples share this page, and every card reads without its still.
+- Which example a component leads with was decided in two places; it is now one exported rule, `heroExample` in `apps/docs/lib/meta.ts`, and `ComponentSummary` carries it as `example`.
+- **The eight components whose example is only a trigger carry a caption along the bottom of their still** — "trigger only — the menu opens under the button", and so on. The text is a new optional `opens` in the meta contract (`packages/react/meta/schema.ts`), set on alert-dialog, command, dialog, menu, popover, sheet, tooltip and toast. It says what the still leaves out rather than repeating the description, which already says what each one is.
+
+**Decided**
+- **Live stills rather than baked screenshots — Claude recommended, Anuj accepted.** Committed PNGs would cost nothing at runtime but freeze one brand and one scheme and go stale silently; a live still follows the site's scheme switch and cannot drift from the component.
+- **The eight overlay components show their trigger, unchanged — Claude recommended, Anuj accepted.** Dialog, Alert Dialog, Sheet, Popover, Menu, Command, Tooltip and Toast portal to `<body>` (ADR-012), so they cannot render open inside a scaled stage. A closed menu genuinely is a `⋮` button; a drawn stand-in would be a second set of examples to keep in step with the real ones.
+- **The caption text lives in `meta.json`, not in the docs — Claude.** `meta.json` is the one source of truth per component (ADR-007), and "the surface portals to `<body>`, so an example can only show the trigger" is a fact about the component, not about this page. A map of eight names in the index would go stale the first time a ninth overlay is added. The field is optional and both other readers of `meta.json` — the MCP server and the schema generator — whitelist the fields they use, so `pnpm registry` and `pnpm --filter @syntara/sdui generate` produce byte-identical output. `packages/react` publishes only `dist`, so no changeset.
+- **`zoom`, not `scale`, shrinks the canvas — Claude.** `zoom` shrinks the layout box as well as the paint, so the stage's own centring sees the size the example really takes up; `scale` leaves a full-size box behind, which floats a short example off centre or pushes a tall one's first line out of view depending on the transform origin. Guarded by `@supports (zoom: 1)`: without it the still is plainer, never broken.
+
+**Results**
+- `pnpm typecheck`: clean, 11 packages. `pnpm test`: 1,489 passing (518 components · 301 engine · 245 icons · 193 MCP · 150 schema · 74 auditor · 8 codemods).
+- `pnpm test:themes`: 118,000 / 118,000. `pnpm check:meta`: 53 / 53. `pnpm registry`: 73 items. `node scripts/check-override-weight.mjs`: 0.
+- `pnpm --filter @syntara/docs build`: all pages generated. `node scripts/check-ssr-tabs.mjs`: 80 pages, 325 tab lists, 0 missing a panel.
+- `node scripts/axe-sweep.mjs`: 113 routes × 2 schemes, **0 violation nodes**. `node scripts/check-overlay-exit.mjs`: 108 tooltips, 4 menus and popovers, 0 failures.
+- Keyboard: 227 controls inside the 53 stills, **0 reachable by Tab**; all 53 stages `aria-hidden` and `inert` (measured in the page).
+- Lazy mounting: 18 of 53 stills mounted on load at 1440×900, 53 after scrolling; 38 example chunks deferred until scroll.
+- Screenshots reviewed at 1440 light and dark, 820 and 390, and with `dir="rtl"` forced: the grid and the stills mirror, and the stages stay centred.
+- Captions: 8 of 53 cards, none inside the `aria-hidden` or `inert` subtree (measured in the page). Contrast of the caption on the stage, at 12px 400: **6.42:1 light, 9.71:1 dark** (needs 4.5). One line at 390px, two at three-up.
+
+**Found by measuring, not fixed**
+- Calendar's still overflows its stage by 21px on the inline-end edge and is clipped there, in both directions — its seven-column grid has a min-content width wider than the stage at three-up. It trims the last weekday column; the month, both chevrons and the first rows read.
+- Calendar aside, every still reads: the Overlays row was a grid of anonymous buttons until the captions went on, and Anuj called for them after seeing it rendered.
+
+**Next**
+- Anuj: the captions are written from the demos; check the wording reads the way he'd say it, particularly Command's "⌘K or the button".
+
+---
+
 ## 2026-09-28 (rename) — the project is Syntara
 
 **Changed**

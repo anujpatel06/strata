@@ -12,7 +12,7 @@ import { PackageCommand } from '@/components/mdx/package-command';
 import { H2, H3, P, Steps, Table, A } from '@/components/mdx/prose';
 import { ComponentPreview } from '@/components/preview/component-preview';
 import { CATEGORY_LABEL, type ComponentMeta, type Deprecation, type PropDoc } from '@/lib/meta-types';
-import { getAllMeta, getMeta } from '@/lib/meta';
+import { getAllMeta, getMeta, heroExample } from '@/lib/meta';
 import { readRepoFile } from '@/lib/repo';
 import { githubBlob } from '@/lib/site';
 import { slugify } from '@/lib/slug';
@@ -29,10 +29,6 @@ export async function generateMetadata({ params }: { params: Promise<{ name: str
   const { name } = await params;
   const meta = getMeta(name);
   return meta ? { title: meta.title, description: meta.description } : {};
-}
-
-function heroName(meta: ComponentMeta): string {
-  return meta.examples[0]?.name ?? `${meta.name}-demo`;
 }
 
 function propsByComponent(props: PropDoc[]): Array<[string, PropDoc[]]> {
@@ -192,7 +188,7 @@ export default async function ComponentPage({ params }: { params: Promise<{ name
         <h2 id="preview" className="visually-hidden">
           Preview
         </h2>
-        <ComponentPreview name={heroName(meta)} label={`${meta.title}`} />
+        <ComponentPreview name={heroExample(meta)} label={`${meta.title}`} />
       </section>
 
       <H2 id="installation">Installation</H2>
