@@ -6,6 +6,59 @@ Numbers only with the command that produced them. Design trade-offs get an ADR i
 
 ---
 
+## 2026-09-30 — the homepage says when the headline isn't your colour
+
+**Changed**
+- **The hero's fallback is no longer silent.** The homepage sets "Every brand." in the selected brand's `text.brand`,
+  but only when that reads 4.5:1 on the hero's glow; otherwise it quietly swapped in the house ink and said nothing.
+  A reader typed a colour, watched the grid re-skin, read "all 118 contrast checks pass" — and the one word their eye
+  went to was not their colour. The solver line now finishes the sentence: *"the headline above keeps the house
+  colour: this one reads 4.41:1 on the hero in light, and AA needs 4.5."*
+- `brandTextPassesOnHero` became `heroBrandTextContrast` and returns the ratios per scheme rather than a verdict,
+  because the shortfall is now shown rather than acted on in private. The note names the worse of the two schemes.
+- The note sits inside the existing `aria-live="polite"` region, so it is announced on the same change that
+  announces the counts, not as a second interruption. Ratios are floored, never rounded: 4.49 reads as 4.49.
+
+**Decided**
+- **Say it rather than hide it — Claude recommended, Anuj accepted.** Anuj asked how the "passes WCAG 2.2 AA" claim
+  in the hero is conveyed when a visitor types an arbitrary colour. It is conveyed, and honestly: the colour is not
+  used raw — it seeds the ramps and the solver moves roles until every pair passes, which the line reports as "N
+  automatic adjustments". The gap was the hero, where a failing colour was replaced without a word. Naming the
+  shortfall turns a hidden substitution into the clearest demonstration on the page that the system measures rather
+  than asserts.
+- **The shield icon stays.** A fallback is the system working, not a fault, and the theme genuinely passes all 118
+  checks. An alert icon would report a problem that is not there.
+
+**Results**
+Measured against the static export on this branch (build `Y8EKI-zFiku7KC3jQXgdB`, `serve out` on :60492).
+
+- The fallback is real and reaches shipped brands: **Care reads 4.41:1** on the hero in light and falls back;
+  the custom default `#0ea5e9` reads **4.34 light / 4.88 dark** and falls back. Vela (5.18), Harbor (4.82),
+  Qamar (4.52), Haat (4.61) and house (11.97) carry it. Confirmed in the browser: with Care selected the headline
+  computes to `rgb(26, 27, 38)`, the house ink, and with Haat to `rgb(161, 36, 142)`, its own.
+- **81 of 180 colours on a hue sweep (45.0%) fall back** — every 6° of hue at three chroma/lightness pairs.
+- The note itself: `#5a5a5d` on `#f7f7f9` = **6.42:1** light, `#b7b7ba` on `#0d0d0e` = **9.70:1** dark, at 13px/400
+  (needs 4.5). Rendered in light and dark at 1280, 390 and 320, and with `dir="rtl"`: shown in all, **0px of
+  sideways scroll** in all.
+- `pnpm typecheck` clean · `pnpm test` 2,167 passing, 1 skipped · `pnpm check:meta` 53/53 ·
+  `node scripts/check-override-weight.mjs` 0 · `check-ssr-tabs` 81 pages, 326 tab lists, 0 missing a panel ·
+  `check-hydration` 113 × 2, 0 failures · `check-theme-links` 5, 0 · `check-narrow-overflow` 113 at 320px, 0 ·
+  `check-csp` 113, 0 · **`axe-sweep` 113 × 2 schemes, 0 violation nodes** · `check-overlay-exit` 108 tooltips,
+  4 overlays, 0 failures.
+
+**Found by measuring, not fixed**
+- **A number in this session's own first answer was wrong.** The fallback rate was first quoted as 29.7%, measured
+  against a house canvas of `#6366f1` — a colour invented for the script rather than read from `tenants/house`.
+  Against the real house brand it is 45.0%. The tell was there to see: the same script put `#0ea5e9` at 4.37 while
+  the browser showed 4.34. Reading the tenant file rather than typing a plausible hex is the whole of the fix.
+- The `GLOW_TINT` model the check depends on is calibrated against pixel measurements of the rendered hero and errs
+  toward falling back. So some colours near the line are shown the note although they would have passed. That is the
+  safe direction, and the note states the modelled ratio, not a measured screen pixel.
+
+**Next**
+- Anuj: the copy is the part to read as a writer — "the headline above keeps the house colour" is doing the work of
+  explaining a substitution in half a line, and it appears for Care, a shipped tenant, not only for typed colours.
+
 ## 2026-09-29 — a duotone twin for every icon
 
 **Changed**

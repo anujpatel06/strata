@@ -70,17 +70,24 @@ function mixHex(a: string, b: string, t: number): string {
  */
 const GLOW_TINT = { light: { primary: 0.12, accent: 0.04 }, dark: { primary: 0.3, accent: 0.15 } } as const;
 
+/** AA for the headline's size. Ratios are never rounded up, here or in the copy: 4.49 fails. */
+const HERO_MIN = 4.5;
+const floor2 = (n: number) => (Math.floor(n * 100) / 100).toFixed(2);
+
 /**
- * Whether a theme's text.brand reads on the site's hero in both schemes (4.5:1, never rounded up). The hero sets
- * "Every brand." in the selected brand's text.brand on the *house* canvas under the glow, while the solver only
- * promised 4.5:1 against the brand's own canvas, so we check again here before handing the colour to the hero.
+ * How a theme's text.brand reads on the site's hero, per scheme. The hero sets "Every brand." in the selected
+ * brand's text.brand on the *house* canvas under the glow, while the solver only promised 4.5:1 against the brand's
+ * own canvas, so we measure again here before handing the colour to the hero.
+ *
+ * Returns the ratios rather than a verdict, because the shortfall is shown to the reader: a colour that cannot make
+ * the headline is a fact about that colour, and the page used to swap in the house ink without saying so.
  */
-function brandTextPassesOnHero(theme: Theme, house: Theme): boolean {
-  return (['light', 'dark'] as const).every((s) => {
-    const roles = theme.schemes[s].roles;
-    const canvas = house.schemes[s].roles['surface.canvas'].hex;
-    const bg = mixHex(mixHex(canvas, roles['action.primary.bg'].hex, GLOW_TINT[s].primary), roles['accent.bg'].hex, GLOW_TINT[s].accent);
-    return contrastRatio(roles['text.brand'].hex, bg) >= 4.5;
+function heroBrandTextContrast(theme: Theme, house: Theme): { scheme: 'light' | 'dark'; ratio: number }[] {
+  return (['light', 'dark'] as const).map((scheme) => {
+    const roles = theme.schemes[scheme].roles;
+    const canvas = house.schemes[scheme].roles['surface.canvas'].hex;
+    const bg = mixHex(mixHex(canvas, roles['action.primary.bg'].hex, GLOW_TINT[scheme].primary), roles['accent.bg'].hex, GLOW_TINT[scheme].accent);
+    return { scheme, ratio: contrastRatio(roles['text.brand'].hex, bg) };
   });
 }
 
@@ -135,7 +142,14 @@ export function LiveShowcase({ tenants }: LiveShowcaseProps) {
   const publish = usePublishStage();
   const houseBrand = tenants.find((t) => t.id === 'house')?.brand;
   const houseTheme = useMemo(() => (houseBrand ? generateTheme(houseBrand) : undefined), [houseBrand]);
-  const accentOk = useMemo(() => (houseTheme ? brandTextPassesOnHero(theme, houseTheme) : false), [theme, houseTheme]);
+  // The worst scheme the headline fails in, or undefined when the colour carries it in both. Undefined also when
+  // the house theme is missing: the hero still falls back, but nothing is claimed about a ratio we did not measure.
+  const heroShortfall = useMemo(() => {
+    if (!houseTheme) return undefined;
+    const failing = heroBrandTextContrast(theme, houseTheme).filter((c) => c.ratio < HERO_MIN);
+    return failing.length ? failing.reduce((a, b) => (b.ratio < a.ratio ? b : a)) : undefined;
+  }, [theme, houseTheme]);
+  const accentOk = houseTheme != null && heroShortfall === undefined;
   useEffect(() => {
     publish({ glow: themeId, accent: accentOk ? themeId : 'house' });
   }, [publish, themeId, accentOk]);
@@ -237,6 +251,17 @@ export function LiveShowcase({ tenants }: LiveShowcaseProps) {
           <span className={styles.solverFigure}>
             {adjustments} automatic {adjustments === 1 ? 'adjustment' : 'adjustments'}
           </span>
+          {heroShortfall && (
+            <>
+              <span aria-hidden> · </span>
+              <span className={styles.solverNote}>
+                the headline above keeps the house colour: this one reads{' '}
+                <span className={styles.solverFigure}>{floor2(heroShortfall.ratio)}:1</span> on the hero in{' '}
+                {heroShortfall.scheme}, and AA needs{'\u00a0'}
+                {HERO_MIN}
+              </span>
+            </>
+          )}
         </span>
         <Link href="/themes" className={styles.solverLink}>
           See why

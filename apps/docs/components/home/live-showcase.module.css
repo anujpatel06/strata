@@ -252,6 +252,11 @@
   font-variant-numeric: tabular-nums;
 }
 
+/* The shortfall note is a sentence, not a figure: let it wrap evenly under the two counts it follows. */
+.solverNote {
+  text-wrap: pretty;
+}
+
 .solverLink {
   text-decoration-color: color-mix(in oklab, currentColor 35%, transparent);
   transition: text-decoration-color var(--syntara-motion-duration-fast) var(--syntara-motion-easing);
