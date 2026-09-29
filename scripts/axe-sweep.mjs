@@ -41,3 +41,15 @@ for (const scheme of ['light', 'dark']) {
 await browser.close();
 console.log(`routes: ${routes.length} × 2 schemes; violation nodes: ${total}`);
 console.log(JSON.stringify(summary, null, 1));
+
+// The sweep used to stop at those two lines, so it printed a number and exited 0 whatever the number was.
+// Run in CI like that it would have been green with every route failing — the fault it exists to catch (2026-09-29).
+// A route that never loaded, threw, or was scanned before hydration is a route this sweep did not measure, so those
+// fail too: an unmeasured route must not read as a clean one. The 2026-09-27 entry in docs/log.md is the case for
+// that — the 8 nodes once seen on /blocks appeared only when axe ran ahead of hydration.
+const unmeasured = ['load-failed', 'pageerror', 'not-hydrated'].filter((k) => summary[k]?.length);
+if (total || unmeasured.length) {
+  const why = [total ? `${total} violation node(s)` : null, ...unmeasured.map((k) => `${summary[k].length} ${k}`)];
+  console.error(`axe sweep failed: ${why.filter(Boolean).join(', ')}. The summary above lists the routes.`);
+  process.exit(1);
+}

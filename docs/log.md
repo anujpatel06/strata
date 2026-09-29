@@ -6,6 +6,65 @@ Numbers only with the command that produced them. Design trade-offs get an ADR i
 
 ---
 
+## 2026-09-29 (CI) — the accessibility sweeps run in CI, and the axe sweep can now fail
+
+**Changed**
+- **New CI job `a11y` (`axe · overlay exit`)** in `.github/workflows/ci.yml`: builds the docs export, serves it, and
+  runs `scripts/axe-sweep.mjs` and `scripts/check-overlay-exit.mjs` against it. Until now both were `/verify` step 9
+  only — run locally by whoever remembered, and asserted in the PR description by hand.
+- **`scripts/axe-sweep.mjs` now exits non-zero.** It printed `violation nodes: N` and exited 0 whatever N was, so
+  putting it in CI unchanged would have bought a green tick and nothing else. It now fails on a violation node, and
+  on a route it could not measure — `load-failed`, `pageerror`, `not-hydrated` — so an unmeasured route cannot read
+  as a clean one. `check-overlay-exit.mjs` already exited non-zero and was left alone.
+- **`.github/PULL_REQUEST_TEMPLATE.md`** gains an accessibility line that points at the job rather than asking for a
+  number: "There is no violation count to paste here by hand; CI is what asserts it."
+- The job reads the port from serve's own output instead of assuming 3000, because `serve out -l 3000` falls back to
+  a random port when 3000 is taken and still exits 0. Both scripts then assert the served build id
+  (`scripts/served-build.mjs`), which is what proves they measured this build.
+
+**Decided**
+- **Add the sweeps to CI rather than drop the claim — Claude recommended, pending Anuj.** The choice was between
+  enforcing the accessibility claim and deleting it. Enforcing it costs nothing on the critical path: the sweeps run
+  as their own job beside `verify`, not inside it, so a PR's feedback time stays whatever `verify` takes. The two
+  jobs are independent — `a11y` needs only `pnpm install` and the docs build, since every workspace package's
+  `exports` resolves to its own source.
+- **A separate job, not a step in `verify` — Claude.** Locally the two sweeps take 10m56s together, and adding that
+  to `verify` would lengthen the wait on every PR, including ones that touch no UI. The first run on a runner
+  settles what beside-it actually costs: `a11y` 16.4 min against `verify`'s 11.8, started together, so a PR's wait
+  went from about twelve minutes to about sixteen. **Not free, as a draft of this entry claimed** — `a11y` is the
+  critical path now; it is simply cheaper than the ~28 minutes it would have cost inside `verify`. It also keeps a
+  failure legible: a red `axe · overlay exit` names what broke without reading a log.
+- **An unmeasured route fails the sweep — Claude.** The 2026-09-27 entry is the precedent: the 8 nodes once seen on
+  `/blocks` appeared only when axe ran ahead of hydration. A route that did not load or did not hydrate tells you
+  nothing about its accessibility, and a gate that treats silence as success is the fault this whole entry is about.
+
+**Results**
+Measured on this branch against the static export, 113 routes.
+
+- `pnpm --filter @syntara/docs build`: 81 pages, 27s.
+- `node scripts/axe-sweep.mjs`: 113 routes × 2 schemes, **0 violation nodes**, empty summary, **9m04s**.
+- `node scripts/check-overlay-exit.mjs`: 108 tooltips, 4 menus and popovers, 0 failures, **1m52s**.
+- **The new gate was tested in both directions, not just written.** Against a page with a missing `alt`, an empty
+  button and an empty link: `6 violation node(s), 2 not-hydrated`, **exit 1**. Against two real routes: `0 violation
+  nodes`, **exit 0**. Before the change the same broken page printed its 6 nodes and exited 0.
+- **On a runner** (run `36595744517`, the first): `a11y` **16.4 min**, `verify` **11.8 min**, both green, both
+  started 16:10:21Z. The axe sweep found 0 violation nodes there too. Well inside the 45-minute ceiling.
+- The serve block was run verbatim from the workflow. Port 3000 was already taken by another session, serve fell back
+  to **58738** and exited 0 as documented, and the block read 58738 from serve's output; `check-overlay-exit.mjs`
+  then passed against it. That is the CLAUDE.md gotcha reproduced live, and the reason the port is not assumed.
+
+**Found by measuring, not fixed**
+- The existing hydration step in `verify` still assumes port 3000 (`curl ... http://localhost:3000/`). On a fresh
+  GitHub runner nothing else binds 3000, and all six step-9 scripts assert the build id before measuring, so a wrong
+  port fails loudly rather than silently. Left alone rather than risk a working job; the `a11y` job shows the pattern
+  to copy if it ever does bite.
+- `a11y` is now the slowest job in CI, so it sets how long a PR waits. 16.4 minutes against a 45-minute ceiling
+  leaves room, but the margin is worth watching as routes are added: the sweep is 113 routes × 2 schemes today.
+
+**Next**
+- Anuj: this closes the CI gap recorded under "Found by measuring, not fixed" in the 2026-09-29 icons entry. The
+  runtime question it raised is answered above — 16.4 minutes, comfortably inside the ceiling. If route growth ever
+  brings it near 45, sharding by scheme across two jobs is the next move and the script needs no change for it.
 ## 2026-09-29 (process) — the branch was fifteen commits stale, and the same bug had two answers
 
 Mostly repair of how this repo is being worked on, not new work. Anuj asked for a read on the process; the read found a
