@@ -133,5 +133,6 @@
     "rim",
     "hairline",
     "color.border.subtle"
-  ]
+  ],
+  "opens": "trigger only — the panel opens beside the button"
 }

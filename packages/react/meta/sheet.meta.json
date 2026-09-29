@@ -157,5 +157,6 @@
     "rim",
     "hairline",
     "color.border.subtle"
-  ]
+  ],
+  "opens": "trigger only — the sheet slides in from the edge"
 }

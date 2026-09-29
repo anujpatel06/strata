@@ -230,5 +230,6 @@
     "glass.opacity",
     "sheen",
     "rim"
-  ]
+  ],
+  "opens": "trigger only — the palette opens with ⌘K or the button"
 }

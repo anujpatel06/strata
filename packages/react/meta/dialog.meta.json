@@ -190,5 +190,6 @@
     "rim",
     "hairline",
     "color.border.subtle"
-  ]
+  ],
+  "opens": "trigger only — the dialog opens over the page"
 }

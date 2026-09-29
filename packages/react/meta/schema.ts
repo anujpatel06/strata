@@ -88,6 +88,13 @@ export interface ComponentMeta {
   /** Tokens this component reads, e.g. ["color.action.primary.*", "radius.button", "control-height"]. */
   tokens: string[];
   /**
+   * For a component whose surface portals to `<body>` (ADR-012), so its example shows only the trigger: one
+   * lower-case phrase naming what a still of that example leaves out, e.g. "trigger only — the menu opens under
+   * the button". The component index writes it as a caption under the still. Leave it out for every other
+   * component; a component whose example shows the whole thing has nothing to caption.
+   */
+  opens?: string;
+  /**
    * Other packages a consumer imports to use this component, beyond '@syntara/react'. Leave it out when there are none.
    * The MCP server's get_component returns it. `pnpm check:meta` checks each package is in `dependencies` and each name is exported.
    */
