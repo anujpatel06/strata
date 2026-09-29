@@ -1,0 +1,108 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: var(--syntara-space-8);
+}
+
+.header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--syntara-space-4);
+}
+
+.title {
+  margin: 0;
+  font-family: var(--syntara-font-heading);
+  font-size: var(--syntara-font-size-3xl);
+  font-weight: var(--syntara-font-weight-semibold);
+  letter-spacing: var(--syntara-font-heading-tracking);
+  color: var(--syntara-color-text-default);
+}
+
+.subtitle {
+  margin: var(--syntara-space-2) 0 0;
+  max-inline-size: 52ch;
+  color: var(--syntara-color-text-subtle);
+  font-size: var(--syntara-font-size-md);
+}
+
+.list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr));
+  gap: var(--syntara-space-4);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.list > li {
+  min-inline-size: 0;
+}
+
+.identity {
+  display: flex;
+  align-items: center;
+  gap: var(--syntara-space-3);
+  min-inline-size: 0;
+}
+
+.category {
+  margin: 0;
+  color: var(--syntara-color-text-subtle);
+  font-size: var(--syntara-font-size-sm);
+}
+
+.cardActions {
+  display: flex;
+  align-items: center;
+  gap: var(--syntara-space-2);
+}
+
+.details {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
+  gap: var(--syntara-space-4);
+}
+
+.detailItem {
+  display: flex;
+  flex-direction: column;
+  gap: var(--syntara-space-1);
+  min-inline-size: 0;
+}
+
+.detailLabel {
+  color: var(--syntara-color-text-subtle);
+  font-size: var(--syntara-font-size-xs);
+  text-transform: uppercase;
+  letter-spacing: var(--syntara-font-tracking-caps);
+}
+
+.detailValue {
+  display: flex;
+  align-items: center;
+  gap: var(--syntara-space-1);
+  color: var(--syntara-color-text-default);
+  font-size: var(--syntara-font-size-md);
+}
+
+.detailIcon {
+  inline-size: 1em;
+  block-size: 1em;
+  color: var(--syntara-color-text-subtle);
+  flex-shrink: 0;
+}
+
+.form {
+  display: grid;
+  gap: var(--syntara-field-gap, var(--syntara-space-4));
+}
+
+.formFooter {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: var(--syntara-space-2);
+}

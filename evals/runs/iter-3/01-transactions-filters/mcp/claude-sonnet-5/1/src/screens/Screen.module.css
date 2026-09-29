@@ -1,0 +1,79 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: var(--syntara-space-6);
+  padding-block: var(--syntara-space-8);
+  padding-inline: var(--syntara-space-6);
+  max-inline-size: 1120px;
+  margin-inline: auto;
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--syntara-space-1);
+}
+
+.title {
+  margin: 0;
+  font-family: var(--syntara-font-heading);
+  font-size: var(--syntara-font-size-xl);
+  font-weight: var(--syntara-font-weight-semibold);
+  color: var(--syntara-color-text-default);
+}
+
+.description {
+  margin: 0;
+  font-size: var(--syntara-font-size-md);
+  color: var(--syntara-color-text-subtle);
+}
+
+.card {
+  inline-size: 100%;
+}
+
+.toolbar {
+  flex-wrap: wrap;
+}
+
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: var(--syntara-space-3);
+  min-inline-size: 0;
+  flex: 1 1 auto;
+}
+
+.search {
+  flex: 2 1 220px;
+  min-inline-size: 0;
+}
+
+.categorySelect {
+  flex: 1 1 180px;
+  min-inline-size: 0;
+}
+
+.dateRange {
+  flex: 1 1 220px;
+  min-inline-size: 0;
+}
+
+.tools {
+  display: flex;
+  align-items: center;
+  gap: var(--syntara-space-2);
+}
+
+.tableWell {
+  overflow-x: auto;
+}
+
+.table {
+  inline-size: 100%;
+}
+
+.date {
+  color: var(--syntara-color-text-subtle);
+}

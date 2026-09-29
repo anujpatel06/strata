@@ -1,0 +1,135 @@
+.root {
+  display: flex;
+  flex-direction: column;
+}
+
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: var(--syntara-space-8);
+  max-width: 840px;
+  margin-inline: auto;
+  padding-block: var(--syntara-space-8);
+  padding-inline: var(--syntara-space-4);
+  inline-size: 100%;
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--syntara-space-1);
+}
+
+.title {
+  margin: 0;
+  font-family: var(--syntara-font-heading);
+  font-size: var(--syntara-font-size-3xl);
+  font-weight: var(--syntara-font-weight-semibold);
+  letter-spacing: var(--syntara-font-heading-tracking);
+  line-height: var(--syntara-line-height-tight);
+  color: var(--syntara-color-text-default);
+}
+
+.description {
+  margin: 0;
+  font-size: var(--syntara-font-size-md);
+  color: var(--syntara-color-text-subtle);
+}
+
+.section {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--syntara-space-4);
+}
+
+@media (min-width: 720px) {
+  .section {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+    gap: var(--syntara-space-8);
+  }
+}
+
+.sectionIntro {
+  display: flex;
+  flex-direction: column;
+  gap: var(--syntara-space-1);
+}
+
+.sectionTitle {
+  margin: 0;
+  font-family: var(--syntara-font-heading);
+  font-size: var(--syntara-font-size-lg);
+  font-weight: var(--syntara-font-weight-semibold);
+  color: var(--syntara-color-text-default);
+}
+
+.sectionDescription {
+  margin: 0;
+  font-size: var(--syntara-font-size-sm);
+  color: var(--syntara-color-text-subtle);
+}
+
+.sectionBody {
+  min-inline-size: 0;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+}
+
+.fieldGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--syntara-space-4);
+}
+
+@media (min-width: 480px) {
+  .fieldGrid {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  }
+}
+
+.footerEnd {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.switches {
+  display: flex;
+  flex-direction: column;
+  gap: var(--syntara-space-4);
+}
+
+.switch {
+  inline-size: 100%;
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--syntara-space-4);
+}
+
+.rowDescription {
+  margin: 0;
+  font-size: var(--syntara-font-size-sm);
+  color: var(--syntara-color-text-subtle);
+  max-inline-size: 48ch;
+}
+
+.dialogBody {
+  display: flex;
+  flex-direction: column;
+  gap: var(--syntara-space-2);
+}
+
+.dialogList {
+  margin: 0;
+  padding-inline-start: var(--syntara-space-5);
+  display: flex;
+  flex-direction: column;
+  gap: var(--syntara-space-1);
+}

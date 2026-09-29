@@ -1,0 +1,93 @@
+{
+  "prompt": "15-team-members",
+  "tags": [
+    "a11y"
+  ],
+  "condition": "mcp",
+  "model": "claude-sonnet-5",
+  "repeat": 2,
+  "iteration": "3",
+  "source": {
+    "commit": "ba85fb6db5596a36fc728d6bf691b7982d3452be",
+    "dirty": []
+  },
+  "startedAt": "2026-09-28T14:20:51.220Z",
+  "wallMs": 121086,
+  "exitCode": 0,
+  "timedOut": false,
+  "editedProtectedFiles": [],
+  "workspaceId": "725668d8878e",
+  "toolCalls": {
+    "Read": 2,
+    "Glob": 1,
+    "mcp__syntara__list_components": 1,
+    "mcp__syntara__get_component": 11,
+    "mcp__syntara__find_icon": 3,
+    "mcp__syntara__get_example": 3,
+    "mcp__syntara__get_pattern": 2,
+    "mcp__syntara__get_tokens": 2,
+    "Write": 2,
+    "mcp__syntara__audit_snippet": 3
+  },
+  "pathsOutsideWorkspace": [],
+  "touchedRepo": false,
+  "usedMemory": false,
+  "readPackages": false,
+  "cli": {
+    "isError": false,
+    "subtype": "success",
+    "turns": 31,
+    "durationMs": 119519,
+    "costUsd": 0.52063,
+    "usage": {
+      "input_tokens": 28,
+      "cache_creation_input_tokens": 64155,
+      "cache_read_input_tokens": 653070,
+      "output_tokens": 13334,
+      "output_tokens_details": {
+        "thinking_tokens": 4186
+      },
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 64155,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 2,
+          "output_tokens": 193,
+          "cache_read_input_tokens": 74073,
+          "cache_creation_input_tokens": 868,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 868
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-sonnet-5": {
+        "inputTokens": 28,
+        "outputTokens": 13334,
+        "cacheReadInputTokens": 653070,
+        "cacheCreationInputTokens": 64155,
+        "webSearchRequests": 0,
+        "costUSD": 0.52063,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 64000,
+        "thinkingTokens": 4186,
+        "canonicalModel": "claude-sonnet-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "finalMessage": "Both score 100 with no findings. The screen is complete: `src/screens/Screen.tsx` renders a \"Team members\" page with a `DataTable` of seven mock people (avatar, name, email, role badge, relative last-active time), a per-row `Menu` for admins to change role or remove (backed by a confirming `AlertDialog`), and an \"Invite\" `Dialog` with an email field and role `Select`. Styles are in `src/screens/Screen.module.css`, using only tokens and logical properties. I can't run the app to visually verify, so this hasn't been checked in a browser."
+  }
+}

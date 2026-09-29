@@ -1,0 +1,76 @@
+.page {
+  display: grid;
+  gap: var(--syntara-space-6);
+  max-inline-size: 960px;
+  margin-inline: auto;
+  padding: var(--syntara-space-8) var(--syntara-space-6);
+}
+
+.header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--syntara-space-4);
+}
+
+.titleBlock {
+  display: grid;
+  gap: var(--syntara-space-1);
+  min-inline-size: 0;
+}
+
+.title {
+  font-family: var(--syntara-font-heading);
+  font-size: var(--syntara-font-size-2xl);
+  font-weight: var(--syntara-font-weight-semibold);
+  letter-spacing: var(--syntara-font-heading-tracking);
+  color: var(--syntara-color-text-default);
+  margin: 0;
+}
+
+.description {
+  font-size: var(--syntara-font-size-md);
+  color: var(--syntara-color-text-subtle);
+  margin: 0;
+}
+
+.member {
+  display: flex;
+  align-items: center;
+  gap: var(--syntara-space-3);
+  min-inline-size: 0;
+}
+
+.memberText {
+  display: grid;
+  gap: var(--syntara-space-1);
+  min-inline-size: 0;
+}
+
+.memberName {
+  font-size: var(--syntara-font-size-md);
+  font-weight: var(--syntara-font-weight-medium);
+  color: var(--syntara-color-text-default);
+}
+
+.memberEmail {
+  font-size: var(--syntara-font-size-sm);
+  color: var(--syntara-color-text-subtle);
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.lastActive {
+  font-size: var(--syntara-font-size-sm);
+  color: var(--syntara-color-text-subtle);
+}
+
+.srOnly {
+  position: absolute;
+  inline-size: 1px;
+  block-size: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}

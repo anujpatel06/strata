@@ -1,0 +1,49 @@
+.root {
+  display: grid;
+  place-items: center;
+  min-block-size: 100vh;
+  padding: var(--syntara-space-6);
+  background-color: var(--syntara-color-surface-canvas);
+}
+
+.card {
+  inline-size: 100%;
+  max-inline-size: 26rem;
+}
+
+.form {
+  display: contents;
+}
+
+.fields {
+  display: grid;
+  gap: var(--syntara-space-4);
+}
+
+.options {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--syntara-space-2);
+}
+
+.forgot {
+  white-space: nowrap;
+}
+
+.submit {
+  inline-size: 100%;
+}
+
+.footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--syntara-space-2);
+}
+
+.footerText {
+  color: var(--syntara-color-text-subtle);
+  font-size: var(--syntara-font-size-sm);
+}

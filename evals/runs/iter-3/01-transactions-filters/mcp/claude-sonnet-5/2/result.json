@@ -1,0 +1,93 @@
+{
+  "prompt": "01-transactions-filters",
+  "tags": [
+    "a11y"
+  ],
+  "condition": "mcp",
+  "model": "claude-sonnet-5",
+  "repeat": 2,
+  "iteration": "3",
+  "source": {
+    "commit": "ba85fb6db5596a36fc728d6bf691b7982d3452be",
+    "dirty": []
+  },
+  "startedAt": "2026-09-28T14:09:58.302Z",
+  "wallMs": 178621,
+  "exitCode": 0,
+  "timedOut": false,
+  "editedProtectedFiles": [],
+  "workspaceId": "7a04b87d6bea",
+  "toolCalls": {
+    "Read": 4,
+    "Glob": 1,
+    "mcp__syntara__list_components": 1,
+    "mcp__syntara__get_component": 10,
+    "mcp__syntara__get_example": 4,
+    "mcp__syntara__get_pattern": 2,
+    "mcp__syntara__find_icon": 5,
+    "mcp__syntara__get_tokens": 2,
+    "Write": 2,
+    "mcp__syntara__audit_snippet": 2
+  },
+  "pathsOutsideWorkspace": [],
+  "touchedRepo": false,
+  "usedMemory": false,
+  "readPackages": false,
+  "cli": {
+    "isError": false,
+    "subtype": "success",
+    "turns": 34,
+    "durationMs": 175981,
+    "costUsd": 0.5555538,
+    "usage": {
+      "input_tokens": 30,
+      "cache_creation_input_tokens": 63055,
+      "cache_read_input_tokens": 660219,
+      "output_tokens": 17123,
+      "output_tokens_details": {
+        "thinking_tokens": 9439
+      },
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 63055,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 2,
+          "output_tokens": 230,
+          "cache_read_input_tokens": 68167,
+          "cache_creation_input_tokens": 5674,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 5674
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-sonnet-5": {
+        "inputTokens": 30,
+        "outputTokens": 17123,
+        "cacheReadInputTokens": 660219,
+        "cacheCreationInputTokens": 63055,
+        "webSearchRequests": 0,
+        "costUSD": 0.5555538,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 64000,
+        "thinkingTokens": 9439,
+        "canonicalModel": "claude-sonnet-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "finalMessage": "This looks correct and complete. I built the transactions screen with a search field, category select, and date range filter above a sortable `DataTable` (date, description, category as `Tag`, status as `Badge`, amount via `Amount`), an \"Export CSV\" button that downloads the currently filtered/sorted rows, and an `EmptyState` with a \"Clear filters\" action when nothing matches. Mock data (12 transactions) lives in `Screen.tsx`; styles use only Syntara tokens and logical properties, and `audit_snippet` scored both files 100 with no findings.\n\nI can't run the app to visually verify, per the task constraints — only static/type-level checks (`audit_snippet`) were possible here."
+  }
+}

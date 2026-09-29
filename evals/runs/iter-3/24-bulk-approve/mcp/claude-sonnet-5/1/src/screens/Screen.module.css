@@ -1,0 +1,38 @@
+.screen {
+  display: grid;
+  gap: var(--syntara-space-6);
+  padding: var(--syntara-space-8);
+  max-inline-size: 100%;
+}
+
+.header {
+  display: grid;
+  gap: var(--syntara-space-2);
+}
+
+.title {
+  margin: 0;
+  font-family: var(--syntara-font-heading);
+  font-size: var(--syntara-font-size-3xl);
+  font-weight: var(--syntara-font-weight-semibold);
+  letter-spacing: var(--syntara-font-heading-tracking);
+  color: var(--syntara-color-text-default);
+}
+
+.subtitle {
+  margin: 0;
+  font-size: var(--syntara-font-size-md);
+  color: var(--syntara-color-text-subtle);
+}
+
+.selectionSummary {
+  font-size: var(--syntara-font-size-sm);
+  font-weight: var(--syntara-font-weight-medium);
+  color: var(--syntara-color-text-subtle);
+}
+
+.toolbarActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--syntara-space-2);
+}

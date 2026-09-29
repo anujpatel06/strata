@@ -1,0 +1,93 @@
+{
+  "prompt": "16-checkout-summary-rtl",
+  "tags": [
+    "rtl"
+  ],
+  "condition": "mcp",
+  "model": "claude-sonnet-5",
+  "repeat": 2,
+  "iteration": "3",
+  "source": {
+    "commit": "ba85fb6db5596a36fc728d6bf691b7982d3452be",
+    "dirty": []
+  },
+  "startedAt": "2026-09-28T14:22:32.906Z",
+  "wallMs": 169098,
+  "exitCode": 0,
+  "timedOut": false,
+  "editedProtectedFiles": [],
+  "workspaceId": "c49af462e7a1",
+  "toolCalls": {
+    "Read": 3,
+    "Glob": 2,
+    "mcp__syntara__list_components": 1,
+    "mcp__syntara__get_pattern": 1,
+    "mcp__syntara__get_component": 8,
+    "mcp__syntara__find_icon": 9,
+    "mcp__syntara__get_example": 3,
+    "mcp__syntara__get_tokens": 1,
+    "Write": 2,
+    "mcp__syntara__audit_snippet": 2
+  },
+  "pathsOutsideWorkspace": [],
+  "touchedRepo": false,
+  "usedMemory": false,
+  "readPackages": false,
+  "cli": {
+    "isError": false,
+    "subtype": "success",
+    "turns": 33,
+    "durationMs": 162562,
+    "costUsd": 0.41751259999999996,
+    "usage": {
+      "input_tokens": 22,
+      "cache_creation_input_tokens": 43780,
+      "cache_read_input_tokens": 330743,
+      "output_tokens": 17620,
+      "output_tokens_details": {
+        "thinking_tokens": 7629
+      },
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 43780,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 2,
+          "output_tokens": 159,
+          "cache_read_input_tokens": 50447,
+          "cache_creation_input_tokens": 4119,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 4119
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-sonnet-5": {
+        "inputTokens": 22,
+        "outputTokens": 17620,
+        "cacheReadInputTokens": 330743,
+        "cacheCreationInputTokens": 43780,
+        "webSearchRequests": 0,
+        "costUSD": 0.41751259999999996,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 64000,
+        "thinkingTokens": 7629,
+        "canonicalModel": "claude-sonnet-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "finalMessage": "Both files score clean on the audit. The screen is complete: `src/screens/Screen.tsx` and `src/screens/Screen.module.css` implement a grocery checkout with an address card (with Change link), a three-way delivery slot choice, an item list with quantity steppers, a promo code field, a price breakdown (subtotal/delivery/discount/total), and a \"Place order\" button — all built from `@syntara/react` components with token-based, logical-property CSS and mock data in the file."
+  }
+}

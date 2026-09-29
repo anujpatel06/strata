@@ -1,0 +1,92 @@
+{
+  "prompt": "14-card-controls",
+  "tags": [
+    "a11y"
+  ],
+  "condition": "mcp",
+  "model": "claude-sonnet-5",
+  "repeat": 2,
+  "iteration": "3",
+  "source": {
+    "commit": "ba85fb6db5596a36fc728d6bf691b7982d3452be",
+    "dirty": []
+  },
+  "startedAt": "2026-09-28T14:19:50.991Z",
+  "wallMs": 156703,
+  "exitCode": 0,
+  "timedOut": false,
+  "editedProtectedFiles": [],
+  "workspaceId": "523d71f90c1b",
+  "toolCalls": {
+    "Read": 6,
+    "mcp__syntara__list_components": 1,
+    "mcp__syntara__get_component": 10,
+    "mcp__syntara__find_icon": 7,
+    "Glob": 5,
+    "mcp__syntara__get_example": 4,
+    "Write": 2,
+    "mcp__syntara__audit_snippet": 2,
+    "Grep": 3
+  },
+  "pathsOutsideWorkspace": [],
+  "touchedRepo": false,
+  "usedMemory": false,
+  "readPackages": true,
+  "cli": {
+    "isError": false,
+    "subtype": "success",
+    "turns": 41,
+    "durationMs": 155133,
+    "costUsd": 0.4719946,
+    "usage": {
+      "input_tokens": 44,
+      "cache_creation_input_tokens": 41413,
+      "cache_read_input_tokens": 823723,
+      "output_tokens": 14151,
+      "output_tokens_details": {
+        "thinking_tokens": 7019
+      },
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 41413,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 2,
+          "output_tokens": 1572,
+          "cache_read_input_tokens": 50353,
+          "cache_creation_input_tokens": 1846,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 1846
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-sonnet-5": {
+        "inputTokens": 44,
+        "outputTokens": 14151,
+        "cacheReadInputTokens": 823723,
+        "cacheCreationInputTokens": 41413,
+        "webSearchRequests": 0,
+        "costUSD": 0.4719946,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 64000,
+        "thinkingTokens": 7019,
+        "canonicalModel": "claude-sonnet-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "finalMessage": "Built the debit card controls screen at `src/screens/Screen.tsx` with styles in `src/screens/Screen.module.css`.\n\n- **Card** header shows an `IconTile`, the card name and masked last four digits, with a status `Badge` (Active/Frozen, dot + words + icon when frozen).\n- **Freeze** is a `Switch`; when on, an `Alert` (`live=\"polite\"`) explains the other controls don't apply, and the online payments, contactless and international `Switch` rows plus the daily-limit `Slider` all get `isDisabled`.\n- **Daily spending limit** uses a `Slider` with `formatOptions` for currency, showing the live value.\n- Layout uses CSS module classes only, logical properties (`inline-size`, `padding-block`, etc.), token variables, and wrapping flex rows so nothing overflows at 390px.\n\n`audit_snippet` scored both files 100/0 findings. I couldn't run the dev server per your instructions, so this hasn't been visually verified in a browser."
+  }
+}

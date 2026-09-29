@@ -1,0 +1,81 @@
+.page {
+  display: flex;
+  justify-content: center;
+  padding: var(--syntara-space-6);
+  inline-size: 100%;
+}
+
+.card {
+  inline-size: 100%;
+  max-inline-size: 640px;
+}
+
+.timeline {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.item {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  column-gap: var(--syntara-space-3);
+}
+
+.markerColumn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.connector {
+  flex: 1;
+  inline-size: 1px;
+  min-block-size: var(--syntara-space-6);
+  margin-block: var(--syntara-space-1);
+  background-color: var(--syntara-color-border-default);
+}
+
+.content {
+  min-inline-size: 0;
+  padding-block-end: var(--syntara-space-6);
+}
+
+.metaRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--syntara-space-2);
+  padding-block-start: var(--syntara-space-1);
+}
+
+.time {
+  font-size: var(--syntara-font-size-xs);
+  font-weight: var(--syntara-font-weight-medium);
+  color: var(--syntara-color-text-subtle);
+}
+
+.description {
+  margin: var(--syntara-space-1) 0 0;
+  font-size: var(--syntara-font-size-sm);
+  line-height: var(--syntara-line-height-normal);
+  color: var(--syntara-color-text-default);
+}
+
+.actor {
+  font-weight: var(--syntara-font-weight-semibold);
+}
+
+.role {
+  color: var(--syntara-color-text-subtle);
+}
+
+.actionRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--syntara-space-3);
+  margin-block-start: var(--syntara-space-3);
+}

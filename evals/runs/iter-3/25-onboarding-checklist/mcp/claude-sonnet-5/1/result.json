@@ -1,0 +1,94 @@
+{
+  "prompt": "25-onboarding-checklist",
+  "tags": [
+    "multi-brand"
+  ],
+  "condition": "mcp",
+  "model": "claude-sonnet-5",
+  "repeat": 1,
+  "iteration": "3",
+  "source": {
+    "commit": "ba85fb6db5596a36fc728d6bf691b7982d3452be",
+    "dirty": []
+  },
+  "startedAt": "2026-09-28T14:32:38.567Z",
+  "wallMs": 128764,
+  "exitCode": 0,
+  "timedOut": false,
+  "editedProtectedFiles": [],
+  "workspaceId": "4e7fd4c752e8",
+  "toolCalls": {
+    "Read": 4,
+    "Glob": 2,
+    "mcp__syntara__list_components": 1,
+    "mcp__syntara__get_pattern": 1,
+    "mcp__syntara__get_component": 7,
+    "mcp__syntara__find_icon": 11,
+    "mcp__syntara__get_example": 4,
+    "Write": 2,
+    "Edit": 1,
+    "mcp__syntara__get_tokens": 3,
+    "mcp__syntara__audit_snippet": 2
+  },
+  "pathsOutsideWorkspace": [],
+  "touchedRepo": false,
+  "usedMemory": false,
+  "readPackages": false,
+  "cli": {
+    "isError": false,
+    "subtype": "success",
+    "turns": 39,
+    "durationMs": 127147,
+    "costUsd": 0.3964247999999999,
+    "usage": {
+      "input_tokens": 30,
+      "cache_creation_input_tokens": 43564,
+      "cache_read_input_tokens": 543094,
+      "output_tokens": 11349,
+      "output_tokens_details": {
+        "thinking_tokens": 2891
+      },
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 43564,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 2,
+          "output_tokens": 329,
+          "cache_read_input_tokens": 53475,
+          "cache_creation_input_tokens": 875,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 875
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-sonnet-5": {
+        "inputTokens": 30,
+        "outputTokens": 11349,
+        "cacheReadInputTokens": 543094,
+        "cacheCreationInputTokens": 43564,
+        "webSearchRequests": 0,
+        "costUSD": 0.3964247999999999,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 64000,
+        "thinkingTokens": 2891,
+        "canonicalModel": "claude-sonnet-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "finalMessage": "Both files score 100 with no findings. The screen is complete:\n\n- **Card** header with title, description, and an overall **ProgressBar** (\"2 of 5 done\").\n- **Accordion** with 5 **AccordionItem**s, each openable to show a summary, a \"what this involves\" list, and a **Button** to start it.\n- Two steps (\"Verify your email\", \"Confirm your business details\") show as done — success badge/icon-tile, button reads \"Completed\" and is disabled.\n- \"Connect your first integration\" is locked, showing a lock badge/icon and an explicit note (\"Locked until you finish 'Add a payment method'.\"), with its Start button disabled.\n- All colours/spacing use `var(--syntara-*)` tokens, layout uses logical properties (`inline-size`, `padding-inline-start`, `text-align: start`), and every control has an accessible name.\n\nI can't run the app to visually verify, so I'd recommend a quick check in a browser across brands/schemes/RTL before shipping."
+  }
+}

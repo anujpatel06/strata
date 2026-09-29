@@ -1,0 +1,95 @@
+{
+  "prompt": "18-payment-schedule",
+  "tags": [
+    "multi-brand"
+  ],
+  "condition": "mcp",
+  "model": "claude-sonnet-5",
+  "repeat": 1,
+  "iteration": "3",
+  "source": {
+    "commit": "ba85fb6db5596a36fc728d6bf691b7982d3452be",
+    "dirty": []
+  },
+  "startedAt": "2026-09-28T14:23:47.546Z",
+  "wallMs": 345294,
+  "exitCode": 0,
+  "timedOut": false,
+  "editedProtectedFiles": [],
+  "workspaceId": "e974c8a9e812",
+  "toolCalls": {
+    "Read": 7,
+    "Glob": 4,
+    "mcp__syntara__list_components": 1,
+    "mcp__syntara__get_component": 14,
+    "mcp__syntara__find_icon": 9,
+    "Grep": 5,
+    "mcp__syntara__get_example": 9,
+    "Write": 2,
+    "mcp__syntara__get_tokens": 2,
+    "Edit": 1,
+    "mcp__syntara__audit_snippet": 2,
+    "mcp__syntara__find_token": 1
+  },
+  "pathsOutsideWorkspace": [],
+  "touchedRepo": false,
+  "usedMemory": false,
+  "readPackages": true,
+  "cli": {
+    "isError": false,
+    "subtype": "success",
+    "turns": 58,
+    "durationMs": 309716,
+    "costUsd": 0.8915888,
+    "usage": {
+      "input_tokens": 52,
+      "cache_creation_input_tokens": 83301,
+      "cache_read_input_tokens": 1530604,
+      "output_tokens": 25216,
+      "output_tokens_details": {
+        "thinking_tokens": 13031
+      },
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 83301,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 2,
+          "output_tokens": 952,
+          "cache_read_input_tokens": 90798,
+          "cache_creation_input_tokens": 3289,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 3289
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-sonnet-5": {
+        "inputTokens": 52,
+        "outputTokens": 25216,
+        "cacheReadInputTokens": 1530604,
+        "cacheCreationInputTokens": 83301,
+        "webSearchRequests": 0,
+        "costUSD": 0.8915888,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 64000,
+        "thinkingTokens": 13031,
+        "canonicalModel": "claude-sonnet-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "finalMessage": "Built the scheduled payments screen at `src/screens/Screen.tsx` with styles in `Screen.module.css`.\n\n- A `DataTable` inside a `Card` lists six mock upcoming payments (payee, amount via `Amount`, next date, repeat cadence via `Tag`, and status via `Badge`).\n- Each row has a `Menu` (kebab button, labelled `Actions for {payee}`) with **Pause/Resume**, **Edit** and **Cancel payment** (danger tone, last, after a separator).\n- Edit opens a `Dialog` prefilled with payee/amount/date/frequency fields (`TextField`, `DatePicker`, `Select`).\n- Cancel opens an `AlertDialog` warning it can't be undone; confirming removes the row for good.\n- \"Schedule a payment\" opens the same field set in a fresh `Dialog` and appends a new row.\n- Toasts (`ToastRegion`/`toast`) confirm pause/resume, edits, cancellations and new schedules.\n\nBoth files pass `audit_snippet` with a score of 100 and no findings. I can't run the app to visually verify in a browser, so please check it renders as expected across brands/locales/densities."
+  }
+}

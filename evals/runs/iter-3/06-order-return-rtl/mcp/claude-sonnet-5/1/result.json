@@ -1,0 +1,94 @@
+{
+  "prompt": "06-order-return-rtl",
+  "tags": [
+    "rtl"
+  ],
+  "condition": "mcp",
+  "model": "claude-sonnet-5",
+  "repeat": 1,
+  "iteration": "3",
+  "source": {
+    "commit": "ba85fb6db5596a36fc728d6bf691b7982d3452be",
+    "dirty": []
+  },
+  "startedAt": "2026-09-28T14:13:00.194Z",
+  "wallMs": 111108,
+  "exitCode": 0,
+  "timedOut": false,
+  "editedProtectedFiles": [],
+  "workspaceId": "a8f19fb80b9e",
+  "toolCalls": {
+    "Read": 2,
+    "Glob": 1,
+    "mcp__syntara__list_components": 1,
+    "mcp__syntara__get_component": 7,
+    "mcp__syntara__find_icon": 1,
+    "mcp__syntara__get_example": 5,
+    "mcp__syntara__get_pattern": 1,
+    "mcp__syntara__get_tokens": 3,
+    "Write": 2,
+    "Edit": 1,
+    "mcp__syntara__audit_snippet": 2
+  },
+  "pathsOutsideWorkspace": [],
+  "touchedRepo": false,
+  "usedMemory": false,
+  "readPackages": false,
+  "cli": {
+    "isError": false,
+    "subtype": "success",
+    "turns": 27,
+    "durationMs": 109526,
+    "costUsd": 0.3525212,
+    "usage": {
+      "input_tokens": 22,
+      "cache_creation_input_tokens": 40356,
+      "cache_read_input_tokens": 343366,
+      "output_tokens": 12238,
+      "output_tokens_details": {
+        "thinking_tokens": 4392
+      },
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 40356,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 2,
+          "output_tokens": 292,
+          "cache_read_input_tokens": 48154,
+          "cache_creation_input_tokens": 2988,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 2988
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-sonnet-5": {
+        "inputTokens": 22,
+        "outputTokens": 12238,
+        "cacheReadInputTokens": 343366,
+        "cacheCreationInputTokens": 40356,
+        "webSearchRequests": 0,
+        "costUSD": 0.3525212,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 64000,
+        "thinkingTokens": 4392,
+        "canonicalModel": "claude-sonnet-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "finalMessage": "Both files score 100 with no findings. The screen is complete:\n\n- **Back link** — `Link variant=\"standalone\"` with `IconArrowLeft` (flips automatically in RTL) at `src/screens/Screen.tsx:88`.\n- **Item list** — each order item shows name (as the `Checkbox` label), quantity, unit price and line total (`Amount`), inside a `Card`.\n- **Per-item reason** — a required `Select` of return reasons appears once an item is checked.\n- **Refund total** — recomputed live from selected items' quantity × unit price via `Amount`.\n- **Submit** — `Button` disabled until at least one item is selected and every selected item has a reason.\n\nAll copy is in English (per instructions), components/tokens/icons came from the Syntara MCP server, and `audit_snippet` reported a clean 100/100 for both the TSX and CSS module."
+  }
+}

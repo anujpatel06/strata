@@ -1,0 +1,48 @@
+.page {
+  min-block-size: 100%;
+  background-color: var(--syntara-color-surface-canvas);
+  padding-block: var(--syntara-space-8);
+  padding-inline: var(--syntara-space-4);
+}
+
+.container {
+  display: grid;
+  gap: var(--syntara-space-6);
+  inline-size: 100%;
+  max-inline-size: 640px;
+  margin-inline: auto;
+}
+
+.intro {
+  display: grid;
+  gap: var(--syntara-space-2);
+}
+
+.title {
+  margin: 0;
+  font-family: var(--syntara-font-heading);
+  font-size: var(--syntara-font-size-xl);
+  font-weight: var(--syntara-font-weight-semibold);
+  letter-spacing: var(--syntara-font-tracking-xl);
+  color: var(--syntara-color-text-default);
+}
+
+.card {
+  inline-size: 100%;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--syntara-space-3);
+}
+
+.directional {
+  transform: scaleX(1);
+}
+
+:global([dir='rtl']) .directional {
+  transform: scaleX(-1);
+}

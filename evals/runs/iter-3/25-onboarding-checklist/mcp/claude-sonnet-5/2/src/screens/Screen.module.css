@@ -1,0 +1,99 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: var(--syntara-space-6);
+  max-inline-size: 720px;
+  margin-inline: auto;
+  padding: var(--syntara-space-8) var(--syntara-space-4);
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--syntara-space-2);
+}
+
+.heading {
+  margin: 0;
+  font-family: var(--syntara-font-heading);
+  font-size: var(--syntara-font-size-3xl);
+  font-weight: var(--syntara-font-weight-semibold);
+  letter-spacing: var(--syntara-font-tracking-3xl);
+  color: var(--syntara-color-text-default);
+}
+
+.description {
+  margin: 0;
+  max-inline-size: 60ch;
+  font-size: var(--syntara-font-size-md);
+  line-height: var(--syntara-line-height-normal);
+  color: var(--syntara-color-text-subtle);
+}
+
+.progressCard {
+  inline-size: 100%;
+}
+
+.stepTitle {
+  display: flex;
+  align-items: center;
+  gap: var(--syntara-space-3);
+  min-inline-size: 0;
+}
+
+.stepTitleText {
+  flex: 1 1 auto;
+  min-inline-size: 0;
+  font-weight: var(--syntara-font-weight-medium);
+  color: var(--syntara-color-text-default);
+}
+
+.stepContent {
+  display: flex;
+  flex-direction: column;
+  gap: var(--syntara-space-4);
+}
+
+.stepSummary {
+  margin: 0;
+  color: var(--syntara-color-text-subtle);
+}
+
+.involvesLabel {
+  margin: 0 0 var(--syntara-space-2);
+  font-size: var(--syntara-font-size-xs);
+  font-weight: var(--syntara-font-weight-medium);
+  letter-spacing: var(--syntara-font-tracking-caps);
+  text-transform: uppercase;
+  color: var(--syntara-color-text-subtle);
+}
+
+.involvesList {
+  margin: 0;
+  padding-inline-start: var(--syntara-space-5);
+  display: flex;
+  flex-direction: column;
+  gap: var(--syntara-space-1);
+  color: var(--syntara-color-text-default);
+}
+
+.lockedNote {
+  display: flex;
+  align-items: center;
+  gap: var(--syntara-space-2);
+  margin: 0;
+  padding: var(--syntara-space-3);
+  border-radius: var(--syntara-radius-badge);
+  background: var(--syntara-color-surface-sunken);
+  color: var(--syntara-color-text-subtle);
+  font-size: var(--syntara-font-size-sm);
+}
+
+.lockedIcon {
+  flex-shrink: 0;
+}
+
+.stepActions {
+  display: flex;
+  justify-content: flex-end;
+}

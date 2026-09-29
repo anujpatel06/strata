@@ -1,0 +1,43 @@
+.page {
+  display: grid;
+  gap: var(--syntara-space-6);
+  inline-size: 100%;
+  max-inline-size: 960px;
+  margin-inline: auto;
+  padding: var(--syntara-space-6);
+}
+
+.header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--syntara-space-4);
+}
+
+.title {
+  margin: 0;
+  font-family: var(--syntara-font-heading);
+  font-size: var(--syntara-font-size-xl);
+  font-weight: var(--syntara-font-weight-semibold);
+  color: var(--syntara-color-text-default);
+}
+
+.categoryList {
+  display: grid;
+  gap: var(--syntara-space-5);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.categoryRow {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  gap: var(--syntara-space-3);
+}
+
+.meter {
+  min-inline-size: 0;
+}

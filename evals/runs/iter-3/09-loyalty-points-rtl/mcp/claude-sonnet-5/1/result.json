@@ -1,0 +1,96 @@
+{
+  "prompt": "09-loyalty-points-rtl",
+  "tags": [
+    "rtl",
+    "multi-brand"
+  ],
+  "condition": "mcp",
+  "model": "claude-sonnet-5",
+  "repeat": 1,
+  "iteration": "3",
+  "source": {
+    "commit": "ba85fb6db5596a36fc728d6bf691b7982d3452be",
+    "dirty": []
+  },
+  "startedAt": "2026-09-28T14:15:36.635Z",
+  "wallMs": 374687,
+  "exitCode": 0,
+  "timedOut": false,
+  "editedProtectedFiles": [],
+  "workspaceId": "164cf89300a9",
+  "toolCalls": {
+    "Read": 7,
+    "Glob": 8,
+    "mcp__syntara__list_components": 1,
+    "mcp__syntara__get_component": 12,
+    "mcp__syntara__find_icon": 4,
+    "mcp__syntara__get_example": 7,
+    "mcp__syntara__get_pattern": 2,
+    "Grep": 8,
+    "mcp__syntara__get_tokens": 5,
+    "Write": 2,
+    "Edit": 2,
+    "mcp__syntara__audit_snippet": 2
+  },
+  "pathsOutsideWorkspace": [],
+  "touchedRepo": false,
+  "usedMemory": false,
+  "readPackages": true,
+  "cli": {
+    "isError": false,
+    "subtype": "success",
+    "turns": 61,
+    "durationMs": 373233,
+    "costUsd": 1.1650838000000001,
+    "usage": {
+      "input_tokens": 82,
+      "cache_creation_input_tokens": 86500,
+      "cache_read_input_tokens": 2535099,
+      "output_tokens": 31190,
+      "output_tokens_details": {
+        "thinking_tokens": 20654
+      },
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 86500,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 2,
+          "output_tokens": 2057,
+          "cache_read_input_tokens": 96471,
+          "cache_creation_input_tokens": 815,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 815
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-sonnet-5": {
+        "inputTokens": 82,
+        "outputTokens": 31190,
+        "cacheReadInputTokens": 2535099,
+        "cacheCreationInputTokens": 86500,
+        "webSearchRequests": 0,
+        "costUSD": 1.1650838000000001,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 64000,
+        "thinkingTokens": 20654,
+        "canonicalModel": "claude-sonnet-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "finalMessage": "Built the loyalty points screen at `src/screens/Screen.tsx` with styles in `src/screens/Screen.module.css`:\n\n- **Balance**: a `StatTile` showing the points balance and current tier as a caption.\n- **Progress to next tier**: a `Card` with a `Meter` showing points earned against the next tier's threshold, plus a description of points remaining.\n- **Recent activity**: a `Card` with a `DataTable` listing six mock point changes (three earned, three spent), each with a date, description and a signed points amount (icon + sign, never colour alone).\n- **Redeem**: a primary `Button` with `IconGift` that fires a success `toast` (via a `ToastRegion` mounted in the screen).\n\nLayout uses logical properties and token-based sizing/colour throughout (grid columns are `minmax(0,1fr)`-safe via `auto-fit`, and the header wraps at narrow widths), copy is in English, and both the `.tsx` and `.css` scored 100 with no findings on `audit_snippet`. I couldn't run the app per the instructions, so this hasn't been visually verified in a browser."
+  }
+}

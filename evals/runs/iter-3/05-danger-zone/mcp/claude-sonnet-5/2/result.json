@@ -1,0 +1,90 @@
+{
+  "prompt": "05-danger-zone",
+  "tags": [
+    "a11y"
+  ],
+  "condition": "mcp",
+  "model": "claude-sonnet-5",
+  "repeat": 2,
+  "iteration": "3",
+  "source": {
+    "commit": "ba85fb6db5596a36fc728d6bf691b7982d3452be",
+    "dirty": []
+  },
+  "startedAt": "2026-09-28T14:12:46.682Z",
+  "wallMs": 95738,
+  "exitCode": 0,
+  "timedOut": false,
+  "editedProtectedFiles": [],
+  "workspaceId": "5372cf36ca13",
+  "toolCalls": {
+    "Read": 3,
+    "mcp__syntara__list_components": 1,
+    "mcp__syntara__get_pattern": 1,
+    "mcp__syntara__get_component": 7,
+    "mcp__syntara__get_tokens": 3,
+    "Write": 2,
+    "mcp__syntara__audit_snippet": 2
+  },
+  "pathsOutsideWorkspace": [],
+  "touchedRepo": false,
+  "usedMemory": false,
+  "readPackages": false,
+  "cli": {
+    "isError": false,
+    "subtype": "success",
+    "turns": 20,
+    "durationMs": 94217,
+    "costUsd": 0.34745080000000006,
+    "usage": {
+      "input_tokens": 24,
+      "cache_creation_input_tokens": 41818,
+      "cache_read_input_tokens": 407404,
+      "output_tokens": 9865,
+      "output_tokens_details": {
+        "thinking_tokens": 1546
+      },
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 41818,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 2,
+          "output_tokens": 149,
+          "cache_read_input_tokens": 51283,
+          "cache_creation_input_tokens": 1321,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 1321
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-sonnet-5": {
+        "inputTokens": 24,
+        "outputTokens": 9865,
+        "cacheReadInputTokens": 407404,
+        "cacheCreationInputTokens": 41818,
+        "webSearchRequests": 0,
+        "costUSD": 0.34745080000000006,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 64000,
+        "thinkingTokens": 1546,
+        "canonicalModel": "claude-sonnet-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "finalMessage": "Both files scored 100 on the audit. The screen is complete: `src/screens/Screen.tsx` and `src/screens/Screen.module.css` implement profile details (name/email/phone form), notification preferences (four switches), and a close-account danger section whose button opens an `AlertDialog` listing exactly what will be lost before confirming. All built from `@syntara/react` components, tokens only, logical properties, and a single-column layout at narrow widths."
+  }
+}

@@ -1,0 +1,114 @@
+.screen {
+  display: grid;
+  gap: var(--syntara-space-6);
+}
+
+.header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--syntara-space-3);
+}
+
+.headerText {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--syntara-space-3);
+  min-inline-size: 0;
+}
+
+.heading {
+  margin: 0;
+  font-family: var(--syntara-font-heading);
+  font-size: var(--syntara-font-size-xl);
+  font-weight: var(--syntara-font-weight-semibold);
+  color: var(--syntara-color-text-default);
+}
+
+.filters {
+  max-inline-size: 100%;
+}
+
+.groups {
+  display: grid;
+  gap: var(--syntara-space-8);
+}
+
+.group {
+  display: grid;
+  gap: var(--syntara-space-3);
+  min-inline-size: 0;
+}
+
+.groupHeading {
+  margin: 0;
+  font-size: var(--syntara-font-size-sm);
+  font-weight: var(--syntara-font-weight-medium);
+  color: var(--syntara-color-text-subtle);
+}
+
+.list {
+  display: grid;
+  gap: var(--syntara-space-3);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  min-inline-size: 0;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: start;
+  gap: var(--syntara-space-4);
+}
+
+.content {
+  display: grid;
+  gap: var(--syntara-space-1);
+  min-inline-size: 0;
+}
+
+.titleRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--syntara-space-2);
+  min-inline-size: 0;
+}
+
+.title {
+  font-size: var(--syntara-font-size-sm);
+  font-weight: var(--syntara-font-weight-medium);
+  color: var(--syntara-color-text-default);
+}
+
+.detail {
+  margin: 0;
+  font-size: var(--syntara-font-size-sm);
+  color: var(--syntara-color-text-subtle);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  min-inline-size: 0;
+}
+
+.meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--syntara-space-2);
+  margin-block-start: var(--syntara-space-1);
+}
+
+.time {
+  font-size: var(--syntara-font-size-xs);
+  color: var(--syntara-color-text-subtle);
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+}

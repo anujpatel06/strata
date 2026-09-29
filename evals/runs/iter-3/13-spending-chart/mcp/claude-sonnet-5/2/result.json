@@ -1,0 +1,95 @@
+{
+  "prompt": "13-spending-chart",
+  "tags": [
+    "multi-brand"
+  ],
+  "condition": "mcp",
+  "model": "claude-sonnet-5",
+  "repeat": 2,
+  "iteration": "3",
+  "source": {
+    "commit": "ba85fb6db5596a36fc728d6bf691b7982d3452be",
+    "dirty": []
+  },
+  "startedAt": "2026-09-28T14:19:40.829Z",
+  "wallMs": 287358,
+  "exitCode": 0,
+  "timedOut": false,
+  "editedProtectedFiles": [],
+  "workspaceId": "1000aebf1fba",
+  "toolCalls": {
+    "Read": 7,
+    "Glob": 2,
+    "mcp__syntara__list_components": 1,
+    "mcp__syntara__get_component": 10,
+    "mcp__syntara__get_pattern": 2,
+    "mcp__syntara__get_example": 7,
+    "mcp__syntara__find_icon": 9,
+    "Grep": 3,
+    "mcp__syntara__get_tokens": 2,
+    "Write": 2,
+    "mcp__syntara__audit_snippet": 2,
+    "Edit": 1
+  },
+  "pathsOutsideWorkspace": [],
+  "touchedRepo": false,
+  "usedMemory": false,
+  "readPackages": true,
+  "cli": {
+    "isError": false,
+    "subtype": "success",
+    "turns": 49,
+    "durationMs": 274571,
+    "costUsd": 0.7324504,
+    "usage": {
+      "input_tokens": 48,
+      "cache_creation_input_tokens": 63579,
+      "cache_read_input_tokens": 1155492,
+      "output_tokens": 24694,
+      "output_tokens_details": {
+        "thinking_tokens": 14591
+      },
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 63579,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 2,
+          "output_tokens": 102,
+          "cache_read_input_tokens": 73369,
+          "cache_creation_input_tokens": 996,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 996
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-sonnet-5": {
+        "inputTokens": 48,
+        "outputTokens": 24694,
+        "cacheReadInputTokens": 1155492,
+        "cacheCreationInputTokens": 63579,
+        "webSearchRequests": 0,
+        "costUSD": 0.7324504,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 64000,
+        "thinkingTokens": 14591,
+        "canonicalModel": "claude-sonnet-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "finalMessage": "Good, that config supports inline type imports fine. The screen is complete: a spending summary with a bar chart of monthly totals, a 3/6/12-month toggle, and the top five categories with amount and share of total, built entirely from Syntara components and tokens (audit score 100/100 for both TSX and CSS)."
+  }
+}

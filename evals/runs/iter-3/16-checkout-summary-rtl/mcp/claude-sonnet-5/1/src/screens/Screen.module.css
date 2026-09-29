@@ -1,0 +1,151 @@
+.page {
+  display: grid;
+  gap: var(--syntara-space-6);
+  padding-block: var(--syntara-space-8);
+  padding-inline: var(--syntara-space-6);
+  max-inline-size: 960px;
+  margin-inline: auto;
+}
+
+.heading {
+  font-family: var(--syntara-font-heading);
+  font-size: var(--syntara-font-size-2xl);
+  font-weight: var(--syntara-font-weight-semibold);
+  letter-spacing: var(--syntara-font-tracking-2xl);
+  color: var(--syntara-color-text-default);
+  margin: 0;
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--syntara-space-6);
+}
+
+@media (min-width: 48rem) {
+  .layout {
+    grid-template-columns: minmax(0, 1.7fr) minmax(0, 1fr);
+    align-items: start;
+  }
+}
+
+.mainColumn,
+.sideColumn {
+  display: grid;
+  gap: var(--syntara-space-6);
+  min-inline-size: 0;
+}
+
+.addressContent {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--syntara-space-3);
+}
+
+.addressIcon {
+  color: var(--syntara-color-text-subtle);
+  flex-shrink: 0;
+  margin-block-start: var(--syntara-space-1);
+}
+
+.addressLabel {
+  font-size: var(--syntara-font-size-md);
+  font-weight: var(--syntara-font-weight-semibold);
+  color: var(--syntara-color-text-default);
+  margin: 0;
+}
+
+.addressLine {
+  font-size: var(--syntara-font-size-sm);
+  color: var(--syntara-color-text-subtle);
+  margin: 0;
+  margin-block-start: var(--syntara-space-1);
+}
+
+.slotGroup {
+  inline-size: 100%;
+}
+
+.itemList {
+  display: grid;
+  gap: var(--syntara-space-3);
+}
+
+.itemRow {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto auto;
+  align-items: center;
+  gap: var(--syntara-space-3);
+  padding-block: var(--syntara-space-2);
+}
+
+.itemInfo {
+  min-inline-size: 0;
+}
+
+.itemName {
+  font-size: var(--syntara-font-size-md);
+  font-weight: var(--syntara-font-weight-medium);
+  color: var(--syntara-color-text-default);
+  margin: 0;
+}
+
+.itemUnit {
+  font-size: var(--syntara-font-size-xs);
+  color: var(--syntara-color-text-subtle);
+  margin: 0;
+  margin-block-start: var(--syntara-space-1);
+}
+
+.stepper {
+  display: flex;
+  align-items: center;
+  gap: var(--syntara-space-2);
+}
+
+.stepperValue {
+  min-inline-size: var(--syntara-space-6);
+  text-align: center;
+  font-size: var(--syntara-font-size-sm);
+  font-weight: var(--syntara-font-weight-medium);
+  color: var(--syntara-color-text-default);
+}
+
+.itemPrice {
+  text-align: end;
+}
+
+.promoForm {
+  display: flex;
+  align-items: flex-end;
+  gap: var(--syntara-space-2);
+}
+
+.promoForm > :first-child {
+  flex: 1;
+  min-inline-size: 0;
+}
+
+.summaryList {
+  display: grid;
+  gap: var(--syntara-space-3);
+}
+
+.summaryRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--syntara-space-3);
+  font-size: var(--syntara-font-size-sm);
+  color: var(--syntara-color-text-subtle);
+}
+
+.totalLabel {
+  font-size: var(--syntara-font-size-md);
+  font-weight: var(--syntara-font-weight-semibold);
+  color: var(--syntara-color-text-default);
+}
+
+.placeOrderButton {
+  inline-size: 100%;
+}

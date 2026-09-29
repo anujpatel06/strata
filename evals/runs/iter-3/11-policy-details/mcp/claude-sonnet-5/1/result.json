@@ -1,0 +1,95 @@
+{
+  "prompt": "11-policy-details",
+  "tags": [
+    "multi-brand"
+  ],
+  "condition": "mcp",
+  "model": "claude-sonnet-5",
+  "repeat": 1,
+  "iteration": "3",
+  "source": {
+    "commit": "ba85fb6db5596a36fc728d6bf691b7982d3452be",
+    "dirty": []
+  },
+  "startedAt": "2026-09-28T14:16:57.329Z",
+  "wallMs": 170140,
+  "exitCode": 0,
+  "timedOut": false,
+  "editedProtectedFiles": [],
+  "workspaceId": "b7b6df456820",
+  "toolCalls": {
+    "Read": 5,
+    "mcp__syntara__list_components": 1,
+    "mcp__syntara__get_component": 10,
+    "mcp__syntara__get_pattern": 1,
+    "mcp__syntara__find_icon": 7,
+    "mcp__syntara__get_example": 4,
+    "Glob": 3,
+    "Grep": 3,
+    "mcp__syntara__get_tokens": 1,
+    "Write": 2,
+    "mcp__syntara__audit_snippet": 2,
+    "Edit": 2
+  },
+  "pathsOutsideWorkspace": [],
+  "touchedRepo": false,
+  "usedMemory": false,
+  "readPackages": true,
+  "cli": {
+    "isError": false,
+    "subtype": "success",
+    "turns": 42,
+    "durationMs": 165392,
+    "costUsd": 0.5435122,
+    "usage": {
+      "input_tokens": 42,
+      "cache_creation_input_tokens": 54242,
+      "cache_read_input_tokens": 875551,
+      "output_tokens": 15135,
+      "output_tokens_details": {
+        "thinking_tokens": 5365
+      },
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 54242,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 2,
+          "output_tokens": 273,
+          "cache_read_input_tokens": 63375,
+          "cache_creation_input_tokens": 1653,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 1653
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-sonnet-5": {
+        "inputTokens": 42,
+        "outputTokens": 15135,
+        "cacheReadInputTokens": 875551,
+        "cacheCreationInputTokens": 54242,
+        "webSearchRequests": 0,
+        "costUSD": 0.5435122,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 64000,
+        "thinkingTokens": 5365,
+        "canonicalModel": "claude-sonnet-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "finalMessage": "CSS looks fine — uses only logical properties and tokens, grid columns use `minmax(0, 1fr)` per the 390px rule, and rows wrap.\n\nThe policy details screen is built at `src/screens/Screen.tsx` and `src/screens/Screen.module.css`, using only Syntara components/tokens (audited at 100/0 findings). It has a header with `IconTile` + policy name/number + status `Badge`, `Tabs` for Cover/Documents/Payments, a two-column Cover list (included/excluded with icon+text, never colour alone), a Documents card with 4 downloadable files, and a Payments tab with the next payment (`Amount`, due date, \"Upcoming\" badge) and the last three payments. I can't run the app to visually verify, so you may want to check it in the browser across brands/RTL."
+  }
+}

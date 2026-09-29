@@ -1,0 +1,92 @@
+{
+  "prompt": "12-address-form",
+  "tags": [
+    "a11y",
+    "rtl"
+  ],
+  "condition": "mcp",
+  "model": "claude-sonnet-5",
+  "repeat": 1,
+  "iteration": "3",
+  "source": {
+    "commit": "ba85fb6db5596a36fc728d6bf691b7982d3452be",
+    "dirty": []
+  },
+  "startedAt": "2026-09-28T14:18:23.038Z",
+  "wallMs": 80950,
+  "exitCode": 0,
+  "timedOut": false,
+  "editedProtectedFiles": [],
+  "workspaceId": "c13a65f49580",
+  "toolCalls": {
+    "Read": 4,
+    "mcp__syntara__list_components": 1,
+    "mcp__syntara__get_component": 5,
+    "mcp__syntara__get_example": 3,
+    "Glob": 1,
+    "mcp__syntara__get_tokens": 1,
+    "Write": 2,
+    "mcp__syntara__audit_snippet": 1
+  },
+  "pathsOutsideWorkspace": [],
+  "touchedRepo": false,
+  "usedMemory": false,
+  "readPackages": false,
+  "cli": {
+    "isError": false,
+    "subtype": "success",
+    "turns": 19,
+    "durationMs": 79306,
+    "costUsd": 0.25842580000000004,
+    "usage": {
+      "input_tokens": 24,
+      "cache_creation_input_tokens": 29244,
+      "cache_read_input_tokens": 325259,
+      "output_tokens": 7635,
+      "output_tokens_details": {
+        "thinking_tokens": 2387
+      },
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 29244,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 2,
+          "output_tokens": 152,
+          "cache_read_input_tokens": 38188,
+          "cache_creation_input_tokens": 1842,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 1842
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-sonnet-5": {
+        "inputTokens": 24,
+        "outputTokens": 7635,
+        "cacheReadInputTokens": 325259,
+        "cacheCreationInputTokens": 29244,
+        "webSearchRequests": 0,
+        "costUSD": 0.25842580000000004,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 64000,
+        "thinkingTokens": 2387,
+        "canonicalModel": "claude-sonnet-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "finalMessage": "Audit score is 100 with no findings. The screen is built at `src/screens/Screen.tsx` with styles in `src/screens/Screen.module.css`: a `Card`-based form with Full name, Phone, Emirate (`Select`), Area, Building, Flat number, and Delivery notes (`TextArea`), using mock state that starts as already-submitted with phone empty and flat number `\"12-B\"` invalid, so those two fields show their errors on load."
+  }
+}

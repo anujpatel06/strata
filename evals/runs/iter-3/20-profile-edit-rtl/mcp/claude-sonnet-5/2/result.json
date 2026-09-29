@@ -1,0 +1,95 @@
+{
+  "prompt": "20-profile-edit-rtl",
+  "tags": [
+    "rtl",
+    "a11y"
+  ],
+  "condition": "mcp",
+  "model": "claude-sonnet-5",
+  "repeat": 2,
+  "iteration": "3",
+  "source": {
+    "commit": "ba85fb6db5596a36fc728d6bf691b7982d3452be",
+    "dirty": []
+  },
+  "startedAt": "2026-09-28T14:27:54.969Z",
+  "wallMs": 225877,
+  "exitCode": 0,
+  "timedOut": false,
+  "editedProtectedFiles": [],
+  "workspaceId": "bcd709d13c85",
+  "toolCalls": {
+    "Read": 5,
+    "Glob": 4,
+    "mcp__syntara__get_pattern": 2,
+    "mcp__syntara__list_components": 1,
+    "mcp__syntara__get_component": 9,
+    "mcp__syntara__find_icon": 2,
+    "mcp__syntara__get_example": 6,
+    "mcp__syntara__get_tokens": 3,
+    "Write": 2,
+    "Edit": 2,
+    "mcp__syntara__audit_snippet": 2
+  },
+  "pathsOutsideWorkspace": [],
+  "touchedRepo": false,
+  "usedMemory": false,
+  "readPackages": false,
+  "cli": {
+    "isError": false,
+    "subtype": "success",
+    "turns": 39,
+    "durationMs": 212687,
+    "costUsd": 0.6806216,
+    "usage": {
+      "input_tokens": 38,
+      "cache_creation_input_tokens": 69631,
+      "cache_read_input_tokens": 987658,
+      "output_tokens": 20449,
+      "output_tokens_details": {
+        "thinking_tokens": 9763
+      },
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 69631,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 2,
+          "output_tokens": 377,
+          "cache_read_input_tokens": 78404,
+          "cache_creation_input_tokens": 2013,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 2013
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-sonnet-5": {
+        "inputTokens": 38,
+        "outputTokens": 20449,
+        "cacheReadInputTokens": 987658,
+        "cacheCreationInputTokens": 69631,
+        "webSearchRequests": 0,
+        "costUSD": 0.6806216,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 64000,
+        "thinkingTokens": 9763,
+        "canonicalModel": "claude-sonnet-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "finalMessage": "The edit profile screen is complete: `src/screens/Screen.tsx` and `src/screens/Screen.module.css`.\n\n- **Photo**: an `Avatar` preview beside a `FileUpload` control to pick a new PNG/JPEG.\n- **Fields**: Full name, Email, Phone, Date of birth (`DatePicker`), Preferred language (`Select`), all controlled against mock saved data.\n- **Change tracking**: each field's label shows a \"Changed\" status badge when its draft value differs from the last-saved value; a summary line in the footer states how many fields changed.\n- **Actions**: Cancel (reverts to last save) and Save changes (both disabled when nothing changed); saving shows a success toast (\"Profile updated\").\n- Built only from `@syntara/react`/`@syntara/icons`-adjacent components, tokens-only CSS, logical properties, and an `ltrValue` class keeping email/phone LTR under the Arabic locale. Audited at 100/100 for both files.\n\nI can't run the app to visually verify — this was reviewed via the design-system audit tool and against the component docs, not in a browser."
+  }
+}

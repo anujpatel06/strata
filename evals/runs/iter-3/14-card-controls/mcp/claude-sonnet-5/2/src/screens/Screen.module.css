@@ -1,0 +1,35 @@
+.screen {
+  display: flex;
+  justify-content: center;
+  padding-block: var(--syntara-space-8);
+  padding-inline: var(--syntara-space-4);
+}
+
+.card {
+  inline-size: 100%;
+  max-inline-size: 480px;
+}
+
+.identity {
+  display: flex;
+  align-items: center;
+  gap: var(--syntara-space-3);
+  min-inline-size: 0;
+}
+
+.content {
+  display: grid;
+  gap: var(--syntara-space-4);
+}
+
+.controlRow {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--syntara-space-3);
+}
+
+.controlRow > *:last-child {
+  flex: 1 1 auto;
+  min-inline-size: 0;
+}

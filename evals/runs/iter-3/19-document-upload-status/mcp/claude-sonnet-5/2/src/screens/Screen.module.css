@@ -1,0 +1,92 @@
+.page {
+  display: grid;
+  gap: var(--syntara-space-6);
+  max-inline-size: 960px;
+  margin-inline: auto;
+  padding: var(--syntara-space-8) var(--syntara-space-4);
+}
+
+.header {
+  display: grid;
+  gap: var(--syntara-space-2);
+}
+
+.title {
+  font: var(--syntara-font-heading);
+  font-size: var(--syntara-font-size-2xl);
+  font-weight: var(--syntara-font-weight-semibold);
+  color: var(--syntara-color-text-default);
+  margin: 0;
+}
+
+.subtitle {
+  font-size: var(--syntara-font-size-md);
+  color: var(--syntara-color-text-subtle);
+  margin: 0;
+  max-inline-size: 60ch;
+}
+
+.progressCard {
+  inline-size: 100%;
+}
+
+.progressContent {
+  display: grid;
+  gap: var(--syntara-space-2);
+}
+
+.progressSummary {
+  font-size: var(--syntara-font-size-sm);
+  color: var(--syntara-color-text-subtle);
+  margin: 0;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--syntara-space-4);
+}
+
+@media (max-width: 720px) {
+  .grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.docCard {
+  display: grid;
+  align-content: start;
+}
+
+.docHeader {
+  display: grid;
+  gap: var(--syntara-space-3);
+}
+
+.docHeaderRow {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--syntara-space-3);
+  min-inline-size: 0;
+}
+
+.docHeaderText {
+  display: grid;
+  gap: var(--syntara-space-1);
+  min-inline-size: 0;
+}
+
+.docContent {
+  display: grid;
+  gap: var(--syntara-space-3);
+  min-inline-size: 0;
+}
+
+.fileUpload {
+  inline-size: 100%;
+}
+
+.docFooter {
+  font-size: var(--syntara-font-size-sm);
+  color: var(--syntara-color-text-subtle);
+}

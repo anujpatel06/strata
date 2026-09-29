@@ -1,0 +1,95 @@
+{
+  "prompt": "03-claim-step-upload",
+  "tags": [
+    "a11y"
+  ],
+  "condition": "mcp",
+  "model": "claude-sonnet-5",
+  "repeat": 1,
+  "iteration": "3",
+  "source": {
+    "commit": "ba85fb6db5596a36fc728d6bf691b7982d3452be",
+    "dirty": []
+  },
+  "startedAt": "2026-09-28T14:10:09.788Z",
+  "wallMs": 153528,
+  "exitCode": 0,
+  "timedOut": false,
+  "editedProtectedFiles": [],
+  "workspaceId": "ef36da2a37ee",
+  "toolCalls": {
+    "Read": 6,
+    "Glob": 2,
+    "mcp__syntara__list_components": 1,
+    "mcp__syntara__get_component": 7,
+    "mcp__syntara__get_example": 3,
+    "Grep": 1,
+    "mcp__syntara__get_pattern": 2,
+    "mcp__syntara__find_icon": 2,
+    "mcp__syntara__get_tokens": 3,
+    "Write": 2,
+    "Edit": 1,
+    "mcp__syntara__audit_snippet": 2
+  },
+  "pathsOutsideWorkspace": [],
+  "touchedRepo": false,
+  "usedMemory": false,
+  "readPackages": true,
+  "cli": {
+    "isError": false,
+    "subtype": "success",
+    "turns": 33,
+    "durationMs": 151882,
+    "costUsd": 0.52825,
+    "usage": {
+      "input_tokens": 36,
+      "cache_creation_input_tokens": 57668,
+      "cache_read_input_tokens": 751930,
+      "output_tokens": 14712,
+      "output_tokens_details": {
+        "thinking_tokens": 7925
+      },
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 57668,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 2,
+          "output_tokens": 337,
+          "cache_read_input_tokens": 66421,
+          "cache_creation_input_tokens": 2033,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 2033
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-sonnet-5": {
+        "inputTokens": 36,
+        "outputTokens": 14712,
+        "cacheReadInputTokens": 751930,
+        "cacheCreationInputTokens": 57668,
+        "webSearchRequests": 0,
+        "costUSD": 0.52825,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 64000,
+        "thinkingTokens": 7925,
+        "canonicalModel": "claude-sonnet-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "finalMessage": "Both files score 100 clean on the audit. The screen is complete:\n\n- **Steps** shows progress with \"Upload evidence\" as the current step (Claim details done, Review upcoming).\n- **FileUpload** holds mock evidence: two photos already uploaded and a PDF (`repair-estimate.pdf`) with a visible failure reason — sizes are shown automatically per file, and each has a remove button.\n- A custom cap (`MAX_FILES = 5`) rejects extra files with an inline error once the limit is hit.\n- **Continue** is disabled via `isDisabled={!hasUploadedFile}`, true only when at least one file has `progress === 100` and no error; **Back** sits opposite it in the card footer.\n- Chevron icons flip in RTL via a `:global([dir='rtl'])` rule, matching `ThemeScope`'s `dir` attribute.\n\nI can't run the app to visually verify, so I haven't confirmed rendering in a browser — flagging that per the UI-testing guidance."
+  }
+}

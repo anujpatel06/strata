@@ -1,0 +1,41 @@
+.page {
+  display: grid;
+  gap: var(--syntara-space-6);
+  padding-block: var(--syntara-space-8);
+  padding-inline: var(--syntara-space-6);
+  max-inline-size: 72rem;
+  margin-inline: auto;
+}
+
+.header {
+  display: grid;
+  gap: var(--syntara-space-1);
+}
+
+.title {
+  margin: 0;
+  font-family: var(--syntara-font-heading);
+  font-size: var(--syntara-font-size-2xl);
+  font-weight: var(--syntara-font-weight-semibold);
+  letter-spacing: var(--syntara-font-tracking-2xl);
+  color: var(--syntara-color-text-default);
+}
+
+.subtitle {
+  margin: 0;
+  font-size: var(--syntara-font-size-sm);
+  color: var(--syntara-color-text-subtle);
+}
+
+.selectionSummary {
+  font-size: var(--syntara-font-size-sm);
+  font-weight: var(--syntara-font-weight-medium);
+  color: var(--syntara-color-text-subtle);
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--syntara-space-2);
+}

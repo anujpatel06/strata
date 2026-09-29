@@ -1,0 +1,94 @@
+{
+  "prompt": "25-onboarding-checklist",
+  "tags": [
+    "multi-brand"
+  ],
+  "condition": "mcp",
+  "model": "claude-sonnet-5",
+  "repeat": 2,
+  "iteration": "3",
+  "source": {
+    "commit": "ba85fb6db5596a36fc728d6bf691b7982d3452be",
+    "dirty": []
+  },
+  "startedAt": "2026-09-28T14:32:42.271Z",
+  "wallMs": 149894,
+  "exitCode": 0,
+  "timedOut": false,
+  "editedProtectedFiles": [],
+  "workspaceId": "8b3abe57823f",
+  "toolCalls": {
+    "Read": 5,
+    "Glob": 1,
+    "mcp__syntara__list_components": 1,
+    "mcp__syntara__get_component": 8,
+    "mcp__syntara__find_icon": 4,
+    "mcp__syntara__get_example": 3,
+    "mcp__syntara__get_pattern": 2,
+    "mcp__syntara__get_tokens": 5,
+    "Write": 2,
+    "Edit": 5,
+    "mcp__syntara__audit_snippet": 3
+  },
+  "pathsOutsideWorkspace": [],
+  "touchedRepo": false,
+  "usedMemory": false,
+  "readPackages": false,
+  "cli": {
+    "isError": false,
+    "subtype": "success",
+    "turns": 40,
+    "durationMs": 148414,
+    "costUsd": 0.535251,
+    "usage": {
+      "input_tokens": 50,
+      "cache_creation_input_tokens": 47948,
+      "cache_read_input_tokens": 983045,
+      "output_tokens": 14675,
+      "output_tokens_details": {
+        "thinking_tokens": 3913
+      },
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 47948,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 2,
+          "output_tokens": 371,
+          "cache_read_input_tokens": 58331,
+          "cache_creation_input_tokens": 403,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 403
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-sonnet-5": {
+        "inputTokens": 50,
+        "outputTokens": 14675,
+        "cacheReadInputTokens": 983045,
+        "cacheCreationInputTokens": 47948,
+        "webSearchRequests": 0,
+        "costUSD": 0.535251,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 64000,
+        "thinkingTokens": 3913,
+        "canonicalModel": "claude-sonnet-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "finalMessage": "Clean. The onboarding checklist is complete:\n\n- **`src/screens/Screen.tsx`** — five mock steps (2 done, 2 to-do, 1 locked), an overall `ProgressBar` (2 of 5), and an `Accordion` where each step expands to show what it involves plus a `Button` to start/continue/review. The \"Connect a payment method\" step is locked until \"Invite your team\" is done — its button is disabled and a note states the dependency explicitly (not colour alone).\n- **`src/screens/Screen.module.css`** — layout only, using `var(--syntara-*)` tokens and logical properties (`inline-size`, `padding-inline-start`, `margin-inline`, etc.).\n\nBoth passed `audit_snippet` at 100 with no findings. Since the app is themed via `main.tsx`'s `ThemeScope` (which I didn't touch), this will render correctly across brands, schemes and RTL locales. I can't run the app, so I haven't visually verified it in a browser — worth a manual check across the `?tenant=`/`?scheme=`/`?locale=` combinations before shipping."
+  }
+}

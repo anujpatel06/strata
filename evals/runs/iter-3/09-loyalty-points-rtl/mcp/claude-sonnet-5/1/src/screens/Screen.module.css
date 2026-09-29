@@ -1,0 +1,50 @@
+.page {
+  display: grid;
+  gap: var(--syntara-space-8);
+}
+
+.header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--syntara-space-4);
+}
+
+.title {
+  margin: 0;
+  font-family: var(--syntara-font-heading);
+  font-size: var(--syntara-font-size-3xl);
+  font-weight: var(--syntara-font-weight-semibold);
+  letter-spacing: var(--syntara-font-tracking-3xl);
+}
+
+.subtitle {
+  margin-block: var(--syntara-space-1) 0;
+  color: var(--syntara-color-text-subtle);
+  font-size: var(--syntara-font-size-md);
+}
+
+.summary {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: var(--syntara-space-6);
+  align-items: stretch;
+}
+
+.pointsEarned,
+.pointsSpent {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--syntara-space-1);
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+
+.pointsEarned {
+  color: var(--syntara-color-feedback-success-fg);
+}
+
+.pointsSpent {
+  color: var(--syntara-color-text-subtle);
+}

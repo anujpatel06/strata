@@ -1,0 +1,90 @@
+.page {
+  display: flex;
+  justify-content: center;
+  padding-block: var(--syntara-space-8);
+  padding-inline: var(--syntara-space-4);
+}
+
+.card {
+  inline-size: 100%;
+  max-inline-size: 640px;
+}
+
+.form {
+  display: contents;
+}
+
+.stack {
+  display: grid;
+  gap: var(--syntara-space-6);
+}
+
+.photoRow {
+  display: flex;
+  align-items: center;
+  gap: var(--syntara-space-4);
+  flex-wrap: wrap;
+  border-radius: var(--syntara-radius-container);
+}
+
+.photoRow[data-drop-target] {
+  outline: 2px solid var(--syntara-color-focus-ring);
+  outline-offset: 2px;
+}
+
+.photoText {
+  display: grid;
+  gap: var(--syntara-space-1);
+  flex: 1 1 auto;
+  min-inline-size: 0;
+}
+
+.rowLabel {
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: var(--syntara-space-2);
+  font-size: var(--syntara-font-size-sm);
+  font-weight: var(--syntara-font-weight-medium);
+  color: var(--syntara-color-text-default);
+}
+
+.rowDescription {
+  margin: 0;
+  font-size: var(--syntara-font-size-sm);
+  color: var(--syntara-color-text-subtle);
+}
+
+.labelRow {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--syntara-space-2);
+}
+
+.changedBadge {
+  flex-shrink: 0;
+}
+
+.fieldGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--syntara-field-gap, var(--syntara-space-4));
+}
+
+.ltrValue {
+  direction: ltr;
+  text-align: start;
+}
+
+.footerEnd {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--syntara-space-2);
+  flex-wrap: wrap;
+}
+
+@media (max-width: 480px) {
+  .fieldGrid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

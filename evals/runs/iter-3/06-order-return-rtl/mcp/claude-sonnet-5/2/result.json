@@ -1,0 +1,93 @@
+{
+  "prompt": "06-order-return-rtl",
+  "tags": [
+    "rtl"
+  ],
+  "condition": "mcp",
+  "model": "claude-sonnet-5",
+  "repeat": 2,
+  "iteration": "3",
+  "source": {
+    "commit": "ba85fb6db5596a36fc728d6bf691b7982d3452be",
+    "dirty": []
+  },
+  "startedAt": "2026-09-28T14:13:12.655Z",
+  "wallMs": 224681,
+  "exitCode": 0,
+  "timedOut": false,
+  "editedProtectedFiles": [],
+  "workspaceId": "880408476f67",
+  "toolCalls": {
+    "Read": 4,
+    "mcp__syntara__list_components": 1,
+    "mcp__syntara__get_component": 11,
+    "mcp__syntara__get_pattern": 1,
+    "mcp__syntara__find_icon": 3,
+    "mcp__syntara__get_example": 3,
+    "mcp__syntara__get_tokens": 3,
+    "Glob": 2,
+    "Write": 2,
+    "mcp__syntara__audit_snippet": 2
+  },
+  "pathsOutsideWorkspace": [],
+  "touchedRepo": false,
+  "usedMemory": false,
+  "readPackages": false,
+  "cli": {
+    "isError": false,
+    "subtype": "success",
+    "turns": 33,
+    "durationMs": 221212,
+    "costUsd": 0.5753632000000001,
+    "usage": {
+      "input_tokens": 30,
+      "cache_creation_input_tokens": 55408,
+      "cache_read_input_tokens": 593206,
+      "output_tokens": 23503,
+      "output_tokens_details": {
+        "thinking_tokens": 14381
+      },
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 55408,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 2,
+          "output_tokens": 369,
+          "cache_read_input_tokens": 65161,
+          "cache_creation_input_tokens": 1033,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 1033
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-sonnet-5": {
+        "inputTokens": 30,
+        "outputTokens": 23503,
+        "cacheReadInputTokens": 593206,
+        "cacheCreationInputTokens": 55408,
+        "webSearchRequests": 0,
+        "costUSD": 0.5753632000000001,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 64000,
+        "thinkingTokens": 14381,
+        "canonicalModel": "claude-sonnet-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "finalMessage": "Both files score 100 with no findings. The margin/gap `0 0` in `.subtitle` uses shorthand with `0` values, which is allowed (0 is exempt from the px rule).\n\nThe screen is complete: `src/screens/Screen.tsx` and `src/screens/Screen.module.css`. It shows a mock grocery order (5 line items), lets the shopper check items to return, pick a per-item reason from a `Select`, and see the refund total (via `Amount`) update live. There's a `Back to order` standalone `Link` with a leading arrow icon at the top, and a `Submit return` `Button` in the card footer that's disabled until every selected item has a reason, then shows a success `Alert`. Everything uses `@syntara/react` components and `var(--syntara-*)` tokens, logical CSS properties, and English copy (locale-agnostic since `ThemeScope` already handles `ar-AE` via `main.tsx`).\n\nI can't run the app to visually verify per the instructions, so I haven't done a live browser check — the audit tool confirms token/API compliance, but layout/visual behavior is unverified."
+  }
+}

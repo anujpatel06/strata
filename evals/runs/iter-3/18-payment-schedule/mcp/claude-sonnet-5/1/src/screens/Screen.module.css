@@ -1,0 +1,34 @@
+.page {
+  display: grid;
+  gap: var(--syntara-space-6);
+  padding: var(--syntara-space-6);
+  max-inline-size: 960px;
+  margin-inline: auto;
+}
+
+.header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--syntara-space-4);
+}
+
+.title {
+  margin: 0;
+  font-family: var(--syntara-font-heading);
+  font-size: var(--syntara-font-size-3xl);
+  font-weight: var(--syntara-font-weight-semibold);
+  letter-spacing: var(--syntara-font-tracking-3xl);
+  color: var(--syntara-color-text-default);
+}
+
+.subtitle {
+  margin: var(--syntara-space-1) 0 0;
+  font-size: var(--syntara-font-size-md);
+  color: var(--syntara-color-text-subtle);
+}
+
+.cardIcon {
+  color: var(--syntara-color-text-subtle);
+}

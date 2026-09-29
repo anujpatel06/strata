@@ -1,0 +1,92 @@
+{
+  "prompt": "15-team-members",
+  "tags": [
+    "a11y"
+  ],
+  "condition": "mcp",
+  "model": "claude-sonnet-5",
+  "repeat": 1,
+  "iteration": "3",
+  "source": {
+    "commit": "ba85fb6db5596a36fc728d6bf691b7982d3452be",
+    "dirty": []
+  },
+  "startedAt": "2026-09-28T14:20:48.012Z",
+  "wallMs": 163999,
+  "exitCode": 0,
+  "timedOut": false,
+  "editedProtectedFiles": [],
+  "workspaceId": "9820fe80fc8f",
+  "toolCalls": {
+    "Read": 3,
+    "mcp__syntara__list_components": 1,
+    "mcp__syntara__get_component": 9,
+    "mcp__syntara__find_icon": 3,
+    "mcp__syntara__get_example": 1,
+    "mcp__syntara__get_tokens": 3,
+    "Write": 2,
+    "Edit": 2,
+    "mcp__syntara__audit_snippet": 2
+  },
+  "pathsOutsideWorkspace": [],
+  "touchedRepo": false,
+  "usedMemory": false,
+  "readPackages": false,
+  "cli": {
+    "isError": false,
+    "subtype": "success",
+    "turns": 27,
+    "durationMs": 160032,
+    "costUsd": 0.4856294,
+    "usage": {
+      "input_tokens": 28,
+      "cache_creation_input_tokens": 52242,
+      "cache_read_input_tokens": 586477,
+      "output_tokens": 15931,
+      "output_tokens_details": {
+        "thinking_tokens": 8110
+      },
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 52242,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 2,
+          "output_tokens": 160,
+          "cache_read_input_tokens": 62205,
+          "cache_creation_input_tokens": 823,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 823
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-sonnet-5": {
+        "inputTokens": 28,
+        "outputTokens": 15931,
+        "cacheReadInputTokens": 586477,
+        "cacheCreationInputTokens": 52242,
+        "webSearchRequests": 0,
+        "costUSD": 0.4856294,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 64000,
+        "thinkingTokens": 8110,
+        "canonicalModel": "claude-sonnet-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "finalMessage": "The team members screen is complete: `src/screens/Screen.tsx` renders a `DataTable` of seven mock people (name/avatar, email, role badge, last active), with a per-row `Menu` to change role or remove (confirmed via `AlertDialog`), and an `Invite` button opening a `Dialog` with an email field and role `Select`. Both files pass the Syntara audit with a score of 100. I can't run the app to verify visually, so this hasn't been checked in a browser."
+  }
+}

@@ -1,0 +1,81 @@
+.card {
+  inline-size: 100%;
+  max-inline-size: 720px;
+  margin-inline: auto;
+}
+
+.timeline {
+  display: grid;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.event {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: var(--syntara-space-4);
+}
+
+.marker {
+  display: grid;
+  justify-items: center;
+  grid-template-rows: auto 1fr;
+}
+
+.connector {
+  inline-size: 1px;
+  block-size: 100%;
+  min-block-size: var(--syntara-space-6);
+  background: var(--syntara-color-border-default);
+  margin-block: var(--syntara-space-1) 0;
+}
+
+.event:last-child .connector {
+  display: none;
+}
+
+.body {
+  padding-block-end: var(--syntara-space-6);
+  min-inline-size: 0;
+}
+
+.meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--syntara-space-2);
+  margin-block-end: var(--syntara-space-1);
+}
+
+.timestamp {
+  font-size: var(--syntara-font-size-sm);
+  color: var(--syntara-color-text-subtle);
+}
+
+.title {
+  margin: 0;
+  font-size: var(--syntara-font-size-md);
+  font-weight: var(--syntara-font-weight-semibold);
+  color: var(--syntara-color-text-default);
+}
+
+.description {
+  margin: var(--syntara-space-1) 0 0;
+  font-size: var(--syntara-font-size-sm);
+  color: var(--syntara-color-text-subtle);
+}
+
+.actor {
+  margin: var(--syntara-space-2) 0 0;
+  font-size: var(--syntara-font-size-sm);
+  color: var(--syntara-color-text-default);
+}
+
+.role {
+  color: var(--syntara-color-text-subtle);
+}
+
+.action {
+  margin-block-start: var(--syntara-space-3);
+}

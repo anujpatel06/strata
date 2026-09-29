@@ -1,0 +1,94 @@
+{
+  "prompt": "22-support-ticket",
+  "tags": [
+    "a11y"
+  ],
+  "condition": "mcp",
+  "model": "claude-sonnet-5",
+  "repeat": 1,
+  "iteration": "3",
+  "source": {
+    "commit": "ba85fb6db5596a36fc728d6bf691b7982d3452be",
+    "dirty": []
+  },
+  "startedAt": "2026-09-28T14:29:38.434Z",
+  "wallMs": 115561,
+  "exitCode": 0,
+  "timedOut": false,
+  "editedProtectedFiles": [],
+  "workspaceId": "04d8a5872624",
+  "toolCalls": {
+    "Read": 3,
+    "Glob": 1,
+    "mcp__syntara__list_components": 1,
+    "mcp__syntara__get_component": 9,
+    "mcp__syntara__find_icon": 1,
+    "mcp__syntara__get_example": 3,
+    "mcp__syntara__get_tokens": 1,
+    "Write": 2,
+    "mcp__syntara__audit_snippet": 2,
+    "mcp__syntara__find_token": 1,
+    "Edit": 1
+  },
+  "pathsOutsideWorkspace": [],
+  "touchedRepo": false,
+  "usedMemory": false,
+  "readPackages": false,
+  "cli": {
+    "isError": false,
+    "subtype": "success",
+    "turns": 26,
+    "durationMs": 104012,
+    "costUsd": 0.31111300000000003,
+    "usage": {
+      "input_tokens": 24,
+      "cache_creation_input_tokens": 35379,
+      "cache_read_input_tokens": 376595,
+      "output_tokens": 9423,
+      "output_tokens_details": {
+        "thinking_tokens": 3613
+      },
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 35379,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 2,
+          "output_tokens": 220,
+          "cache_read_input_tokens": 45113,
+          "cache_creation_input_tokens": 1052,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 1052
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-sonnet-5": {
+        "inputTokens": 24,
+        "outputTokens": 9423,
+        "cacheReadInputTokens": 376595,
+        "cacheCreationInputTokens": 35379,
+        "webSearchRequests": 0,
+        "costUSD": 0.31111300000000003,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 64000,
+        "thinkingTokens": 3613,
+        "canonicalModel": "claude-sonnet-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "finalMessage": "The form is complete: `src/screens/Screen.tsx` builds a support request form (topic `Select`, subject `TextField`, description `TextArea` with a 500-character counter, optional `FileUpload`, and a contact-preference `RadioGroup`), and on submit swaps to an `EmptyState` confirmation showing a generated reference number, with a button to raise another request. Styles are in `Screen.module.css` using only logical properties and Syntara tokens. Both files score 100 on `audit_snippet`.\n\nI can't run the app to test it in a browser, so I haven't verified it renders/behaves correctly at runtime — only that it's statically correct and on-system."
+  }
+}

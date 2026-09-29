@@ -1,0 +1,132 @@
+.page {
+  display: grid;
+  gap: var(--syntara-space-6);
+  max-inline-size: 960px;
+  margin-inline: auto;
+  padding: var(--syntara-space-6);
+}
+
+.header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--syntara-space-4);
+}
+
+.headerText {
+  display: grid;
+  gap: var(--syntara-space-1);
+  flex: 1;
+  min-inline-size: 0;
+}
+
+.title {
+  margin: 0;
+  font: var(--syntara-font-heading);
+  font-size: var(--syntara-font-size-xl);
+  font-weight: var(--syntara-font-weight-semibold);
+  color: var(--syntara-color-text-default);
+}
+
+.subtitle {
+  margin: 0;
+  font-size: var(--syntara-font-size-sm);
+  color: var(--syntara-color-text-subtle);
+}
+
+.coverGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
+  gap: var(--syntara-space-4);
+}
+
+.coverList {
+  display: grid;
+  gap: var(--syntara-space-3);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.coverItem {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--syntara-space-3);
+  font-size: var(--syntara-font-size-sm);
+  color: var(--syntara-color-text-default);
+}
+
+.iconIncluded {
+  flex-shrink: 0;
+  color: var(--syntara-color-feedback-success-fg);
+}
+
+.iconExcluded {
+  flex-shrink: 0;
+  color: var(--syntara-color-feedback-danger-fg);
+}
+
+.docList {
+  display: grid;
+  gap: var(--syntara-space-4);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.docItem {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--syntara-space-3);
+}
+
+.docText {
+  display: grid;
+  gap: var(--syntara-space-1);
+  flex: 1;
+  min-inline-size: 0;
+}
+
+.docName {
+  font-size: var(--syntara-font-size-sm);
+  font-weight: var(--syntara-font-weight-medium);
+  color: var(--syntara-color-text-default);
+}
+
+.docMeta {
+  font-size: var(--syntara-font-size-xs);
+  color: var(--syntara-color-text-subtle);
+}
+
+.paymentsStack {
+  display: grid;
+  gap: var(--syntara-space-4);
+}
+
+.nextPayment {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--syntara-space-3);
+}
+
+.nextPaymentDate {
+  margin: 0;
+  font-size: var(--syntara-font-size-sm);
+  color: var(--syntara-color-text-subtle);
+}
+
+.paymentItem {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--syntara-space-3);
+}
+
+.paymentDate {
+  font-size: var(--syntara-font-size-sm);
+  color: var(--syntara-color-text-default);
+}

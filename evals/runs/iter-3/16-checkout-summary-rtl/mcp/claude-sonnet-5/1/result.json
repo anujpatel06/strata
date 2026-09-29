@@ -1,0 +1,94 @@
+{
+  "prompt": "16-checkout-summary-rtl",
+  "tags": [
+    "rtl"
+  ],
+  "condition": "mcp",
+  "model": "claude-sonnet-5",
+  "repeat": 1,
+  "iteration": "3",
+  "source": {
+    "commit": "ba85fb6db5596a36fc728d6bf691b7982d3452be",
+    "dirty": []
+  },
+  "startedAt": "2026-09-28T14:21:55.634Z",
+  "wallMs": 329696,
+  "exitCode": 0,
+  "timedOut": false,
+  "editedProtectedFiles": [],
+  "workspaceId": "95230e78e1e9",
+  "toolCalls": {
+    "Read": 8,
+    "Glob": 6,
+    "mcp__syntara__list_components": 1,
+    "mcp__syntara__get_component": 9,
+    "mcp__syntara__find_icon": 9,
+    "mcp__syntara__get_example": 5,
+    "mcp__syntara__get_tokens": 2,
+    "Write": 2,
+    "Edit": 7,
+    "Grep": 1,
+    "mcp__syntara__audit_snippet": 2
+  },
+  "pathsOutsideWorkspace": [],
+  "touchedRepo": false,
+  "usedMemory": false,
+  "readPackages": true,
+  "cli": {
+    "isError": false,
+    "subtype": "success",
+    "turns": 53,
+    "durationMs": 323701,
+    "costUsd": 0.7887937999999999,
+    "usage": {
+      "input_tokens": 58,
+      "cache_creation_input_tokens": 61692,
+      "cache_read_input_tokens": 1415049,
+      "output_tokens": 25890,
+      "output_tokens_details": {
+        "thinking_tokens": 8354
+      },
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 61692,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 2,
+          "output_tokens": 256,
+          "cache_read_input_tokens": 71042,
+          "cache_creation_input_tokens": 1436,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 1436
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-sonnet-5": {
+        "inputTokens": 58,
+        "outputTokens": 25890,
+        "cacheReadInputTokens": 1415049,
+        "cacheCreationInputTokens": 61692,
+        "webSearchRequests": 0,
+        "costUSD": 0.7887937999999999,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 64000,
+        "thinkingTokens": 8354,
+        "canonicalModel": "claude-sonnet-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "finalMessage": "The checkout summary screen is complete in `src/screens/Screen.tsx` and `src/screens/Screen.module.css`, both auditing at 100/0 findings.\n\nIt includes: delivery address with a \"Change\" link, a three-option delivery slot picker (`RadioGroup variant=\"card\"`), an item list with working quantity steppers (built from `Button` since Syntara has no stepper component — noted in a comment), a promo code field with apply/validation, and a price breakdown (subtotal, delivery, discount, total) ending in a \"Place order\" button. All copy is in English, layout uses logical properties and wraps at narrow widths, and mock state (cart quantities, slot, promo) is interactive via `useState`. I couldn't run the app to verify it visually, per the instructions."
+  }
+}

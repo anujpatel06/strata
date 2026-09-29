@@ -1,0 +1,127 @@
+.screen {
+  display: flex;
+  flex-direction: column;
+  gap: var(--syntara-space-6);
+  max-inline-size: 640px;
+  margin-inline: auto;
+  padding: var(--syntara-space-6) var(--syntara-space-4);
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--syntara-space-1);
+}
+
+.title {
+  margin: 0;
+  font: var(--syntara-font-heading);
+  font-size: var(--syntara-font-size-xl);
+  font-weight: var(--syntara-font-weight-semibold);
+  color: var(--syntara-color-text-default);
+}
+
+.subtitle {
+  margin: 0;
+  font-size: var(--syntara-font-size-sm);
+  color: var(--syntara-color-text-subtle);
+}
+
+.address {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--syntara-space-3);
+}
+
+.addressIcon {
+  flex-shrink: 0;
+  margin-block-start: var(--syntara-space-1);
+  color: var(--syntara-color-text-subtle);
+}
+
+.addressName {
+  margin: 0;
+  font-weight: var(--syntara-font-weight-medium);
+  color: var(--syntara-color-text-default);
+}
+
+.addressText {
+  margin: 0;
+  font-size: var(--syntara-font-size-sm);
+  color: var(--syntara-color-text-subtle);
+}
+
+.slotGroup {
+  inline-size: 100%;
+}
+
+.itemList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--syntara-space-4);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.item {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--syntara-space-3);
+}
+
+.itemInfo {
+  min-inline-size: 0;
+  flex: 1 1 auto;
+}
+
+.itemName {
+  margin: 0;
+  font-weight: var(--syntara-font-weight-medium);
+  color: var(--syntara-color-text-default);
+}
+
+.itemDetail {
+  margin: 0;
+  font-size: var(--syntara-font-size-sm);
+  color: var(--syntara-color-text-subtle);
+}
+
+.itemMeta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--syntara-space-4);
+}
+
+.stepper {
+  display: flex;
+  align-items: center;
+  gap: var(--syntara-space-2);
+}
+
+.stepperValue {
+  min-inline-size: var(--syntara-space-6);
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+  color: var(--syntara-color-text-default);
+}
+
+.summaryRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-block: var(--syntara-space-1);
+  color: var(--syntara-color-text-subtle);
+}
+
+.totalLabel {
+  font-weight: var(--syntara-font-weight-semibold);
+  color: var(--syntara-color-text-default);
+}
+
+.placeOrder {
+  inline-size: 100%;
+}

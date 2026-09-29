@@ -1,0 +1,128 @@
+.page {
+  display: grid;
+  gap: var(--syntara-space-6);
+  max-inline-size: 960px;
+  margin-inline: auto;
+  padding-block: var(--syntara-space-8);
+  padding-inline: var(--syntara-space-4);
+}
+
+.intro {
+  display: grid;
+  gap: var(--syntara-space-2);
+}
+
+.title {
+  margin: 0;
+  font-family: var(--syntara-font-heading);
+  font-size: var(--syntara-font-size-3xl);
+  font-weight: var(--syntara-font-weight-semibold);
+  letter-spacing: var(--syntara-font-tracking-3xl);
+  color: var(--syntara-color-text-default);
+}
+
+.subtitle {
+  margin: 0;
+  font-size: var(--syntara-font-size-md);
+  color: var(--syntara-color-text-subtle);
+  max-inline-size: 60ch;
+}
+
+.progressCard {
+  container-type: inline-size;
+}
+
+.progressContent {
+  display: grid;
+  gap: var(--syntara-space-4);
+}
+
+.statusCounts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--syntara-space-2) var(--syntara-space-4);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--syntara-space-4);
+}
+
+@media (max-width: 640px) {
+  .grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.docCard {
+  display: flex;
+  flex-direction: column;
+}
+
+.docHeader {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--syntara-space-3);
+}
+
+.docHeaderMain {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--syntara-space-3);
+  min-inline-size: 0;
+}
+
+.docDescription {
+  margin: 0;
+  margin-block-start: var(--syntara-space-1);
+  font-size: var(--syntara-font-size-sm);
+  color: var(--syntara-color-text-subtle);
+}
+
+.docContent {
+  display: grid;
+  gap: var(--syntara-space-3);
+  flex: 1;
+}
+
+.fileRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--syntara-space-1) var(--syntara-space-3);
+  padding: var(--syntara-space-3);
+  border-radius: var(--syntara-radius-container);
+  background: var(--syntara-color-surface-sunken);
+}
+
+.fileName {
+  font-size: var(--syntara-font-size-sm);
+  font-weight: var(--syntara-font-weight-medium);
+  color: var(--syntara-color-text-default);
+  word-break: break-all;
+}
+
+.fileMeta {
+  font-size: var(--syntara-font-size-xs);
+  color: var(--syntara-color-text-subtle);
+}
+
+.docFooter {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.approvedIcon {
+  color: var(--syntara-color-feedback-success-fg);
+}
+
+.reviewIcon {
+  color: var(--syntara-color-feedback-info-fg);
+}
+
+.rejectedIcon {
+  color: var(--syntara-color-feedback-danger-fg);
+}

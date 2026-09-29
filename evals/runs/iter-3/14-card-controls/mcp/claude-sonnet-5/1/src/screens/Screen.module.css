@@ -1,0 +1,44 @@
+.page {
+  display: grid;
+  gap: var(--syntara-space-4);
+  inline-size: 100%;
+  max-inline-size: 480px;
+  margin-inline: auto;
+  padding: var(--syntara-space-6);
+}
+
+.card {
+  inline-size: 100%;
+}
+
+.identityHeader {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--syntara-space-3);
+}
+
+.identityText {
+  display: grid;
+  gap: var(--syntara-space-1);
+  min-inline-size: 0;
+  flex: 1;
+}
+
+.freezeRow {
+  padding-block-start: var(--syntara-space-2);
+}
+
+.controls {
+  display: grid;
+  gap: var(--syntara-space-5);
+}
+
+.switchLabel {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--syntara-space-2);
+}
+
+.limit {
+  padding-block-start: var(--syntara-space-2);
+}

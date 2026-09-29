@@ -1,0 +1,94 @@
+{
+  "prompt": "10-notifications-inbox",
+  "tags": [
+    "a11y"
+  ],
+  "condition": "mcp",
+  "model": "claude-sonnet-5",
+  "repeat": 1,
+  "iteration": "3",
+  "source": {
+    "commit": "ba85fb6db5596a36fc728d6bf691b7982d3452be",
+    "dirty": []
+  },
+  "startedAt": "2026-09-28T14:16:19.285Z",
+  "wallMs": 198149,
+  "exitCode": 0,
+  "timedOut": false,
+  "editedProtectedFiles": [],
+  "workspaceId": "6b781d960fad",
+  "toolCalls": {
+    "Read": 7,
+    "Glob": 3,
+    "mcp__syntara__list_components": 1,
+    "mcp__syntara__get_component": 9,
+    "mcp__syntara__find_icon": 9,
+    "mcp__syntara__get_pattern": 1,
+    "mcp__syntara__get_example": 6,
+    "Write": 2,
+    "Edit": 8,
+    "mcp__syntara__audit_snippet": 2,
+    "Grep": 1
+  },
+  "pathsOutsideWorkspace": [],
+  "touchedRepo": false,
+  "usedMemory": false,
+  "readPackages": false,
+  "cli": {
+    "isError": false,
+    "subtype": "success",
+    "turns": 50,
+    "durationMs": 196414,
+    "costUsd": 0.6881022,
+    "usage": {
+      "input_tokens": 52,
+      "cache_creation_input_tokens": 60001,
+      "cache_read_input_tokens": 1216771,
+      "output_tokens": 20464,
+      "output_tokens_details": {
+        "thinking_tokens": 6770
+      },
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 60001,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 2,
+          "output_tokens": 354,
+          "cache_read_input_tokens": 69981,
+          "cache_creation_input_tokens": 806,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 806
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-sonnet-5": {
+        "inputTokens": 52,
+        "outputTokens": 20464,
+        "cacheReadInputTokens": 1216771,
+        "cacheCreationInputTokens": 60001,
+        "webSearchRequests": 0,
+        "costUSD": 0.6881022,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 64000,
+        "thinkingTokens": 6770,
+        "canonicalModel": "claude-sonnet-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "finalMessage": "The notifications inbox is built in `src/screens/Screen.tsx` with styles in `src/screens/Screen.module.css`. Since I can't run the app, I couldn't visually verify it in a browser — this is based on Syntara MCP docs/audits only.\n\nSummary of what it does:\n- Shows 8 mock notifications grouped under \"Today\" and \"Earlier\" headings, each row using `Card`/`CardContent` with an `IconTile` (type icon), title, unread `Badge`, one-line detail, a type `Badge`, and time.\n- Unread items show an \"Unread\" status badge and a \"Mark as read\" icon button (tooltip-labelled); \"Mark all as read\" sits in the header next to an unread-count badge.\n- A `ToggleButtonGroup` filters by All/Payment/Security/Policy/Reminder, with an `EmptyState` when a filter matches nothing.\n- Layout uses logical properties and `minmax(0, 1fr)` so nothing overflows at 390px; `audit_snippet` scored both files 100 with no findings."
+  }
+}

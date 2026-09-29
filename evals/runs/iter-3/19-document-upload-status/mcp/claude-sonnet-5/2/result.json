@@ -1,0 +1,95 @@
+{
+  "prompt": "19-document-upload-status",
+  "tags": [
+    "a11y"
+  ],
+  "condition": "mcp",
+  "model": "claude-sonnet-5",
+  "repeat": 2,
+  "iteration": "3",
+  "source": {
+    "commit": "ba85fb6db5596a36fc728d6bf691b7982d3452be",
+    "dirty": []
+  },
+  "startedAt": "2026-09-28T14:26:26.982Z",
+  "wallMs": 177983,
+  "exitCode": 0,
+  "timedOut": false,
+  "editedProtectedFiles": [],
+  "workspaceId": "ca9062004727",
+  "toolCalls": {
+    "Read": 4,
+    "Glob": 2,
+    "mcp__syntara__list_components": 1,
+    "mcp__syntara__get_pattern": 2,
+    "mcp__syntara__get_component": 8,
+    "mcp__syntara__get_example": 4,
+    "mcp__syntara__find_icon": 9,
+    "mcp__syntara__find_token": 1,
+    "mcp__syntara__get_tokens": 2,
+    "Write": 2,
+    "Edit": 2,
+    "mcp__syntara__audit_snippet": 2
+  },
+  "pathsOutsideWorkspace": [],
+  "touchedRepo": false,
+  "usedMemory": false,
+  "readPackages": false,
+  "cli": {
+    "isError": false,
+    "subtype": "success",
+    "turns": 40,
+    "durationMs": 146563,
+    "costUsd": 0.45306799999999997,
+    "usage": {
+      "input_tokens": 30,
+      "cache_creation_input_tokens": 48185,
+      "cache_read_input_tokens": 577790,
+      "output_tokens": 14471,
+      "output_tokens_details": {
+        "thinking_tokens": 3215
+      },
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 48185,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 2,
+          "output_tokens": 341,
+          "cache_read_input_tokens": 58061,
+          "cache_creation_input_tokens": 910,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 910
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-sonnet-5": {
+        "inputTokens": 30,
+        "outputTokens": 14471,
+        "cacheReadInputTokens": 577790,
+        "cacheCreationInputTokens": 48185,
+        "webSearchRequests": 0,
+        "costUSD": 0.45306799999999997,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 64000,
+        "thinkingTokens": 3215,
+        "canonicalModel": "claude-sonnet-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "finalMessage": "Both files score 100 with no findings from the design-system auditor.\n\nThe document verification screen is complete in `src/screens/Screen.tsx` and `src/screens/Screen.module.css`:\n\n- **Overall progress**: a `ProgressBar` (approved/total) plus a summary alert (success when all approved, danger listing what's rejected).\n- **Four document cards** (ID proof, address proof, bank statement, photo), each with an `IconTile`, title/description, a `Badge` showing status (not uploaded / under review / approved / rejected — always paired with an icon and text, never colour alone), a rejection-reason `Alert` when applicable, and a `FileUpload` control for uploading or replacing the file (mock upload progress simulated via a timer).\n- Mock data for the four documents and their states is defined directly in `Screen.tsx`; no backend or extra files were touched.\n\nI can't run the dev server to visually verify (per instructions), but the code is composed entirely from Syntara components/tokens and passed the design-system audit cleanly."
+  }
+}

@@ -1,0 +1,112 @@
+.screen {
+  display: grid;
+  gap: var(--syntara-space-6);
+  max-inline-size: 560px;
+  margin-inline: auto;
+  padding: var(--syntara-space-6) var(--syntara-space-4);
+}
+
+.header {
+  display: grid;
+  gap: var(--syntara-space-1);
+}
+
+.heading {
+  margin: 0;
+  font: var(--syntara-font-heading);
+  font-size: var(--syntara-font-size-2xl);
+  font-weight: var(--syntara-font-weight-semibold);
+  color: var(--syntara-color-text-default);
+}
+
+.balanceCard {
+  display: grid;
+}
+
+.balanceContent {
+  display: grid;
+  gap: var(--syntara-space-5);
+}
+
+.balanceRow {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--syntara-space-3);
+  flex-wrap: wrap;
+}
+
+.balanceLabel {
+  margin: 0 0 var(--syntara-space-1);
+  font-size: var(--syntara-font-size-sm);
+  color: var(--syntara-color-text-subtle);
+}
+
+.balanceValue {
+  margin: 0;
+  font: var(--syntara-font-heading);
+  font-size: var(--syntara-font-size-4xl);
+  font-weight: var(--syntara-font-weight-regular);
+  color: var(--syntara-color-text-default);
+}
+
+.balanceUnit {
+  font-size: var(--syntara-font-size-md);
+  color: var(--syntara-color-text-subtle);
+}
+
+.list {
+  display: grid;
+  gap: var(--syntara-space-4);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--syntara-space-3);
+}
+
+.rowMain {
+  display: flex;
+  align-items: center;
+  gap: var(--syntara-space-3);
+  min-inline-size: 0;
+}
+
+.rowText {
+  min-inline-size: 0;
+}
+
+.rowTitle {
+  margin: 0;
+  overflow-wrap: break-word;
+  font-size: var(--syntara-font-size-sm);
+  font-weight: var(--syntara-font-weight-medium);
+  color: var(--syntara-color-text-default);
+}
+
+.rowDate {
+  margin: 0;
+  font-size: var(--syntara-font-size-xs);
+  color: var(--syntara-color-text-subtle);
+}
+
+.rowAmount {
+  flex-shrink: 0;
+  font-size: var(--syntara-font-size-sm);
+  font-weight: var(--syntara-font-weight-medium);
+  font-variant-numeric: tabular-nums;
+  color: var(--syntara-color-text-default);
+}
+
+.rowAmount[data-kind='earned'] {
+  color: var(--syntara-color-feedback-success-fg);
+}
+
+.rowAmount[data-kind='spent'] {
+  color: var(--syntara-color-text-subtle);
+}

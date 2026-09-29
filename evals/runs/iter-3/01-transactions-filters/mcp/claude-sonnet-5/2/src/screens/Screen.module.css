@@ -1,0 +1,81 @@
+.page {
+  display: grid;
+  gap: var(--syntara-space-6);
+  padding-block: var(--syntara-space-6);
+  padding-inline: var(--syntara-space-6);
+  inline-size: 100%;
+  max-inline-size: 1100px;
+  margin-inline: auto;
+}
+
+.header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--syntara-space-4);
+}
+
+.titleBlock {
+  display: grid;
+  gap: var(--syntara-space-1);
+  min-inline-size: 0;
+}
+
+.title {
+  margin: 0;
+  font-family: var(--syntara-font-heading);
+  font-size: var(--syntara-font-size-2xl);
+  font-weight: var(--syntara-font-weight-semibold);
+  letter-spacing: var(--syntara-font-tracking-2xl);
+  color: var(--syntara-color-text-default);
+}
+
+.subtitle {
+  margin: 0;
+  font-family: var(--syntara-font-body);
+  font-size: var(--syntara-font-size-sm);
+  color: var(--syntara-color-text-subtle);
+}
+
+.card {
+  inline-size: 100%;
+}
+
+.toolbar {
+  flex-wrap: wrap;
+}
+
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: var(--syntara-space-3);
+  flex: 1 1 auto;
+  min-inline-size: 0;
+}
+
+.search {
+  flex: 2 1 220px;
+  min-inline-size: 0;
+}
+
+.categorySelect {
+  flex: 1 1 180px;
+  min-inline-size: 0;
+}
+
+.dateRange {
+  flex: 1 1 240px;
+  min-inline-size: 0;
+}
+
+.actions {
+  display: flex;
+  gap: var(--syntara-space-2);
+  flex: 0 0 auto;
+}
+
+.tableWell {
+  min-inline-size: 0;
+}

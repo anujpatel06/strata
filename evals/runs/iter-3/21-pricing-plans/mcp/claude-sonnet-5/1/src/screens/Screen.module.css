@@ -1,0 +1,127 @@
+.page {
+  display: grid;
+  gap: var(--syntara-space-8);
+  padding-inline: var(--syntara-space-8);
+  padding-block: var(--syntara-space-12);
+  max-inline-size: 1080px;
+  margin-inline: auto;
+}
+
+.header {
+  display: grid;
+  gap: var(--syntara-space-3);
+  justify-items: start;
+  text-align: start;
+}
+
+.title {
+  font-family: var(--syntara-font-heading);
+  font-size: var(--syntara-font-size-3xl);
+  font-weight: var(--syntara-font-weight-semibold);
+  letter-spacing: var(--syntara-font-tracking-3xl);
+  color: var(--syntara-color-text-default);
+  margin: 0;
+}
+
+.subtitle {
+  font-family: var(--syntara-font-body);
+  font-size: var(--syntara-font-size-lg);
+  color: var(--syntara-color-text-subtle);
+  margin: 0;
+  max-inline-size: 60ch;
+}
+
+.periodToggle {
+  margin-block-start: var(--syntara-space-2);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
+  gap: var(--syntara-space-6);
+  align-items: stretch;
+}
+
+@media (min-width: 720px) {
+  .grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  inline-size: 100%;
+}
+
+.badge {
+  margin-block-end: var(--syntara-space-2);
+  align-self: start;
+}
+
+.priceRow {
+  display: flex;
+  align-items: baseline;
+  gap: var(--syntara-space-2);
+  flex-wrap: wrap;
+  margin-block-end: var(--syntara-space-4);
+}
+
+.pricePeriod {
+  font-family: var(--syntara-font-body);
+  font-size: var(--syntara-font-size-sm);
+  color: var(--syntara-color-text-subtle);
+}
+
+.featureList {
+  display: grid;
+  gap: var(--syntara-space-3);
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.featureRow {
+  display: flex;
+  align-items: center;
+  gap: var(--syntara-space-2);
+}
+
+.iconIncluded {
+  inline-size: var(--syntara-font-size-lg);
+  block-size: var(--syntara-font-size-lg);
+  flex-shrink: 0;
+  color: var(--syntara-color-feedback-success-fg);
+}
+
+.iconExcluded {
+  inline-size: var(--syntara-font-size-lg);
+  block-size: var(--syntara-font-size-lg);
+  flex-shrink: 0;
+  color: var(--syntara-color-text-subtle);
+}
+
+.featureText {
+  font-family: var(--syntara-font-body);
+  font-size: var(--syntara-font-size-md);
+  color: var(--syntara-color-text-default);
+}
+
+.featureTextMuted {
+  font-family: var(--syntara-font-body);
+  font-size: var(--syntara-font-size-md);
+  color: var(--syntara-color-text-subtle);
+}
+
+.chooseButton {
+  inline-size: 100%;
+}
+
+.visuallyHidden {
+  position: absolute;
+  inline-size: 1px;
+  block-size: 1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+}

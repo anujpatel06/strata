@@ -1,0 +1,51 @@
+.page {
+  display: grid;
+  gap: var(--syntara-space-6);
+  padding: var(--syntara-space-8);
+  max-inline-size: 960px;
+  margin-inline: auto;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: var(--syntara-space-3);
+}
+
+.title {
+  font-family: var(--syntara-font-heading);
+  font-size: var(--syntara-font-size-2xl);
+  font-weight: var(--syntara-font-weight-semibold);
+  letter-spacing: var(--syntara-font-heading-tracking);
+  margin: 0;
+}
+
+.nameCell {
+  display: flex;
+  align-items: center;
+  gap: var(--syntara-space-2);
+  min-inline-size: 0;
+}
+
+.nameCell span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.account {
+  font-family: var(--syntara-font-mono);
+  font-size: var(--syntara-font-size-sm);
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--syntara-space-1);
+}
+
+.selectionText {
+  font-size: var(--syntara-font-size-sm);
+  font-weight: var(--syntara-font-weight-medium);
+  color: var(--syntara-color-text-subtle);
+}

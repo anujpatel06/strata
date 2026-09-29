@@ -1,0 +1,34 @@
+.root {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-block-size: 100dvh;
+  padding-block: var(--syntara-space-8);
+  padding-inline: var(--syntara-space-4);
+}
+
+.card {
+  inline-size: 100%;
+  max-inline-size: 26rem;
+}
+
+.form {
+  display: contents;
+}
+
+.fields {
+  display: grid;
+  gap: var(--syntara-field-gap);
+}
+
+.options {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--syntara-space-3);
+}
+
+.submit {
+  inline-size: 100%;
+}

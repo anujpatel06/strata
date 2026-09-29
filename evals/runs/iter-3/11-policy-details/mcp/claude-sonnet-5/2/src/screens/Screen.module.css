@@ -1,0 +1,121 @@
+.page {
+  display: grid;
+  gap: var(--syntara-space-6);
+  max-inline-size: 960px;
+  margin-inline: auto;
+  padding: var(--syntara-space-6);
+}
+
+.header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: start;
+  justify-content: space-between;
+  gap: var(--syntara-space-4);
+}
+
+.headerText {
+  display: grid;
+  gap: var(--syntara-space-1);
+  min-inline-size: 0;
+}
+
+.name {
+  margin: 0;
+  font-family: var(--syntara-font-heading);
+  font-size: var(--syntara-font-size-2xl);
+  font-weight: var(--syntara-font-weight-semibold);
+  color: var(--syntara-color-text-default);
+}
+
+.number {
+  margin: 0;
+  font-size: var(--syntara-font-size-sm);
+  color: var(--syntara-color-text-subtle);
+}
+
+.coverGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--syntara-space-4);
+  margin-block-start: var(--syntara-space-4);
+}
+
+.paymentsGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+  gap: var(--syntara-space-4);
+  margin-block-start: var(--syntara-space-4);
+}
+
+@media (max-width: 640px) {
+  .coverGrid,
+  .paymentsGrid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.coverList {
+  display: grid;
+  gap: var(--syntara-space-3);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.coverItem {
+  display: flex;
+  align-items: start;
+  gap: var(--syntara-space-2);
+  font-size: var(--syntara-font-size-sm);
+  color: var(--syntara-color-text-default);
+}
+
+.iconSuccess {
+  flex-shrink: 0;
+  color: var(--syntara-color-feedback-success-fg);
+}
+
+.iconDanger {
+  flex-shrink: 0;
+  color: var(--syntara-color-feedback-danger-fg);
+}
+
+.list {
+  display: grid;
+  gap: var(--syntara-space-4);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.listRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--syntara-space-3);
+}
+
+.docIcon {
+  display: inline-flex;
+  color: var(--syntara-color-text-subtle);
+  font-size: var(--syntara-font-size-xl);
+}
+
+.listText {
+  display: grid;
+  flex: 1;
+  min-inline-size: 0;
+  gap: var(--syntara-space-1);
+}
+
+.listTitle {
+  font-size: var(--syntara-font-size-sm);
+  font-weight: var(--syntara-font-weight-medium);
+  color: var(--syntara-color-text-default);
+}
+
+.listMeta {
+  font-size: var(--syntara-font-size-xs);
+  color: var(--syntara-color-text-subtle);
+}

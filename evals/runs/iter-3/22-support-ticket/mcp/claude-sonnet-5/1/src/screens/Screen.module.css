@@ -1,0 +1,23 @@
+.page {
+  display: flex;
+  justify-content: center;
+  padding: var(--syntara-space-8) var(--syntara-space-4);
+}
+
+.page > * {
+  inline-size: 100%;
+  max-inline-size: 560px;
+}
+
+.form {
+  display: contents;
+}
+
+.fields {
+  display: grid;
+  gap: var(--syntara-space-6);
+}
+
+.footer {
+  justify-content: flex-end;
+}

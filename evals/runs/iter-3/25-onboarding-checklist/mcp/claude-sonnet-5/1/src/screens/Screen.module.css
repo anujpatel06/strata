@@ -1,0 +1,75 @@
+.page {
+  display: flex;
+  justify-content: center;
+  padding-block: var(--syntara-space-8);
+  padding-inline: var(--syntara-space-4);
+}
+
+.card {
+  inline-size: 100%;
+  max-inline-size: 640px;
+}
+
+.content {
+  display: grid;
+  gap: var(--syntara-space-6);
+}
+
+.accordion {
+  display: grid;
+  gap: var(--syntara-space-1);
+}
+
+.stepHeader {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: var(--syntara-space-3);
+  inline-size: 100%;
+  text-align: start;
+}
+
+.stepTitleText {
+  font-weight: var(--syntara-font-weight-medium);
+  overflow-wrap: break-word;
+}
+
+.stepBody {
+  display: grid;
+  gap: var(--syntara-space-2);
+  padding-inline-start: var(--syntara-space-1);
+}
+
+.stepSummary {
+  color: var(--syntara-color-text-subtle);
+  font-size: var(--syntara-font-size-sm);
+}
+
+.involvesLabel {
+  font-size: var(--syntara-font-size-xs);
+  font-weight: var(--syntara-font-weight-semibold);
+  color: var(--syntara-color-text-subtle);
+  text-transform: uppercase;
+  letter-spacing: var(--syntara-font-tracking-caps);
+  margin-block-start: var(--syntara-space-1);
+}
+
+.involvesList {
+  display: grid;
+  gap: var(--syntara-space-1);
+  padding-inline-start: var(--syntara-space-5);
+  color: var(--syntara-color-text-default);
+  font-size: var(--syntara-font-size-sm);
+}
+
+.lockedNote {
+  display: flex;
+  align-items: center;
+  gap: var(--syntara-space-2);
+  color: var(--syntara-color-feedback-warning-fg);
+  font-size: var(--syntara-font-size-sm);
+}
+
+.lockedNote svg {
+  flex-shrink: 0;
+}

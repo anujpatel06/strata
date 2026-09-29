@@ -1,0 +1,76 @@
+.page {
+  display: grid;
+  gap: var(--syntara-space-6);
+  max-inline-size: 960px;
+  margin-inline: auto;
+  padding: var(--syntara-space-6);
+}
+
+.header {
+  display: grid;
+  gap: var(--syntara-space-1);
+}
+
+.title {
+  font: var(--syntara-font-heading);
+  font-size: var(--syntara-font-size-xl);
+  font-weight: var(--syntara-font-weight-semibold);
+  color: var(--syntara-color-text-default);
+  margin: 0;
+}
+
+.subtitle {
+  font-size: var(--syntara-font-size-sm);
+  color: var(--syntara-color-text-subtle);
+  margin: 0;
+}
+
+.stats {
+  grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
+}
+
+.activityList {
+  display: grid;
+  gap: var(--syntara-space-4);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.activityRow {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: var(--syntara-space-3);
+}
+
+.activityText {
+  display: grid;
+  min-inline-size: 0;
+  font-size: var(--syntara-font-size-sm);
+}
+
+.activityTitle {
+  font-weight: var(--syntara-font-weight-medium);
+  color: var(--syntara-color-text-default);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.activityMeta {
+  font-size: var(--syntara-font-size-xs);
+  color: var(--syntara-color-text-subtle);
+}
+
+.activityAmount {
+  font-variant-numeric: tabular-nums;
+  font-weight: var(--syntara-font-weight-semibold);
+  font-size: var(--syntara-font-size-sm);
+  color: var(--syntara-color-text-default);
+  white-space: nowrap;
+}
+
+.activityAmountIn {
+  color: var(--syntara-color-feedback-success-fg);
+}

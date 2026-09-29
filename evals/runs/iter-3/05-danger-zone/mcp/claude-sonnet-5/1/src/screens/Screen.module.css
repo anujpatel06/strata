@@ -1,0 +1,61 @@
+.page {
+  display: grid;
+  gap: var(--syntara-space-8);
+  max-inline-size: 720px;
+  margin-inline: auto;
+  padding-block: var(--syntara-space-8);
+  padding-inline: var(--syntara-space-4);
+}
+
+.header {
+  display: grid;
+  gap: var(--syntara-space-2);
+}
+
+.title {
+  font-family: var(--syntara-font-heading);
+  font-size: var(--syntara-font-size-xl);
+  font-weight: var(--syntara-font-weight-semibold);
+  letter-spacing: var(--syntara-font-heading-tracking);
+  color: var(--syntara-color-text-default);
+}
+
+.description {
+  font-family: var(--syntara-font-body);
+  font-size: var(--syntara-font-size-md);
+  color: var(--syntara-color-text-subtle);
+}
+
+.section {
+  display: grid;
+}
+
+.fieldGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--syntara-field-gap);
+}
+
+.fieldGrid > *:first-child {
+  grid-column: 1 / -1;
+}
+
+.switchGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--syntara-space-4);
+}
+
+.footerEnd {
+  justify-content: flex-end;
+}
+
+.dialogIntro {
+  margin-block-end: var(--syntara-space-2);
+}
+
+.lossList {
+  display: grid;
+  gap: var(--syntara-space-1);
+  padding-inline-start: var(--syntara-space-5);
+}
