@@ -66,3 +66,55 @@ jobs:
           name: theme-reports
           path: packages/theme-engine/reports
           if-no-files-found: warn
+
+  # The two browser sweeps that stand behind the accessibility claim a PR makes. They need a built, served site, so
+  # they run as their own job beside `verify` rather than inside it.
+  #
+  # First run on a runner (36595744517): this job 16.4 min, `verify` 11.8 min, started together. So a PR's wait went
+  # from about twelve minutes to about sixteen — beside `verify` is cheaper than inside it, but it is not free, and
+  # this job is the critical path now. Locally, 113 routes × light and dark: axe-sweep 9m04s, check-overlay-exit
+  # 1m52s, docs build 27s. The 45-minute ceiling leaves room for a slower runner.
+  a11y:
+    name: axe · overlay exit
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v5
+
+      # pnpm version comes from "packageManager" in package.json
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+      - run: npx playwright install --with-deps chromium
+
+      # Every workspace package resolves to its own source ("exports" points at src/), so the docs export is the
+      # only thing that has to be built here.
+      - run: pnpm --filter @syntara/docs build
+
+      # `pnpm --filter @syntara/docs start` is `serve out -l 3000`, and serve falls back to a random port when 3000
+      # is taken, prints the port it actually took, and still exits 0. So the port is read from serve's own output
+      # rather than assumed. Both scripts then assert the served build id (scripts/served-build.mjs), which is what
+      # proves they measured this build and not another server.
+      - name: Serve the export
+        run: |
+          pnpm --filter @syntara/docs start > /tmp/serve.log 2>&1 &
+          echo $! > /tmp/serve.pid
+          for _ in $(seq 1 60); do grep -qE 'http://localhost:[0-9]+' /tmp/serve.log && break; sleep 1; done
+          port="$(grep -oE 'http://localhost:[0-9]+' /tmp/serve.log | head -1 | sed 's#.*:##')"
+          if [ -z "$port" ]; then echo 'serve never reported a port:'; cat /tmp/serve.log; exit 1; fi
+          cat /tmp/serve.log
+          echo "SYNTARA_BASE_URL=http://localhost:$port" >> "$GITHUB_ENV"
+
+      # WCAG 2.2 AA over every docs route in light and dark. Fails on a violation node, and on a route it could not
+      # measure (load-failed, pageerror, not-hydrated), so an unmeasured route cannot read as a clean one.
+      - name: Every docs route passes axe, light and dark
+        run: node scripts/axe-sweep.mjs
+
+      # Overlays must unmount when they close. jsdom has no Web Animations API, so only a real browser shows this.
+      - name: Overlays unmount when they close
+        run: node scripts/check-overlay-exit.mjs
