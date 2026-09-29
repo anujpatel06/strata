@@ -67,8 +67,15 @@ function brahmicBase(grapheme: string): string {
   return Array.from(grapheme.replace(/\p{M}/gu, ''))[0] ?? grapheme;
 }
 
+/**
+ * Where `Intl.Segmenter` is missing: a base character with its combining marks (accents, vowel signs), skin tones and
+ * zero-width-joiner sequences, or a flag's two regional indicators. An approximation of a grapheme cluster, and closer
+ * than the first code point, which halves a flag and drops a decomposed accent.
+ */
+const CLUSTER_FALLBACK = /\p{Regional_Indicator}{2}|[^\p{M}\u200D](?:\p{M}|\p{Emoji_Modifier}|\u200D[^\p{M}\u200D]?)*|[\s\S]/gu;
+
 function firstGrapheme(word: string, locale: string): string {
-  let grapheme = Array.from(word)[0] ?? '';
+  let grapheme = word.match(CLUSTER_FALLBACK)?.[0] ?? '';
   if (typeof Intl !== 'undefined' && 'Segmenter' in Intl) {
     const first = new Intl.Segmenter(locale, { granularity: 'grapheme' }).segment(word)[Symbol.iterator]().next();
     if (!first.done) grapheme = first.value.segment;
