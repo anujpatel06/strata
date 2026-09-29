@@ -4,7 +4,7 @@
  * Versioning (README "Versions"): `schemaVersion` is semver. A client supports one major. Minor versions only add
  * (a node, a prop, an enum value, an icon). Removing or renaming anything, or tightening a rule, is a major.
  */
-export const SCHEMA_VERSION = '1.0.0';
+export const SCHEMA_VERSION = '1.1.0';
 
 export const SUPPORTED_MAJOR = Number(SCHEMA_VERSION.split('.')[0]);
 

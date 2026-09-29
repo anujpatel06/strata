@@ -9,3 +9,4 @@ export * from './icons/media';
 export * from './icons/travel';
 export * from './icons/system';
 export * from './icons/filled';
+export * from './icons/duotone';

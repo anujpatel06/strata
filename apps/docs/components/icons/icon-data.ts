@@ -1,7 +1,8 @@
 /**
  * Server-only: the icon set's structure and style numbers, read from packages/icons at build time so the page
- * can't drift from the package. Groups follow the source files (core, navigation, status, objects) in the order
- * src/index.ts exports them; the grid, live area and stroke come from the spec in create-icon.tsx.
+ * can't drift from the package. Groups follow the source files in the order src/index.ts exports them — the
+ * subject groups, then the two style layers, Filled and Duotone. The grid, live area and stroke come from the
+ * spec in create-icon.tsx.
  */
 import { readRepoFile } from '@/lib/repo';
 
@@ -30,6 +31,8 @@ const GROUP_LABEL: Record<string, string> = {
   navigation: 'Navigation',
   status: 'Status',
   objects: 'Objects',
+  filled: 'Filled',
+  duotone: 'Duotone',
 };
 
 export function getIconGroups(): IconGroup[] {
@@ -37,9 +40,29 @@ export function getIconGroups(): IconGroup[] {
   const files = [...index.matchAll(/export \* from '\.\/icons\/([\w-]+)'/g)].map((m) => m[1]!);
   return files.map((id) => {
     const source = readRepoFile('packages', 'icons', 'src', 'icons', `${id}.ts`) ?? '';
-    const names = [...source.matchAll(/export const (Icon\w+)\s*=\s*createIcon\(/g)].map((m) => m[1]!);
+    // Most icons are a createIcon() call; the duotone layer composes its outline twin instead (duotone-kit.ts).
+    const names = [...source.matchAll(/export const (Icon\w+)\s*=\s*(?:createIcon|duotone|untinted)\(/g)].map((m) => m[1]!);
     return { id, label: GROUP_LABEL[id] ?? id.charAt(0).toUpperCase() + id.slice(1), names };
   });
+}
+
+export interface DuotoneFacts {
+  /** Twins in the duotone layer. */
+  total: number;
+  /** Twins with no tint: marks that enclose no area, so there is nothing to fill (ADR-036). */
+  untinted: number;
+  /** The tint token's declaration, read from the kit so the page can't quote a stale default. */
+  tint: string;
+}
+
+export function getDuotoneFacts(): DuotoneFacts {
+  const source = readRepoFile('packages', 'icons', 'src', 'icons', 'duotone.ts') ?? '';
+  const kit = readRepoFile('packages', 'icons', 'src', 'icons', 'duotone-kit.ts') ?? '';
+  return {
+    total: [...source.matchAll(/export const Icon\w+\s*=\s*(?:duotone|untinted)\(/g)].length,
+    untinted: [...source.matchAll(/export const Icon\w+\s*=\s*untinted\(/g)].length,
+    tint: /export const TINT = '([^']+)'/.exec(kit)?.[1] ?? '',
+  };
 }
 
 export function getIconSpec(): IconSpec {

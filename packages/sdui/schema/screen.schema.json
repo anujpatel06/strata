@@ -4,7 +4,7 @@
   "title": "Syntara screen",
   "description": "A screen sent from a server and drawn with Syntara components. It has no theme, tenant, scheme or density: those belong to the client that renders it.",
   "x-syntara": {
-    "schemaVersion": "1.0.0",
+    "schemaVersion": "1.1.0",
     "source": "sdui"
   },
   "type": "object",
