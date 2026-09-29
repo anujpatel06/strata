@@ -94,6 +94,12 @@
   padding-inline-start: var(--syntara-space-6);
   font-size: var(--syntara-font-size-lg);
   line-height: var(--syntara-line-height-normal);
+  /*
+   * Notes quote file paths, and a path is one unbreakable word: "packages/theme-engine/src/contrast-pairs.json"
+   * is 46 characters with nowhere to wrap. On a 320px phone it made the page scroll sideways. `anywhere` rather
+   * than `break-word` because only `anywhere` lowers the box's min-content size, which is what a grid measures.
+   */
+  overflow-wrap: anywhere;
 }
 
 /* ---- Guidelines: two calm columns. The tone lives in a small icon chip; the text stays default. ---- */

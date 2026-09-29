@@ -346,9 +346,14 @@
   gap: var(--syntara-space-4);
 }
 
+/*
+ * Two columns only while two will hold a figure. Fixed at two, a 320px phone gave each tile an 86px column, and
+ * a display-size number ("₹1,84,250" at 3xl) has no break opportunity — it overflowed by 71px and scrolled the
+ * whole page sideways. ~160px is the width one of these figures needs; below that the tiles stack.
+ */
 .tenantStats {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, calc(var(--syntara-space-16) * 2.5)), 1fr));
   gap: var(--syntara-space-3);
 }
 
@@ -375,8 +380,13 @@
 
 /* ---- Accessible by construction ---- */
 
+/*
+ * StatTileGroup collapses to one column on its own; pinning it to two took that away, and on a 320px phone each
+ * tile got 134px. A figure at 3xl has no break opportunity, so it overflowed by 71px and scrolled the whole page
+ * sideways. Two columns while two will hold a figure (~160px), one below that.
+ */
 .figures.figures {
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, calc(var(--syntara-space-16) * 2.5)), 1fr));
   gap: var(--docs-card-gap);
 }
 /* Same corner as every other card on the page (StatTile already uses the container radius; this pins it to the

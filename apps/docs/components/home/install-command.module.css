@@ -53,12 +53,16 @@
   flex: none;
 }
 
-/* The command plus a caveat under it. Inline-size hugs the command so the note wraps to the same width. */
+/*
+ * The command plus a caveat under it. The group is as wide as the note, which is wider than the command, so the
+ * two have to be centred against each other — aligning them to the start left the command visibly off-centre in
+ * the hero, which centres everything else.
+ */
 .withNote {
   display: inline-flex;
   flex-direction: column;
   gap: var(--syntara-space-2);
-  align-items: start;
+  align-items: center;
   max-inline-size: 100%;
   min-inline-size: 0;
 }
@@ -72,6 +76,6 @@
   color: var(--syntara-color-text-subtle);
   font-size: var(--syntara-font-size-sm);
   line-height: var(--syntara-line-height-snug);
-  text-align: start;
+  /* No text-align of its own: it follows whatever the surrounding copy does. */
   text-wrap: pretty;
 }
