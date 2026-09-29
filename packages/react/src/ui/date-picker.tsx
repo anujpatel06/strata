@@ -110,12 +110,26 @@ function renderDateInput(slot?: 'start' | 'end'): JSX.Element {
 }
 
 /** One segment, with the placeholder filled in from Intl when React Aria had none for this locale. */
+/**
+ * Which space Intl puts before "AM" changed in CLDR 42, from an ordinary space to a narrow no-break one. The
+ * runtime that prerenders a page is not the one that hydrates it, so the two can disagree on that one character:
+ * measured on the deployed site, Node wrote U+202F where the browser rendered U+0020, and React threw error #418
+ * on every visit. Any separator that is only spaces is normalised to the narrow no-break space, which is the
+ * modern value and the right one here — a time should not wrap between "9:30" and "AM" (ADR-035).
+ *
+ * A separator with anything else in it ("/", ".", ", ") is left exactly as the locale wrote it.
+ */
+const SPACES = /^[\u0020\u00A0\u2009\u202F]+$/;
+const normaliseSpaces = (text: string): string => (SPACES.test(text) ? '\u202F'.repeat(text.length) : text);
+
 function LocalizedSegment({ segment }: { segment: DateSegmentProps['segment'] }): JSX.Element {
   const { locale } = useLocale();
   const names = useMemo(() => localePlaceholders(locale), [locale]);
   return (
     <DateSegment segment={segment} className={styles.segment}>
-      {({ isPlaceholder, text, type }) => (!isPlaceholder || !names || !isAsciiFallback(text) ? text : (names(type) ?? text))}
+      {({ isPlaceholder, text, type }) =>
+        normaliseSpaces(!isPlaceholder || !names || !isAsciiFallback(text) ? text : (names(type) ?? text))
+      }
     </DateSegment>
   );
 }
