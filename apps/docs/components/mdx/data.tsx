@@ -391,14 +391,18 @@ export function TenantGrid() {
     <div className={styles.tenants}>
       {tenants.map((t) => {
         const theme = generateTheme(t.brand);
+        // Both ramps: the swatches pick one with light-dark(), so they follow the page like the rest of the card.
         const ramp = theme.schemes.light.ramps.primary;
+        const rampDark = theme.schemes.dark.ramps.primary;
         const typeName = TYPE_PAIRS[t.brand.typePair].label.split(' — ')[1]?.split(' / ')[0] ?? t.brand.typePair;
         const s = t.specimen;
         const review = checkCopyReview(t.id, t.copyReview);
         // Each specimen and, below it in the page's own voice, the draft-copy note when its copy is unreviewed.
         return (
           <div key={t.id} className={styles.tenantItem}>
-          <ThemeScope theme={t.id} scheme="light" locale={t.locale} className={styles.tenant}>
+          {/* Follows the site's light/dark like everything else on the page, rather than being pinned to
+              light — a white card on a dark page read as a rendering fault, not as a brand. */}
+          <ThemeScope theme={t.id} data-syntara-scheme="site" locale={t.locale} className={styles.tenant}>
             <div className={styles.tenantHead}>
               <span className={styles.tenantMark} aria-hidden="true" />
               <p className={styles.tenantName}>{t.product.name}</p>
@@ -416,7 +420,7 @@ export function TenantGrid() {
             ) : null}
             <div className={styles.ramp} aria-hidden="true">
               {ramp.map((hex, i) => (
-                <span key={i} style={{ background: hex }} />
+                <span key={i} style={{ background: `light-dark(${hex}, ${rampDark[i] ?? hex})` }} />
               ))}
             </div>
             <p className={styles.tenantCaption} dir="ltr" lang="en">
