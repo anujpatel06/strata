@@ -7,7 +7,9 @@ Run these from the repo root and stop at the first failure. Fix it, or report it
 
 1. `pnpm --filter @syntara/react gen:index` (regenerate the component barrel)
 2. `pnpm typecheck`
-3. `pnpm test` (engine + components; all must pass)
+3. `pnpm test` (engine + components; all must pass), then `node scripts/check-test-counts.mjs --from <that
+   output>` — the README's "Tests passing" row is hand-maintained, and this is what catches it going stale
+   (`--fix` writes the counts; it does not move the table's "Measured" date, which covers every row)
 4. `pnpm test:themes`: all checks pass, and the median adjustments per brand have not risen without a reason
 5. `pnpm check:meta` (every component passes)
 6. `pnpm registry` (every item ok)

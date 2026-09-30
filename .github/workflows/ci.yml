@@ -31,7 +31,14 @@ jobs:
 
       - run: pnpm install --frozen-lockfile
       - run: pnpm typecheck
-      - run: pnpm test
+      # The README's "Tests passing" row is maintained by hand and nothing compared it to the suite, so it sat at
+      # 1,439 while the suite was at 2,167 (2026-09-30). `pipefail` matters: without it `tee` would swallow a
+      # failing suite and the check below would be measuring a run nobody looked at.
+      - name: pnpm test, and the README's counts match it
+        run: |
+          set -o pipefail
+          pnpm test | tee /tmp/pnpm-test.log
+          node scripts/check-test-counts.mjs --from /tmp/pnpm-test.log
       # Component metadata, maturity criteria and deprecation records (GOVERNANCE.md §5, §7)
       - run: pnpm check:meta
       # The drift gate: the docs app, which stands in for the reference product, must stay on-system (BRIEF §9)
