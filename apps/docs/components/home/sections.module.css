@@ -48,8 +48,10 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: var(--syntara-space-5);
-  padding-block: 0 var(--syntara-space-12);
+  gap: var(--syntara-space-4);
+  /* The demo below is the page's argument; the hero is its caption. Everything here is sized to get out of the
+     way of it, so a third of the grid is in view before anyone scrolls. */
+  padding-block: 0 var(--syntara-space-8);
   text-align: center;
 }
 
@@ -88,7 +90,8 @@
 }
 @media (min-width: 768px) {
   .hero {
-    padding-block: var(--syntara-space-4) var(--syntara-space-16);
+    /* Was space-16 below: 64px of air between the hero and the demo it introduces. */
+    padding-block: var(--syntara-space-4) var(--syntara-space-8);
   }
 }
 
@@ -156,12 +159,14 @@
 }
 @media (min-width: 768px) {
   .heroTitle {
-    font-size: calc(var(--syntara-font-size-5xl) * 1.375);
+    font-size: var(--syntara-font-size-5xl);
   }
 }
 @media (min-width: 1280px) {
+  /* Was 5xl × 1.625 — 78px, four times the lead, for a line that could head any design system's page. The
+     specific claim is the line under it, so the headline stops outweighing it by so much. */
   .heroTitle {
-    font-size: calc(var(--syntara-font-size-5xl) * 1.625);
+    font-size: calc(var(--syntara-font-size-5xl) * 1.125);
   }
 }
 
@@ -194,6 +199,12 @@
   .heroLead {
     font-size: calc(var(--syntara-font-size-lg) * 1.125);
   }
+}
+
+.heroNote {
+  color: var(--syntara-color-text-subtle);
+  font-size: var(--syntara-font-size-sm);
+  text-wrap: pretty;
 }
 
 .heroActions {

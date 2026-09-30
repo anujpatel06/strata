@@ -6,6 +6,61 @@ Numbers only with the command that produced them. Design trade-offs get an ADR i
 
 ---
 
+## 2026-09-30 (hero) — the demo is the argument, so it moves above the fold
+
+**Changed**
+- **The hero is now a caption for the demo rather than a screen in front of it.** 751px of a 900px viewport went to
+  words before the live showcase appeared; it starts at **550px** now.
+- **The headline drops from 78px to 54px** (`5xl × 1.625` → `5xl × 1.125` at ≥1280, and `5xl × 1.375` → `5xl` at
+  ≥768). At 78px it was 4.3× the lead, for a line — "One design system. Every brand." — that could head any design
+  system's page. The specific claim is the line under it.
+- **The lead is one sentence:** "Six brand inputs become a light and dark theme that passes WCAG 2.2 AA." The half
+  that was cut ("one React library renders every brand") is what the demo underneath shows rather than tells, and
+  the agents claim already has its own section.
+- **The `npm install` block is gone from the hero.** It had the full "run this" treatment — bordered, monospace, a
+  copy button — for a package that does not exist, with a line under it taking that back. What is left is the honest
+  half, one line: "Not on npm yet — it publishes in Phase 6. Copy a component's source." Nothing is promised, so
+  nothing needs retracting, and the command still lives on `/docs/installation`, where someone installing looks.
+- "Browse components" goes from `outline` to `ghost`, so there is one primary action rather than two of a weight.
+- Hero bottom padding `space-16` → `space-8`, and the gap `space-5` → `space-4`.
+
+**Decided**
+- **Demo-first — Anuj.** Three options were put up: trim the hero but keep its shape, restructure so the demo is the
+  hero, or fix only the copy. Anuj chose the restructure. The live showcase is the page's argument — six brands, any
+  hex, contrast re-solved in front of you — and it was the last thing on the page.
+- **The site shell's 64px top padding stays.** It is shared by every page, and cutting it for the homepage alone
+  would buy 64px at the cost of the site's one consistent frame.
+
+**Results**
+Measured in the browser against the static export (build `1SH2qzr0MpmjwnY2VQgm0`).
+
+| | before | after |
+|---|---|---|
+| demo starts at | 751px | **550px** |
+| visible at 1280×800 | 49px (3.1%) | **250px (15.9%)** |
+| visible at 1440×900 | 149px (9.7%) | **350px (22.7%)** |
+| visible at 1512×982 | 231px (15.0%) | **432px (28.0%)** |
+| headline | 78px | 54px |
+
+- `pnpm typecheck` 0 errors · `pnpm test` 2,167 passing, 1 skipped · `check-override-weight` 0 ·
+  `check-ssr-tabs` 81 pages, 326 tab lists, 0 · `check-hydration` 113 × 2, 0 · `check-theme-links` 5, 0 ·
+  `check-narrow-overflow` 113 routes at 320px, 0 · `check-csp` 113, 0 · **`axe-sweep` 113 × 2 schemes, 0 violation
+  nodes** · `check-overlay-exit` 108 tooltips, 4 overlays, 0 failures.
+
+**Found by measuring, not fixed**
+- **This work was first built on a `main` five commits stale.** `git checkout main` picked up a local branch left at
+  `ee4fe24`, so the first round of measurements and a screenshot were taken against a homepage without #9, #10, #11,
+  #7 or #12 in it. The tell was in the screenshot: the toolbar showed the old detached swatch instead of the single
+  field that had merged an hour earlier. Rebasing onto `origin/main` applied cleanly — the hero files and the
+  toolbar files do not overlap — and every number above is from the rebased build. `git checkout origin/main`, or
+  checking `git log origin/main -1`, is the habit that would have caught it before the build rather than after.
+- The toolbar still has no label saying it drives the grid below. It is adjacent to the demo now, which carries
+  most of the meaning, but "switch brand and watch" is not said anywhere.
+
+**Next**
+- Anuj: at 390px the demo is still only 5.6% visible (227px of 4,090), because the grid itself is four times taller
+  when it stacks. Worth deciding whether the phone layout should show a shorter demo rather than the whole grid.
+
 ## 2026-09-30 (toolbar) — the colour field shows the colour you picked
 
 **Changed**

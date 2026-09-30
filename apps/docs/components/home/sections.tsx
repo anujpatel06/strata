@@ -20,6 +20,7 @@ import Link from 'next/link';
 import type { ReactNode } from 'react';
 import { CodeBlock } from '@/components/mdx/code-block';
 import { ButtonLink } from '@/components/page/button-link';
+import { InstallCommand } from './install-command';
 import { DraftCopyNote } from '@/components/page/draft-copy-note';
 import { getMeta } from '@/lib/meta';
 import { GITHUB_URL } from '@/lib/site';
@@ -31,7 +32,6 @@ import {
   type TenantOverview,
 } from './home-data';
 import { HeroAccent, HeroGlow } from './home-stage';
-import { InstallCommand } from './install-command';
 import { TenantCard } from './tenant-card';
 import styles from './sections.module.css';
 
@@ -75,27 +75,27 @@ export function Hero() {
       <h1 id="home-title" className={styles.heroTitle}>
         One design system. <HeroAccent className={styles.heroBreak}>Every brand.</HeroAccent>
       </h1>
-      <p className={styles.heroLead}>
-        Six brand inputs become a light and dark theme that passes WCAG 2.2 AA. One React library renders every
-        brand, for the people and the AI agents who build with it.
-      </p>
+      {/* One sentence, and the specific one: the second half ("one React library renders every brand") is what
+          the demo underneath shows rather than tells, and the agents claim has its own section further down. */}
+      <p className={styles.heroLead}>Six brand inputs become a light and dark theme that passes WCAG 2.2 AA.</p>
       <div className={styles.heroActions}>
         <ButtonLink href="/docs" variant="inverse" size="lg">
           Get started
         </ButtonLink>
-        <ButtonLink href="/docs/components" variant="outline" size="lg">
+        <ButtonLink href="/docs/components" variant="ghost" size="lg">
           Browse components
         </ButtonLink>
       </div>
-      <InstallCommand
-        command="npm install @syntara/react"
-        note={
-          <>
-            Not on npm yet — it publishes in Phase 6. Until then,{' '}
-            <TextLink href="/docs/installation#by-hand">copy a component’s source</TextLink>.
-          </>
-        }
-      />
+      {/*
+        The install command used to sit here with the full "run this" treatment — bordered, monospace, a copy
+        button — for a package that does not exist, and a line under it taking that back. The honest half is all
+        that is left, and it costs a line rather than a block: nothing is promised, so nothing needs retracting.
+        The command itself lives on /docs/installation, which is where someone installing would look.
+      */}
+      <p className={styles.heroNote}>
+        Not on npm yet — it publishes in Phase 6.{' '}
+        <TextLink href="/docs/installation#by-hand">Copy a component’s source</TextLink>.
+      </p>
     </section>
   );
 }
