@@ -40,17 +40,37 @@ Verified against the public registry, not local tarballs. A clean `npm install` 
 `icons` and `theme-engine` — the two that would have shipped unusable TypeScript this morning — are the ones that
 typecheck cleanly as published packages.
 
+**Phase 6 is 2 of 5, not closed.** BRIEF §13 asks for: npm publish (scoped) ✅, deploy docs ✅, a README with a
+30-second GIF ❌, a `/story` page ❌, and the differentiation research re-run *first* ❌ — the one on file,
+`docs/research/2026-09-27-differentiation.md`, predates the phase. The two shipped halves are the visible ones,
+which is exactly why the remaining three are easy to lose.
+
+**Verified after publishing**
+- **The codemod works from the registry.** `npm install @syntara/codemods` in a clean project outside the
+  workspace, then `npx @syntara/codemods button-variant-danger-to-tone src/App.tsx`: `1 ok, 0 errors`. It migrated
+  both `variant="danger"` call sites, kept `size` and `onPress`, and left `variant="primary"` and an
+  already-migrated `variant="outline" tone="danger"` untouched.
+- **Its output typechecks against `@syntara/react@0.1.0`,** so the migration it recommends compiles; and the
+  *pre-migration* form still typechecks too, which is what GOVERNANCE §5 promises — a deprecated API works through
+  every 0.x and goes at 1.0.0. An error there would have meant the deprecation broke early.
+- `node_modules/.bin/syntara-codemods` exists after install, so npm's `bin` normalisation warning was cosmetic.
+- #19 was merged on Anuj's instruction with two gates still running; they finished **green**, and `main`'s runs for
+  #17 and #19 are both green.
+
 **Next**
 - **`+ <pkg>@<version>` from npm does not mean the version is on the registry.** With web auth, npm stages the
   tarball and commits it minutes later. `@syntara/react` printed success and 404'd for roughly ten minutes
   (`time["0.1.0"]` is 17:31:38, well after the CLI said so); `codemods` did the same. Re-running on the assumption
   of failure would have chased nothing. Check `npm view <pkg> version` before concluding anything.
-- **`@syntara/theme-engine@0.0.0-stage`** is npm's own leftover staging placeholder — 343 bytes, described as
-  "Temporary package placeholder for staged publishing". `latest` is 0.1.0 so nothing resolves to it, but it is
-  listed publicly. Removable with `npm unpublish` inside 72 hours; Anuj's to run.
+- **`@syntara/theme-engine@0.0.0-stage` is gone.** npm's own leftover staging placeholder (343 bytes,
+  "Temporary package placeholder for staged publishing"); Anuj unpublished it. The package now lists `["0.1.0"]`.
 - **Publish with pnpm, never npm.** `@syntara/react` pins `@syntara/icons` as `workspace:*`, which only pnpm
   rewrites. `npm publish` would ship the literal string and break every install.
-- `/story` is the rest of Phase 6.
+- **The rest of Phase 6:** the differentiation research re-run (BRIEF §13 says *first*, so before the GIF and
+  `/story`), a README GIF, and the `/story` page.
+- **The version schemes have split.** The homepage pill reads the changelog's top heading (`v0.5`, phase-based);
+  npm reads semver (`0.1.0`). Both are right and they will diverge further every release. Reconciling them, or
+  deciding they stay separate and labelling them so, is Anuj's.
 
 ---
 
