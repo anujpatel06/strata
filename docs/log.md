@@ -55,8 +55,28 @@ All eight packages pack with `pnpm pack`, which applies `publishConfig`:
   working through: the deprecation and its removal would ship in the same instant, and the codemod would migrate an
   API no consumer ever had. Anuj's call; put to him with options.
 
+**Decided (after the entry above was written)**
+- **The first release is 0.x, not 1.0.0 — Anuj.** `.changeset/rename-to-syntara.md` is rewritten from `major` to
+  `minor` for all eight packages, and says why in the changeset itself. The rename does break every consumer
+  stylesheet, but nothing was ever published under `@strata/*`, so there is no consumer to break; declaring it major
+  would spend 1.0.0 — the version GOVERNANCE §5.3 reserves for removing deprecated APIs that have lived through a
+  0.x window — on a release with no 0.x window behind it. `Button variant="danger"` keeps its 1.0.0 removal, and
+  real consumers now get a genuine window before it goes.
+- With that change a release produces: `react`, `icons`, `theme-engine`, `tokens` at **0.2.0**; `audit`, `codemods`,
+  `mcp` at **0.1.0**. Run as a trial and reverted — the version bump is not committed, because the scope is not
+  claimed and one question below is open.
+
+**Found by measuring, not fixed (second pass)**
+- **`@syntara/sdui` lands on 1.0.0 whatever the changesets say.** It is the only package that declares
+  `@syntara/react` and `@syntara/icons` as **peer** dependencies, at `workspace:*`. Changesets bumps a package major
+  when a peer dependency takes a minor, so sdui goes major on *every* react or icons minor — not just this release.
+  Its changelog then reads "## 1.0.0" with nothing but a Minor Changes section under it, which looks like a fault.
+  `onlyUpdatePeerDependentsWhenOutOfRange` does not help: changesets cannot evaluate `workspace:*` as a range, so it
+  treats every bump as out of range. Tried and reverted. Three ways out — accept 1.0.0 for sdui, pin the peers to a
+  real range like `^0.2.0`, or set sdui's version by hand after each bump — and it is Anuj's call which.
+
 **Next**
-- Anuj: the version number for the first release, and the npm scope. Nothing publishes until both are settled.
+- Anuj: the npm scope, and what to do about sdui's peer-dependency bump. Nothing publishes until both are settled.
 
 ## 2026-09-30 (hero) — the demo is the argument, so it moves above the fold
 
