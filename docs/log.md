@@ -127,6 +127,85 @@ clean after the peer ranges changed; the workspace links are intact (the package
 - Publish with **pnpm**, not npm: `workspace:*` is only rewritten by pnpm.
 
 ---
+## 2026-09-30 (numbers) — the README's front-page table is re-measured whole, not row by row
+
+**Follow-up, same day: the row counts totals, not passes.** CI failed the new check on its first real run —
+`packages/theme-engine` reports **308 passed | 2 skipped** on Linux against **309 passed | 1 skipped** on a Mac.
+`test/native-exporters.test.ts` type-checks the Swift export against the macOS SDK with `it.skipIf(!canTargetMacOS)`
+and a complementary test that skips on a Mac, so the suite is 310 either way but the *passing* count never agrees
+across machines. A row of passing counts could only ever be right on one of them, and the check would have failed
+in CI forever.
+
+So the row is **"Tests"** and counts each package's total (engine 309 → 310, suite 2,168). `check-test-counts.mjs`
+already fails on any `failed` count, and still does, so "310 engine" means 310 tests with none failing. Verified
+against the real CI output shape as well as this Mac's: both pass.
+
+**Changed**
+- **The "Numbers" table in `README.md` was re-run end to end and its date moved to 2026-09-30.** Only the test row
+  had moved: **468 → 474 components, 301 → 309 engine, 245 → 959 icons** (the icons jump is #7, the duotone twin for
+  every icon). MCP server 193, schema 150, auditor 74 and codemods 8 are unchanged. Every other row reproduced
+  identically, so nothing else in the table changed.
+- **`scripts/check-test-counts.mjs` now compares that row to the suite, so it cannot go stale again — Anuj asked
+  for it.** It parses the per-package `Tests N passed` lines out of `pnpm -r test` and checks three things: every
+  package that ran has a part in the row, every part names a package that ran, and each part equals its package's
+  count. The parts summing to the suite total follows from those, and is printed because that total is the number
+  `docs/log.md` quotes. It runs the suite itself, or takes saved output with `--from` so CI does not test twice.
+  `--fix` rewrites the counts and deliberately leaves the "Measured" date alone: that date covers all fourteen
+  rows, and only running all fourteen commands earns it.
+- **CI now runs it next to `pnpm test`,** as `pnpm test | tee` with `set -o pipefail`. Without `pipefail` `tee`
+  returns 0 and a failing suite would pass the step, with the check then reading a run nobody looked at.
+- Step 3 of the `/verify` skill runs it too.
+- The table has no generator script — each row carries the command that reproduces it, maintained by hand — so all
+  fourteen script-backed rows were re-run rather than the one known-stale row. A single "Measured" date under the
+  table covers every figure above it; refreshing the date while leaving rows un-run would have made that date a
+  claim nobody had checked, which is the "No invented metrics" rule in `CLAUDE.md`.
+
+**Results**
+Every row re-run on this checkout at `c1a2eb2` (`origin/main`'s tip), except the two eval rows.
+
+| Row | Command | Result |
+|---|---|---|
+| Themes fuzzed | `pnpm test:themes` | 1,000 brands × light/dark |
+| Contrast checks | `pnpm test:themes` | 118,000 / 118,000 (100.00%), 118 per brand |
+| Chart palettes | `pnpm test:themes` | 2,000 / 2,000 (100.00%) |
+| Solver adjustments | `pnpm test:themes` | min 0 / median 4 / max 7 |
+| Brand colour kept exactly | `pnpm test:themes` | 89.2% light, 80.0% dark |
+| Components / blocks | `pnpm check:meta`; `blocks.json` | 53 / 53 pass · 7 blocks |
+| Component maturity | `pnpm check:meta` | 18 alpha · 35 beta · 0 stable |
+| **Tests** | `pnpm test` | **474 · 310 · 959 · 193 · 150 · 74 · 8 = 2,168 total; 2,167 passing and 1 skipped on this Mac** |
+| Axe sweep | `node scripts/axe-sweep.mjs` | 113 × 2 schemes, 0 violation nodes, 0 page errors |
+| Tenants | `pnpm tokens` | 6 tenants, 118/118 checks each |
+| Native token contrast | `pnpm tokens` | 236 / 236 per tenant |
+| Devanagari clipping | `check-script-clipping.mjs --pairs=bilingual-devanagari` | 0 in 5,616 cases |
+| Deprecations with a codemod | `@syntara/codemods test` | 1 deprecation (`button.meta.json`), 1 transform, 8 tests |
+| Drift score, docs app | `pnpm drift apps/docs` | 98.8 / 100, 60 findings (24 errors, 36 warnings) |
+
+- **The eval rows were not re-run.** `evals/run.mjs` calls a paid model once per run; the README quotes iteration 2
+  as recorded in `evals/results.md` (64% → 88% fully on-system, 88% → 88% typecheck), and those lines are unchanged.
+- The axe sweep ran against this build on **port 3131**, not 3000: another session's `serve` (PID 28615, a
+  `duotone-pr` scratchpad) was already answering on 3000 with a 200. `SYNTARA_BASE_URL` exists for exactly that, and
+  `assertServedBuild` confirmed the served build id was `ZHgz6NCEn0vyArjzFqxy4` — this checkout's. The other
+  session's server was left running.
+- `pnpm test:themes` rewrites `packages/theme-engine/reports/fuzz-report.{json,md}`; the only diff was generation
+  timing (median 0.62 → 0.60 ms, p95 0.95 → 1.05 ms), which is machine noise the report itself disclaims, so it was
+  reverted rather than committed.
+
+**Found by measuring, not fixed**
+- **The log was right while the README was stale.** The 2026-09-30 (hero) entry already recorded `pnpm test` at
+  "2,167 passing, 1 skipped" — the README's row summed to 1,439. The per-package split lived in one hand-maintained
+  table and the total lived in the log, and nothing compared them. **Closed** by
+  `scripts/check-test-counts.mjs`, above.
+- **A check on the total alone would not have been enough.** Relabelling one part — `74 auditor` written as
+  `74 linter` — keeps the sum at 2,167 while the row names a package that does not exist. The check is written
+  per-package for that reason, and the label map is the one thing in it that is hand-maintained: a new package with
+  tests and no entry is reported rather than defaulted, because what the README calls it is a wording decision.
+- **The other thirteen rows still have nothing watching them.** This closes the row that was actually wrong. A
+  drifting axe route count or drift score would still be found only by a person re-running the command.
+
+**Next**
+- Anuj: Phase 6 publishes to npm and deploys the docs, and this table is the repo's front page. The test row is
+  checked now; the other thirteen are not. Worth deciding whether they get a generator script before the deploy, or
+  stay hand-maintained with the date as the contract.
 ## 2026-09-30 (publish prep) — the tarballs are right; the version number is a decision
 
 **Changed**
