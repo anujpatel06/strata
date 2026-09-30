@@ -6,6 +6,86 @@ Numbers only with the command that produced them. Design trade-offs get an ADR i
 
 ---
 
+## 2026-10-01 — the CSP check survives a network blip, and CI stops assuming port 3000
+
+**Changed**
+- **`scripts/check-csp.mjs` no longer dies on a dropped connection.** Its Playwright route handler replays every
+  document through `route.fetch()` to attach the policy from `_headers`, and that call sat outside any `try`. A
+  throw inside a route handler is an unhandled promise rejection, so one `read ECONNRESET` from the local `serve`
+  took the process down with a `node:internal/process/promises` trace and no mention of which check had failed —
+  that is how a docs-only pull request (#20, touching `CLAUDE.md` and `docs/log.md`) failed the `verify` job.
+- **A dropped document fetch is retried three times** (150 ms then 300 ms; `SYNTARA_FETCH_ATTEMPTS` overrides).
+  A reset against a static local server is a flake, not a policy finding, so it should not be either a crash or a
+  CSP failure.
+- **When it does give up, it says so in the check's own words.** Transport faults are tracked apart from CSP
+  findings and reported per route as `transport error after 3 attempts, not a CSP failure — <message>`, with a
+  closing line naming the server that stopped answering and how to look for it. The run still exits 1: a route
+  that was never fetched was never measured under the policy, the same rule `axe-sweep.mjs` applies to a route it
+  could not scan.
+- **A last-resort `unhandledRejection` / `uncaughtException` handler** prints what the script was doing and that
+  the fault is transport, not CSP, so no future escape re-reads as a Node internals trace.
+- The count of retried fetches is printed when it is non-zero, so a run that was rescued does not look identical
+  to a run that had a clean network.
+- **The `verify` job no longer assumes `serve` took port 3000.** It backgrounded `serve`, curled
+  `http://localhost:3000/` in a readiness loop, and ran four browser checks against that address. `serve` falls
+  back to a random port when 3000 is taken and still exits 0, so on a busy runner that loop waited out its sixty
+  iterations against a stranger's server and continued anyway. It now reads the port from `serve`'s own output and
+  exports `SYNTARA_BASE_URL`, which is what the `a11y` job has always done — the two jobs now do this identically,
+  and the step carries a comment saying to keep them that way. All six sweep scripts already default to
+  `localhost:3000` and already take `SYNTARA_BASE_URL`, so nothing else moved.
+
+**Decided**
+- **A transport fault fails the run rather than being skipped — Claude recommended, pending Anuj.** The
+  alternative was to drop unreachable routes from the denominator and pass. Rejected for the reason written into
+  `axe-sweep.mjs` on 2026-09-29: an unmeasured route must not read as a clean one.
+
+**Results**
+Docs built (`pnpm --filter @syntara/docs build`), `apps/docs/.next/BUILD_ID` = `G8FJmhb3nnPq50JzweqYj`, served
+with `pnpm --filter @syntara/docs start`, build id asserted by `scripts/served-build.mjs` on every run below.
+`serve` was asked for 3000 and took 56029, then 57092 — the gotcha, live — so every run passed
+`SYNTARA_BASE_URL`, which this script already honoured.
+
+| Run | Result |
+|---|---|
+| `node scripts/check-csp.mjs`, full sweep | build `G8FJmhb3nnPq50JzweqYj`, **113 routes, 0 failures**, exit 0 |
+| Server killed mid-run (`kill -9` the listener after 7 s) | loaded 16, **97 failures, all labelled transport error**, `fetches retried: 194`, exit 1, **0 lines matching `triggerUncaughtException\|node:internal`** |
+| Two document fetches reset with a real TCP RST, server otherwise up | 4 routes, **0 failures**, `fetches retried: 2`, exit 0 — the blip was ridden out |
+| The **pre-fix** script, one document fetch reset | `route.fetch: read ECONNRESET` at `check-csp.orig.mjs:39:27` over a `node:internal/process/promises` trace — the CI failure reproduced verbatim |
+
+Fault injection used a throwaway TCP proxy in the scratchpad that sends an RST to the document request (the one
+asking for `text/html`; `route.fetch` does not replay `sec-fetch-dest`, so that header cannot be used to find it)
+and proxies everything else through. It is not committed. The kill test also settled a question the retry loop
+depends on: `route.fetch()` can be called again on the same route, which the 194 retries show.
+
+Audited the sibling scripts for the same shape: every other `ctx.route` handler in `scripts/` fulfills from a
+local file or a static body, so `check-csp.mjs` was the only one exposed to a network fault.
+
+The workflow change was run, not just read. Port 3000 on this machine was already held by another session's
+`serve` — the gotcha, unprompted — so the condition was real. The `Serve the export` step's text was extracted
+from `ci.yml` by a YAML parser and executed verbatim under `bash` with `GITHUB_ENV` pointed at a temp file:
+
+| Run | Result |
+|---|---|
+| The extracted step, port 3000 busy | `serve` took **57367**; step wrote `SYNTARA_BASE_URL=http://localhost:57367` |
+| `check-hydration.mjs` at that port | build `G8FJmhb3nnPq50JzweqYj`, 113 routes × 2 schemes, 226 loaded, **0 hydration failures** |
+| `check-theme-links.mjs` | 5 links, **0 failures** |
+| `check-narrow-overflow.mjs` | 113 routes at 320px, **0 scrolling sideways** |
+| `check-csp.mjs` | 113 routes, **0 failures** |
+| `check-csp.mjs` at the old hardcoded `:3000` | exits 1: *"is serving build (unknown), but apps/docs/.next holds G8FJmhb3nnPq50JzweqYj"* |
+| `curl -sf http://localhost:3000/` | fails — the readiness loop it replaced would have spun 120 s and continued regardless |
+
+That last pair is the honest shape of the old bug: `served-build.mjs` already stopped a wrong-build measurement
+from passing, so a busy port cost a spurious red job with a clear message, never a false green. `ci.yml` parses and
+the `verify` job's step order is unchanged apart from the split.
+
+**Next**
+- **Two jobs now start a server the same way, and nothing enforces that.** If a third sweep arrives, the port
+  handling will be copied a third time by hand. A shared composite action or a small script would make it one
+  thing; not worth it at two, worth watching at three.
+- Unchanged from the previous entry otherwise.
+
+---
+
 ## 2026-09-30 (published) — all eight packages are on npm, and the site stops saying they are not
 
 **Changed**
