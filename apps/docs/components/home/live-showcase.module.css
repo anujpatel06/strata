@@ -105,59 +105,26 @@
   gap: var(--syntara-space-2);
 }
 
-/* The native colour input, drawn as a swatch the size of a small control. */
-.swatch {
+/* Inline, so the toolbar stays one row on a wide screen and the field keeps the chips' height. */
+.pickerLabel {
   flex: none;
-  box-shadow: var(--syntara-shadow-raised);
-  transition:
-    border-color var(--syntara-motion-duration-fast) var(--syntara-motion-easing),
-    outline-offset var(--syntara-motion-duration-fast) var(--syntara-motion-easing);
-  inline-size: calc(var(--syntara-control-height) - var(--syntara-space-2));
-  block-size: calc(var(--syntara-control-height) - var(--syntara-space-2));
-  padding: 0;
-  border: 1px solid var(--syntara-color-border-strong);
-  border-radius: var(--syntara-radius-field);
-  background: transparent;
-  cursor: pointer;
-  overflow: hidden;
-}
-.swatch::-webkit-color-swatch-wrapper {
-  padding: 0;
-}
-.swatch::-webkit-color-swatch {
-  border: 0;
-  border-radius: 0;
-}
-.swatch::-moz-color-swatch {
-  border: 0;
-  border-radius: 0;
-}
-.swatch:hover {
-  border-color: var(--syntara-color-text-subtle);
-}
-@media (prefers-reduced-motion: no-preference) {
-  .swatch {
-    transition:
-      border-color var(--syntara-motion-duration-fast) var(--syntara-motion-easing),
-      outline-offset var(--syntara-motion-duration-fast) var(--syntara-motion-easing),
-      scale var(--syntara-motion-duration-spring) var(--syntara-motion-spring);
-  }
-  .swatch:active {
-    scale: 0.9;
-  }
-}
-.swatch:focus-visible {
-  outline: 2px solid var(--syntara-color-focus-ring);
-  outline-offset: 2px;
+  color: var(--syntara-color-text-subtle);
+  font-size: var(--syntara-font-size-sm);
+  white-space: nowrap;
 }
 
-.hex.hex {
-  inline-size: calc(var(--syntara-space-16) + var(--syntara-space-12));
+/*
+ * ColorControl is /themes' control, sized for a sidebar; in the toolbar it sits beside the chips, so the field is
+ * narrowed to its six digits. Doubled per the override-weight rule: a single class weighs the same as the
+ * component's own rule, and then stylesheet order would decide which wins.
+ */
+.toolbarField.toolbarField {
+  /* Seven mono digits plus the 24px swatch the field now carries as its prefix: the width before this sized the
+     field as if the swatch were still a sibling outside it, and clipped the leading "#". */
+  inline-size: calc(var(--syntara-space-16) + var(--syntara-space-12) + var(--syntara-space-6));
 }
-.hex.hex input {
+.toolbarField.toolbarField input {
   block-size: calc(var(--syntara-control-height) - var(--syntara-space-2));
-  font-family: var(--syntara-font-mono);
-  font-size: var(--syntara-font-size-sm);
 }
 
 .scheme.scheme {

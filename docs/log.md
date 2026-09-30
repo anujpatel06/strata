@@ -6,6 +6,58 @@ Numbers only with the command that produced them. Design trade-offs get an ADR i
 
 ---
 
+## 2026-09-30 (toolbar) — the colour field shows the colour you picked
+
+**Changed**
+- **The homepage's colour field follows the selection.** It held one colour whatever was selected: picking Qamar
+  left it reading the default sky blue, next to the chips, looking like the active colour and not being it. It now
+  shows the selected brand's own primary, so it cannot say something untrue.
+- **Editing it from any brand starts "Your colour" at that brand's hex.** The control reads as "remix this one"
+  rather than as a slot that ignores the row above it. "Your colour" keeps its own last value, so its chip dot still
+  marks what you typed rather than mirroring whatever is selected.
+- **The homepage now uses `/themes`' control instead of its own barer copy.** `ColorControl` is one field with the
+  native picker as its swatch prefix, a visible label, `validationBehavior="aria"` and "Use a hex like #3D45D6" when
+  the draft is malformed. The homepage had two sibling controls, `aria-label`s only and no error message. It gains
+  an optional `className` so a caller can size it for its own row; nothing else about it changed.
+- The label "Brand colour" is rendered inline and passed as `labelledBy`, so the toolbar stays one row on a wide
+  screen. Dead `.swatch` and `.hex` rules are gone.
+
+**Decided**
+- **The field follows the selection, rather than being scoped to "Your colour" — Anuj.** Three options were put up:
+  follow the selection, show the picker only when "Your colour" is selected, or keep the two-control layout and just
+  fix the labelling. Following the selection makes the field true at every moment and turns the page's best
+  interaction into "remix any of the six brands", which demonstrates the engine better than an isolated custom slot.
+  Hiding it behind the chip would have put the most interesting control on the page behind a click.
+- **The native `<input type="color">` stays.** There is no colour component among the 53, and the same native input
+  is used identically here and on `/themes`. Replacing it is component 54 and an RFC under GOVERNANCE §4, not a
+  change to make while fixing a layout.
+
+**Results**
+Measured in the browser against the static export (build `SpqeaYwg-VCQEJaSFBIKs`).
+
+- The field tracks the chips: Vela **#3D45D6**, Care **#0E63FF**, Qamar **#F2A516**, Haat **#B5179E**, and the
+  swatch with it. Before this it read `#0ea5e9` for all four.
+- Remix: with Haat selected, typing `#FF6600` moves the selection to **"Your colour"**, the field keeps `#FF6600`
+  and the chip's dot becomes `rgb(255, 102, 0)`.
+- Invalid draft `#zz`: `aria-invalid=true` and "Use a hex like #3D45D6" is shown. The old field had neither.
+- Toolbar height 50px → **58px** at 1280 (the inline label), one row; at 390 the field takes its own row under the
+  chips. **0px of sideways scroll** at 1280 and 390, and `check-narrow-overflow` passes 113 routes at 320px.
+- `pnpm typecheck` clean · `pnpm test` 2,167 passing, 1 skipped · `check-override-weight` 0 ·
+  `check-ssr-tabs` 81 pages, 326 tab lists, 0 · `check-hydration` 113 × 2, 0 · `check-theme-links` 5, 0 ·
+  `check-csp` 113, 0 · **`axe-sweep` 113 × 2 schemes, 0 violation nodes** · `check-overlay-exit` 108 tooltips,
+  4 overlays, 0 failures.
+
+**Found by measuring, not fixed**
+- **The first version of this clipped the "#".** The field kept the width it had when the swatch was a sibling
+  outside it; with the swatch moved inside as a prefix the input measured `scrollWidth 74` in a `clientWidth 50`
+  box, and the leading `#` was cut. A screenshot showed it and `scrollWidth > clientWidth` confirmed it. The width
+  now adds the swatch's own 24px. Worth remembering that moving a control inside a field changes what the field's
+  width has to cover.
+
+**Next**
+- Anuj: "Brand colour" as the label, and whether remixing from a tenant should say so anywhere — right now the only
+  sign you have left Qamar is the chip selection moving to "Your colour".
+
 ## 2026-09-30 — the homepage says when the headline isn't your colour
 
 **Changed**

@@ -19,6 +19,7 @@ export function ColorControl({
   onChange,
   description,
   labelledBy,
+  className,
 }: {
   label: string;
   /** Id of a visible label rendered elsewhere; the field then draws no label of its own. */
@@ -27,6 +28,8 @@ export function ColorControl({
   value: string;
   onChange: (hex: string) => void;
   description?: ReactNode;
+  /** Extra class for the field, so a caller can size it for its own row (the homepage toolbar). */
+  className?: string;
 }) {
   const [draft, setDraft] = useState(display(value));
   const [blurred, setBlurred] = useState(false);
@@ -82,7 +85,7 @@ export function ColorControl({
       autoCorrect="off"
       spellCheck="false"
       maxLength={9}
-      className={styles.hexField}
+      className={className ? `${styles.hexField} ${className}` : styles.hexField}
       prefix={
         <span className={styles.swatchWrap} style={{ backgroundColor: value }}>
           <input

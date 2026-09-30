@@ -8,19 +8,12 @@
  */
 
 import { IconArrowRight, IconMoon, IconShieldCheck, IconSun } from '@syntara/icons';
-import { TextField, ThemeScope, ToggleButton, ToggleButtonGroup } from '@syntara/react';
-import {
-  contrastRatio,
-  generateTheme,
-  isValidHex,
-  normalizeHex,
-  toCSS,
-  toCssVariables,
-  type BrandInput,
-  type Theme,
-} from '@syntara/theme-engine';
+import { ThemeScope, ToggleButton, ToggleButtonGroup } from '@syntara/react';
+import { contrastRatio, generateTheme, toCSS, toCssVariables, type BrandInput, type Theme } from '@syntara/theme-engine';
 import Link from 'next/link';
 import { useEffect, useMemo, useState, type Key } from 'react';
+import { ColorControl } from '@/components/themes/color-control';
+import { parseHex } from '@/components/themes/state';
 import { ShowcaseGrid } from '@/components/showcase/showcase-grid';
 import type { HomeTenant } from './home-data';
 import { usePublishStage } from './home-stage';
@@ -30,6 +23,8 @@ import styles from './live-showcase.module.css';
 const CUSTOM = 'custom';
 /** data-syntara-theme id for "Your colour". Scoped to this page's stylesheet. */
 const CUSTOM_THEME_ID = 'home-yours';
+/** The visible label for the colour field, rendered inline so the toolbar stays one row on a wide screen. */
+const COLOUR_LABEL_ID = 'home-brand-colour-label';
 const DEFAULT_CUSTOM = '#0ea5e9';
 
 type SchemeChoice = 'site' | 'light' | 'dark';
@@ -99,7 +94,6 @@ export function LiveShowcase({ tenants }: LiveShowcaseProps) {
   const [selected, setSelected] = useState<string>(tenants[0]?.id ?? 'house');
   const [schemeChoice, setSchemeChoice] = useState<SchemeChoice>('site');
   const [customHex, setCustomHex] = useState(DEFAULT_CUSTOM);
-  const [draft, setDraft] = useState(DEFAULT_CUSTOM);
   const siteScheme = useSiteScheme();
   const effectiveScheme = schemeChoice === 'site' ? siteScheme : schemeChoice;
 
@@ -118,15 +112,17 @@ export function LiveShowcase({ tenants }: LiveShowcaseProps) {
     return toCSS(t, { selector }) + '\n' + followSiteCss(t, selector);
   }, [isCustom, theme, customBrand]);
 
-  const onDraft = (value: string) => {
-    setDraft(value);
-    const candidate = value.trim().startsWith('#') ? value.trim() : `#${value.trim()}`;
-    if (isValidHex(candidate)) {
-      setCustomHex(normalizeHex(candidate));
-      setSelected(CUSTOM);
-    }
+  /**
+   * The colour the field shows: the selected brand's own primary, not a separate custom slot. The field used to
+   * hold one colour whatever was selected, so picking Qamar left it reading the default sky blue — it looked like
+   * the active colour and was not. Editing it from any brand starts "Your colour" at that brand's hex, so the
+   * control reads as "remix this one" rather than as a slot that ignores the row above it.
+   */
+  const activeHex = isCustom ? customHex : (parseHex(tenant?.brand.primary) ?? customHex);
+  const takeColour = (hex: string) => {
+    setCustomHex(hex);
+    setSelected(CUSTOM);
   };
-  const draftValid = isValidHex(draft.trim().startsWith('#') ? draft.trim() : `#${draft.trim()}`);
 
   const scopeProps =
     schemeChoice === 'site'
@@ -185,29 +181,19 @@ export function LiveShowcase({ tenants }: LiveShowcaseProps) {
           </ToggleButtonGroup>
           </div>
 
+          {/* The same control /themes uses: one field with the native picker as its swatch prefix, a visible
+              label, and "Use a hex like #3D45D6" when the draft is malformed. The homepage had grown its own
+              barer copy of this — two sibling controls, aria-labels only, no error message. */}
           <div className={styles.picker}>
-            <input
-              type="color"
-              className={styles.swatch}
-              value={customHex}
-              aria-label="Pick a brand colour"
-              onChange={(e) => {
-                setCustomHex(e.target.value);
-                setDraft(e.target.value);
-                setSelected(CUSTOM);
-              }}
-            />
-            <TextField
-              aria-label="Brand colour as hex"
-              value={draft}
-              onChange={onDraft}
-              onBlur={() => {
-                if (!draftValid) setDraft(customHex);
-              }}
-              isInvalid={!draftValid}
-              spellCheck="false"
-              autoComplete="off"
-              className={styles.hex}
+            <span id={COLOUR_LABEL_ID} className={styles.pickerLabel}>
+              Brand colour
+            </span>
+            <ColorControl
+              label="Brand colour"
+              labelledBy={COLOUR_LABEL_ID}
+              value={activeHex}
+              onChange={takeColour}
+              className={styles.toolbarField}
             />
           </div>
 
