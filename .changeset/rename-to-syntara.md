@@ -1,12 +1,12 @@
 ---
-"@syntara/theme-engine": major
-"@syntara/react": major
-"@syntara/tokens": major
-"@syntara/icons": major
-"@syntara/sdui": major
-"@syntara/audit": major
-"@syntara/codemods": major
-"@syntara/mcp": major
+"@syntara/theme-engine": minor
+"@syntara/react": minor
+"@syntara/tokens": minor
+"@syntara/icons": minor
+"@syntara/sdui": minor
+"@syntara/audit": minor
+"@syntara/codemods": minor
+"@syntara/mcp": minor
 ---
 
 The project is now called Syntara. Every package moves from the `@strata` scope to `@syntara`, and the name changes
@@ -31,3 +31,5 @@ Kotlin and Swift symbols (`SyntaraTokens`, `SyntaraColors` and the rest).
 
 No token *value* changed, and no component behaviour changed. The GitHub repository keeps its current name, so
 existing links still work.
+
+**Released as a minor, not a major — Anuj.** The rename breaks every consumer stylesheet, but nothing was ever published under `@strata/*`, so there is no consumer to break. Declaring it major would send the first public release to 1.0.0, and GOVERNANCE.md §5.3 reserves 1.0.0 for removing deprecated APIs that have lived through a 0.x window. `Button variant="danger"` has had no such window yet.
