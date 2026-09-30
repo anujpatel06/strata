@@ -2,7 +2,7 @@
  * Server-only: everything the homepage states as fact, read from the repo at build time.
  * No number on the homepage is typed by hand; each one traces back to a file a script writes.
  */
-import { generateTheme, type Adjustment, type BrandInput } from '@syntara/theme-engine';
+import { generateTheme, toCSS, type Adjustment, type BrandInput } from '@syntara/theme-engine';
 import { cache } from 'react';
 import { checkCopyReview, type CopyReview } from '@/components/page/draft-copy-note';
 import { getAllMeta } from '@/lib/meta';
@@ -187,5 +187,73 @@ export const getSolverQuote = cache((): SolverQuote | undefined => {
     tenant: tenant.name,
     adjustment,
     againstHex: against ? theme.schemes[adjustment.scheme].roles[against].hex : undefined,
+  };
+});
+
+/* ------------------------------------------------------------------ */
+
+export interface TokensFacts {
+  /** The tenant the panels quote, and its brand.json verbatim. */
+  tenant: string;
+  brandJson: string;
+  inputCount: number;
+  /** Semantic roles the engine resolves from those inputs, from the generated theme itself. */
+  tokenCount: number;
+  /** A few generated custom properties, so the claim is shown rather than asserted. */
+  sample: string;
+  /** One role, two brands: the name is the API, the value is the brand. */
+  compare: string;
+}
+
+/**
+ * The "brands are data" panels. Every figure is generated here at build time from the tenant files, so the
+ * section cannot drift from what the engine actually produces.
+ */
+export const getTokensFacts = cache((): TokensFacts | undefined => {
+  const tenants = getTenants();
+  const vela = tenants.find((t) => t.id === 'vela') ?? tenants[0];
+  const other = tenants.find((t) => t.id === 'care') ?? tenants.find((t) => t.id !== vela?.id);
+  if (!vela) return undefined;
+
+  const raw = readRepoFile('tenants', vela.id, 'brand.json');
+  if (!raw) return undefined;
+  const theme = generateTheme(vela.brand);
+
+  const lines = toCSS(theme, { selector: `[data-syntara-theme="${vela.id}"]` })
+    .split('\n')
+    .map((l) => l.trim())
+    .filter((l) => l.startsWith('--syntara-color-'));
+
+  const role = '--syntara-color-action-primary-bg';
+  const valueIn = (t: (typeof tenants)[number]) => {
+    const css = toCSS(generateTheme(t.brand), { selector: ':root' });
+    return css
+      .split('\n')
+      .map((l) => l.trim())
+      .find((l) => l.startsWith(`${role}:`))
+      ?.replace(`${role}:`, '')
+      .replace(';', '')
+      .trim();
+  };
+
+  const compare = other
+    ? [
+        `/* ${vela.name} */`,
+        `${role}: ${valueIn(vela) ?? ''};`,
+        '',
+        `/* ${other.name} */`,
+        `${role}: ${valueIn(other) ?? ''};`,
+      ].join('\n')
+    : '';
+
+  return {
+    tenant: vela.name,
+    brandJson: raw.trim(),
+    // `name` is the tenant's label, not a brand input — the six are primary, accent, neutral, shape,
+    // typePair and density, which is the number the hero and BRIEF §3 both quote.
+    inputCount: Object.keys(JSON.parse(raw) as Record<string, unknown>).filter((k) => k !== 'name').length,
+    tokenCount: theme.summary.tokenCount,
+    sample: lines.slice(0, 5).join('\n'),
+    compare,
   };
 });

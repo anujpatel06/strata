@@ -4,6 +4,8 @@
 import { IconArrowRight, IconCheck, IconX } from '@syntara/icons';
 import { IconBrandGithub } from '@tabler/icons-react';
 import {
+  Accordion,
+  AccordionItem,
   Badge,
   Card,
   CardContent,
@@ -22,13 +24,14 @@ import { CodeBlock } from '@/components/mdx/code-block';
 import { ButtonLink } from '@/components/page/button-link';
 import { InstallCommand } from './install-command';
 import { DraftCopyNote } from '@/components/page/draft-copy-note';
-import { getMeta } from '@/lib/meta';
+import { getComponentGroups, getMeta } from '@/lib/meta';
 import { GITHUB_URL } from '@/lib/site';
 import {
   getFuzzSummary,
   getReleaseInfo,
   getSolverQuote,
   getTenantOverviews,
+  getTokensFacts,
   type TenantOverview,
 } from './home-data';
 import { HeroAccent, HeroGlow } from './home-stage';
@@ -122,14 +125,26 @@ function tenantFacts(t: TenantOverview): string[] {
 /** Spelled out so the copy reads as prose; counted from the tenants on disk so it cannot go stale. */
 const COUNT_WORD = ['no', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten'];
 const countWord = (n: number) => COUNT_WORD[n] ?? String(n);
+/** Same word, sentence-initial. "One card. Five brands." — not "five brands". */
+const countWordCap = (n: number) => {
+  const w = countWord(n);
+  return w.charAt(0).toUpperCase() + w.slice(1);
+};
 
 export function BrandsSection() {
   const tenants = getTenantOverviews();
   return (
     <section className={styles.section} aria-labelledby="brands-title">
-      <SectionHeader id="brands-title" title="One system, every brand">
-        The same card from the same code, in {countWord(tenants.length)} tenants. A tenant is one brand.json and one
-        content.json: it changes tokens and copy, never components.
+      <SectionHeader
+        id="brands-title"
+        title={
+          <>
+            One card. <HeroAccent className={styles.titleAccent}>{countWordCap(tenants.length)} brands.</HeroAccent>
+          </>
+        }
+      >
+        Arabic right to left, Hindi in Devanagari, a serif for insurance. Same code; only brand.json and
+        content.json change.
       </SectionHeader>
       <div className={styles.tenantGrid}>
         {tenants.map((t) => (
@@ -187,9 +202,17 @@ export function AccessibilitySection() {
     <section className={styles.section} aria-labelledby="a11y-title">
       <div className={styles.split}>
         <div className={styles.stack}>
-          <SectionHeader id="a11y-title" title="Accessible by construction">
-            A theme that fails WCAG 2.2 AA can’t be generated. The solver checks every text, control and focus-ring
-            pair in light and dark, fixes what fails, and explains each fix in plain English.
+          <SectionHeader
+            id="a11y-title"
+            title={
+              <>
+                {fuzz ? `${fuzz.checksPerTheme} checks a brand.` : 'Every pair checked.'}{' '}
+                <HeroAccent className={styles.titleAccent}>Zero failures.</HeroAccent>
+              </>
+            }
+          >
+            The engine fuzzed {fuzz ? int.format(fuzz.themes) : 'a thousand'} random brands in light and dark, and
+            never rounds up: 4.49:1 fails.
           </SectionHeader>
           {fuzz && (
             <>
@@ -212,9 +235,9 @@ export function AccessibilitySection() {
                 <StatTile
                   variant="outline"
                   size="lg"
-                  label="Adjustments per brand"
-                  value={`${fuzz.adjustments.median}`}
-                  caption={`Median; ${fuzz.adjustments.min} to ${fuzz.adjustments.max}`}
+                  label="To build a theme"
+                  value={`${fuzz.medianMs.toFixed(2)} ms`}
+                  caption={`Median; ${fuzz.adjustments.median} adjustments per brand`}
                 />
               </StatTileGroup>
               <div className={styles.commandRow}>
@@ -269,80 +292,6 @@ export function AccessibilitySection() {
 
 /* ------------------------------------------------------------------ */
 
-interface ShipOption {
-  title: string;
-  description: string;
-  command: string;
-  href: string;
-  link: string;
-  badge?: string;
-}
-
-const SHIP: readonly ShipOption[] = [
-  {
-    title: 'npm package',
-    description: 'Versioned releases for teams that want upgrades they can govern: deprecations, changelogs and codemods.',
-    command: 'pnpm add @syntara/react',
-    href: '/docs/installation#with-npm',
-    link: 'Install with npm',
-    badge: 'v0.1.0',
-  },
-  {
-    title: 'Design tokens',
-    description: 'Every tenant as CSS variables, DTCG 2025.10 JSON and Figma variables. Plain CSS, so any stack can read it.',
-    command: 'pnpm add @syntara/tokens',
-    href: '/docs/theming',
-    link: 'How theming works',
-    badge: 'v0.1.0',
-  },
-  {
-    title: 'Copy the source',
-    description: 'Copy a component’s files into your project and own them. Each component page lists its files and dependencies.',
-    command: 'pnpm add react-aria-components',
-    href: '/docs/installation#by-hand',
-    link: 'Install by hand',
-  },
-];
-
-export function ShipSection() {
-  return (
-    <section className={styles.section} aria-labelledby="ship-title">
-      <SectionHeader id="ship-title" title="Ship it your way">
-        One source, three ways in. Pick upgrades or ownership; the components and tokens are the same.
-      </SectionHeader>
-      <div className={styles.shipGrid}>
-        {SHIP.map((o) => (
-          <Card key={o.title} variant="outline" className={styles.shipCard}>
-            <CardHeader>
-              <CardTitle level={3} className={styles.shipTitle}>
-                {o.title}
-                {o.badge && (
-                  <Badge size="sm" tone="neutral" variant="outline">
-                    {o.badge}
-                  </Badge>
-                )}
-              </CardTitle>
-              <CardDescription>{o.description}</CardDescription>
-            </CardHeader>
-            <CardContent className={styles.shipCode}>
-              <InstallCommand command={o.command} block />
-            </CardContent>
-            <CardFooter>
-              <TextLink href={o.href}>{o.link}</TextLink>
-            </CardFooter>
-          </Card>
-        ))}
-      </div>
-    </section>
-  );
-}
-
-/* ------------------------------------------------------------------ */
-
-/**
- * A real excerpt of button.meta.json — the one file the docs, the registry and agents all read. Picked fields,
- * one entry each, formatted compactly so it reads at a glance.
- */
 function metaExcerpt(): string | undefined {
   const m = getMeta('button');
   if (!m) return undefined;
@@ -375,10 +324,16 @@ export function AgentsSection() {
     <section className={styles.section} aria-labelledby="agents-title">
       <div className={styles.split}>
         <div className={styles.stack}>
-          <SectionHeader id="agents-title" title="Built for people and agents">
-            Each component is described once, in a meta.json: props, examples, keyboard behaviour, do and don’t.
-            These docs are generated from it, and coding agents can read the same file. A Syntara MCP server, which
-            serves components, tokens and usage rules to agents, is planned.
+          <SectionHeader
+            id="agents-title"
+            title={
+              <>
+                Built by a <HeroAccent className={styles.titleAccent}>person.</HeroAccent> Read by agents.
+              </>
+            }
+          >
+            Each component is described once, in a meta.json. The docs are generated from it, and coding agents
+            read the same file.
           </SectionHeader>
           <div className={styles.commandRow}>
             <TextLink href="/docs/mcp">About the MCP server</TextLink>
@@ -394,6 +349,226 @@ export function AgentsSection() {
   );
 }
 
+
+/* ------------------------------------------------------------------ */
+
+export function TokensSection() {
+  const f = getTokensFacts();
+  if (!f) return null;
+  return (
+    <section className={styles.section} aria-labelledby="tokens-title">
+      <SectionHeader
+        id="tokens-title"
+        title={
+          <>
+            Brands are <HeroAccent className={styles.titleAccent}>data,</HeroAccent> not code.
+          </>
+        }
+      >
+        {countWordCap(f.inputCount)} inputs go in one file. The engine turns them into {f.tokenCount} tokens, and no
+        component ever knows which brand it renders.
+      </SectionHeader>
+      <div className={styles.panelGrid}>
+        <article className={styles.panel}>
+          <h3 className={styles.panelTitle}>{countWordCap(f.inputCount)} inputs, one file</h3>
+          <p className={styles.panelNote}>
+            A tenant is this and a content.json. Adding a brand adds no component code.
+          </p>
+          <CodeBlock code={f.brandJson} lang="json" title={`tenants/${f.tenant.toLowerCase()}/brand.json`} collapseAfter={0} />
+        </article>
+        <article className={styles.panel}>
+          <h3 className={styles.panelTitle}>{f.tokenCount} tokens out</h3>
+          <p className={styles.panelNote}>
+            Ramps, semantic roles and every state, solved for light and dark. These are the first five.
+          </p>
+          <CodeBlock code={f.sample} lang="css" title="generated" collapseAfter={0} />
+        </article>
+        <article className={styles.panel}>
+          <h3 className={styles.panelTitle}>Values change, never names</h3>
+          <p className={styles.panelNote}>
+            The role is the API. A component reads the name; the brand decides the value.
+          </p>
+          <CodeBlock code={f.compare} lang="css" title="one role, two brands" collapseAfter={0} />
+        </article>
+        <article className={styles.panel}>
+          <h3 className={styles.panelTitle}>Scope a theme to one screen</h3>
+          <p className={styles.panelNote}>
+            Tokens key off attributes, so a brand can wrap the page or a single panel inside it.
+          </p>
+          <CodeBlock
+            code={`<ThemeScope theme="qamar" locale="ar-AE">\n  <Button>\u0645\u062a\u0627\u0628\u0639\u0629</Button>\n</ThemeScope>`}
+            lang="tsx"
+            title="nested scope"
+            collapseAfter={0}
+          />
+        </article>
+      </div>
+      <div className={styles.commandRow}>
+        <TextLink href="/docs/theming">How theming works</TextLink>
+      </div>
+    </section>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+
+const MATURITY_ORDER = ['stable', 'beta', 'alpha'] as const;
+
+export function ComponentsSection() {
+  const groups = getComponentGroups();
+  const all = groups.flatMap((g) => g.items);
+  const counts = MATURITY_ORDER.map((m) => ({ maturity: m, n: all.filter((c) => c.maturity === m).length }));
+  /* The badges are the point of this section, so the sentence reads them rather than restating them. */
+  const badgeLine = counts
+    .filter((c) => c.n > 0)
+    .map((c) => `${c.n} ${c.maturity}`)
+    .join(', ');
+  const zero = counts.filter((c) => c.n === 0).map((c) => `0 ${c.maturity}`);
+
+  return (
+    <section className={styles.section} aria-labelledby="components-title">
+      <SectionHeader
+        id="components-title"
+        title={
+          <>
+            {all.length} components on <HeroAccent className={styles.titleAccent}>React Aria.</HeroAccent>
+          </>
+        }
+      >
+        Focus, typeahead and ARIA patterns come from a library that already solved them. The badges tell the
+        truth: {[badgeLine, ...zero].join(', ')}.
+      </SectionHeader>
+      <ul className={styles.componentGrid}>
+        {all.map((c) => (
+          <li key={c.name}>
+            <Link href={`/docs/components/${c.name}`} className={styles.componentChip}>
+              <span className={styles.componentName}>{c.title}</span>
+              {c.maturity !== 'stable' && (
+                <Badge size="sm" tone="neutral" variant="outline">
+                  {c.maturity}
+                </Badge>
+              )}
+            </Link>
+          </li>
+        ))}
+      </ul>
+      <div className={styles.commandRow}>
+        <TextLink href="/docs/components">Browse all {all.length}</TextLink>
+      </div>
+    </section>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+
+/**
+ * Drafted from the repo — ADRs, GOVERNANCE.md and the measured figures — not from marketing copy. Every claim
+ * here is one the rest of the site already makes and a script can reproduce.
+ */
+const FAQ: readonly { q: string; a: ReactNode }[] = [
+  {
+    q: 'Is Syntara on npm?',
+    a: (
+      <>
+        Yes, eight packages at 0.1.0 under the <code>@syntara</code> scope: the components, tokens, theme engine,
+        icons, the server-driven UI schema, the auditor, the MCP server and the codemods.{' '}
+        <TextLink href="/docs/installation">Installation</TextLink>
+      </>
+    ),
+  },
+  {
+    q: 'How do I add a brand?',
+    a: (
+      <>
+        Write one brand.json with six inputs and one content.json with the copy. No component changes, no theme
+        file to maintain: the engine derives every token and re-checks every contrast pair for the new brand.
+      </>
+    ),
+  },
+  {
+    q: 'What does “accessible by construction” mean?',
+    a: (
+      <>
+        A theme that fails WCAG 2.2 AA cannot be generated. The solver checks every foreground and background pair
+        the system can produce, in light and dark, and moves the lighter side until it passes — recording why in a
+        sentence. Ratios are floored, never rounded: 4.49:1 fails.{' '}
+        <TextLink href="/docs/accessibility">Accessibility</TextLink>
+      </>
+    ),
+  },
+  {
+    q: 'Does it handle right to left and other scripts?',
+    a: (
+      <>
+        Components use logical properties only, so right-to-left is not a retrofit. Pass a locale to ThemeScope and
+        React Aria reads direction from it. Arabic and Devanagari tenants ship with the system, and line heights
+        are measured per type pair so no glyph’s ink leaves its line box.{' '}
+        <TextLink href="/docs/rtl">Right to left</TextLink>
+      </>
+    ),
+  },
+  {
+    q: 'Can I use the tokens without React?',
+    a: (
+      <>
+        Yes. <code>@syntara/tokens</code> ships plain CSS custom properties per tenant, plus DTCG 2025.10 JSON,
+        Figma variables, and Kotlin and Swift sources for native. Nothing in the token layer depends on React.{' '}
+        <TextLink href="/docs/theming">Theming</TextLink>
+      </>
+    ),
+  },
+  {
+    q: 'How do AI agents use Syntara?',
+    a: (
+      <>
+        Each component is described once in a meta.json, and <code>@syntara/mcp</code> serves those descriptions,
+        the tenants and the usage rules over MCP. The docs you are reading are generated from the same files, so an
+        agent and a person read one source.{' '}
+        <TextLink href="/docs/mcp">The MCP server</TextLink>
+      </>
+    ),
+  },
+  {
+    q: 'Who decides what goes in?',
+    a: (
+      <>
+        Anuj does, and every decision is written down. Proposals are RFCs, decisions are ADRs that name who made
+        the call, and breaking changes follow a deprecation policy: an API keeps working through every 0.x, is
+        removed at 1.0.0, and ships with a codemod.{' '}
+        <TextLink href="/docs/governance">Governance</TextLink>
+      </>
+    ),
+  },
+];
+
+export function FaqSection() {
+  return (
+    <section className={styles.section} aria-labelledby="faq-title">
+      <div className={styles.split}>
+        <div className={styles.stack}>
+          <SectionHeader
+            id="faq-title"
+            title={
+              <>
+                Questions, <HeroAccent className={styles.titleAccent}>straight</HeroAccent> answers.
+              </>
+            }
+          >
+            What this is, what it is not, and where the honest edges are.
+          </SectionHeader>
+        </div>
+        <Accordion className={styles.faq}>
+          {FAQ.map((item, i) => (
+            <AccordionItem key={item.q} id={`faq-${i}`} title={item.q}>
+              <p className={styles.faqAnswer}>{item.a}</p>
+            </AccordionItem>
+          ))}
+        </Accordion>
+      </div>
+    </section>
+  );
+}
+
 /* ------------------------------------------------------------------ */
 
 export function ClosingCta() {
@@ -401,9 +576,10 @@ export function ClosingCta() {
     <section className={styles.cta} aria-labelledby="cta-title">
       <div className={styles.ctaText}>
         <h2 id="cta-title" className={styles.ctaTitle}>
-          Start with one component. Keep every brand.
+          Start with one component.{' '}
+          <HeroAccent className={styles.titleAccent}>Keep every brand.</HeroAccent>
         </h2>
-        <p className={styles.ctaLead}>Install a button today; bring your brand colour when you’re ready.</p>
+        <p className={styles.ctaLead}>Copy a button today, and tell me when it’s wrong.</p>
       </div>
       <div className={styles.heroActions}>
         <ButtonLink href="/docs" variant="inverse" size="lg">
