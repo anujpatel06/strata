@@ -19,10 +19,20 @@ Numbers only with the command that produced them. Design trade-offs get an ADR i
   the avatar, tooltip and hydration fixes, silently. Verified by `pnpm pack`: `dist/index.js` rebuilt, no source file newer than it.
 - **READMEs for `@syntara/react`, `@syntara/icons` and `@syntara/theme-engine`,** which had none. The react page is
   where anyone evaluating this lands.
+- **`@syntara/icons` and `@syntara/theme-engine` are built packages now** — `vite.config.ts` + `tsconfig.build.json`
+  on the pattern `@syntara/react` already uses: ESM with `preserveModules` (so importing two icons does not pull in
+  480), declarations via `tsc`, and the dist mapping in `publishConfig.exports` so in-repo imports still resolve to
+  `src`. Both were exporting `./src/index.ts`.
+- **The declaration fixer now resolves bare directory specifiers,** in all three configs. `tsc` writes the barrel as
+  `import("..").Icon`, which `nodenext` rejects; it becomes `import("../index.js").Icon`. This was latent in
+  `@syntara/react`'s config too.
 
 **Decided**
-- **Nothing published yet — Anuj's call pending.** Six of the eight packages export `./src/index.ts`, i.e. raw
-  TypeScript. See Next.
+- **Build the two packages people import; leave the CLIs as they are — Anuj.** Six packages exported raw
+  TypeScript. Three options were put up: build `icons` + `theme-engine` only, build all six, or publish only
+  `react` + `tokens` + `icons`. Anuj chose the first. `audit`, `mcp` and `codemods` run through `bin/*.mjs` with
+  `tsx` as a real dependency, so their CLIs work; only programmatic import is affected and nothing documents it.
+  `sdui` stays a demo. ADR worth writing if the CLI packages ever grow a documented API.
 - One README claim was written and then removed: that direction-bearing icons flip themselves under RTL. They do
   not. `@syntara/icons` ships no direction logic; the consuming component flips it in CSS (`.separator:dir(rtl)` in
   breadcrumbs, `.navIcon:dir(rtl)` in calendar). The README now says so.
@@ -39,15 +49,22 @@ Numbers only with the command that produced them. Design trade-offs get an ADR i
 
 Tarball 424K, `dist/types/index.d.ts` present.
 
+Then all three tarballs installed into a clean `npm` project outside the workspace:
+
+- `node` imports `@syntara/icons` and `@syntara/theme-engine` and renders `IconCheck` — before the build both threw
+  on the `.ts` extension.
+- `tsc --module nodenext --moduleResolution nodenext --skipLibCheck false` over all three: **0 errors**.
+- `pnpm typecheck`: every package Done. `pnpm test`: **2,167 passed, 0 failed.**
+
 **Next**
 - **The `@syntara` npm scope is not reserved and this session could not reserve it.** `npm whoami` returns 401, and
   `@syntara` has to exist as an npm *organisation* before anything can be published into it — a signup flow on
   npmjs.com behind Anuj's password. No package named `syntara` exists on the registry; whether the org name is free
   is not knowable without the create form.
-- **Six packages export raw TypeScript** (`exports: {".": "./src/index.ts"}`): icons, theme-engine, sdui, audit,
-  mcp, codemods. `@syntara/icons` is a hard dependency of `@syntara/react` pinned to an exact version, so icons must be
-  published; but a consumer importing it directly — which `installation.mdx` tells manual installers to do — gets a
-  `.ts` file Node cannot load and Next.js will not transpile without `transpilePackages`. Options put to Anuj.
+- **The README numbers table is stale** on one row. `pnpm test` now gives 474 components · 309 engine · 959 icons
+  · 193 MCP · 150 schema · 74 auditor · 8 codemods; the table says 468 · 301 · 245 · 193 · 150 · 74 · 8 and is
+  footnoted "Measured 2026-09-28". Only the test counts were re-measured this session, so the row was left alone
+  rather than half-updated under a date that would then cover figures nobody re-ran.
 - Publish with **pnpm**, not npm: `workspace:*` is only rewritten by pnpm.
 
 ---

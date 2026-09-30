@@ -2,7 +2,8 @@
 
 Syntara's own icon set: curvy, minimal outline icons on a 24px grid, as React components. Part of [Syntara](https://github.com/anujpatel06/strata).
 
-237 outline icons, each with a duotone twin, plus 6 filled variants. Drawn for this system rather than borrowed — the style spec lives in [`src/create-icon.tsx`](https://github.com/anujpatel06/strata/blob/main/packages/icons/src/create-icon.tsx) (ADR-014).
+237 outline icons, each with a duotone twin, plus 6 filled variants. Every export is `Icon`-prefixed
+(`IconCheck`, `IconArrowRight`), so autocomplete on `Icon` lists the set. Drawn for this system rather than borrowed — the style spec lives in [`src/create-icon.tsx`](https://github.com/anujpatel06/strata/blob/main/packages/icons/src/create-icon.tsx) (ADR-014).
 
 ## Install
 
@@ -15,10 +16,10 @@ React 19 is a peer dependency. `@syntara/react` already bundles what it needs; i
 ## Use
 
 ```tsx
-import { ArrowRight, Check } from '@syntara/icons';
+import { IconArrowRight, IconCheck } from '@syntara/icons';
 
-<Check />
-<ArrowRight size={20} />
+<IconCheck />
+<IconArrowRight size={20} />
 ```
 
 Colour follows `currentColor`, so an icon takes the text colour of whatever it sits in. Stroke width follows the `--syntara-icon-stroke` token, so it moves with the theme rather than being fixed per icon.
@@ -30,7 +31,7 @@ Icons carry no direction logic of their own. Where a direction-bearing icon need
 Every outline icon has a duotone twin, suffixed `Duotone`:
 
 ```tsx
-import { ArrowRightDuotone } from '@syntara/icons';
+import { IconArrowRightDuotone } from '@syntara/icons';
 ```
 
 The second tone is a tinted fill derived from the theme, not a hard-coded grey.

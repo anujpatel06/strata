@@ -15,7 +15,23 @@
   "exports": {
     ".": "./src/index.ts"
   },
+  "files": [
+    "dist"
+  ],
+  "publishConfig": {
+    "access": "public",
+    "types": "./dist/types/index.d.ts",
+    "exports": {
+      ".": {
+        "types": "./dist/types/index.d.ts",
+        "default": "./dist/index.js"
+      },
+      "./package.json": "./package.json"
+    }
+  },
   "scripts": {
+    "prepack": "pnpm run build",
+    "build": "vite build",
     "test": "vitest run",
     "typecheck": "tsc -p tsconfig.json",
     "sheet": "tsx scripts/sheet.tsx",
@@ -29,10 +45,12 @@
     "@types/node": "^22.0.0",
     "@types/react": "^19.2.0",
     "@types/react-dom": "^19.2.0",
+    "@vitejs/plugin-react": "^6.0.0",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
     "tsx": "^4.20.0",
     "typescript": "~5.9.0",
+    "vite": "^8.0.0",
     "vitest": "^5.0.0"
   }
 }
