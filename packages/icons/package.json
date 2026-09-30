@@ -4,6 +4,13 @@
   "description": "Syntara's own icon set: curvy, minimal outline icons on a 24px grid. React components; colour follows text, stroke follows the --syntara-icon-stroke token.",
   "type": "module",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/anujpatel06/strata.git",
+    "directory": "packages/icons"
+  },
+  "homepage": "https://github.com/anujpatel06/strata/tree/main/packages/icons#readme",
+  "bugs": "https://github.com/anujpatel06/strata/issues",
   "sideEffects": false,
   "exports": {
     ".": "./src/index.ts"

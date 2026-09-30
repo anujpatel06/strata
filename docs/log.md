@@ -6,6 +6,52 @@ Numbers only with the command that produced them. Design trade-offs get an ADR i
 
 ---
 
+## 2026-09-30 (npm) — the packages carry their own licence, readme and build
+
+**Changed**
+- **`LICENSE` copied into all eight published packages.** Every manifest said `"license": "MIT"` and no tarball
+  contained the text; npm does not hoist a monorepo root `LICENSE`.
+- **`repository` (with `directory`), `homepage` and `bugs` added to all eight.** Without them npm renders no
+  source link. The URLs use `github.com/anujpatel06/strata`, which ADR-029 settled: the repository keeps its name.
+- **`prepack: pnpm run build` on `@syntara/react` and `@syntara/tokens`.** Both ship `files: ["dist"]`, `dist` is
+  gitignored, and neither had a publish lifecycle script. `packages/react/dist` was built 27 Sep and 83 source files
+  under `packages/react/src` changed after that, so `changeset publish` would have shipped a `dist` predating
+  the avatar, tooltip and hydration fixes, silently. Verified by `pnpm pack`: `dist/index.js` rebuilt, no source file newer than it.
+- **READMEs for `@syntara/react`, `@syntara/icons` and `@syntara/theme-engine`,** which had none. The react page is
+  where anyone evaluating this lands.
+
+**Decided**
+- **Nothing published yet — Anuj's call pending.** Six of the eight packages export `./src/index.ts`, i.e. raw
+  TypeScript. See Next.
+- One README claim was written and then removed: that direction-bearing icons flip themselves under RTL. They do
+  not. `@syntara/icons` ships no direction logic; the consuming component flips it in CSS (`.separator:dir(rtl)` in
+  breadcrumbs, `.navIcon:dir(rtl)` in calendar). The README now says so.
+
+**Results**
+`pnpm pack` on `@syntara/react`, tarball inspected:
+
+| | before | after |
+|---|---|---|
+| `LICENSE` in tarball | no | **yes** |
+| `README.md` in tarball | no | **yes** |
+| `dist` freshness | 3 days stale | **rebuilt by `prepack`** |
+| `@syntara/icons` dependency | `workspace:*` | **`0.1.0`** (pnpm rewrites it; `npm publish` would not) |
+
+Tarball 424K, `dist/types/index.d.ts` present.
+
+**Next**
+- **The `@syntara` npm scope is not reserved and this session could not reserve it.** `npm whoami` returns 401, and
+  `@syntara` has to exist as an npm *organisation* before anything can be published into it — a signup flow on
+  npmjs.com behind Anuj's password. No package named `syntara` exists on the registry; whether the org name is free
+  is not knowable without the create form.
+- **Six packages export raw TypeScript** (`exports: {".": "./src/index.ts"}`): icons, theme-engine, sdui, audit,
+  mcp, codemods. `@syntara/icons` is a hard dependency of `@syntara/react` pinned to an exact version, so icons must be
+  published; but a consumer importing it directly — which `installation.mdx` tells manual installers to do — gets a
+  `.ts` file Node cannot load and Next.js will not transpile without `transpilePackages`. Options put to Anuj.
+- Publish with **pnpm**, not npm: `workspace:*` is only rewritten by pnpm.
+
+---
+
 ## 2026-09-30 (hero) — the demo is the argument, so it moves above the fold
 
 **Changed**
