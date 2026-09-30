@@ -88,13 +88,16 @@ export function Hero() {
       </div>
       {/*
         The install command used to sit here with the full "run this" treatment — bordered, monospace, a copy
-        button — for a package that does not exist, and a line under it taking that back. The honest half is all
-        that is left, and it costs a line rather than a block: nothing is promised, so nothing needs retracting.
-        The command itself lives on /docs/installation, which is where someone installing would look.
+        button — for a package that did not exist. The packages are real now (0.1.0), but the block is not coming
+        back: the demo below is the page's argument, and the command belongs on /docs/installation, which is where
+        someone installing looks. One line is enough to say it exists. No version number here either — the pill
+        above shows the site's milestone (v0.5, from the changelog) and the packages are on 0.1.0, so a second
+        number six lines down reads as a contradiction. The Ship cards carry v0.1.0 beside `pnpm add`, where it
+        cannot be misread.
       */}
       <p className={styles.heroNote}>
-        Not on npm yet — it publishes in Phase 6.{' '}
-        <TextLink href="/docs/installation#by-hand">Copy a component’s source</TextLink>.
+        The packages are on npm.{' '}
+        <TextLink href="/docs/installation">Install them, or copy a component’s source</TextLink>.
       </p>
     </section>
   );
@@ -282,7 +285,7 @@ const SHIP: readonly ShipOption[] = [
     command: 'pnpm add @syntara/react',
     href: '/docs/installation#with-npm',
     link: 'Install with npm',
-    badge: 'Not on npm yet',
+    badge: 'v0.1.0',
   },
   {
     title: 'Design tokens',
@@ -290,7 +293,7 @@ const SHIP: readonly ShipOption[] = [
     command: 'pnpm add @syntara/tokens',
     href: '/docs/theming',
     link: 'How theming works',
-    badge: 'Not on npm yet',
+    badge: 'v0.1.0',
   },
   {
     title: 'Copy the source',
