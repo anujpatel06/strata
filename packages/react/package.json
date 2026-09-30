@@ -4,6 +4,13 @@
   "description": "Syntara React components — React Aria behaviour, Syntara tokens, any brand.",
   "type": "module",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/anujpatel06/strata.git",
+    "directory": "packages/react"
+  },
+  "homepage": "https://github.com/anujpatel06/strata/tree/main/packages/react#readme",
+  "bugs": "https://github.com/anujpatel06/strata/issues",
   "sideEffects": [
     "**/*.css"
   ],
@@ -31,6 +38,7 @@
     "types": "./dist/types/index.d.ts"
   },
   "scripts": {
+    "prepack": "pnpm run build",
     "test": "vitest run",
     "typecheck": "tsc -p tsconfig.json",
     "gen:index": "node scripts/gen-index.mjs",
@@ -61,11 +69,6 @@
     "typescript": "~5.9.0",
     "vitest": "^5.0.0",
     "vite": "^8.0.0"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/anujpatel06/strata.git",
-    "directory": "packages/react"
   },
   "keywords": [
     "design-system",

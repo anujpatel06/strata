@@ -5,6 +5,7 @@
 
 ```tsx
 import { Button, ThemeScope } from '@syntara/react';
+import '@syntara/tokens/dist/syntara.css';
 import '@syntara/react/styles.css';
 
 <ThemeScope theme="vela" scheme="dark">
@@ -12,7 +13,7 @@ import '@syntara/react/styles.css';
 </ThemeScope>
 ```
 
-Peer dependencies: React 19 and React DOM 19.
+Peer dependencies: React 19 and React DOM 19. `@syntara/tokens` supplies the token CSS the components read.
 
 ## The rules the components follow
 
@@ -30,8 +31,13 @@ Peer dependencies: React 19 and React DOM 19.
 ```ts
 import { Button } from '@syntara/react';        // everything
 import { Button } from '@syntara/react/ui/button'; // one component
-import '@syntara/react/styles.css';             // required once
+import '@syntara/tokens/dist/syntara.css';      // the tokens — required once
+import '@syntara/react/styles.css';             // the component styles — required once
 ```
+
+`styles.css` reads `var(--syntara-*)` 2,736 times and defines none of them, so the token file is not optional:
+without it the components render unthemed. `dist/syntara.css` holds every tenant, each scoped to
+`[data-syntara-theme="<id>"]`; import `@syntara/tokens/dist/<id>/tokens.css` instead to ship one brand on `:root`.
 
 ## Theming
 

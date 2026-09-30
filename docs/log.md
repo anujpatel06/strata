@@ -6,6 +6,127 @@ Numbers only with the command that produced them. Design trade-offs get an ADR i
 
 ---
 
+## 2026-09-30 (npm) — the packages carry their own licence, readme and build
+
+**Reconciled with #14.** `chore(release): Phase 6 publish prep` (#14) merged to main at 08:42, mid-session, doing
+overlapping work neither side knew about — the exact failure two sessions shipping opposite fixes for one problem.
+Both found the same three defects and fixed two of them differently:
+
+| | #14 | here |
+|---|---|---|
+| raw TypeScript entry points | `files: ["src"]` — still ships `.ts` | built: JS + `.d.ts` |
+| test files in the tarball | fixed by `files: ["src"]` | fixed by `files: ["dist"]` |
+| `repository` link | **plus `keywords`** | no keywords |
+| `LICENSE` in the tarball | — | fixed |
+| stale `dist`, no `prepack` | — | fixed |
+| `changeset version` → 1.0.0 | major→minor ⇒ 0.2.0 | changeset deleted, baseline 0.0.0 ⇒ **0.1.0** |
+
+Merged toward this branch on Anuj's call, keeping #14's `keywords` and all three of its READMEs, which are better
+than the ones written here — more specific, with working examples, and correct where these were not (243 outline
+drawings including the 6 filled, not "237 outline plus 6 filled"; the 54 twins that carry no tint; the `Icon.node`
+composition that stops a twin drifting from its outline).
+
+Two things the merge caught:
+
+- **Git auto-merged `packages/icons/package.json` into a broken package:** #14's `files: ["src"]` alongside this
+  branch's `publishConfig.exports` pointing at `dist`. The tarball would have contained source and pointed its
+  entry at a `dist` that was not in it. A post-merge assertion over all eight manifests caught it; the check is in
+  the session scratch, not the repo.
+- **#14's README told consumers to import `@syntara/react/styles.css` and nothing else.** That file reads
+  `var(--syntara-*)` 2,736 times and defines none of them (`grep -c` on the built `styles.css`), so following it
+  renders every component unthemed. The token import is back in both the quickstart and the Importing section.
+
+`.changeset/publish-metadata.md` and `.changeset/publish-readiness.md` are merged into one accurate changeset:
+#14's said `files: ["src"]`, which stopped being true.
+
+A third: **#14's theme-engine README stated the wrong output for its own example.** Run verbatim against the packed
+tarball, those six inputs give `adjustments: 1`, not 3. Corrected to the measured value.
+
+
+**Changed**
+- **`LICENSE` copied into all eight published packages.** Every manifest said `"license": "MIT"` and no tarball
+  contained the text; npm does not hoist a monorepo root `LICENSE`.
+- **`repository` (with `directory`), `homepage` and `bugs` added to all eight.** Without them npm renders no
+  source link. The URLs use `github.com/anujpatel06/strata`, which ADR-029 settled: the repository keeps its name.
+- **`prepack: pnpm run build` on `@syntara/react` and `@syntara/tokens`.** Both ship `files: ["dist"]`, `dist` is
+  gitignored, and neither had a publish lifecycle script. `packages/react/dist` was built 27 Sep and 83 source files
+  under `packages/react/src` changed after that, so `changeset publish` would have shipped a `dist` predating
+  the avatar, tooltip and hydration fixes, silently. Verified by `pnpm pack`: `dist/index.js` rebuilt, no source file newer than it.
+- **READMEs for `@syntara/react`, `@syntara/icons` and `@syntara/theme-engine`,** which had none. The react page is
+  where anyone evaluating this lands.
+- **`@syntara/icons` and `@syntara/theme-engine` are built packages now** — `vite.config.ts` + `tsconfig.build.json`
+  on the pattern `@syntara/react` already uses: ESM with `preserveModules` (so importing two icons does not pull in
+  480), declarations via `tsc`, and the dist mapping in `publishConfig.exports` so in-repo imports still resolve to
+  `src`. Both were exporting `./src/index.ts`.
+- **The declaration fixer now resolves bare directory specifiers,** in all three configs. `tsc` writes the barrel as
+  `import("..").Icon`, which `nodenext` rejects; it becomes `import("../index.js").Icon`. This was latent in
+  `@syntara/react`'s config too.
+- **The first release is 0.1.0 across all eight packages.** `.changeset/rename-to-syntara.md` is deleted and the
+  version baseline is set to `0.0.0`, so the accumulated changesets produce a uniform `0.1.0`.
+- **`@syntara/sdui`'s peer ranges are real ranges** (`>=0.1.0 <1.0.0`) instead of `workspace:*`, which pnpm
+  publishes as an exact pin — every later `@syntara/react` release would have been a peer conflict for every
+  consumer of sdui.
+- **`onlyUpdatePeerDependentsWhenOutOfRange` set in `.changeset/config.json`,** so a peer bump inside the declared
+  range stops forcing a major on the dependent.
+
+**Decided**
+- **First release at 0.1.0, not 1.0.0 — Anuj.** A dry run of `changeset version` produced **1.0.0** for all eight:
+  `rename-to-syntara.md` marked everything major. That would have opened npm with a v1.0.0 changelog headed
+  "Major Changes", describing a four-part migration from `@strata` — a scope that was never published — while
+  `pnpm check:meta` reports 0 stable, 35 beta, 18 alpha. Three options were put up: release at 0.1.0, ship 1.0.0
+  with the entry reworded, or ship as-is. Anuj chose 0.1.0. The rename stays recorded in ADR-029 and here.
+- **Build the two packages people import; leave the CLIs as they are — Anuj.** Six packages exported raw
+  TypeScript. Three options were put up: build `icons` + `theme-engine` only, build all six, or publish only
+  `react` + `tokens` + `icons`. Anuj chose the first. `audit`, `mcp` and `codemods` run through `bin/*.mjs` with
+  `tsx` as a real dependency, so their CLIs work; only programmatic import is affected and nothing documents it.
+  `sdui` stays a demo. ADR worth writing if the CLI packages ever grow a documented API.
+- One README claim was written and then removed: that direction-bearing icons flip themselves under RTL. They do
+  not. `@syntara/icons` ships no direction logic; the consuming component flips it in CSS (`.separator:dir(rtl)` in
+  breadcrumbs, `.navIcon:dir(rtl)` in calendar). The README now says so.
+
+**Results**
+`pnpm pack` on `@syntara/react`, tarball inspected:
+
+| | before | after |
+|---|---|---|
+| `LICENSE` in tarball | no | **yes** |
+| `README.md` in tarball | no | **yes** |
+| `dist` freshness | 3 days stale | **rebuilt by `prepack`** |
+| `@syntara/icons` dependency | `workspace:*` | **`0.1.0`** (pnpm rewrites it; `npm publish` would not) |
+
+Tarball 424K, `dist/types/index.d.ts` present.
+
+Then all three tarballs installed into a clean `npm` project outside the workspace:
+
+- `node` imports `@syntara/icons` and `@syntara/theme-engine` and renders `IconCheck` — before the build both threw
+  on the `.ts` extension.
+- `tsc --module nodenext --moduleResolution nodenext --skipLibCheck false` over all three: **0 errors**.
+- `pnpm typecheck`: every package Done. `pnpm test`: **2,167 passed, 0 failed.**
+
+`pnpm changeset version`, run three times as a dry run and reverted each time:
+
+| | version it produced |
+|---|---|
+| as found | 1.0.0, all eight |
+| rename changeset dropped, baseline 0.0.0 | 0.1.0 — except `@syntara/sdui` at **1.0.0** |
+| + sdui peer ranges and the changesets peer flag | **0.1.0, all eight** |
+
+`@syntara/sdui` was the outlier because changesets majors any package whose *peer* dependency bumps, and sdui
+peer-depends on `@syntara/react` and `@syntara/icons`. `pnpm install`, `pnpm typecheck` and `pnpm test` all re-run
+clean after the peer ranges changed; the workspace links are intact (the packages are devDependencies too).
+
+**Next**
+- **The `@syntara` npm scope is not reserved and this session could not reserve it.** `npm whoami` returns 401, and
+  `@syntara` has to exist as an npm *organisation* before anything can be published into it — a signup flow on
+  npmjs.com behind Anuj's password. No package named `syntara` exists on the registry; whether the org name is free
+  is not knowable without the create form.
+- **The README numbers table is stale** on one row. `pnpm test` now gives 474 components · 309 engine · 959 icons
+  · 193 MCP · 150 schema · 74 auditor · 8 codemods; the table says 468 · 301 · 245 · 193 · 150 · 74 · 8 and is
+  footnoted "Measured 2026-09-28". Only the test counts were re-measured this session, so the row was left alone
+  rather than half-updated under a date that would then cover figures nobody re-ran.
+- Publish with **pnpm**, not npm: `workspace:*` is only rewritten by pnpm.
+
+---
 ## 2026-09-30 (publish prep) — the tarballs are right; the version number is a decision
 
 **Changed**

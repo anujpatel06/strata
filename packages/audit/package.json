@@ -1,9 +1,16 @@
 {
   "name": "@syntara/audit",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Syntara's drift auditor: finds off-system code, scores it 0–100, and suggests the exact token or component to use.",
   "type": "module",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/anujpatel06/strata.git",
+    "directory": "packages/audit"
+  },
+  "homepage": "https://github.com/anujpatel06/strata/tree/main/packages/audit#readme",
+  "bugs": "https://github.com/anujpatel06/strata/issues",
   "exports": {
     ".": "./src/index.ts"
   },
@@ -31,11 +38,6 @@
   "devDependencies": {
     "@types/node": "^22.0.0",
     "vitest": "^5.0.0"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/anujpatel06/strata.git",
-    "directory": "packages/audit"
   },
   "keywords": [
     "lint",

@@ -1,9 +1,22 @@
 {
   "name": "@syntara/sdui",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Syntara for server-driven UI: a JSON Schema per component generated from meta.json, a screen validator, and a reference renderer for the web.",
   "type": "module",
   "license": "MIT",
+  "keywords": [
+    "server-driven-ui",
+    "json-schema",
+    "design-system",
+    "renderer"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/anujpatel06/strata.git",
+    "directory": "packages/sdui"
+  },
+  "homepage": "https://github.com/anujpatel06/strata/tree/main/packages/sdui#readme",
+  "bugs": "https://github.com/anujpatel06/strata/issues",
   "exports": {
     ".": "./src/index.ts",
     "./react": "./src/react.tsx",
@@ -27,8 +40,8 @@
     "ajv": "^8.17.0"
   },
   "peerDependencies": {
-    "@syntara/icons": "^0.2.0",
-    "@syntara/react": "^0.2.0",
+    "@syntara/icons": ">=0.1.0 <1.0.0",
+    "@syntara/react": ">=0.1.0 <1.0.0",
     "react": "^19.0.0"
   },
   "devDependencies": {
@@ -47,16 +60,5 @@
     "tsx": "^4.20.0",
     "typescript": "~5.9.0",
     "vitest": "^5.0.0"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/anujpatel06/strata.git",
-    "directory": "packages/sdui"
-  },
-  "keywords": [
-    "server-driven-ui",
-    "json-schema",
-    "design-system",
-    "renderer"
-  ]
+  }
 }
