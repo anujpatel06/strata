@@ -38,5 +38,18 @@
   "devDependencies": {
     "@types/node": "^22.0.0",
     "vitest": "^5.0.0"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/anujpatel06/strata.git",
+    "directory": "packages/audit"
+  },
+  "keywords": [
+    "lint",
+    "design-system",
+    "design-tokens",
+    "audit",
+    "drift",
+    "codemod"
+  ]
 }

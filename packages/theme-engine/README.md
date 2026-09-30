@@ -1,34 +1,50 @@
 # @syntara/theme-engine
 
-Six brand inputs in, a complete light and dark theme out — every colour pair checked against WCAG 2.2 AA. Part of [Syntara](https://github.com/anujpatel06/strata).
+Turns six brand inputs into a light and dark theme that passes WCAG 2.2 AA. **Zero runtime dependencies.**
 
-**Zero runtime dependencies.**
+```ts
+import { generateTheme, toCSS } from '@syntara/theme-engine';
 
-## Install
+const theme = generateTheme({
+  name: 'Vela',
+  primary: '#3D45D6',
+  neutral: 'neutral',
+  shape: 'soft',
+  typePair: 'modern',
+  density: 'comfortable',
+});
 
-```sh
-npm install @syntara/theme-engine
+theme.summary; // { checks: 118, passed: 118, failed: 0, adjustments: 3, ... }
+toCSS(theme, { selector: '[data-syntara-theme="vela"]' });
 ```
 
 ## What it does
 
-Given six inputs — primary, accent, neutral temperature, shape, type pair and density — the engine builds OKLCH ramps, derives the semantic roles that components reference, and runs a contrast solver over every foreground/background pair the system can produce.
+A brand colour is a seed, not an answer. The engine builds OKLCH ramps from it, resolves **48 semantic roles** per
+scheme, and then runs a solver: where a role's preferred ramp step fails its contrast check, the solver moves it
+until it passes. Every theme is checked — **118 contrast pairs**, light and dark — and `theme.checks` carries each
+one with its ratio. Ratios are never rounded up: 4.49 fails.
 
-The solver keeps the brand's primary hex exact wherever it can, and where a pair would fail it adjusts the lighter side and records why, in plain English. Ratios are never rounded up: 4.49 fails.
-
-A theme that fails AA cannot be generated. That is the point of the package.
+`theme.adjustments` records what the solver moved and why, so a theme can explain itself rather than assert.
 
 ## Exporters
 
-The same theme can be written out as:
+| Function | Output |
+|---|---|
+| `toCSS` / `toCssVariables` | CSS custom properties, `--syntara-*` |
+| `toDTCG` | W3C Design Tokens (DTCG 2025.10) |
+| `toFigmaFiles` | Figma variables, one file per collection mode |
+| `toShadcnCSS` / `toShadcnCssVars` | shadcn/ui theme variables |
+| `toCompose` / `toSwiftUI` | Kotlin and Swift token sources |
 
-- CSS custom properties (`--syntara-*`)
-- DTCG 2025.10 design tokens JSON
-- Figma variables JSON (Brand / Scheme / Density collections)
-- shadcn-compatible variables
+## Verifying the claim
 
-## Verifying it
+The fuzz test generates 1,000 random brands and checks every pair in both schemes:
 
-The engine is fuzzed over randomly generated brands in both schemes, checking every contrast pair and chart palette. Run `pnpm test:themes` in the repository; results land in `packages/theme-engine/reports`, and the reproduced figures are listed in the repository's [numbers table](https://github.com/anujpatel06/strata#numbers).
+```sh
+pnpm --filter @syntara/theme-engine fuzz   # or: pnpm test:themes
+```
 
-MIT © Anuj Patel
+It writes `reports/fuzz-report.md` and exits non-zero if any brand fails.
+
+The role contract is `src/types.ts`. Components read only `var(--syntara-*)`; see `@syntara/tokens` for built files.

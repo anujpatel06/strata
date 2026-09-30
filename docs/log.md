@@ -8,6 +8,38 @@ Numbers only with the command that produced them. Design trade-offs get an ADR i
 
 ## 2026-09-30 (npm) — the packages carry their own licence, readme and build
 
+**Reconciled with #14.** `chore(release): Phase 6 publish prep` (#14) merged to main at 08:42, mid-session, doing
+overlapping work neither side knew about — the exact failure two sessions shipping opposite fixes for one problem.
+Both found the same three defects and fixed two of them differently:
+
+| | #14 | here |
+|---|---|---|
+| raw TypeScript entry points | `files: ["src"]` — still ships `.ts` | built: JS + `.d.ts` |
+| test files in the tarball | fixed by `files: ["src"]` | fixed by `files: ["dist"]` |
+| `repository` link | **plus `keywords`** | no keywords |
+| `LICENSE` in the tarball | — | fixed |
+| stale `dist`, no `prepack` | — | fixed |
+| `changeset version` → 1.0.0 | major→minor ⇒ 0.2.0 | changeset deleted, baseline 0.0.0 ⇒ **0.1.0** |
+
+Merged toward this branch on Anuj's call, keeping #14's `keywords` and all three of its READMEs, which are better
+than the ones written here — more specific, with working examples, and correct where these were not (243 outline
+drawings including the 6 filled, not "237 outline plus 6 filled"; the 54 twins that carry no tint; the `Icon.node`
+composition that stops a twin drifting from its outline).
+
+Two things the merge caught:
+
+- **Git auto-merged `packages/icons/package.json` into a broken package:** #14's `files: ["src"]` alongside this
+  branch's `publishConfig.exports` pointing at `dist`. The tarball would have contained source and pointed its
+  entry at a `dist` that was not in it. A post-merge assertion over all eight manifests caught it; the check is in
+  the session scratch, not the repo.
+- **#14's README told consumers to import `@syntara/react/styles.css` and nothing else.** That file reads
+  `var(--syntara-*)` 2,736 times and defines none of them (`grep -c` on the built `styles.css`), so following it
+  renders every component unthemed. The token import is back in both the quickstart and the Importing section.
+
+`.changeset/publish-metadata.md` and `.changeset/publish-readiness.md` are merged into one accurate changeset:
+#14's said `files: ["src"]`, which stopped being true.
+
+
 **Changed**
 - **`LICENSE` copied into all eight published packages.** Every manifest said `"license": "MIT"` and no tarball
   contained the text; npm does not hoist a monorepo root `LICENSE`.
@@ -92,6 +124,102 @@ clean after the peer ranges changed; the workspace links are intact (the package
 - Publish with **pnpm**, not npm: `workspace:*` is only rewritten by pnpm.
 
 ---
+## 2026-09-30 (publish prep) — the tarballs are right; the version number is a decision
+
+**Changed**
+- **`@syntara/icons` and `@syntara/theme-engine` were packing their test suites.** Neither declared `files`, so npm
+  took everything not ignored: 2 test files from icons, and 14 from theme-engine including the native token
+  snapshots (`vela.SyntaraTokens.kt`, `.swift`). Both now declare `files: ["src"]`, which is what their `exports`
+  actually need — both publish TypeScript source rather than a build.
+- **Every package carries `repository` with its `directory`, and `keywords`.** Eight packages had none, so npm would
+  have shown no source link and found them by name only.
+- **`@syntara/react`, `@syntara/icons` and `@syntara/theme-engine` have READMEs.** npm renders the README as the
+  package page, and the flagship package had none. Every number in them comes from the code: 53 components, 480
+  icon exports (243 outline + 237 duotone), 48 semantic roles, 118 contrast checks per theme, 0 runtime
+  dependencies in the engine.
+- **No `homepage` field.** The docs site is not deployed yet, so there is no URL to point at; adding one would be a
+  link that 404s. It goes in with the deploy.
+
+**Decided**
+- **Nothing is published in this commit.** The `@syntara` npm scope is still unclaimed (ADR-029, waiting on Anuj),
+  and reserving it needs his account. This is the preparation only.
+
+**Results**
+All eight packages pack with `pnpm pack`, which applies `publishConfig`:
+
+| Package | Size | README | test files |
+|---|---|---|---|
+| `@syntara/react` | 420 KB | yes | 0 |
+| `@syntara/tokens` | 113 KB | yes | 0 |
+| `@syntara/sdui` | 90 KB | yes | 0 |
+| `@syntara/theme-engine` | 66 KB | yes | 0 (was 14) |
+| `@syntara/audit` | 40 KB | yes | 0 |
+| `@syntara/icons` | 39 KB | yes | 0 (was 2) |
+| `@syntara/mcp` | 23 KB | yes | 0 |
+| `@syntara/codemods` | 5 KB | yes | 0 |
+
+- `@syntara/react`'s published `exports` are rewritten by its `publishConfig` to `./dist/types/index.d.ts` and
+  `./dist/index.js`. The source `exports` point at `./src/index.ts`, which is not in the tarball — correct, and
+  worth stating because it looks like a fault until you read `publishConfig`.
+- `pnpm typecheck` 0 errors · `pnpm test` 2,167 passing, 1 skipped · `pnpm check:meta` exit 0.
+
+**Found by measuring, not fixed**
+- **`changeset version` takes every package to 1.0.0.** `rename-to-syntara.md` declares a `major` for all eight
+  (ADR-029 changed the token prefix, which breaks every consumer stylesheet), and a major on 0.x goes to 1.0.0. Run
+  as a trial and reverted: all eight land on 1.0.0, 8 changelogs are written, 18 changesets are consumed.
+- **That collides with the one live deprecation.** `Button variant="danger"` records `since: 0.2.0`,
+  `removal: 1.0.0` (RFC-001, ADR-021), and GOVERNANCE §5.3 says a deprecated API keeps working through every 0.x
+  release and is removed at 1.0.0. If the *first* public release is 1.0.0 there was never a 0.x release to keep
+  working through: the deprecation and its removal would ship in the same instant, and the codemod would migrate an
+  API no consumer ever had. Anuj's call; put to him with options.
+
+**Decided (after the entry above was written)**
+- **The first release is 0.x, not 1.0.0 — Anuj.** `.changeset/rename-to-syntara.md` is rewritten from `major` to
+  `minor` for all eight packages, and says why in the changeset itself. The rename does break every consumer
+  stylesheet, but nothing was ever published under `@strata/*`, so there is no consumer to break; declaring it major
+  would spend 1.0.0 — the version GOVERNANCE §5.3 reserves for removing deprecated APIs that have lived through a
+  0.x window — on a release with no 0.x window behind it. `Button variant="danger"` keeps its 1.0.0 removal, and
+  real consumers now get a genuine window before it goes.
+- With that change a release produces: `react`, `icons`, `theme-engine`, `tokens` at **0.2.0**; `audit`, `codemods`,
+  `mcp` at **0.1.0**. Run as a trial and reverted — the version bump is not committed, because the scope is not
+  claimed and one question below is open.
+
+**Decided (third pass)**
+- **`@syntara/sdui`'s peer dependencies are pinned to `^0.2.0` — Anuj.** They were `workspace:*`, and changesets
+  cannot read the workspace protocol as a range, so it treated every peer bump as out of range and forced a major.
+  A real semver range fixes it, and the experimental `onlyUpdatePeerDependentsWhenOutOfRange` option is not needed —
+  it was tried and reverted rather than left as config that does nothing. Four forms were run through
+  `changeset version`:
+
+  | sdui peer range | option set | sdui lands on |
+  |---|---|---|
+  | `workspace:*` | no | **1.0.0** |
+  | `workspace:^` | yes | **1.0.0** |
+  | `^0.2.0` | yes | 0.1.0 |
+  | `^0.2.0` | no | **0.1.0** |
+
+  With the pin, a release is consistently 0.x: `react`, `icons`, `theme-engine`, `tokens` at **0.2.0**; `audit`,
+  `codemods`, `mcp`, `sdui` at **0.1.0**. sdui's changelog heading reads `## 0.1.0` above its Minor Changes instead
+  of `## 1.0.0`.
+- The range is ahead of the tree on purpose: `@syntara/react` is 0.1.0 today and becomes 0.2.0 in the release this
+  is written for. Nothing breaks in the meantime — sdui carries both packages as devDependencies, so the workspace
+  still links them. `pnpm install` is clean with no peer warnings, `pnpm --filter @syntara/sdui typecheck` passes
+  and its 150 tests pass.
+
+**Found by measuring, not fixed (second pass)**
+- **A pinned range needs maintenance that `workspace:*` did not.** When `@syntara/react` next takes a minor, sdui's
+  `^0.2.0` goes stale and consumers get a peer warning until someone widens it. That is the cost of the fix, and
+  nothing checks it yet — a rule in `pnpm check:meta`, or a release step, would.
+- **`@syntara/sdui` lands on 1.0.0 whatever the changesets say.** It is the only package that declares
+  `@syntara/react` and `@syntara/icons` as **peer** dependencies, at `workspace:*`. Changesets bumps a package major
+  when a peer dependency takes a minor, so sdui goes major on *every* react or icons minor — not just this release.
+  Its changelog then reads "## 1.0.0" with nothing but a Minor Changes section under it, which looks like a fault.
+  `onlyUpdatePeerDependentsWhenOutOfRange` does not help: changesets cannot evaluate `workspace:*` as a range, so it
+  treats every bump as out of range. Tried and reverted. Three ways out — accept 1.0.0 for sdui, pin the peers to a
+  real range like `^0.2.0`, or set sdui's version by hand after each bump — and it is Anuj's call which.
+
+**Next**
+- Anuj: the npm scope. That is the last thing between this and a release.
 
 ## 2026-09-30 (hero) — the demo is the argument, so it moves above the fold
 

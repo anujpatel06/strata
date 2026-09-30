@@ -1,68 +1,58 @@
 # @syntara/react
 
-53 React Aria components themed entirely by CSS custom properties. Part of [Syntara](https://github.com/anujpatel06/strata), a multi-brand design system.
-
-Every component works in light and dark, both densities, and right-to-left. Behaviour — focus, overlays, collections, keyboard — comes from [React Aria](https://react-spectrum.adobe.com/react-aria/); Syntara supplies the structure and the tokens.
-
-## Install
-
-```sh
-npm install @syntara/react @syntara/tokens
-```
-
-React 19 and React DOM are peer dependencies. React Aria and the icon set come with the package.
-
-## Use
-
-Import the token CSS and the component styles once, at your app root:
-
-```tsx
-import '@syntara/tokens/dist/syntara.css';
-import '@syntara/react/styles.css';
-```
-
-Then wrap your app — or any part of it — in a `ThemeScope`:
+**53 components** built on [React Aria Components](https://react-spectrum.adobe.com/react-aria/), themed entirely by
+`var(--syntara-*)` tokens. One library renders every brand.
 
 ```tsx
 import { Button, ThemeScope } from '@syntara/react';
+import '@syntara/tokens/dist/syntara.css';
+import '@syntara/react/styles.css';
 
-export default function App() {
-  return (
-    <ThemeScope theme="vela" scheme="dark">
-      <Button>Continue</Button>
-    </ThemeScope>
-  );
-}
+<ThemeScope theme="vela" scheme="dark">
+  <Button variant="primary">Save</Button>
+</ThemeScope>
 ```
 
-Each component also has its own entry point: `import { Button } from '@syntara/react/ui/button'`.
+Peer dependencies: React 19 and React DOM 19. `@syntara/tokens` supplies the token CSS the components read.
 
-For right-to-left locales, pass `locale` rather than `dir` — React Aria reads direction from the locale:
+## The rules the components follow
 
-```tsx
-<ThemeScope theme="qamar" locale="ar-AE">…</ThemeScope>
+- **Tokens only.** No raw colours, sizes, radii or weights in component CSS, and no tenant ids in component code. A
+  brand is data, not code — so a component cannot know which brand it is rendering.
+- **React Aria for behaviour.** Focus, overlays, collections and keyboard handling are never hand-rolled.
+- **Logical properties only**, so right-to-left works. Pass `locale` to `ThemeScope` for RTL — React Aria reads
+  direction from the locale, not from `dir`.
+- **WCAG 2.2 AA.** Visible focus, targets ≥ 24px, and status never shown by colour alone.
+- **Overlays portal to `<body>`** and copy `data-syntara-*`, `dir` and `lang` from the nearest scope when they open
+  (ADR-012), so a menu opened inside a themed scope stays in that theme.
+
+## Importing
+
+```ts
+import { Button } from '@syntara/react';        // everything
+import { Button } from '@syntara/react/ui/button'; // one component
+import '@syntara/tokens/dist/syntara.css';      // the tokens — required once
+import '@syntara/react/styles.css';             // the component styles — required once
 ```
+
+`styles.css` reads `var(--syntara-*)` 2,736 times and defines none of them, so the token file is not optional:
+without it the components render unthemed. `dist/syntara.css` holds every tenant, each scoped to
+`[data-syntara-theme="<id>"]`; import `@syntara/tokens/dist/<id>/tokens.css` instead to ship one brand on `:root`.
 
 ## Theming
 
-Components reference semantic tokens (`--syntara-*`) and never raw colours, sizes or radii. A brand is data: one `brand.json` of six inputs becomes a full light and dark theme via [`@syntara/theme-engine`](https://github.com/anujpatel06/strata/tree/main/packages/theme-engine#readme). Swapping brands changes no component code.
-
-Token CSS keys off three attributes, which `ThemeScope` writes for you:
+Components read the 48 semantic roles that `@syntara/theme-engine` resolves; `@syntara/tokens` ships built files for
+each tenant. Mode attributes go on the **same element** as `data-syntara-theme`:
 
 ```html
 <html data-syntara-theme="vela" data-syntara-scheme="auto" data-syntara-density="compact">
 ```
 
-## Accessibility
+## Component metadata
 
-Syntara targets WCAG 2.2 AA: visible focus, targets ≥ 24px, and status never carried by colour alone. Contrast ratios are never rounded up. Generated themes are contrast-checked, and the docs routes are swept with axe in both schemes — see the [numbers table](https://github.com/anujpatel06/strata#numbers), which lists the command that reproduces each figure.
+Every component has a `meta.json` — props, maturity, examples, and any deprecation record with its removal version,
+replacement and codemod. `pnpm check:meta` checks each one against its files. `@syntara/mcp` serves the same
+metadata to agents.
 
-## Maturity
-
-Pre-1.0. Components carry a maturity level in their `meta.json` (`pnpm check:meta` prints the split). Breaking changes follow [GOVERNANCE.md](https://github.com/anujpatel06/strata/blob/main/GOVERNANCE.md) §5 and ship with a codemod in [`@syntara/codemods`](https://github.com/anujpatel06/strata/tree/main/packages/codemods#readme).
-
-## Copying instead of installing
-
-Every component is a `.tsx` and a `.module.css` that import siblings by relative path, so you can copy the files into your own project instead of taking the dependency. Each component page in the docs has the full source.
-
-MIT © Anuj Patel
+Deprecations follow GOVERNANCE.md §5: a deprecated API keeps working through every 0.x release, is removed at
+1.0.0, and ships with a codemod in `@syntara/codemods`.

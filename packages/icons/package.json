@@ -52,5 +52,13 @@
     "typescript": "~5.9.0",
     "vite": "^8.0.0",
     "vitest": "^5.0.0"
-  }
+  },
+  "keywords": [
+    "icons",
+    "react",
+    "svg",
+    "icon-set",
+    "duotone",
+    "design-system"
+  ]
 }

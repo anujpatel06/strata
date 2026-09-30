@@ -1,39 +1,43 @@
 # @syntara/icons
 
-Syntara's own icon set: curvy, minimal outline icons on a 24px grid, as React components. Part of [Syntara](https://github.com/anujpatel06/strata).
-
-237 outline icons, each with a duotone twin, plus 6 filled variants. Every export is `Icon`-prefixed
-(`IconCheck`, `IconArrowRight`), so autocomplete on `Icon` lists the set. Drawn for this system rather than borrowed — the style spec lives in [`src/create-icon.tsx`](https://github.com/anujpatel06/strata/blob/main/packages/icons/src/create-icon.tsx) (ADR-014).
-
-## Install
-
-```sh
-npm install @syntara/icons
-```
-
-React 19 is a peer dependency. `@syntara/react` already bundles what it needs; install this directly when you copy component source by hand, or want the icons on their own.
-
-## Use
+Syntara's own icon set (ADR-014). **480 React components: 243 outline drawings and 237 duotone twins.**
 
 ```tsx
-import { IconArrowRight, IconCheck } from '@syntara/icons';
+import { IconArrowRight, IconShieldCheckDuotone } from '@syntara/icons';
 
-<IconCheck />
-<IconArrowRight size={20} />
+<IconArrowRight aria-hidden />
+<IconShieldCheckDuotone aria-hidden />
 ```
 
-Colour follows `currentColor`, so an icon takes the text colour of whatever it sits in. Stroke width follows the `--syntara-icon-stroke` token, so it moves with the theme rather than being fixed per icon.
+Peer dependency: React 19.
 
-Icons carry no direction logic of their own. Where a direction-bearing icon needs to flip under right-to-left — a breadcrumb chevron, a calendar's next/prev — the component that uses it flips it in CSS with `:dir(rtl)`. Do the same in your own components rather than shipping a mirrored icon.
+## The drawings
+
+One stroke weight, one corner treatment, one grid — the style spec lives in `src/create-icon.tsx`, beside the code
+that enforces it. Icons are `currentColor` and size to the text around them, so they inherit from the type they sit
+in rather than carrying their own colour or size.
 
 ## Duotone
 
-Every outline icon has a duotone twin, suffixed `Duotone`:
+A twin is the same drawing with a tint layer painted behind it. **A twin never redraws its outline and never copies
+a path string** — `createIcon` keeps the drawing on the component as `Icon.node` and each twin composes it, so the
+two layers cannot drift apart. A test asserts the outline's nodes are the tail of every twin's, identical and in
+order.
 
-```tsx
-import { IconArrowRightDuotone } from '@syntara/icons';
+The tint defaults to `color-mix(in oklab, currentColor 16%, transparent)`, so duotone follows the text colour and
+works on any surface with no setup. Set `--syntara-icon-tint` on a theme, a tenant or one component to make it a
+real colour.
+
+**54 of the 237 carry no tint.** A check, an arrow, a chevron, `plus`, `menu-2` and the other bare strokes enclose
+no area, so there is nothing to fill; their twins exist and render exactly like the outline, which keeps the set 1:1
+so a product can move its whole icon layer in one import change.
+
+## Scripts
+
+```sh
+pnpm --filter @syntara/icons sheet        # render the review sheet
+pnpm --filter @syntara/icons check:tints  # find tint parts that overlap
 ```
 
-The second tone is a tinted fill derived from the theme, not a hard-coded grey.
-
-MIT © Anuj Patel
+RTL: icons flip through prefix selectors on the components that use them (`[data-syntara-icon^='arrow']`), and a
+twin's name is its outline's plus `Duotone`, so every twin flips exactly like the icon it copies.
