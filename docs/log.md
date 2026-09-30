@@ -6,6 +6,46 @@ Numbers only with the command that produced them. Design trade-offs get an ADR i
 
 ---
 
+## 2026-09-30 (story) — the page that says who decided what
+
+**Changed**
+- **`/story`** (new): the Phase 6 deliverable from BRIEF §15, a page of prose about why the system exists, which
+  calls were Anuj's and which were Claude's, and where measuring changed the answer. `app/story/page.tsx`,
+  `app/story/page.module.css`, `components/story/story-data.ts`.
+- **Its own figures are read from the repo at build time**, not typed: component count from `meta/`, brand count
+  from `tenants/`, ADR count from `docs/adr/` less the template, and the contrast pass rate from
+  `reports/fuzz-report.json`. The page argues that every number on this site traces to a script, so a hand-typed
+  number on it would refute the page.
+- **`/story` is added to `scripts/docs-routes.mjs`**, so the axe sweep, the hydration check, the 320px overflow
+  check and the CSP check all cover it. The swept set goes 113 → 114. A new page that is not in that list is a page
+  outside the gate added this morning.
+
+**Decided**
+- **Prose, not a case study with screenshots — Claude, pending Anuj.** BRIEF §15 asks for "under ~600 words of
+  prose", and the rest of the site is already the evidence. The page links to the changelog rather than repeating it.
+- **The gaps are on the page.** A closing section says what is not done: nothing published to npm, docs not
+  deployed, four icon drawings unreviewed, Hindi copy a draft. Same reason the invalid eval iteration is still in
+  the repository — for a portfolio piece the gaps are the most useful thing a reviewer can see.
+
+**Results**
+- 614 words of prose (BRIEF asks for ~600). Figures as rendered: **53** components, **5** product brands, **36**
+  ADRs, **100%** of 118,000 contrast checks.
+- `pnpm typecheck` 0 errors · `pnpm test` 2,167 passing, 1 skipped · `check-override-weight` 0 ·
+  `check-ssr-tabs` 82 pages, 326 tab lists, 0 · `check-hydration` 114 × 2, 0 · `check-theme-links` 5, 0 ·
+  `check-narrow-overflow` 114 routes at 320px, 0 · `check-csp` 114, 0 · **`axe-sweep` 114 × 2 schemes, 0 violation
+  nodes** · `check-overlay-exit` 108 tooltips, 4 overlays, 0 failures.
+
+**Found by measuring, not fixed**
+- **The draft contradicted its own figure.** The prose said "six brands" while the figure beside it read 5:
+  `getTenants()` leaves out `house`, the site's own brand. The prose now says five and notes the site runs on a
+  sixth. Two numbers for the same thing, one written by hand and one read from disk, is exactly the failure this
+  page is about — and it was in the page's first draft.
+
+**Next**
+- Anuj: the voice. The page is written in the first person as him, from `docs/log.md` and the ADRs, but the
+  sentences are Claude's reading of his decisions rather than his own words. The structure and every figure should
+  hold; the wording is his to rewrite.
+
 ## 2026-09-30 (publish prep) — the tarballs are right; the version number is a decision
 
 **Changed**

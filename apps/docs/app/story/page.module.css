@@ -1,0 +1,53 @@
+/* Prose for the one page on the site that is an argument rather than a reference. */
+.prose {
+  display: grid;
+  gap: var(--syntara-space-5);
+  margin-block-start: var(--syntara-space-10);
+  color: var(--syntara-color-text-default);
+  font-size: var(--syntara-font-size-lg);
+  line-height: var(--syntara-line-height-relaxed);
+  text-wrap: pretty;
+}
+
+.prose h2 {
+  margin-block-start: var(--syntara-space-6);
+  font-family: var(--syntara-font-heading);
+  font-size: var(--syntara-font-size-2xl);
+  font-weight: var(--syntara-font-weight-semibold);
+  line-height: var(--syntara-line-height-tight);
+}
+
+.prose strong {
+  font-weight: var(--syntara-font-weight-semibold);
+}
+
+/* A number the reader can check, set apart from the sentence around it. */
+.figures {
+  display: grid;
+  gap: var(--syntara-space-4);
+  grid-template-columns: repeat(auto-fit, minmax(calc(var(--syntara-space-16) * 2.5), 1fr));
+  margin-block: var(--syntara-space-4);
+  padding: var(--syntara-space-5);
+  border: var(--docs-hairline);
+  border-radius: var(--syntara-radius-card);
+  background: var(--syntara-color-surface-subtle);
+}
+
+.figure {
+  display: grid;
+  gap: var(--syntara-space-1);
+}
+
+.figureValue {
+  font-family: var(--syntara-font-heading);
+  font-size: var(--syntara-font-size-2xl);
+  font-weight: var(--syntara-font-weight-semibold);
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+}
+
+.figureLabel {
+  color: var(--syntara-color-text-subtle);
+  font-size: var(--syntara-font-size-sm);
+  line-height: var(--syntara-line-height-normal);
+}
