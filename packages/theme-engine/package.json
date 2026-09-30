@@ -19,5 +19,23 @@
     "vitest": "^5.0.0",
     "typescript": "~5.9.0",
     "@types/node": "^22.0.0"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/anujpatel06/strata.git",
+    "directory": "packages/theme-engine"
+  },
+  "keywords": [
+    "design-tokens",
+    "oklch",
+    "contrast",
+    "wcag",
+    "accessibility",
+    "theming",
+    "color",
+    "design-system"
+  ],
+  "files": [
+    "src"
+  ]
 }

@@ -6,6 +6,58 @@ Numbers only with the command that produced them. Design trade-offs get an ADR i
 
 ---
 
+## 2026-09-30 (publish prep) — the tarballs are right; the version number is a decision
+
+**Changed**
+- **`@syntara/icons` and `@syntara/theme-engine` were packing their test suites.** Neither declared `files`, so npm
+  took everything not ignored: 2 test files from icons, and 14 from theme-engine including the native token
+  snapshots (`vela.SyntaraTokens.kt`, `.swift`). Both now declare `files: ["src"]`, which is what their `exports`
+  actually need — both publish TypeScript source rather than a build.
+- **Every package carries `repository` with its `directory`, and `keywords`.** Eight packages had none, so npm would
+  have shown no source link and found them by name only.
+- **`@syntara/react`, `@syntara/icons` and `@syntara/theme-engine` have READMEs.** npm renders the README as the
+  package page, and the flagship package had none. Every number in them comes from the code: 53 components, 480
+  icon exports (243 outline + 237 duotone), 48 semantic roles, 118 contrast checks per theme, 0 runtime
+  dependencies in the engine.
+- **No `homepage` field.** The docs site is not deployed yet, so there is no URL to point at; adding one would be a
+  link that 404s. It goes in with the deploy.
+
+**Decided**
+- **Nothing is published in this commit.** The `@syntara` npm scope is still unclaimed (ADR-029, waiting on Anuj),
+  and reserving it needs his account. This is the preparation only.
+
+**Results**
+All eight packages pack with `pnpm pack`, which applies `publishConfig`:
+
+| Package | Size | README | test files |
+|---|---|---|---|
+| `@syntara/react` | 420 KB | yes | 0 |
+| `@syntara/tokens` | 113 KB | yes | 0 |
+| `@syntara/sdui` | 90 KB | yes | 0 |
+| `@syntara/theme-engine` | 66 KB | yes | 0 (was 14) |
+| `@syntara/audit` | 40 KB | yes | 0 |
+| `@syntara/icons` | 39 KB | yes | 0 (was 2) |
+| `@syntara/mcp` | 23 KB | yes | 0 |
+| `@syntara/codemods` | 5 KB | yes | 0 |
+
+- `@syntara/react`'s published `exports` are rewritten by its `publishConfig` to `./dist/types/index.d.ts` and
+  `./dist/index.js`. The source `exports` point at `./src/index.ts`, which is not in the tarball — correct, and
+  worth stating because it looks like a fault until you read `publishConfig`.
+- `pnpm typecheck` 0 errors · `pnpm test` 2,167 passing, 1 skipped · `pnpm check:meta` exit 0.
+
+**Found by measuring, not fixed**
+- **`changeset version` takes every package to 1.0.0.** `rename-to-syntara.md` declares a `major` for all eight
+  (ADR-029 changed the token prefix, which breaks every consumer stylesheet), and a major on 0.x goes to 1.0.0. Run
+  as a trial and reverted: all eight land on 1.0.0, 8 changelogs are written, 18 changesets are consumed.
+- **That collides with the one live deprecation.** `Button variant="danger"` records `since: 0.2.0`,
+  `removal: 1.0.0` (RFC-001, ADR-021), and GOVERNANCE §5.3 says a deprecated API keeps working through every 0.x
+  release and is removed at 1.0.0. If the *first* public release is 1.0.0 there was never a 0.x release to keep
+  working through: the deprecation and its removal would ship in the same instant, and the codemod would migrate an
+  API no consumer ever had. Anuj's call; put to him with options.
+
+**Next**
+- Anuj: the version number for the first release, and the npm scope. Nothing publishes until both are settled.
+
 ## 2026-09-30 (hero) — the demo is the argument, so it moves above the fold
 
 **Changed**
