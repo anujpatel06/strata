@@ -26,8 +26,20 @@ Numbers only with the command that produced them. Design trade-offs get an ADR i
 - **The declaration fixer now resolves bare directory specifiers,** in all three configs. `tsc` writes the barrel as
   `import("..").Icon`, which `nodenext` rejects; it becomes `import("../index.js").Icon`. This was latent in
   `@syntara/react`'s config too.
+- **The first release is 0.1.0 across all eight packages.** `.changeset/rename-to-syntara.md` is deleted and the
+  version baseline is set to `0.0.0`, so the accumulated changesets produce a uniform `0.1.0`.
+- **`@syntara/sdui`'s peer ranges are real ranges** (`>=0.1.0 <1.0.0`) instead of `workspace:*`, which pnpm
+  publishes as an exact pin — every later `@syntara/react` release would have been a peer conflict for every
+  consumer of sdui.
+- **`onlyUpdatePeerDependentsWhenOutOfRange` set in `.changeset/config.json`,** so a peer bump inside the declared
+  range stops forcing a major on the dependent.
 
 **Decided**
+- **First release at 0.1.0, not 1.0.0 — Anuj.** A dry run of `changeset version` produced **1.0.0** for all eight:
+  `rename-to-syntara.md` marked everything major. That would have opened npm with a v1.0.0 changelog headed
+  "Major Changes", describing a four-part migration from `@strata` — a scope that was never published — while
+  `pnpm check:meta` reports 0 stable, 35 beta, 18 alpha. Three options were put up: release at 0.1.0, ship 1.0.0
+  with the entry reworded, or ship as-is. Anuj chose 0.1.0. The rename stays recorded in ADR-029 and here.
 - **Build the two packages people import; leave the CLIs as they are — Anuj.** Six packages exported raw
   TypeScript. Three options were put up: build `icons` + `theme-engine` only, build all six, or publish only
   `react` + `tokens` + `icons`. Anuj chose the first. `audit`, `mcp` and `codemods` run through `bin/*.mjs` with
@@ -55,6 +67,18 @@ Then all three tarballs installed into a clean `npm` project outside the workspa
   on the `.ts` extension.
 - `tsc --module nodenext --moduleResolution nodenext --skipLibCheck false` over all three: **0 errors**.
 - `pnpm typecheck`: every package Done. `pnpm test`: **2,167 passed, 0 failed.**
+
+`pnpm changeset version`, run three times as a dry run and reverted each time:
+
+| | version it produced |
+|---|---|
+| as found | 1.0.0, all eight |
+| rename changeset dropped, baseline 0.0.0 | 0.1.0 — except `@syntara/sdui` at **1.0.0** |
+| + sdui peer ranges and the changesets peer flag | **0.1.0, all eight** |
+
+`@syntara/sdui` was the outlier because changesets majors any package whose *peer* dependency bumps, and sdui
+peer-depends on `@syntara/react` and `@syntara/icons`. `pnpm install`, `pnpm typecheck` and `pnpm test` all re-run
+clean after the peer ranges changed; the workspace links are intact (the packages are devDependencies too).
 
 **Next**
 - **The `@syntara` npm scope is not reserved and this session could not reserve it.** `npm whoami` returns 401, and

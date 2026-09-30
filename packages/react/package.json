@@ -1,7 +1,7 @@
 {
   "name": "@syntara/react",
-  "version": "0.1.0",
-  "description": "Syntara React components — React Aria behaviour, Syntara tokens, any brand.",
+  "version": "0.0.0",
+  "description": "Syntara React components \u2014 React Aria behaviour, Syntara tokens, any brand.",
   "type": "module",
   "license": "MIT",
   "repository": {

@@ -1,6 +1,6 @@
 {
   "name": "@syntara/tokens",
-  "version": "0.1.0",
+  "version": "0.0.0",
   "description": "Built token files for every Syntara tenant: CSS variables, DTCG 2025.10 JSON, Figma-variables JSON.",
   "type": "module",
   "license": "MIT",
