@@ -1,9 +1,16 @@
 {
   "name": "@syntara/codemods",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Codemods for Syntara's breaking changes. Each one rewrites what it can be sure of and reports the rest.",
   "type": "module",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/anujpatel06/strata.git",
+    "directory": "packages/codemods"
+  },
+  "homepage": "https://github.com/anujpatel06/strata/tree/main/packages/codemods#readme",
+  "bugs": "https://github.com/anujpatel06/strata/issues",
   "bin": {
     "syntara-codemods": "./bin/cli.mjs"
   },
@@ -26,5 +33,11 @@
     "@types/node": "^22.0.0",
     "typescript": "~5.9.0",
     "vitest": "^5.0.0"
-  }
+  },
+  "keywords": [
+    "codemod",
+    "jscodeshift",
+    "migration",
+    "design-system"
+  ]
 }

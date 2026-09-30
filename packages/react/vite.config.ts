@@ -60,8 +60,14 @@ function preserveUseClient(): Plugin {
  */
 function emitDeclarations(): Plugin {
   const addJs = (code: string): string =>
-    code.replace(/((?:from|import)\s*\(?\s*)(['"])(\.{1,2}\/[^'"]+?)\2/g, (m, lead: string, q: string, spec: string) =>
-      /\.(js|mjs|cjs|json|css)$/.test(spec) ? m : `${lead}${q}${spec}.js${q}`,
+    code.replace(
+      /((?:from|import)\s*\(?\s*)(['"])(\.{1,2})((?:\/[^'"]*)?)\2/g,
+      (m, lead: string, q: string, dots: string, rest: string) => {
+        // tsc writes the barrel as a directory specifier — `import("..").Icon` — which nodenext rejects.
+        if (!rest) return `${lead}${q}${dots}/index.js${q}`;
+        if (/\.(js|mjs|cjs|json|css)$/.test(rest)) return m;
+        return `${lead}${q}${dots}${rest}.js${q}`;
+      },
     );
   const walk = (dir: string): string[] =>
     readdirSync(dir, { withFileTypes: true }).flatMap((d) =>

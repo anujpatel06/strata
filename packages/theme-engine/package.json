@@ -4,20 +4,54 @@
   "description": "Brand inputs → complete, WCAG 2.2 AA theme (OKLCH ramps, semantic roles, contrast solver, exporters). Zero runtime dependencies.",
   "type": "module",
   "license": "MIT",
+  "keywords": [
+    "design-tokens",
+    "oklch",
+    "contrast",
+    "wcag",
+    "accessibility",
+    "theming",
+    "color",
+    "design-system"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/anujpatel06/strata.git",
+    "directory": "packages/theme-engine"
+  },
+  "homepage": "https://github.com/anujpatel06/strata/tree/main/packages/theme-engine#readme",
+  "bugs": "https://github.com/anujpatel06/strata/issues",
   "exports": {
     ".": "./src/index.ts"
   },
+  "files": [
+    "dist"
+  ],
+  "publishConfig": {
+    "access": "public",
+    "types": "./dist/types/index.d.ts",
+    "exports": {
+      ".": {
+        "types": "./dist/types/index.d.ts",
+        "default": "./dist/index.js"
+      },
+      "./package.json": "./package.json"
+    }
+  },
   "scripts": {
+    "prepack": "pnpm run build",
+    "build": "vite build",
     "test": "vitest run",
     "fuzz": "tsx scripts/fuzz.ts",
     "typecheck": "tsc -p tsconfig.json"
   },
   "devDependencies": {
-    "culori": "^4.0.0",
     "@types/culori": "^4.0.0",
+    "@types/node": "^22.0.0",
+    "culori": "^4.0.0",
     "tsx": "^4.20.0",
-    "vitest": "^5.0.0",
     "typescript": "~5.9.0",
-    "@types/node": "^22.0.0"
+    "vite": "^8.0.0",
+    "vitest": "^5.0.0"
   }
 }
