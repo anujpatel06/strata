@@ -1,6 +1,12 @@
 #!/usr/bin/env node
 /**
- * The README's "Tests passing" row must match what `pnpm test` reports, package for package.
+ * The README's "Tests" row must match what `pnpm test` reports, package for package.
+ *
+ * It counts each package's TOTAL, not its passing count, because the passing count is not the same on every
+ * machine: `native-exporters.test.ts` type-checks the Swift export against the macOS SDK and skips off a Mac,
+ * with a complementary test that skips on one. The suite is 310 either way; 309 pass on a Mac and 308 on Linux
+ * CI, so a row of passing counts can only ever be right on one of them. Nothing failing is asserted separately,
+ * below, so "310 engine" still means 310 tests and no failures.
  *
  *   node scripts/check-test-counts.mjs                  run `pnpm -r test`, then check the row against it
  *   node scripts/check-test-counts.mjs --from FILE       check against saved `pnpm test` output (CI runs the
@@ -100,7 +106,8 @@ function parseSuite(text) {
     const states = Object.fromEntries([...tail.matchAll(/(\d+)\s+(passed|failed|skipped|todo)/g)].map((s) => [s[2], Number(s[1])]));
     if (states.failed) fail(`${prefix}: ${states.failed} test(s) failed. Fix the suite before checking the README against it.`);
     if (counts.has(prefix)) fail(`${prefix} reported its test count twice, so the output is not one run of the suite.`);
-    counts.set(prefix, states.passed ?? 0);
+    // The total in parentheses, not `passed`: see the note above on platform-gated tests.
+    counts.set(prefix, Number(m[3]));
   }
   if (counts.size === 0) {
     fail('No `Tests … passed` line in that output, so nothing was measured. Expected the output of `pnpm test`.');
@@ -126,19 +133,19 @@ function tested() {
   return dirs;
 }
 
-/** The "Tests passing" row inside the `numbers:` markers, and its parts in the order the README lists them. */
+/** The "Tests" row inside the `numbers:` markers, and its parts in the order the README lists them. */
 function readRow() {
   const readme = readFileSync(README, 'utf8');
   const block = /<!-- numbers:start -->([\s\S]*?)<!-- numbers:end -->/.exec(readme);
   if (!block) fail('README.md has no <!-- numbers:start --> … <!-- numbers:end --> block.');
-  const row = /^\|\s*Tests passing\s*\|([^|]*)\|([^|]*)\|\s*$/m.exec(block[1]);
-  if (!row) fail('No "| Tests passing |" row inside the numbers block of README.md.');
+  const row = /^\|\s*Tests\s*\|([^|]*)\|([^|]*)\|\s*$/m.exec(block[1]);
+  if (!row) fail('No "| Tests |" row inside the numbers block of README.md.');
   const parts = row[1]
     .trim()
     .split('·')
     .map((part) => {
       const m = /^\s*([\d,]+)\s+(.+?)\s*$/.exec(part);
-      if (!m) fail(`Cannot read "${part.trim()}" in the Tests passing row. Expected "<count> <label>".`);
+      if (!m) fail(`Cannot read "${part.trim()}" in the Tests row. Expected "<count> <label>".`);
       return { count: Number(m[1].replace(/,/g, '')), label: m[2] };
     });
   return { readme, line: row[0], parts };
@@ -201,7 +208,7 @@ for (const r of rows) {
 console.log(`${'total'.padEnd(width)}  ${''.padEnd(21)}  ${n(rowTotal).padStart(7)}  ${n(suiteTotal).padStart(9)}${rowTotal === suiteTotal ? '' : '  ←'}`);
 
 if (problems.length === 0) {
-  console.log(`\nThe README's "Tests passing" row matches the suite: ${n(suiteTotal)} passing across ${measured.size} packages.`);
+  console.log(`\nThe README's "Tests" row matches the suite: ${n(suiteTotal)} tests across ${measured.size} packages, none failing.`);
   process.exit(0);
 }
 
@@ -212,7 +219,7 @@ for (const p of problems) console.log(`- ${p.msg}`);
 const rewritable = problems.every((p) => p.fixable);
 if (fix && rewritable) {
   const value = parts.map(({ label }) => `${n(byLabel.get(label).count)} ${label}`).join(' · ');
-  const next = line.replace(/^(\|\s*Tests passing\s*\|)[^|]*(\|)/, `$1 ${value} $2`);
+  const next = line.replace(/^(\|\s*Tests\s*\|)[^|]*(\|)/, `$1 ${value} $2`);
   writeFileSync(README, readme.replace(line, next));
   console.log(`\nREADME.md updated: ${value}`);
   console.log(

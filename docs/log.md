@@ -129,6 +129,17 @@ clean after the peer ranges changed; the workspace links are intact (the package
 ---
 ## 2026-09-30 (numbers) — the README's front-page table is re-measured whole, not row by row
 
+**Follow-up, same day: the row counts totals, not passes.** CI failed the new check on its first real run —
+`packages/theme-engine` reports **308 passed | 2 skipped** on Linux against **309 passed | 1 skipped** on a Mac.
+`test/native-exporters.test.ts` type-checks the Swift export against the macOS SDK with `it.skipIf(!canTargetMacOS)`
+and a complementary test that skips on a Mac, so the suite is 310 either way but the *passing* count never agrees
+across machines. A row of passing counts could only ever be right on one of them, and the check would have failed
+in CI forever.
+
+So the row is **"Tests"** and counts each package's total (engine 309 → 310, suite 2,168). `check-test-counts.mjs`
+already fails on any `failed` count, and still does, so "310 engine" means 310 tests with none failing. Verified
+against the real CI output shape as well as this Mac's: both pass.
+
 **Changed**
 - **The "Numbers" table in `README.md` was re-run end to end and its date moved to 2026-09-30.** Only the test row
   had moved: **468 → 474 components, 301 → 309 engine, 245 → 959 icons** (the icons jump is #7, the duotone twin for
@@ -161,7 +172,7 @@ Every row re-run on this checkout at `c1a2eb2` (`origin/main`'s tip), except the
 | Brand colour kept exactly | `pnpm test:themes` | 89.2% light, 80.0% dark |
 | Components / blocks | `pnpm check:meta`; `blocks.json` | 53 / 53 pass · 7 blocks |
 | Component maturity | `pnpm check:meta` | 18 alpha · 35 beta · 0 stable |
-| **Tests passing** | `pnpm test` | **474 · 309 · 959 · 193 · 150 · 74 · 8 = 2,167 passing, 1 skipped** |
+| **Tests** | `pnpm test` | **474 · 310 · 959 · 193 · 150 · 74 · 8 = 2,168 total; 2,167 passing and 1 skipped on this Mac** |
 | Axe sweep | `node scripts/axe-sweep.mjs` | 113 × 2 schemes, 0 violation nodes, 0 page errors |
 | Tenants | `pnpm tokens` | 6 tenants, 118/118 checks each |
 | Native token contrast | `pnpm tokens` | 236 / 236 per tenant |

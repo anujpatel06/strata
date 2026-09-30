@@ -31,8 +31,8 @@ jobs:
 
       - run: pnpm install --frozen-lockfile
       - run: pnpm typecheck
-      # The README's "Tests passing" row is maintained by hand and nothing compared it to the suite, so it sat at
-      # 1,439 while the suite was at 2,167 (2026-09-30). `pipefail` matters: without it `tee` would swallow a
+      # The README's "Tests" row is maintained by hand and nothing compared it to the suite, so it sat at
+      # 1,439 while the suite was at 2,168 (2026-09-30). `pipefail` matters: without it `tee` would swallow a
       # failing suite and the check below would be measuring a run nobody looked at.
       - name: pnpm test, and the README's counts match it
         run: |
