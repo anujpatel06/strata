@@ -6,6 +6,58 @@ Numbers only with the command that produced them. Design trade-offs get an ADR i
 
 ---
 
+## 2026-09-30 (numbers) — the README's front-page table is re-measured whole, not row by row
+
+**Changed**
+- **The "Numbers" table in `README.md` was re-run end to end and its date moved to 2026-09-30.** Only the test row
+  had moved: **468 → 474 components, 301 → 309 engine, 245 → 959 icons** (the icons jump is #7, the duotone twin for
+  every icon). MCP server 193, schema 150, auditor 74 and codemods 8 are unchanged. Every other row reproduced
+  identically, so nothing else in the table changed.
+- The table has no generator script — each row carries the command that reproduces it, maintained by hand — so all
+  fourteen script-backed rows were re-run rather than the one known-stale row. A single "Measured" date under the
+  table covers every figure above it; refreshing the date while leaving rows un-run would have made that date a
+  claim nobody had checked, which is the "No invented metrics" rule in `CLAUDE.md`.
+
+**Results**
+Every row re-run on this checkout at `c1a2eb2` (`origin/main`'s tip), except the two eval rows.
+
+| Row | Command | Result |
+|---|---|---|
+| Themes fuzzed | `pnpm test:themes` | 1,000 brands × light/dark |
+| Contrast checks | `pnpm test:themes` | 118,000 / 118,000 (100.00%), 118 per brand |
+| Chart palettes | `pnpm test:themes` | 2,000 / 2,000 (100.00%) |
+| Solver adjustments | `pnpm test:themes` | min 0 / median 4 / max 7 |
+| Brand colour kept exactly | `pnpm test:themes` | 89.2% light, 80.0% dark |
+| Components / blocks | `pnpm check:meta`; `blocks.json` | 53 / 53 pass · 7 blocks |
+| Component maturity | `pnpm check:meta` | 18 alpha · 35 beta · 0 stable |
+| **Tests passing** | `pnpm test` | **474 · 309 · 959 · 193 · 150 · 74 · 8 = 2,167 passing, 1 skipped** |
+| Axe sweep | `node scripts/axe-sweep.mjs` | 113 × 2 schemes, 0 violation nodes, 0 page errors |
+| Tenants | `pnpm tokens` | 6 tenants, 118/118 checks each |
+| Native token contrast | `pnpm tokens` | 236 / 236 per tenant |
+| Devanagari clipping | `check-script-clipping.mjs --pairs=bilingual-devanagari` | 0 in 5,616 cases |
+| Deprecations with a codemod | `@syntara/codemods test` | 1 deprecation (`button.meta.json`), 1 transform, 8 tests |
+| Drift score, docs app | `pnpm drift apps/docs` | 98.8 / 100, 60 findings (24 errors, 36 warnings) |
+
+- **The eval rows were not re-run.** `evals/run.mjs` calls a paid model once per run; the README quotes iteration 2
+  as recorded in `evals/results.md` (64% → 88% fully on-system, 88% → 88% typecheck), and those lines are unchanged.
+- The axe sweep ran against this build on **port 3131**, not 3000: another session's `serve` (PID 28615, a
+  `duotone-pr` scratchpad) was already answering on 3000 with a 200. `SYNTARA_BASE_URL` exists for exactly that, and
+  `assertServedBuild` confirmed the served build id was `ZHgz6NCEn0vyArjzFqxy4` — this checkout's. The other
+  session's server was left running.
+- `pnpm test:themes` rewrites `packages/theme-engine/reports/fuzz-report.{json,md}`; the only diff was generation
+  timing (median 0.62 → 0.60 ms, p95 0.95 → 1.05 ms), which is machine noise the report itself disclaims, so it was
+  reverted rather than committed.
+
+**Found by measuring, not fixed**
+- **The log was right while the README was stale.** The 2026-09-30 (hero) entry already recorded `pnpm test` at
+  "2,167 passing, 1 skipped" — the README's row summed to 1,439. The per-package split lives in one hand-maintained
+  table and the total lives in the log, and nothing compares them. A `numbers` generator, or a check that the row's
+  parts sum to what `pnpm test` reports, would close it.
+
+**Next**
+- Anuj: Phase 6 publishes to npm and deploys the docs, and this table is the repo's front page. Worth deciding
+  whether these rows get a generator script before the deploy, or stay hand-maintained with the date as the contract.
+
 ## 2026-09-30 (hero) — the demo is the argument, so it moves above the fold
 
 **Changed**
