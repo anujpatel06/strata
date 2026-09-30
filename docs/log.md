@@ -39,6 +39,9 @@ Two things the merge caught:
 `.changeset/publish-metadata.md` and `.changeset/publish-readiness.md` are merged into one accurate changeset:
 #14's said `files: ["src"]`, which stopped being true.
 
+A third: **#14's theme-engine README stated the wrong output for its own example.** Run verbatim against the packed
+tarball, those six inputs give `adjustments: 1`, not 3. Corrected to the measured value.
+
 
 **Changed**
 - **`LICENSE` copied into all eight published packages.** Every manifest said `"license": "MIT"` and no tarball

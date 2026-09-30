@@ -1,6 +1,6 @@
 {
   "name": "@syntara/sdui",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Syntara for server-driven UI: a JSON Schema per component generated from meta.json, a screen validator, and a reference renderer for the web.",
   "type": "module",
   "license": "MIT",

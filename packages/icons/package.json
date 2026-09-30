@@ -1,6 +1,6 @@
 {
   "name": "@syntara/icons",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Syntara's own icon set: curvy, minimal outline icons on a 24px grid. React components; colour follows text, stroke follows the --syntara-icon-stroke token.",
   "type": "module",
   "license": "MIT",

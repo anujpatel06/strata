@@ -14,7 +14,7 @@ const theme = generateTheme({
   density: 'comfortable',
 });
 
-theme.summary; // { checks: 118, passed: 118, failed: 0, adjustments: 3, ... }
+theme.summary; // { checks: 118, passed: 118, failed: 0, adjustments: 1, tokenCount: 339 }
 toCSS(theme, { selector: '[data-syntara-theme="vela"]' });
 ```
 

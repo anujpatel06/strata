@@ -1,6 +1,6 @@
 {
   "name": "@syntara/theme-engine",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Brand inputs → complete, WCAG 2.2 AA theme (OKLCH ramps, semantic roles, contrast solver, exporters). Zero runtime dependencies.",
   "type": "module",
   "license": "MIT",

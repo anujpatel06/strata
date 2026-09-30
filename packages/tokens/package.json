@@ -1,6 +1,6 @@
 {
   "name": "@syntara/tokens",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Built token files for every Syntara tenant: CSS variables, DTCG 2025.10 JSON, Figma-variables JSON.",
   "type": "module",
   "license": "MIT",
@@ -24,11 +24,6 @@
     "tsx": "^4.20.0",
     "typescript": "~5.9.0",
     "@types/node": "^22.0.0"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/anujpatel06/strata.git",
-    "directory": "packages/tokens"
   },
   "keywords": [
     "design-tokens",
