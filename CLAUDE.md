@@ -16,7 +16,7 @@ Anuj owns design decisions. You pair on engineering and push back when he's wron
   - Governance (Phase 4): `GOVERNANCE.md`, RFCs in `docs/rfcs/`, deprecation records in `meta.json`, `packages/codemods`. First deprecation: `Button variant="danger"` → `tone="danger"` (RFC-001, ADR-021).
   - Agents (Phase 5): `packages/audit` (`pnpm drift`), `packages/mcp`, `AGENTS.md`, `evals/` (results in `evals/results.md`; iteration 1 is invalid and kept on record).
   - Mobile reach (Phase 5a): `packages/sdui`, native token files from `pnpm tokens`, tenant Haat (hi-IN). No native components.
-- **Next:** Phase 6, publish (BRIEF §13). The docs half is live on **Cloudflare Pages** (https://syntara.pages.dev; previews per branch, configured in the Cloudflare dashboard, not in this repo). The npm half is in flight: the `@syntara` scope is reserved and the first release is 0.1.0.
+- **Next:** Phase 6 is done but for `/story` (BRIEF §13). Docs live on **Cloudflare Pages** (https://syntara.pages.dev; previews per branch, configured in the Cloudflare dashboard, not in this repo). All eight packages are on npm at **0.1.0** under the `@syntara` org. Release with `pnpm changeset publish` from `main`; publish with pnpm, never npm, or `workspace:*` ships literally.
 - **Waiting on Anuj:** review Haat's Hindi copy; ADR-024, 025 and 026; the clipping found in the Arabic and Latin type pairs.
 - **Known gaps:** listed at the end of the latest entry in `docs/log.md`.
 

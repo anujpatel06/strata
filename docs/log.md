@@ -6,6 +6,54 @@ Numbers only with the command that produced them. Design trade-offs get an ADR i
 
 ---
 
+## 2026-09-30 (published) — all eight packages are on npm, and the site stops saying they are not
+
+**Changed**
+- **The `@syntara` scope is reserved and all eight packages are published at 0.1.0:** `react`, `tokens`,
+  `theme-engine`, `icons`, `sdui`, `audit`, `mcp`, `codemods`. Anuj created the npm org and ran every publish;
+  this session could not and did not handle his credentials.
+- **Every "not on npm yet" claim is gone:** the callout at the top of `installation.mdx`, the hero note on the
+  homepage, and the two `Not on npm yet` badges on the Ship cards (now `v0.1.0`). `README.md`'s distribution line
+  and its "Coming" line, and `CLAUDE.md`'s status.
+- **The hero line names no version.** The pill above it shows the site's milestone (`v0.5`, read from the
+  changelog's top heading by `getReleaseInfo()`); the packages are on `0.1.0`. Both are correct and they are six
+  lines apart, which reads as a contradiction, so the hero says "The packages are on npm" and the Ship cards carry
+  `v0.1.0` beside `pnpm add @syntara/react`, where it cannot be misread. Reconciling the two schemes is a real
+  decision and is left to Anuj.
+- **The hero keeps its one line rather than getting its install block back.** The block was removed because it
+  promised a package that did not exist; that premise has inverted, but the demo is still the page's argument and
+  the command still belongs on `/docs/installation`. The comment above it says so, so the next reader does not
+  restore the block by reflex.
+
+**Results**
+Verified against the public registry, not local tarballs. A clean `npm install` outside the workspace, then:
+
+| | |
+|---|---|
+| `ThemeScope` + `Button` | render with `data-syntara-theme="vela" data-syntara-scheme="dark"` |
+| `IconCheck` | renders |
+| `generateTheme` (Vela) | 118 checks, **118 passed, 0 failed** |
+| `@syntara/tokens` | `syntara.css`, 82 kB, 1,368 token declarations |
+| `tsc --module nodenext --moduleResolution nodenext`, `skipLibCheck: false` | **0 errors**, all four typed packages |
+| `@syntara/react` published manifest | depends on `@syntara/icons@0.1.0`, not `workspace:*` |
+
+`icons` and `theme-engine` — the two that would have shipped unusable TypeScript this morning — are the ones that
+typecheck cleanly as published packages.
+
+**Next**
+- **`+ <pkg>@<version>` from npm does not mean the version is on the registry.** With web auth, npm stages the
+  tarball and commits it minutes later. `@syntara/react` printed success and 404'd for roughly ten minutes
+  (`time["0.1.0"]` is 17:31:38, well after the CLI said so); `codemods` did the same. Re-running on the assumption
+  of failure would have chased nothing. Check `npm view <pkg> version` before concluding anything.
+- **`@syntara/theme-engine@0.0.0-stage`** is npm's own leftover staging placeholder — 343 bytes, described as
+  "Temporary package placeholder for staged publishing". `latest` is 0.1.0 so nothing resolves to it, but it is
+  listed publicly. Removable with `npm unpublish` inside 72 hours; Anuj's to run.
+- **Publish with pnpm, never npm.** `@syntara/react` pins `@syntara/icons` as `workspace:*`, which only pnpm
+  rewrites. `npm publish` would ship the literal string and break every install.
+- `/story` is the rest of Phase 6.
+
+---
+
 ## 2026-09-30 (npm) — the packages carry their own licence, readme and build
 
 **Reconciled with #14.** `chore(release): Phase 6 publish prep` (#14) merged to main at 08:42, mid-session, doing

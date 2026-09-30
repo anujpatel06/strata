@@ -16,7 +16,7 @@ Same components, same code. A tenant differs by tokens + copy only. Screenshots:
 
 - **53 components** (`@syntara/react`) on React Aria: fields, pickers, overlays, feedback, navigation and a DataTable. Every one works in light and dark, both densities, and RTL, and each has a `meta.json` that drives its docs page.
 - **Docs site** (`apps/docs`, Next.js): component pages with live previews per tenant, scheme, direction and density; Blocks; Themes; Colors; ⌘K search. The site is themed by Syntara itself.
-- **Distribution** (ADR-011): install `@syntara/react` and `@syntara/tokens` from npm (published in Phase 6), or copy a component's source files into your project.
+- **Distribution** (ADR-011): install `@syntara/react` and `@syntara/tokens` from npm — all eight packages are published at [0.1.0](https://www.npmjs.com/org/syntara) — or copy a component's source files into your project.
 - **7 blocks**: dashboard, request flow, settings, sign-in, activity table, benefits overview and portfolio. Each runs in every tenant.
 - **Governance** (`GOVERNANCE.md`): an RFC flow, a deprecation policy, and one deprecation carried out end to end. Button's `variant="danger"` became `tone="danger"`, with a codemod in `@syntara/codemods`.
 - **`@syntara/icons`**: Syntara's own icon set (ADR-014).
@@ -91,7 +91,7 @@ docs/log.md              session log: changed / decided / next
 GOVERNANCE.md            who decides, how a change gets in, deprecation policy
 ```
 
-Coming: npm release and `/story` (Phase 6).
+Coming: `/story` (Phase 6). The npm release shipped: `@syntara/react`, `tokens`, `theme-engine`, `icons`, `sdui`, `audit`, `mcp` and `codemods`, all at 0.1.0.
 
 ## Roadmap
 
