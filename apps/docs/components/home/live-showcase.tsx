@@ -8,19 +8,12 @@
  */
 
 import { IconArrowRight, IconMoon, IconShieldCheck, IconSun } from '@syntara/icons';
-import { TextField, ThemeScope, ToggleButton, ToggleButtonGroup } from '@syntara/react';
-import {
-  contrastRatio,
-  generateTheme,
-  isValidHex,
-  normalizeHex,
-  toCSS,
-  toCssVariables,
-  type BrandInput,
-  type Theme,
-} from '@syntara/theme-engine';
+import { ThemeScope, ToggleButton, ToggleButtonGroup } from '@syntara/react';
+import { contrastRatio, generateTheme, toCSS, toCssVariables, type BrandInput, type Theme } from '@syntara/theme-engine';
 import Link from 'next/link';
 import { useEffect, useMemo, useState, type Key } from 'react';
+import { ColorControl } from '@/components/themes/color-control';
+import { parseHex } from '@/components/themes/state';
 import { ShowcaseGrid } from '@/components/showcase/showcase-grid';
 import type { HomeTenant } from './home-data';
 import { usePublishStage } from './home-stage';
@@ -30,6 +23,8 @@ import styles from './live-showcase.module.css';
 const CUSTOM = 'custom';
 /** data-syntara-theme id for "Your colour". Scoped to this page's stylesheet. */
 const CUSTOM_THEME_ID = 'home-yours';
+/** The visible label for the colour field, rendered inline so the toolbar stays one row on a wide screen. */
+const COLOUR_LABEL_ID = 'home-brand-colour-label';
 const DEFAULT_CUSTOM = '#0ea5e9';
 
 type SchemeChoice = 'site' | 'light' | 'dark';
@@ -70,17 +65,24 @@ function mixHex(a: string, b: string, t: number): string {
  */
 const GLOW_TINT = { light: { primary: 0.12, accent: 0.04 }, dark: { primary: 0.3, accent: 0.15 } } as const;
 
+/** AA for the headline's size. Ratios are never rounded up, here or in the copy: 4.49 fails. */
+const HERO_MIN = 4.5;
+const floor2 = (n: number) => (Math.floor(n * 100) / 100).toFixed(2);
+
 /**
- * Whether a theme's text.brand reads on the site's hero in both schemes (4.5:1, never rounded up). The hero sets
- * "Every brand." in the selected brand's text.brand on the *house* canvas under the glow, while the solver only
- * promised 4.5:1 against the brand's own canvas, so we check again here before handing the colour to the hero.
+ * How a theme's text.brand reads on the site's hero, per scheme. The hero sets "Every brand." in the selected
+ * brand's text.brand on the *house* canvas under the glow, while the solver only promised 4.5:1 against the brand's
+ * own canvas, so we measure again here before handing the colour to the hero.
+ *
+ * Returns the ratios rather than a verdict, because the shortfall is shown to the reader: a colour that cannot make
+ * the headline is a fact about that colour, and the page used to swap in the house ink without saying so.
  */
-function brandTextPassesOnHero(theme: Theme, house: Theme): boolean {
-  return (['light', 'dark'] as const).every((s) => {
-    const roles = theme.schemes[s].roles;
-    const canvas = house.schemes[s].roles['surface.canvas'].hex;
-    const bg = mixHex(mixHex(canvas, roles['action.primary.bg'].hex, GLOW_TINT[s].primary), roles['accent.bg'].hex, GLOW_TINT[s].accent);
-    return contrastRatio(roles['text.brand'].hex, bg) >= 4.5;
+function heroBrandTextContrast(theme: Theme, house: Theme): { scheme: 'light' | 'dark'; ratio: number }[] {
+  return (['light', 'dark'] as const).map((scheme) => {
+    const roles = theme.schemes[scheme].roles;
+    const canvas = house.schemes[scheme].roles['surface.canvas'].hex;
+    const bg = mixHex(mixHex(canvas, roles['action.primary.bg'].hex, GLOW_TINT[scheme].primary), roles['accent.bg'].hex, GLOW_TINT[scheme].accent);
+    return { scheme, ratio: contrastRatio(roles['text.brand'].hex, bg) };
   });
 }
 
@@ -92,7 +94,6 @@ export function LiveShowcase({ tenants }: LiveShowcaseProps) {
   const [selected, setSelected] = useState<string>(tenants[0]?.id ?? 'house');
   const [schemeChoice, setSchemeChoice] = useState<SchemeChoice>('site');
   const [customHex, setCustomHex] = useState(DEFAULT_CUSTOM);
-  const [draft, setDraft] = useState(DEFAULT_CUSTOM);
   const siteScheme = useSiteScheme();
   const effectiveScheme = schemeChoice === 'site' ? siteScheme : schemeChoice;
 
@@ -111,15 +112,17 @@ export function LiveShowcase({ tenants }: LiveShowcaseProps) {
     return toCSS(t, { selector }) + '\n' + followSiteCss(t, selector);
   }, [isCustom, theme, customBrand]);
 
-  const onDraft = (value: string) => {
-    setDraft(value);
-    const candidate = value.trim().startsWith('#') ? value.trim() : `#${value.trim()}`;
-    if (isValidHex(candidate)) {
-      setCustomHex(normalizeHex(candidate));
-      setSelected(CUSTOM);
-    }
+  /**
+   * The colour the field shows: the selected brand's own primary, not a separate custom slot. The field used to
+   * hold one colour whatever was selected, so picking Qamar left it reading the default sky blue — it looked like
+   * the active colour and was not. Editing it from any brand starts "Your colour" at that brand's hex, so the
+   * control reads as "remix this one" rather than as a slot that ignores the row above it.
+   */
+  const activeHex = isCustom ? customHex : (parseHex(tenant?.brand.primary) ?? customHex);
+  const takeColour = (hex: string) => {
+    setCustomHex(hex);
+    setSelected(CUSTOM);
   };
-  const draftValid = isValidHex(draft.trim().startsWith('#') ? draft.trim() : `#${draft.trim()}`);
 
   const scopeProps =
     schemeChoice === 'site'
@@ -135,7 +138,14 @@ export function LiveShowcase({ tenants }: LiveShowcaseProps) {
   const publish = usePublishStage();
   const houseBrand = tenants.find((t) => t.id === 'house')?.brand;
   const houseTheme = useMemo(() => (houseBrand ? generateTheme(houseBrand) : undefined), [houseBrand]);
-  const accentOk = useMemo(() => (houseTheme ? brandTextPassesOnHero(theme, houseTheme) : false), [theme, houseTheme]);
+  // The worst scheme the headline fails in, or undefined when the colour carries it in both. Undefined also when
+  // the house theme is missing: the hero still falls back, but nothing is claimed about a ratio we did not measure.
+  const heroShortfall = useMemo(() => {
+    if (!houseTheme) return undefined;
+    const failing = heroBrandTextContrast(theme, houseTheme).filter((c) => c.ratio < HERO_MIN);
+    return failing.length ? failing.reduce((a, b) => (b.ratio < a.ratio ? b : a)) : undefined;
+  }, [theme, houseTheme]);
+  const accentOk = houseTheme != null && heroShortfall === undefined;
   useEffect(() => {
     publish({ glow: themeId, accent: accentOk ? themeId : 'house' });
   }, [publish, themeId, accentOk]);
@@ -171,29 +181,19 @@ export function LiveShowcase({ tenants }: LiveShowcaseProps) {
           </ToggleButtonGroup>
           </div>
 
+          {/* The same control /themes uses: one field with the native picker as its swatch prefix, a visible
+              label, and "Use a hex like #3D45D6" when the draft is malformed. The homepage had grown its own
+              barer copy of this — two sibling controls, aria-labels only, no error message. */}
           <div className={styles.picker}>
-            <input
-              type="color"
-              className={styles.swatch}
-              value={customHex}
-              aria-label="Pick a brand colour"
-              onChange={(e) => {
-                setCustomHex(e.target.value);
-                setDraft(e.target.value);
-                setSelected(CUSTOM);
-              }}
-            />
-            <TextField
-              aria-label="Brand colour as hex"
-              value={draft}
-              onChange={onDraft}
-              onBlur={() => {
-                if (!draftValid) setDraft(customHex);
-              }}
-              isInvalid={!draftValid}
-              spellCheck="false"
-              autoComplete="off"
-              className={styles.hex}
+            <span id={COLOUR_LABEL_ID} className={styles.pickerLabel}>
+              Brand colour
+            </span>
+            <ColorControl
+              label="Brand colour"
+              labelledBy={COLOUR_LABEL_ID}
+              value={activeHex}
+              onChange={takeColour}
+              className={styles.toolbarField}
             />
           </div>
 
@@ -237,6 +237,17 @@ export function LiveShowcase({ tenants }: LiveShowcaseProps) {
           <span className={styles.solverFigure}>
             {adjustments} automatic {adjustments === 1 ? 'adjustment' : 'adjustments'}
           </span>
+          {heroShortfall && (
+            <>
+              <span aria-hidden> · </span>
+              <span className={styles.solverNote}>
+                the headline above keeps the house colour: this one reads{' '}
+                <span className={styles.solverFigure}>{floor2(heroShortfall.ratio)}:1</span> on the hero in{' '}
+                {heroShortfall.scheme}, and AA needs{'\u00a0'}
+                {HERO_MIN}
+              </span>
+            </>
+          )}
         </span>
         <Link href="/themes" className={styles.solverLink}>
           See why

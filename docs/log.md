@@ -6,6 +6,111 @@ Numbers only with the command that produced them. Design trade-offs get an ADR i
 
 ---
 
+## 2026-09-30 (toolbar) — the colour field shows the colour you picked
+
+**Changed**
+- **The homepage's colour field follows the selection.** It held one colour whatever was selected: picking Qamar
+  left it reading the default sky blue, next to the chips, looking like the active colour and not being it. It now
+  shows the selected brand's own primary, so it cannot say something untrue.
+- **Editing it from any brand starts "Your colour" at that brand's hex.** The control reads as "remix this one"
+  rather than as a slot that ignores the row above it. "Your colour" keeps its own last value, so its chip dot still
+  marks what you typed rather than mirroring whatever is selected.
+- **The homepage now uses `/themes`' control instead of its own barer copy.** `ColorControl` is one field with the
+  native picker as its swatch prefix, a visible label, `validationBehavior="aria"` and "Use a hex like #3D45D6" when
+  the draft is malformed. The homepage had two sibling controls, `aria-label`s only and no error message. It gains
+  an optional `className` so a caller can size it for its own row; nothing else about it changed.
+- The label "Brand colour" is rendered inline and passed as `labelledBy`, so the toolbar stays one row on a wide
+  screen. Dead `.swatch` and `.hex` rules are gone.
+
+**Decided**
+- **The field follows the selection, rather than being scoped to "Your colour" — Anuj.** Three options were put up:
+  follow the selection, show the picker only when "Your colour" is selected, or keep the two-control layout and just
+  fix the labelling. Following the selection makes the field true at every moment and turns the page's best
+  interaction into "remix any of the six brands", which demonstrates the engine better than an isolated custom slot.
+  Hiding it behind the chip would have put the most interesting control on the page behind a click.
+- **The native `<input type="color">` stays.** There is no colour component among the 53, and the same native input
+  is used identically here and on `/themes`. Replacing it is component 54 and an RFC under GOVERNANCE §4, not a
+  change to make while fixing a layout.
+
+**Results**
+Measured in the browser against the static export (build `SpqeaYwg-VCQEJaSFBIKs`).
+
+- The field tracks the chips: Vela **#3D45D6**, Care **#0E63FF**, Qamar **#F2A516**, Haat **#B5179E**, and the
+  swatch with it. Before this it read `#0ea5e9` for all four.
+- Remix: with Haat selected, typing `#FF6600` moves the selection to **"Your colour"**, the field keeps `#FF6600`
+  and the chip's dot becomes `rgb(255, 102, 0)`.
+- Invalid draft `#zz`: `aria-invalid=true` and "Use a hex like #3D45D6" is shown. The old field had neither.
+- Toolbar height 50px → **58px** at 1280 (the inline label), one row; at 390 the field takes its own row under the
+  chips. **0px of sideways scroll** at 1280 and 390, and `check-narrow-overflow` passes 113 routes at 320px.
+- `pnpm typecheck` clean · `pnpm test` 2,167 passing, 1 skipped · `check-override-weight` 0 ·
+  `check-ssr-tabs` 81 pages, 326 tab lists, 0 · `check-hydration` 113 × 2, 0 · `check-theme-links` 5, 0 ·
+  `check-csp` 113, 0 · **`axe-sweep` 113 × 2 schemes, 0 violation nodes** · `check-overlay-exit` 108 tooltips,
+  4 overlays, 0 failures.
+
+**Found by measuring, not fixed**
+- **The first version of this clipped the "#".** The field kept the width it had when the swatch was a sibling
+  outside it; with the swatch moved inside as a prefix the input measured `scrollWidth 74` in a `clientWidth 50`
+  box, and the leading `#` was cut. A screenshot showed it and `scrollWidth > clientWidth` confirmed it. The width
+  now adds the swatch's own 24px. Worth remembering that moving a control inside a field changes what the field's
+  width has to cover.
+
+**Next**
+- Anuj: "Brand colour" as the label, and whether remixing from a tenant should say so anywhere — right now the only
+  sign you have left Qamar is the chip selection moving to "Your colour".
+
+## 2026-09-30 — the homepage says when the headline isn't your colour
+
+**Changed**
+- **The hero's fallback is no longer silent.** The homepage sets "Every brand." in the selected brand's `text.brand`,
+  but only when that reads 4.5:1 on the hero's glow; otherwise it quietly swapped in the house ink and said nothing.
+  A reader typed a colour, watched the grid re-skin, read "all 118 contrast checks pass" — and the one word their eye
+  went to was not their colour. The solver line now finishes the sentence: *"the headline above keeps the house
+  colour: this one reads 4.41:1 on the hero in light, and AA needs 4.5."*
+- `brandTextPassesOnHero` became `heroBrandTextContrast` and returns the ratios per scheme rather than a verdict,
+  because the shortfall is now shown rather than acted on in private. The note names the worse of the two schemes.
+- The note sits inside the existing `aria-live="polite"` region, so it is announced on the same change that
+  announces the counts, not as a second interruption. Ratios are floored, never rounded: 4.49 reads as 4.49.
+
+**Decided**
+- **Say it rather than hide it — Claude recommended, Anuj accepted.** Anuj asked how the "passes WCAG 2.2 AA" claim
+  in the hero is conveyed when a visitor types an arbitrary colour. It is conveyed, and honestly: the colour is not
+  used raw — it seeds the ramps and the solver moves roles until every pair passes, which the line reports as "N
+  automatic adjustments". The gap was the hero, where a failing colour was replaced without a word. Naming the
+  shortfall turns a hidden substitution into the clearest demonstration on the page that the system measures rather
+  than asserts.
+- **The shield icon stays.** A fallback is the system working, not a fault, and the theme genuinely passes all 118
+  checks. An alert icon would report a problem that is not there.
+
+**Results**
+Measured against the static export on this branch (build `Y8EKI-zFiku7KC3jQXgdB`, `serve out` on :60492).
+
+- The fallback is real and reaches shipped brands: **Care reads 4.41:1** on the hero in light and falls back;
+  the custom default `#0ea5e9` reads **4.34 light / 4.88 dark** and falls back. Vela (5.18), Harbor (4.82),
+  Qamar (4.52), Haat (4.61) and house (11.97) carry it. Confirmed in the browser: with Care selected the headline
+  computes to `rgb(26, 27, 38)`, the house ink, and with Haat to `rgb(161, 36, 142)`, its own.
+- **81 of 180 colours on a hue sweep (45.0%) fall back** — every 6° of hue at three chroma/lightness pairs.
+- The note itself: `#5a5a5d` on `#f7f7f9` = **6.42:1** light, `#b7b7ba` on `#0d0d0e` = **9.70:1** dark, at 13px/400
+  (needs 4.5). Rendered in light and dark at 1280, 390 and 320, and with `dir="rtl"`: shown in all, **0px of
+  sideways scroll** in all.
+- `pnpm typecheck` clean · `pnpm test` 2,167 passing, 1 skipped · `pnpm check:meta` 53/53 ·
+  `node scripts/check-override-weight.mjs` 0 · `check-ssr-tabs` 81 pages, 326 tab lists, 0 missing a panel ·
+  `check-hydration` 113 × 2, 0 failures · `check-theme-links` 5, 0 · `check-narrow-overflow` 113 at 320px, 0 ·
+  `check-csp` 113, 0 · **`axe-sweep` 113 × 2 schemes, 0 violation nodes** · `check-overlay-exit` 108 tooltips,
+  4 overlays, 0 failures.
+
+**Found by measuring, not fixed**
+- **A number in this session's own first answer was wrong.** The fallback rate was first quoted as 29.7%, measured
+  against a house canvas of `#6366f1` — a colour invented for the script rather than read from `tenants/house`.
+  Against the real house brand it is 45.0%. The tell was there to see: the same script put `#0ea5e9` at 4.37 while
+  the browser showed 4.34. Reading the tenant file rather than typing a plausible hex is the whole of the fix.
+- The `GLOW_TINT` model the check depends on is calibrated against pixel measurements of the rendered hero and errs
+  toward falling back. So some colours near the line are shown the note although they would have passed. That is the
+  safe direction, and the note states the modelled ratio, not a measured screen pixel.
+
+**Next**
+- Anuj: the copy is the part to read as a writer — "the headline above keeps the house colour" is doing the work of
+  explaining a substitution in half a line, and it appears for Care, a shipped tenant, not only for typed colours.
+
 ## 2026-09-29 — a duotone twin for every icon
 
 **Changed**
