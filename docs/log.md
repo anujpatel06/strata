@@ -66,7 +66,32 @@ All eight packages pack with `pnpm pack`, which applies `publishConfig`:
   `mcp` at **0.1.0**. Run as a trial and reverted — the version bump is not committed, because the scope is not
   claimed and one question below is open.
 
+**Decided (third pass)**
+- **`@syntara/sdui`'s peer dependencies are pinned to `^0.2.0` — Anuj.** They were `workspace:*`, and changesets
+  cannot read the workspace protocol as a range, so it treated every peer bump as out of range and forced a major.
+  A real semver range fixes it, and the experimental `onlyUpdatePeerDependentsWhenOutOfRange` option is not needed —
+  it was tried and reverted rather than left as config that does nothing. Four forms were run through
+  `changeset version`:
+
+  | sdui peer range | option set | sdui lands on |
+  |---|---|---|
+  | `workspace:*` | no | **1.0.0** |
+  | `workspace:^` | yes | **1.0.0** |
+  | `^0.2.0` | yes | 0.1.0 |
+  | `^0.2.0` | no | **0.1.0** |
+
+  With the pin, a release is consistently 0.x: `react`, `icons`, `theme-engine`, `tokens` at **0.2.0**; `audit`,
+  `codemods`, `mcp`, `sdui` at **0.1.0**. sdui's changelog heading reads `## 0.1.0` above its Minor Changes instead
+  of `## 1.0.0`.
+- The range is ahead of the tree on purpose: `@syntara/react` is 0.1.0 today and becomes 0.2.0 in the release this
+  is written for. Nothing breaks in the meantime — sdui carries both packages as devDependencies, so the workspace
+  still links them. `pnpm install` is clean with no peer warnings, `pnpm --filter @syntara/sdui typecheck` passes
+  and its 150 tests pass.
+
 **Found by measuring, not fixed (second pass)**
+- **A pinned range needs maintenance that `workspace:*` did not.** When `@syntara/react` next takes a minor, sdui's
+  `^0.2.0` goes stale and consumers get a peer warning until someone widens it. That is the cost of the fix, and
+  nothing checks it yet — a rule in `pnpm check:meta`, or a release step, would.
 - **`@syntara/sdui` lands on 1.0.0 whatever the changesets say.** It is the only package that declares
   `@syntara/react` and `@syntara/icons` as **peer** dependencies, at `workspace:*`. Changesets bumps a package major
   when a peer dependency takes a minor, so sdui goes major on *every* react or icons minor — not just this release.
@@ -76,7 +101,7 @@ All eight packages pack with `pnpm pack`, which applies `publishConfig`:
   real range like `^0.2.0`, or set sdui's version by hand after each bump — and it is Anuj's call which.
 
 **Next**
-- Anuj: the npm scope, and what to do about sdui's peer-dependency bump. Nothing publishes until both are settled.
+- Anuj: the npm scope. That is the last thing between this and a release.
 
 ## 2026-09-30 (hero) — the demo is the argument, so it moves above the fold
 
