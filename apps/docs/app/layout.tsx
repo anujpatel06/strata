@@ -32,6 +32,9 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link rel="stylesheet" href={theme.houseFontHref} />
+        {/* The homepage's one display face: the italic accent word in each heading. Site chrome, not a
+            tenant type pair, so it is loaded here rather than derived from a brand. */}
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap" />
         <style id="syntara-themes" dangerouslySetInnerHTML={{ __html: theme.css }} />
       </head>
       <body>

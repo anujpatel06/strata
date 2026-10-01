@@ -53,12 +53,13 @@
   isolation: isolate;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  /* Left-aligned, per the Home v3 mockup: the headline is a display line, not a centred banner. */
+  align-items: start;
+  text-align: start;
   gap: var(--syntara-space-4);
   /* The demo below is the page's argument; the hero is its caption. Everything here is sized to get out of the
      way of it, so a third of the grid is in view before anyone scrolls. */
   padding-block: 0 var(--syntara-space-8);
-  text-align: center;
 }
 
 /* The hero's atmosphere is HeroGlow (home-stage.module.css): the selected tenant's colours, blurred. */
@@ -161,7 +162,7 @@
   /* Beyond the 5xl step the scale stops, so the tracking keeps tightening in proportion (×1.5 of 5xl's).
      It's 0 for Arabic-capable pairs, so this scales to 0 there too. */
   letter-spacing: calc(var(--syntara-font-tracking-5xl) * 1.5);
-  text-wrap: balance;
+  text-wrap: pretty;
 }
 @media (min-width: 768px) {
   .heroTitle {
@@ -189,7 +190,8 @@
   /* Room for the slanted final glyph, so it isn't clipped by the line box. */
   padding-inline-end: 0.08em;
   color: var(--syntara-color-text-brand);
-  font-family: inherit;
+  font-family: 'Instrument Serif', Georgia, serif;
+  font-weight: 400;
   font-style: italic;
   transition: color calc(var(--syntara-motion-duration-slow) * 2) var(--syntara-motion-easing);
 }
@@ -199,7 +201,7 @@
   color: var(--syntara-color-text-subtle);
   font-size: calc(var(--syntara-font-size-lg) * 1.0625);
   line-height: var(--syntara-line-height-normal);
-  text-wrap: balance;
+  text-wrap: pretty;
 }
 @media (min-width: 768px) {
   .heroLead {
@@ -216,8 +218,8 @@
 .heroActions {
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
-  gap: var(--syntara-space-2);
+  align-items: center;
+  gap: var(--syntara-space-3);
 }
 
 /* ---- Section scaffolding ---- */
@@ -231,10 +233,12 @@
   }
 }
 
+/*
+ * One paragraph, two elements. The heading and the lead are both `display: inline` so they wrap together as a
+ * single block of text — the mockup's look — while the <h2> stays a heading in the accessibility tree.
+ */
 .sectionHeader {
-  display: grid;
-  gap: var(--syntara-space-3);
-  max-inline-size: calc(var(--syntara-space-16) * 11);
+  max-inline-size: calc(var(--syntara-space-16) * 13);
   margin-block-end: var(--syntara-space-8);
 }
 .split .sectionHeader {
@@ -242,12 +246,13 @@
 }
 
 .sectionTitle {
+  display: inline;
+  margin: 0;
   font-family: var(--syntara-font-heading);
   font-size: var(--syntara-font-size-2xl);
-  font-weight: var(--syntara-font-weight-semibold);
-  line-height: var(--syntara-line-height-tight);
-  letter-spacing: var(--syntara-font-heading-tracking);
-  text-wrap: balance;
+  font-weight: var(--syntara-font-weight-medium);
+  line-height: 1.12;
+  letter-spacing: -0.035em;
 }
 @media (min-width: 768px) {
   .sectionTitle {
@@ -255,10 +260,16 @@
   }
 }
 
+/* Continues the heading's line rather than starting its own block, so the two read as one sentence pair. */
 .lead {
+  display: inline;
+  margin: 0;
   color: var(--syntara-color-text-subtle);
-  font-size: var(--syntara-font-size-lg);
-  line-height: var(--syntara-line-height-normal);
+  font-family: var(--syntara-font-heading);
+  font-size: var(--syntara-font-size-2xl);
+  font-weight: var(--syntara-font-weight-medium);
+  line-height: 1.12;
+  letter-spacing: -0.035em;
   text-wrap: pretty;
 }
 
@@ -777,8 +788,13 @@
 .sectionTitle .titleAccent,
 .ctaTitle .titleAccent {
   color: var(--syntara-color-text-brand);
-  font-family: inherit;
+  /* Instrument Serif italic, slightly larger than the line it sits in — the mockup's one display face. Not
+     `inherit`: a slanted Geist is not the same shape, and this word is the page's only ornament. */
+  font-family: 'Instrument Serif', Georgia, serif;
   font-style: italic;
+  font-weight: 400;
+  font-size: 1.1em;
+  letter-spacing: -0.01em;
   transition: color calc(var(--syntara-motion-duration-slow) * 2) var(--syntara-motion-easing);
 }
 

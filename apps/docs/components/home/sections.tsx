@@ -52,6 +52,13 @@ function TextLink({ href, children }: { href: string; children: ReactNode }) {
   );
 }
 
+/*
+ * Heading and lead read as one paragraph: the heading sentence in full colour, the lead continuing in grey on
+ * the same line. The mockup achieves that by putting the lead inside the <h2>. This does not — a heading that
+ * contains a paragraph of prose is what a screen-reader user hears when they navigate by heading, and this
+ * site's whole argument is that it does not make that trade. Both are `display: inline` inside a block wrapper,
+ * so they flow together visually while the heading stays a heading.
+ */
 function SectionHeader({ id, title, children }: { id: string; title: ReactNode; children?: ReactNode }) {
   return (
     <header className={styles.sectionHeader}>
@@ -86,12 +93,17 @@ export function Hero() {
         design engineer, ready for agents.
       </p>
       <div className={styles.heroActions}>
-        <ButtonLink href="/docs" variant="inverse" size="lg">
+        <ButtonLink href="/docs" variant="primary" size="lg">
           Get started
         </ButtonLink>
-        <ButtonLink href="/docs/components" variant="ghost" size="lg">
+        <ButtonLink href="/docs/components" variant="outline" size="lg">
           Browse components
         </ButtonLink>
+        {/* The mockup runs the npm line in beside the buttons rather than under them. */}
+        <p className={styles.heroNote}>
+          The packages are on npm.{' '}
+          <TextLink href="/docs/installation">Install them, or copy a component’s source</TextLink>.
+        </p>
       </div>
       {/*
         The install command used to sit here with the full "run this" treatment — bordered, monospace, a copy
@@ -102,10 +114,6 @@ export function Hero() {
         number six lines down reads as a contradiction. The Ship cards carry v0.1.0 beside `pnpm add`, where it
         cannot be misread.
       */}
-      <p className={styles.heroNote}>
-        The packages are on npm.{' '}
-        <TextLink href="/docs/installation">Install them, or copy a component’s source</TextLink>.
-      </p>
     </section>
   );
 }
