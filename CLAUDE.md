@@ -1,6 +1,6 @@
 # CLAUDE.md — Syntara
 
-Syntara is a multi-brand design system. It has 53 React Aria components, its own icon set (`@syntara/icons`) and a Next.js docs site, all themed by an engine that turns six brand inputs into a light and dark theme passing WCAG 2.2 AA. It's Anuj Patel's portfolio project for Lead/Staff Product Designer and UX Design Engineer interviews, so **craft, accessibility and honest claims matter more than speed**.
+Syntara is a multi-brand design system. It has 53 React Aria components, its own icon set (`@syntara/icons`) and a Next.js docs site, all themed by an engine that turns six brand inputs into a light and dark theme passing WCAG 2.2 AA. It is maintained to a standard where **craft, accessibility and honest claims matter more than speed**.
 
 - Spec: `BRIEF.md`. Read the relevant section before planning any phase.
 - Component rules: `packages/react/CONVENTIONS.md`. Read it before touching `packages/react` or `apps/docs/examples`.
@@ -17,8 +17,10 @@ Anuj owns design decisions. You pair on engineering and push back when he's wron
   - Agents (Phase 5): `packages/audit` (`pnpm drift`), `packages/mcp`, `AGENTS.md`, `evals/` (results in `evals/results.md`; iteration 1 is invalid and kept on record).
   - Mobile reach (Phase 5a): `packages/sdui`, native token files from `pnpm tokens`, tenant Haat (hi-IN). No native components.
 - **Next:** Phase 6, 2 of 5 (BRIEF §13). Done: npm publish, docs deployed. Left: re-run the differentiation research (the brief says *first*), a README GIF, and `/story`. Docs live on **Cloudflare Pages** (https://syntara.pages.dev; previews per branch, configured in the Cloudflare dashboard, not in this repo). All eight packages are on npm at **0.1.0** under the `@syntara` org. Release with `pnpm changeset publish` from `main`; publish with pnpm, never npm, or `workspace:*` ships literally.
-- **Waiting on Anuj:** review Haat's Hindi copy; ADR-024, 025 and 026; the clipping found in the Arabic and Latin type pairs.
+- **Going public (ADR-037, decided by Anuj):** the repo becomes public under its existing MIT licence and the site is listed on 21st.dev as an open-source template. Done: the pre-publication audit (no credentials in any commit), the scrub of job-search framing, and screenshots that show Syntara rather than the pre-rename "Strata". Left, in order: a **cold clone** test on a machine that does not share this pnpm store, then `gh repo edit --visibility public` — **irreversible** — then the listing. Open question first: 21st's open-source templates all look like single runnable apps, and whether a pnpm monorepo is accepted is unknown.
+- **Waiting on Anuj:** review Haat's Hindi copy; the clipping found in the Arabic and Latin type pairs; and seven ADR questions — **020** (Haat's name, industry and brand inputs), **024** (the whole ADR is Proposed), **025** (the API shape of the generated native files), **026** (accepted for the docs site, review pending), **032** (whether a Hindi reader agrees that रय reads as initials), **034** and **035** (accepted by Claude, review pending).
 - **Known gaps:** listed at the end of the latest entry in `docs/log.md`.
+- **ADRs run to 037.** Check `ls docs/adr/` for the next free number rather than trusting this line; it has been stale before.
 
 ## Run it
 

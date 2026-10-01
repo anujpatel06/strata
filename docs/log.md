@@ -6,6 +6,171 @@ Numbers only with the command that produced them. Design trade-offs get an ADR i
 
 ---
 
+## 2026-10-01 (public-eyes pass) — the repo stops describing its author's job search
+
+Groundwork for making the repo public and listing the site on 21st.dev. A read-only audit first, then a
+prose-only scrub. No code changed.
+
+**Changed**
+- **`BRIEF.md` §0 drops the employment description.** "Senior Product Designer, 7 years, founding designer at a
+  white-label B2B2C platform… moving into Lead / Staff Product Designer and UX Design Engineer roles" became "a
+  product designer who has built multi-brand systems — one product rendered as many client brands." The bar the
+  repo has to clear is still stated; the job search is not. Public and permanent means searchable, including by
+  a current employer, and that is the one finding in this audit with a personal consequence rather than a
+  presentational one.
+- **Five more places stop addressing interviewers and state the rule instead.** `BRIEF.md` §13 ("it's the proof
+  the policy is real"), §14 twice (the log is "the project's timeline"; who-decided has to be legible to "a
+  reader"), the Figma track ("a first-class deliverable, judged alongside the code"), `CLAUDE.md`'s opening ("it
+  is maintained to a standard where…"), `docs/adr/000-template.md` ("the maintainer decided vs. what the agent
+  recommended"), and `docs/research/2026-09-27-differentiation.md` ("anywhere public").
+- **`GOVERNANCE.md` §5 is deliberately unchanged.** Saying out loud that this is one maintainer, and marking
+  what is and is not enforced by a script, is the honest claim the rest of that file rests on. Removing it to
+  look bigger would be the dishonest edit.
+- **[ADR-037](adr/037-public-repo-and-21st-template.md)** records the decision. Numbered 037, not the 027 this
+  session first planned: 027 is the tooltip ADR, and the wrong number came from `CLAUDE.md`'s status line, which
+  still lists the open ADRs as 024–026 and is three phases out of date. **`CLAUDE.md`'s status section is stale
+  and was not corrected here.**
+- **The nine Phase 1 screenshots are regenerated** (`pnpm screenshots`). They said "Strata | Brand Generator
+  v0.1"; they now say Syntara. The regeneration also caught real drift the old images predated: the token count
+  moved 316 → 339 and the neutrals row gained a fourth option, "Paper".
+- **Three docs-site screenshots are reshot into a new `docs/screenshots/v0.5/`** — home, themes and the Button
+  component page — and `README.md`'s hero image points at `v0.5/home.png`. A new folder rather than overwriting
+  `v0.2/`, because the site is on v0.5 (the changelog's top heading) and regenerating inside a folder named for
+  v0.2 would make the name a lie. The stale `v0.2/` images are left as the v0.2 record; nothing references them
+  any more except this log.
+
+**Decided**
+- **Publish the whole repo open source, MIT, and list the site as a 21st.dev template — Anuj.** Claude laid out
+  three options and recommended the narrow one: publish only the docs-site shell with a neutral tenant and
+  placeholder copy, keeping the five real brands and the written content out of it. Anuj chose the whole repo
+  for reach, having been told once that public + MIT cannot be recalled, that 21st rehosts a pinned commit, and
+  that anyone may then ship the portfolio site commercially keeping only the copyright line.
+  **[ADR-037](adr/037-public-repo-and-21st-template.md).**
+- **Soften `BRIEF.md` §0 rather than leave it or move it to an untracked file — Claude recommended, Anuj
+  accepted.** Leaving it keeps a searchable job-hunt notice; cutting it entirely loses the explanation for why
+  the standards sit where they do.
+- **Keep `GOVERNANCE.md` §5 and reword the other five — Claude recommended, Anuj accepted.** The alternative,
+  removing the framing everywhere, risks the repo reading as though it claims to be a staffed project.
+- **Apply the scrub in a fresh worktree rather than on the branch that was checked out — Claude.** See Results.
+
+**Results**
+
+Pre-publication safety audit. Every row is the command and what it returned on 2026-10-01.
+
+| Check | Command | Result |
+|---|---|---|
+| Secret-shaped tracked files | `git ls-files` piped through `grep -Ei '\.env\|secret\|credential\|\.pem$\|\.key$\|token'` | 20 hits, **all false positives** — the word "token" in design-token code |
+| `.env` on disk | `find . -name '.env*' -not -path '*/node_modules/*' -not -path './.git/*'` | **none exist** |
+| Credentials in history | `git log -p --all` piped through `grep -Eo 'sk-ant-…\|sk-…\|gh[pousr]_…\|AKIA…\|AIza…'` | **nothing**, across all 65 commits |
+| How the eval authenticates | `grep -rn "API_KEY\|apiKey\|process\.env" evals/*.mjs` | spawns the `claude` CLI and inherits `process.env`; **no key stored** |
+| Personal contact details | grep for email, LinkedIn and phone patterns over all tracked text | **none**; the only identifier is `@anujpatel06` in `.github/CODEOWNERS`, which is wanted |
+| Tracked agent config | `git ls-files .claude` → 9 files, grepped for `/Users/`, `/home/`, `C:\` | **clean**; no absolute paths, no local config |
+| Tenant copy realism | grep for ~30 real bank, retailer and payment brands over `tenants/*/*.json` | **no real company passed off as a client**; people, card numbers and `app.vela.example` are invented |
+| Tracked images | `git ls-files` counted against `\.(png\|jpg\|jpeg\|gif)$` | 23, all under `docs/screenshots/` |
+
+Two findings from that audit are **not** fixed here:
+
+- **The README's hero image is wrong three ways.** `docs/screenshots/v0.2/home.png` shows the logo reading
+  **"Strata"** (the pre-rename name), the badge **"v0.2 · 41 components"** against the README's 53, and the
+  install line `npx shadcn@latest add @strata/button` — the old scope *and* the shadcn path reversed by the
+  ADR-011 revision. The three `phase-1` images carry "Strata | Brand Generator v0.1" too. The ten `phase-5a`
+  images are fine: they are tenant renders and carry no Syntara chrome. This is the first thing a visitor sees
+  on GitHub and in a 21st listing.
+- **Tenant copy uses real trademarks descriptively** — UPI ×16, WhatsApp ×7, IMPS ×4 across
+  `tenants/*/content.json` and the block content files. Normal and defensible for a realistic Indian fintech and
+  reseller demo. Recorded, not changed.
+
+After the scrub, over every tracked `.md`, `.json`, `.ts` and `.tsx` except `docs/log.md` (1,455 files):
+
+| Pattern | Result |
+|---|---|
+| `interview\|recruit\|hiring\|Lead/Staff\|moving into` | **NONE** |
+| `white-label\|B2B2C\|7 years\|founding designer\|Senior Product Designer` | **NONE** (one unrelated hit: Razorpay Blade's white-labelling, in the competitor research table) |
+| `portfolio project` | **`GOVERNANCE.md:5` only** — intended |
+
+`pnpm typecheck && pnpm test` was **not** run. A grep for `BRIEF\.md\|000-template\.md\|2026-09-27-differentiation`
+over every tracked `.ts`, `.tsx`, `.mjs`, `.js`, `.yml` returns nothing, so no script, test or CI job reads any
+of the four edited files; a green suite would have proved nothing about this diff. The greps above are the check.
+
+**Two sessions were live in the same checkout again.** This session started on `docs/phase-6-status` with two
+modified files; by the time the audit finished, `git status` reported `feat/home-layout` on a clean tree and the
+reflog showed `commit (merge): Merge main into feat/home-layout` **three minutes earlier**. The scrub was
+therefore applied in a new worktree, `.claude/worktrees/chore+public-eyes-scrub`, branched from `origin/main`'s
+tip (`git rev-list --count HEAD..origin/main` = 0), leaving `feat/home-layout` untouched. Second recorded
+occurrence in this checkout.
+
+**21st.dev, read on 2026-10-01.** Page reads, not script output — no number here is a Syntara metric.
+
+- It hosts components, templates and shadcn themes. There is no way to list a website as such; a whole site is a
+  **template**, and `/publish/template` exists behind sign-in.
+- Two library lists: **143 "On 21st"**, which authors uploaded, and a **shadcn directory of ~360 registries**
+  crawled from public repos and ranked by GitHub stars. **React Aria is in the directory** (154 components,
+  ★16k) without ever having published. A crawled author page carries the banner *"21st created this page
+  automatically… This person has not signed up for 21st"* — Fancy Components has 3.9M views and 17.4K bookmarks
+  on exactly that basis. Being crawled, rather than publishing, is the route with precedent.
+- The component market rewards marketing spectacle, not primitives: Buttons 2043, Cards 1780, Forms 1522,
+  Heroes 1152, against Sign Ins 103, Toasts 79, Empty States 77; the popular list is scroll animations, shaders
+  and liquid-glass buttons at 6–10k bookmarks each. **Documentation templates: 11**, out of roughly 700 — the
+  thinnest shelf on the site, and the one Syntara fits.
+- Open-source templates are **rehosted by 21st pinned to one commit, licence intact**, installed with
+  `npx @21st-dev/cli@latest template add <slug>`; the listing shows repo, licence and commit sha.
+- `curl -s -o /dev/null -w '%{http_code}' https://syntara.pages.dev` → **200**, so the "Open preview" link a
+  listing needs already exists.
+
+Screenshot runs. The first `pnpm screenshots` **failed** — `vite: command not found`, because a fresh worktree
+has no `node_modules` — and the failure was hidden by piping the command through `tail`, so the shell reported
+exit 0 over "✗ Generator build failed (exit 1)". Every run below captures the real exit code.
+
+| Run | Result |
+|---|---|
+| `pnpm install` in the worktree | 599 packages, **done in 5.7s** |
+| `pnpm screenshots` | **9 screenshots**, axe on 6 preview pages, **0 violations**, real exit **0** |
+| `pnpm --filter @syntara/docs build` | exit **0**, `apps/docs/.next/BUILD_ID` = `cdDwFGlplCAbXnamqi967` |
+| `serve out -l 4317`, then `scripts/served-build.mjs http://localhost:4317` | exit **0** — the served build is this one. `lsof -nP -iTCP:4317 -sTCP:LISTEN` confirmed pid 3235, the server this session started |
+| `scripts/shoot.mjs` ×3 at 1440×900 | home, themes, component-page saved, exit 0 each |
+
+The images were then opened and read, not trusted from the exit codes. `phase-1/vela-light.png` now reads
+"Syntara | Brand Generator v0.1". `v0.5/home.png` reads "Syntara", the pill reads **v0.5 · 53 components**
+against the old "v0.2 · 41 components", and the install line is "The packages are on npm" where it used to be
+`npx shadcn@latest add @strata/button`. `v0.5/component-page.png` no longer shows the "Registry" nav entry or
+the "Registry item" button — both removed by the ADR-011 revision, both still present in the old image — and
+installs with `pnpm add @syntara/react @syntara/tokens`.
+
+The docs build was run, not `next dev`, so the gotcha where `next dev` rewrites `apps/docs/AGENTS.md`,
+`apps/docs/CLAUDE.md` and `next-env.d.ts` did not apply; `git status` after the run showed only the intended
+files.
+
+**The hero was then shot twice,** because the homepage changed underneath it. `#22` (the entry below this one)
+landed on `main` while this branch was open and rewrote `apps/docs/app/page.tsx`,
+`apps/docs/components/home/sections.tsx` and `sections.module.css`, so the first `v0.5/home.png` was already a
+picture of the old homepage. Merging `main` in conflicted only on this file — two entries at the top, both
+kept — after which the site was rebuilt (`BUILD_ID` `cdDwFGlplCAbXnamqi967` → `i8gQFW-TKfCIOAzUNJ_i3`),
+`served-build.mjs` re-checked the served copy, and the hero was reshot. The rebuild was proved to contain the
+merged homepage before the shot, not after: three strings that exist only in #22's diff — "Values change, never
+names", "Scope a theme to one screen", "How theming works" — were grepped out of `apps/docs/out/index.html`.
+Above the fold the two shots look nearly the same; #22's new sections are below 900px at 1440 wide.
+
+**Next**
+- **Prove a clean clone runs.** `pnpm install && pnpm docs` from a fresh clone in a temp directory, not from a
+  working copy with a warm store and an existing `node_modules`. This is the last real engineering risk before
+  the repo is public. Partly evidenced already: this worktree started with no `node_modules`, and `pnpm install`
+  then a full docs build both succeeded from it. A worktree shares the pnpm store with the main checkout, so it
+  is not the same test as a cold clone on another machine.
+- ~~`CLAUDE.md`'s status section is three phases stale.~~ Fixed in this session. It listed the open ADRs as
+  024–026 when the repo holds 037, which is what produced the wrong ADR number here. The waiting-on-Anuj line
+  now names all seven open ADR questions (020, 024, 025, 026, 032, 034, 035, read from each file's Status
+  line), a Going public bullet tracks the ADR-037 work, and a closing line tells the next reader to check
+  `ls docs/adr/` rather than trust the number.
+- **Then, and only then,** `gh repo edit --visibility public`. Irreversible.
+- **Open question, worth answering before that irreversible step:** 21st's open-source templates all appear to
+  be single runnable apps, and whether a pnpm monorepo is accepted is unknown. If it is not, `apps/docs` has to
+  be extracted, and the chokepoint is `apps/docs/lib/repo.ts` — `REPO_ROOT = cwd/../..`, read at build time for
+  `tenants/*` and `packages/react/meta/*` — plus the literal `../../` in `tsconfig.json`, `next.config.mjs`,
+  `blocks/tenant-content.check.ts` and `lib/meta-types.ts`.
+- **Unrelated housekeeping:** `.claude/worktrees/heuristic-noyce-7a829a` is 1.2 GB on disk and untracked.
+
+---
+
 ## 2026-10-01 (home) — the homepage in Anuj's layout, and the brand reaches the whole page
 
 **Changed**
@@ -60,6 +225,9 @@ canvas — the existing guard, working.
 - **The FAQ answers are mine, not Anuj's.** Seven answers drafted from the repository; they state what the site
   already claims elsewhere, but they are prose in his voice and want his read before anyone sees them.
 - The version schemes are still split: the hero pill reads `v0.5` from the changelog, npm reads `0.1.0`.
+
+---
+
 ## 2026-10-01 — the CSP check survives a network blip, and CI stops assuming port 3000
 
 **Changed**
