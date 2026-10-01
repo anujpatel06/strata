@@ -85,6 +85,95 @@ In-browser after the fix: `.adr`, `.arrow`, `.rail`, `.componentTile` and `.filt
 
 ---
 
+## 2026-10-02 (the 768 band) — the header, not the rail
+
+**Changed**
+The homepage scrolled sideways at 768px: `scrollWidth` 882 against a 768 viewport, and clean at 320, 390, 1024
+and up. The report blamed the brands rail, because the rail's off-screen cards do stick out past the viewport —
+but that is what a horizontal scroller looks like, and `contain: paint` was already holding them. Walking the tree
+and skipping every box with a clipping ancestor left one culprit: **the site header**.
+
+- **`site-header.module.css`: the expanded search moves from `min-width: 768px` to `min-width: 960px`.** At 768 the
+  main nav appears and the search grows into a 192px field at the same moment. Measured at 768: gutter 24 + brand
+  86 + its margin 16 + nav 457 + gap 8 + actions 284 ends the row at **882**, needing **906** with the end gutter.
+  So 768–881 scrolled, by **114px at 768** and **22px at 860**. With the icon-only search the actions are 120 and
+  the row needs **735** — it fits at 768 with **33px** spare. The search keeps its `aria-label`, so the icon-only
+  form is still named; its box is 36px, over the 24px target floor.
+- **`data.module.css`: the tenant brand line wraps.** Once the header stopped hiding it, `/docs` still scrolled 3px
+  at 768: the sidebar leaves a 448px column, each of the two tenant cards gets 216, the line needs 272, and the
+  industry (`white-space: nowrap`, pushed to the far edge) hung 3px past the viewport. `flex-wrap: wrap` drops it
+  to its own line, still at the far edge.
+- **`sections.module.css`: the homepage's figures get a column wide enough for their number.** Found while
+  measuring the band, pre-existing, and Anuj chose to fix it here. `.figures` sized its columns at
+  `minmax(min(100%, 160px), 1fr)` — a number tuned for 320px and nothing else. "118,000" is **154px** at 3xl with
+  no break opportunity, and the tile adds **58** of padding: **212** in all. So the value hung out of its own card
+  by **48px at 375, 41 at 390, 21 at 430 and 44 at 768**, and scrolled the page **3px at 375 and 376**. The
+  minimum is now **224** (`space-16 × 3.5`): the four figures are one-up below ~496px and two-up above it, which
+  leaves the desktop layout exactly as it was.
+- **`check-narrow-overflow.mjs` now checks 320 **and** 768 by default** (and `/verify` expects both). The bug lived
+  at a width nobody opens by hand; 320 and 1024 both passed throughout.
+
+**Decided**
+- **960, not 900 — Claude.** The row needs 906 with both gutters intact. At 900 the end gutter was already being
+  eaten (actions ended at 882 inside a 900 box) without the page scrolling, so 900 would have left a cramp behind.
+- **Wrap the brand line rather than shrink or truncate the industry — Claude.** It keeps both labels readable and
+  keeps "industry at the far edge", which is what the rule says it is for.
+- **The rail was not touched.** It was already contained; arrows, keyboard and RTL were only verified.
+- **Stack the figures rather than shrink the number — Anuj**, from three options. Shrinking it would have kept two
+  columns on a phone but needed a fluid font size outside the `--syntara-*` type scale, which CONVENTIONS.md's
+  tokens-only rule forbids without an ADR.
+
+**Results** — full `/verify`, all nine steps, on the merge with `origin/main` (which brought #35's shorter brand
+cards, so every number below is measured with those in place):
+
+| Step | Command | Result |
+|---|---|---|
+| 1 | `pnpm --filter @syntara/react gen:index` | `src/index.ts → 53 modules` |
+| 2 | `pnpm typecheck` | exit 0 |
+| 3 | `pnpm test` + `check-test-counts` | **2,168** tests across 7 packages, none failing; README row matches |
+| 4 | `pnpm test:themes` | **118,000** checks, **0** failed (100.00%); 2,000/2,000 chart palettes; adjustments/brand median **4**, unmoved |
+| 5 | `pnpm check:meta` | **53/53** |
+| 6 | `pnpm registry` | 73 items ok |
+| 6a | `node scripts/check-override-weight.mjs` | 0 selectors weighing the same as the component |
+| 7 | `pnpm --filter @syntara/docs build` | exit 0, **82** pages, build `XtXFQlTkJJE4f-oqKv_nj` |
+| 8 | `node scripts/check-ssr-tabs.mjs` | 327 tab lists, **0** missing panels |
+| 9 | `check-hydration` | 228 loads, **0** failures |
+| 9 | `check-theme-links` | 5 links, **0** failures |
+| 9 | `check-narrow-overflow` (new defaults) | 114 routes × 320 **and 768**, 228 checks, **0** scrolling sideways |
+| 9 | `check-csp` | 114 routes, **0** failures |
+| 9 | `axe-sweep` | 114 routes × 2 schemes, **0** violation nodes |
+| 9 | `check-overlay-exit` | 108 tooltips + 4 menus/popovers, **0** failures |
+
+Wider sweeps than `/verify` runs, measured on the pre-merge build while fixing this — all after the fix:
+
+| Measurement | Result |
+|---|---|
+| `SYNTARA_WIDTHS=320,390,768,800,860,900,1024,1280,1440,1920`, 114 routes | 1,140 checks, **0** after the fix |
+| the same ten widths × light and dark, 9 key routes | 180 checks, **0** after the fix |
+| spilling text boxes at 320/360/375/376/390/430/470/496/500/600/768/900/1024/1280/1440/1920 | **0** after the fix (was 1 at six of them) |
+| rail behaviour at 320/768/900/1280 | arrow pages 0 → 268/396, `End` reaches the same, Qamar card `dir=rtl lang=ar`, document stays 0 over while scrolled |
+
+- **Proof it shipped:** `@media (min-width:960px){.site-header-module__…__search…}`, `tenantHead{…flex-wrap:wrap…}`
+  and `minmax(min(100%,calc(var(--syntara-space-16) * 3.5)),1fr)` are all in `apps/docs/out/_next/static/chunks/*.css`.
+- Both of the faults this session set out to fix were **pre-existing on `main`** (2557e70), not from any in-flight branch.
+- `pnpm test:themes` again rewrote only its own timing numbers (median 0.62 → 0.68 ms, p95 0.95 → 1.49 ms, this
+  machine being busier). Reverted, as last session did.
+
+**Next**
+- **For Anuj's eye:** at 768–959 the header now shows the full nav with an icon-only search; the "Search
+  documentation…" field returns at 960. And on `/docs` at 768, Harbor's "Insurance" and Care's "Family health
+  benefits" now sit on a second line while the shorter labels stay inline.
+- **For Anuj's eye:** the four figures under "Accessible by construction" are one per row on a phone now, two per
+  row from ~496px, and unchanged on desktop.
+- **`.tenantStats` had the same fault and `main` had already cured it.** Before the merge, "₹5,00,000" needed
+  113px in a 98px box and spilled **15px at 320** (clipped by the rail's `contain: paint`, so no check caught it
+  and the page never scrolled — the card just looked broken). The brand cards dropping to one figure each (#35)
+  gives that tile the card's full width: re-measured on the merged build, **0** boxes on the homepage fail to hold
+  their content at 320, 375, 390, 430 or 768. Nothing left to do, but the `space-16 * 2.5` minimum is still in
+  `.tenantStats`, so a second figure coming back would bring the spill back with it.
+
+---
+
 ## 2026-10-01 (brand cards) — the homepage's tallest thing gets shorter
 
 **Changed**
