@@ -140,6 +140,16 @@ The docs build was run, not `next dev`, so the gotcha where `next dev` rewrites 
 `apps/docs/CLAUDE.md` and `next-env.d.ts` did not apply; `git status` after the run showed only the intended
 files.
 
+**The hero was then shot twice,** because the homepage changed underneath it. `#22` (the entry below this one)
+landed on `main` while this branch was open and rewrote `apps/docs/app/page.tsx`,
+`apps/docs/components/home/sections.tsx` and `sections.module.css`, so the first `v0.5/home.png` was already a
+picture of the old homepage. Merging `main` in conflicted only on this file — two entries at the top, both
+kept — after which the site was rebuilt (`BUILD_ID` `cdDwFGlplCAbXnamqi967` → `i8gQFW-TKfCIOAzUNJ_i3`),
+`served-build.mjs` re-checked the served copy, and the hero was reshot. The rebuild was proved to contain the
+merged homepage before the shot, not after: three strings that exist only in #22's diff — "Values change, never
+names", "Scope a theme to one screen", "How theming works" — were grepped out of `apps/docs/out/index.html`.
+Above the fold the two shots look nearly the same; #22's new sections are below 900px at 1440 wide.
+
 **Next**
 - **Prove a clean clone runs.** `pnpm install && pnpm docs` from a fresh clone in a temp directory, not from a
   working copy with a warm store and an existing `node_modules`. This is the last real engineering risk before
@@ -158,6 +168,63 @@ files.
   `tenants/*` and `packages/react/meta/*` — plus the literal `../../` in `tsconfig.json`, `next.config.mjs`,
   `blocks/tenant-content.check.ts` and `lib/meta-types.ts`.
 - **Unrelated housekeeping:** `.claude/worktrees/heuristic-noyce-7a829a` is 1.2 GB on disk and untracked.
+
+---
+
+## 2026-10-01 (home) — the homepage in Anuj's layout, and the brand reaches the whole page
+
+**Changed**
+- **New order and new copy, from Anuj's mockup.** Accessibility moves above brands; the heads become
+  "118 checks a brand. *Zero failures.*", "One card. *Five brands.*", "Brands are *data*, not code.",
+  "Built by a *person*. Read by agents.", "53 components on *React Aria*." and "Questions, *straight* answers."
+  The closing lead is now "Copy a button today, and tell me when it's wrong."
+- **Three new sections.** *Brands are data, not code* — four panels generated at build time from
+  `tenants/vela/brand.json` and the theme the engine makes from it, so the numbers cannot drift from the engine.
+  *53 components on React Aria* — every component as a chip with its maturity badge, counted from `meta.json`.
+  *Questions, straight answers* — seven answers drafted from the ADRs, GOVERNANCE and the measured figures.
+- **The Ship section is gone — Anuj.** Distribution lives on `/docs/installation`, which the hero links to.
+- **The selected brand now colours the whole page, not just the hero — Anuj.** `HomeStage` wraps every section,
+  and each section's one accent word is a `HeroAccent`. Surfaces stay on the house theme on purpose: only
+  `text.brand` follows the pick, and only for tenants whose `text.brand` already passes on the house canvas.
+
+**Results**
+Measured against the static export on port 3230 (build `8HrTRDrx5RM27zc8r6T-L`), asserted with
+`assertServedBuild` before every reading; port 3000 was another session's server and was left running.
+
+| | |
+|---|---|
+| `axe-sweep` | 113 routes × 2 schemes, **0 violation nodes** |
+| `check-narrow-overflow` | 113 routes at 320px, **0 scrolling sideways** |
+| `check-hydration` | 113 × 2, **0 failures** |
+| `check-csp` | 113, **0 failures** |
+| `check-override-weight` | every override outweighs the component's own rule |
+| `pnpm typecheck` / `pnpm test` | clean · **2,167 passing** |
+
+Accent contrast, measured in the browser for every selectable tenant in both schemes: worst **8:1** (Harbor,
+light) against 4.5:1 required. `Care` falls back to `house` because its `text.brand` does not clear the house
+canvas — the existing guard, working.
+
+**Four things the checks caught that review had not**
+
+1. **`target-size`, 2 nodes.** The new "Browse all 53" link is a `.textLink`, which was 21px tall. Elsewhere on
+   the page those links pass on *spacing*, not size; this one had the chip grid inside its 24px clearance, so it
+   failed. `.textLink` now has `min-block-size: 24px`, which does not depend on what sits next to it.
+2. **113 routes scrolling sideways at 320px — a regression I introduced.** The new `.panel` is a flex column
+   holding a `CodeBlock`; a flex item defaults to `min-width: auto` and will not shrink below its content, and
+   `.panelGrid`'s implicit `auto` track did the same. Both are `minmax(0, 1fr)` / `min-inline-size: 0` now.
+   Confirmed a regression, not a pre-existing fault, by measuring the deployed main at 320px: 0px over.
+3. **Every section accent rendered in `text.default`, not `text.brand`.** `HeroAccent` puts
+   `data-syntara-theme` on the span, and the global `[data-syntara-theme]` rule is an attribute selector — the
+   same weight as one class — so a bare `.titleAccent` lost on source order. The hero has always been
+   `.heroTitle .heroBreak` for this reason; the section accents are now two classes too.
+4. **"Seven inputs" and `0.6158544999999549 ms`.** The first counted `name` as a brand input — it is the
+   tenant's label, and the six are primary, accent, neutral, shape, typePair and density, which is what the hero
+   and BRIEF §3 say. The second interpolated a raw float.
+
+**Next**
+- **The FAQ answers are mine, not Anuj's.** Seven answers drafted from the repository; they state what the site
+  already claims elsewhere, but they are prose in his voice and want his read before anyone sees them.
+- The version schemes are still split: the hero pill reads `v0.5` from the changelog, npm reads `0.1.0`.
 
 ---
 
