@@ -153,9 +153,14 @@
   }
 }
 
-/* Brand line: mark, name in the brand's heading face, industry pushed to the far edge. */
+/* Brand line: mark, name in the brand's heading face, industry pushed to the far edge.
+   It wraps, because the industry is `white-space: nowrap` and the far edge is not always far: on /docs at 768px
+   the sidebar leaves a 448px column, each of the two tenant cards gets 216px, and the line needs 272 — the
+   industry hung 3px past the viewport and scrolled the whole page sideways. Wrapped, it drops to its own line
+   and `margin-inline-start: auto` still keeps it at the far edge. */
 .tenantHead {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   gap: var(--syntara-space-3);
 }

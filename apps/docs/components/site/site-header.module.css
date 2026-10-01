@@ -184,7 +184,15 @@
 .searchKbd.searchKbd {
   display: none;
 }
-@media (min-width: 768px) {
+/*
+ * The search only grows into a field once the row has room for one. Measured at 768px, where the main nav
+ * appears: gutter 24 + brand 86 + its margin 16 + nav 457 + gap 8 + actions 284 puts the row's end at 882px and
+ * the end gutter at 906 — so every viewport from 768 to 881 scrolled the whole page sideways, by 114px at 768.
+ * With the icon-only search the actions are 120 wide and the row needs 735, which fits at 768 with 33px spare.
+ * 960 is the first round width that clears 906. Re-run `SYNTARA_WIDTHS=320,768,860,900 check-narrow-overflow`
+ * before adding anything to the nav or the actions: 33px is one nav link of headroom.
+ */
+@media (min-width: 960px) {
   .search.search {
     justify-content: flex-start;
     inline-size: calc(var(--syntara-space-16) * 3);
