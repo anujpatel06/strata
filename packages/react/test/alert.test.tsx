@@ -84,7 +84,8 @@ describe('Alert: filled status icon (surface recipe)', () => {
   it('reads the roles it proves from the CSS', () => {
     const css = readUiCss('alert.module.css');
     expect(css).toMatch(/--_face: var\(--syntara-color-surface-raised\)/);
-    expect(css).toMatch(/var\(--syntara-sheen\) padding-box/);
+    // The sheen is no longer painted (ADR-038); the figures below were measured under it, so they are floors.
+    expect(css).not.toMatch(/var\(--syntara-sheen\) padding-box/);
     expect(css).toMatch(/--syntara-icon-on: var\(--_on-tone\)/);
     for (const t of STATUS_TONES) {
       expect(css).toContain(`--_tone: var(--syntara-color-feedback-${t}-fg);`);

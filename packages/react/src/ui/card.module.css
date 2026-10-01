@@ -15,14 +15,15 @@
    * Surface recipe (CONVENTIONS "Surface recipe"): four private hooks the variants re-point.
    *   --_fill   the face colour (surface.raised);
    *   --_face   the face image (the fill as a gradient, so the feature variant can swap in its glow);
-   *   --_sheen  the engine's diagonal band of light: dark only (the token is `none` in light, where depth comes
-   *             from the shadow). Proven on surface.raised: text.subtle stays ≥ 6.86:1 at its brightest pixel
-   *             (theme-engine test/exporters.test.ts); every other text role measured ≥ 6.34:1 (text.brand, fuzz; 8% peak);
+   *   --_sheen  the sheen slot, held open but painted `none` (ADR-038: the engine's diagonal band read as brushed
+   *             metal). --syntara-sheen itself is unchanged and still the scheme signal for the rim, below. The
+   *             band only ever brightened the dark face, so figures once measured under it are now floors;
    *   --_rim    the rim light. Built in for dark (a style query on --syntara-sheen, below); `rim` adds it in light.
    */
   --_fill: var(--syntara-color-surface-raised);
   --_face: linear-gradient(var(--_fill), var(--_fill));
-  --_sheen: var(--syntara-sheen);
+  /* Sheen removed (ADR-038): the diagonal band read as brushed metal. Depth is the hairline, rim and shadow. */
+  --_sheen: none;
   --_rim: transparent;
   --_edge: var(--syntara-color-border-subtle);
   /* The outer corner. A private alias so the showcase variant can enlarge it and CardMedia can follow it. */
@@ -33,7 +34,8 @@
   /* Finesse: the soft shadow carries the depth; the edge is a hairline ring (0.5px on 2× screens). It's a
      box-shadow, not a border, because Chromium rounds sub-pixel border widths up to 1px. The 1px transparent
      border keeps the box size, carries the rim light and becomes the visible edge in forced-colours mode.
-     Background layers, top to bottom: the sheen and the face (padding box), then the rim gradient over the fill
+     Background layers, top to bottom: the (empty) sheen slot and the face (padding box), then the rim gradient
+     over the fill
      (border box), so the rim only shows in the 1px ring and follows any radius (CONVENTIONS "Rim light"). */
   border: 1px solid transparent;
   border-radius: var(--_radius);
@@ -201,18 +203,18 @@
  *
  * The face is a solid role, so every line of text sits on an engine-checked pair (contrast-pairs.json):
  * - light: surface.raised, lifted by the raised shadow (no inverted black card);
- * - dark:  surface.sunken, the darkest surface (the same as the page canvas in every tenant today), lit by the rim
- *          and the sheen (surface recipe). The sheen is proved on this face too (test/card.test.tsx).
- * Text on it: text.default, text.subtle, text.brand. Worst pixel, tenants and 1,000 fuzz brands, face and the
- * sheen's peak (measured 2026-09-27, `pnpm --filter @syntara/react exec vitest run test/card.test.tsx`,
- * "showcase card contrast"):
+ * - dark:  surface.sunken, the darkest surface (the same as the page canvas in every tenant today), lit by the rim.
+ * Text on it: text.default, text.subtle, text.brand. Worst pixel, tenants and 1,000 fuzz brands, measured on the
+ * face and the then-painted sheen peak (2026-09-27, `pnpm --filter @syntara/react exec vitest run test/card.test.tsx`,
+ * "showcase card contrast"). The sheen is gone (ADR-038) and only ever brightened the dark face, so the dark
+ * column below is now a floor:
  *
  *                 light                      dark
  *   text.default  16.12 (vela; fuzz 16.12)   14.13 (fuzz; care 14.19)
  *   text.subtle    6.68 (fuzz; care 6.71)     8.15 (fuzz; care 8.21)
  *   text.brand     5.03 (fuzz; qamar 5.51)    7.49 (fuzz; vela 8.13)
  * (floored, never rounded up). The binding role is text.brand in light, which is the engine's own raised-surface
- * guarantee; the dark face is darker than surface.raised, so the sheen costs less there than on a default card.
+ * guarantee, and is unchanged either way: the sheen was already `none` in light.
  *
  * The glow is never behind text: only CardMedia draws it (.media::before), and the showcase face has no gradient
  * of its own. The test checks both.

@@ -4,11 +4,12 @@
  * (.lead), so when the action wraps under the text on a narrow alert, the icon stays centred on the words.
  * Intrinsic, so no container query and no collapse inside shrink-to-fit parents.
  *
- * Surface: every tone shares one face, opaque surface.raised under the engine's diagonal --syntara-sheen (dark
- * only), with a neutral hairline, the raised shadow and, in dark, a rim light on the top-left edge. The tone lives
- * only in the filled status shape: feedback.<tone>.fg with the glyph knocked out in feedback.<tone>.bg (shape
- * ≥ 3:1 on the face incl. the sheen's brightest pixel, glyph ≥ 4.5:1 on the shape; proof in test/alert.test.tsx).
- * Title and body are text.default / text.subtle, the only text roles proven on the sheen.
+ * Surface: every tone shares one face, opaque surface.raised, with a neutral hairline, the raised shadow and, in
+ * dark, a rim light on the top-left edge. The tone lives only in the filled status shape: feedback.<tone>.fg with
+ * the glyph knocked out in feedback.<tone>.bg (shape ≥ 3:1 on the face, glyph ≥ 4.5:1 on the shape; proof in
+ * test/alert.test.tsx). Title and body are text.default / text.subtle.
+ * The engine's diagonal --syntara-sheen is no longer painted here (ADR-038): it read as brushed metal. It only
+ * ever brightened the dark face, so the figures measured under it are now floors, not ceilings.
  */
 
 .alert {
@@ -27,7 +28,6 @@
   border: 1px solid transparent;
   border-radius: var(--syntara-radius-container);
   background:
-    var(--syntara-sheen) padding-box,
     linear-gradient(var(--_face), var(--_face)) padding-box,
     var(--_rim) border-box,
     var(--_face);
