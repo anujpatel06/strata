@@ -1,6 +1,6 @@
 # CLAUDE.md — Syntara
 
-Syntara is a multi-brand design system. It has 53 React Aria components, its own icon set (`@syntara/icons`) and a Next.js docs site, all themed by an engine that turns six brand inputs into a light and dark theme passing WCAG 2.2 AA. It's Anuj Patel's portfolio project for Lead/Staff Product Designer and UX Design Engineer interviews, so **craft, accessibility and honest claims matter more than speed**.
+Syntara is a multi-brand design system. It has 53 React Aria components, its own icon set (`@syntara/icons`) and a Next.js docs site, all themed by an engine that turns six brand inputs into a light and dark theme passing WCAG 2.2 AA. It is maintained to a standard where **craft, accessibility and honest claims matter more than speed**.
 
 - Spec: `BRIEF.md`. Read the relevant section before planning any phase.
 - Component rules: `packages/react/CONVENTIONS.md`. Read it before touching `packages/react` or `apps/docs/examples`.

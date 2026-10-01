@@ -7,7 +7,7 @@
 <!--
 Rules
 - One page max (~35 lines). Bullets over paragraphs.
-- Status always names who made the call. Interviewers will ask what Anuj decided vs. what the AI recommended.
+- Status always names who made the call. The record has to answer what the maintainer decided vs. what the agent recommended.
 - Numbers only with the command that produces them.
 - Never rewrite an accepted ADR. Write a new one and mark this one "Superseded by ADR-NNN".
 - File name: NNN-kebab-title.md. Add a line to docs/log.md under "Decided".
