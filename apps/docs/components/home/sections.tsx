@@ -35,7 +35,7 @@ import {
   getFixPanel,
   getMcpTools,
   getPipeline,
-  getReleases,
+  getPhases,
   getTokensFacts,
   type TenantOverview,
 } from './home-data';
@@ -116,9 +116,9 @@ export function Hero() {
         button — for a package that did not exist. The packages are real now (0.1.0), but the block is not coming
         back: the demo below is the page's argument, and the command belongs on /docs/installation, which is where
         someone installing looks. One line is enough to say it exists. No version number here either — the pill
-        above shows the site's milestone (v0.5, from the changelog) and the packages are on 0.1.0, so a second
-        number six lines down reads as a contradiction. The Ship cards carry v0.1.0 beside `pnpm add`, where it
-        cannot be misread.
+        above now shows the published version of @syntara/react, so a second number here would just repeat it.
+        The site used to show a build phase (v0.5) beside packages published at 0.1.0; there is one version
+        scheme now, npm's, and the phases are called phases.
       */}
     </section>
   );
@@ -628,7 +628,7 @@ const faqItems = (): readonly { q: string; a: ReactNode }[] => [
 ];
 
 export function FaqSection() {
-  const releases = [...getReleases()].reverse();
+  const phases = [...getPhases()].reverse();
   return (
     <section className={styles.section} aria-labelledby="faq-title">
       <div className={styles.split}>
@@ -644,16 +644,20 @@ export function FaqSection() {
             What this is, what it is not, and where the honest edges are.
           </SectionHeader>
           {/*
-            The mockup shows this column with three of five releases "In progress". Every one of them has a
-            changelog entry, so they shipped; the list is read from the changelog rather than typed, and says
-            so. Phase 6 has no entry yet, so it is not listed.
+            Each phase's status is read from its own badge in the changelog. An earlier version of this assumed
+            that an entry meant it had shipped and rendered all five as Shipped; three are still in progress,
+            and the mockup was right.
           */}
           <ol className={styles.roadmap}>
-            {releases.map((r) => (
-              <li key={r.version} className={styles.roadmapRow}>
-                <span className={styles.roadmapVersion}>{r.version}</span>
-                <span className={styles.roadmapTitle}>{r.title}</span>
-                <span className={styles.roadmapStatus}>Shipped</span>
+            {phases.map((p) => (
+              <li key={p.label} className={styles.roadmapRow}>
+                <span className={styles.roadmapVersion}>{p.label}</span>
+                <span className={styles.roadmapTitle}>{p.title}</span>
+                {p.status && (
+                  <span className={styles.roadmapStatus} data-shipped={p.status === 'Shipped' ? 'true' : undefined}>
+                    {p.status}
+                  </span>
+                )}
               </li>
             ))}
           </ol>

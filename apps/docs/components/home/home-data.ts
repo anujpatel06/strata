@@ -52,10 +52,16 @@ export const getFuzzSummary = cache((): FuzzSummary | undefined => {
   };
 });
 
-/** "v0.2" from the first release heading in the changelog, and the number of component meta files. */
+/**
+ * The published version of `@syntara/react`, and the number of component meta files.
+ *
+ * This used to read the changelog's top heading, which was a build phase ("v0.5"). The site then showed v0.5
+ * beside packages published at 0.1.0 — two true numbers that read as a contradiction. There is one version
+ * scheme now, npm's, and the phases are called phases.
+ */
 export const getReleaseInfo = cache((): { version?: string; components: number } => {
-  const changelog = readRepoFile('apps', 'docs', 'content', 'docs', 'changelog.mdx') ?? '';
-  const version = /^##\s+(v\d+(?:\.\d+)*)/m.exec(changelog)?.[1];
+  const raw = readRepoFile('packages', 'react', 'package.json');
+  const version = raw ? (JSON.parse(raw) as { version?: string }).version : undefined;
   return { version, components: getAllMeta().length };
 });
 
@@ -341,15 +347,29 @@ export const getMcpTools = cache((): string[] => {
   return [...names];
 });
 
-export interface Release {
-  version: string;
+export interface Phase {
+  label: string;
   title: string;
+  /** The status the changelog itself gives the phase. Undefined when it does not say. */
+  status?: string;
 }
 
-/** The changelog's releases, newest first — the roadmap column beside the FAQ. */
-export const getReleases = cache((): Release[] => {
+/**
+ * The build phases and their real status, for the roadmap beside the FAQ. The status is read from each
+ * phase's own badge: an entry existing does not mean it shipped, which is what an earlier version of this
+ * assumed and got wrong — three of the five are still in progress.
+ */
+export const getPhases = cache((): Phase[] => {
   const md = readRepoFile('apps', 'docs', 'content', 'docs', 'changelog.mdx') ?? '';
-  const out: Release[] = [];
-  for (const m of md.matchAll(/^##\s+(v[\d.]+)\s+—\s+(.+)$/gm)) out.push({ version: m[1]!, title: m[2]!.trim() });
+  const out: Phase[] = [];
+  const headings = [...md.matchAll(/^##\s+(Phase \d+)\s+—\s+(.+)$/gm)];
+  headings.forEach((m, i) => {
+    const from = m.index! + m[0].length;
+    const to = headings[i + 1]?.index ?? md.length;
+    const badge = /<Badge[^>]*>([^<]+)<\/Badge>/.exec(md.slice(from, to))?.[1]?.trim();
+    // No badge means the changelog does not say, so neither does the roadmap. Defaulting to a status
+    // invented one: Phase 1 had no badge and was rendered "In progress" years after it shipped.
+    out.push({ label: m[1]!, title: m[2]!.trim(), status: badge });
+  });
   return out;
 });

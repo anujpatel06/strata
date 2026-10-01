@@ -1154,9 +1154,12 @@
   color: var(--syntara-color-text-default);
 }
 
-/* A word, not a dot: status is never carried by colour alone. */
+/* A word, not a dot: status is never carried by colour alone, and the two states differ in wording first. */
 .roadmapStatus {
-  color: var(--syntara-color-feedback-success-fg);
+  color: var(--syntara-color-text-subtle);
   font-size: var(--syntara-font-size-xs);
   font-weight: var(--syntara-font-weight-medium);
+}
+.roadmapStatus[data-shipped='true'] {
+  color: var(--syntara-color-feedback-success-fg);
 }

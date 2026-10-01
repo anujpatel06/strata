@@ -1,6 +1,6 @@
-Releases follow the project’s phases. Every number here comes from a script; the command is next to it.
+These are the project’s build phases, not npm versions. The packages are versioned separately and independently — see each one’s `CHANGELOG.md`, or the version in the footer. Every number here comes from a script; the command is next to it.
 
-## v0.5 — Agents
+## Phase 5 — Agents
 
 <Badge tone="info" variant="soft">In progress</Badge>
 
@@ -18,7 +18,7 @@ Tools for AI coding agents, and a measurement of whether they help.
 - A sixth tenant, Haat, in Hindi, with a Devanagari type pair whose line heights were set by measuring for clipping — `node scripts/check-script-clipping.mjs --pairs=bilingual-devanagari` (<AdrLink n="024" />). Its Hindi copy is a draft until a Hindi reader has reviewed it.
 - The docs app scores 98.8 on the drift auditor, with 60 findings, and CI fails below 95 — `pnpm drift apps/docs`.
 
-## v0.4 — Governance
+## Phase 4 — Governance
 
 <Badge tone="info" variant="soft">In progress</Badge>
 
@@ -31,7 +31,7 @@ How the system changes, and the first change made that way.
 - Deprecations are records in `meta.json`. Component pages show them, and `pnpm check:meta` fails if a record names a codemod or RFC that doesn’t exist.
 - The engine now solves success, warning, danger and info text on the canvas and raised surfaces too: 118 contrast checks per brand, up from 102 — `pnpm test:themes`.
 
-## v0.3 — Craft
+## Phase 3 — Craft
 
 <Badge tone="info" variant="soft">In progress</Badge>
 
@@ -47,7 +47,7 @@ The finish pass: motion, depth, our own icons and charts, and an editorial voice
 - A fourth tenant, Care, built from Anuj's KYB web prototype, and new blocks: Benefits overview and Portfolio.
 - The engine checks 102 contrast pairs per brand (focus ring and brand text on selected rows added after the colour page found a 2.97:1 gap), and chart palettes on top — `pnpm test:themes`.
 
-## v0.2 — Components
+## Phase 2 — Components
 
 <Badge tone="success" variant="soft">Shipped</Badge>
 
@@ -60,7 +60,9 @@ Phase 2.
 - The house brand the docs use lives in `tenants/house/brand.json`.
 - This docs site, themed by the engine, with live previews in every tenant.
 
-## v0.1 — Tokens and theme engine
+## Phase 1 — Tokens and theme engine
+
+<Badge tone="success" variant="soft">Shipped</Badge>
 
 Phase 1.
 
@@ -69,7 +71,7 @@ Phase 1.
 - Three tenants — Vela, Harbor and Qamar — each one `brand.json` and one `content.json`.
 - The Brand Generator: six inputs, a live preview, export.
 
-<Table aria-label="v0.1 numbers">
+<Table aria-label="Phase 1 numbers">
   <thead>
     <tr>
       <th scope="col">Result</th>
