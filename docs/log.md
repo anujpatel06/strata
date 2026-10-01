@@ -58,11 +58,14 @@ solid fill, the "pressable key" look from the v0.3 tactile pass.
 - `pnpm test:themes` again rewrote only its timing numbers (median 0.62 → 0.59 ms, p95 0.95 → 0.98 ms). Reverted.
 
 **Next**
-- **For Anuj's eye:** Button's pressed state no longer differs by shadow — it used to drop the highlight on press,
-  and now reads through the darker fill and the spring scale, which is how CONVENTIONS describes a press anyway.
-  The pressed rule still restates the raised shadow so a stuck hover can't lift a pressed button.
-- **For Anuj's eye:** Kbd. The keycap was a lit top edge plus a deeper bottom edge; only the bottom edge is left to
-  say "key". Check it at small sizes.
+- ~~**For Anuj's eye:** Button's pressed state.~~ **Checked and fine.** It no longer differs by shadow, but the press
+  still shrinks the control to scale 0.96 (93.53px → 89.79px) and darkens the fill twice over from rest; hover is
+  carried by the fill alone. Figures in [ADR-039](adr/039-no-top-edge-highlight.md). A first capture with reduced
+  motion on hid the scale and made the press look weaker than it is — measure this one with motion enabled.
+- ~~**For Anuj's eye:** Kbd.~~ **Checked, and the worry was wrong.** The claim that "only the bottom edge is left to
+  say 'key'" came from a code comment, not a measurement. The cap keeps three of its four layers (ring, weighted
+  bottom edge, drop shadow); light mode is visually identical and dark differs only under magnification. ADR-039
+  corrected.
 - Raise the 5s test timeout on the three load-sensitive tests, or give them their own budget.
 
 ---
