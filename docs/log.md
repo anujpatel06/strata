@@ -6,6 +6,68 @@ Numbers only with the command that produced them. Design trade-offs get an ADR i
 
 ---
 
+## 2026-10-01 (home v3 layout) — the design, not just the words
+
+**Changed**
+Anuj's point, fairly made: the earlier passes changed the copy and the section order and left the design alone.
+This is the design, built from `Home3.dc.html` rather than from a screenshot of it, in eight layers.
+
+1. **Foundations.** The accent word is **Instrument Serif** italic at 1.1em, the mockup's one display face; it
+   had been the house font slanted. Heading and lead read as one paragraph. The hero is left-aligned.
+2. **The showcase labels itself.** A caption read off `brand.json` (`cool · sharp · compact · Inter Tight`), and
+   a **Component names** overlay tagging each part of the demo with the component it is.
+3. **Components as tiles**, carrying category and maturity, with a count-led filter row and a line naming the
+   7 blocks and counting the icons.
+4. **The brands section is a carousel** — a snapping rail with arrows that disable at each end.
+5. **The data panels** are the mockup's: *Every fix, in a sentence* (the engine's own words) and the
+   `brand.json → theme-engine → tokens → react` pipeline, replacing two I had invented.
+6. **The agent cards** carry brand and accent faces, with the three trust levels and a decisions banner.
+7. **A release roadmap** beside the FAQ, read from the changelog.
+8. The four-column footer was already right.
+
+**Decided**
+- **The lead stays outside the `<h2>` — Claude.** The mockup puts it inside. A heading containing a paragraph
+  of prose is what a screen-reader user hears when navigating by heading, and this site argues against that
+  trade on its own accessibility page. Both are `display: inline` in a block wrapper: same look, two elements.
+- **Stale figures in the mockup are not copied.** It says 235 icons (243), seven MCP tools (eight), 36
+  decisions (37, computed), "Not on npm yet" and "An MCP server, in progress". All are counted from source now.
+- **The roadmap says Shipped for all five releases.** The mockup marks three "In progress"; every one has a
+  changelog entry, so they shipped. Phase 6 has no entry and is not listed.
+
+**Results**
+Static export, build `LB2O-MPApqYjrbluLu_PK`, build id asserted before every reading.
+
+| | |
+|---|---|
+| `axe-sweep` | 113 × 2 schemes, **0 violation nodes** |
+| `check-narrow-overflow` | **0** at 320px |
+| `check-hydration` · `check-csp` | **0** · **0** |
+| `check-override-weight` | clean |
+| `pnpm typecheck` · `pnpm test` | clean · **2,167 passing** |
+
+**Six faults the checks caught that reading did not**
+
+1. **The hero would not left-align.** A `text-align: center` sat at the end of `.hero`, after the change.
+   `text-wrap: balance` was also indenting the second line — balance evens a ragged edge, for centred headings.
+2. **The name overlay matched nothing.** It keyed on `syntara-<file>__`, the scoped name the *published*
+   package uses; the docs app compiles the same CSS Modules itself and emits `<file>-module__<hash>__`.
+3. **The Component names switch was wrapped in a `<label>`.** Syntara's Switch takes its label as children, so
+   that was an empty label — axe **critical**, a control with no accessible name.
+4. **The carousel grew the page by 1127px** at 320px as a column-flow grid, then by **871px** as flex — and the
+   second only under `prefers-reduced-motion: reduce`, which is what CI measures with, so a normal browser
+   showed nothing. `contain: paint` fixed it; `overflow-x: clip` on the section did not.
+5. **The carousel arrows did nothing.** `scrollBy` with `behavior: 'smooth'` left `scrollLeft` at 0 every time —
+   snapping mandatory, proximity and none, containment on and off — while the same call without it worked.
+6. **`action-accent-*` does not exist.** The second agent card used it with a fallback, so it silently rendered
+   as a plain surface rather than accent-coloured. The pair is `accent.bg` / `accent.fg`. A raw
+   `rgb(0 0 0 / 12%)` also went in and came back out as `color-mix` on `currentColor`.
+
+**Next**
+- The hero pill still reads "53 components" where the mockup reads "Agents release in progress", and the site's
+  `v0.5` milestone still sits beside npm's `0.1.0`. Both are Anuj's call.
+
+---
+
 ## 2026-10-01 (home v3) — read the mockup's source instead of guessing at a screenshot
 
 **Correction, same day.** This session ran its own four-pass re-run in parallel with the one that produced

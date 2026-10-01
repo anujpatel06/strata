@@ -33,7 +33,9 @@ import {
   getAdrCount,
   getAlsoFacts,
   getFixPanel,
+  getMcpTools,
   getPipeline,
+  getReleases,
   getTokensFacts,
   type TenantOverview,
 } from './home-data';
@@ -334,37 +336,84 @@ function metaExcerpt(): string | undefined {
   return lines.filter((l): l is string => typeof l === 'string' && l.length > 0).join('\n');
 }
 
+/*
+ * The three trust levels, worded as GOVERNANCE.md §6 and ADR-008 word them. ADR-008's status says enforcement
+ * is not built, so the card says so rather than implying an agent can act.
+ */
+const TRUST = [
+  { level: 'Ambient', may: 'Fix token drift in consumer code, where there is one safe answer', who: 'See it in the diff' },
+  { level: 'Soft gate', may: 'Open pull requests for docs, meta.json and stories', who: 'Approve' },
+  { level: 'Hard gate', may: 'Draft RFCs and propose new components, token-tier changes and breaking changes', who: 'Decide, review, merge' },
+] as const;
+
 export function AgentsSection() {
   const excerpt = metaExcerpt();
+  const adrs = getAdrCount();
+  const tools = getMcpTools();
   return (
     <section className={styles.section} aria-labelledby="agents-title">
-      <div className={styles.split}>
-        <div className={styles.stack}>
-          <SectionHeader
-            id="agents-title"
-            title={
-              <>
-                Built by a <HeroAccent className={styles.titleAccent}>person.</HeroAccent> Read by agents.
-              </>
-            }
-          >
-            Each component is described once, in a meta.json. The docs are generated from it, and coding agents
-            read the same file.
-          </SectionHeader>
-          <div className={styles.commandRow}>
-            <TextLink href="/docs/mcp">About the MCP server</TextLink>
-          </div>
-        </div>
-        {excerpt && (
-          <div className={styles.excerpt}>
-            <CodeBlock code={excerpt} lang="json" title="packages/react/meta/button.meta.json (excerpt)" collapseAfter={0} />
-          </div>
-        )}
+      <SectionHeader
+        id="agents-title"
+        title={
+          <>
+            Built by a <HeroAccent className={styles.titleAccent}>person.</HeroAccent> Read by agents.
+          </>
+        }
+      >
+        Each component is described once, in a meta.json. The docs are generated from it, and coding agents
+        read the same file.
+      </SectionHeader>
+
+      <div className={styles.agentGrid}>
+        <article className={`${styles.agentCard} ${styles.agentCardBrand}`}>
+          <h3 className={styles.agentTitle}>Described once</h3>
+          {excerpt && <CodeBlock code={excerpt} lang="json" title="button.meta.json" collapseAfter={0} />}
+          <p className={styles.agentNote}>
+            Props, examples, keyboard behaviour, do and don’t. The docs pages and the agents read the same file.
+          </p>
+        </article>
+
+        <article className={`${styles.agentCard} ${styles.agentCardAccent}`}>
+          <h3 className={styles.agentTitle}>Three trust levels</h3>
+          <dl className={styles.trust}>
+            {TRUST.map((t) => (
+              <div key={t.level} className={styles.trustRow}>
+                <dt className={styles.trustLevel}>{t.level}</dt>
+                <dd className={styles.trustMay}>{t.may}</dd>
+              </div>
+            ))}
+          </dl>
+          <p className={styles.agentNote}>
+            What an agent may do on its own, with review, or only as a proposal. Written down in GOVERNANCE §6;
+            enforcing it is not built yet.
+          </p>
+        </article>
+
+        <article className={styles.agentCard}>
+          <h3 className={styles.agentTitle}>An MCP server</h3>
+          <ul className={styles.toolChips}>
+            {tools.map((t) => (
+              <li key={t}>
+                <code className={styles.toolChip}>{t}</code>
+              </li>
+            ))}
+          </ul>
+          <p className={styles.agentNote}>
+            {tools.length} tools serving components, tokens and usage rules to agents, alongside the drift
+            auditor. Read-only: no tool writes a file.
+          </p>
+          <TextLink href="/docs/mcp">About the MCP server</TextLink>
+        </article>
       </div>
+
+      <p className={styles.decisions}>
+        <strong>{adrs} decisions, each signed.</strong> Every record names who decided: Anuj, or Claude with
+        Anuj’s acceptance. Deprecated APIs go only at 1.0, and breaking changes ship with a codemod.{' '}
+        <TextLink href="/docs/governance">Read the decisions</TextLink>
+      </p>
     </section>
   );
 }
-
 
 /* ------------------------------------------------------------------ */
 
@@ -579,6 +628,7 @@ const faqItems = (): readonly { q: string; a: ReactNode }[] => [
 ];
 
 export function FaqSection() {
+  const releases = [...getReleases()].reverse();
   return (
     <section className={styles.section} aria-labelledby="faq-title">
       <div className={styles.split}>
@@ -593,6 +643,20 @@ export function FaqSection() {
           >
             What this is, what it is not, and where the honest edges are.
           </SectionHeader>
+          {/*
+            The mockup shows this column with three of five releases "In progress". Every one of them has a
+            changelog entry, so they shipped; the list is read from the changelog rather than typed, and says
+            so. Phase 6 has no entry yet, so it is not listed.
+          */}
+          <ol className={styles.roadmap}>
+            {releases.map((r) => (
+              <li key={r.version} className={styles.roadmapRow}>
+                <span className={styles.roadmapVersion}>{r.version}</span>
+                <span className={styles.roadmapTitle}>{r.title}</span>
+                <span className={styles.roadmapStatus}>Shipped</span>
+              </li>
+            ))}
+          </ol>
         </div>
         <Accordion className={styles.faq}>
           {faqItems().map((item, i) => (

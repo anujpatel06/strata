@@ -332,3 +332,24 @@ export const getPipeline = cache((): PipelineStep[] => {
     { pkg: '@syntara/react', note: `${components} components` },
   ];
 });
+
+/** The MCP server's tool names, read from its source so the homepage cannot quote a count that has drifted. */
+export const getMcpTools = cache((): string[] => {
+  const src = readRepoFile('packages', 'mcp', 'src', 'server.ts') ?? '';
+  const names = new Set<string>();
+  for (const m of src.matchAll(/registerTool\(\s*'([a-z_]+)'/g)) names.add(m[1]!);
+  return [...names];
+});
+
+export interface Release {
+  version: string;
+  title: string;
+}
+
+/** The changelog's releases, newest first — the roadmap column beside the FAQ. */
+export const getReleases = cache((): Release[] => {
+  const md = readRepoFile('apps', 'docs', 'content', 'docs', 'changelog.mdx') ?? '';
+  const out: Release[] = [];
+  for (const m of md.matchAll(/^##\s+(v[\d.]+)\s+—\s+(.+)$/gm)) out.push({ version: m[1]!, title: m[2]!.trim() });
+  return out;
+});

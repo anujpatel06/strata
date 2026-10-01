@@ -1000,3 +1000,163 @@
   color: var(--syntara-color-text-subtle);
   font-size: var(--syntara-font-size-xs);
 }
+
+/* ---- Built by a person. Read by agents. ---- */
+
+.agentGrid {
+  display: grid;
+  gap: var(--docs-card-gap);
+}
+@media (min-width: 900px) {
+  .agentGrid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.agentCard {
+  display: flex;
+  flex-direction: column;
+  min-inline-size: 0;
+  gap: var(--syntara-space-3);
+  padding: var(--syntara-space-5);
+  border: var(--syntara-hairline) solid var(--syntara-color-border-subtle);
+  border-radius: var(--docs-card-radius);
+  background-color: var(--syntara-color-surface-default);
+}
+
+/*
+ * Two of the three cards carry a brand or accent face, as the mockup does. The text pair comes from the
+ * engine's solved roles rather than being picked by eye, so it holds for every tenant.
+ */
+.agentCardBrand {
+  border-color: transparent;
+  background-color: var(--syntara-color-action-primary-bg);
+  color: var(--syntara-color-action-primary-fg);
+}
+.agentCardAccent {
+  border-color: transparent;
+  /* accent.bg / accent.fg — the solved pair. `action-accent-*` does not exist; using it meant this card
+     silently fell back to a plain surface and was not accent-coloured at all. */
+  background-color: var(--syntara-color-accent-bg);
+  color: var(--syntara-color-accent-fg);
+}
+
+.agentTitle {
+  margin: 0;
+  color: inherit;
+  font-size: var(--syntara-font-size-md);
+  font-weight: var(--syntara-font-weight-medium);
+}
+
+.agentNote {
+  margin: 0;
+  color: inherit;
+  font-size: var(--syntara-font-size-sm);
+  line-height: var(--syntara-line-height-normal);
+  opacity: 0.86;
+  text-wrap: pretty;
+}
+/* On the plain card the note is subtle text rather than a faded inherit. */
+.agentCard:not(.agentCardBrand):not(.agentCardAccent) .agentNote {
+  color: var(--syntara-color-text-subtle);
+  opacity: 1;
+}
+
+.trust {
+  display: grid;
+  gap: var(--syntara-space-2);
+  margin: 0;
+}
+.trustRow {
+  display: grid;
+  gap: var(--syntara-space-1);
+  padding: var(--syntara-space-2) var(--syntara-space-3);
+  border-radius: var(--syntara-radius-sm);
+  /* Derived from the card's own text colour, not a raw value: these cards sit on brand and accent faces that
+     differ per tenant, so a fixed black would be wrong on half of them. */
+  background-color: color-mix(in oklab, currentColor 12%, transparent);
+}
+.trustLevel {
+  font-family: var(--syntara-font-mono);
+  font-size: var(--syntara-font-size-xs);
+  font-weight: var(--syntara-font-weight-medium);
+}
+.trustMay {
+  margin: 0;
+  font-size: var(--syntara-font-size-sm);
+  line-height: var(--syntara-line-height-normal);
+}
+
+.toolChips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--syntara-space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.toolChip {
+  display: inline-block;
+  padding-block: 2px;
+  padding-inline: var(--syntara-space-2);
+  border: var(--syntara-hairline) solid var(--syntara-color-border-subtle);
+  border-radius: var(--syntara-radius-sm);
+  color: var(--syntara-color-text-subtle);
+  font-family: var(--syntara-font-mono);
+  font-size: var(--syntara-font-size-xs);
+}
+
+.decisions {
+  margin-block: var(--syntara-space-6) 0;
+  padding: var(--syntara-space-4) var(--syntara-space-5);
+  border: var(--syntara-hairline) solid var(--syntara-color-border-subtle);
+  border-radius: var(--docs-card-radius);
+  color: var(--syntara-color-text-subtle);
+  font-size: var(--syntara-font-size-sm);
+  line-height: var(--syntara-line-height-normal);
+  text-wrap: pretty;
+}
+.decisions strong {
+  color: var(--syntara-color-text-default);
+  font-weight: var(--syntara-font-weight-medium);
+}
+
+/* ---- The release roadmap beside the FAQ ---- */
+
+.roadmap {
+  display: grid;
+  gap: var(--syntara-space-1);
+  margin-block: var(--syntara-space-5) 0;
+  padding: 0;
+  list-style: none;
+}
+
+.roadmapRow {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: baseline;
+  gap: var(--syntara-space-3);
+  padding-block: var(--syntara-space-2);
+  border-block-end: var(--syntara-hairline) solid var(--syntara-color-border-subtle);
+  font-size: var(--syntara-font-size-sm);
+}
+.roadmapRow:last-child {
+  border-block-end: 0;
+}
+
+.roadmapVersion {
+  color: var(--syntara-color-text-subtle);
+  font-family: var(--syntara-font-mono);
+  font-size: var(--syntara-font-size-xs);
+}
+
+.roadmapTitle {
+  color: var(--syntara-color-text-default);
+}
+
+/* A word, not a dot: status is never carried by colour alone. */
+.roadmapStatus {
+  color: var(--syntara-color-feedback-success-fg);
+  font-size: var(--syntara-font-size-xs);
+  font-weight: var(--syntara-font-weight-medium);
+}
