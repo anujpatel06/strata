@@ -22,7 +22,8 @@
   align-items: center;
   padding-block: 2px;
   padding-inline: var(--syntara-space-2);
-  border-radius: var(--syntara-radius-sm);
+  /* A small inline label, so the badge role. */
+  border-radius: var(--syntara-radius-badge);
   background-color: var(--syntara-color-action-primary-bg);
   color: var(--syntara-color-action-primary-fg);
   font-family: var(--syntara-font-mono);

@@ -38,7 +38,8 @@
   max-inline-size: 60ch;
   margin-block: var(--syntara-space-3) var(--syntara-space-6);
   font-size: var(--syntara-font-size-lg);
-  line-height: var(--syntara-line-height-relaxed);
+  /* The emitted scale is tight/snug/normal; normal is its loosest step. */
+  line-height: var(--syntara-line-height-normal);
   color: var(--syntara-color-text-subtle);
 }
 
@@ -56,7 +57,8 @@
   max-inline-size: 56ch;
   margin: 0;
   font-size: var(--syntara-font-size-md);
-  line-height: var(--syntara-line-height-relaxed);
+  /* The emitted scale is tight/snug/normal; normal is its loosest step. */
+  line-height: var(--syntara-line-height-normal);
   color: var(--syntara-color-text-subtle);
 }
 
@@ -207,8 +209,10 @@
 }
 
 .adr:focus-visible {
-  outline: var(--syntara-focus-ring-width) solid var(--syntara-color-border-focus);
-  outline-offset: var(--syntara-focus-ring-offset);
+  /* The engine emits --syntara-color-focus-ring and no width/offset token, so the 2px pair is
+     the system's own figure, matching every component in packages/react. */
+  outline: 2px solid var(--syntara-color-focus-ring);
+  outline-offset: 2px;
   border-radius: var(--syntara-radius-button);
 }
 
@@ -218,7 +222,8 @@
 .measure {
   margin: 0;
   font-size: var(--syntara-font-size-md);
-  line-height: var(--syntara-line-height-relaxed);
+  /* The emitted scale is tight/snug/normal; normal is its loosest step. */
+  line-height: var(--syntara-line-height-normal);
 }
 
 .tension {
@@ -253,7 +258,8 @@
 .phase p {
   margin: 0 0 var(--syntara-space-2);
   font-size: var(--syntara-font-size-md);
-  line-height: var(--syntara-line-height-relaxed);
+  /* The emitted scale is tight/snug/normal; normal is its loosest step. */
+  line-height: var(--syntara-line-height-normal);
   color: var(--syntara-color-text-default);
 }
 
@@ -276,7 +282,8 @@
   padding-inline-start: var(--syntara-space-5);
   border-inline-start: var(--syntara-hairline) solid var(--syntara-color-border-strong);
   font-size: var(--syntara-font-size-md);
-  line-height: var(--syntara-line-height-relaxed);
+  /* The emitted scale is tight/snug/normal; normal is its loosest step. */
+  line-height: var(--syntara-line-height-normal);
   color: var(--syntara-color-text-subtle);
 }
 

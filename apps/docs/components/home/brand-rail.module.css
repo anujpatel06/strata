@@ -17,7 +17,8 @@
   inline-size: var(--syntara-space-10);
   block-size: var(--syntara-space-10);
   border: var(--syntara-hairline) solid var(--syntara-color-border-subtle);
-  border-radius: var(--syntara-radius-full);
+  /* A circular icon button, so the pill role — the one role that is fully rounded in every shape. */
+  border-radius: var(--syntara-radius-pill);
   background-color: transparent;
   color: var(--syntara-color-text-default);
   cursor: pointer;
@@ -30,8 +31,10 @@
   background-color: var(--syntara-color-surface-raised);
 }
 .arrow:focus-visible {
-  outline: var(--syntara-focus-ring-width) solid var(--syntara-color-border-focus);
-  outline-offset: var(--syntara-focus-ring-offset);
+  /* The engine emits --syntara-color-focus-ring and no width/offset token, so the 2px pair is
+     the system's own figure, matching every component in packages/react. */
+  outline: 2px solid var(--syntara-color-focus-ring);
+  outline-offset: 2px;
 }
 /* Disabled is shown by more than colour: the arrow fades and stops responding to the pointer. */
 .arrow:disabled {
@@ -72,8 +75,10 @@
   scroll-snap-align: start;
 }
 .rail:focus-visible {
-  outline: var(--syntara-focus-ring-width) solid var(--syntara-color-border-focus);
-  outline-offset: var(--syntara-focus-ring-offset);
+  /* The engine emits --syntara-color-focus-ring and no width/offset token, so the 2px pair is
+     the system's own figure, matching every component in packages/react. */
+  outline: 2px solid var(--syntara-color-focus-ring);
+  outline-offset: 2px;
   border-radius: var(--docs-card-radius);
 }
 
