@@ -53,12 +53,13 @@
   isolation: isolate;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  /* Left-aligned, per the Home v3 mockup: the headline is a display line, not a centred banner. */
+  align-items: start;
+  text-align: start;
   gap: var(--syntara-space-4);
   /* The demo below is the page's argument; the hero is its caption. Everything here is sized to get out of the
      way of it, so a third of the grid is in view before anyone scrolls. */
   padding-block: 0 var(--syntara-space-8);
-  text-align: center;
 }
 
 /* The hero's atmosphere is HeroGlow (home-stage.module.css): the selected tenant's colours, blurred. */
@@ -161,7 +162,7 @@
   /* Beyond the 5xl step the scale stops, so the tracking keeps tightening in proportion (×1.5 of 5xl's).
      It's 0 for Arabic-capable pairs, so this scales to 0 there too. */
   letter-spacing: calc(var(--syntara-font-tracking-5xl) * 1.5);
-  text-wrap: balance;
+  text-wrap: pretty;
 }
 @media (min-width: 768px) {
   .heroTitle {
@@ -189,7 +190,8 @@
   /* Room for the slanted final glyph, so it isn't clipped by the line box. */
   padding-inline-end: 0.08em;
   color: var(--syntara-color-text-brand);
-  font-family: inherit;
+  font-family: 'Instrument Serif', Georgia, serif;
+  font-weight: 400;
   font-style: italic;
   transition: color calc(var(--syntara-motion-duration-slow) * 2) var(--syntara-motion-easing);
 }
@@ -199,7 +201,7 @@
   color: var(--syntara-color-text-subtle);
   font-size: calc(var(--syntara-font-size-lg) * 1.0625);
   line-height: var(--syntara-line-height-normal);
-  text-wrap: balance;
+  text-wrap: pretty;
 }
 @media (min-width: 768px) {
   .heroLead {
@@ -216,8 +218,8 @@
 .heroActions {
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
-  gap: var(--syntara-space-2);
+  align-items: center;
+  gap: var(--syntara-space-3);
 }
 
 /* ---- Section scaffolding ---- */
@@ -231,10 +233,12 @@
   }
 }
 
+/*
+ * One paragraph, two elements. The heading and the lead are both `display: inline` so they wrap together as a
+ * single block of text — the mockup's look — while the <h2> stays a heading in the accessibility tree.
+ */
 .sectionHeader {
-  display: grid;
-  gap: var(--syntara-space-3);
-  max-inline-size: calc(var(--syntara-space-16) * 11);
+  max-inline-size: calc(var(--syntara-space-16) * 13);
   margin-block-end: var(--syntara-space-8);
 }
 .split .sectionHeader {
@@ -242,12 +246,13 @@
 }
 
 .sectionTitle {
+  display: inline;
+  margin: 0;
   font-family: var(--syntara-font-heading);
   font-size: var(--syntara-font-size-2xl);
-  font-weight: var(--syntara-font-weight-semibold);
-  line-height: var(--syntara-line-height-tight);
-  letter-spacing: var(--syntara-font-heading-tracking);
-  text-wrap: balance;
+  font-weight: var(--syntara-font-weight-medium);
+  line-height: 1.12;
+  letter-spacing: -0.035em;
 }
 @media (min-width: 768px) {
   .sectionTitle {
@@ -255,10 +260,16 @@
   }
 }
 
+/* Continues the heading's line rather than starting its own block, so the two read as one sentence pair. */
 .lead {
+  display: inline;
+  margin: 0;
   color: var(--syntara-color-text-subtle);
-  font-size: var(--syntara-font-size-lg);
-  line-height: var(--syntara-line-height-normal);
+  font-family: var(--syntara-font-heading);
+  font-size: var(--syntara-font-size-2xl);
+  font-weight: var(--syntara-font-weight-medium);
+  line-height: 1.12;
+  letter-spacing: -0.035em;
   text-wrap: pretty;
 }
 
@@ -705,8 +716,8 @@
 /* ---- 53 components on React Aria ---- */
 
 .componentGrid {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(calc(var(--syntara-space-16) * 2.4), 1fr));
   gap: var(--syntara-space-2);
   margin: 0;
   padding: 0;
@@ -717,14 +728,13 @@
  * A chip per component. Targets stay >= 24px per WCAG 2.2 AA (2.5.8): the block padding plus the line box clears
  * it at every density, so this does not need a min-block-size to prop it up.
  */
-.componentChip {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--syntara-space-2);
-  padding-block: var(--syntara-space-2);
-  padding-inline: var(--syntara-space-3);
+.componentTile {
+  display: flex;
+  flex-direction: column;
+  gap: var(--syntara-space-1);
+  padding: var(--syntara-space-3);
   border: var(--syntara-hairline) solid var(--syntara-color-border-subtle);
-  border-radius: var(--syntara-radius-full);
+  border-radius: var(--docs-card-radius);
   background-color: var(--syntara-color-surface-default);
   color: var(--syntara-color-text-default);
   font-size: var(--syntara-font-size-sm);
@@ -733,11 +743,11 @@
     border-color var(--syntara-motion-duration-fast) var(--syntara-motion-easing),
     background-color var(--syntara-motion-duration-fast) var(--syntara-motion-easing);
 }
-.componentChip:hover {
+.componentTile:hover {
   border-color: var(--syntara-color-border-strong);
   background-color: var(--syntara-color-surface-raised);
 }
-.componentChip:focus-visible {
+.componentTile:focus-visible {
   outline: var(--syntara-focus-ring-width) solid var(--syntara-color-border-focus);
   outline-offset: var(--syntara-focus-ring-offset);
 }
@@ -777,8 +787,13 @@
 .sectionTitle .titleAccent,
 .ctaTitle .titleAccent {
   color: var(--syntara-color-text-brand);
-  font-family: inherit;
+  /* Instrument Serif italic, slightly larger than the line it sits in — the mockup's one display face. Not
+     `inherit`: a slanted Geist is not the same shape, and this word is the page's only ornament. */
+  font-family: 'Instrument Serif', Georgia, serif;
   font-style: italic;
+  font-weight: 400;
+  font-size: 1.1em;
+  letter-spacing: -0.01em;
   transition: color calc(var(--syntara-motion-duration-slow) * 2) var(--syntara-motion-easing);
 }
 
@@ -849,4 +864,299 @@
   color: var(--syntara-color-text-subtle);
   font-size: var(--syntara-font-size-sm);
   font-variant-numeric: tabular-nums;
+}
+
+/* ---- Component tiles ---- */
+
+.componentRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--syntara-space-2);
+}
+
+.componentCategory {
+  color: var(--syntara-color-text-subtle);
+  font-size: var(--syntara-font-size-xs);
+}
+
+.filterLead {
+  color: var(--syntara-color-text-subtle);
+  font-size: var(--syntara-font-size-sm);
+}
+.filterLead strong {
+  color: var(--syntara-color-text-default);
+  font-weight: var(--syntara-font-weight-medium);
+}
+
+.filterChips {
+  display: contents;
+}
+
+/* The blocks-and-icons line under the grid. */
+.alsoLine {
+  margin-block: var(--syntara-space-4) 0;
+  color: var(--syntara-color-text-subtle);
+  font-size: var(--syntara-font-size-sm);
+  text-wrap: pretty;
+}
+.alsoLine strong {
+  color: var(--syntara-color-text-default);
+  font-weight: var(--syntara-font-weight-medium);
+}
+
+/* ---- "Every fix, in a sentence" ---- */
+
+.fixes {
+  display: grid;
+  gap: var(--syntara-space-3);
+}
+
+.checksPass {
+  display: inline-flex;
+  align-items: center;
+  align-self: start;
+  min-block-size: 24px;
+  gap: var(--syntara-space-2);
+  margin: 0;
+  padding-block: var(--syntara-space-1);
+  padding-inline: var(--syntara-space-3);
+  border-radius: var(--syntara-radius-full);
+  background-color: var(--syntara-color-feedback-success-bg);
+  color: var(--syntara-color-feedback-success-fg);
+  font-size: var(--syntara-font-size-sm);
+  font-weight: var(--syntara-font-weight-medium);
+}
+
+.fixCard {
+  display: grid;
+  gap: var(--syntara-space-1);
+  padding: var(--syntara-space-3);
+  border: var(--syntara-hairline) solid var(--syntara-color-border-subtle);
+  border-radius: var(--syntara-radius-md);
+  background-color: var(--syntara-color-surface-sunken);
+}
+
+/* The scheme is a word, not a colour: status is never carried by colour alone. */
+.fixScheme {
+  color: var(--syntara-color-text-subtle);
+  font-family: var(--syntara-font-mono);
+  font-size: var(--syntara-font-size-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.fixMessage {
+  margin: 0;
+  color: var(--syntara-color-text-default);
+  font-size: var(--syntara-font-size-sm);
+  line-height: var(--syntara-line-height-normal);
+  text-wrap: pretty;
+}
+
+/* ---- The pipeline: one file in, components out ---- */
+
+.pipeline {
+  display: grid;
+  gap: var(--syntara-space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: step;
+}
+
+/*
+ * Each step is a box with a connector drawn under it. The connector is a pseudo-element rather than a
+ * character, so a screen reader reads four package names and not four plus signs.
+ */
+.pipelineStep {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--syntara-space-2);
+  padding: var(--syntara-space-3);
+  border: var(--syntara-hairline) solid var(--syntara-color-border-subtle);
+  border-radius: var(--syntara-radius-md);
+  background-color: var(--syntara-color-surface-sunken);
+}
+.pipelineStep + .pipelineStep::before {
+  content: '';
+  position: absolute;
+  inset-block-start: calc(var(--syntara-space-2) * -1);
+  inset-inline-start: var(--syntara-space-6);
+  inline-size: var(--syntara-hairline);
+  block-size: var(--syntara-space-2);
+  background-color: var(--syntara-color-border-strong);
+}
+
+.pipelinePkg {
+  color: var(--syntara-color-text-default);
+  font-family: var(--syntara-font-mono);
+  font-size: var(--syntara-font-size-sm);
+}
+
+.pipelineNote {
+  color: var(--syntara-color-text-subtle);
+  font-size: var(--syntara-font-size-xs);
+}
+
+/* ---- Built by a person. Read by agents. ---- */
+
+.agentGrid {
+  display: grid;
+  gap: var(--docs-card-gap);
+}
+@media (min-width: 900px) {
+  .agentGrid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.agentCard {
+  display: flex;
+  flex-direction: column;
+  min-inline-size: 0;
+  gap: var(--syntara-space-3);
+  padding: var(--syntara-space-5);
+  border: var(--syntara-hairline) solid var(--syntara-color-border-subtle);
+  border-radius: var(--docs-card-radius);
+  background-color: var(--syntara-color-surface-default);
+}
+
+/*
+ * Two of the three cards carry a brand or accent face, as the mockup does. The text pair comes from the
+ * engine's solved roles rather than being picked by eye, so it holds for every tenant.
+ */
+.agentCardBrand {
+  border-color: transparent;
+  background-color: var(--syntara-color-action-primary-bg);
+  color: var(--syntara-color-action-primary-fg);
+}
+.agentCardAccent {
+  border-color: transparent;
+  /* accent.bg / accent.fg — the solved pair. `action-accent-*` does not exist; using it meant this card
+     silently fell back to a plain surface and was not accent-coloured at all. */
+  background-color: var(--syntara-color-accent-bg);
+  color: var(--syntara-color-accent-fg);
+}
+
+.agentTitle {
+  margin: 0;
+  color: inherit;
+  font-size: var(--syntara-font-size-md);
+  font-weight: var(--syntara-font-weight-medium);
+}
+
+.agentNote {
+  margin: 0;
+  color: inherit;
+  font-size: var(--syntara-font-size-sm);
+  line-height: var(--syntara-line-height-normal);
+  opacity: 0.86;
+  text-wrap: pretty;
+}
+/* On the plain card the note is subtle text rather than a faded inherit. */
+.agentCard:not(.agentCardBrand):not(.agentCardAccent) .agentNote {
+  color: var(--syntara-color-text-subtle);
+  opacity: 1;
+}
+
+.trust {
+  display: grid;
+  gap: var(--syntara-space-2);
+  margin: 0;
+}
+.trustRow {
+  display: grid;
+  gap: var(--syntara-space-1);
+  padding: var(--syntara-space-2) var(--syntara-space-3);
+  border-radius: var(--syntara-radius-sm);
+  /* Derived from the card's own text colour, not a raw value: these cards sit on brand and accent faces that
+     differ per tenant, so a fixed black would be wrong on half of them. */
+  background-color: color-mix(in oklab, currentColor 12%, transparent);
+}
+.trustLevel {
+  font-family: var(--syntara-font-mono);
+  font-size: var(--syntara-font-size-xs);
+  font-weight: var(--syntara-font-weight-medium);
+}
+.trustMay {
+  margin: 0;
+  font-size: var(--syntara-font-size-sm);
+  line-height: var(--syntara-line-height-normal);
+}
+
+.toolChips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--syntara-space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.toolChip {
+  display: inline-block;
+  padding-block: 2px;
+  padding-inline: var(--syntara-space-2);
+  border: var(--syntara-hairline) solid var(--syntara-color-border-subtle);
+  border-radius: var(--syntara-radius-sm);
+  color: var(--syntara-color-text-subtle);
+  font-family: var(--syntara-font-mono);
+  font-size: var(--syntara-font-size-xs);
+}
+
+.decisions {
+  margin-block: var(--syntara-space-6) 0;
+  padding: var(--syntara-space-4) var(--syntara-space-5);
+  border: var(--syntara-hairline) solid var(--syntara-color-border-subtle);
+  border-radius: var(--docs-card-radius);
+  color: var(--syntara-color-text-subtle);
+  font-size: var(--syntara-font-size-sm);
+  line-height: var(--syntara-line-height-normal);
+  text-wrap: pretty;
+}
+.decisions strong {
+  color: var(--syntara-color-text-default);
+  font-weight: var(--syntara-font-weight-medium);
+}
+
+/* ---- The release roadmap beside the FAQ ---- */
+
+.roadmap {
+  display: grid;
+  gap: var(--syntara-space-1);
+  margin-block: var(--syntara-space-5) 0;
+  padding: 0;
+  list-style: none;
+}
+
+.roadmapRow {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: baseline;
+  gap: var(--syntara-space-3);
+  padding-block: var(--syntara-space-2);
+  border-block-end: var(--syntara-hairline) solid var(--syntara-color-border-subtle);
+  font-size: var(--syntara-font-size-sm);
+}
+.roadmapRow:last-child {
+  border-block-end: 0;
+}
+
+.roadmapVersion {
+  color: var(--syntara-color-text-subtle);
+  font-family: var(--syntara-font-mono);
+  font-size: var(--syntara-font-size-xs);
+}
+
+.roadmapTitle {
+  color: var(--syntara-color-text-default);
+}
+
+/* A word, not a dot: status is never carried by colour alone. */
+.roadmapStatus {
+  color: var(--syntara-color-feedback-success-fg);
+  font-size: var(--syntara-font-size-xs);
+  font-weight: var(--syntara-font-weight-medium);
 }

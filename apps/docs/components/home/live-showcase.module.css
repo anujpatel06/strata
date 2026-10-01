@@ -258,3 +258,39 @@
     translate: var(--_nudge) 0;
   }
 }
+
+/* ---- Frame caption: what the brand is made of, and the names toggle ---- */
+
+.caption {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--syntara-space-3);
+  margin-block-end: var(--syntara-space-3);
+  color: var(--syntara-color-text-subtle);
+  font-size: var(--syntara-font-size-sm);
+}
+
+.captionBrand {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--syntara-space-2);
+  color: var(--syntara-color-text-default);
+  font-weight: var(--syntara-font-weight-medium);
+}
+
+.captionSpec {
+  font-family: var(--syntara-font-mono);
+  font-size: calc(var(--syntara-font-size-sm) * 0.94);
+}
+
+/* Pushed to the end of the row; the switch and its words are one target. */
+/* Doubled: this sits on Syntara's Switch, so one class would only tie with the component's own rule. */
+.namesToggle.namesToggle {
+  margin-inline-start: auto;
+}
+
+/* The overlay is positioned against this, so it has to be the containing block. */
+.frame {
+  position: relative;
+}

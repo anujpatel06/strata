@@ -264,3 +264,92 @@ export const getTokensFacts = cache((): TokensFacts | undefined => {
  */
 export const getAdrCount = cache((): number =>
   listRepoDir('docs', 'adr').filter((f) => f.endsWith('.md') && !f.startsWith('000-')).length);
+
+export interface AlsoFacts {
+  blocks: string[];
+  icons: number;
+}
+
+/**
+ * The line under the component grid: the blocks by name, and how many icons there are. Both counted, because
+ * the mockup's "235 icons" was already out of date when it was drawn.
+ */
+export const getAlsoFacts = cache((): AlsoFacts => {
+  const raw = readRepoFile('apps', 'docs', 'blocks', 'blocks.json');
+  const parsed = raw ? (JSON.parse(raw) as unknown) : [];
+  const list = Array.isArray(parsed) ? parsed : Object.values(parsed as Record<string, unknown>).flat();
+  const blocks = (list as { title?: string; name?: string }[]).map((b) => b.title ?? b.name ?? '').filter(Boolean);
+
+  // Every `export const` in the icon set's source, minus the duotone twins and the kit's helpers.
+  let icons = 0;
+  for (const file of listRepoDir('packages', 'icons', 'src', 'icons')) {
+    if (!file.endsWith('.ts') || file.startsWith('duotone')) continue;
+    const src = readRepoFile('packages', 'icons', 'src', 'icons', file) ?? '';
+    icons += (src.match(/^export const /gm) ?? []).length;
+  }
+  return { blocks, icons };
+});
+
+export interface FixPanel {
+  checks: { passed: number; total: number };
+  /** One adjustment the solver made in each scheme, in its own words. */
+  light?: { role: string; message: string };
+  dark?: { role: string; message: string };
+}
+
+/**
+ * "Every fix, in a sentence": the live check count for a tenant and one explanation per scheme, written by the
+ * engine at build time. Nothing here is hand-written, so the panel cannot claim a fix the solver did not make.
+ */
+export const getFixPanel = cache((): FixPanel | undefined => {
+  const tenant = getTenants().find((t) => t.id === 'vela') ?? getTenants()[0];
+  if (!tenant) return undefined;
+  const theme = generateTheme(tenant.brand);
+  const pick = (scheme: 'light' | 'dark') => {
+    const a = theme.adjustments.find((x) => x.scheme === scheme);
+    return a ? { role: a.role, message: a.message } : undefined;
+  };
+  return {
+    checks: { passed: theme.summary.passed, total: theme.summary.checks },
+    light: pick('light'),
+    dark: pick('dark'),
+  };
+});
+
+export interface PipelineStep {
+  pkg: string;
+  note: string;
+}
+
+/** The four boxes of "values change, never names": one file in, components out. */
+export const getPipeline = cache((): PipelineStep[] => {
+  const facts = getTokensFacts();
+  const components = getAllMeta().length;
+  return [
+    { pkg: 'brand.json', note: `${facts?.inputCount ?? 6} inputs` },
+    { pkg: '@syntara/theme-engine', note: 'OKLCH + solver' },
+    { pkg: '@syntara/tokens', note: `${facts?.tokenCount ?? 0} a theme` },
+    { pkg: '@syntara/react', note: `${components} components` },
+  ];
+});
+
+/** The MCP server's tool names, read from its source so the homepage cannot quote a count that has drifted. */
+export const getMcpTools = cache((): string[] => {
+  const src = readRepoFile('packages', 'mcp', 'src', 'server.ts') ?? '';
+  const names = new Set<string>();
+  for (const m of src.matchAll(/registerTool\(\s*'([a-z_]+)'/g)) names.add(m[1]!);
+  return [...names];
+});
+
+export interface Release {
+  version: string;
+  title: string;
+}
+
+/** The changelog's releases, newest first — the roadmap column beside the FAQ. */
+export const getReleases = cache((): Release[] => {
+  const md = readRepoFile('apps', 'docs', 'content', 'docs', 'changelog.mdx') ?? '';
+  const out: Release[] = [];
+  for (const m of md.matchAll(/^##\s+(v[\d.]+)\s+—\s+(.+)$/gm)) out.push({ version: m[1]!, title: m[2]!.trim() });
+  return out;
+});

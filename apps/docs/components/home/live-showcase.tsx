@@ -8,14 +8,15 @@
  */
 
 import { IconArrowRight, IconMoon, IconShieldCheck, IconSun } from '@syntara/icons';
-import { ThemeScope, ToggleButton, ToggleButtonGroup } from '@syntara/react';
-import { contrastRatio, generateTheme, toCSS, toCssVariables, type BrandInput, type Theme } from '@syntara/theme-engine';
+import { Switch, ThemeScope, ToggleButton, ToggleButtonGroup } from '@syntara/react';
+import { TYPE_PAIRS, contrastRatio, generateTheme, toCSS, toCssVariables, type BrandInput, type Theme } from '@syntara/theme-engine';
 import Link from 'next/link';
-import { useEffect, useMemo, useState, type Key } from 'react';
+import { useEffect, useMemo, useRef, useState, type Key } from 'react';
 import { ColorControl } from '@/components/themes/color-control';
 import { parseHex } from '@/components/themes/state';
 import { ShowcaseGrid } from '@/components/showcase/showcase-grid';
 import type { HomeTenant } from './home-data';
+import { ComponentNames } from './component-names';
 import { usePublishStage } from './home-stage';
 import { useSiteScheme } from './use-site-scheme';
 import styles from './live-showcase.module.css';
@@ -88,9 +89,11 @@ function heroBrandTextContrast(theme: Theme, house: Theme): { scheme: 'light' | 
 
 export interface LiveShowcaseProps {
   tenants: HomeTenant[];
+  /** slug → title for every component in packages/react/meta; the "Component names" overlay labels only these. */
+  components: Readonly<Record<string, string>>;
 }
 
-export function LiveShowcase({ tenants }: LiveShowcaseProps) {
+export function LiveShowcase({ tenants, components }: LiveShowcaseProps) {
   const [selected, setSelected] = useState<string>(tenants[0]?.id ?? 'house');
   const [schemeChoice, setSchemeChoice] = useState<SchemeChoice>('site');
   const [customHex, setCustomHex] = useState(DEFAULT_CUSTOM);
@@ -130,6 +133,15 @@ export function LiveShowcase({ tenants }: LiveShowcaseProps) {
       : { scheme: schemeChoice };
   const locale = isCustom ? undefined : tenant?.locale;
   const name = isCustom ? 'Your colour' : (tenant?.name ?? '');
+  const frameRef = useRef<HTMLDivElement | null>(null);
+  const [showNames, setShowNames] = useState(false);
+  /* What the brand is made of, read off the tenant rather than written down: neutral, shape, density, type pair. */
+  const spec = useMemo(() => {
+    const b = tenant?.brand;
+    if (!b) return '';
+    const pair = TYPE_PAIRS[b.typePair as keyof typeof TYPE_PAIRS];
+    return [b.neutral, b.shape, b.density, pair?.label].filter(Boolean).join(' · ');
+  }, [tenant]);
   const { checks, passed, adjustments } = theme.summary;
   const themeId = isCustom ? CUSTOM_THEME_ID : selected;
 
@@ -218,12 +230,31 @@ export function LiveShowcase({ tenants }: LiveShowcaseProps) {
         </div>
       </div>
 
-      <div className={styles.frame}>
+      {/*
+        The frame's own header: what this brand is made of, and the switch that labels the screen with the
+        component each part is. The caption is read from the tenant rather than written down, so it cannot
+        drift from the brand.json beside it.
+      */}
+      <div className={styles.caption}>
+        <span className={styles.captionBrand}>
+          <span className={styles.dot} style={{ backgroundColor: activeHex }} aria-hidden />
+          {name}
+        </span>
+        <span className={styles.captionSpec}>{spec}</span>
+        {/* Switch takes its own label as children — a wrapping <label> round it is an empty one, which axe
+            flags as critical and a screen reader reads as a control with no name. */}
+        <Switch isSelected={showNames} onChange={setShowNames} className={styles.namesToggle}>
+          Component names
+        </Switch>
+      </div>
+
+      <div className={styles.frame} ref={frameRef}>
         {/* The stage the grid floats on: the same colour field as the hero glow, fainter. Decorative. */}
         <div aria-hidden className={styles.field} data-syntara-theme={themeId} data-syntara-scheme="site" />
         <ThemeScope theme={themeId} {...scopeProps} className={styles.scope}>
           <ShowcaseGrid locale={locale} motion />
         </ThemeScope>
+        <ComponentNames targetRef={frameRef} enabled={showNames} components={components} />
       </div>
 
       <p className={styles.solver} aria-live="polite">

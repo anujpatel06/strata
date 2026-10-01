@@ -37,7 +37,11 @@ export function ComponentFilter({ items, initial }: { items: readonly FilterItem
   return (
     <>
       {/* A radiogroup, not a list of buttons: it is one choice out of several, and arrow keys should move it. */}
-      <div className={styles.filterRow} role="radiogroup" aria-label="Filter components by category">
+      <div className={styles.filterRow}>
+        <span className={styles.filterLead}>
+          <strong>{items.length}</strong> components:
+        </span>
+        <span className={styles.filterChips} role="radiogroup" aria-label="Filter components by category">
         {chips.map((c) => (
           <button
             key={c.key}
@@ -52,17 +56,22 @@ export function ComponentFilter({ items, initial }: { items: readonly FilterItem
             <span className={styles.filterCount}>{c.count}</span>
           </button>
         ))}
+        </span>
       </div>
+      {/* Tiles, not pills: each one carries its category and maturity, which is what the section claims. */}
       <ul className={styles.componentGrid}>
         {shown.map((c) => (
           <li key={c.name}>
-            <Link href={`/docs/components/${c.name}`} className={styles.componentChip}>
-              <span className={styles.componentName}>{c.title}</span>
-              {c.maturity !== 'stable' && (
-                <Badge size="sm" tone="neutral" variant="outline">
-                  {c.maturity}
-                </Badge>
-              )}
+            <Link href={`/docs/components/${c.name}`} className={styles.componentTile}>
+              <span className={styles.componentRow}>
+                <span className={styles.componentName}>{c.title}</span>
+                {c.maturity !== 'stable' && (
+                  <Badge size="sm" tone="neutral" variant="outline">
+                    {c.maturity}
+                  </Badge>
+                )}
+              </span>
+              <span className={styles.componentCategory}>{c.categoryLabel}</span>
             </Link>
           </li>
         ))}

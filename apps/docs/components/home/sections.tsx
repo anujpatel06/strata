@@ -31,10 +31,16 @@ import {
   getSolverQuote,
   getTenantOverviews,
   getAdrCount,
+  getAlsoFacts,
+  getFixPanel,
+  getMcpTools,
+  getPipeline,
+  getReleases,
   getTokensFacts,
   type TenantOverview,
 } from './home-data';
 import { HeroAccent, HeroGlow } from './home-stage';
+import { BrandRail } from './brand-rail';
 import { ComponentFilter } from './component-filter';
 import { TenantCard } from './tenant-card';
 import styles from './sections.module.css';
@@ -52,6 +58,13 @@ function TextLink({ href, children }: { href: string; children: ReactNode }) {
   );
 }
 
+/*
+ * Heading and lead read as one paragraph: the heading sentence in full colour, the lead continuing in grey on
+ * the same line. The mockup achieves that by putting the lead inside the <h2>. This does not — a heading that
+ * contains a paragraph of prose is what a screen-reader user hears when they navigate by heading, and this
+ * site's whole argument is that it does not make that trade. Both are `display: inline` inside a block wrapper,
+ * so they flow together visually while the heading stays a heading.
+ */
 function SectionHeader({ id, title, children }: { id: string; title: ReactNode; children?: ReactNode }) {
   return (
     <header className={styles.sectionHeader}>
@@ -86,12 +99,17 @@ export function Hero() {
         design engineer, ready for agents.
       </p>
       <div className={styles.heroActions}>
-        <ButtonLink href="/docs" variant="inverse" size="lg">
+        <ButtonLink href="/docs" variant="primary" size="lg">
           Get started
         </ButtonLink>
-        <ButtonLink href="/docs/components" variant="ghost" size="lg">
+        <ButtonLink href="/docs/components" variant="outline" size="lg">
           Browse components
         </ButtonLink>
+        {/* The mockup runs the npm line in beside the buttons rather than under them. */}
+        <p className={styles.heroNote}>
+          The packages are on npm.{' '}
+          <TextLink href="/docs/installation">Install them, or copy a component’s source</TextLink>.
+        </p>
       </div>
       {/*
         The install command used to sit here with the full "run this" treatment — bordered, monospace, a copy
@@ -102,10 +120,6 @@ export function Hero() {
         number six lines down reads as a contradiction. The Ship cards carry v0.1.0 beside `pnpm add`, where it
         cannot be misread.
       */}
-      <p className={styles.heroNote}>
-        The packages are on npm.{' '}
-        <TextLink href="/docs/installation">Install them, or copy a component’s source</TextLink>.
-      </p>
     </section>
   );
 }
@@ -150,7 +164,7 @@ export function BrandsSection() {
         Arabic right to left, Hindi in Devanagari, a serif for insurance. Same code; only brand.json and
         content.json change.
       </SectionHeader>
-      <div className={styles.tenantGrid}>
+      <BrandRail label="brands">
         {tenants.map((t) => (
           <figure key={t.id} className={styles.tenantFigure}>
             <div className={styles.tenantFrame}>
@@ -171,7 +185,7 @@ export function BrandsSection() {
             </figcaption>
           </figure>
         ))}
-      </div>
+      </BrandRail>
     </section>
   );
 }
@@ -322,42 +336,91 @@ function metaExcerpt(): string | undefined {
   return lines.filter((l): l is string => typeof l === 'string' && l.length > 0).join('\n');
 }
 
+/*
+ * The three trust levels, worded as GOVERNANCE.md §6 and ADR-008 word them. ADR-008's status says enforcement
+ * is not built, so the card says so rather than implying an agent can act.
+ */
+const TRUST = [
+  { level: 'Ambient', may: 'Fix token drift in consumer code, where there is one safe answer', who: 'See it in the diff' },
+  { level: 'Soft gate', may: 'Open pull requests for docs, meta.json and stories', who: 'Approve' },
+  { level: 'Hard gate', may: 'Draft RFCs and propose new components, token-tier changes and breaking changes', who: 'Decide, review, merge' },
+] as const;
+
 export function AgentsSection() {
   const excerpt = metaExcerpt();
+  const adrs = getAdrCount();
+  const tools = getMcpTools();
   return (
     <section className={styles.section} aria-labelledby="agents-title">
-      <div className={styles.split}>
-        <div className={styles.stack}>
-          <SectionHeader
-            id="agents-title"
-            title={
-              <>
-                Built by a <HeroAccent className={styles.titleAccent}>person.</HeroAccent> Read by agents.
-              </>
-            }
-          >
-            Each component is described once, in a meta.json. The docs are generated from it, and coding agents
-            read the same file.
-          </SectionHeader>
-          <div className={styles.commandRow}>
-            <TextLink href="/docs/mcp">About the MCP server</TextLink>
-          </div>
-        </div>
-        {excerpt && (
-          <div className={styles.excerpt}>
-            <CodeBlock code={excerpt} lang="json" title="packages/react/meta/button.meta.json (excerpt)" collapseAfter={0} />
-          </div>
-        )}
+      <SectionHeader
+        id="agents-title"
+        title={
+          <>
+            Built by a <HeroAccent className={styles.titleAccent}>person.</HeroAccent> Read by agents.
+          </>
+        }
+      >
+        Each component is described once, in a meta.json. The docs are generated from it, and coding agents
+        read the same file.
+      </SectionHeader>
+
+      <div className={styles.agentGrid}>
+        <article className={`${styles.agentCard} ${styles.agentCardBrand}`}>
+          <h3 className={styles.agentTitle}>Described once</h3>
+          {excerpt && <CodeBlock code={excerpt} lang="json" title="button.meta.json" collapseAfter={0} />}
+          <p className={styles.agentNote}>
+            Props, examples, keyboard behaviour, do and don’t. The docs pages and the agents read the same file.
+          </p>
+        </article>
+
+        <article className={`${styles.agentCard} ${styles.agentCardAccent}`}>
+          <h3 className={styles.agentTitle}>Three trust levels</h3>
+          <dl className={styles.trust}>
+            {TRUST.map((t) => (
+              <div key={t.level} className={styles.trustRow}>
+                <dt className={styles.trustLevel}>{t.level}</dt>
+                <dd className={styles.trustMay}>{t.may}</dd>
+              </div>
+            ))}
+          </dl>
+          <p className={styles.agentNote}>
+            What an agent may do on its own, with review, or only as a proposal. Written down in GOVERNANCE §6;
+            enforcing it is not built yet.
+          </p>
+        </article>
+
+        <article className={styles.agentCard}>
+          <h3 className={styles.agentTitle}>An MCP server</h3>
+          <ul className={styles.toolChips}>
+            {tools.map((t) => (
+              <li key={t}>
+                <code className={styles.toolChip}>{t}</code>
+              </li>
+            ))}
+          </ul>
+          <p className={styles.agentNote}>
+            {tools.length} tools serving components, tokens and usage rules to agents, alongside the drift
+            auditor. Read-only: no tool writes a file.
+          </p>
+          <TextLink href="/docs/mcp">About the MCP server</TextLink>
+        </article>
       </div>
+
+      <p className={styles.decisions}>
+        <strong>{adrs} decisions, each signed.</strong> Every record names who decided: Anuj, or Claude with
+        Anuj’s acceptance. Deprecated APIs go only at 1.0, and breaking changes ship with a codemod.{' '}
+        <TextLink href="/docs/governance">Read the decisions</TextLink>
+      </p>
     </section>
   );
 }
-
 
 /* ------------------------------------------------------------------ */
 
 export function TokensSection() {
   const f = getTokensFacts();
+  const fix = getFixPanel();
+  const pipeline = getPipeline();
   if (!f) return null;
   return (
     <section className={styles.section} aria-labelledby="tokens-title">
@@ -381,18 +444,40 @@ export function TokensSection() {
           <CodeBlock code={f.brandJson} lang="json" title={`tenants/${f.tenant.toLowerCase()}/brand.json`} collapseAfter={0} />
         </article>
         <article className={styles.panel}>
-          <h3 className={styles.panelTitle}>{f.tokenCount} tokens out</h3>
+          <h3 className={styles.panelTitle}>Every fix, in a sentence</h3>
           <p className={styles.panelNote}>
-            Ramps, semantic roles and every state, solved for light and dark. These are the first five.
+            When a pair fails, the engine moves the lighter side and says why. These are its own words.
           </p>
-          <CodeBlock code={f.sample} lang="css" title="generated" collapseAfter={0} />
+          {fix && (
+            <div className={styles.fixes}>
+              <p className={styles.checksPass}>
+                <IconCheck aria-hidden stroke={2} className={styles.verdictIcon} />
+                {fix.checks.passed}/{fix.checks.total} live checks pass
+              </p>
+              {(['light', 'dark'] as const).map((scheme) =>
+                fix[scheme] ? (
+                  <div key={scheme} className={styles.fixCard}>
+                    <span className={styles.fixScheme}>{scheme}</span>
+                    <p className={styles.fixMessage}>{fix[scheme]?.message}</p>
+                  </div>
+                ) : null,
+              )}
+            </div>
+          )}
         </article>
         <article className={styles.panel}>
           <h3 className={styles.panelTitle}>Values change, never names</h3>
           <p className={styles.panelNote}>
             The role is the API. A component reads the name; the brand decides the value.
           </p>
-          <CodeBlock code={f.compare} lang="css" title="one role, two brands" collapseAfter={0} />
+          <ol className={styles.pipeline}>
+            {pipeline.map((step) => (
+              <li key={step.pkg} className={styles.pipelineStep}>
+                <code className={styles.pipelinePkg}>{step.pkg}</code>
+                <span className={styles.pipelineNote}>{step.note}</span>
+              </li>
+            ))}
+          </ol>
         </article>
         <article className={styles.panel}>
           <h3 className={styles.panelTitle}>Scope a theme to one screen</h3>
@@ -420,6 +505,7 @@ const MATURITY_ORDER = ['stable', 'beta', 'alpha'] as const;
 
 export function ComponentsSection() {
   const groups = getComponentGroups();
+  const also = getAlsoFacts();
   const all = groups.flatMap((g) => g.items);
   const counts = MATURITY_ORDER.map((m) => ({ maturity: m, n: all.filter((c) => c.maturity === m).length }));
   /* The badges are the point of this section, so the sentence reads them rather than restating them. */
@@ -445,6 +531,10 @@ export function ComponentsSection() {
       <ComponentFilter
         items={groups.flatMap((g) => g.items.map((c) => ({ name: c.name, title: c.title, category: g.category, categoryLabel: g.label, maturity: c.maturity })))}
       />
+      <p className={styles.alsoLine}>
+        <strong>{also.blocks.length}</strong> blocks: {also.blocks.slice(0, -1).join(', ')} and{' '}
+        {also.blocks.at(-1)} · <strong>{also.icons}</strong> icons, each with a duotone twin.
+      </p>
       <div className={styles.commandRow}>
         <TextLink href="/docs/components">Browse all {all.length}</TextLink>
       </div>
@@ -538,6 +628,7 @@ const faqItems = (): readonly { q: string; a: ReactNode }[] => [
 ];
 
 export function FaqSection() {
+  const releases = [...getReleases()].reverse();
   return (
     <section className={styles.section} aria-labelledby="faq-title">
       <div className={styles.split}>
@@ -552,6 +643,20 @@ export function FaqSection() {
           >
             What this is, what it is not, and where the honest edges are.
           </SectionHeader>
+          {/*
+            The mockup shows this column with three of five releases "In progress". Every one of them has a
+            changelog entry, so they shipped; the list is read from the changelog rather than typed, and says
+            so. Phase 6 has no entry yet, so it is not listed.
+          */}
+          <ol className={styles.roadmap}>
+            {releases.map((r) => (
+              <li key={r.version} className={styles.roadmapRow}>
+                <span className={styles.roadmapVersion}>{r.version}</span>
+                <span className={styles.roadmapTitle}>{r.title}</span>
+                <span className={styles.roadmapStatus}>Shipped</span>
+              </li>
+            ))}
+          </ol>
         </div>
         <Accordion className={styles.faq}>
           {faqItems().map((item, i) => (

@@ -1,0 +1,46 @@
+/*
+ * The overlay sits above the demo and takes no pointer events, so the demo stays usable with the labels on.
+ */
+.layer {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+}
+
+/*
+ * A label is pinned to its component's top-left corner and allowed to sit slightly outside it, so it reads as
+ * an annotation of the thing rather than a chip inside it.
+ *
+ * Deliberately not a token colour pair: these are developer annotations drawn over arbitrary tenant surfaces,
+ * so they carry their own high-contrast pair that holds on any brand, in both schemes.
+ */
+.label {
+  position: absolute;
+  transform: translateY(-50%);
+  display: inline-flex;
+  align-items: center;
+  padding-block: 2px;
+  padding-inline: var(--syntara-space-2);
+  border-radius: var(--syntara-radius-sm);
+  background-color: var(--syntara-color-action-primary-bg);
+  color: var(--syntara-color-action-primary-fg);
+  font-family: var(--syntara-font-mono);
+  font-size: calc(var(--syntara-font-size-xs) * 0.92);
+  font-weight: var(--syntara-font-weight-medium);
+  line-height: 1.5;
+  white-space: nowrap;
+}
+
+/* The labels appear and disappear on a toggle; fade them unless motion is reduced. */
+@media (prefers-reduced-motion: no-preference) {
+  .label {
+    animation: label-in var(--syntara-motion-duration-fast) var(--syntara-motion-easing) backwards;
+  }
+}
+
+@keyframes label-in {
+  from {
+    opacity: 0;
+  }
+}

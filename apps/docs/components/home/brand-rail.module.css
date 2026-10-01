@@ -1,0 +1,84 @@
+/*
+ * Arrows sit on the heading's row, pushed to the end — the mockup puts them opposite the section title.
+ * `position: absolute` against the section so they align with the heading without being inside it, which
+ * would put buttons in the accessibility tree between a heading and its text.
+ */
+.nav {
+  display: flex;
+  justify-content: end;
+  gap: var(--syntara-space-2);
+  margin-block-end: var(--syntara-space-4);
+}
+
+.arrow {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: var(--syntara-space-10);
+  block-size: var(--syntara-space-10);
+  border: var(--syntara-hairline) solid var(--syntara-color-border-subtle);
+  border-radius: var(--syntara-radius-full);
+  background-color: transparent;
+  color: var(--syntara-color-text-default);
+  cursor: pointer;
+  transition:
+    border-color var(--syntara-motion-duration-fast) var(--syntara-motion-easing),
+    background-color var(--syntara-motion-duration-fast) var(--syntara-motion-easing);
+}
+.arrow:hover:not(:disabled) {
+  border-color: var(--syntara-color-border-strong);
+  background-color: var(--syntara-color-surface-raised);
+}
+.arrow:focus-visible {
+  outline: var(--syntara-focus-ring-width) solid var(--syntara-color-border-focus);
+  outline-offset: var(--syntara-focus-ring-offset);
+}
+/* Disabled is shown by more than colour: the arrow fades and stops responding to the pointer. */
+.arrow:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+/*
+ * The rail scrolls on the inline axis and snaps card to card. `scroll-padding-inline-start` keeps a snapped
+ * card clear of the section's edge. Logical properties throughout, so it reverses under RTL with no extra work.
+ */
+.rail {
+  /*
+   * Flex, not a column-flow grid. With `grid-auto-columns: minmax(<min>, 1fr)` the tracks resolved against the
+   * viewport rather than the scroll container, and the page grew by 1127px at 320px even though the rail
+   * reported `overflow-x: auto` and a clipped clientWidth. Flex items with a flex-basis behave.
+   */
+  display: flex;
+  min-inline-size: 0;
+  gap: var(--docs-card-gap);
+  overflow-x: auto;
+  /*
+   * `overflow-x: auto` alone did not contain this at 320px: the page grew by 871px while the rail itself
+   * reported a clipped clientWidth of 288 against 1344 of content. It reproduced only under
+   * `prefers-reduced-motion: reduce` — which is what CI measures with — so it was invisible in a normal
+   * browser. `contain: paint` is the guarantee that the cards cannot paint outside the scroller, and it took
+   * the page back to 0. Do not remove it without re-running `check-narrow-overflow` with reduced motion on.
+   */
+  contain: paint;
+  scroll-snap-type: inline mandatory;
+  scroll-padding-inline-start: var(--syntara-space-1);
+  padding-block-end: var(--syntara-space-2);
+}
+
+.rail > * {
+  flex: 0 0 clamp(calc(var(--syntara-space-16) * 4), 78vw, calc(var(--syntara-space-16) * 6));
+  min-inline-size: 0;
+  scroll-snap-align: start;
+}
+.rail:focus-visible {
+  outline: var(--syntara-focus-ring-width) solid var(--syntara-color-border-focus);
+  outline-offset: var(--syntara-focus-ring-offset);
+  border-radius: var(--docs-card-radius);
+}
+
+@media (min-width: 900px) {
+  .rail > * {
+    flex-basis: calc(var(--syntara-space-16) * 6);
+  }
+}
