@@ -6,6 +6,63 @@ Numbers only with the command that produced them. Design trade-offs get an ADR i
 
 ---
 
+## 2026-10-01 (README GIF) — Phase 6's last item, and three cuts to get one honest clip
+
+**Changed**
+- **`docs/media/readme.gif`** — 28.5s, 960×535, 12 fps, **4.6 MB**. Vela, Harbor, Qamar, Haat, then dark,
+  driven through the homepage's own brand switcher. It is the README's hero now;
+  `docs/screenshots/v0.5/home.png` stays as the v0.5 record and is referenced only by this log.
+- **`scripts/readme-gif.mjs`, wired as `pnpm gif`.** The script is committed rather than the output alone, so
+  the clip is reproducible and the next person does not have to rediscover the framing. Playwright records
+  webm, ffmpeg converts. Like the sweeps, it calls `assertServedBuild` first and refuses to record a server
+  that is not running this build.
+- Playwright's palette is built **once over the whole clip** and then applied; a per-frame palette banded the
+  brand ramps.
+- The script **fails the run above 10 MB** rather than letting a README quietly grow a 30 MB hero.
+
+**Decided**
+- **Care is left out of the walkthrough — Claude.** Its blue reads too close to Vela's indigo to be worth three
+  of the thirty seconds. Four brands plus the dark toggle is the demo; five was one beat of nothing.
+- **The GIF is committed to the repository — Claude, pending Anuj.** 4.6 MB in a clone is real, and every
+  re-record adds another copy to history. Hosting it outside the repo is the alternative and is easy now,
+  awkward after ten re-records. Flagged rather than decided.
+
+**Results**
+
+| Check | Result |
+|---|---|
+| `ffprobe` duration | **28.5 s** against BRIEF §13's "30-sec" |
+| `ffprobe` dimensions | 960×535 after the crop |
+| File size, from the script's own guard | **4.6 MB**, under its 10 MB limit |
+| `assertServedBuild` before recording | passed; recorded against the build in `apps/docs/.next/BUILD_ID` |
+
+The clip was checked by extracting frames with `ffmpeg -ss` and **looking at them**, not by trusting that the
+script exited 0. That is how all three faults below were found.
+
+**Three cuts, and what each one got wrong:**
+
+- **Cut one recorded the hero, which is brand-neutral.** Switching brands moved a swatch and nothing else; the
+  branded dashboard was below the fold. The script now scrolls to 440px first, so the switcher sits under the
+  sticky header and the branded UI fills the frame. A GIF that exits 0 and demonstrates nothing is the same
+  class of problem as a screenshot of the wrong build.
+- **Cut two still had a flat grey band along the bottom** — headless Chromium painting its own background
+  below the page. Removing Playwright's pinned `recordVideo.size` did **not** fix it, which was the first
+  guess. The band's height is not stable across machines, so the script samples one frame as raw RGB, walks up
+  the middle column counting flat-grey rows, and crops. `ffmpeg`'s `cropdetect` is no use here: it looks for
+  near-black letterboxing and the band is mid-grey. On this machine it measured 54px.
+- **The README's alt text said five brands and the clip shows four.** Caught before committing.
+
+**Next**
+- **Decide whether a 4.6 MB GIF belongs in git.** It is in now; moving it out gets harder with each re-record.
+- Phase 6 (BRIEF §13) is **complete**: npm publish, docs deployed, the differentiation re-run, `/story`, and
+  this.
+- Unchanged and still waiting on Anuj: the `/story` opening scene; the `/story` rollout section, which is a
+  claim about how he works; ADR-037 re-read beside §3 of the new research before the irreversible step; the
+  cold-clone test; the 21st monorepo question; and the shadcn focus-ring claim, still unreproduced after two
+  research passes.
+
+---
+
 ## 2026-10-01 (/story) — the case-study page, and a page that already existed
 
 Phase 6's second-to-last item (BRIEF §11, §15). Built, then discovered it had already been built, then merged
