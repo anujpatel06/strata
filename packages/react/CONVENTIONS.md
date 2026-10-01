@@ -102,11 +102,13 @@ pair it with `--syntara-motion-duration-spring`).
   `@supports (animation-timeline: view())`, and never without the reduced-motion guard.
 - Everything still respects `prefers-reduced-motion`. Fades may remain; movement goes.
 
-**Depth tokens:** `--syntara-shadow-raised`, `--syntara-shadow-overlay`, `--syntara-shadow-highlight` (inset top-edge sheen), and glass:
+**Depth tokens:** `--syntara-shadow-raised`, `--syntara-shadow-overlay`, and glass:
 `--syntara-glass-bg`, `--syntara-glass-blur`, `--syntara-glass-opacity`.
+`--syntara-shadow-highlight` (an inset 1px top-edge highlight) is still emitted by the engine but **nothing uses it**:
+ADR-039 took it off every solid fill, in both schemes. Don't reach for it in new work.
 
-- **Solid fills** (primary/danger buttons, checked checkbox/radio/switch, selected toggle, solid badges): `box-shadow: var(--syntara-shadow-highlight), var(--syntara-shadow-raised)`.
-  **Never put a gradient or overlay behind a label.** The solver tunes fill + label to 4.5:1, sometimes with zero margin (pure red is exactly 4.50), so any tint can fail it.
+- **Solid fills** (primary/danger buttons, checked checkbox/radio/switch, selected toggle, solid badges): `box-shadow: var(--syntara-shadow-raised)`.
+  **Never put a gradient, overlay or top-edge highlight behind a label.** The solver tunes fill + label to 4.5:1, sometimes with zero margin (pure red is exactly 4.50), so any tint can fail it.
 - **Secondary/outline controls:** `surface.default` + border + `--syntara-shadow-raised`; hover deepens the border, not the shadow.
 - **Cards:** `surface.raised` + `border.subtle` hairline + `--syntara-shadow-raised`. Only *interactive* cards lift on hover
   (`translate: 0 -1px` + `--syntara-shadow-overlay`).

@@ -457,7 +457,6 @@
   /* Concentric with the card around it: outer radius minus the card's padding, never below a badge corner.
      This element is a Qamar scope, where the badge radius is a pill, so it's capped at space-2 first. */
   border-radius: max(min(var(--syntara-radius-badge), var(--syntara-space-2)), calc(var(--docs-card-radius) - var(--_pad)));
-  box-shadow: var(--syntara-shadow-highlight);
 }
 
 .beforeAfter {
@@ -558,7 +557,7 @@
   border: var(--docs-hairline);
   border-radius: var(--docs-card-radius);
   background-color: var(--syntara-color-surface-default);
-  box-shadow: var(--syntara-shadow-highlight), var(--syntara-shadow-raised);
+  box-shadow: var(--syntara-shadow-raised);
 }
 @media (min-width: 768px) {
   .cta {

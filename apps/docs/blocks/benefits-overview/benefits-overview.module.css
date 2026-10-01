@@ -375,7 +375,6 @@
 .row.row:has(.item > :first-child > button[data-hovered]) {
   box-shadow:
     0 0 0 var(--syntara-hairline) var(--syntara-color-border-default),
-    var(--syntara-shadow-highlight),
     var(--syntara-shadow-raised);
 }
 

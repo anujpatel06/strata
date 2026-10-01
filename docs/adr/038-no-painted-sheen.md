@@ -40,10 +40,9 @@
 - **Four test assertions flipped** from "the sheen is painted" to "the sheen is not painted", so it cannot return by
   accident: `card.test.tsx`, `alert.test.tsx`, `toast.test.tsx`, `popover.test.tsx`.
 - **Light schemes are untouched.** The token was already `none` there, so nothing about light mode changes.
-- **Not in scope:** `--syntara-shadow-highlight`, the *other* effect the code also calls a "sheen" — the inset
-  top-edge highlight on solid fills (Button, Badge, Checkbox, Switch, Radio, Slider, Progress, Steps, Kbd and the
-  raised pills in Tabs, Pagination and ToggleGroup). It is a different token on a different kind of surface and was
-  not what Anuj pointed at. If it should go too, that is a separate ADR.
+- **Was not in scope, and has since gone too:** `--syntara-shadow-highlight`, the *other* effect the code also calls
+  a "sheen" — the inset top-edge highlight on solid fills. It is a different token on a different kind of surface and
+  was not what Anuj pointed at here. He asked for it the same day after seeing this result: [ADR-039](039-no-top-edge-highlight.md).
 
 ## Alternatives rejected
 

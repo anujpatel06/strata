@@ -316,7 +316,6 @@
   block-size: var(--_face);
   border-radius: var(--syntara-radius-pill);
   background-color: var(--syntara-color-action-primary-bg);
-  box-shadow: var(--syntara-shadow-highlight);
   opacity: 0;
 }
 .checkDisc > .check {

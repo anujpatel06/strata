@@ -117,11 +117,11 @@
   stroke-dashoffset: 0;
 }
 
-/* Solid fill: sheen + raised shadow, never an overlay behind the tick. */
+/* Solid fill: the raised shadow, never an overlay behind the tick (no top-edge highlight — ADR-039). */
 .step[data-status='complete'] .marker {
   border-color: var(--syntara-color-action-primary-bg);
   background-color: var(--syntara-color-action-primary-bg);
-  box-shadow: var(--syntara-shadow-highlight), var(--syntara-shadow-raised);
+  box-shadow: var(--syntara-shadow-raised);
   color: var(--syntara-color-action-primary-fg);
 }
 

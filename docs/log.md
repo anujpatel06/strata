@@ -6,6 +6,67 @@ Numbers only with the command that produced them. Design trade-offs get an ADR i
 
 ---
 
+## 2026-10-01 (top-edge highlight) — the other "sheen" comes off too
+
+**Changed**
+Having seen ADR-038's result, Anuj asked for the same treatment on buttons. The code calls this a "sheen" as well,
+but it is a different token on a different kind of surface: `--syntara-shadow-highlight`,
+`inset 0 1px 0 rgb(255 255 255 / 0.20)` in light and `/ 0.12` in dark — a 1px white line along the top edge of a
+solid fill, the "pressable key" look from the v0.3 tactile pass.
+
+- It was in **41 places across 29 files**, far wider than the buttons he named: **25 sites in 19 components**
+  (Button, Badge, Chip, Checkbox, Switch, Radio, Slider, Progress, Steps, Kbd, Tooltip, Avatar, Chart, FileUpload,
+  IconTile, Pagination, Sidebar, Tabs, ToggleGroup) and **16 more in the docs site's own blocks and page CSS**.
+- **All 41 are gone, in both schemes.** The docs blocks went with the components: they are examples built from the
+  system, and leaving them lit would have left the pages Anuj actually looks at half-changed.
+- The engine token is untouched, as ADR-038 left `--syntara-sheen`. The published contract does not move; the token
+  simply has no users in this repo now, which `CONVENTIONS.md` § Depth tokens says plainly.
+- 18 comments across 16 files rewritten, because they described a highlight that is no longer drawn.
+
+**Decided**
+- **All 19 components, both schemes — Anuj**, asked directly. He rejected "Button only" once the shared token was
+  shown (a flat button beside a still-lit badge reads as a bug) and rejected "dark only" because the highlight is
+  strongest in light. [ADR-039](adr/039-no-top-edge-highlight.md).
+- **The engine token stays — Claude**, for consistency with ADR-038 and so no consumer's build changes silently.
+
+**Results** — full `/verify` again, all nine steps:
+
+| Step | Command | Result |
+|---|---|---|
+| 1 | `pnpm --filter @syntara/react gen:index` | `src/index.ts → 53 modules` |
+| 2 | `pnpm typecheck` | exit 0 |
+| 3 | `pnpm test` | **2,167 passed, 1 skipped, 0 failed**; `check-test-counts` README row matches at 2,168 |
+| 4 | `pnpm test:themes` | 2,000/2,000 palettes, all brands valid, adjustments/brand median **4** (unmoved) |
+| 5 | `pnpm check:meta` | **53/53** |
+| 6 | `pnpm registry` | 73 items ok |
+| 6a | `node scripts/check-override-weight.mjs` | 0 selectors weighing the same as the component |
+| 7 | `pnpm --filter @syntara/docs build` | exit 0, **82** pages, build `5DqgIO49jRk82zIPS4xT1` |
+| 8 | `node scripts/check-ssr-tabs.mjs` | 327 tab lists, **0** missing panels |
+| 9 | `check-hydration` | 228 loads, **0** failures |
+| 9 | `check-theme-links` / `check-narrow-overflow` / `check-csp` | **0** failures each (114 routes) |
+| 9 | `axe-sweep` | 114 routes × 2 schemes, **0** violation nodes |
+| 9 | `check-overlay-exit` | 108 tooltips + 4 menus/popovers, **0** failures |
+
+- **Proof it shipped:** `var(--syntara-shadow-highlight)` appears in **0** files of the export; the token itself is
+  still defined in **326** files, which is the point — engine untouched, nothing consuming it.
+- **Three earlier test runs failed and none of it was the code.** Load average reached **42.8** (macOS
+  `mobileassetd` at 63%, app helpers, another session's dev server). Every failure was a 5,000ms timeout in a test
+  unrelated to CSS — theme-engine's sheen fuzz test and two icon tests in `@syntara/mcp`. Isolated it three ways:
+  `git diff main -- packages/theme-engine` is empty, the same test passes on `main`, and all pass once load drops.
+  **Worth fixing on its own:** a cluster of tests sits right on a 5s budget and goes red whenever the machine is
+  busy, which will bite in CI.
+- `pnpm test:themes` again rewrote only its timing numbers (median 0.62 → 0.59 ms, p95 0.95 → 0.98 ms). Reverted.
+
+**Next**
+- **For Anuj's eye:** Button's pressed state no longer differs by shadow — it used to drop the highlight on press,
+  and now reads through the darker fill and the spring scale, which is how CONVENTIONS describes a press anyway.
+  The pressed rule still restates the raised shadow so a stuck hover can't lift a pressed button.
+- **For Anuj's eye:** Kbd. The keycap was a lit top edge plus a deeper bottom edge; only the bottom edge is left to
+  say "key". Check it at small sizes.
+- Raise the 5s test timeout on the three load-sensitive tests, or give them their own budget.
+
+---
+
 ## 2026-10-01 (sheen) — the metallic band comes off the surfaces
 
 **Changed**

@@ -103,7 +103,6 @@
 .root[data-motion] .item:hover > :not([data-variant='feature']) {
   box-shadow:
     0 0 0 var(--syntara-hairline) var(--syntara-color-border-subtle),
-    var(--syntara-shadow-highlight),
     var(--syntara-shadow-overlay);
 }
 @media (prefers-reduced-motion: no-preference) {

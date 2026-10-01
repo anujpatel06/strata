@@ -9,8 +9,8 @@
   background: var(--syntara-color-surface-inverse);
   color: var(--syntara-color-text-inverse);
   border-radius: min(var(--syntara-radius-button), calc(var(--syntara-space-1) * 1.5));
-  /* Lifted off the page by the raised shadow; the sheen marks its top edge in dark schemes. */
-  box-shadow: var(--syntara-shadow-highlight), var(--syntara-shadow-raised);
+  /* Lifted off the page by the raised shadow alone (the top-edge highlight is gone — ADR-039). */
+  box-shadow: var(--syntara-shadow-raised);
   transform-origin: var(--trigger-anchor-point, center);
   font-family: var(--syntara-font-body);
   font-size: var(--syntara-font-size-xs);

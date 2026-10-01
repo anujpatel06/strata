@@ -67,7 +67,7 @@
   background: var(--syntara-color-action-primary-bg);
   color: var(--syntara-color-action-primary-fg);
   /* Solid fill: depth from shadow only — nothing laid over the label (the solver tunes fill + label exactly). */
-  box-shadow: var(--syntara-shadow-highlight), var(--syntara-shadow-raised);
+  box-shadow: var(--syntara-shadow-raised);
 }
 .link[data-variant='primary']:hover {
   background: var(--syntara-color-action-primary-hover);
@@ -78,13 +78,13 @@
   border-color: var(--syntara-color-surface-inverse);
   background: var(--syntara-color-surface-inverse);
   color: var(--syntara-color-text-inverse);
-  box-shadow: var(--syntara-shadow-highlight), var(--syntara-shadow-raised);
+  box-shadow: var(--syntara-shadow-raised);
 }
 /* Hover eases the fill a tenth of the way toward the canvas: the label stays far above 4.5:1 either way. */
 .link[data-variant='inverse']:hover {
   background: color-mix(in oklab, var(--syntara-color-surface-inverse) 88%, var(--syntara-color-surface-canvas));
   border-color: color-mix(in oklab, var(--syntara-color-surface-inverse) 88%, var(--syntara-color-surface-canvas));
-  box-shadow: var(--syntara-shadow-highlight), var(--syntara-shadow-overlay);
+  box-shadow: var(--syntara-shadow-overlay);
 }
 
 .link[data-variant='outline'] {

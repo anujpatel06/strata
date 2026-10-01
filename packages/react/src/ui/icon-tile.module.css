@@ -31,7 +31,6 @@
   background:
     linear-gradient(var(--_bg), var(--_bg)) padding-box,
     linear-gradient(135deg, var(--_rim), transparent 60%) border-box var(--_bg);
-  box-shadow: var(--syntara-shadow-highlight);
   color: var(--_fg);
   line-height: 1;
   vertical-align: middle;
@@ -69,7 +68,7 @@
   --_bg: var(--syntara-color-action-primary-bg);
   --_fg: var(--syntara-color-action-primary-fg);
   --_rim: color-mix(in oklab, var(--syntara-color-action-primary-fg) 45%, transparent);
-  box-shadow: var(--syntara-shadow-highlight), var(--syntara-shadow-raised);
+  box-shadow: var(--syntara-shadow-raised);
 }
 .tile[data-tint='none'] {
   --_bg: var(--syntara-color-surface-sunken);

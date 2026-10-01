@@ -78,8 +78,6 @@
   max-inline-size: 100%;
   border-radius: inherit;
   background-color: var(--_fill);
-  /* Solid fill: the tactile top-edge sheen (no label sits on it). */
-  box-shadow: var(--syntara-shadow-highlight);
 }
 
 /* Indeterminate, reduced motion: a quiet full-width tint says "working" without moving. */

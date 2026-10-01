@@ -88,8 +88,9 @@
   cursor: default;
 }
 
-/* The current page sits on a raised key (surface.raised + hairline + sheen + raised shadow). Text stays
-   text.default on an opaque surface. Every page button carries the key; only the current one shows it. */
+/* The current page sits on a raised key (surface.raised + hairline + raised shadow; no top-edge highlight,
+   ADR-039). Text stays text.default on an opaque surface. Every page button carries the key; only the
+   current one shows it. */
 .page[aria-current='page'],
 .page[aria-current='page'][data-hovered],
 .page[aria-current='page'][data-pressed] {
@@ -105,7 +106,7 @@
   border: 1px solid var(--syntara-color-border-default);
   border-radius: var(--syntara-radius-button);
   background-color: var(--syntara-color-surface-raised);
-  box-shadow: var(--syntara-shadow-highlight), var(--syntara-shadow-raised);
+  box-shadow: var(--syntara-shadow-raised);
   opacity: 0;
   pointer-events: none;
   transition: opacity var(--syntara-motion-duration-fast) var(--syntara-motion-easing);

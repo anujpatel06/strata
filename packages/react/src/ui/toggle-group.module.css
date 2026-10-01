@@ -198,8 +198,9 @@
  * and slides between segments. The label never sits on a tint: the pill is an opaque surface, raised off the sunken
  * track so selection reads by elevation, not colour alone:
  * - light: surface.default (white) + a border.subtle hairline + the raised shadow;
- * - dark:  surface.raised lifted 8% (lighter than the track, which is sunken) + the rim light + top sheen + the raised
- *          shadow. text.default is engine-checked on surface.default; the dark face is measured below.
+ * - dark:  surface.raised lifted 8% (lighter than the track, which is sunken) + the rim light + the raised
+ *          shadow; the top-edge highlight is gone (ADR-039). text.default is engine-checked on
+ *          surface.default; the dark face is measured below.
  * The rim is drawn with the background-clip trick (CONVENTIONS, Depth: "Rim light"), so it follows the radius.
  */
 .indicator {
@@ -224,7 +225,6 @@
     linear-gradient(135deg, var(--syntara-rim), transparent 60%) border-box var(--_face);
   box-shadow:
     0 0 0 var(--syntara-hairline) light-dark(var(--syntara-color-border-subtle), transparent),
-    var(--syntara-shadow-highlight),
     var(--syntara-shadow-raised);
 }
 
@@ -334,7 +334,7 @@
     translate: 0 -1px;
   }
   .segment[data-hovered]:not([data-pressed], [data-disabled]) > .indicator {
-    box-shadow: var(--syntara-shadow-highlight), var(--syntara-shadow-raised), var(--syntara-shadow-raised);
+    box-shadow: var(--syntara-shadow-raised), var(--syntara-shadow-raised);
   }
   .standalone[data-hovered]:not([data-selected], [data-pressed], [data-disabled]) {
     box-shadow: var(--syntara-shadow-raised), var(--syntara-shadow-raised);
