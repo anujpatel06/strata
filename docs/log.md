@@ -26,14 +26,26 @@ prose-only scrub. No code changed.
 - **`GOVERNANCE.md` §5 is deliberately unchanged.** Saying out loud that this is one maintainer, and marking
   what is and is not enforced by a script, is the honest claim the rest of that file rests on. Removing it to
   look bigger would be the dishonest edit.
+- **[ADR-037](adr/037-public-repo-and-21st-template.md)** records the decision. Numbered 037, not the 027 this
+  session first planned: 027 is the tooltip ADR, and the wrong number came from `CLAUDE.md`'s status line, which
+  still lists the open ADRs as 024–026 and is three phases out of date. **`CLAUDE.md`'s status section is stale
+  and was not corrected here.**
+- **The nine Phase 1 screenshots are regenerated** (`pnpm screenshots`). They said "Strata | Brand Generator
+  v0.1"; they now say Syntara. The regeneration also caught real drift the old images predated: the token count
+  moved 316 → 339 and the neutrals row gained a fourth option, "Paper".
+- **Three docs-site screenshots are reshot into a new `docs/screenshots/v0.5/`** — home, themes and the Button
+  component page — and `README.md`'s hero image points at `v0.5/home.png`. A new folder rather than overwriting
+  `v0.2/`, because the site is on v0.5 (the changelog's top heading) and regenerating inside a folder named for
+  v0.2 would make the name a lie. The stale `v0.2/` images are left as the v0.2 record; nothing references them
+  any more except this log.
 
 **Decided**
 - **Publish the whole repo open source, MIT, and list the site as a 21st.dev template — Anuj.** Claude laid out
   three options and recommended the narrow one: publish only the docs-site shell with a neutral tenant and
   placeholder copy, keeping the five real brands and the written content out of it. Anuj chose the whole repo
   for reach, having been told once that public + MIT cannot be recalled, that 21st rehosts a pinned commit, and
-  that anyone may then ship the portfolio site commercially keeping only the copyright line. **Needs ADR-027;
-  not written yet.**
+  that anyone may then ship the portfolio site commercially keeping only the copyright line.
+  **[ADR-037](adr/037-public-repo-and-21st-template.md).**
 - **Soften `BRIEF.md` §0 rather than leave it or move it to an untracked file — Claude recommended, Anuj
   accepted.** Leaving it keeps a searchable job-hunt notice; cutting it entirely loses the explanation for why
   the standards sit where they do.
@@ -105,14 +117,38 @@ occurrence in this checkout.
 - `curl -s -o /dev/null -w '%{http_code}' https://syntara.pages.dev` → **200**, so the "Open preview" link a
   listing needs already exists.
 
+Screenshot runs. The first `pnpm screenshots` **failed** — `vite: command not found`, because a fresh worktree
+has no `node_modules` — and the failure was hidden by piping the command through `tail`, so the shell reported
+exit 0 over "✗ Generator build failed (exit 1)". Every run below captures the real exit code.
+
+| Run | Result |
+|---|---|
+| `pnpm install` in the worktree | 599 packages, **done in 5.7s** |
+| `pnpm screenshots` | **9 screenshots**, axe on 6 preview pages, **0 violations**, real exit **0** |
+| `pnpm --filter @syntara/docs build` | exit **0**, `apps/docs/.next/BUILD_ID` = `cdDwFGlplCAbXnamqi967` |
+| `serve out -l 4317`, then `scripts/served-build.mjs http://localhost:4317` | exit **0** — the served build is this one. `lsof -nP -iTCP:4317 -sTCP:LISTEN` confirmed pid 3235, the server this session started |
+| `scripts/shoot.mjs` ×3 at 1440×900 | home, themes, component-page saved, exit 0 each |
+
+The images were then opened and read, not trusted from the exit codes. `phase-1/vela-light.png` now reads
+"Syntara | Brand Generator v0.1". `v0.5/home.png` reads "Syntara", the pill reads **v0.5 · 53 components**
+against the old "v0.2 · 41 components", and the install line is "The packages are on npm" where it used to be
+`npx shadcn@latest add @strata/button`. `v0.5/component-page.png` no longer shows the "Registry" nav entry or
+the "Registry item" button — both removed by the ADR-011 revision, both still present in the old image — and
+installs with `pnpm add @syntara/react @syntara/tokens`.
+
+The docs build was run, not `next dev`, so the gotcha where `next dev` rewrites `apps/docs/AGENTS.md`,
+`apps/docs/CLAUDE.md` and `next-env.d.ts` did not apply; `git status` after the run showed only the intended
+files.
+
 **Next**
-- **ADR-027** recording the decision above. It has been made and acted on in this entry but is not yet written
-  down, which is the gap this project's conventions exist to prevent.
-- **Regenerate the stale screenshots** (`pnpm screenshots`) so the README stops advertising "Strata", 41
-  components and a shadcn install path. Before any listing.
 - **Prove a clean clone runs.** `pnpm install && pnpm docs` from a fresh clone in a temp directory, not from a
   working copy with a warm store and an existing `node_modules`. This is the last real engineering risk before
-  the repo is public.
+  the repo is public. Partly evidenced already: this worktree started with no `node_modules`, and `pnpm install`
+  then a full docs build both succeeded from it. A worktree shares the pnpm store with the main checkout, so it
+  is not the same test as a cold clone on another machine.
+- **`CLAUDE.md`'s status section is three phases stale.** It lists the open ADRs as 024–026 when the repo holds
+  037, which is what produced the wrong ADR number in this session. Worth fixing before the repo is public,
+  since `CLAUDE.md` is committed on purpose and a reader will take it as current.
 - **Then, and only then,** `gh repo edit --visibility public`. Irreversible.
 - **Open question, worth answering before that irreversible step:** 21st's open-source templates all appear to
   be single runnable apps, and whether a pnpm monorepo is accepted is unknown. If it is not, `apps/docs` has to
