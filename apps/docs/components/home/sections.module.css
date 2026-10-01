@@ -511,10 +511,16 @@
 /*
  * StatTileGroup collapses to one column on its own; pinning it to two took that away, and on a 320px phone each
  * tile got 134px. A figure at 3xl has no break opportunity, so it overflowed by 71px and scrolled the whole page
- * sideways. Two columns while two will hold a figure (~160px), one below that.
+ * sideways. Two columns while two will hold a figure, one below that.
+ *
+ * The column minimum is the width a figure needs, measured, not guessed: the widest value here is "118,000", which
+ * is 154px at 3xl, and the tile adds 58px of padding — 212 in all. The old minimum was 160, enough for 320px and
+ * nothing else: the number hung out of its card by 48px at 375, 41 at 390, 21 at 430 and 44 at 768, and scrolled
+ * the page 3px at 375 and 376. At 224 (space-16 × 3.5) the figures are one-up below ~496px and two-up above it.
+ * A longer value needs a bigger minimum: `SYNTARA_WIDTHS=320,375,390,430,768 check-narrow-overflow` is the check.
  */
 .figures.figures {
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, calc(var(--syntara-space-16) * 2.5)), 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, calc(var(--syntara-space-16) * 3.5)), 1fr));
   gap: var(--docs-card-gap);
 }
 /* Same corner as every other card on the page (StatTile already uses the container radius; this pins it to the
