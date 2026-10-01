@@ -154,7 +154,15 @@ export const getTenantOverviews = cache((): TenantOverview[] => {
         o.alert?.title && TONES.has(o.alert.tone ?? '')
           ? { tone: o.alert.tone as 'info' | 'success' | 'warning' | 'danger', title: o.alert.title }
           : undefined,
-      stats: (o.stats ?? []).slice(0, 2).map((s) => ({
+      /*
+       * One figure per card, not two. Two of them never fit side by side — the card is 342px wide inside its
+       * 384px rail slot and a tile needs 160px before its figure starts breaking, so they stacked and cost the
+       * card 261–293px of height. Measured on one build at a 1440px window: the tallest card 700px and the rail
+       * row 781px at two figures, 543px and 622px at one. Widening the card until two fit was the alternative
+       * considered and rejected (ADR-040): it clipped Care's "₹10,600" by 11px.
+       * Which figure survives is a content decision: it is the first in the tenant's content.json.
+       */
+      stats: (o.stats ?? []).slice(0, 1).map((s) => ({
         label: s.label,
         value: s.format === 'currency' ? money.format(s.value) : plain.format(s.value),
         delta: s.delta,

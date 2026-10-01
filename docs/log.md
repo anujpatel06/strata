@@ -6,6 +6,78 @@ Numbers only with the command that produced them. Design trade-offs get an ADR i
 
 ---
 
+## 2026-10-01 (brand cards) — the homepage's tallest thing gets shorter
+
+**Changed**
+- **One figure per brand card, not two.** `getTenantOverviews` slices each tenant's `overview.stats` to the first
+  entry (`apps/docs/components/home/home-data.ts`). The two tiles never fit side by side — the card is 342px wide
+  inside its 384px rail slot and `.tenantStats` holds a 160px floor per tile — so `auto-fit` stacked them and spent
+  **261–293px** of card on them. Nothing is deleted from any `content.json`; the second number is still there.
+- **Both actions on one line**, which Anuj asked for after seeing the first result. The buttons are `size="sm"` and
+  `CardFooter` keeps its own wrapping, so they are made to *fit* rather than forced: a card too narrow for the pair
+  still wraps instead of clipping.
+- **Care's primary action is "Book a visit"**, from "Book a consultation". At `sm` the pair fits in four brands of
+  five; Care's was 39px too wide and its label is the longest on the page. The Hindi and Arabic labels were not
+  touched — they fit as they are.
+- Built in its own worktree (`.claude/worktrees/docs-shorter-brand-cards`) because another session was editing the
+  same files in the main checkout at the same time.
+
+**Decided**
+- **One figure, not two — Anuj**, from four measured options. He rejected widening the card to 432px (Care's
+  ₹10,600 clipped by 11px) and squeezing two columns in at today's width (three of five cards clipped).
+  [ADR-040](adr/040-one-figure-per-brand-card.md).
+- **Buttons side by side — Anuj**, asked for directly after seeing them wrapped, and delivered by making them fit
+  rather than by `flex-wrap: nowrap`, which clips (see Results).
+
+**Results** — `/verify`, all nine steps, on build `vj7aGX_vRMzoQ60Xo8t4k`:
+
+| Step | Command | Result |
+|---|---|---|
+| 1 | `pnpm --filter @syntara/react gen:index` | `src/index.ts → 53 modules` |
+| 2 | `pnpm typecheck` | exit 0, all 9 packages |
+| 3 | `pnpm test` | **2,167 passed, 1 skipped, 0 failed**; `check-test-counts` README row matches at 2,168 |
+| 4 | `pnpm test:themes` | 118,000 checks, 0 failed, adjustments/brand median **4** (unmoved) |
+| 5 | `pnpm check:meta` | exit 0 |
+| 6 | `pnpm registry` | 73 items ok |
+| 6a | `node scripts/check-override-weight.mjs` | 0 selectors weighing the same as the component |
+| 7 | `pnpm --filter @syntara/docs build` | exit 0, 82 pages |
+| 8 | `node scripts/check-ssr-tabs.mjs` | 327 tab lists, **0** missing panels |
+| 9 | `check-hydration` | 228 loads, **0** failures |
+| 9 | `check-theme-links` / `check-narrow-overflow` / `check-csp` | **0** failures each (114 routes) |
+| 9 | `axe-sweep` | 114 routes × 2 schemes, **0** violation nodes |
+| 9 | `check-overlay-exit` | 108 tooltips + 4 menus/popovers, **0** failures |
+
+- **Height, measured on one build at a 1440px window** (`getBoundingClientRect` on `.tenantScope` and on the rail):
+
+  | | tallest card | rail row |
+  |---|---|---|
+  | before | 700px | 781px |
+  | one figure | 543px | 622px |
+  | one figure + actions on one line | **512px** | **590px** |
+
+  −188px on the card, −191px on the row (24%).
+- **Proof it shipped:** in `apps/docs/out/index.html`, "Spent this month", "Claims in progress", "Hospital cover"
+  and "Book a consultation" appear **0** times; "Available balance", "Active policies", "OPD wallet" and
+  "Book a visit" appear twice each.
+- **Nothing clips.** `scrollWidth − clientWidth` is 0 for every figure and every footer in all five cards at
+  1440px, all five footers are one row, and at 375px the footers wrap to two rows with 0 overflow.
+- **`flex-wrap: nowrap` was tried first and is wrong.** `Button` sets `flex-shrink: 0` and `white-space: nowrap`
+  with nothing to truncate it, so the second button is pushed past the card's edge and clipped by the scope: Care
+  by **48px** at 1440px, and at 375px every card overflowed (Qamar 9px to Care 139px). My first measurement missed
+  it because it read the buttons' own overflow instead of the footer's.
+- The first `pnpm test` run of the session failed on a 5,000ms timeout in `@syntara/mcp`; the same suite passed in
+  **2.5s** on a warm re-run. Same cluster of load-sensitive tests as the previous entry.
+- `pnpm test:themes` again rewrote only its timing numbers (median 0.62 → 0.65 ms, p95 0.95 → 1.12 ms). Reverted.
+
+**Next**
+- **For Anuj's eye:** Vela's buttons are exactly **24px** tall — Vela is the Compact tenant, and `sm` takes the
+  control height down by `space-2`. That is the WCAG 2.2 § 2.5.8 floor exactly, passing with nothing to spare.
+- **For Anuj's eye:** which figure each brand keeps is now whichever is first in its `content.json` — Available
+  balance, Active policies, رصيد النقاط, OPD wallet left, इस महीने की कमाई. Reordering the file swaps it.
+- Raise the 5s test timeout on the load-sensitive tests, or give them their own budget (carried over).
+
+---
+
 ## 2026-10-01 (phases shipped) — the changelog says what is true, and CLAUDE.md catches up
 
 **Changed**
@@ -28,6 +100,9 @@ Separate worktree again; the main checkout is still on another session's branch 
 `OBK9ihZkVXIhKrlwQ4HRn`: `check-narrow-overflow` **0** at 320px · `check-hydration` **0** ·
 `check-override-weight` clean · typecheck clean. Changelog page renders **0** "In progress" badges; the
 homepage roadmap shows all five Shipped.
+
+---
+
 ## 2026-10-01 (top-edge highlight) — the other "sheen" comes off too
 
 **Changed**
