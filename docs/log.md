@@ -6,6 +6,91 @@ Numbers only with the command that produced them. Design trade-offs get an ADR i
 
 ---
 
+## 2026-10-01 (/story) — the case-study page, and a page that already existed
+
+Phase 6's second-to-last item (BRIEF §11, §15). Built, then discovered it had already been built, then merged
+the two.
+
+**Changed**
+- **New `/story`** — `apps/docs/app/story/page.tsx` + `page.module.css`, with `apps/docs/lib/story.ts` for the
+  numbers. BRIEF §11's seven sections in its order: opening scene, the generator live, three tenants side by
+  side, numbers, five decisions, the rollout, and what this does not prove. **551 words** of prose against the
+  ~600 cap, leaving room for the opening scene, which ships as a loud placeholder card badged "Anuj writes
+  this" so it cannot go out unnoticed.
+- **Every figure is read at build time from the file its command writes**, and prints that command beside
+  itself. A missing report makes the figure disappear rather than go stale. `packages/audit/reports/blocks.json`
+  is new and committed, on the same footing as `fuzz-report.json`, because the page reads it.
+- **The ADR count is computed, not typed.** `getAdrSplit()` reads each ADR's own `Status:` line, so "37, 6
+  pending" cannot drift from the record it describes.
+- **The generator section mounts the real `/themes` workspace**, not a copy and not an iframe. The preset list
+  moved to `apps/docs/lib/theme-presets.ts` so both pages read one source; a second copy would have silently
+  dropped the `copyReview` draft marker on the Hindi and Arabic tenants.
+- **`/story` added to `scripts/docs-routes.mjs`.** That list is partly hardcoded, so without the line axe,
+  hydration, CSP and narrow-overflow would all have skipped the new page while still reporting green — the
+  same shape as the 2026-09-29 finding about a guard covering less than it looks like it covers.
+- **Linked from the header's ⌘K pages and the footer**, because a page nothing points at is half-shipped.
+- **PR #15's prose folded in** — see Decided.
+
+**Decided**
+- **Merge the two `/story` implementations rather than pick one — Anuj.** Claude built this page without
+  checking for existing work; **PR #15 had added a `/story` the day before**. Claude laid out three options
+  (open this one and close #15, keep #15 and bin this, or merge) and recommended merging; Anuj took it. #15
+  reads better but misses four of the brief's seven sections, sits nine commits behind main, and its "what is
+  not done" still said nothing was on npm and the docs were not deployed — both false since #16 and #18.
+  Four passages moved across nearly verbatim: "a brand has to be data, not code… no component ever learns
+  which brand it is rendering"; "a design system that claims accessibility and cannot show it is a brochure";
+  the invalid-eval paragraph, which is the best writing on either page; and the who-decided framing. #15 is
+  closed, its branch left in place, and #27's body credits it.
+- **Section 7 states that RTL is table stakes — Claude, pending Anuj's review.** It follows the re-run in the
+  entry above and names shadcn/ui and Untitled UI React. It is the first place that retraction appears on the
+  site itself.
+- **The rollout in §6 is Claude's draft of how Anuj would work — pending Anuj.** It is a claim about him,
+  published under his name, so it should not ship unread.
+
+**Results**
+
+| Check | Result |
+|---|---|
+| `pnpm --filter @syntara/docs exec tsc --noEmit` | exit **0** |
+| `pnpm --filter @syntara/docs build` | exit **0** |
+| `pnpm drift apps/docs/app/story apps/docs/lib/story.ts` | **100.0 / 100**, 142 places, **0 findings** |
+| `node scripts/check-override-weight.mjs` | clean |
+| axe over `/story`, light and dark, same tags and viewport as `axe-sweep.mjs` | **0 violations, 0 nodes** |
+
+The axe run scrolls the page first, because the tenant shots are lazy and would otherwise never load; the
+one-off script is not committed. `served-build.mjs` was run before every measurement, and the serve ports were
+4317–4322 rather than 3000, so no run could have measured another session's build.
+
+**Four things this page got wrong first, each caught by a check rather than by reading it back:**
+
+- **`next/image` emitted `/_next/image`**, which does not exist in a static export (ADR-030). All three tenant
+  shots would have 404'd in production. Now a plain `<img>`, as the rest of the site uses — this page was the
+  first and only use of `next/image` in the repo.
+- **Four of the five ADR links pointed at routes that do not exist** (`/docs/foundations/*`, invented rather
+  than read). All five resolve in the export now.
+- **The brand-inputs figure printed 7**, against the site's own "six brand inputs", because it counted `name`.
+  `name` is the display name; the six that drive a theme are primary, accent, neutral, shape, typePair and
+  density.
+- **`.placeholder` sits on a `Card` and weighed the same as it.** `check-override-weight.mjs` caught it and
+  `--fix` doubled it. The comment at the top of the stylesheet had claimed nothing on the page restyles a
+  component; it was wrong and now says what actually happened.
+
+**Next**
+- **The opening scene is Anuj's to write.** One paragraph, first person, the Thursday moment. The placeholder
+  is deliberately hard to miss.
+- **The rollout section wants Anuj's read** before it is published as his approach.
+- **The README GIF** is the last Phase 6 item (BRIEF §13).
+- **A full-page screenshot of `/story` shows the three tenant shots blank**, because `shoot.mjs --full` does
+  not scroll and the images are lazy. They render correctly for a reader. Either the script should scroll
+  before shooting or those images should load eagerly; until one of those happens, a screenshot of this page
+  is misleading evidence, which is the same trap as a screenshot of the wrong build.
+- **Check for an existing branch or PR before building a named deliverable.** This session built `/story`
+  twice. `gh pr list --state open` would have cost one command.
+- Carried: the cold-clone test, the monorepo question, ADR-037 re-read against the new research, and the
+  shadcn focus-ring claim still unreproduced.
+
+---
+
 ## 2026-10-01 (differentiation re-run) — RTL stops being a differentiator, and the solver is what is left
 
 The re-run BRIEF §13 puts first in Phase 6, and `2026-09-27-differentiation.md` §7 asked for. Primary pages
