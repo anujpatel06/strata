@@ -21,13 +21,14 @@
   margin: 0;
   padding: var(--syntara-card-inset);
   /*
-   * Surface recipe, as Card (card.module.css has the notes): the sheen (dark only; proven on surface.raised, see
-   * theme-engine test/exporters.test.ts) and the face in the padding box, the rim light (dark only) in the 1px
+   * Surface recipe, as Card (card.module.css has the notes): the face in the padding box (the engine's diagonal
+   * sheen is no longer painted — ADR-038), the rim light (dark only) in the 1px
    * transparent border over the fill, a border.subtle hairline ring (box-shadow: Chromium rounds sub-pixel borders
    * up to 1px; the border is the edge in forced-colours mode) and the raised shadow.
    */
   --_fill: var(--syntara-color-surface-raised);
-  --_sheen: var(--syntara-sheen);
+  /* Sheen removed (ADR-038): the diagonal band read as brushed metal. Depth is the hairline, rim and shadow. */
+  --_sheen: none;
   --_rim: transparent;
   --_edge: var(--syntara-color-border-subtle);
   border: 1px solid transparent;

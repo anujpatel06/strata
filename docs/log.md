@@ -28,6 +28,67 @@ Separate worktree again; the main checkout is still on another session's branch 
 `OBK9ihZkVXIhKrlwQ4HRn`: `check-narrow-overflow` **0** at 320px · `check-hydration` **0** ·
 `check-override-weight` clean · typecheck clean. Changelog page renders **0** "In progress" badges; the
 homepage roadmap shows all five Shipped.
+## 2026-10-01 (top-edge highlight) — the other "sheen" comes off too
+
+**Changed**
+Having seen ADR-038's result, Anuj asked for the same treatment on buttons. The code calls this a "sheen" as well,
+but it is a different token on a different kind of surface: `--syntara-shadow-highlight`,
+`inset 0 1px 0 rgb(255 255 255 / 0.20)` in light and `/ 0.12` in dark — a 1px white line along the top edge of a
+solid fill, the "pressable key" look from the v0.3 tactile pass.
+
+- It was in **41 places across 29 files**, far wider than the buttons he named: **25 sites in 19 components**
+  (Button, Badge, Chip, Checkbox, Switch, Radio, Slider, Progress, Steps, Kbd, Tooltip, Avatar, Chart, FileUpload,
+  IconTile, Pagination, Sidebar, Tabs, ToggleGroup) and **16 more in the docs site's own blocks and page CSS**.
+- **All 41 are gone, in both schemes.** The docs blocks went with the components: they are examples built from the
+  system, and leaving them lit would have left the pages Anuj actually looks at half-changed.
+- The engine token is untouched, as ADR-038 left `--syntara-sheen`. The published contract does not move; the token
+  simply has no users in this repo now, which `CONVENTIONS.md` § Depth tokens says plainly.
+- 18 comments across 16 files rewritten, because they described a highlight that is no longer drawn.
+
+**Decided**
+- **All 19 components, both schemes — Anuj**, asked directly. He rejected "Button only" once the shared token was
+  shown (a flat button beside a still-lit badge reads as a bug) and rejected "dark only" because the highlight is
+  strongest in light. [ADR-039](adr/039-no-top-edge-highlight.md).
+- **The engine token stays — Claude**, for consistency with ADR-038 and so no consumer's build changes silently.
+
+**Results** — full `/verify` again, all nine steps:
+
+| Step | Command | Result |
+|---|---|---|
+| 1 | `pnpm --filter @syntara/react gen:index` | `src/index.ts → 53 modules` |
+| 2 | `pnpm typecheck` | exit 0 |
+| 3 | `pnpm test` | **2,167 passed, 1 skipped, 0 failed**; `check-test-counts` README row matches at 2,168 |
+| 4 | `pnpm test:themes` | 2,000/2,000 palettes, all brands valid, adjustments/brand median **4** (unmoved) |
+| 5 | `pnpm check:meta` | **53/53** |
+| 6 | `pnpm registry` | 73 items ok |
+| 6a | `node scripts/check-override-weight.mjs` | 0 selectors weighing the same as the component |
+| 7 | `pnpm --filter @syntara/docs build` | exit 0, **82** pages, build `5DqgIO49jRk82zIPS4xT1` |
+| 8 | `node scripts/check-ssr-tabs.mjs` | 327 tab lists, **0** missing panels |
+| 9 | `check-hydration` | 228 loads, **0** failures |
+| 9 | `check-theme-links` / `check-narrow-overflow` / `check-csp` | **0** failures each (114 routes) |
+| 9 | `axe-sweep` | 114 routes × 2 schemes, **0** violation nodes |
+| 9 | `check-overlay-exit` | 108 tooltips + 4 menus/popovers, **0** failures |
+
+- **Proof it shipped:** `var(--syntara-shadow-highlight)` appears in **0** files of the export; the token itself is
+  still defined in **326** files, which is the point — engine untouched, nothing consuming it.
+- **Three earlier test runs failed and none of it was the code.** Load average reached **42.8** (macOS
+  `mobileassetd` at 63%, app helpers, another session's dev server). Every failure was a 5,000ms timeout in a test
+  unrelated to CSS — theme-engine's sheen fuzz test and two icon tests in `@syntara/mcp`. Isolated it three ways:
+  `git diff main -- packages/theme-engine` is empty, the same test passes on `main`, and all pass once load drops.
+  **Worth fixing on its own:** a cluster of tests sits right on a 5s budget and goes red whenever the machine is
+  busy, which will bite in CI.
+- `pnpm test:themes` again rewrote only its timing numbers (median 0.62 → 0.59 ms, p95 0.95 → 0.98 ms). Reverted.
+
+**Next**
+- ~~**For Anuj's eye:** Button's pressed state.~~ **Checked and fine.** It no longer differs by shadow, but the press
+  still shrinks the control to scale 0.96 (93.53px → 89.79px) and darkens the fill twice over from rest; hover is
+  carried by the fill alone. Figures in [ADR-039](adr/039-no-top-edge-highlight.md). A first capture with reduced
+  motion on hid the scale and made the press look weaker than it is — measure this one with motion enabled.
+- ~~**For Anuj's eye:** Kbd.~~ **Checked, and the worry was wrong.** The claim that "only the bottom edge is left to
+  say 'key'" came from a code comment, not a measurement. The cap keeps three of its four layers (ring, weighted
+  bottom edge, drop shadow); light mode is visually identical and dark differs only under magnification. ADR-039
+  corrected.
+- Raise the 5s test timeout on the three load-sensitive tests, or give them their own budget.
 
 ---
 
@@ -68,6 +129,82 @@ clean.
 - The changelog still badges Phases 3, 4 and 5 "In progress" while `CLAUDE.md` records Phase 0–5a as done.
   One of the two is stale. Not changed here: that is a statement about where the project stands, and Anuj's
   to make.
+
+---
+
+## 2026-10-01 (sheen) — the metallic band comes off the surfaces
+
+**Changed**
+Anuj saw the home page's brand carousel in dark and called the cards metallic. It was one token doing it:
+`--syntara-sheen`, a 115° band of `text.default` peaking at 8%, dark schemes only, added 2026-09-27 as layer 1 of
+the **Surface recipe** that came from his own toast reference. On a toast it read as a soft light source; on a large
+card with a stack of tiles inside it, each carrying the same band, it read as brushed metal.
+
+- **No component paints it any more** — 13 of them did: Card, StatTile, Alert, Toast, Dialog, Sheet, Popover,
+  Select, Combobox, Command, DatePicker, DataTable, EmptyState.
+- **The engine token is untouched.** It still emits the gradient in dark and `none` in light, because
+  `@container not style(--syntara-sheen: none)` is how **14 rules** ask "is this a dark scheme?" without naming one
+  — and that is what switches on the **rim light**. Blanking the token at the engine would have taken the rim with
+  it in all 13 components. Nothing in the published theme contract moves.
+- **The sheen slot stays in the layer list** as `--_sheen: none`, so the recipe keeps its documented shape and the
+  band is one line per file from returning.
+- `CONVENTIONS.md` § Surface recipe rewritten to match; 18 stale comment blocks across 14 component files updated so
+  nothing in the code still claims the band is painted.
+
+**Decided**
+- **Remove the band, keep the rim — Anuj**, asked directly and chosen over "remove both" and "keep it, at 3%".
+  [ADR-038](adr/038-no-painted-sheen.md).
+- **Keep the glass surfaces' 8-point opacity offset — Claude.** It existed only to buy back the contrast the sheen
+  cost, so it is now unnecessary, but a more opaque face can only add margin and removing it would be a second,
+  unrequested change to seven overlays.
+- **Out of scope:** `--syntara-shadow-highlight`, the *other* effect the code also calls a "sheen" — the inset
+  top-edge highlight on solid fills (Button, Badge, Checkbox, Switch, Radio, Slider, Progress, Steps, Kbd, and the
+  raised pills in Tabs, Pagination, ToggleGroup). Different token, different surface, not what Anuj pointed at.
+
+**Results** — full `/verify`, all nine steps, each with the command that produced it:
+
+| Step | Command | Result |
+|---|---|---|
+| 1 | `pnpm --filter @syntara/react gen:index` | `src/index.ts → 53 modules` |
+| 2 | `pnpm typecheck` | clean, all packages |
+| 3 | `pnpm test` | **2,167 passed, 1 skipped, 0 failed** |
+| 3b | `node scripts/check-test-counts.mjs` | README matches: 2,168 across 7 packages |
+| 4 | `pnpm test:themes` | 118,000 checks, 0 failed, 100.00%; adjustments/brand 0 / **4** / 7 (median unmoved) |
+| 5 | `pnpm check:meta` | **53/53** components pass, exit 0 |
+| 6 | `pnpm registry` | 73 items + `registry.json`, every item ok |
+| 6a | `node scripts/check-override-weight.mjs` | 0 selectors weighing the same as the component |
+| 7 | `pnpm --filter @syntara/docs build` | exit 0, **82** HTML pages, build `0AkkO74NriQwjV52p55qb` |
+| 8 | `node scripts/check-ssr-tabs.mjs` | 82 pages, 327 tab lists, **0** missing panels |
+| 9 | `check-hydration` | 114 routes × 2 schemes, 228 loads, **0** failures |
+| 9 | `check-theme-links` | 5 links, **0** failures |
+| 9 | `check-narrow-overflow` | 114 routes × 320px, **0** scrolling sideways |
+| 9 | `check-csp` | 114 routes under the site's own CSP, **0** failures |
+| 9 | `axe-sweep` | 114 routes × 2 schemes, **0** violation nodes |
+| 9 | `check-overlay-exit` | 108 tooltips + 4 menus/popovers, **0** failures |
+
+- **Proof the change is in the build measured**, not just that a build exists
+  (`grep -rl … apps/docs/out/_next/static`): **0** built stylesheets still paint the sheen as a background layer,
+  **2** carry the new empty slot `--_sheen:none`, **5** still carry the rim's `style(--syntara-sheen:none)` query.
+- `pnpm test:themes` rewrote only its two timing numbers in `reports/fuzz-report.*` (median 0.62 → 0.61 ms, p95
+  0.95 → 1.07 ms, machine noise; pass rate, failures and adjustments identical). Reverted, so the commit says one thing.
+- **Contrast only improves.** The band brightened the face in dark, where text is light. Every figure in the
+  comments and tests was measured *under* it, so each is now a floor. The proofs still composite the old peak on
+  purpose and passed unchanged.
+- **Four assertions flipped** from "the sheen is painted" to "it is not", so it cannot come back by accident:
+  `card.test.tsx`, `alert.test.tsx`, `toast.test.tsx`, `popover.test.tsx`.
+- **Proof it shipped**, read from the live page's computed style on a carousel card (dark, dev server on :3100):
+  `background-image: none, linear-gradient(rgb(25,28,32), …), linear-gradient(135deg, … 0.18, transparent 60%)`
+  — layer 1 empty, the face flat, the rim still there.
+- Port note: `:3000` was held by **another session's** worktree (`duotone-pr`), so this ran on `:3100` and the owner
+  of the port was checked with `lsof` before any screenshot was believed.
+
+**Next**
+- Anuj to look at the carousel in dark and say whether the cards now read too flat; if so the rim can go up before
+  the band comes back.
+- Open question for him: whether the solid-fill top-edge highlight above should go the same way. Separate ADR.
+- Port note for the next session: `:3000` was held throughout by **another session's** `duotone-pr` dev server, so
+  step 9 served this build on `:3200` via `SYNTARA_BASE_URL` rather than killing someone else's server. Each script
+  printed the build id it measured (`0AkkO74NriQwjV52p55qb`), which is how we know it was this build.
 
 ---
 

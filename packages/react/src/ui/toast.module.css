@@ -68,11 +68,11 @@
 /* ---- toast ------------------------------------------------------------- */
 
 /*
- * Surface recipe (CONVENTIONS.md, from Anuj's toast reference): an opaque surface.raised face under the
- * engine's diagonal --syntara-sheen (dark only; `none` in light), a hairline edge, and in dark a rim light
- * along the top-left. Opaque rather than glass: text.subtle ≥ 4.5:1 and the status shape ≥ 3:1 are proven
- * on this exact face (engine test + test/toast.test.tsx), which a see-through surface can't guarantee once
- * the sheen is added. Only text.default and text.subtle sit on it; the tone lives in the filled icon and
+ * Surface recipe (CONVENTIONS.md, from Anuj's toast reference): an opaque surface.raised face, a hairline edge,
+ * and in dark a rim light along the top-left. The engine's diagonal --syntara-sheen is no longer painted here
+ * (ADR-038): it read as brushed metal. Opaque rather than glass: text.subtle ≥ 4.5:1 and the status shape ≥ 3:1
+ * are proven on this exact face (engine test + test/toast.test.tsx), which a see-through surface can't
+ * guarantee. Only text.default and text.subtle sit on it; the tone lives in the filled icon and
  * the action has its own fill.
  */
 .toast {
@@ -89,7 +89,6 @@
   border: 1px solid transparent;
   border-radius: var(--syntara-radius-container);
   background:
-    var(--syntara-sheen) padding-box,
     linear-gradient(var(--_face), var(--_face)) padding-box,
     var(--_rim) border-box,
     var(--_face);

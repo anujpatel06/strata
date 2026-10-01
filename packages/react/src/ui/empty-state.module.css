@@ -34,11 +34,11 @@
   /* Follows the brand's container shape, capped so round brands get a squircle, not a coin. */
   border: 1px solid transparent;
   border-radius: min(var(--syntara-radius-container), 30%);
-  /* A small raised tile in the surface recipe (as Card): the sheen (dark only) and surface.raised in the padding
-     box, the rim light (dark only) in the transparent border, a border.subtle hairline ring and the raised shadow. */
+  /* A small raised tile in the surface recipe (as Card): surface.raised in the padding box (the engine's diagonal
+     sheen is no longer painted — ADR-038), the rim light (dark only) in the transparent border, a border.subtle
+     hairline ring and the raised shadow. */
   --_rim: transparent;
   background:
-    var(--syntara-sheen) padding-box,
     linear-gradient(var(--syntara-color-surface-raised), var(--syntara-color-surface-raised)) padding-box,
     linear-gradient(135deg, var(--_rim), transparent 60%) border-box var(--syntara-color-surface-raised);
   box-shadow: 0 0 0 var(--syntara-hairline) var(--syntara-color-border-subtle), var(--syntara-shadow-raised);

@@ -248,15 +248,14 @@
   margin-block-end: var(--syntara-space-3);
 }
 
-/* The block sits in a framed stage with real depth: hairline, top-edge sheen and a raised shadow, like a window
-   set into the page. */
+/* The block sits in a framed stage with real depth: a hairline and a raised shadow, like a window set into
+   the page. (The top-edge highlight it used to carry is gone — ADR-039.) */
 .frame {
   overflow: hidden;
   border: 1px solid transparent;
   border-radius: var(--syntara-radius-container);
   box-shadow:
     0 0 0 var(--syntara-hairline) var(--syntara-color-border-subtle),
-    var(--syntara-shadow-highlight),
     var(--syntara-shadow-raised);
   background-color: var(--syntara-color-surface-sunken);
   background-image: radial-gradient(
@@ -274,7 +273,6 @@
 .frame:hover {
   box-shadow:
     0 0 0 var(--syntara-hairline) var(--syntara-color-border-subtle),
-    var(--syntara-shadow-highlight),
     var(--syntara-shadow-overlay);
 }
 @media (prefers-reduced-motion: no-preference) {

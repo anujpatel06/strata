@@ -199,14 +199,15 @@ describe('toast: filled status icon and action weight', () => {
 /*
  * Contrast proof for the filled status icon on the toast surface (WCAG 1.4.11 non-text ≥ 3:1; the knocked-out glyph
  * held to text's 4.5:1). Reads which roles the CSS actually uses, then checks every tenant and the 1,000 fuzz brands,
- * light and dark, on surface.raised and on the sheen's brightest pixel (dark), composited the way the engine does.
+ * light and dark, on surface.raised and on the old sheen's brightest pixel (dark), composited the way the engine
+ * does. The sheen is no longer painted (ADR-038), so those dark figures are kept as a deliberate floor.
  */
 describe('toast: status icon contrast proof', () => {
   const css = readUiCss('toast.module.css');
 
   it('reads the roles it proves from the CSS', () => {
     expect(css).toMatch(/--_face: var\(--syntara-color-surface-raised\)/);
-    expect(css).toMatch(/var\(--syntara-sheen\) padding-box/);
+    expect(css).not.toMatch(/var\(--syntara-sheen\) padding-box/);
     for (const t of STATUS_TONES) {
       expect(css).toContain(`--_tone: var(--syntara-color-feedback-${t}-fg);`);
       expect(css).toContain(`--syntara-icon-on: var(--syntara-color-feedback-${t}-bg);`);

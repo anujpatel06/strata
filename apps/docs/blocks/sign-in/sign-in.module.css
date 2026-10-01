@@ -242,7 +242,7 @@
   font-size: var(--syntara-font-size-lg);
   font-weight: var(--syntara-font-weight-bold);
   line-height: 1;
-  box-shadow: var(--syntara-shadow-highlight), var(--syntara-shadow-raised);
+  box-shadow: var(--syntara-shadow-raised);
 }
 
 .brandName {
