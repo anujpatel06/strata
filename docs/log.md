@@ -146,9 +146,11 @@ files.
   the repo is public. Partly evidenced already: this worktree started with no `node_modules`, and `pnpm install`
   then a full docs build both succeeded from it. A worktree shares the pnpm store with the main checkout, so it
   is not the same test as a cold clone on another machine.
-- **`CLAUDE.md`'s status section is three phases stale.** It lists the open ADRs as 024–026 when the repo holds
-  037, which is what produced the wrong ADR number in this session. Worth fixing before the repo is public,
-  since `CLAUDE.md` is committed on purpose and a reader will take it as current.
+- ~~`CLAUDE.md`'s status section is three phases stale.~~ Fixed in this session. It listed the open ADRs as
+  024–026 when the repo holds 037, which is what produced the wrong ADR number here. The waiting-on-Anuj line
+  now names all seven open ADR questions (020, 024, 025, 026, 032, 034, 035, read from each file's Status
+  line), a Going public bullet tracks the ADR-037 work, and a closing line tells the next reader to check
+  `ls docs/adr/` rather than trust the number.
 - **Then, and only then,** `gh repo edit --visibility public`. Irreversible.
 - **Open question, worth answering before that irreversible step:** 21st's open-source templates all appear to
   be single runnable apps, and whether a pnpm monorepo is accepted is unknown. If it is not, `apps/docs` has to
