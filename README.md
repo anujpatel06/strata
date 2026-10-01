@@ -43,7 +43,7 @@ Every number comes from a script. Run the command to reproduce it.
 | Solver adjustments per brand | median 4, max 7 | `pnpm test:themes` |
 | Components / blocks | 53 / 7 | `pnpm check:meta`; blocks listed in `apps/docs/blocks/blocks.json` |
 | Component maturity | 18 alpha · 35 beta · 0 stable | `pnpm check:meta` |
-| Tests | 474 components · 310 engine · 959 icons · 193 MCP server · 150 schema · 74 auditor · 8 codemods | `pnpm test` |
+| Tests | 474 components · 310 engine · 959 icons · 193 MCP server · 150 schema · 77 auditor · 8 codemods | `pnpm test` |
 | Docs routes swept with axe (light + dark) | 113 × 2, 0 violations, 0 page errors | `node scripts/axe-sweep.mjs` (with the built docs site running) |
 | Tenants rendering from one codebase | 6: Latin, Arabic (right to left) and Hindi | `pnpm tokens` |
 | Contrast re-checked on exported native tokens | 236 / 236 per tenant | `pnpm tokens` |

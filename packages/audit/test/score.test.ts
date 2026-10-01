@@ -65,8 +65,10 @@ describe('scoreOf', () => {
 
   it('scores a real snippet', () => {
     const r = auditSource('.a {\n  color: #123456;\n  gap: var(--syntara-space-2);\n  margin-inline: var(--syntara-space-2);\n}\n', { language: 'css' });
-    // raw-color 1 of 1 (3), space 0 of 2 (2), physical 0 of 1 (3): 1 − 3/8 = 62.5.
-    expect(r.stats.opportunitiesByRule).toEqual({ 'raw-color': 1, 'off-scale-space': 2, 'physical-property': 1 });
-    expect(scoreOf(r.findings, r.stats)).toBe(62.5);
+    // raw-color 1 of 1 (3), space 0 of 2 (2), physical 0 of 1 (3), unknown-token 0 of 2 (6): 1 − 3/14 = 78.5.
+    // The two correct var() uses now count as checked and passed, so the same snippet scores higher than it did
+    // before unknown-token existed (62.5). Scores are only comparable within one version of the rule set.
+    expect(r.stats.opportunitiesByRule).toEqual({ 'raw-color': 1, 'off-scale-space': 2, 'physical-property': 1, 'unknown-token': 2 });
+    expect(scoreOf(r.findings, r.stats)).toBe(78.5);
   });
 });

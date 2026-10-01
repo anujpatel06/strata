@@ -1,0 +1,65 @@
+/*
+ * unknown-token. The names below that fire are all real inventions found in apps/docs: a focus ring built from
+ * --syntara-focus-ring-width and --syntara-color-border-focus, t-shirt radius sizes the engine never had, and a
+ * line-height step past the end of the scale.
+ */
+.fires-focus {
+  /* The whole declaration is dropped, so the element keeps no focus ring at all. */
+  outline: var(--syntara-focus-ring-width) solid var(--syntara-color-border-focus); /* expect: unknown-token, unknown-token */
+  outline-offset: var(--syntara-focus-ring-offset); /* expect: unknown-token */
+}
+
+.fires-radius {
+  border-radius: var(--syntara-radius-md); /* expect: unknown-token */
+  border-start-start-radius: var(--syntara-radius-full); /* expect: unknown-token */
+  padding: var(--syntara-space-2) var(--syntara-radius-sm); /* expect: unknown-token */
+}
+
+.fires-elsewhere {
+  line-height: var(--syntara-line-height-relaxed); /* expect: unknown-token */
+  /* Nested in calc() and in a fallback: both are still uses of an invented name. */
+  inline-size: calc(var(--syntara-space-4) + var(--syntara-space-nope)); /* expect: unknown-token */
+  color: var(--syntara-color-text-default, var(--syntara-color-text-invented)); /* expect: unknown-token */
+  /* A fallback does not make the name real; it just means a raw value is doing the work. */
+  gap: var(--syntara-space-xl, 16px); /* expect: unknown-token */
+}
+
+/* A name that resembles nothing the engine emits: the fix says so instead of guessing. */
+.fires-unrecognisable {
+  color: var(--syntara-totally-made-up); /* expect: unknown-token */
+}
+
+/* A custom property is a declaration like any other. */
+.fires-in-custom-property {
+  --docs-card-radius: var(--syntara-radius-lg); /* expect: unknown-token */
+}
+
+.passes-real-tokens {
+  outline: 2px solid var(--syntara-color-focus-ring);
+  outline-offset: 2px;
+  border-radius: var(--syntara-radius-container);
+  border-start-start-radius: var(--syntara-radius-pill);
+  gap: var(--syntara-space-2);
+  line-height: var(--syntara-line-height-normal);
+  font-size: var(--syntara-font-size-md);
+  font-weight: var(--syntara-font-weight-medium);
+  font-family: var(--syntara-font-mono);
+  border-block-end: var(--syntara-hairline) solid var(--syntara-color-border-subtle);
+  transition: opacity var(--syntara-motion-duration-fast) var(--syntara-motion-easing);
+  box-shadow: var(--syntara-shadow-raised);
+  background-color: var(--syntara-chart-1);
+  color: var(--syntara-color-text-default, var(--syntara-color-text-subtle));
+}
+
+/* Names outside the --syntara- namespace belong to the page, not to the design system. */
+.passes-other-namespaces {
+  border-radius: var(--docs-card-radius);
+  padding: var(--_pad);
+  color: var(--shiki-dark);
+}
+
+/* A file may invent a --syntara-* name for its own use, as long as it sets it. */
+.passes-declared-locally {
+  --syntara-card-inset: var(--syntara-space-3);
+  padding: var(--syntara-card-inset);
+}

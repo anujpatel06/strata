@@ -27,6 +27,10 @@ describe('rules, from fixtures', () => {
     matches('css/physical.css');
   });
 
+  it('unknown-token: invented --syntara-* names fire, in fallbacks and calc() too; real tokens, other namespaces and locally declared names do not', () => {
+    matches('css/unknown-token.css', 'unknown-token');
+  });
+
   it('inline style objects and colour attributes in TSX; className strings are not read', () => {
     matches('tsx/style.tsx');
   });
@@ -50,7 +54,7 @@ describe('rules, from fixtures', () => {
 
 describe('severity and fixes', () => {
   it('every finding carries a fix with a description', () => {
-    for (const name of ['css/raw-color.css', 'css/scale.css', 'css/physical.css', 'tsx/style.tsx', 'tsx/native.tsx', 'tsx/accessible-name.tsx', 'tsx/deprecated.tsx']) {
+    for (const name of ['css/raw-color.css', 'css/scale.css', 'css/physical.css', 'css/unknown-token.css', 'tsx/style.tsx', 'tsx/native.tsx', 'tsx/accessible-name.tsx', 'tsx/deprecated.tsx']) {
       for (const f of audit(name).findings) {
         expect(f.fix.description.length, `${name}:${f.line}`).toBeGreaterThan(0);
         expect(typeof f.fix.safe).toBe('boolean');
@@ -77,6 +81,48 @@ describe('severity and fixes', () => {
     expect(severity('const a = <img src="x" />;', 'tsx')).toEqual(['missing-accessible-name:error']);
     expect(severity('const a = <a href="/">x</a>;', 'tsx')).toEqual(['native-element:error']);
     expect(severity(`import { Button } from '@syntara/react';\nconst a = <Button variant="danger">x</Button>;`, 'tsx')).toEqual(['deprecated-api:warning']);
+    // An error: the declaration is dropped, and in a focus rule that is a WCAG 2.2 AA 2.4.7 failure.
+    expect(severity('.a { border-radius: var(--syntara-radius-md); }', 'css')).toEqual(['unknown-token:error']);
+  });
+
+  it('unknown-token never offers a safe fix, and names the nearest real tokens in the same family', () => {
+    const one = (code: string, language: 'css' | 'tsx' = 'css') =>
+      auditSource(code, { language }).findings.filter((f) => f.rule === 'unknown-token')[0];
+
+    const radius = one('.a { border-radius: var(--syntara-radius-md); }')!;
+    // Picking the role is a judgement about what the element is, so --fix must never do it.
+    expect(radius.fix.safe).toBe(false);
+    expect(radius.fix.replacement).toBeUndefined();
+    expect(radius.fix.description).toMatch(/--syntara-radius-/);
+    // The suggestions stay inside the radius family rather than wandering to a colour role.
+    expect(radius.fix.description).not.toMatch(/--syntara-color-/);
+    expect(radius.message).toMatch(/is not a token/);
+
+    // Without a fallback the property is thrown away; with one, the fallback silently takes over.
+    expect(one('.a { border-radius: var(--syntara-radius-md); }')!.message).toMatch(/invalid at computed-value time/);
+    expect(one('.a { border-radius: var(--syntara-radius-md, 8px); }')!.message).toMatch(/Only the fallback/);
+
+    // The finding points at the name, not at the whole declaration.
+    const code = '.a { border-radius: var(--syntara-radius-md); }';
+    const f = one(code)!;
+    expect(code.slice(f.fix.start ?? 0, f.fix.end ?? 0) || code.split('\n')[f.line - 1]!.slice(f.column - 1)).toMatch(/^--syntara-radius-md/);
+
+    // It reads TSX inline styles through the same path.
+    expect(one(`const a = <div style={{ borderRadius: 'var(--syntara-radius-md)' }} />;`, 'tsx')).toBeTruthy();
+
+    // A whole family is offered, because the right radius is a choice between roles and not a spelling contest:
+    // --syntara-radius-container is the furthest from "md" by spelling and the nearest by meaning.
+    expect(radius.fix.description).toMatch(/--syntara-radius-container/);
+    // With no family, candidates are ranked by shared words rather than spelling.
+    expect(one('.a { outline-width: var(--syntara-focus-ring-width); }')!.fix.description).toMatch(/--syntara-color-focus-ring/);
+    // When nothing resembles it, the fix says so rather than offering an unrelated token.
+    expect(one('.a { color: var(--syntara-totally-made-up); }')!.fix.description).toMatch(/No emitted name resembles this one/);
+  });
+
+  it('unknown-token counts an opportunity for every --syntara-* use, so a clean file still scores', () => {
+    const clean = auditSource('.a { border-radius: var(--syntara-radius-container); gap: var(--syntara-space-2); }', { language: 'css' });
+    expect(clean.findings.filter((f) => f.rule === 'unknown-token')).toHaveLength(0);
+    expect(clean.stats.opportunitiesByRule?.['unknown-token']).toBe(2);
   });
 
   it('a raw colour is safe to fix only when one role has exactly that value', () => {
@@ -168,7 +214,8 @@ describe('language and positions', () => {
   it('counts places looked at, split by rule', () => {
     const { stats, findings } = auditSource('.a {\n  color: var(--syntara-color-text-default);\n  gap: var(--syntara-space-2);\n  display: flex;\n}\n', { language: 'css' });
     expect(findings).toEqual([]);
-    expect(stats).toMatchObject({ files: 1, lines: 5, opportunities: 2, opportunitiesByRule: { 'raw-color': 1, 'off-scale-space': 1 } });
+    // unknown-token looks at both var() uses, so using a real token is now a place that was checked and passed.
+    expect(stats).toMatchObject({ files: 1, lines: 5, opportunities: 4, opportunitiesByRule: { 'raw-color': 1, 'off-scale-space': 1, 'unknown-token': 2 } });
     const empty = auditSource('', { language: 'css' });
     expect(empty.stats).toMatchObject({ lines: 0, opportunities: 0 });
   });

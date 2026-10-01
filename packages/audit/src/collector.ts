@@ -21,6 +21,9 @@ export const RULES: Readonly<Record<RuleId, { severity: Severity; summary: strin
   'physical-property': { severity: 'error', summary: 'A property or value that names left or right, top or bottom.' },
   'missing-accessible-name': { severity: 'error', summary: 'An image or control with no name a screen reader can say.' },
   'deprecated-api': { severity: 'warning', summary: 'A prop or prop value with a deprecation record.' },
+  // An error, not a warning: the declaration holding it does nothing, and in a focus rule that is a
+  // WCAG 2.2 AA 2.4.7 failure rather than a cosmetic one.
+  'unknown-token': { severity: 'error', summary: 'A var(--syntara-…) name the theme engine does not emit.' },
 };
 
 export const RULE_IDS = Object.keys(RULES) as RuleId[];
@@ -43,6 +46,8 @@ export class Collector implements Sink {
 
   private readonly lineStarts: number[] = [0];
   private readonly disables: Disable[] = [];
+  /** Custom properties this source sets. Matches a CSS declaration and a TSX style key alike. */
+  private readonly declared: Set<string>;
 
   constructor(
     readonly source: string,
@@ -51,7 +56,12 @@ export class Collector implements Sink {
     readonly scheme: Scheme,
   ) {
     for (let i = 0; i < source.length; i++) if (source.charCodeAt(i) === 10) this.lineStarts.push(i + 1);
+    this.declared = new Set([...source.matchAll(/(--[A-Za-z0-9_-]+)\s*(?:'|")?\s*:/g)].map((m) => m[1]!));
     this.readDisables();
+  }
+
+  declaresLocally(name: string): boolean {
+    return this.declared.has(name);
   }
 
   position(offset: number): { line: number; column: number } {

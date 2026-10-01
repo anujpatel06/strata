@@ -6,6 +6,81 @@ Numbers only with the command that produced them. Design trade-offs get an ADR i
 
 ---
 
+## 2026-10-02 (invented tokens) — seven names that were never tokens, and the rule that catches the next one
+
+**Changed**
+- **Seven `--syntara-*` names used in `apps/docs` were never emitted by the theme engine.** An undefined custom
+  property is not a CSS error: `var(--syntara-radius-md)` parses, the declaration holding it is then *invalid at
+  computed-value time*, and it computes to `unset` — doing nothing, silently, while still winning the cascade
+  over any lower-specificity rule that would have worked.
+  - `--syntara-focus-ring-width`, `--syntara-focus-ring-offset`, `--syntara-color-border-focus` → the engine
+    emits `--syntara-color-focus-ring` and no width or offset token. Rewritten to the pair every component in
+    `packages/react` uses: `outline: 2px solid var(--syntara-color-focus-ring); outline-offset: 2px`.
+  - `--syntara-radius-full` → `-pill` (9999px), `--syntara-radius-md` → `-container`, `--syntara-radius-sm` →
+    `-field` on `.trustRow` and `-badge` on `.toolChip` and the component-names label. The engine has no
+    t-shirt sizes: the roles are `button`, `field`, `container`, `badge`, `pill`.
+  - `--syntara-line-height-relaxed` → `-normal` (1.5), the loosest step the scale has (tight/snug/normal).
+  - Each replacement carries a comment saying why that role and not another.
+- **`--syntara-radius-sm` was *not* already fixed on `feat/docs-showcase-heading`.** That branch is unmerged and
+  three uses of it survive there (`component-names.module.css:25`, `sections.module.css:1073` and `:1102`). All
+  three are fixed here.
+- **New auditor rule `unknown-token`** (`packages/audit`), the real deliverable. It flags any `var(--syntara-…)`
+  whose name the engine does not emit and the file does not declare itself — in `calc()`, in a `var()` fallback,
+  and on the right-hand side of a custom property. Known names come from the engine's own `toCssVariables`,
+  unioned over every tenant, both schemes and both densities, so the list cannot drift from what ships. The fix
+  is never safe: it lists the candidate roles and asks for a comment saying why. Fixture at
+  `test/fixtures/css/unknown-token.css`.
+
+**Decided**
+- **The three focus names were a WCAG 2.2 AA 2.4.7 failure, not a cosmetic one — Claude (pending Anuj).**
+  Measured in the browser under real keyboard focus before deciding the fix, as asked. Five keyboard-reachable
+  elements matched `:focus-visible` and computed `outline-style: none` with no box-shadow: `.adr` (`/story`),
+  `.arrow` and `.rail` (brand rail), `.componentTile` and `.filterChip` (home). The site's own zero-specificity
+  fallback in `globals.css` — `:where(a, button, [tabindex]):focus-visible` — would have covered all five, but
+  the module rules outrank it and then threw the ring away. Working footer links measured `solid 2px` in the
+  same sweep, which is what made the absence legible.
+- **`unknown-token` is an `error`, and it counts an opportunity for every `--syntara-*` use — Claude (pending
+  Anuj).** The consequence is that **scores move**: a file using tokens correctly now gains error-weighted
+  passing opportunities. The score test's snippet goes 62.5 → 78.5 with no change to its findings. Audit scores
+  are only comparable within one version of the rule set, and `evals/results.md` was produced under the old one.
+  Flagging rather than silently re-baselining.
+- **No ADR.** Nothing here is a design trade-off: six of the seven names had exactly one role that matches, and
+  the focus pair copies what `packages/react` already does in 39 places.
+
+**Results**
+Branch cut from `origin/main` at `99cec94` (0 behind, 0 ahead at start). Port 3000 was held by another session's
+server (PID 28615, a different scratchpad), so step 9 ran against my own build on 3042 via `SYNTARA_BASE_URL`;
+that session's server was left alone.
+
+Undefined-name scan over all **328** committed `.css` files against `packages/tokens/dist/*/tokens.css`:
+**7** undefined before, **0** after. `pnpm drift apps/docs packages/react packages/sdui apps/generator
+apps/playground`: **0** `unknown-token` findings over **14,605** opportunities — no false positives. The same
+auditor run against the pre-fix files from `HEAD` reports **all 7** names at the right line and column, so the
+rule catches the bug it was written for.
+
+`pnpm typecheck` clean · `pnpm test` **2,171** passing across 7 packages (`check-test-counts.mjs --fix` updated
+the README's auditor row 74 → 77) · `pnpm test:themes` **118,000/118,000** checks, 0 failed, median 4
+adjustments per brand · `pnpm check:meta` **53/53** · `pnpm registry` 73 items ok · `check-override-weight`
+clean · docs build `TbZwCB1_ig3Li-0n1BRDE` · `check-ssr-tabs` **0** of 82 pages · `check-hydration` **0** over
+114 routes × 2 schemes · `check-theme-links` **0** · `check-narrow-overflow` **0** at 320px ·
+`check-csp` **0** · `axe-sweep` **0** violation nodes over 114 routes × 2 schemes · `check-overlay-exit` **0**.
+
+Change proven to be in that build, not just alongside it:
+`grep -roE '--syntara-(focus-ring-width|focus-ring-offset|color-border-focus|line-height-relaxed|radius-full|radius-md|radius-sm)' apps/docs/out/_next/static`
+returns **nothing**, and `outline:2px solid var(--syntara-color-focus-ring)` is present in the built chunks.
+In-browser after the fix: `.adr`, `.arrow`, `.rail`, `.componentTile` and `.filterChip` all compute
+`solid 2px rgb(183,183,186)` under real Tab focus; chips and arrows compute `9999px`, cards `20px`, toolChip
+`8px`, trustRow `12px`.
+
+**Next**
+- Anuj to review: the focus-ring fix is behaviour-visible (five elements that had no ring now have one) and the
+  radius fixes change the look (category chips were square, now pills — screenshotted before/after).
+- `evals/results.md` numbers predate `unknown-token`. Re-running the eval would make them comparable again;
+  not done here because `run.mjs` calls a paid model.
+- Known gaps from the previous entry are unchanged.
+
+---
+
 ## 2026-10-01 (phases shipped) — the changelog says what is true, and CLAUDE.md catches up
 
 **Changed**
