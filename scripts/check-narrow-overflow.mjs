@@ -5,6 +5,11 @@
 // One fixed grid was enough to break it: the homepage pinned a stat group to two columns, each tile got 134px on a
 // 320px screen, and a figure at display size has no break opportunity, so it pushed the page 26px wide.
 //
+// 768px is checked as well as 320px, because the widest band is not the narrowest one: the site header's desktop
+// row (nav + expanded search) needed 906px but switched on at 768, so every page scrolled sideways by up to 114px
+// from 768 to 881 while 320 and 1024 both passed. A width that only a tablet or a half-screen window hits is
+// exactly the width nobody opens by hand.
+//
 // Run against the site started from the build:
 //   pnpm --filter @syntara/docs start        # note the PID and kill that PID
 //   node scripts/check-narrow-overflow.mjs
@@ -14,7 +19,7 @@ import { assertServedBuild } from './served-build.mjs';
 import { docsRoutes } from './docs-routes.mjs';
 
 const base = process.env.SYNTARA_BASE_URL ?? 'http://localhost:3000';
-const widths = (process.env.SYNTARA_WIDTHS ?? '320').split(',').map(Number);
+const widths = (process.env.SYNTARA_WIDTHS ?? '320,768').split(',').map(Number);
 const routes = process.env.SYNTARA_ROUTES ? process.env.SYNTARA_ROUTES.split(',') : docsRoutes();
 const CONCURRENCY = Number(process.env.SYNTARA_CONCURRENCY ?? 4);
 
