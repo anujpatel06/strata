@@ -264,3 +264,28 @@ export const getTokensFacts = cache((): TokensFacts | undefined => {
  */
 export const getAdrCount = cache((): number =>
   listRepoDir('docs', 'adr').filter((f) => f.endsWith('.md') && !f.startsWith('000-')).length);
+
+export interface AlsoFacts {
+  blocks: string[];
+  icons: number;
+}
+
+/**
+ * The line under the component grid: the blocks by name, and how many icons there are. Both counted, because
+ * the mockup's "235 icons" was already out of date when it was drawn.
+ */
+export const getAlsoFacts = cache((): AlsoFacts => {
+  const raw = readRepoFile('apps', 'docs', 'blocks', 'blocks.json');
+  const parsed = raw ? (JSON.parse(raw) as unknown) : [];
+  const list = Array.isArray(parsed) ? parsed : Object.values(parsed as Record<string, unknown>).flat();
+  const blocks = (list as { title?: string; name?: string }[]).map((b) => b.title ?? b.name ?? '').filter(Boolean);
+
+  // Every `export const` in the icon set's source, minus the duotone twins and the kit's helpers.
+  let icons = 0;
+  for (const file of listRepoDir('packages', 'icons', 'src', 'icons')) {
+    if (!file.endsWith('.ts') || file.startsWith('duotone')) continue;
+    const src = readRepoFile('packages', 'icons', 'src', 'icons', file) ?? '';
+    icons += (src.match(/^export const /gm) ?? []).length;
+  }
+  return { blocks, icons };
+});

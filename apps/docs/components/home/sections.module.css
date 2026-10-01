@@ -716,8 +716,8 @@
 /* ---- 53 components on React Aria ---- */
 
 .componentGrid {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(calc(var(--syntara-space-16) * 2.4), 1fr));
   gap: var(--syntara-space-2);
   margin: 0;
   padding: 0;
@@ -728,14 +728,13 @@
  * A chip per component. Targets stay >= 24px per WCAG 2.2 AA (2.5.8): the block padding plus the line box clears
  * it at every density, so this does not need a min-block-size to prop it up.
  */
-.componentChip {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--syntara-space-2);
-  padding-block: var(--syntara-space-2);
-  padding-inline: var(--syntara-space-3);
+.componentTile {
+  display: flex;
+  flex-direction: column;
+  gap: var(--syntara-space-1);
+  padding: var(--syntara-space-3);
   border: var(--syntara-hairline) solid var(--syntara-color-border-subtle);
-  border-radius: var(--syntara-radius-full);
+  border-radius: var(--docs-card-radius);
   background-color: var(--syntara-color-surface-default);
   color: var(--syntara-color-text-default);
   font-size: var(--syntara-font-size-sm);
@@ -744,11 +743,11 @@
     border-color var(--syntara-motion-duration-fast) var(--syntara-motion-easing),
     background-color var(--syntara-motion-duration-fast) var(--syntara-motion-easing);
 }
-.componentChip:hover {
+.componentTile:hover {
   border-color: var(--syntara-color-border-strong);
   background-color: var(--syntara-color-surface-raised);
 }
-.componentChip:focus-visible {
+.componentTile:focus-visible {
   outline: var(--syntara-focus-ring-width) solid var(--syntara-color-border-focus);
   outline-offset: var(--syntara-focus-ring-offset);
 }
@@ -865,4 +864,43 @@
   color: var(--syntara-color-text-subtle);
   font-size: var(--syntara-font-size-sm);
   font-variant-numeric: tabular-nums;
+}
+
+/* ---- Component tiles ---- */
+
+.componentRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--syntara-space-2);
+}
+
+.componentCategory {
+  color: var(--syntara-color-text-subtle);
+  font-size: var(--syntara-font-size-xs);
+}
+
+.filterLead {
+  color: var(--syntara-color-text-subtle);
+  font-size: var(--syntara-font-size-sm);
+}
+.filterLead strong {
+  color: var(--syntara-color-text-default);
+  font-weight: var(--syntara-font-weight-medium);
+}
+
+.filterChips {
+  display: contents;
+}
+
+/* The blocks-and-icons line under the grid. */
+.alsoLine {
+  margin-block: var(--syntara-space-4) 0;
+  color: var(--syntara-color-text-subtle);
+  font-size: var(--syntara-font-size-sm);
+  text-wrap: pretty;
+}
+.alsoLine strong {
+  color: var(--syntara-color-text-default);
+  font-weight: var(--syntara-font-weight-medium);
 }

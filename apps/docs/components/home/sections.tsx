@@ -31,6 +31,7 @@ import {
   getSolverQuote,
   getTenantOverviews,
   getAdrCount,
+  getAlsoFacts,
   getTokensFacts,
   type TenantOverview,
 } from './home-data';
@@ -428,6 +429,7 @@ const MATURITY_ORDER = ['stable', 'beta', 'alpha'] as const;
 
 export function ComponentsSection() {
   const groups = getComponentGroups();
+  const also = getAlsoFacts();
   const all = groups.flatMap((g) => g.items);
   const counts = MATURITY_ORDER.map((m) => ({ maturity: m, n: all.filter((c) => c.maturity === m).length }));
   /* The badges are the point of this section, so the sentence reads them rather than restating them. */
@@ -453,6 +455,10 @@ export function ComponentsSection() {
       <ComponentFilter
         items={groups.flatMap((g) => g.items.map((c) => ({ name: c.name, title: c.title, category: g.category, categoryLabel: g.label, maturity: c.maturity })))}
       />
+      <p className={styles.alsoLine}>
+        <strong>{also.blocks.length}</strong> blocks: {also.blocks.slice(0, -1).join(', ')} and{' '}
+        {also.blocks.at(-1)} · <strong>{also.icons}</strong> icons, each with a duotone twin.
+      </p>
       <div className={styles.commandRow}>
         <TextLink href="/docs/components">Browse all {all.length}</TextLink>
       </div>

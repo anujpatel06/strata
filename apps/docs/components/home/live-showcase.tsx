@@ -241,10 +241,11 @@ export function LiveShowcase({ tenants, components }: LiveShowcaseProps) {
           {name}
         </span>
         <span className={styles.captionSpec}>{spec}</span>
-        <label className={styles.namesToggle}>
-          <Switch isSelected={showNames} onChange={setShowNames} />
+        {/* Switch takes its own label as children — a wrapping <label> round it is an empty one, which axe
+            flags as critical and a screen reader reads as a control with no name. */}
+        <Switch isSelected={showNames} onChange={setShowNames} className={styles.namesToggle}>
           Component names
-        </label>
+        </Switch>
       </div>
 
       <div className={styles.frame} ref={frameRef}>

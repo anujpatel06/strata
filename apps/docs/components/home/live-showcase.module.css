@@ -285,14 +285,9 @@
 }
 
 /* Pushed to the end of the row; the switch and its words are one target. */
-.namesToggle {
-  display: inline-flex;
-  align-items: center;
-  min-block-size: 24px;
-  gap: var(--syntara-space-2);
+/* Doubled: this sits on Syntara's Switch, so one class would only tie with the component's own rule. */
+.namesToggle.namesToggle {
   margin-inline-start: auto;
-  color: var(--syntara-color-text-default);
-  cursor: pointer;
 }
 
 /* The overlay is positioned against this, so it has to be the containing block. */
