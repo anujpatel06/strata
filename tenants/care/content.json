@@ -26,7 +26,7 @@
   "overview": {
     "greeting": "Good morning, Arjun",
     "subtitle": "Here’s how your family’s health benefits look this month.",
-    "primaryAction": "Book a consultation",
+    "primaryAction": "Book a visit",
     "secondaryAction": "Download e-card",
     "alert": {
       "tone": "warning",
