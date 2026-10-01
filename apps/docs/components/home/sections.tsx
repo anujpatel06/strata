@@ -36,6 +36,7 @@ import {
   type TenantOverview,
 } from './home-data';
 import { HeroAccent, HeroGlow } from './home-stage';
+import { BrandRail } from './brand-rail';
 import { ComponentFilter } from './component-filter';
 import { TenantCard } from './tenant-card';
 import styles from './sections.module.css';
@@ -159,7 +160,7 @@ export function BrandsSection() {
         Arabic right to left, Hindi in Devanagari, a serif for insurance. Same code; only brand.json and
         content.json change.
       </SectionHeader>
-      <div className={styles.tenantGrid}>
+      <BrandRail label="brands">
         {tenants.map((t) => (
           <figure key={t.id} className={styles.tenantFigure}>
             <div className={styles.tenantFrame}>
@@ -180,7 +181,7 @@ export function BrandsSection() {
             </figcaption>
           </figure>
         ))}
-      </div>
+      </BrandRail>
     </section>
   );
 }
