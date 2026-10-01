@@ -51,14 +51,28 @@ jobs:
       # Prerendered docs pages must have a selected tab in every tab list, or hydration fails
       - run: node scripts/check-ssr-tabs.mjs
 
+      - run: npx playwright install --with-deps chromium
+
+      # `pnpm --filter @syntara/docs start` is `serve out -l 3000`, and serve falls back to a random port when 3000
+      # is taken, prints the port it actually took, and still exits 0. This step used to assume 3000 and curl it,
+      # which on a busy runner would have waited out sixty seconds against someone else's server and then measured
+      # it. The four checks below all take SYNTARA_BASE_URL and all assert the served build id
+      # (scripts/served-build.mjs), so reading the port from serve's own output — as the `a11y` job does — is the
+      # whole fix. Keep the two jobs doing this the same way.
+      - name: Serve the export
+        run: |
+          pnpm --filter @syntara/docs start > /tmp/serve.log 2>&1 &
+          echo $! > /tmp/serve.pid
+          for _ in $(seq 1 60); do grep -qE 'http://localhost:[0-9]+' /tmp/serve.log && break; sleep 1; done
+          port="$(grep -oE 'http://localhost:[0-9]+' /tmp/serve.log | head -1 | sed 's#.*:##')"
+          if [ -z "$port" ]; then echo 'serve never reported a port:'; cat /tmp/serve.log; exit 1; fi
+          cat /tmp/serve.log
+          echo "SYNTARA_BASE_URL=http://localhost:$port" >> "$GITHUB_ENV"
+
       # React only reports a hydration mismatch in a browser, as it hydrates, and a production build says no more
       # than "Minified React error #418". Reading the HTML cannot find it, so the check drives the real site.
-      - run: npx playwright install --with-deps chromium
       - name: Prerendered docs pages must hydrate
-        run: |
-          pnpm --filter @syntara/docs start &
-          for _ in $(seq 1 60); do curl -sf -o /dev/null http://localhost:3000/ && break; sleep 2; done
-          node scripts/check-hydration.mjs
+        run: node scripts/check-hydration.mjs
       # /themes keeps its state in the address and reads it on the client, so shared links are easy to break
       - run: node scripts/check-theme-links.mjs
       # CONVENTIONS.md requires 320px; a page that scrolls sideways there looks fine until someone is on a phone
