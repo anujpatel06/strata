@@ -82,7 +82,7 @@ If the file doesn't exist, reading the resource returns a "not found" error. The
 
 ## Setup
 
-The package isn't published yet. `npx @syntara/mcp` will work after Phase 6. Until then, point your client at the file in a checkout of this repo. Run `pnpm install` in the repo first.
+`npx @syntara/mcp` works. To run it from a checkout of this repo instead, point your client at the file and run `pnpm install` in the repo first.
 
 Replace `/path/to/syntara` with the absolute path of your checkout.
 

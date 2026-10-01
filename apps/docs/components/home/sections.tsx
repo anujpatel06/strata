@@ -30,6 +30,7 @@ import {
   getReleaseInfo,
   getSolverQuote,
   getTenantOverviews,
+  getAdrCount,
   getTokensFacts,
   type TenantOverview,
 } from './home-data';
@@ -465,7 +466,7 @@ export function ComponentsSection() {
  *     audit_snippet. `packages/mcp/README.md` says eight; the source registers eight.
  *   - decision records: 36 in the mockup, 37 on disk (`ls docs/adr/*.md`).
  */
-const FAQ: readonly { q: string; a: ReactNode }[] = [
+const faqItems = (): readonly { q: string; a: ReactNode }[] => [
   {
     q: 'Is Syntara on npm?',
     a: (
@@ -519,9 +520,9 @@ const FAQ: readonly { q: string; a: ReactNode }[] = [
     q: 'How do AI agents use Syntara?',
     a: (
       <>
-        They read the same meta.json the docs are generated from. Trust levels decide what they may do: fix token
-        drift, open pull requests for review, or only propose. The MCP server ships as{' '}
-        <code>@syntara/mcp</code>, with eight tools.
+        They read the same meta.json the docs are generated from. The MCP server ships as{' '}
+        <code>@syntara/mcp</code>, with eight tools, and it is read-only — no tool writes a file. ADR-008 defines
+        three trust levels and GOVERNANCE §6 writes them down; enforcing them is not built yet.
       </>
     ),
   },
@@ -529,8 +530,8 @@ const FAQ: readonly { q: string; a: ReactNode }[] = [
     q: 'Who decides what goes in?',
     a: (
       <>
-        One maintainer, Anuj, pairing with AI agents. There are 37 decision records, and each names who decided.
-        Deprecated APIs are removed only at 1.0, and every breaking change ships with a codemod.
+        One maintainer, Anuj, pairing with AI agents. There are {getAdrCount()} decision records, and each names
+        who decided. Deprecated APIs are removed only at 1.0, and every breaking change ships with a codemod.
       </>
     ),
   },
@@ -553,7 +554,7 @@ export function FaqSection() {
           </SectionHeader>
         </div>
         <Accordion className={styles.faq}>
-          {FAQ.map((item, i) => (
+          {faqItems().map((item, i) => (
             <AccordionItem
               key={item.q}
               id={`faq-${i}`}

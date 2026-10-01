@@ -19,9 +19,15 @@ Numbers only with the command that produced them. Design trade-offs get an ADR i
 **Decided**
 - **Three of the mockup's answers are overtaken, so they were corrected rather than copied — Claude, pending
   Anuj.** The mockup says Syntara is *not* on npm and tells people to copy source "when the packages ship"; they
-  shipped this morning. It calls the MCP server "in progress"; it is `@syntara/mcp@0.1.0` (still seven tools,
-  which checks out). It counts 36 decision records; `ls docs/adr/*.md` gives 37. Everything else is Anuj's
-  wording, unchanged.
+  shipped this morning. It calls the MCP server "in progress"; it is `@syntara/mcp@0.1.0`. It has **eight**
+  tools, not the seven the mockup said and a check here wrongly confirmed — that check grepped only
+  `get_`/`list_`/`find_`/`search_` names and missed `audit_snippet`, so it returned the number it was looking
+  for. The wrong figure reached the branch before the research re-run caught it.
+- **The "36 decision records" correction was wrong, and Anuj was right.** `ls docs/adr/*.md` counts
+  `000-template.md`, which is a blank form, not a decision. At the commit where this copy was written there were
+  37 files and so **36** records — the mockup's figure. ADR-037 has since landed, making it 37 for real, so the
+  published number is accidentally correct. It is computed now (`getAdrCount()`, excluding the template) rather
+  than typed, because every other figure on that page already is. Everything else is Anuj's wording, unchanged.
 - **The mockup's stale hero note was not copied either.** "Not on npm yet. Copy the source today." would have
   undone the morning's work.
 

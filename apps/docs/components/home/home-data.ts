@@ -6,7 +6,7 @@ import { generateTheme, toCSS, type Adjustment, type BrandInput } from '@syntara
 import { cache } from 'react';
 import { checkCopyReview, type CopyReview } from '@/components/page/draft-copy-note';
 import { getAllMeta } from '@/lib/meta';
-import { readRepoFile } from '@/lib/repo';
+import { listRepoDir, readRepoFile } from '@/lib/repo';
 import { getHouseBrand, getTenants } from '@/lib/tenants';
 
 /** packages/theme-engine/reports/fuzz-report.json — written by `pnpm test:themes`. */
@@ -257,3 +257,10 @@ export const getTokensFacts = cache((): TokensFacts | undefined => {
     compare,
   };
 });
+
+/**
+ * Decision records on disk, excluding `000-template.md`, which is the blank form rather than a decision.
+ * Computed because the homepage quotes it: a hand-typed count was wrong within a day of being written.
+ */
+export const getAdrCount = cache((): number =>
+  listRepoDir('docs', 'adr').filter((f) => f.endsWith('.md') && !f.startsWith('000-')).length);

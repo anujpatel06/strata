@@ -35,7 +35,7 @@ import '@syntara/tokens/dist/syntara.css';      // the tokens — required once
 import '@syntara/react/styles.css';             // the component styles — required once
 ```
 
-`styles.css` reads `var(--syntara-*)` 2,736 times and defines none of them, so the token file is not optional:
+`styles.css` reads `var(--syntara-*)` 3,472 times — 118 distinct tokens — and defines none of them, so the token file is not optional (`grep -o 'var(--syntara-' dist/styles.css | wc -l`):
 without it the components render unthemed. `dist/syntara.css` holds every tenant, each scoped to
 `[data-syntara-theme="<id>"]`; import `@syntara/tokens/dist/<id>/tokens.css` instead to ship one brand on `:root`.
 
