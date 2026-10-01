@@ -6,6 +6,74 @@ Numbers only with the command that produced them. Design trade-offs get an ADR i
 
 ---
 
+## 2026-10-01 (differentiation re-run) — RTL stops being a differentiator, and the solver is what is left
+
+The re-run BRIEF §13 puts first in Phase 6, and `2026-09-27-differentiation.md` §7 asked for. Primary pages
+read in a browser today; no subagents, no search summaries.
+
+**Changed**
+- **New [`docs/research/2026-10-01-differentiation.md`](research/2026-10-01-differentiation.md).** It supersedes
+  the 2026-09-27 file, which now carries a banner at the top saying so and naming the one finding that was
+  retracted.
+
+**Decided**
+- **Syntara stops claiming RTL as a point of difference — Claude, pending Anuj's review.** This is a retraction,
+  not a refinement. The old file's table read "shadcn has it as an opt-in transform with manual exceptions.
+  Syntara's is by default." Today shadcn's RTL page opens with "first-class support", its CLI converts
+  `left-*`/`right-*` to `start-*`/`end-*`, updates directional props and flips icons with `rtl:rotate-180`; and
+  **Untitled UI React** — the stack the old file called closest to Syntara and never checked — ships logical
+  properties on the components, documents `I18nProvider` for React Aria's portalled overlays, and has a
+  `migrate` CLI. That is Syntara's own mechanism and Syntara's own portal fix (ADR-012). "RTL by default,
+  unlike the others" is now on the must-not-claim list.
+- **The differentiator is the solver, and only the solver — Claude, pending Anuj's review.** Not React Aria
+  (Untitled UI React and HeroUI v3 both use it), not RTL, not tokens, not an MCP server. Everyone lets you
+  theme; nobody *solves* a theme to pass and fixes what fails. That is the one sentence the site and `/story`
+  should carry.
+- **21st.dev is a backlink, not an audience — Claude, pending Anuj's review.** Worth doing because it is cheap;
+  not worth reading as evidence that design-engineer registries are Syntara's market. See Results.
+
+**Results**
+
+Counts taken from each live page's own text in the browser on 2026-10-01, via
+`(t.match(/contrast/gi)||[]).length` and the same expression for the other terms.
+
+| Page | contrast | WCAG | accessib* | multi-brand |
+|---|---|---|---|---|
+| `ui.shadcn.com/docs/theming` | **0** | **0** | **0** | **0** |
+| `untitledui.com/react/docs/theming` | **0** | **0** | **0** | — |
+
+- **Untitled UI React** asks you to pick a Tailwind palette or hand-write eleven shades, and its own FAQ says
+  the quiet part: *"Just make sure to define all the necessary color shades (from 50 to 950) for a consistent
+  look."* Multi-brand is "multiple theme files… using CSS scoping techniques" — hand-rolled, exactly as the
+  previous research predicted of everyone else.
+- **tweakcn** still checks rather than solves: its landing page advertises a "Contrast Checker", and
+  `/guarantee|solve|auto-?fix/gi` returns **0** matches on it.
+- **shadcn/ui** pairs `--primary` with `--primary-foreground` as a naming convention. Nothing checks that the
+  pair is legible.
+- **21st.dev moved from [U] to [V].** Submissions go `on_review` → `posted` → `featured` with the maintainer
+  reviewing each one personally; open-source templates are rehosted pinned to a commit; paid ones run $19–$99.
+  What that market rewards, by category size: Buttons 2043, Cards 1780, Forms 1522, Heroes 1152 against Sign
+  Ins 103, Toasts 79, Empty States 77, with scroll animations and liquid-glass buttons at 6–10k bookmarks.
+  **Documentation: 11 templates out of roughly 700.** The shelf is empty, and the same numbers say why.
+
+Three of the five follow-ups from 2026-09-27 are closed (Untitled UI React in depth; 21st's review process and
+payouts; the re-run itself). Two carry forward, plus a new one: HeroUI v3 and coss ui were **not** re-read
+today, so their rows are carried over and are [S] at best.
+
+**Next**
+- **The shadcn focus-ring contrast claim is still uncited and still unreproduced**, and its source sells a
+  competing kit. Either reproduce it with a script or drop it; it has survived two research passes unverified.
+- **Re-read HeroUI v3 and coss ui** before either appears in a comparison.
+- **`/story` and the README GIF** are the two Phase 6 items left (BRIEF §13), and both should now lead with the
+  solver rather than the stack.
+- **ADR-037's premise is weaker than when it was written.** It was decided before this research; the research
+  says 21st's audience is not Syntara's. The decision to go public stands on its own merits, but the 21st
+  listing part of it is now a nice-to-have. Worth Anuj re-reading ADR-037 with §3 of the new research next to
+  it before the irreversible step.
+- Unchanged from the previous entry otherwise: the cold-clone test, and the monorepo question, both still open.
+
+---
+
 ## 2026-10-01 (public-eyes pass) — the repo stops describing its author's job search
 
 Groundwork for making the repo public and listing the site on 21st.dev. A read-only audit first, then a

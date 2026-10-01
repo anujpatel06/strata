@@ -1,5 +1,10 @@
 # Research: how Syntara differs from component libraries, theme generators and AI tooling
 
+> **Superseded by [`2026-10-01-differentiation.md`](2026-10-01-differentiation.md)**, the re-run this file's
+> own §7 asked for. Kept as the record. One finding below was **retracted** by that re-run: RTL is no longer a
+> point of difference — shadcn now calls its RTL first-class, and Untitled UI React ships logical properties
+> throughout. Read the newer file before quoting anything here.
+
 - **Date:** 2026-09-27
 - **Asked by:** Anuj ("how do we differentiate from 21st.dev, shadcn/ui and similar?")
 - **Method:** four web-research passes run by Claude subagents. Official docs, repos and changelogs were fetched where possible; the rest came from search summaries.
