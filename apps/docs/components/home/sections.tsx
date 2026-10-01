@@ -6,7 +6,6 @@ import { IconBrandGithub } from '@tabler/icons-react';
 import {
   Accordion,
   AccordionItem,
-  Badge,
   Card,
   CardContent,
   CardDescription,
@@ -31,10 +30,12 @@ import {
   getReleaseInfo,
   getSolverQuote,
   getTenantOverviews,
+  getAdrCount,
   getTokensFacts,
   type TenantOverview,
 } from './home-data';
 import { HeroAccent, HeroGlow } from './home-stage';
+import { ComponentFilter } from './component-filter';
 import { TenantCard } from './tenant-card';
 import styles from './sections.module.css';
 
@@ -80,7 +81,10 @@ export function Hero() {
       </h1>
       {/* One sentence, and the specific one: the second half ("one React library renders every brand") is what
           the demo underneath shows rather than tells, and the agents claim has its own section further down. */}
-      <p className={styles.heroLead}>Six brand inputs become a light and dark theme that passes WCAG 2.2 AA.</p>
+      <p className={styles.heroLead}>
+        Six brand inputs become a light and dark theme that passes WCAG 2.2 AA. 53 React components, built by a
+        design engineer, ready for agents.
+      </p>
       <div className={styles.heroActions}>
         <ButtonLink href="/docs" variant="inverse" size="lg">
           Get started
@@ -438,20 +442,9 @@ export function ComponentsSection() {
         Focus, typeahead and ARIA patterns come from a library that already solved them. The badges tell the
         truth: {[badgeLine, ...zero].join(', ')}.
       </SectionHeader>
-      <ul className={styles.componentGrid}>
-        {all.map((c) => (
-          <li key={c.name}>
-            <Link href={`/docs/components/${c.name}`} className={styles.componentChip}>
-              <span className={styles.componentName}>{c.title}</span>
-              {c.maturity !== 'stable' && (
-                <Badge size="sm" tone="neutral" variant="outline">
-                  {c.maturity}
-                </Badge>
-              )}
-            </Link>
-          </li>
-        ))}
-      </ul>
+      <ComponentFilter
+        items={groups.flatMap((g) => g.items.map((c) => ({ name: c.name, title: c.title, category: g.category, categoryLabel: g.label, maturity: c.maturity })))}
+      />
       <div className={styles.commandRow}>
         <TextLink href="/docs/components">Browse all {all.length}</TextLink>
       </div>
@@ -465,14 +458,23 @@ export function ComponentsSection() {
  * Drafted from the repo — ADRs, GOVERNANCE.md and the measured figures — not from marketing copy. Every claim
  * here is one the rest of the site already makes and a script can reproduce.
  */
-const FAQ: readonly { q: string; a: ReactNode }[] = [
+/**
+ * Anuj's answers from the Home v3 mockup, with three corrected where the mockup has been overtaken:
+ *   - npm: the mockup says "not yet". All eight packages are published at 0.1.0.
+ *   - the MCP server: "in progress" in the mockup; it ships as @syntara/mcp, with eight tools. The mockup
+ *     says seven, and so did a check here that grepped only get_/list_/find_/search_ names and missed
+ *     audit_snippet. `packages/mcp/README.md` says eight; the source registers eight.
+ *   - decision records: 36 in the mockup, 37 on disk (`ls docs/adr/*.md`).
+ */
+const faqItems = (): readonly { q: string; a: ReactNode }[] => [
   {
     q: 'Is Syntara on npm?',
     a: (
       <>
-        Yes, eight packages at 0.1.0 under the <code>@syntara</code> scope: the components, tokens, theme engine,
+        Yes. Eight packages at 0.1.0 under the <code>@syntara</code> scope — components, tokens, theme engine,
         icons, the server-driven UI schema, the auditor, the MCP server and the codemods.{' '}
-        <TextLink href="/docs/installation">Installation</TextLink>
+        <code>pnpm add @syntara/react @syntara/tokens</code>, or copy a component’s <code>.tsx</code> and{' '}
+        <code>.module.css</code> into your project and load the token CSS once at the app root.
       </>
     ),
   },
@@ -480,8 +482,9 @@ const FAQ: readonly { q: string; a: ReactNode }[] = [
     q: 'How do I add a brand?',
     a: (
       <>
-        Write one brand.json with six inputs and one content.json with the copy. No component changes, no theme
-        file to maintain: the engine derives every token and re-checks every contrast pair for the new brand.
+        Write two files: <code>tenants/&lt;id&gt;/brand.json</code> with the six inputs, and{' '}
+        <code>tenants/&lt;id&gt;/content.json</code> with copy, language and text direction. Then run{' '}
+        <code>pnpm tokens</code>. It fails the build if any pair misses AA. No component code changes.
       </>
     ),
   },
@@ -489,10 +492,9 @@ const FAQ: readonly { q: string; a: ReactNode }[] = [
     q: 'What does “accessible by construction” mean?',
     a: (
       <>
-        A theme that fails WCAG 2.2 AA cannot be generated. The solver checks every foreground and background pair
-        the system can produce, in light and dark, and moves the lighter side until it passes — recording why in a
-        sentence. Ratios are floored, never rounded: 4.49:1 fails.{' '}
-        <TextLink href="/docs/accessibility">Accessibility</TextLink>
+        The theme engine can’t output a theme that fails WCAG 2.2 AA. It checks 118 text, control and focus-ring
+        pairs per brand in light and dark, fixes what fails, and writes a sentence for each fix. Keyboard and
+        screen-reader behaviour come from React Aria.
       </>
     ),
   },
@@ -500,10 +502,8 @@ const FAQ: readonly { q: string; a: ReactNode }[] = [
     q: 'Does it handle right to left and other scripts?',
     a: (
       <>
-        Components use logical properties only, so right-to-left is not a retrofit. Pass a locale to ThemeScope and
-        React Aria reads direction from it. Arabic and Devanagari tenants ship with the system, and line heights
-        are measured per type pair so no glyph’s ink leaves its line box.{' '}
-        <TextLink href="/docs/rtl">Right to left</TextLink>
+        Yes. Components use CSS logical properties, and ThemeScope sets lang and dir from the tenant’s content.
+        Qamar runs in Arabic, right to left; Haat runs in Hindi.
       </>
     ),
   },
@@ -511,9 +511,8 @@ const FAQ: readonly { q: string; a: ReactNode }[] = [
     q: 'Can I use the tokens without React?',
     a: (
       <>
-        Yes. <code>@syntara/tokens</code> ships plain CSS custom properties per tenant, plus DTCG 2025.10 JSON,
-        Figma variables, and Kotlin and Swift sources for native. Nothing in the token layer depends on React.{' '}
-        <TextLink href="/docs/theming">Theming</TextLink>
+        Yes. Every tenant exports as CSS variables, DTCG 2025.10 JSON and Figma variables, plus Kotlin and Swift
+        sources for native. It’s plain CSS, so any stack can read it.
       </>
     ),
   },
@@ -521,10 +520,9 @@ const FAQ: readonly { q: string; a: ReactNode }[] = [
     q: 'How do AI agents use Syntara?',
     a: (
       <>
-        Each component is described once in a meta.json, and <code>@syntara/mcp</code> serves those descriptions,
-        the tenants and the usage rules over MCP. The docs you are reading are generated from the same files, so an
-        agent and a person read one source.{' '}
-        <TextLink href="/docs/mcp">The MCP server</TextLink>
+        They read the same meta.json the docs are generated from. The MCP server ships as{' '}
+        <code>@syntara/mcp</code>, with eight tools, and it is read-only — no tool writes a file. ADR-008 defines
+        three trust levels and GOVERNANCE §6 writes them down; enforcing them is not built yet.
       </>
     ),
   },
@@ -532,10 +530,8 @@ const FAQ: readonly { q: string; a: ReactNode }[] = [
     q: 'Who decides what goes in?',
     a: (
       <>
-        Anuj does, and every decision is written down. Proposals are RFCs, decisions are ADRs that name who made
-        the call, and breaking changes follow a deprecation policy: an API keeps working through every 0.x, is
-        removed at 1.0.0, and ships with a codemod.{' '}
-        <TextLink href="/docs/governance">Governance</TextLink>
+        One maintainer, Anuj, pairing with AI agents. There are {getAdrCount()} decision records, and each names
+        who decided. Deprecated APIs are removed only at 1.0, and every breaking change ships with a codemod.
       </>
     ),
   },
@@ -558,8 +554,17 @@ export function FaqSection() {
           </SectionHeader>
         </div>
         <Accordion className={styles.faq}>
-          {FAQ.map((item, i) => (
-            <AccordionItem key={item.q} id={`faq-${i}`} title={item.q}>
+          {faqItems().map((item, i) => (
+            <AccordionItem
+              key={item.q}
+              id={`faq-${i}`}
+              title={
+                <>
+                  <span className={styles.faqNumber}>{String(i + 1).padStart(2, '0')}</span>
+                  {item.q}
+                </>
+              }
+            >
               <p className={styles.faqAnswer}>{item.a}</p>
             </AccordionItem>
           ))}

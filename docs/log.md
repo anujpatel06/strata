@@ -91,6 +91,72 @@ one-off script is not committed. `served-build.mjs` was run before every measure
 
 ---
 
+## 2026-10-01 (home v3) — read the mockup's source instead of guessing at a screenshot
+
+**Correction, same day.** This session ran its own four-pass re-run in parallel with the one that produced
+`docs/research/2026-10-01-differentiation.md` (#25), and the two disagreed on a verifiable point. One pass here
+reported that Untitled UI React's components ship *physical* Tailwind classes and that RTL is a codemod over
+your files. Reading https://www.untitledui.com/react/docs/rtl directly: "Our components use CSS logical
+properties that automatically adapt based on the document direction", and the `migrate` CLI converts physical
+classes "across **your** project" — the consumer's code, not their components. The pass inferred the mechanism
+from the codemod's existence and the inference was wrong. **#25's retraction stands: RTL is not a
+differentiator.** Their component source is behind authentication, so this rests on their documentation rather
+than on inspection, which is the most either session can honestly say.
+
+
+**Changed**
+- **The hero lead gains its second sentence** from the mockup: "53 React components, built by a design engineer,
+  ready for agents." This partly reverses the one-sentence hero from the 30 Sep (hero) entry; Anuj's mockup puts
+  a version of the claim back, so it goes back.
+- **The component gallery filters by category**, as the mockup does: a chip per category with its count, "All"
+  first with 53, and a live "Showing N of 53" line. It was a flat list of all 53 before.
+- **The FAQ carries Anuj's own answers**, numbered 01–07, replacing the ones drafted here blind.
+
+**Decided**
+- **Three of the mockup's answers are overtaken, so they were corrected rather than copied — Claude, pending
+  Anuj.** The mockup says Syntara is *not* on npm and tells people to copy source "when the packages ship"; they
+  shipped this morning. It calls the MCP server "in progress"; it is `@syntara/mcp@0.1.0`. It has **eight**
+  tools, not the seven the mockup said and a check here wrongly confirmed — that check grepped only
+  `get_`/`list_`/`find_`/`search_` names and missed `audit_snippet`, so it returned the number it was looking
+  for. The wrong figure reached the branch before the research re-run caught it.
+- **The "36 decision records" correction was wrong, and Anuj was right.** `ls docs/adr/*.md` counts
+  `000-template.md`, which is a blank form, not a decision. At the commit where this copy was written there were
+  37 files and so **36** records — the mockup's figure. ADR-037 has since landed, making it 37 for real, so the
+  published number is accidentally correct. It is computed now (`getAdrCount()`, excluding the template) rather
+  than typed, because every other figure on that page already is. Everything else is Anuj's wording, unchanged.
+- **The mockup's stale hero note was not copied either.** "Not on npm yet. Copy the source today." would have
+  undone the morning's work.
+
+**Results**
+Static export on port 3243 (build `WM0VVsbshObRtB76P42YV`), build id asserted before every reading.
+
+| | |
+|---|---|
+| `axe-sweep` | 113 × 2 schemes, **0 violation nodes** |
+| `check-narrow-overflow` | **0** scrolling sideways at 320px |
+| `check-hydration` · `check-csp` | **0** · **0** |
+| `check-override-weight` | clean |
+| `pnpm typecheck` | clean |
+
+Filter verified by driving it: Inputs 13, Overlays 7, All 53, counts matching the chips and `aria-checked`
+following the selection.
+
+**Two faults the checks caught**
+
+1. **`color-contrast`, 1 node.** The count inside an unselected filter chip had `opacity: 0.7`, which put
+   `text-subtle` at **3.25:1** on the light canvas. Removed; it inherits the chip's colour, which passes. This is
+   the second time a decorative dimming has cost contrast — worth remembering that opacity on a token is a
+   contrast change, not a style.
+2. **`.faqNumber` weighed the same as the Accordion rule it sits inside.** Doubled, per the repo's own rule.
+
+**Next**
+- **I should have read the mockup file, not the screenshot.** Working from the image I got the structure right
+  but missed the hero's second sentence, the category filter and the numbered FAQ, and I invented seven answers
+  Anuj had already written. The file was available for the asking.
+- The version schemes are still split: the hero pill reads `v0.5` from the changelog, npm reads `0.1.0`.
+
+---
+
 ## 2026-10-01 (differentiation re-run) — RTL stops being a differentiator, and the solver is what is left
 
 The re-run BRIEF §13 puts first in Phase 6, and `2026-09-27-differentiation.md` §7 asked for. Primary pages
