@@ -49,9 +49,9 @@ Numbers only with the command that produced them. Design trade-offs get an ADR i
 
 **Results**
 Branch cut from `origin/main` at `99cec94` (0 behind, 0 ahead at start). `main` moved by two commits while this
-ran (#34, #35), so it was merged in before pushing; the only overlap was this file, and the verification numbers
-below predate that merge — the two commits touch `home-data.ts`, `tenant-card.tsx`, two vitest configs and
-`tenants/care/content.json`, none of which this change touches. Port 3000 was held by another session's
+ran (#34, #35), so it was merged in before pushing; the only overlap was this file. Those commits touch the
+homepage's brand cards, so the whole verification was re-run against the merged tree and every number below is
+from build `Vy0CNyRPfmHmI6qymi6mC`, after the merge. Port 3000 was held by another session's
 server (PID 28615, a different scratchpad), so step 9 ran against my own build on 3042 via `SYNTARA_BASE_URL`;
 that session's server was left alone.
 
@@ -63,12 +63,13 @@ rule catches the bug it was written for.
 
 `pnpm typecheck` clean · `pnpm test` **2,171** passing across 7 packages (`check-test-counts.mjs --fix` updated
 the README's auditor row 74 → 77) · `pnpm test:themes` **118,000/118,000** checks, 0 failed, median 4
-adjustments per brand · `pnpm check:meta` **53/53** · `pnpm registry` 73 items ok · `check-override-weight`
-clean · docs build `TbZwCB1_ig3Li-0n1BRDE` · `check-ssr-tabs` **0** of 82 pages · `check-hydration` **0** over
-114 routes × 2 schemes · `check-theme-links` **0** · `check-narrow-overflow` **0** at 320px ·
-`check-csp` **0** · `axe-sweep` **0** violation nodes over 114 routes × 2 schemes · `check-overlay-exit` **0**.
+adjustments per brand, charts **2,000/2,000** · `pnpm check:meta` **53/53** · `pnpm registry` 73 items ok ·
+`check-override-weight` clean · `check-ssr-tabs` **0** of 82 pages (327 tab lists) · `check-hydration` **0**
+over 114 routes × 2 schemes · `check-theme-links` **0** · `check-narrow-overflow` **0** at 320px ·
+`check-csp` **0** · `axe-sweep` **0** violation nodes over 114 routes × 2 schemes · `check-overlay-exit` **0**
+over 108 tooltips and 4 menus/popovers.
 
-Change proven to be in that build, not just alongside it:
+Change proven to be in build `Vy0CNyRPfmHmI6qymi6mC`, not just alongside it:
 `grep -roE '--syntara-(focus-ring-width|focus-ring-offset|color-border-focus|line-height-relaxed|radius-full|radius-md|radius-sm)' apps/docs/out/_next/static`
 returns **nothing**, and `outline:2px solid var(--syntara-color-focus-ring)` is present in the built chunks.
 In-browser after the fix: `.adr`, `.arrow`, `.rail`, `.componentTile` and `.filterChip` all compute
