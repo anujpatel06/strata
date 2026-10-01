@@ -1,4 +1,5 @@
 import { getHomeTenants } from '@/components/home/home-data';
+import { getAllMeta } from '@/lib/meta';
 import { HomeStage } from '@/components/home/home-stage';
 import { LiveShowcase } from '@/components/home/live-showcase';
 import {
@@ -16,6 +17,8 @@ import styles from './page.module.css';
 
 export default function Home() {
   const tenants = getHomeTenants();
+  /* slug → title, so the showcase's name overlay labels real components and nothing else. */
+  const components = Object.fromEntries(getAllMeta().map((m) => [m.name, m.title]));
   return (
     <PageShell>
       {/*
@@ -31,7 +34,7 @@ export default function Home() {
           <h2 id="showcase-title" className="visually-hidden">
             Live examples
           </h2>
-          <LiveShowcase tenants={tenants} />
+          <LiveShowcase tenants={tenants} components={components} />
         </section>
         <AccessibilitySection />
         <BrandsSection />
