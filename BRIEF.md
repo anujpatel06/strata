@@ -8,7 +8,7 @@
 
 ## 0. Who you're pairing with
 
-I'm Anuj Patel — Senior Product Designer, 7 years, founding designer at a white-label B2B2C platform (one product, many client brands). I'm moving into **Lead / Staff Product Designer** and **UX Design Engineer** roles at large product companies. This repo is a portfolio project that must survive a lead-level design-systems interview, where people will open the code, the Figma file and the docs.
+I'm Anuj Patel, a product designer who has built multi-brand systems — one product rendered as many client brands. This repo has to hold up to a lead-level design-systems review, where people open the code, the Figma file and the docs and judge all three.
 
 I own design decisions. You pair with me on engineering and push back when I'm wrong. Optimise for: **visual craft, correctness, honest claims, and a small finished scope over a big half-done one.**
 
@@ -145,7 +145,7 @@ Treat these as product, not paperwork. They're what separates a lead from someon
 - **GOVERNANCE.md** — who decides what; contribution flow: *Issue → RFC (template) → design review → build → docs → release*; review SLA; a decision tree for requests: **extend an existing component vs. new variant vs. new component vs. local override**.
 - **Versioning** — semver via Changesets, generated changelog.
 - **Deprecation policy** — deprecate in a minor, remove in the next major, a codemod ships with every breaking change.
-  **Do it once for real:** rename `Button variant="danger"` → `tone="critical"` (or a token rename), mark it deprecated in `$extensions` and meta, ship the codemod, run it on `apps/reference`, record it in the changelog. Keep the diff — it's an interview story.
+  **Do it once for real:** rename `Button variant="danger"` → `tone="critical"` (or a token rename), mark it deprecated in `$extensions` and meta, ship the codemod, run it on `apps/reference`, record it in the changelog. Keep the diff — it's the proof the policy is real.
 - **ADRs (≥8)**, each ≤1 page: Context / Decision / Alternatives / Consequences. Suggested:
   - 001 Token build tool
   - 002 Headless primitives — build vs. buy (Radix vs. React Aria)
@@ -275,8 +275,8 @@ Max ~600 words of prose on the page. Everything else is interactive or visual.
 - When a choice has a design trade-off, **stop and ask me** with 2–3 options and your recommendation. My answer becomes an ADR.
 - After any UI work, take Playwright screenshots of every tenant × scheme and show me before moving on.
 - Never invent metrics. Every number comes from a script; write the command next to it.
-- Update `docs/log.md` every session (changed / decided / next). It becomes my interview timeline.
-- In every ADR and log entry, record **who made the call**: "Anuj decided" vs. "Claude recommended, Anuj accepted". Interviewers will ask what I did versus the agent — the record has to answer that.
+- Update `docs/log.md` every session (changed / decided / next). It is the project's timeline.
+- In every ADR and log entry, record **who made the call**: "Anuj decided" vs. "Claude recommended, Anuj accepted". A reader has to be able to tell what the maintainer decided from what the agent recommended.
 
 ---
 
@@ -294,7 +294,7 @@ Max ~600 words of prose on the page. Everything else is interactive or visual.
 
 ## Anuj's track — Figma (not for the agent)
 
-Runs in parallel with Phases 1–3. Interviewers for product-design roles will open the Figma file.
+Runs in parallel with Phases 1–3. The Figma file is a first-class deliverable, judged alongside the code.
 
 - Import the Figma-variables JSON from `packages/tokens` (variables-import plugin or Tokens Studio).
 - **Split modes across collections** — Brand (3 modes), Scheme (2), Density (2) — so no collection needs more than 3 modes. This fits plan mode limits and mirrors the code's token architecture. Confirm your plan's limit first.

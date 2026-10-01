@@ -9,7 +9,7 @@
 
 - **[V]** read on a primary or official page · **[S]** search snippet or secondary source only · **[OLD]** source older than 2024 · **[U]** could not be verified.
 - Most "not found" results are **absence of evidence**, not proof that nothing exists.
-- **Re-check every claim before it goes on the site or into an interview.** This space moves monthly.
+- **Re-check every claim before it goes on the site or anywhere public.** This space moves monthly.
 - No number here was produced by a Syntara script. None of them may appear on the site as a Syntara metric.
 
 ## 1. Where Syntara stands
