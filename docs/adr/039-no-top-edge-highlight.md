@@ -42,9 +42,23 @@
 - **Button's pressed state no longer differs by shadow.** It used to drop the highlight on press; the press now
   reads through the darker `action.primary.pressed` fill and the spring scale, which is how CONVENTIONS describes a
   press anyway. The pressed rule still restates the raised shadow, so a stuck hover state cannot lift a pressed
-  button.
-- **Kbd leans on its bottom edge.** The keycap was a lit top edge plus a deeper bottom edge; only the bottom edge is
-  left to say "key". Worth Anuj's eye at small sizes.
+  button. Measured on the primary button in a real build (2026-10-01, default motion, no `prefers-reduced-motion`):
+
+  | state | scale | fill | rendered width |
+  |---|---|---|---|
+  | rest | none | `rgb(61, 69, 214)` | 93.53px |
+  | hover | none | `rgb(52, 55, 200)` | 93.53px |
+  | pressed | **0.96** | `rgb(45, 39, 186)` | **89.79px** |
+
+  So the press still shrinks the control by 3.74px and darkens the fill twice over from rest, and hover is carried by
+  the fill alone. Note that capturing with reduced motion on suppresses the scale and makes the press look weaker
+  than it is — the first attempt at this measurement did exactly that.
+- **Kbd is unaffected in practice.** An earlier draft of this ADR said the keycap would be "left with only the bottom
+  edge to say 'key'". That was read off a comment, not measured, and it is wrong. The cap has four shadow layers and
+  keeps three: the hairline ring, the deeper bottom edge (`0 -1px 0` inset at 80% alpha) and the drop shadow. Only the
+  lit top edge goes. Checked against real dev builds of f0bfc42 and 2557e70 (2026-10-01): **light mode is visually
+  identical**, because the cap's face is near-white and 20% white over it painted nothing; in dark the difference is
+  visible only under magnification, and the ring plus the weighted bottom edge still carry the keycap.
 - 18 comments across 16 files were rewritten, because they described a highlight that is no longer drawn.
 
 ## Alternatives rejected
