@@ -904,3 +904,99 @@
   color: var(--syntara-color-text-default);
   font-weight: var(--syntara-font-weight-medium);
 }
+
+/* ---- "Every fix, in a sentence" ---- */
+
+.fixes {
+  display: grid;
+  gap: var(--syntara-space-3);
+}
+
+.checksPass {
+  display: inline-flex;
+  align-items: center;
+  align-self: start;
+  min-block-size: 24px;
+  gap: var(--syntara-space-2);
+  margin: 0;
+  padding-block: var(--syntara-space-1);
+  padding-inline: var(--syntara-space-3);
+  border-radius: var(--syntara-radius-full);
+  background-color: var(--syntara-color-feedback-success-bg);
+  color: var(--syntara-color-feedback-success-fg);
+  font-size: var(--syntara-font-size-sm);
+  font-weight: var(--syntara-font-weight-medium);
+}
+
+.fixCard {
+  display: grid;
+  gap: var(--syntara-space-1);
+  padding: var(--syntara-space-3);
+  border: var(--syntara-hairline) solid var(--syntara-color-border-subtle);
+  border-radius: var(--syntara-radius-md);
+  background-color: var(--syntara-color-surface-sunken);
+}
+
+/* The scheme is a word, not a colour: status is never carried by colour alone. */
+.fixScheme {
+  color: var(--syntara-color-text-subtle);
+  font-family: var(--syntara-font-mono);
+  font-size: var(--syntara-font-size-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.fixMessage {
+  margin: 0;
+  color: var(--syntara-color-text-default);
+  font-size: var(--syntara-font-size-sm);
+  line-height: var(--syntara-line-height-normal);
+  text-wrap: pretty;
+}
+
+/* ---- The pipeline: one file in, components out ---- */
+
+.pipeline {
+  display: grid;
+  gap: var(--syntara-space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: step;
+}
+
+/*
+ * Each step is a box with a connector drawn under it. The connector is a pseudo-element rather than a
+ * character, so a screen reader reads four package names and not four plus signs.
+ */
+.pipelineStep {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--syntara-space-2);
+  padding: var(--syntara-space-3);
+  border: var(--syntara-hairline) solid var(--syntara-color-border-subtle);
+  border-radius: var(--syntara-radius-md);
+  background-color: var(--syntara-color-surface-sunken);
+}
+.pipelineStep + .pipelineStep::before {
+  content: '';
+  position: absolute;
+  inset-block-start: calc(var(--syntara-space-2) * -1);
+  inset-inline-start: var(--syntara-space-6);
+  inline-size: var(--syntara-hairline);
+  block-size: var(--syntara-space-2);
+  background-color: var(--syntara-color-border-strong);
+}
+
+.pipelinePkg {
+  color: var(--syntara-color-text-default);
+  font-family: var(--syntara-font-mono);
+  font-size: var(--syntara-font-size-sm);
+}
+
+.pipelineNote {
+  color: var(--syntara-color-text-subtle);
+  font-size: var(--syntara-font-size-xs);
+}

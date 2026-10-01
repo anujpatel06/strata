@@ -289,3 +289,46 @@ export const getAlsoFacts = cache((): AlsoFacts => {
   }
   return { blocks, icons };
 });
+
+export interface FixPanel {
+  checks: { passed: number; total: number };
+  /** One adjustment the solver made in each scheme, in its own words. */
+  light?: { role: string; message: string };
+  dark?: { role: string; message: string };
+}
+
+/**
+ * "Every fix, in a sentence": the live check count for a tenant and one explanation per scheme, written by the
+ * engine at build time. Nothing here is hand-written, so the panel cannot claim a fix the solver did not make.
+ */
+export const getFixPanel = cache((): FixPanel | undefined => {
+  const tenant = getTenants().find((t) => t.id === 'vela') ?? getTenants()[0];
+  if (!tenant) return undefined;
+  const theme = generateTheme(tenant.brand);
+  const pick = (scheme: 'light' | 'dark') => {
+    const a = theme.adjustments.find((x) => x.scheme === scheme);
+    return a ? { role: a.role, message: a.message } : undefined;
+  };
+  return {
+    checks: { passed: theme.summary.passed, total: theme.summary.checks },
+    light: pick('light'),
+    dark: pick('dark'),
+  };
+});
+
+export interface PipelineStep {
+  pkg: string;
+  note: string;
+}
+
+/** The four boxes of "values change, never names": one file in, components out. */
+export const getPipeline = cache((): PipelineStep[] => {
+  const facts = getTokensFacts();
+  const components = getAllMeta().length;
+  return [
+    { pkg: 'brand.json', note: `${facts?.inputCount ?? 6} inputs` },
+    { pkg: '@syntara/theme-engine', note: 'OKLCH + solver' },
+    { pkg: '@syntara/tokens', note: `${facts?.tokenCount ?? 0} a theme` },
+    { pkg: '@syntara/react', note: `${components} components` },
+  ];
+});

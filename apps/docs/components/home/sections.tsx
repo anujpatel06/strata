@@ -32,6 +32,8 @@ import {
   getTenantOverviews,
   getAdrCount,
   getAlsoFacts,
+  getFixPanel,
+  getPipeline,
   getTokensFacts,
   type TenantOverview,
 } from './home-data';
@@ -368,6 +370,8 @@ export function AgentsSection() {
 
 export function TokensSection() {
   const f = getTokensFacts();
+  const fix = getFixPanel();
+  const pipeline = getPipeline();
   if (!f) return null;
   return (
     <section className={styles.section} aria-labelledby="tokens-title">
@@ -391,18 +395,40 @@ export function TokensSection() {
           <CodeBlock code={f.brandJson} lang="json" title={`tenants/${f.tenant.toLowerCase()}/brand.json`} collapseAfter={0} />
         </article>
         <article className={styles.panel}>
-          <h3 className={styles.panelTitle}>{f.tokenCount} tokens out</h3>
+          <h3 className={styles.panelTitle}>Every fix, in a sentence</h3>
           <p className={styles.panelNote}>
-            Ramps, semantic roles and every state, solved for light and dark. These are the first five.
+            When a pair fails, the engine moves the lighter side and says why. These are its own words.
           </p>
-          <CodeBlock code={f.sample} lang="css" title="generated" collapseAfter={0} />
+          {fix && (
+            <div className={styles.fixes}>
+              <p className={styles.checksPass}>
+                <IconCheck aria-hidden stroke={2} className={styles.verdictIcon} />
+                {fix.checks.passed}/{fix.checks.total} live checks pass
+              </p>
+              {(['light', 'dark'] as const).map((scheme) =>
+                fix[scheme] ? (
+                  <div key={scheme} className={styles.fixCard}>
+                    <span className={styles.fixScheme}>{scheme}</span>
+                    <p className={styles.fixMessage}>{fix[scheme]?.message}</p>
+                  </div>
+                ) : null,
+              )}
+            </div>
+          )}
         </article>
         <article className={styles.panel}>
           <h3 className={styles.panelTitle}>Values change, never names</h3>
           <p className={styles.panelNote}>
             The role is the API. A component reads the name; the brand decides the value.
           </p>
-          <CodeBlock code={f.compare} lang="css" title="one role, two brands" collapseAfter={0} />
+          <ol className={styles.pipeline}>
+            {pipeline.map((step) => (
+              <li key={step.pkg} className={styles.pipelineStep}>
+                <code className={styles.pipelinePkg}>{step.pkg}</code>
+                <span className={styles.pipelineNote}>{step.note}</span>
+              </li>
+            ))}
+          </ol>
         </article>
         <article className={styles.panel}>
           <h3 className={styles.panelTitle}>Scope a theme to one screen</h3>
