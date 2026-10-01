@@ -65,6 +65,61 @@ Static export, build `LB2O-MPApqYjrbluLu_PK`, build id asserted before every rea
 **Next**
 - The hero pill still reads "53 components" where the mockup reads "Agents release in progress", and the site's
   `v0.5` milestone still sits beside npm's `0.1.0`. Both are Anuj's call.
+## 2026-10-01 (GIF out of git) — the demo moves to a release, and the repository is public
+
+**Changed**
+- **`docs/media/readme.gif` is deleted from the tree** and `docs/media/` is gitignored. The README points at
+  the **`readme-media` release asset** instead, which costs nothing to clone.
+- **`scripts/readme-gif.mjs` says so in its header**, with the two commands that publish a new clip:
+  `pnpm gif`, then `gh release upload readme-media docs/media/readme.gif --clobber`. No commit involved.
+- **New release `readme-media`** holding `readme.gif` (4,849,857 bytes), with notes explaining why it lives
+  there rather than in the tree.
+
+**Decided**
+- **Forward-only removal, not a history rewrite — Anuj.** Claude laid out three options. The blob is still in
+  `main`'s history, in exactly one commit (`419be9f`, the squash of #27). Purging it would have meant
+  `git filter-repo` and a force-push to `main`, which was cheap in blob terms but would have rewritten every
+  sha and broken the other sessions' in-flight branches. Anuj chose to stop the bleeding rather than rewrite.
+  **One 4.6 MB copy is in history permanently; no more will accumulate.**
+- **Host on a GitHub release asset — Anuj.** The alternative was dropping the embed and linking the live site,
+  which would not have met BRIEF §13's "README with a 30-sec GIF".
+
+**Results**
+
+| Check | Result |
+|---|---|
+| Asset uploaded | `readme.gif`, **4,849,857 bytes** — byte-identical to the file that was committed |
+| README URL, fetched with no credentials (`--no-netrc`, `Authorization:` cleared) | **HTTP 200** |
+| Downloaded and identified | `GIF image data, version 89a, 960 x 535`, 4,849,857 bytes |
+| Blob still in `main` history | yes — `f493747`, one commit (`419be9f`) |
+
+**The repository is public.** `gh repo view --json isPrivate` returns **false**. This session did not do it;
+it happened while the GIF work was in progress, so ADR-037's irreversible step is done. Two things are worth
+recording about the state it went out in:
+
+- **The scrub landed first.** `git show origin/main:BRIEF.md` no longer contains the employment description or
+  the roles being applied for; §0 reads as the softened version from #23. The pre-publication audit in that
+  same PR found no credentials in any commit. So the thing that mattered was in place.
+- **The cold-clone test never ran.** ADR-037 listed it as the step before going public, and it was skipped.
+  It is now a test of a public repository rather than a gate on publishing it, which is a weaker thing but
+  still worth doing.
+
+**A timing failure worth naming.** Anuj asked for the GIF to be moved out of git; by the time the
+auto-merge could be disabled, #27 had already merged and the blob was in `main`. Auto-merge had been enabled
+two steps earlier at his request, before the GIF was added to that branch — so the thing that landed was not
+the thing that was armed. **Enabling auto-merge makes a branch a moving target; do not add a new deliverable
+to a branch that is already armed to merge itself.**
+
+**Next**
+- **Run the cold-clone test anyway.** `git clone` into a temp directory on a machine that does not share this
+  pnpm store, then `pnpm install && pnpm docs`. It is now a bug report rather than a gate.
+- **Re-read ADR-037 beside §3 of `2026-10-01-differentiation.md`** — still outstanding, and now after the fact.
+  The 21st listing is the part of it the research weakened; going public has happened regardless.
+- Unchanged: the `/story` opening scene and its rollout section, both Anuj's; the 21st monorepo question; and
+  the shadcn focus-ring claim, still unreproduced after two research passes.
+
+---
+
 ## 2026-10-01 (README GIF) — Phase 6's last item, and three cuts to get one honest clip
 
 **Changed**

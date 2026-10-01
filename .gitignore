@@ -15,3 +15,7 @@ apps/docs/out
 .claude/settings.local.json
 
 packages/react/registry/
+
+# The README demo GIF is hosted on the readme-media release, not committed: 4.6 MB per copy, and a
+# re-record adds another. `pnpm gif` writes here; upload with `gh release upload readme-media … --clobber`.
+docs/media/
