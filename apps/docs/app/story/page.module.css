@@ -1,0 +1,285 @@
+/*
+ * /story — the case-study page (BRIEF §11).
+ *
+ * Tokens only, logical properties only. One class, `.placeholder`, restyles a Syntara component (it sits on a
+ * Card), so it is doubled: a single class weighs the same as the component's own rule, and stylesheet order —
+ * which moves when the import graph does — would otherwise decide which wins. `node scripts/check-override-weight.mjs`
+ * is what caught it; run that rather than trusting this comment.
+ */
+
+.section {
+  margin-block-start: var(--syntara-space-16);
+}
+
+.section:first-of-type {
+  margin-block-start: var(--syntara-space-10);
+}
+
+.h2 {
+  margin-block: var(--syntara-space-3) 0;
+  font-family: var(--syntara-font-heading);
+  font-size: var(--syntara-font-size-3xl);
+  font-weight: var(--syntara-font-weight-semibold);
+  letter-spacing: var(--syntara-font-heading-tracking);
+  line-height: var(--syntara-line-height-tight);
+  color: var(--syntara-color-text-default);
+}
+
+.h3 {
+  margin-block: 0 var(--syntara-space-2);
+  font-family: var(--syntara-font-heading);
+  font-size: var(--syntara-font-size-lg);
+  font-weight: var(--syntara-font-weight-semibold);
+  line-height: var(--syntara-line-height-tight);
+  color: var(--syntara-color-text-default);
+}
+
+.lede {
+  max-inline-size: 60ch;
+  margin-block: var(--syntara-space-3) var(--syntara-space-6);
+  font-size: var(--syntara-font-size-lg);
+  line-height: var(--syntara-line-height-relaxed);
+  color: var(--syntara-color-text-subtle);
+}
+
+/* 1 — opening scene placeholder */
+
+.placeholder.placeholder {
+  display: grid;
+  gap: var(--syntara-space-3);
+  justify-items: start;
+  margin-block-start: var(--syntara-space-4);
+  border-style: dashed;
+}
+
+.placeholderBody {
+  max-inline-size: 56ch;
+  margin: 0;
+  font-size: var(--syntara-font-size-md);
+  line-height: var(--syntara-line-height-relaxed);
+  color: var(--syntara-color-text-subtle);
+}
+
+/* 2 — the live generator */
+
+.generator {
+  margin-block-start: var(--syntara-space-4);
+}
+
+/* 3 — three tenants */
+
+.tenants {
+  display: grid;
+  gap: var(--syntara-space-5);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 60rem) {
+  .tenants {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.tenant {
+  display: grid;
+  gap: var(--syntara-space-3);
+}
+
+.shot {
+  inline-size: 100%;
+  block-size: auto;
+  border: var(--syntara-hairline) solid var(--syntara-color-border-subtle);
+  border-radius: var(--syntara-radius-container);
+  box-shadow: var(--syntara-shadow-raised);
+}
+
+.tenantMeta {
+  display: grid;
+  gap: var(--syntara-space-1);
+  font-size: var(--syntara-font-size-sm);
+  line-height: var(--syntara-line-height-normal);
+  color: var(--syntara-color-text-subtle);
+}
+
+.tenantMeta strong {
+  font-size: var(--syntara-font-size-md);
+  font-weight: var(--syntara-font-weight-semibold);
+  color: var(--syntara-color-text-default);
+}
+
+.locale {
+  font-family: var(--syntara-font-mono);
+  font-size: var(--syntara-font-size-sm);
+}
+
+/* 4 — numbers */
+
+.figures {
+  display: grid;
+  gap: var(--syntara-space-4);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 48rem) {
+  .figures {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 72rem) {
+  .figures {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.figure {
+  display: grid;
+  gap: var(--syntara-space-2);
+  align-content: start;
+  padding: var(--syntara-space-5);
+  border: var(--syntara-hairline) solid var(--syntara-color-border-subtle);
+  border-radius: var(--syntara-radius-container);
+  background: var(--syntara-color-surface-raised);
+}
+
+.figureValue {
+  font-family: var(--syntara-font-heading);
+  font-size: var(--syntara-font-size-3xl);
+  font-weight: var(--syntara-font-weight-semibold);
+  line-height: var(--syntara-line-height-tight);
+  color: var(--syntara-color-text-brand);
+  font-variant-numeric: tabular-nums;
+}
+
+.figureLabel {
+  font-size: var(--syntara-font-size-md);
+  font-weight: var(--syntara-font-weight-medium);
+  color: var(--syntara-color-text-default);
+}
+
+.figureBasis {
+  font-size: var(--syntara-font-size-sm);
+  line-height: var(--syntara-line-height-normal);
+  color: var(--syntara-color-text-subtle);
+}
+
+.command {
+  overflow-wrap: anywhere;
+  padding: var(--syntara-space-2) var(--syntara-space-3);
+  border-radius: var(--syntara-radius-button);
+  background: var(--syntara-color-surface-default);
+  font-family: var(--syntara-font-mono);
+  font-size: var(--syntara-font-size-sm);
+  color: var(--syntara-color-text-default);
+}
+
+/* 5 — decisions */
+
+.decisions,
+.rollout {
+  display: grid;
+  gap: var(--syntara-space-6);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: item;
+}
+
+.decision {
+  display: grid;
+  gap: var(--syntara-space-2);
+  max-inline-size: 72ch;
+  padding-inline-start: var(--syntara-space-5);
+  border-inline-start: var(--syntara-hairline) solid var(--syntara-color-border-default);
+}
+
+.adr {
+  justify-self: start;
+  font-family: var(--syntara-font-mono);
+  font-size: var(--syntara-font-size-sm);
+  color: var(--syntara-color-text-brand);
+}
+
+.adr:focus-visible {
+  outline: var(--syntara-focus-ring-width) solid var(--syntara-color-border-focus);
+  outline-offset: var(--syntara-focus-ring-offset);
+  border-radius: var(--syntara-radius-button);
+}
+
+.tension,
+.callLine,
+.consequence,
+.measure {
+  margin: 0;
+  font-size: var(--syntara-font-size-md);
+  line-height: var(--syntara-line-height-relaxed);
+}
+
+.tension {
+  color: var(--syntara-color-text-subtle);
+}
+
+.callLine,
+.consequence {
+  color: var(--syntara-color-text-default);
+}
+
+/* 6 — rollout */
+
+.phase {
+  display: grid;
+  gap: var(--syntara-space-4);
+  align-items: start;
+  max-inline-size: 72ch;
+  grid-template-columns: auto 1fr;
+}
+
+.quarter {
+  padding: var(--syntara-space-1) var(--syntara-space-3);
+  border-radius: var(--syntara-radius-pill);
+  background: var(--syntara-color-surface-raised);
+  border: var(--syntara-hairline) solid var(--syntara-color-border-subtle);
+  font-family: var(--syntara-font-mono);
+  font-size: var(--syntara-font-size-sm);
+  color: var(--syntara-color-text-subtle);
+}
+
+.phase p {
+  margin: 0 0 var(--syntara-space-2);
+  font-size: var(--syntara-font-size-md);
+  line-height: var(--syntara-line-height-relaxed);
+  color: var(--syntara-color-text-default);
+}
+
+.measure {
+  color: var(--syntara-color-text-subtle);
+}
+
+/* 7 — limits */
+
+.limits {
+  display: grid;
+  gap: var(--syntara-space-4);
+  max-inline-size: 72ch;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.limits li {
+  padding-inline-start: var(--syntara-space-5);
+  border-inline-start: var(--syntara-hairline) solid var(--syntara-color-border-strong);
+  font-size: var(--syntara-font-size-md);
+  line-height: var(--syntara-line-height-relaxed);
+  color: var(--syntara-color-text-subtle);
+}
+
+.limits strong {
+  color: var(--syntara-color-text-default);
+}
