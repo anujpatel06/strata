@@ -33,6 +33,7 @@ const COLUMNS: ReadonlyArray<{ title: string; links: ReadonlyArray<{ href: strin
   {
     title: 'Project',
     links: [
+      { href: '/story', label: 'Story' },
       { href: '/docs/governance', label: 'Decisions' },
       { href: '/docs/changelog', label: 'Changelog' },
       { href: GITHUB_URL, label: 'GitHub', external: true },

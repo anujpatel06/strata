@@ -20,6 +20,7 @@ export function docsRoutes() {
     '/blocks',
     '/themes',
     '/colors',
+    '/story',
     ...docs.map((d) => `/docs/${d}`),
     ...comps.map((c) => `/docs/components/${c}`),
     ...BLOCKS.flatMap((b) => TENANTS.map((t) => `/blocks/${b}/view?tenant=${t}`)),
