@@ -19,8 +19,15 @@ export interface NavLink {
   label: string;
 }
 
-/** Header navigation. `/docs/components` is matched before `/docs` for the active state. */
+/**
+ * Header navigation. Longest prefix wins for the active state, so `/docs/components` and `/docs/installation`
+ * are matched before `/docs`.
+ *
+ * "Get started" is first and points at Installation. The header used to offer six ways to browse and none to
+ * begin, which left the homepage's two small buttons as the only route in.
+ */
 export const MAIN_NAV: readonly NavLink[] = [
+  { href: '/docs/installation', label: 'Get started' },
   { href: '/docs', label: 'Docs' },
   { href: '/docs/components', label: 'Components' },
   { href: '/blocks', label: 'Blocks' },

@@ -10,6 +10,7 @@ import {
   ComponentsSection,
   FaqSection,
   Hero,
+  ShowcaseHeader,
   TokensSection,
 } from '@/components/home/sections';
 import { PageShell } from '@/components/page/page-shell';
@@ -31,9 +32,7 @@ export default function Home() {
       <HomeStage initialTheme={tenants[0]?.id ?? 'house'}>
         <Hero />
         <section className={styles.showcase} aria-labelledby="showcase-title">
-          <h2 id="showcase-title" className="visually-hidden">
-            Live examples
-          </h2>
+          <ShowcaseHeader />
           <LiveShowcase tenants={tenants} components={components} />
         </section>
         <AccessibilitySection />

@@ -1,6 +1,14 @@
 .main {
   flex: 1;
   outline: none;
+  /*
+    The homepage's banner band breaks out of the container with `inset-inline: calc(50% - 50vw)`, and `vw`
+    counts a classic scrollbar, so the band is a few pixels wider than the viewport where scrollbars take space.
+    `clip` eats that without making <main> a scroll container — `hidden` would, and the sticky site header above
+    would stop sticking. Horizontal only: the page still scrolls, and overlays portal to <body> (ADR-012), so
+    nothing that needs to escape is clipped here.
+  */
+  overflow-x: clip;
 }
 
 .container {

@@ -44,6 +44,27 @@
   white-space: nowrap;
 }
 
+/*
+ * Shiki's <pre><code> inside the pill. It carries its own colours as inline `light-dark()` values, so it
+ * follows the scheme on its own; everything else it brings — the block layout, the margin, the pre-wrap
+ * default — is undone here so it sits on one line of the pill like the plain version does.
+ */
+.highlighted {
+  min-inline-size: 0;
+}
+.highlighted :global(pre),
+.highlighted :global(code) {
+  margin: 0;
+  padding: 0;
+  background: none;
+  font: inherit;
+}
+.highlighted :global(.line) {
+  /* Wraps at the spaces between arguments; a package name is never broken mid-word. */
+  white-space: pre-wrap;
+  overflow-wrap: normal;
+}
+
 .prompt {
   color: var(--syntara-color-text-subtle);
   user-select: none;

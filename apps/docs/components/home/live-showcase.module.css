@@ -270,14 +270,6 @@
   font-size: var(--syntara-font-size-sm);
 }
 
-.captionBrand {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--syntara-space-2);
-  color: var(--syntara-color-text-default);
-  font-weight: var(--syntara-font-weight-medium);
-}
-
 .captionSpec {
   font-family: var(--syntara-font-mono);
   font-size: calc(var(--syntara-font-size-sm) * 0.94);

@@ -1,0 +1,149 @@
+/*
+ * The hero's card stack. Three tenant cards fanned, the picked one in front, chips under them and one line of
+ * caption. Tokens only; the fan's offsets are the one place this file uses transforms, because a fan is a
+ * physical arrangement and there is no logical equivalent — it is mirrored for right-to-left below.
+ */
+
+.root {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--syntara-space-5);
+  min-inline-size: 0;
+}
+
+/*
+ * The stack is sized by the card in front; the two behind are taken out of flow and pushed sideways, so the
+ * hero's height is one card's height whatever is fanned around it.
+ */
+/*
+ * How much smaller the fan is drawn than it is laid out. One number, here, so it is one edit to change.
+ *
+ * `zoom`, not `scale` — the same choice as the example thumbnails on /docs/components, and for the same reason
+ * written there: zoom shrinks the layout box as well as the paint, so the hero's column sees the size the cards
+ * really take up. `scale` would leave a full-size box behind and the chips and caption would sit a card's height
+ * below the cards.
+ *
+ * The card still lays out at its full width internally — two stat tiles side by side, nothing reflowed — and is
+ * only drawn smaller.
+ */
+.stack {
+  --stack-zoom: 0.5;
+  position: relative;
+  display: grid;
+  isolation: isolate;
+  inline-size: 100%;
+  max-inline-size: calc(var(--syntara-space-16) * 6.5);
+  min-inline-size: 0;
+  /*
+   * Room under the cards for the rotated corners of the two behind, which reach below the front card's box.
+   * The same value is the bottom inset of `.behind` below, so the fanned cards keep the front card's exact
+   * rectangle: padding alone made them taller (an absolutely positioned child fills the padding box), which
+   * pushed their corners further down and put the chips back under them.
+   */
+  --stack-foot: var(--syntara-space-8);
+  padding-block-end: var(--stack-foot);
+}
+
+.front {
+  position: relative;
+  z-index: 2;
+  min-inline-size: 0;
+}
+
+/*
+ * Exactly the front card's box, clipped. The two behind hold other tenants' content, which is a different length
+ * in every brand — left to size themselves they came out 448 and 490 tall against a 387 front card, and the fan
+ * read as three unrelated rectangles. Pinned to the same rect, the fan is three copies of one card, which is the
+ * thing being said.
+ */
+.behind {
+  position: absolute;
+  z-index: 1;
+  inset-block: 0 var(--stack-foot);
+  inset-inline: 0;
+  overflow: hidden;
+  border-radius: var(--docs-card-radius);
+  /* Behind the front card and lower in the light: the fan should read as depth, not as three equal cards. */
+  opacity: 0.55;
+  filter: saturate(0.8);
+  pointer-events: none;
+}
+.behind > *,
+.behind :global([class*='card']) {
+  block-size: 100%;
+}
+
+/*
+ * The fan's offsets. 20%, no more: at 1440 the column is 652px and the card 416, which leaves 118px of slack
+ * each side, and the rotation eats about 16 of it. A wider fan put the left card into the headline's column and
+ * the right one past the edge of the page — both measured, not guessed.
+ */
+.behind[data-slot='start'] {
+  transform: translateX(-20%) rotate(-5deg) scale(0.93);
+  transform-origin: bottom right;
+}
+.behind[data-slot='end'] {
+  transform: translateX(20%) rotate(5deg) scale(0.93);
+  transform-origin: bottom left;
+}
+/* Mirrored, so the fan opens the same way relative to the reading direction. */
+.root:dir(rtl) .behind[data-slot='start'] {
+  transform: translateX(20%) rotate(5deg) scale(0.93);
+  transform-origin: bottom left;
+}
+.root:dir(rtl) .behind[data-slot='end'] {
+  transform: translateX(-20%) rotate(-5deg) scale(0.93);
+  transform-origin: bottom right;
+}
+
+/* Without zoom support the fan simply renders at full size: smaller would be nicer, broken would not. */
+@supports (zoom: 1) {
+  .stack {
+    zoom: var(--stack-zoom);
+  }
+}
+
+/* The fan collapses on a phone: two cards at 94% either side of a third do not fit, and a stack of one is
+   honest rather than cramped. */
+@media (max-width: 899px) {
+  .behind {
+    display: none;
+  }
+}
+
+.scope.scope {
+  min-inline-size: 0;
+}
+
+.chips.chips {
+  flex-wrap: wrap;
+  justify-content: center;
+  max-inline-size: 100%;
+}
+.chip.chip {
+  gap: var(--syntara-space-2);
+}
+
+.dot {
+  inline-size: var(--syntara-space-2);
+  block-size: var(--syntara-space-2);
+  border-radius: var(--syntara-radius-pill);
+  flex: none;
+}
+
+.caption {
+  margin: 0;
+  max-inline-size: calc(var(--syntara-space-16) * 7);
+  color: var(--syntara-color-text-subtle);
+  font-size: var(--syntara-font-size-sm);
+  line-height: var(--syntara-line-height-normal);
+  text-align: center;
+  text-wrap: pretty;
+}
+
+.file {
+  font-family: var(--syntara-font-mono);
+  font-size: 0.94em;
+  color: var(--syntara-color-text-default);
+}
