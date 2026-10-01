@@ -1,5 +1,13 @@
 # @syntara/docs
 
+## 0.1.2
+
+### Patch Changes
+
+- Updated dependencies [74ee912]
+  - @syntara/sdui@0.1.1
+  - @syntara/react@0.1.1
+
 ## 0.1.1
 
 ### Patch Changes
