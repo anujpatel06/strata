@@ -13,6 +13,13 @@
  * Needs ffmpeg on PATH. Playwright records webm; ffmpeg builds a palette from the whole clip and applies it,
  * which is what keeps brand colours from banding. Like every other sweep script this refuses to record a
  * server that is not running this build, so a GIF cannot quietly show someone else's work.
+ *
+ * The output is NOT committed. `docs/media/` is gitignored, because the clip is 4.6 MB and a re-record adds
+ * another copy to history forever — one did reach `main` before this was sorted out. The README points at the
+ * `readme-media` release instead, so publishing a new clip is two commands and no commit:
+ *
+ *   pnpm gif
+ *   gh release upload readme-media docs/media/readme.gif --clobber
  */
 import { spawnSync } from 'node:child_process';
 import { readFileSync } from 'node:fs';
