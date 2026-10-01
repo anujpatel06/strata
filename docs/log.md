@@ -6,6 +6,55 @@ Numbers only with the command that produced them. Design trade-offs get an ADR i
 
 ---
 
+## 2026-10-01 (home v3) — read the mockup's source instead of guessing at a screenshot
+
+**Changed**
+- **The hero lead gains its second sentence** from the mockup: "53 React components, built by a design engineer,
+  ready for agents." This partly reverses the one-sentence hero from the 30 Sep (hero) entry; Anuj's mockup puts
+  a version of the claim back, so it goes back.
+- **The component gallery filters by category**, as the mockup does: a chip per category with its count, "All"
+  first with 53, and a live "Showing N of 53" line. It was a flat list of all 53 before.
+- **The FAQ carries Anuj's own answers**, numbered 01–07, replacing the ones drafted here blind.
+
+**Decided**
+- **Three of the mockup's answers are overtaken, so they were corrected rather than copied — Claude, pending
+  Anuj.** The mockup says Syntara is *not* on npm and tells people to copy source "when the packages ship"; they
+  shipped this morning. It calls the MCP server "in progress"; it is `@syntara/mcp@0.1.0` (still seven tools,
+  which checks out). It counts 36 decision records; `ls docs/adr/*.md` gives 37. Everything else is Anuj's
+  wording, unchanged.
+- **The mockup's stale hero note was not copied either.** "Not on npm yet. Copy the source today." would have
+  undone the morning's work.
+
+**Results**
+Static export on port 3243 (build `WM0VVsbshObRtB76P42YV`), build id asserted before every reading.
+
+| | |
+|---|---|
+| `axe-sweep` | 113 × 2 schemes, **0 violation nodes** |
+| `check-narrow-overflow` | **0** scrolling sideways at 320px |
+| `check-hydration` · `check-csp` | **0** · **0** |
+| `check-override-weight` | clean |
+| `pnpm typecheck` | clean |
+
+Filter verified by driving it: Inputs 13, Overlays 7, All 53, counts matching the chips and `aria-checked`
+following the selection.
+
+**Two faults the checks caught**
+
+1. **`color-contrast`, 1 node.** The count inside an unselected filter chip had `opacity: 0.7`, which put
+   `text-subtle` at **3.25:1** on the light canvas. Removed; it inherits the chip's colour, which passes. This is
+   the second time a decorative dimming has cost contrast — worth remembering that opacity on a token is a
+   contrast change, not a style.
+2. **`.faqNumber` weighed the same as the Accordion rule it sits inside.** Doubled, per the repo's own rule.
+
+**Next**
+- **I should have read the mockup file, not the screenshot.** Working from the image I got the structure right
+  but missed the hero's second sentence, the category filter and the numbered FAQ, and I invented seven answers
+  Anuj had already written. The file was available for the asking.
+- The version schemes are still split: the hero pill reads `v0.5` from the changelog, npm reads `0.1.0`.
+
+---
+
 ## 2026-10-01 (home) — the homepage in Anuj's layout, and the brand reaches the whole page
 
 **Changed**

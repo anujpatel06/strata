@@ -781,3 +781,72 @@
   font-style: italic;
   transition: color calc(var(--syntara-motion-duration-slow) * 2) var(--syntara-motion-easing);
 }
+
+/* ---- Component category filter ---- */
+
+.filterRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--syntara-space-2);
+  margin-block-end: var(--syntara-space-4);
+}
+
+/* Same 24px target floor as .componentChip and .textLink (WCAG 2.2 AA 2.5.8). */
+.filterChip {
+  display: inline-flex;
+  align-items: center;
+  min-block-size: 24px;
+  gap: var(--syntara-space-2);
+  padding-block: var(--syntara-space-2);
+  padding-inline: var(--syntara-space-3);
+  border: var(--syntara-hairline) solid var(--syntara-color-border-subtle);
+  border-radius: var(--syntara-radius-full);
+  background-color: transparent;
+  color: var(--syntara-color-text-subtle);
+  font: inherit;
+  font-size: var(--syntara-font-size-sm);
+  cursor: pointer;
+  transition:
+    border-color var(--syntara-motion-duration-fast) var(--syntara-motion-easing),
+    background-color var(--syntara-motion-duration-fast) var(--syntara-motion-easing),
+    color var(--syntara-motion-duration-fast) var(--syntara-motion-easing);
+}
+.filterChip:hover {
+  border-color: var(--syntara-color-border-strong);
+  color: var(--syntara-color-text-default);
+}
+.filterChip:focus-visible {
+  outline: var(--syntara-focus-ring-width) solid var(--syntara-color-border-focus);
+  outline-offset: var(--syntara-focus-ring-offset);
+}
+/* Selected state carries a background and a border as well as colour — never colour alone (WCAG 1.4.1). */
+.filterChip[data-active='true'] {
+  border-color: var(--syntara-color-action-primary-bg);
+  background-color: var(--syntara-color-action-primary-bg);
+  color: var(--syntara-color-action-primary-fg);
+}
+
+/*
+ * No opacity here. Dimming `text-subtle` to 0.7 put the count at 3.25:1 on the light canvas, under the 4.5:1
+ * this system refuses to round up to. It inherits the chip's own colour, which passes, and tabular figures keep
+ * the chips from jittering as counts change.
+ */
+.filterCount {
+  color: currentColor;
+  font-variant-numeric: tabular-nums;
+}
+
+.filterCountNote {
+  margin-block: var(--syntara-space-3) 0;
+  color: var(--syntara-color-text-subtle);
+  font-size: var(--syntara-font-size-sm);
+}
+
+/* The 01…07 before each question, as the mockup numbers them. Doubled: it sits inside the Accordion's own
+   trigger markup, so a single class would only tie with the component's rule (check-override-weight.mjs). */
+.faqNumber.faqNumber {
+  margin-inline-end: var(--syntara-space-3);
+  color: var(--syntara-color-text-subtle);
+  font-size: var(--syntara-font-size-sm);
+  font-variant-numeric: tabular-nums;
+}
