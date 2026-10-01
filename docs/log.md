@@ -6,6 +6,31 @@ Numbers only with the command that produced them. Design trade-offs get an ADR i
 
 ---
 
+## 2026-10-01 (phases shipped) — the changelog says what is true, and CLAUDE.md catches up
+
+**Changed**
+- **Phases 3, 4 and 5 are badged Shipped — Anuj.** The changelog had them "In progress" while `CLAUDE.md`
+  recorded Phase 0–5a as done; the two disagreed and Anuj settled it. The homepage roadmap reads the badges, so
+  it followed without a code change.
+- **`CLAUDE.md`'s status was three kinds of stale** and is rewritten: Phase 6 is done rather than "2 of 5";
+  versions are `react`, `sdui` and `mcp` at 0.1.1 with the other five at 0.1.0, not "all eight at 0.1.0"; and
+  the repo is public rather than pending.
+
+**Decided**
+- **ADR-037's cold clone was not run, and the entry now says so.** The ADR asked for a clone on a machine
+  without this pnpm store *before* `private: false`. The visibility change was made on Anuj's instruction after
+  a secret scan of all 101 commits and 6,382 objects — no credentials, no personal data beyond the committed
+  author address — but that is not the check the ADR specified. It is still worth running, now as a check
+  rather than a gate. Recording it rather than quietly updating the text around it.
+
+**Results**
+Separate worktree again; the main checkout is still on another session's branch with uncommitted work. Build
+`OBK9ihZkVXIhKrlwQ4HRn`: `check-narrow-overflow` **0** at 320px · `check-hydration` **0** ·
+`check-override-weight` clean · typecheck clean. Changelog page renders **0** "In progress" badges; the
+homepage roadmap shows all five Shipped.
+
+---
+
 ## 2026-10-01 (one version) — the site stops having a version of its own
 
 **Changed**
