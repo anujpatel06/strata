@@ -228,7 +228,7 @@ import { SyntaraScreen } from '@syntara/sdui/react';
 
 - Generate Kotlin or Swift types from `schema/` (each node is a discriminated union on `type`), or read `schema/manifest.json` directly: it lists each node's props, enum values, defaults, slots, children and accessibility rules.
 - Map each node type to a native component. Implement the "Unknowns" table above: that's the part that lets a server ship ahead of an app release.
-- Take colours, spacing, radii and type from the tenant's token files, not from the screen. Native token export (Compose and SwiftUI) is the next part of Phase 5a (ADR-019) and isn't built yet.
+- Take colours, spacing, radii and type from the tenant's token files, not from the screen. Native token export (Compose and SwiftUI) ships in `@syntara/tokens`: each tenant gets `android/SyntaraTokens.kt` and `ios/SyntaraTokens.swift` from `pnpm tokens`, with every contrast pair re-checked on the exported values (ADR-019). There are no native components, and the Kotlin has not been compiled.
 - Map `ariaLabel` to the platform's accessibility label.
 
 ## Add a component to the wire
