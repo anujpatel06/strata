@@ -48,9 +48,22 @@ export function TenantCard({ tenant, level = 3 }: { tenant: TenantOverview; leve
           ))}
         </div>
       </CardContent>
+      {/*
+        Small buttons, so both actions sit on one line at the width the rail gives this card. At the default size
+        the pair needed more room than the footer has in three of the five brands — Vela by 11px, Haat by 14px,
+        Care by 76px — and CardFooter wrapped the second one onto its own row. At `sm` the pair fits in four of
+        five (Care's primary action was shortened to "Book a visit" in its content.json for the fifth).
+
+        The footer keeps its wrapping: making the buttons fit is what puts them side by side, not `nowrap`. Button
+        sets `flex-shrink: 0` and `white-space: nowrap` with nothing to truncate it, so a footer forced to one row
+        does not squeeze the second button, it pushes it past the card's edge — measured at 48px for Care at a
+        1440px window and at every card (9–139px) at 375px. Wrapping is what keeps the narrow case honest.
+      */}
       <CardFooter>
-        <Button>{tenant.primaryAction}</Button>
-        <Button variant="outline">{tenant.secondaryAction}</Button>
+        <Button size="sm">{tenant.primaryAction}</Button>
+        <Button size="sm" variant="outline">
+          {tenant.secondaryAction}
+        </Button>
       </CardFooter>
     </Card>
   );
