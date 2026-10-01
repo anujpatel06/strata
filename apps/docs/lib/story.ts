@@ -113,6 +113,26 @@ function componentFigure(): StoryFigure | undefined {
   };
 }
 
+export interface AdrSplit {
+  total: number;
+  pending: number;
+}
+
+/**
+ * docs/adr/*.md — counted from each file's own Status line, so the "who decided" claim cannot drift from the
+ * record it describes. The template is not a decision, so it is excluded.
+ */
+export const getAdrSplit = cache((): AdrSplit | undefined => {
+  const files = listRepoDir('docs', 'adr').filter((f) => f.endsWith('.md') && !f.startsWith('000-'));
+  if (files.length === 0) return undefined;
+  let pending = 0;
+  for (const f of files) {
+    const status = (readRepoFile('docs', 'adr', f) ?? '').split('\n').find((l) => /\*\*Status:\*\*/.test(l)) ?? '';
+    if (/pending/i.test(status)) pending += 1;
+  }
+  return { total: files.length, pending };
+});
+
 /** The five figures BRIEF §11 asks for, in its order. A figure with no report file is simply absent. */
 export const getStoryFigures = cache((): StoryFigure[] =>
   [themeFigure(), tenantFigure(), evalFigure(), auditFigure(), componentFigure()].filter(

@@ -5,7 +5,7 @@ import { PageShell } from '@/components/page/page-shell';
 import { readState } from '@/components/themes/state';
 import { ThemesProvider } from '@/components/themes/themes-provider';
 import { ThemesWorkspace } from '@/components/themes/themes-workspace';
-import { getStoryFigures, getStoryTenants } from '@/lib/story';
+import { getAdrSplit, getStoryFigures, getStoryTenants } from '@/lib/story';
 import { getThemePresets } from '@/lib/theme-presets';
 import styles from './page.module.css';
 
@@ -84,6 +84,7 @@ const ROLLOUT = [
 
 export default function Story() {
   const figures = getStoryFigures();
+  const adrs = getAdrSplit();
   const tenants = getStoryTenants();
   const presets = getThemePresets();
   const initial = readState(new URLSearchParams(), presets);
@@ -137,7 +138,9 @@ export default function Story() {
           Three brands, one component library
         </h2>
         <p className={styles.lede}>
-          Nothing below differs in code. Each tenant is one <code>brand.json</code> and its copy.
+          A brand has to be <strong>data, not code</strong>. Nothing below differs in code, and no component
+          ever learns which brand it is rendering — there is no tenant id anywhere in{' '}
+          <code>packages/react</code>.
         </p>
         <ul className={styles.tenants}>
           {tenants.map((t) => (
@@ -176,8 +179,8 @@ export default function Story() {
           Numbers, and how to reproduce them
         </h2>
         <p className={styles.lede}>
-          Each figure is read at build time from the file its command writes. No number here is typed by hand;
-          run the command and you get the same one.
+          A design system that claims accessibility and cannot show it is a brochure. Each figure is read at
+          build time from the file its command writes — none is typed by hand.
         </p>
         <ul className={styles.figures}>
           {figures.map((f) => (
@@ -197,6 +200,13 @@ export default function Story() {
         <h2 id="decisions" className={styles.h2}>
           Five decisions that mattered
         </h2>
+        {adrs && (
+          <p className={styles.lede}>
+            Every architectural call is an ADR, and every ADR records who made it — Anuj, the agent
+            recommending and Anuj accepting, or the agent alone pending review. There are {adrs.total}, and not
+            one is anonymous. {adrs.pending} are still waiting on his review, and they say so.
+          </p>
+        )}
         <ol className={styles.decisions}>
           {DECISIONS.map((d) => (
             <li key={d.adr} className={styles.decision}>
@@ -262,7 +272,9 @@ export default function Story() {
           </li>
           <li>
             <strong>The agent eval is one model, one task family, 100 runs.</strong> It shows a direction, not a
-            law. Its first iteration was invalid and is kept on record.
+            law. Its first run reported 0% against 70%, which would have been a far better headline; it was a
+            fault in the harness. Both runs are in the repository and the invalid one is still there, marked. A
+            number you cannot reproduce is worth less than no number.
           </li>
         </ul>
       </section>
