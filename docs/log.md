@@ -67,6 +67,46 @@ solid fill, the "pressable key" look from the v0.3 tactile pass.
 
 ---
 
+## 2026-10-01 (one version) — the site stops having a version of its own
+
+**Changed**
+- **The hero pill shows the published version of `@syntara/react`** (0.1.1), not the changelog's top heading.
+  The site had been showing `v0.5` beside packages published at `0.1.0`: two true numbers, six lines apart,
+  that read as a contradiction. Flagged three times and now fixed at the source.
+- **The changelog's `v0.N` headings are `Phase N`.** They were always build phases — the file said so in its
+  own first line — and calling them versions is what created the collision. Its intro now says the packages
+  are versioned separately on npm.
+- **The roadmap beside the FAQ reads each phase's real status** from its badge: Phases 1 and 2 Shipped,
+  3, 4 and 5 In progress.
+- `/docs` said "Phase 1 … shipped as v0.1 … Next is Phase 4, governance", which was both the old scheme and
+  out of date. Rewritten without version numbers.
+
+**Decided**
+- **Phases and package versions are different things, and only npm's is called a version — Anuj.**
+  The alternative was renumbering the changelog to npm versions, which would be false: Phases 1–5 were never
+  published to npm, and three of them are still in progress.
+
+**Two faults found while doing it**
+1. **The roadmap said every phase had Shipped.** The previous entry here recorded reasoning that an entry in
+   the changelog meant a phase had shipped. It does not: the changelog badges three of five "In progress", and
+   Anuj's mockup had it right. The status is read rather than inferred now.
+2. **Phase 1 carried no badge at all,** so the fallback invented "In progress" for the phase that shipped
+   first. It has the Shipped badge it was missing, and a phase with no badge now renders no status rather than
+   a guessed one.
+
+**Results**
+Built in a separate worktree, because the main checkout was on another session's branch with uncommitted work.
+Build `qLqwRH-Fxz9ftUAOn_HM7`, asserted before each reading: `axe-sweep` 114 × 2 schemes **0 violation nodes** ·
+`check-narrow-overflow` **0** at 320px · `check-hydration` **0** · `check-override-weight` clean · typecheck
+clean.
+
+**Next**
+- The changelog still badges Phases 3, 4 and 5 "In progress" while `CLAUDE.md` records Phase 0–5a as done.
+  One of the two is stale. Not changed here: that is a statement about where the project stands, and Anuj's
+  to make.
+
+---
+
 ## 2026-10-01 (sheen) — the metallic band comes off the surfaces
 
 **Changed**
