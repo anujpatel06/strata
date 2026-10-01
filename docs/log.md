@@ -48,10 +48,10 @@ Numbers only with the command that produced them. Design trade-offs get an ADR i
   the focus pair copies what `packages/react` already does in 39 places.
 
 **Results**
-Branch cut from `origin/main` at `99cec94` (0 behind, 0 ahead at start). `main` moved by two commits while this
-ran (#34, #35), so it was merged in before pushing; the only overlap was this file. Those commits touch the
-homepage's brand cards, so the whole verification was re-run against the merged tree and every number below is
-from build `Vy0CNyRPfmHmI6qymi6mC`, after the merge. Port 3000 was held by another session's
+Branch cut from `origin/main` at `99cec94` (0 behind, 0 ahead at start). `main` moved four times while this ran
+(#34, #35, #36, #38) and was merged in each time; the only conflicts were in this file, both times two sessions
+adding a top entry. #35 and #38 both touch the homepage, so the verification was re-run against the merged tree.
+Every number below is from build `9PUQoxEj8eQSMtV3Nj5w7`, the last one, except where a line names its own. Port 3000 was held by another session's
 server (PID 28615, a different scratchpad), so step 9 ran against my own build on 3042 via `SYNTARA_BASE_URL`;
 that session's server was left alone.
 
@@ -65,11 +65,11 @@ rule catches the bug it was written for.
 the README's auditor row 74 → 77) · `pnpm test:themes` **118,000/118,000** checks, 0 failed, median 4
 adjustments per brand, charts **2,000/2,000** · `pnpm check:meta` **53/53** · `pnpm registry` 73 items ok ·
 `check-override-weight` clean · `check-ssr-tabs` **0** of 82 pages (327 tab lists) · `check-hydration` **0**
-over 114 routes × 2 schemes · `check-theme-links` **0** · `check-narrow-overflow` **0** at 320px ·
+over 114 routes × 2 schemes · `check-theme-links` **0** · `check-narrow-overflow` **0** over 570 checks at 320/375/390/430/768px (#38's widths) ·
 `check-csp` **0** · `axe-sweep` **0** violation nodes over 114 routes × 2 schemes · `check-overlay-exit` **0**
 over 108 tooltips and 4 menus/popovers.
 
-Change proven to be in build `Vy0CNyRPfmHmI6qymi6mC`, not just alongside it:
+Change proven to be in build `9PUQoxEj8eQSMtV3Nj5w7`, not just alongside it:
 `grep -roE '--syntara-(focus-ring-width|focus-ring-offset|color-border-focus|line-height-relaxed|radius-full|radius-md|radius-sm)' apps/docs/out/_next/static`
 returns **nothing**, and `outline:2px solid var(--syntara-color-focus-ring)` is present in the built chunks.
 In-browser after the fix: `.adr`, `.arrow`, `.rail`, `.componentTile` and `.filterChip` all compute
@@ -265,7 +265,7 @@ Wider sweeps than `/verify` runs, measured on the pre-merge build while fixing t
 
 **Results**
 Separate worktree again; the main checkout is still on another session's branch with uncommitted work. Build
-`OBK9ihZkVXIhKrlwQ4HRn`: `check-narrow-overflow` **0** at 320px · `check-hydration` **0** ·
+`OBK9ihZkVXIhKrlwQ4HRn`: `check-narrow-overflow` **0** over 570 checks at 320/375/390/430/768px (#38's widths) · `check-hydration` **0** ·
 `check-override-weight` clean · typecheck clean. Changelog page renders **0** "In progress" badges; the
 homepage roadmap shows all five Shipped.
 
@@ -365,7 +365,7 @@ solid fill, the "pressable key" look from the v0.3 tactile pass.
 **Results**
 Built in a separate worktree, because the main checkout was on another session's branch with uncommitted work.
 Build `qLqwRH-Fxz9ftUAOn_HM7`, asserted before each reading: `axe-sweep` 114 × 2 schemes **0 violation nodes** ·
-`check-narrow-overflow` **0** at 320px · `check-hydration` **0** · `check-override-weight` clean · typecheck
+`check-narrow-overflow` **0** over 570 checks at 320/375/390/430/768px (#38's widths) · `check-hydration` **0** · `check-override-weight` clean · typecheck
 clean.
 
 **Next**
