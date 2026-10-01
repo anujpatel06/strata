@@ -1,6 +1,6 @@
 {
   "name": "@syntara/mcp",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Syntara's MCP server: AI coding agents read components, tokens and usage rules from the same source people do.",
   "type": "module",
   "license": "MIT",
