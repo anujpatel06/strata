@@ -16,8 +16,19 @@ Anuj owns design decisions. You pair on engineering and push back when he's wron
   - Governance (Phase 4): `GOVERNANCE.md`, RFCs in `docs/rfcs/`, deprecation records in `meta.json`, `packages/codemods`. First deprecation: `Button variant="danger"` → `tone="danger"` (RFC-001, ADR-021).
   - Agents (Phase 5): `packages/audit` (`pnpm drift`), `packages/mcp`, `AGENTS.md`, `evals/` (results in `evals/results.md`; iteration 1 is invalid and kept on record).
   - Mobile reach (Phase 5a): `packages/sdui`, native token files from `pnpm tokens`, tenant Haat (hi-IN). No native components.
-- **Next:** Phase 6, 2 of 5 (BRIEF §13). Done: npm publish, docs deployed. Left: re-run the differentiation research (the brief says *first*), a README GIF, and `/story`. Docs live on **Cloudflare Pages** (https://syntara.pages.dev; previews per branch, configured in the Cloudflare dashboard, not in this repo). All eight packages are on npm at **0.1.0** under the `@syntara` org. Release with `pnpm changeset publish` from `main`; publish with pnpm, never npm, or `workspace:*` ships literally.
-- **Going public (ADR-037, decided by Anuj):** the repo becomes public under its existing MIT licence and the site is listed on 21st.dev as an open-source template. Done: the pre-publication audit (no credentials in any commit), the scrub of job-search framing, and screenshots that show Syntara rather than the pre-rename "Strata". Left, in order: a **cold clone** test on a machine that does not share this pnpm store, then `gh repo edit --visibility public` — **irreversible** — then the listing. Open question first: 21st's open-source templates all look like single runnable apps, and whether a pnpm monorepo is accepted is unknown.
+- **Next:** Phase 7 — nothing is scheduled. Phase 6 is **done** (BRIEF §13): eight packages on npm, docs live on
+  **Cloudflare Pages** (https://syntara.pages.dev; previews per branch, configured in the Cloudflare dashboard,
+  not in this repo), the differentiation research re-run (`docs/research/2026-10-01-differentiation.md`), the
+  README GIF and `/story`. Versions: `@syntara/react`, `@syntara/sdui` and `@syntara/mcp` at **0.1.1**, the other
+  five at 0.1.0. Release with `pnpm changeset publish` from `main`; publish with pnpm, never npm, or
+  `workspace:*` ships literally, and `+ pkg@version` means npm staged it — check `npm view` before believing it.
+- **The repo is public** (ADR-037). Done: the pre-publication audit, the scrub of job-search framing, the
+  Syntara screenshots, and `private: false` — which also unblocked branch protection and GitHub auto-merge, both
+  now on for `main` with the two CI jobs required. **ADR-037 asked for a cold clone on a machine without this
+  pnpm store before flipping, and that was not run**: the visibility change was made on Anuj's instruction after
+  a secret scan of all 101 commits (no credentials, no personal data beyond the committed author address). The
+  cold clone is still worth doing, now as a check rather than a gate. Left: the 21st.dev listing, where it is
+  still unknown whether a pnpm monorepo is accepted.
 - **Waiting on Anuj:** review Haat's Hindi copy; the clipping found in the Arabic and Latin type pairs; and seven ADR questions — **020** (Haat's name, industry and brand inputs), **024** (the whole ADR is Proposed), **025** (the API shape of the generated native files), **026** (accepted for the docs site, review pending), **032** (whether a Hindi reader agrees that रय reads as initials), **034** and **035** (accepted by Claude, review pending).
 - **Known gaps:** listed at the end of the latest entry in `docs/log.md`.
 - **ADRs run to 037.** Check `ls docs/adr/` for the next free number rather than trusting this line; it has been stale before.

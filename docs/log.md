@@ -78,6 +78,31 @@ Numbers only with the command that produced them. Design trade-offs get an ADR i
 
 ---
 
+## 2026-10-01 (phases shipped) — the changelog says what is true, and CLAUDE.md catches up
+
+**Changed**
+- **Phases 3, 4 and 5 are badged Shipped — Anuj.** The changelog had them "In progress" while `CLAUDE.md`
+  recorded Phase 0–5a as done; the two disagreed and Anuj settled it. The homepage roadmap reads the badges, so
+  it followed without a code change.
+- **`CLAUDE.md`'s status was three kinds of stale** and is rewritten: Phase 6 is done rather than "2 of 5";
+  versions are `react`, `sdui` and `mcp` at 0.1.1 with the other five at 0.1.0, not "all eight at 0.1.0"; and
+  the repo is public rather than pending.
+
+**Decided**
+- **ADR-037's cold clone was not run, and the entry now says so.** The ADR asked for a clone on a machine
+  without this pnpm store *before* `private: false`. The visibility change was made on Anuj's instruction after
+  a secret scan of all 101 commits and 6,382 objects — no credentials, no personal data beyond the committed
+  author address — but that is not the check the ADR specified. It is still worth running, now as a check
+  rather than a gate. Recording it rather than quietly updating the text around it.
+
+**Results**
+Separate worktree again; the main checkout is still on another session's branch with uncommitted work. Build
+`OBK9ihZkVXIhKrlwQ4HRn`: `check-narrow-overflow` **0** at 320px · `check-hydration` **0** ·
+`check-override-weight` clean · typecheck clean. Changelog page renders **0** "In progress" badges; the
+homepage roadmap shows all five Shipped.
+
+---
+
 ## 2026-10-01 (top-edge highlight) — the other "sheen" comes off too
 
 **Changed**
@@ -130,11 +155,14 @@ solid fill, the "pressable key" look from the v0.3 tactile pass.
 - `pnpm test:themes` again rewrote only its timing numbers (median 0.62 → 0.59 ms, p95 0.95 → 0.98 ms). Reverted.
 
 **Next**
-- **For Anuj's eye:** Button's pressed state no longer differs by shadow — it used to drop the highlight on press,
-  and now reads through the darker fill and the spring scale, which is how CONVENTIONS describes a press anyway.
-  The pressed rule still restates the raised shadow so a stuck hover can't lift a pressed button.
-- **For Anuj's eye:** Kbd. The keycap was a lit top edge plus a deeper bottom edge; only the bottom edge is left to
-  say "key". Check it at small sizes.
+- ~~**For Anuj's eye:** Button's pressed state.~~ **Checked and fine.** It no longer differs by shadow, but the press
+  still shrinks the control to scale 0.96 (93.53px → 89.79px) and darkens the fill twice over from rest; hover is
+  carried by the fill alone. Figures in [ADR-039](adr/039-no-top-edge-highlight.md). A first capture with reduced
+  motion on hid the scale and made the press look weaker than it is — measure this one with motion enabled.
+- ~~**For Anuj's eye:** Kbd.~~ **Checked, and the worry was wrong.** The claim that "only the bottom edge is left to
+  say 'key'" came from a code comment, not a measurement. The cap keeps three of its four layers (ring, weighted
+  bottom edge, drop shadow); light mode is visually identical and dark differs only under magnification. ADR-039
+  corrected.
 - Raise the 5s test timeout on the three load-sensitive tests, or give them their own budget.
 
 ---
