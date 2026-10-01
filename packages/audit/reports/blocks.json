@@ -1,0 +1,39 @@
+{
+  "findings": [
+    {
+      "rule": "physical-property",
+      "severity": "error",
+      "file": "apps/docs/blocks/benefits-overview/benefits-overview.module.css",
+      "line": 754,
+      "column": 5,
+      "message": "padding with four values sets right and left by name of position. It does not mirror in right-to-left.",
+      "snippet": "padding",
+      "fix": {
+        "description": "Write the two axes: padding-block: var(--syntara-space-6) var(--syntara-space-8); padding-inline: var(--syntara-space-5) var(--syntara-space-4). The values change order, so check it.",
+        "replacement": "padding-block: var(--syntara-space-6) var(--syntara-space-8); padding-inline: var(--syntara-space-5) var(--syntara-space-4)",
+        "start": 19710,
+        "end": 19810,
+        "safe": false
+      }
+    }
+  ],
+  "stats": {
+    "files": 14,
+    "lines": 8003,
+    "opportunities": 1150,
+    "opportunitiesByRule": {
+      "raw-color": 299,
+      "font-family-literal": 27,
+      "off-scale-font-size": 82,
+      "physical-property": 208,
+      "off-scale-space": 342,
+      "raw-font-weight": 57,
+      "off-scale-radius": 23,
+      "native-element": 68,
+      "deprecated-api": 37,
+      "missing-accessible-name": 7
+    },
+    "suppressed": 0
+  },
+  "score": 99.8
+}

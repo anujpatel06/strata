@@ -47,6 +47,7 @@ function searchGroups(): SearchGroup[] {
       { href: '/blocks', title: 'Blocks', keywords: 'patterns screens', description: 'Whole screens built only from Syntara components.' },
       { href: '/themes', title: 'Themes', keywords: 'tenants brands generator', description: 'Type a brand colour, get an accessible theme.' },
       { href: '/colors', title: 'Colors', keywords: 'palette ramps roles', description: 'Every brand’s ramps, light and dark. Click to copy.' },
+      { href: '/story', title: 'Story', keywords: 'case study decisions evidence rollout numbers', description: 'How it was built, the numbers, and what they do not cover.' },
     ],
   });
   return groups;

@@ -15,6 +15,7 @@
     "typecheck": "pnpm -r typecheck",
     "tokens": "pnpm --filter @syntara/tokens build",
     "screenshots": "node scripts/screenshots.mjs",
+    "gif": "node scripts/readme-gif.mjs",
     "registry": "node packages/react/scripts/build-registry.mjs",
     "check:meta": "node packages/react/scripts/check-meta.mjs",
     "drift": "node packages/audit/bin/cli.mjs",
