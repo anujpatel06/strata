@@ -34,8 +34,8 @@
 }
 
 /*
- * The ring: a hairline inner edge plus the top-edge sheen, drawn above the photo so light photos
- * don't bleed into the page and initials read as a lit tile. Decoration only.
+ * The ring: a hairline inner edge, drawn above the photo so light photos don't bleed into the page.
+ * The top-edge highlight it used to carry is gone (ADR-039). Decoration only.
  */
 .avatar::after {
   position: absolute;
@@ -43,7 +43,6 @@
   inset: 0;
   border-radius: inherit;
   box-shadow:
-    var(--syntara-shadow-highlight),
     inset 0 0 0 var(--syntara-hairline) var(--_ring);
   content: '';
   pointer-events: none;

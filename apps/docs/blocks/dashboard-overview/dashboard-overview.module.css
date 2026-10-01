@@ -108,7 +108,7 @@
   font-weight: var(--syntara-font-weight-bold);
   letter-spacing: var(--syntara-font-tracking-md);
   line-height: 1;
-  box-shadow: var(--syntara-shadow-highlight), var(--syntara-shadow-raised);
+  box-shadow: var(--syntara-shadow-raised);
 }
 
 @supports (corner-shape: squircle) {

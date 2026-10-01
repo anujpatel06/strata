@@ -163,10 +163,12 @@ describe('feature card contrast', () => {
     return rgb8ToHex([0, 1, 2].map((i) => f[i]! * alpha + b[i]! * (1 - alpha)) as Rgb);
   };
 
-  // The sheen (surface recipe) is proven on plain surface.raised by the engine, not on the glow: over the dark glow it
-  // would drop text.subtle and text.brand to 4.15:1 (qamar, at a 6% peak, measured 2026-09-27; the peak is now 8%). So the feature variant opts out.
-  it('layers the sheen on default cards and keeps it off the feature glow', () => {
-    expect(css).toMatch(/--_sheen: var\(--syntara-sheen\);/);
+  // The sheen is no longer painted (ADR-038: the diagonal band read as brushed metal). The slot stays in the layer
+  // stack, so the recipe's shape is unchanged and restoring it is one line per file. This guards against it coming
+  // back by accident; the contrast proofs below still composite its old peak, so they are floors now.
+  it('holds the sheen slot open but paints nothing in it', () => {
+    expect(css).toMatch(/--_sheen: none;/);
+    expect(css).not.toMatch(/--_sheen: var\(--syntara-sheen\);/);
     expect(css).toMatch(/var\(--_sheen\) padding-box,\s*var\(--_face\) padding-box/);
     const feature = /\.card\[data-variant='feature'\] \{([\s\S]*?)\n\}/.exec(css)?.[1] ?? '';
     expect(feature).toMatch(/--_sheen: none;/);

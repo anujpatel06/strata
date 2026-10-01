@@ -173,7 +173,6 @@
   border-radius: calc(var(--syntara-radius-container) + var(--_inset));
   box-shadow:
     0 0 0 var(--syntara-hairline) var(--syntara-color-border-subtle),
-    var(--syntara-shadow-highlight),
     var(--syntara-shadow-overlay),
     0 var(--syntara-space-12) calc(var(--syntara-space-16) * 2) calc(var(--syntara-space-10) * -1)
       color-mix(in oklab, var(--syntara-color-action-primary-bg) 22%, transparent);

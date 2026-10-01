@@ -60,14 +60,15 @@ describe('Popover', () => {
 });
 
 /*
- * Glass + sheen contrast proof (surface recipe). Every glass surface layers the engine's sheen (dark: a band of
- * text.default at its peak %) over a face of surface.raised at (glass opacity + OFFSET points). The engine solves
- * the glass opacity so text.default and text.subtle just reach 4.5:1 over black and white backdrops; the sheen would
- * take that margin (3.67:1 at the 8% peak without the offset), so the offset buys it back. This re-derives both numbers from the CSS
- * and the engine, composites in 8-bit sRGB like glass.ts (backdrop → face → sheen), and checks the 5 tenants and the
- * 1,000 fuzz brands in dark (light has no sheen; the offset only adds margin there).
+ * Glass contrast proof (surface recipe). Every glass surface uses a face of surface.raised at (glass opacity +
+ * OFFSET points). The engine solves the glass opacity so text.default and text.subtle just reach 4.5:1 over black
+ * and white backdrops; the sheen used to take that margin (3.67:1 at the 8% peak without the offset), so the offset
+ * bought it back. The sheen is no longer painted (ADR-038), but the offset stays — a more opaque face only adds
+ * margin — and this proof still composites the sheen's old peak, so its figures are floors. It re-derives both
+ * numbers from the CSS and the engine, composites in 8-bit sRGB like glass.ts (backdrop → face → sheen), and
+ * checks the 5 tenants and the 1,000 fuzz brands in dark.
  */
-describe('glass + sheen contrast', () => {
+describe('glass contrast', () => {
   const node = (
     globalThis as unknown as {
       process: {
@@ -80,10 +81,11 @@ describe('glass + sheen contrast', () => {
   const FILES = ['popover', 'select', 'combobox', 'date-picker', 'dialog', 'sheet', 'command'];
   const FACE = /--_glass: color-mix\(in srgb, var\(--syntara-color-surface-raised\) calc\(var\(--syntara-glass-opacity\) \* 100% \+ (\d+)%\), transparent\);/;
 
-  it('every glass surface uses the same face and layers the sheen over it', () => {
+  it('every glass surface uses the same face, with no sheen painted over it', () => {
     const offsets = FILES.map((f) => {
       const css = read(`src/ui/${f}.module.css`);
-      expect(css, f).toMatch(/background: var\(--syntara-sheen\), var\(--_glass\);/);
+      expect(css, f).toMatch(/background: var\(--_glass\);/);
+      expect(css, f).not.toMatch(/var\(--syntara-sheen\), var\(--_glass\)/);
       expect(css, f).not.toMatch(/var\(--syntara-glass-bg\)/);
       return Number(FACE.exec(css)?.[1]);
     });

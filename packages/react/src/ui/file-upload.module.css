@@ -71,14 +71,14 @@
 }
 .zone[data-hovered] .zoneIcon {
   color: var(--syntara-color-text-default);
-  box-shadow: var(--syntara-shadow-highlight), var(--syntara-shadow-overlay);
+  box-shadow: var(--syntara-shadow-overlay);
 }
 /* The badge becomes a solid brand fill while a drop is possible (fill + label pair, so the arrow keeps 3:1+). */
 .zone[data-drop-target] .zoneIcon {
   border-color: var(--syntara-color-action-primary-bg);
   background: var(--syntara-color-action-primary-bg);
   color: var(--syntara-color-action-primary-fg);
-  box-shadow: var(--syntara-shadow-highlight), var(--syntara-shadow-overlay);
+  box-shadow: var(--syntara-shadow-overlay);
 }
 .zone[data-disabled] .zoneIcon {
   color: var(--syntara-color-text-disabled);

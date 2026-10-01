@@ -84,8 +84,8 @@
   /* Without motion the thumb is placed by alignment; with motion it's translated (below) so it can spring. */
   justify-content: flex-end;
   background-color: var(--syntara-color-action-primary-bg);
-  /* Solid fill: sheen + raised shadow. */
-  box-shadow: var(--syntara-shadow-highlight), var(--syntara-shadow-raised);
+  /* Solid fill: the raised shadow (no top-edge highlight — ADR-039). */
+  box-shadow: var(--syntara-shadow-raised);
 }
 
 .button[data-selected][data-hovered] .track {

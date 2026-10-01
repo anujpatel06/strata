@@ -8,7 +8,7 @@
  *   panel      floating: surface.canvas (dark: the darkest step, below the page's surface.default; light: a soft grey
  *              under white pills). flush: surface.default. text.default / text.subtle / text.brand and focus.ring are
  *              all checked on canvas and default.
- *   pill       surface.raised + border.subtle hairline + the highlight sheen; text.default (and text.brand for the
+ *   pill       surface.raised + border.subtle hairline, no top-edge highlight (ADR-039); text.default (and text.brand for the
  *              nested bullet), both checked on raised. No brand fill, no glow.
  *   marker     text.brand on the panel: ≥ 4.5:1 on canvas/default, so well over the 3:1 a non-text mark needs.
  *
@@ -414,7 +414,6 @@
   --_ring: var(--syntara-color-surface-raised);
   box-shadow:
     0 0 0 var(--syntara-hairline) var(--_edge),
-    var(--syntara-shadow-highlight),
     var(--syntara-shadow-raised);
   font-weight: var(--syntara-font-weight-medium);
 }

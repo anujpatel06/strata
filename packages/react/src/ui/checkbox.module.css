@@ -87,8 +87,8 @@
 .button:is([data-selected], [data-indeterminate]) .box {
   border-color: var(--syntara-color-action-primary-bg);
   background-color: var(--syntara-color-action-primary-bg);
-  /* Solid fill: sheen + raised shadow, like a primary button. */
-  box-shadow: var(--syntara-shadow-highlight), var(--syntara-shadow-raised);
+  /* Solid fill: the raised shadow, like a primary button (no top-edge highlight — ADR-039). */
+  box-shadow: var(--syntara-shadow-raised);
 }
 
 .button:is([data-selected], [data-indeterminate])[data-hovered] .box {

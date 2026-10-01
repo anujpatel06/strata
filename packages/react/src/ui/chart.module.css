@@ -225,7 +225,6 @@
   background: var(--syntara-color-surface-raised);
   box-shadow:
     0 0 0 var(--syntara-hairline) var(--syntara-color-border-default),
-    var(--syntara-shadow-highlight),
     var(--syntara-shadow-overlay);
   color: var(--syntara-color-text-default);
   font-family: var(--syntara-font-body);

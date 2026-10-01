@@ -53,8 +53,6 @@
 .fill {
   border-radius: inherit;
   background-color: var(--syntara-color-action-primary-bg);
-  /* Solid fill: the same top-edge sheen as a primary button. */
-  box-shadow: var(--syntara-shadow-highlight);
 }
 
 .thumb {

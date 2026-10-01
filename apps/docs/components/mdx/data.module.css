@@ -165,7 +165,6 @@
   block-size: var(--syntara-space-6);
   border-radius: var(--syntara-radius-button);
   background: var(--syntara-color-action-primary-bg);
-  box-shadow: var(--syntara-shadow-highlight);
 }
 .tenantName {
   margin: 0;

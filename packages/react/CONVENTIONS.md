@@ -102,11 +102,13 @@ pair it with `--syntara-motion-duration-spring`).
   `@supports (animation-timeline: view())`, and never without the reduced-motion guard.
 - Everything still respects `prefers-reduced-motion`. Fades may remain; movement goes.
 
-**Depth tokens:** `--syntara-shadow-raised`, `--syntara-shadow-overlay`, `--syntara-shadow-highlight` (inset top-edge sheen), and glass:
+**Depth tokens:** `--syntara-shadow-raised`, `--syntara-shadow-overlay`, and glass:
 `--syntara-glass-bg`, `--syntara-glass-blur`, `--syntara-glass-opacity`.
+`--syntara-shadow-highlight` (an inset 1px top-edge highlight) is still emitted by the engine but **nothing uses it**:
+ADR-039 took it off every solid fill, in both schemes. Don't reach for it in new work.
 
-- **Solid fills** (primary/danger buttons, checked checkbox/radio/switch, selected toggle, solid badges): `box-shadow: var(--syntara-shadow-highlight), var(--syntara-shadow-raised)`.
-  **Never put a gradient or overlay behind a label.** The solver tunes fill + label to 4.5:1, sometimes with zero margin (pure red is exactly 4.50), so any tint can fail it.
+- **Solid fills** (primary/danger buttons, checked checkbox/radio/switch, selected toggle, solid badges): `box-shadow: var(--syntara-shadow-raised)`.
+  **Never put a gradient, overlay or top-edge highlight behind a label.** The solver tunes fill + label to 4.5:1, sometimes with zero margin (pure red is exactly 4.50), so any tint can fail it.
 - **Secondary/outline controls:** `surface.default` + border + `--syntara-shadow-raised`; hover deepens the border, not the shadow.
 - **Cards:** `surface.raised` + `border.subtle` hairline + `--syntara-shadow-raised`. Only *interactive* cards lift on hover
   (`translate: 0 -1px` + `--syntara-shadow-overlay`).
@@ -161,26 +163,33 @@ Premium comes from restraint and consistency, not more effects. Check every comp
 - **Icons match text.** Icons follow the text colour at ~1.25× the font size, and outline icons use `stroke-width: var(--syntara-icon-stroke, 1.5)` (ADR-014). Don't set another width.
 - **Every state is intentional.** Hover is a quiet tint, press is the spring scale, selected is `surface.selected`, and focus is the ring plus halo. Nothing changes abruptly.
 
-## Surface recipe (from Anuj's toast reference, 2026-09-27)
+## Surface recipe (from Anuj's toast reference, 2026-09-27; sheen removed 2026-10-01, ADR-038)
 
-A dark card lit by a soft diagonal band of light, with a faint hairline, a large radius and a lot of air. It holds a filled
+A dark card with a faint hairline, a large radius and a lot of air. It holds a filled
 status shape, a two-line message and one action whose weight follows severity. Built into **Toast** and **Alert** (the reference
 implementations: `src/ui/toast.module.css`, `src/ui/alert.module.css`). Use exactly this recipe on other containers; don't add effects to it.
 
-**1. Background layers.** Opaque face, sheen on top:
+**1. Background layers.** Opaque face, with the sheen slot left empty:
 ```css
 --_face: var(--syntara-color-surface-raised);
+--_sheen: none;                                              /* ADR-038: the engine's band is not painted */
 background:
-  var(--syntara-sheen) padding-box,                           /* dark: a 115° band peaking at 6% text.default; light: none */
+  var(--_sheen) padding-box,                                 /* the empty sheen slot (see below) */
   linear-gradient(var(--_face), var(--_face)) padding-box,   /* the face */
   var(--_rim) border-box,                                    /* the rim, dark only (see 2) */
   var(--_face);                                              /* fills the border box under the rim */
 ```
 - Write the layer list in this order and nothing else. No extra gradients, tints or glows.
+- **The sheen is off (ADR-038).** `--syntara-sheen` still exists in the engine and is still `none` exactly in light
+  schemes, so it remains the scheme signal for the rim (see 2) — but no component paints it: on large surfaces the
+  115° band read as brushed metal. Keep the empty slot in the layer list, so the recipe keeps its shape and the band
+  is one line per file away from coming back.
 - The face is **opaque** `surface.raised`, not glass, even on floating layers such as Toast: the engine proves text.subtle
   ≥ 4.5:1 at the sheen's brightest pixel on an opaque `surface.raised`/`surface.default` only (theme-engine `test/exporters.test.ts`,
-  measured ≥ 7.25:1). Sheen over glass only with the face made 8 points more opaque (`calc(var(--syntara-glass-opacity) * 100% + 8%)`): text.default/subtle then stay ≥ 4.72:1 over black and white backdrops for tenants and 1,000 fuzz brands (proof: `test/popover.test.tsx`). Without the offset it fails (3.67:1).
-- The sheen is physical light from the top-left, like the rim and shadows: it doesn't mirror in RTL.
+  measured ≥ 7.25:1); with the band no longer painted that figure is a floor. Glass faces keep the 8-point offset the
+  sheen once required (`calc(var(--syntara-glass-opacity) * 100% + 8%)`), because a more opaque face only adds margin:
+  text.default/subtle stay ≥ 4.72:1 over black and white backdrops for tenants and 1,000 fuzz brands (proof: `test/popover.test.tsx`).
+- The rim is physical light from the top-left, like the shadows: it doesn't mirror in RTL.
 - **Text on it:** only `text.default` and `text.subtle`. Brand, feedback and disabled colours go on their own opaque fill
   (a button, a badge) or into the status shape.
 
@@ -189,7 +198,9 @@ background:
   - `<elevation>` is `--syntara-shadow-raised` for inline containers (Alert, cards) and `--syntara-shadow-overlay` for floating ones (Toast).
   - No heavier shadows, and no tone-coloured edges: the tone lives in the status shape.
 - Keep `border: 1px solid transparent`: the rim paints there, and forced-colours mode draws it as the edge.
-- Add the rim in dark only. `--syntara-sheen` is `none` exactly in light schemes, so it serves as the scheme signal without naming a scheme:
+- Add the rim in dark only. `--syntara-sheen` is `none` exactly in light schemes, so it serves as the scheme signal
+  without naming a scheme. It keeps that job even though nothing paints it any more (ADR-038): it is still the one
+  token whose value differs by scheme without a scheme in its name.
   ```css
   --_rim: linear-gradient(transparent, transparent);
   @container not style(--syntara-sheen: none) { .x { --_rim: linear-gradient(135deg, var(--syntara-rim), transparent 60%); } }

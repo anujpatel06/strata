@@ -111,8 +111,8 @@
 .button[data-selected] .circle {
   border-color: var(--syntara-color-action-primary-bg);
   background-color: var(--syntara-color-action-primary-bg);
-  /* Solid fill: sheen + raised shadow. */
-  box-shadow: var(--syntara-shadow-highlight), var(--syntara-shadow-raised);
+  /* Solid fill: the raised shadow (no top-edge highlight — ADR-039). */
+  box-shadow: var(--syntara-shadow-raised);
 }
 
 .button[data-selected] .circle::after {

@@ -4,7 +4,7 @@
   padding: var(--syntara-space-6);
   border: 1px solid var(--syntara-color-border-subtle);
   border-radius: var(--syntara-radius-container);
-  box-shadow: var(--syntara-shadow-highlight), var(--syntara-shadow-raised);
+  box-shadow: var(--syntara-shadow-raised);
   overflow: clip;
 }
 

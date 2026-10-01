@@ -7,7 +7,8 @@
   --_bg: transparent;
   --_fg: var(--syntara-color-text-default);
   --_border: transparent;
-  /* Depth hook: solid fills get the top-edge sheen + raised shadow; flat variants (ghost, link) keep none. */
+  /* Depth hook: solid fills get the raised shadow; flat variants (ghost, link) keep none.
+     No top-edge highlight (ADR-039). */
   --_shadow: none;
   --_icon: var(--syntara-space-4);
   /* Height and corner: the same formula as the fields (text-field.module.css) at every size, so a Button next to a
@@ -97,8 +98,9 @@
   --_bg: var(--syntara-color-action-primary-bg);
   --_fg: var(--syntara-color-action-primary-fg);
   --_border: var(--syntara-color-action-primary-border);
-  /* Solid fill: sheen on the top edge + a soft raised shadow. Never a gradient behind the label (contrast is solved flat). */
-  --_shadow: var(--syntara-shadow-highlight), var(--syntara-shadow-raised);
+  /* Solid fill: a soft raised shadow and nothing laid over the label (ADR-039 removed the top-edge
+     highlight). Never a gradient behind the label: contrast is solved flat. */
+  --_shadow: var(--syntara-shadow-raised);
 }
 .root[data-variant='primary'][data-hovered] {
   --_bg: var(--syntara-color-action-primary-hover);
@@ -107,7 +109,8 @@
 .root[data-variant='primary'][data-pressed] {
   --_bg: var(--syntara-color-action-primary-pressed);
   --_border: var(--syntara-color-action-primary-pressed);
-  /* Pushed in: the sheen goes, the shadow stays tight. */
+  /* Pushed in: the fill darkens and the spring scale carries the press. The shadow is restated rather than
+     inherited, so a stuck hover state can never lift a pressed button. */
   --_shadow: var(--syntara-shadow-raised);
 }
 
@@ -157,7 +160,7 @@
   --_bg: var(--syntara-color-feedback-danger-solid);
   --_fg: var(--syntara-color-feedback-danger-on-solid);
   --_border: var(--syntara-color-feedback-danger-solid);
-  --_shadow: var(--syntara-shadow-highlight), var(--syntara-shadow-raised);
+  --_shadow: var(--syntara-shadow-raised);
 }
 /*
  * Hover: the fill never changes. There is no feedback.danger.hover role, and any tint or overlay on the fill can
@@ -165,7 +168,7 @@
  * the shape instead. Proper fix: a feedback.danger.hover/pressed role in the theme engine.
  */
 .root:is([data-variant='danger'], [data-variant='primary'][data-tone='danger'])[data-hovered]:not([data-disabled]) {
-  --_shadow: var(--syntara-shadow-highlight), var(--syntara-shadow-raised),
+  --_shadow: var(--syntara-shadow-raised),
     0 0 0 4px color-mix(in oklab, var(--syntara-color-feedback-danger-solid) 22%, transparent);
 }
 .root:is([data-variant='danger'], [data-variant='primary'][data-tone='danger'])[data-pressed]:not([data-disabled]) {
@@ -221,7 +224,7 @@
   --_bg: var(--syntara-color-surface-inverse);
   --_fg: var(--syntara-color-text-inverse);
   --_border: var(--syntara-color-surface-inverse);
-  --_shadow: var(--syntara-shadow-highlight), var(--syntara-shadow-raised);
+  --_shadow: var(--syntara-shadow-raised);
 }
 .root[data-variant='contrast'][data-hovered] {
   --_bg: color-mix(in oklab, var(--syntara-color-surface-inverse) 88%, var(--syntara-color-text-subtle));
@@ -344,13 +347,13 @@
     translate: 0 -1px;
   }
   .root:is([data-variant='primary'], [data-variant='contrast'])[data-hovered]:not([data-pressed], [data-disabled]) {
-    --_shadow: var(--syntara-shadow-highlight), var(--syntara-shadow-raised), var(--syntara-shadow-raised);
+    --_shadow: var(--syntara-shadow-raised), var(--syntara-shadow-raised);
   }
   .root:is([data-variant='secondary'], [data-variant='outline'])[data-hovered]:not([data-pressed], [data-disabled]) {
     --_shadow: var(--syntara-shadow-raised), var(--syntara-shadow-raised);
   }
   .root:is([data-variant='danger'], [data-variant='primary'][data-tone='danger'])[data-hovered]:not([data-pressed], [data-disabled]) {
-    --_shadow: var(--syntara-shadow-highlight), var(--syntara-shadow-raised), var(--syntara-shadow-raised),
+    --_shadow: var(--syntara-shadow-raised), var(--syntara-shadow-raised),
       0 0 0 4px color-mix(in oklab, var(--syntara-color-feedback-danger-solid) 22%, transparent);
   }
 

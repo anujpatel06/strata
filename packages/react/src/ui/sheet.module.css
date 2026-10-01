@@ -29,8 +29,9 @@
   flex-direction: column;
   /*
    * Surface recipe on glass, identical to popover.module.css (see the proof there and in test/popover.test.tsx):
-   * sheen + glass face (glass opacity + 8 points, so text.default and text.subtle keep ≥ 4.72:1 under the sheen over
-   * any backdrop) over the border box, the rim light (dark only) as a masked ::after ring, a border.subtle
+   * the glass face (glass opacity + 8 points, so text.default and text.subtle keep ≥ 4.72:1 over any backdrop; the
+   * sheen that forced those extra 8 points is gone — ADR-038 — so the margin only grew) over the border box,
+   * the rim light (dark only) as a masked ::after ring, a border.subtle
    * hairline ring and the overlay shadow. Only text.default and text.subtle sit directly on it.
    */
   --_glass: color-mix(in srgb, var(--syntara-color-surface-raised) calc(var(--syntara-glass-opacity) * 100% + 8%), transparent);
@@ -38,7 +39,8 @@
   /* Sheen over the glass face, both over the whole border box: the 1px ring must carry the same tint, or it shows
      the page unfiltered (a modal underlay's dim doesn't reach a nested backdrop-filter), which reads as a bright
      outline. The rim is drawn by ::after instead (see RIM below). */
-  background: var(--syntara-sheen), var(--_glass);
+  /* Sheen removed (ADR-038): the diagonal band read as brushed metal. Depth is the hairline, rim and shadow. */
+  background: var(--_glass);
   -webkit-backdrop-filter: blur(var(--syntara-glass-blur)) saturate(1.6);
   backdrop-filter: blur(var(--syntara-glass-blur)) saturate(1.6);
   box-shadow: 0 0 0 var(--syntara-hairline) var(--syntara-color-border-subtle), var(--syntara-shadow-overlay);

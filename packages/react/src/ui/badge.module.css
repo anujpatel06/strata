@@ -104,8 +104,9 @@
 .badge[data-variant='solid'] {
   --_dot: currentColor;
 
-  /* Solid fills get the tactile sheen + a hairline lift. Never a gradient: the solver tunes fill + label to 4.5:1. */
-  box-shadow: var(--syntara-shadow-highlight), var(--syntara-shadow-raised);
+  /* Solid fills get a hairline lift only — no top-edge highlight (ADR-039). Never a gradient: the solver
+     tunes fill + label to 4.5:1. */
+  box-shadow: var(--syntara-shadow-raised);
 }
 .badge[data-variant='solid'][data-tone='neutral'] {
   --_bg: var(--syntara-color-surface-inverse);

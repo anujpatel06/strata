@@ -238,8 +238,9 @@
   block-size: 100%;
   background-color: var(--syntara-color-surface-raised);
   border-radius: var(--syntara-radius-button);
-  /* Raised pill: a hairline + top sheen + soft shadow, like a key sitting on the sunken track. */
-  box-shadow: 0 0 0 1px var(--syntara-color-border-subtle), var(--syntara-shadow-highlight), var(--syntara-shadow-raised);
+  /* Raised pill: a hairline + soft shadow, like a key sitting on the sunken track (no top-edge
+     highlight — ADR-039). */
+  box-shadow: 0 0 0 1px var(--syntara-color-border-subtle), var(--syntara-shadow-raised);
 }
 
 /* Hover and focus fades are colour/opacity only, so they stay on with reduced motion. */
