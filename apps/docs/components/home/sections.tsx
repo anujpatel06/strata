@@ -645,8 +645,9 @@ export function FaqSection() {
           </SectionHeader>
           {/*
             Each phase's status is read from its own badge in the changelog. An earlier version of this assumed
-            that an entry meant it had shipped and rendered all five as Shipped; three are still in progress,
-            and the mockup was right.
+            that an entry meant it had shipped and rendered all five as Shipped. That was right by accident:
+            the changelog badged three of them In progress at the time, and Anuj has since marked those
+            shipped. The status is read either way, so the roadmap follows the changelog rather than a guess.
           */}
           <ol className={styles.roadmap}>
             {phases.map((p) => (
