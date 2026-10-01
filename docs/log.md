@@ -44,21 +44,41 @@ and skipping every box with a clipping ancestor left one culprit: **the site hea
   columns on a phone but needed a fluid font size outside the `--syntara-*` type scale, which CONVENTIONS.md's
   tokens-only rule forbids without an ADR.
 
-**Results** — not a full `/verify`: this is a CSS fix awaiting Anuj's eye, so the suite runs once on approval.
+**Results** — full `/verify`, all nine steps, on the merge with `origin/main` (which brought #35's shorter brand
+cards, so every number below is measured with those in place):
 
 | Step | Command | Result |
 |---|---|---|
+| 1 | `pnpm --filter @syntara/react gen:index` | `src/index.ts → 53 modules` |
 | 2 | `pnpm typecheck` | exit 0 |
-| 7 | `pnpm --filter @syntara/docs build` | exit 0, 82 pages, build `8IpY_FZCxWBD6NQqJM_7v` |
-| 9 | `SYNTARA_WIDTHS=320,390,768,800,860,900,1024,1280,1440,1920 check-narrow-overflow` | 114 routes × 10 widths, **1,140 checks, 0** scrolling sideways |
-| 9 | same widths × light and dark, 9 key routes | **180 checks, 0** scrolling sideways |
-| 9 | `check-narrow-overflow` with the new defaults | 114 routes × 320, 768px, **228 checks, 0** |
+| 3 | `pnpm test` + `check-test-counts` | **2,168** tests across 7 packages, none failing; README row matches |
+| 4 | `pnpm test:themes` | **118,000** checks, **0** failed (100.00%); 2,000/2,000 chart palettes; adjustments/brand median **4**, unmoved |
+| 5 | `pnpm check:meta` | **53/53** |
+| 6 | `pnpm registry` | 73 items ok |
+| 6a | `node scripts/check-override-weight.mjs` | 0 selectors weighing the same as the component |
+| 7 | `pnpm --filter @syntara/docs build` | exit 0, **82** pages, build `XtXFQlTkJJE4f-oqKv_nj` |
+| 8 | `node scripts/check-ssr-tabs.mjs` | 327 tab lists, **0** missing panels |
+| 9 | `check-hydration` | 228 loads, **0** failures |
+| 9 | `check-theme-links` | 5 links, **0** failures |
+| 9 | `check-narrow-overflow` (new defaults) | 114 routes × 320 **and 768**, 228 checks, **0** scrolling sideways |
+| 9 | `check-csp` | 114 routes, **0** failures |
 | 9 | `axe-sweep` | 114 routes × 2 schemes, **0** violation nodes |
-| — | rail behaviour at 320/768/900/1280 | arrow pages 0 → 268/396, `End` reaches the same, Qamar card `dir=rtl lang=ar`, document stays 0 over while scrolled |
+| 9 | `check-overlay-exit` | 108 tooltips + 4 menus/popovers, **0** failures |
 
-- **Proof it shipped:** `@media (min-width:960px){.site-header-module__…__search…}` and
-  `tenantHead{…flex-wrap:wrap…}` are both in `apps/docs/out/_next/static/chunks/*.css`.
-- Both faults were **pre-existing on `main`** (2557e70), not from any in-flight branch.
+Wider sweeps than `/verify` runs, measured on the pre-merge build while fixing this — all after the fix:
+
+| Measurement | Result |
+|---|---|
+| `SYNTARA_WIDTHS=320,390,768,800,860,900,1024,1280,1440,1920`, 114 routes | 1,140 checks, **0** after the fix |
+| the same ten widths × light and dark, 9 key routes | 180 checks, **0** after the fix |
+| spilling text boxes at 320/360/375/376/390/430/470/496/500/600/768/900/1024/1280/1440/1920 | **0** after the fix (was 1 at six of them) |
+| rail behaviour at 320/768/900/1280 | arrow pages 0 → 268/396, `End` reaches the same, Qamar card `dir=rtl lang=ar`, document stays 0 over while scrolled |
+
+- **Proof it shipped:** `@media (min-width:960px){.site-header-module__…__search…}`, `tenantHead{…flex-wrap:wrap…}`
+  and `minmax(min(100%,calc(var(--syntara-space-16) * 3.5)),1fr)` are all in `apps/docs/out/_next/static/chunks/*.css`.
+- Both of the faults this session set out to fix were **pre-existing on `main`** (2557e70), not from any in-flight branch.
+- `pnpm test:themes` again rewrote only its own timing numbers (median 0.62 → 0.68 ms, p95 0.95 → 1.49 ms, this
+  machine being busier). Reverted, as last session did.
 
 **Next**
 - **For Anuj's eye:** at 768–959 the header now shows the full nav with an icon-only search; the "Search
@@ -66,11 +86,13 @@ and skipping every box with a clipping ancestor left one culprit: **the site hea
   benefits" now sit on a second line while the shorter labels stay inline.
 - **For Anuj's eye:** the four figures under "Accessible by construction" are one per row on a phone now, two per
   row from ~496px, and unchanged on desktop.
-- **Found, not fixed — `.tenantStats` has the same fault inside the brand cards.** "₹5,00,000" needs 113px in a
-  98px box and spills **15px at 320**. The rail's `contain: paint` clips it, so the page never scrolls and no check
-  catches it, but the card looks broken. Its columns use the same `space-16 * 2.5` minimum the figures just left
-  behind. Raising it would stack the tenant card's stats at every rail width, which changes the brand previews on
-  every page they appear — worth its own look rather than a quiet edit.
+- **`.tenantStats` had the same fault and `main` had already cured it.** Before the merge, "₹5,00,000" needed
+  113px in a 98px box and spilled **15px at 320** (clipped by the rail's `contain: paint`, so no check caught it
+  and the page never scrolled — the card just looked broken). The brand cards dropping to one figure each (#35)
+  gives that tile the card's full width: re-measured on the merged build, **0** boxes on the homepage fail to hold
+  their content at 320, 375, 390, 430 or 768. Nothing left to do, but the `space-16 * 2.5` minimum is still in
+  `.tenantStats`, so a second figure coming back would bring the spill back with it.
+
 ---
 
 ## 2026-10-01 (brand cards) — the homepage's tallest thing gets shorter
