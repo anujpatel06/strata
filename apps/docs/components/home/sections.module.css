@@ -753,8 +753,10 @@
   background-color: var(--syntara-color-surface-raised);
 }
 .componentTile:focus-visible {
-  outline: var(--syntara-focus-ring-width) solid var(--syntara-color-border-focus);
-  outline-offset: var(--syntara-focus-ring-offset);
+  /* The engine emits --syntara-color-focus-ring and no width/offset token, so the 2px pair is
+     the system's own figure, matching every component in packages/react. */
+  outline: 2px solid var(--syntara-color-focus-ring);
+  outline-offset: 2px;
 }
 
 .componentName {
@@ -772,7 +774,8 @@
 .faqAnswer {
   margin: 0;
   color: var(--syntara-color-text-subtle);
-  line-height: var(--syntara-line-height-relaxed);
+  /* The emitted scale is tight/snug/normal; normal is its loosest step. */
+  line-height: var(--syntara-line-height-normal);
 }
 
 /* ---- The accent word in a section heading ---- */
@@ -820,7 +823,8 @@
   padding-block: var(--syntara-space-2);
   padding-inline: var(--syntara-space-3);
   border: var(--syntara-hairline) solid var(--syntara-color-border-subtle);
-  border-radius: var(--syntara-radius-full);
+  /* A fully rounded chip, so the pill role — fully rounded in every shape. */
+  border-radius: var(--syntara-radius-pill);
   background-color: transparent;
   color: var(--syntara-color-text-subtle);
   font: inherit;
@@ -836,8 +840,10 @@
   color: var(--syntara-color-text-default);
 }
 .filterChip:focus-visible {
-  outline: var(--syntara-focus-ring-width) solid var(--syntara-color-border-focus);
-  outline-offset: var(--syntara-focus-ring-offset);
+  /* The engine emits --syntara-color-focus-ring and no width/offset token, so the 2px pair is
+     the system's own figure, matching every component in packages/react. */
+  outline: 2px solid var(--syntara-color-focus-ring);
+  outline-offset: 2px;
 }
 /* Selected state carries a background and a border as well as colour — never colour alone (WCAG 1.4.1). */
 .filterChip[data-active='true'] {
@@ -926,7 +932,8 @@
   margin: 0;
   padding-block: var(--syntara-space-1);
   padding-inline: var(--syntara-space-3);
-  border-radius: var(--syntara-radius-full);
+  /* A fully rounded status pill, so the pill role. */
+  border-radius: var(--syntara-radius-pill);
   background-color: var(--syntara-color-feedback-success-bg);
   color: var(--syntara-color-feedback-success-fg);
   font-size: var(--syntara-font-size-sm);
@@ -938,7 +945,8 @@
   gap: var(--syntara-space-1);
   padding: var(--syntara-space-3);
   border: var(--syntara-hairline) solid var(--syntara-color-border-subtle);
-  border-radius: var(--syntara-radius-md);
+  /* A card, so the container role. The engine emits roles, not t-shirt sizes: the brand's shape sets the value. */
+  border-radius: var(--syntara-radius-container);
   background-color: var(--syntara-color-surface-sunken);
 }
 
@@ -982,7 +990,8 @@
   gap: var(--syntara-space-2);
   padding: var(--syntara-space-3);
   border: var(--syntara-hairline) solid var(--syntara-color-border-subtle);
-  border-radius: var(--syntara-radius-md);
+  /* A boxed step, so the container role. */
+  border-radius: var(--syntara-radius-container);
   background-color: var(--syntara-color-surface-sunken);
 }
 .pipelineStep + .pipelineStep::before {
@@ -1076,7 +1085,8 @@
   display: grid;
   gap: var(--syntara-space-1);
   padding: var(--syntara-space-2) var(--syntara-space-3);
-  border-radius: var(--syntara-radius-sm);
+  /* A padded row the size of an input, so the field role. */
+  border-radius: var(--syntara-radius-field);
   /* Derived from the card's own text colour, not a raw value: these cards sit on brand and accent faces that
      differ per tenant, so a fixed black would be wrong on half of them. */
   background-color: color-mix(in oklab, currentColor 12%, transparent);
@@ -1105,7 +1115,8 @@
   padding-block: 2px;
   padding-inline: var(--syntara-space-2);
   border: var(--syntara-hairline) solid var(--syntara-color-border-subtle);
-  border-radius: var(--syntara-radius-sm);
+  /* A small inline chip, so the badge role. */
+  border-radius: var(--syntara-radius-badge);
   color: var(--syntara-color-text-subtle);
   font-family: var(--syntara-font-mono);
   font-size: var(--syntara-font-size-xs);

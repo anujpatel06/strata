@@ -53,6 +53,7 @@ The types are in `src/types.ts`. `applyFixes` applies only fixes with `safe: tru
 | `physical-property` | error | `margin-left`, `padding-right`, `top`, `left`, `border-left`, `border-top-left-radius`, `scroll-margin-top`; `text-align`, `float` and `clear` with `left` or `right`; four-value `margin`, `padding`, `inset` and `border-*` whose left and right differ; `border-radius` whose left and right corners differ | Logical properties, shorthands that are the same on both sides |
 | `missing-accessible-name` | error | See below | |
 | `deprecated-api` | warning | A prop or a literal prop value with a deprecation record, on a component imported from `@syntara/react` | Expressions, components from other libraries |
+| `unknown-token` | error | A `var(--syntara-…)` name the theme engine does not emit, anywhere in a value — in `calc()`, in a `var()` fallback, and on the right-hand side of a custom property | Names the engine emits, names outside the `--syntara-` namespace (`--docs-*`, `--_x`), and names the same file declares itself |
 
 Every finding carries a fix (BRIEF principle 7). A fix is **safe** when there is one right answer and applying it can't change behaviour or meaning. Everything else is a suggestion for a person.
 
@@ -63,6 +64,7 @@ Every finding carries a fix (BRIEF principle 7). A fix is **safe** when there is
 | `physical-property` | The mapping is one to one: a property (`margin-left` → `margin-inline-start`) or a keyword (`text-align: left` → `start`). Shorthands that need their values reordered are suggestions. |
 | `deprecated-api` | The value is a literal, the element has no spread, and it doesn't already have the new prop. The message names the codemod from the record. |
 | `font-family-literal`, `native-element`, `missing-accessible-name` | Never. |
+| `unknown-token` | Never. Which role is right depends on what the element is — a chip is a `pill`, a card is a `container` — and that is a design judgement, not a rename. The fix lists the candidates and asks for a comment saying why. |
 
 ### Disable comments
 
@@ -129,6 +131,14 @@ All checks read one file at a time. None follows a value into another module.
 
   It does not check that a name is a good one, and it is not a replacement for axe or a screen reader.
 - **deprecated-api.** Literal values only. `variant={bad ? 'danger' : 'primary'}`, props objects and wrapper components are not seen. The codemod reports those.
+- **unknown-token.** An undefined custom property is not a CSS error. `var(--syntara-radius-md)` parses; the
+  declaration holding it is then *invalid at computed-value time*, so it computes to `unset` and silently does
+  nothing — while still winning the cascade over a lower-specificity rule that would have worked. That is how a
+  module's `:focus-visible` rule can erase the site's own focus ring and leave a WCAG 2.2 AA 2.4.7 failure with
+  no error anywhere. The known names come from the engine's `toCssVariables`, the same function the exporters
+  use, unioned over every tenant, both schemes and both densities, so the list cannot drift from what ships.
+  A file that sets a `--syntara-*` name itself may use it (`card.module.css` does, with `--syntara-card-inset`).
+  When no tenant can be read, the rule checks nothing rather than flagging everything.
 - **Where it runs.** The package reads `packages/react/meta` and `tenants/` from this repo. `SYNTARA_META_DIR` and `SYNTARA_TENANTS_DIR` point it somewhere else.
 
 ## Additions to the contract

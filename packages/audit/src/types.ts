@@ -14,7 +14,8 @@ export type RuleId =
   | 'native-element'
   | 'physical-property'
   | 'missing-accessible-name'
-  | 'deprecated-api';
+  | 'deprecated-api'
+  | 'unknown-token';
 
 export type Severity = 'error' | 'warning';
 
