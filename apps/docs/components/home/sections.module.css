@@ -1,8 +1,14 @@
 /* Homepage sections. House tokens only; the tenant previews re-point the same variables inside ThemeScope. */
 
+/*
+ * WCAG 2.2 AA 2.5.8: a target is 24px, or has 24px of clear space around it. These links were 21px tall and
+ * passed only where nothing sat close to them — the one under the component grid had chips inside its clearance
+ * and failed. Sizing the link itself is the fix that does not depend on what happens to be next to it.
+ */
 .textLink {
   display: inline-flex;
   align-items: center;
+  min-block-size: var(--docs-target-min, 24px);
   gap: var(--syntara-space-1);
   color: var(--syntara-color-text-default);
   font-size: var(--syntara-font-size-md);
@@ -522,35 +528,6 @@
   font-size: var(--syntara-font-size-sm);
 }
 
-/* ---- Ship it your way ---- */
-
-.shipGrid {
-  display: grid;
-  gap: var(--docs-card-gap);
-}
-@media (min-width: 960px) {
-  .shipGrid {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
-}
-
-.shipCard.shipCard {
-  block-size: 100%;
-  border-radius: var(--docs-card-radius);
-  background-color: var(--syntara-color-surface-default);
-}
-
-.shipTitle.shipTitle {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: var(--syntara-space-2);
-}
-
-.shipCode.shipCode {
-  flex: 1;
-}
-
 /* ---- Agents ---- */
 
 .excerpt {
@@ -647,19 +624,18 @@
 }
 
 /*
- * Hover lift for the cards on this page (tenant frames, "Ship it your way"): they rise a couple of pixels on
- * the spring and their shadow deepens one step. The shadow change is a fade and always runs; the movement only
- * with motion allowed. The ship cards lift with `transform` because their scroll reveal animates `translate`.
+ * Hover lift for the cards on this page: they rise a couple of pixels on the spring and their shadow deepens one
+ * step. The shadow change is a fade and always runs; the movement only with motion allowed.
  */
 .tenantFrame,
-.shipCard.shipCard {
+.panel {
   --_lift: calc(var(--syntara-space-1) / -2);
   transition: box-shadow var(--syntara-motion-duration-normal) var(--syntara-motion-easing);
 }
 .tenantFrame:hover .tenantScope.tenantScope {
   box-shadow: 0 0 0 var(--syntara-hairline) var(--syntara-color-border-default), var(--syntara-shadow-overlay);
 }
-.shipCard.shipCard:hover {
+.panel:hover {
   box-shadow: 0 0 0 var(--syntara-hairline) var(--syntara-color-border-default), var(--syntara-shadow-overlay);
 }
 @media (prefers-reduced-motion: no-preference) {
@@ -679,4 +655,129 @@
   .shipCard.shipCard:hover {
     transform: translateY(var(--_lift));
   }
+}
+
+/* ---- Brands are data, not code ---- */
+
+/*
+ * Four panels: the input file, what comes out, the same role in two brands, and a scoped theme. Two columns from
+ * 860px; below that they stack, because a code block narrower than about 40 characters wraps into nonsense.
+ */
+.panelGrid {
+  display: grid;
+  /* minmax(0, 1fr), not the implicit `auto`: a grid track sized to its content lets the code block inside a panel
+     set the page's width, which scrolls the whole homepage sideways at 320px. */
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--docs-card-gap);
+}
+@media (min-width: 860px) {
+  .panelGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.panel {
+  display: flex;
+  flex-direction: column;
+  /* Same reason: a flex item defaults to min-width:auto and refuses to shrink below its content. */
+  min-inline-size: 0;
+  gap: var(--syntara-space-3);
+  padding: var(--syntara-space-5);
+  border: var(--syntara-hairline) solid var(--syntara-color-border-subtle);
+  border-radius: var(--docs-card-radius);
+  background-color: var(--syntara-color-surface-default);
+}
+
+.panelTitle {
+  margin: 0;
+  color: var(--syntara-color-text-default);
+  font-size: var(--syntara-font-size-md);
+  font-weight: var(--syntara-font-weight-medium);
+}
+
+.panelNote {
+  margin: 0;
+  color: var(--syntara-color-text-subtle);
+  font-size: var(--syntara-font-size-sm);
+  line-height: var(--syntara-line-height-normal);
+}
+
+/* ---- 53 components on React Aria ---- */
+
+.componentGrid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--syntara-space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/*
+ * A chip per component. Targets stay >= 24px per WCAG 2.2 AA (2.5.8): the block padding plus the line box clears
+ * it at every density, so this does not need a min-block-size to prop it up.
+ */
+.componentChip {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--syntara-space-2);
+  padding-block: var(--syntara-space-2);
+  padding-inline: var(--syntara-space-3);
+  border: var(--syntara-hairline) solid var(--syntara-color-border-subtle);
+  border-radius: var(--syntara-radius-full);
+  background-color: var(--syntara-color-surface-default);
+  color: var(--syntara-color-text-default);
+  font-size: var(--syntara-font-size-sm);
+  text-decoration: none;
+  transition:
+    border-color var(--syntara-motion-duration-fast) var(--syntara-motion-easing),
+    background-color var(--syntara-motion-duration-fast) var(--syntara-motion-easing);
+}
+.componentChip:hover {
+  border-color: var(--syntara-color-border-strong);
+  background-color: var(--syntara-color-surface-raised);
+}
+.componentChip:focus-visible {
+  outline: var(--syntara-focus-ring-width) solid var(--syntara-color-border-focus);
+  outline-offset: var(--syntara-focus-ring-offset);
+}
+
+.componentName {
+  font-weight: var(--syntara-font-weight-medium);
+}
+
+/* ---- Questions, straight answers ---- */
+
+/* Doubled: .faq sits on Syntara's Accordion, so a single class would weigh the same as the component's own rule
+   and stylesheet order would decide the winner (see CLAUDE.md, and scripts/check-override-weight.mjs). */
+.faq.faq {
+  inline-size: 100%;
+}
+
+.faqAnswer {
+  margin: 0;
+  color: var(--syntara-color-text-subtle);
+  line-height: var(--syntara-line-height-relaxed);
+}
+
+/* ---- The accent word in a section heading ---- */
+
+/*
+ * Same idea as the hero's "Every brand.", one level down: HeroAccent carries the selected tenant's
+ * data-syntara-theme, so only `text.brand` changes with the pick and every surface stays on the house theme.
+ * Italic, and `font-family: inherit` keeps the house face — the global [data-syntara-theme] rule would otherwise
+ * switch it to the tenant's body font mid-heading.
+ */
+/*
+ * Two classes deliberately. HeroAccent puts data-syntara-theme on this span, and the global
+ * `[data-syntara-theme]` rule that switches font and colour is an attribute selector — the same weight as a
+ * single class — so a bare `.titleAccent` loses to it on source order and the word renders in text.default.
+ * The hero's accent has always been `.heroTitle .heroBreak` for exactly this reason.
+ */
+.sectionTitle .titleAccent,
+.ctaTitle .titleAccent {
+  color: var(--syntara-color-text-brand);
+  font-family: inherit;
+  font-style: italic;
+  transition: color calc(var(--syntara-motion-duration-slow) * 2) var(--syntara-motion-easing);
 }
