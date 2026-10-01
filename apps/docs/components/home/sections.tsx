@@ -460,7 +460,9 @@ export function ComponentsSection() {
 /**
  * Anuj's answers from the Home v3 mockup, with three corrected where the mockup has been overtaken:
  *   - npm: the mockup says "not yet". All eight packages are published at 0.1.0.
- *   - the MCP server: "in progress" in the mockup; it ships as @syntara/mcp. Still seven tools.
+ *   - the MCP server: "in progress" in the mockup; it ships as @syntara/mcp, with eight tools. The mockup
+ *     says seven, and so did a check here that grepped only get_/list_/find_/search_ names and missed
+ *     audit_snippet. `packages/mcp/README.md` says eight; the source registers eight.
  *   - decision records: 36 in the mockup, 37 on disk (`ls docs/adr/*.md`).
  */
 const FAQ: readonly { q: string; a: ReactNode }[] = [
@@ -519,7 +521,7 @@ const FAQ: readonly { q: string; a: ReactNode }[] = [
       <>
         They read the same meta.json the docs are generated from. Trust levels decide what they may do: fix token
         drift, open pull requests for review, or only propose. The MCP server ships as{' '}
-        <code>@syntara/mcp</code>, with seven tools.
+        <code>@syntara/mcp</code>, with eight tools.
       </>
     ),
   },
