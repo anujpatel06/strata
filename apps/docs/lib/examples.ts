@@ -18,5 +18,20 @@ export function exampleFolder(name: string): string | undefined {
 export function readExampleSource(name: string): { folder: string; source: string } | undefined {
   const folder = exampleFolder(name);
   if (!folder) return undefined;
-  return { folder, source: readFileSync(path.join(/*turbopackIgnore: true*/ EXAMPLES_DIR, folder, `${name}.tsx`), 'utf8') };
+  const source = readFileSync(path.join(/*turbopackIgnore: true*/ EXAMPLES_DIR, folder, `${name}.tsx`), 'utf8');
+  return { folder, source: stripCopy(source) };
+}
+
+/**
+ * Takes the docs-only translation calls (examples/_copy/use-copy.ts) back out, so the Code tab shows the plain
+ * English example a reader would write: `aria-label={t('Settings')}` → `aria-label="Settings"`,
+ * `{t('Save draft')}` → `Save draft`, any other `t('X')` → `'X'`.
+ */
+export function stripCopy(source: string): string {
+  return source
+    .replace(/^import \{ useCopy \} from '\.\.\/_copy\/use-copy';\n/m, '')
+    .replace(/^[ \t]*const t = useCopy\(\);\n/m, '')
+    .replace(/=\{t\((['"])(.*?)\1\)\}/g, '="$2"')
+    .replace(/\{t\((['"])(.*?)\1\)\}/g, '$2')
+    .replace(/\bt\((['"])(.*?)\1\)/g, '$1$2$1');
 }

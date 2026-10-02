@@ -6,6 +6,69 @@ Numbers only with the command that produced them. Design trade-offs get an ADR i
 
 ---
 
+## 2026-10-03 (21st.dev-style pieces) — Marquee, PromptComposer, the AI reply, and previews in the tenant's language
+
+Four branches, one PR each. This entry lives on `feat/docs-preview-locale`; the other three carry no log edit, so
+they merge without touching this file.
+
+**Changed**
+- **`feat/marquee` — `Marquee` (alpha).** A self-scrolling strip with a pause toggle, pause on hover and on focus
+  inside (WCAG 2.2.2); no movement under reduced motion; one readable copy, the loop's copies `aria-hidden` + `inert`;
+  pace from width; rightwards in RTL. 4 tests, 3 examples.
+- **`feat/prompt-composer` — `PromptComposer`, `ComposerButton`, `ComposerSelect` (alpha).** Built from Anuj's
+  reference screenshot. Enter sends, Shift+Enter breaks, Enter during IME composition never sends; send becomes stop
+  while pending. `glow="brand" | "spectrum"` (primary/accent, or warning→info), `surface="glass"` (Popover's
+  recipe). Icon-only pills on narrow composers. 6 tests, 3 examples.
+- **`feat/ai-reply` — `StreamingResponse` + `ResponseText`, `ResponseSources`, `ResponseSource` (alpha).** The
+  2026-10-02 prototype (`feat/ai-streaming-announcer`, never committed) copied in unchanged, plus a visual layer:
+  words settle from the brand text colour into the body colour, a glowing caret, a shimmer on "Writing…", citation
+  chips. RFC-002 Accepted. 13 tests, 4 examples.
+- **`feat/docs-preview-locale` — previews speak the tenant's language (ADR-042).** Every preview takes the tenant's
+  `locale`/`dir` (Qamar Arabic RTL, Haat Hindi), the direction toggle overrides; Button's seven examples translate
+  through `examples/_copy/` and the Code tab strips the `t()` calls back to plain English.
+- The composer and AI reply demos follow the preview tenant's language themselves (a MutationObserver on the scope);
+  once ADR-042 is merged they can switch to `useCopy()`.
+
+**Decided**
+- Build showy motion pieces first, Marquee as the first: **Anuj** (chose "showy motion pieces", "build one now").
+- Glow from the solved palette, not raw orange/blue; send button stays solid with a glowing ring, no gradient behind
+  the icon: **Claude recommended, Anuj accepted** (he kept going after seeing both).
+- Glass as a `surface` option on the composer: **Anuj** asked for it; glass outside floating layers is **Claude**,
+  pending review against CONVENTIONS' "glass is for floating layers".
+- Build the AI reply on the unsaved announcer prototype: **Anuj** ("build on top of it").
+- RFC-002's three questions and the shimmer's motion-rule exception: **Anuj** (ADR-041).
+- Previews follow the tenant's language, direction toggle kept as an override, words one component at a time:
+  **Anuj** (ADR-042). The Code-tab stripping mechanism: **Claude**, pending Anuj.
+- Anuj reviewed the Arabic and Hindi wording written this session (the composer, the AI reply and Button examples).
+- The AI reply's word fade-in and chip pop-in run only without reduced motion; under reduced motion words only change
+  colour, both ends readable. **Claude**, after the axe sweep caught a half-faded word (below).
+
+**Results** (each branch, `/verify` steps 1–9 via one script, each on its own port with `SYNTARA_BASE_URL`)
+- `feat/marquee`: all steps pass. `pnpm test` 2,175 passing (react 478); `check-hydration` 115 routes × 2: 0
+  failures; `check-narrow-overflow` 230 checks: 0 sideways; `axe-sweep` 115 × 2: 0 violation nodes;
+  `check-overlay-exit` 108 tooltips + 4 menus: 0 failures. `grep -rl marquee-duration apps/docs/out/_next/static`: 10 files.
+- `feat/prompt-composer`: all steps pass. `pnpm test` 2,177 (react 480); hydration 0 of 230; sideways 0 of 230;
+  axe 0; overlay exit 0. `grep -rl data-surface …/static`: 10 files.
+- `feat/ai-reply`: the first sweep failed — `axe-sweep`: 1 color-contrast node, light, `/docs/components/streaming-response`,
+  a word caught mid fade-in. After the fix, all steps pass: `pnpm test` react 487; hydration 0 of 230; sideways 0
+  of 230; axe 0; overlay exit 0. A one-off scan of that page at 16 moments of playback × 2 schemes, reduced motion:
+  32 scans, 0 violation nodes. `grep -rl word-settle …/static`: 10 files.
+- `feat/docs-preview-locale`: all steps pass. hydration 0 of 228 (114 routes, no new component); axe 0. The Code tab
+  for Button's seven examples is byte-identical to the pre-change files (7 of 7, `stripCopy` vs `git show HEAD:`);
+  `grep -rl 'طلب جديد' …/static`: 7 files; the built Button page contains no `useCopy`.
+- Not done: a VoiceOver/NVDA run of `StreamingResponse`; `/screenshots` across tenants × schemes × RTL × widths.
+
+**Next**
+- Merge order matters for two hand-kept numbers: each component branch says **54 components** and its own README
+  test counts. Whichever merges second and third bumps the count (55, 56) in README, `packages/react/README.md`,
+  CLAUDE.md and `packages/mcp/test/{sizes,tools}.test.ts`, and re-runs `node scripts/check-test-counts.mjs --fix`.
+- Roll `useCopy()` out to the other 52 components, a group at a time; move the composer and AI reply demos onto it.
+- The component playground still renders blank for every component on a fresh install (`use-sync-external-store`
+  export error); not touched here.
+- Close the `ai-announcer` worktree and `feat/ai-streaming-announcer`: its work is on `feat/ai-reply`.
+
+---
+
 ## 2026-10-02 (homepage) — the hero becomes the demo, and the page gets a way in
 
 **Changed**
