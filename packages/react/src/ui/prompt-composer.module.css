@@ -1,0 +1,367 @@
+.root {
+  /* Two glow colours. "brand" (default): the brand's primary and accent. "spectrum": its warning and info
+     colours, a warm-to-cool sweep that reads as "AI" in any brand while staying inside the solved palette. */
+  --_a: var(--syntara-color-action-primary-bg);
+  --_b: var(--syntara-color-accent-bg);
+  --_face: var(--syntara-color-surface-default);
+  --_pad: var(--syntara-space-4);
+  box-sizing: border-box;
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  flex-direction: column;
+  gap: var(--syntara-space-3);
+  padding: var(--_pad);
+  border: 1px solid var(--syntara-color-border-default);
+  border-radius: calc(var(--syntara-radius-container) * 1.5);
+  background: var(--_face);
+  box-shadow: var(--syntara-shadow-raised);
+  container-type: inline-size;
+  transition: outline-offset var(--syntara-motion-duration-fast) var(--syntara-motion-easing);
+}
+
+.root[data-glow='spectrum'] {
+  --_a: var(--syntara-color-feedback-warning-solid);
+  --_b: var(--syntara-color-feedback-info-solid);
+}
+
+/* The start of the line gets the first colour, so the sweep follows reading direction. */
+.root {
+  --_glow-start: var(--_a);
+  --_glow-end: var(--_b);
+}
+
+:dir(rtl) .root {
+  --_glow-start: var(--_b);
+  --_glow-end: var(--_a);
+}
+
+/* Gradient edge: a continuous sweep from one colour to the other. Drawn on its own layer and masked to a 1px ring
+   (not the background-clip trick), so a see-through glass face doesn't show the gradient through it.
+   Physical "to right" because the colours swap under RTL above. */
+.root[data-glow] {
+  border-color: transparent;
+}
+
+.root[data-glow]::after {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  padding: 1px;
+  border-radius: inherit;
+  pointer-events: none;
+  background: linear-gradient(
+    to right,
+    var(--_glow-start),
+    color-mix(in oklab, var(--_glow-start) 40%, var(--syntara-color-border-default)) 30%,
+    color-mix(in oklab, var(--_glow-end) 40%, var(--syntara-color-border-default)) 70%,
+    var(--_glow-end)
+  );
+  /* Mask = whole box minus the content box, leaving only the padding ring. currentColor is just "opaque" here. */
+  mask:
+    linear-gradient(currentColor 0 0) content-box,
+    linear-gradient(currentColor 0 0);
+  mask-composite: exclude;
+}
+
+/* Glass: the same recipe as Popover. The engine solves --syntara-glass-opacity so text.default and text.subtle
+   keep 4.5:1 over any backdrop; +8 points matches Popover's proven margin for text.subtle. */
+.root[data-surface='glass'] {
+  --_face: color-mix(
+    in srgb,
+    var(--syntara-color-surface-raised) calc(var(--syntara-glass-opacity) * 100% + 8%),
+    transparent
+  );
+  -webkit-backdrop-filter: blur(var(--syntara-glass-blur)) saturate(1.6);
+  backdrop-filter: blur(var(--syntara-glass-blur)) saturate(1.6);
+}
+
+@supports not (backdrop-filter: blur(1px)) {
+  .root[data-surface='glass'] {
+    --_face: var(--syntara-color-surface-raised);
+  }
+}
+
+/* The halo: light pooling at the top-start and bottom-end corners, wide and soft so it never shows an edge.
+   A separate layer so its strength can fade (and breathe) on its own. */
+.root[data-glow]::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  pointer-events: none;
+  box-shadow:
+    calc(var(--syntara-space-6) * -1) calc(var(--syntara-space-3) * -1) calc(var(--syntara-space-16) * 2)
+      calc(var(--syntara-space-2) * -1) color-mix(in oklab, var(--_glow-start) 70%, transparent),
+    var(--syntara-space-6) var(--syntara-space-3) calc(var(--syntara-space-16) * 2) calc(var(--syntara-space-2) * -1)
+      color-mix(in oklab, var(--_glow-end) 70%, transparent),
+    calc(var(--syntara-space-1) * -1) calc(var(--syntara-space-1) * -1) var(--syntara-space-6) 0
+      color-mix(in oklab, var(--_glow-start) 55%, transparent),
+    var(--syntara-space-1) var(--syntara-space-1) var(--syntara-space-6) 0
+      color-mix(in oklab, var(--_glow-end) 55%, transparent);
+  opacity: 0.8;
+  transition: opacity var(--syntara-motion-duration-slow) var(--syntara-motion-easing-out);
+}
+
+.root[data-glow]:focus-within::before {
+  opacity: 1;
+}
+
+/* Typing focus: the accessible indicator is the ring; the brighter glow is decoration. */
+.root:has(.input[data-focus-visible]),
+.root:has(.input[data-focused]) {
+  outline: 2px solid var(--syntara-color-focus-ring);
+  outline-offset: 2px;
+}
+
+.field {
+  display: flex;
+}
+
+.input {
+  box-sizing: border-box;
+  flex: 1;
+  min-inline-size: 0;
+  min-block-size: calc(var(--syntara-space-12) + var(--syntara-space-2));
+  max-block-size: calc(var(--syntara-space-16) * 4);
+  field-sizing: content;
+  resize: none;
+  margin: 0;
+  padding: var(--syntara-space-2) var(--syntara-space-2) 0;
+  border: 0;
+  background: transparent;
+  color: var(--syntara-color-text-default);
+  font: inherit;
+  font-size: var(--syntara-font-size-xl);
+  line-height: 1.5;
+  letter-spacing: var(--syntara-font-tracking-md);
+  outline: none;
+}
+
+.input::placeholder {
+  color: var(--syntara-color-text-subtle);
+}
+
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--syntara-space-2);
+}
+
+.group {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--syntara-space-2);
+}
+
+.end {
+  margin-inline-start: auto;
+}
+
+/* Pills: attach, pickers, voice. They take the brand's button radius, so sharp brands get sharp pills. */
+.pill {
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--syntara-space-2);
+  min-block-size: calc(var(--syntara-control-height) + var(--syntara-space-1));
+  padding-inline: var(--syntara-control-padding-inline);
+  border: 1px solid transparent;
+  border-radius: var(--syntara-radius-button);
+  background: color-mix(in oklab, var(--syntara-color-text-default) 4%, transparent);
+  box-shadow: 0 0 0 var(--syntara-hairline) var(--syntara-color-border-default);
+  color: var(--syntara-color-text-subtle);
+  font: inherit;
+  font-size: var(--syntara-font-size-md);
+  font-weight: var(--syntara-font-weight-medium);
+  white-space: nowrap;
+  cursor: default;
+  transition:
+    background-color var(--syntara-motion-duration-fast) var(--syntara-motion-easing),
+    color var(--syntara-motion-duration-fast) var(--syntara-motion-easing),
+    box-shadow var(--syntara-motion-duration-fast) var(--syntara-motion-easing),
+    outline-offset var(--syntara-motion-duration-fast) var(--syntara-motion-easing);
+}
+
+.pill[data-icon-only] {
+  inline-size: calc(var(--syntara-control-height) + var(--syntara-space-1));
+  padding: 0;
+  justify-content: center;
+}
+
+.pill[data-hovered],
+.pill[aria-expanded='true'] {
+  background: color-mix(in oklab, var(--syntara-color-text-default) 8%, transparent);
+  box-shadow: 0 0 0 var(--syntara-hairline) var(--syntara-color-border-strong);
+  color: var(--syntara-color-text-default);
+}
+
+.pill[data-disabled] {
+  color: var(--syntara-color-text-disabled);
+  pointer-events: none;
+}
+
+.pillIcon {
+  display: inline-flex;
+  font-size: 1.1em;
+}
+
+.chevron {
+  inline-size: 0.9em;
+  block-size: 0.9em;
+  margin-inline-start: calc(var(--syntara-space-1) * -1);
+}
+
+/* Send / stop: the one solid brand fill in the composer. Solid on purpose: no gradient behind the icon. */
+.send {
+  box-sizing: border-box;
+  flex-shrink: 0;
+  display: inline-grid;
+  place-items: center;
+  inline-size: calc(var(--syntara-control-height) + var(--syntara-space-1));
+  block-size: calc(var(--syntara-control-height) + var(--syntara-space-1));
+  padding: 0;
+  border: 1px solid transparent;
+  border-radius: var(--syntara-radius-button);
+  background: var(--syntara-color-action-primary-bg);
+  /* Solid face (the solver tuned this fill against its icon); the colour lives in the ring of light around it. */
+  box-shadow:
+    var(--syntara-shadow-raised),
+    0 0 0 2px color-mix(in oklab, var(--_glow-end) 55%, transparent),
+    0 0 var(--syntara-space-6) color-mix(in oklab, var(--_glow-end) 60%, transparent);
+  color: var(--syntara-color-action-primary-fg);
+  font-size: var(--syntara-font-size-lg);
+  cursor: default;
+  transition:
+    background-color var(--syntara-motion-duration-fast) var(--syntara-motion-easing),
+    color var(--syntara-motion-duration-fast) var(--syntara-motion-easing),
+    outline-offset var(--syntara-motion-duration-fast) var(--syntara-motion-easing);
+}
+
+.send[data-hovered] {
+  background: var(--syntara-color-action-primary-hover);
+}
+
+/* Empty box: still the brand fill, softened, so it reads as "waiting for you" rather than broken. */
+.send[data-disabled] {
+  background: color-mix(in oklab, var(--syntara-color-action-primary-bg) 55%, var(--_face));
+  box-shadow: 0 0 var(--syntara-space-5) color-mix(in oklab, var(--_glow-end) 35%, transparent);
+  color: color-mix(in oklab, var(--syntara-color-action-primary-fg) 70%, transparent);
+}
+
+.send svg {
+  inline-size: 1.1em;
+  block-size: 1.1em;
+}
+
+/* The send arrow points along the line, so it mirrors in RTL (the stop square is symmetric either way). */
+:dir(rtl) .send svg {
+  scale: -1 1;
+}
+
+.pill[data-focus-visible],
+.send[data-focus-visible] {
+  outline: 2px solid var(--syntara-color-focus-ring);
+  outline-offset: 2px;
+}
+
+/* Narrow composer (phones): pills with an icon keep only the icon, so the toolbar stays on one line.
+   The text is visually hidden, not removed, so the button keeps its name. */
+@container (max-width: 28rem) {
+  .pillText {
+    position: absolute;
+    inline-size: 1px;
+    block-size: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  .pill:has(.pillText) {
+    padding-inline: var(--syntara-space-2);
+    gap: var(--syntara-space-1);
+  }
+
+  .pill[data-icon-only],
+  .send {
+    inline-size: var(--syntara-control-height);
+    block-size: var(--syntara-control-height);
+  }
+
+  .pill {
+    min-block-size: var(--syntara-control-height);
+  }
+
+  .toolbar,
+  .group {
+    gap: var(--syntara-space-1);
+  }
+
+  .toolbar,
+  .group {
+    flex-wrap: nowrap;
+  }
+}
+
+/* Narrowest phones: even icon-only, one line doesn't fit, so send and voice drop to their own line. */
+@container (max-width: 16rem) {
+  .toolbar {
+    flex-wrap: wrap;
+  }
+}
+
+@supports (corner-shape: squircle) {
+  .root,
+  .pill,
+  .send {
+    corner-shape: squircle;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .pill,
+  .send {
+    transition:
+      background-color var(--syntara-motion-duration-fast) var(--syntara-motion-easing),
+      color var(--syntara-motion-duration-fast) var(--syntara-motion-easing),
+      box-shadow var(--syntara-motion-duration-fast) var(--syntara-motion-easing),
+      outline-offset var(--syntara-motion-duration-fast) var(--syntara-motion-easing),
+      translate var(--syntara-motion-duration-spring) var(--syntara-motion-spring),
+      scale var(--syntara-motion-duration-spring) var(--syntara-motion-spring);
+  }
+
+  .pill[data-hovered],
+  .send[data-hovered] {
+    translate: 0 -1px;
+  }
+
+  .pill[data-pressed],
+  .send[data-pressed] {
+    scale: 0.96;
+  }
+
+  .chevron {
+    transition: rotate var(--syntara-motion-duration-spring) var(--syntara-motion-spring);
+  }
+
+  .pill[aria-expanded='true'] .chevron {
+    rotate: 180deg;
+  }
+
+  /* Thinking: the glow breathes while a reply is being written. */
+  .root[data-glow][data-pending]::before {
+    animation: breathe calc(var(--syntara-motion-duration-slow) * 6) var(--syntara-motion-easing) infinite alternate;
+  }
+}
+
+@keyframes breathe {
+  from {
+    opacity: 0.45;
+  }
+  to {
+    opacity: 1;
+  }
+}

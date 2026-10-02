@@ -58,7 +58,7 @@ describe('response sizes', () => {
 
   it('list_components covers every meta file', async () => {
     const r = await h.call('list_components');
-    expect(r.json.count).toBe(53);
+    expect(r.json.count).toBe(54);
   });
 
   it('responses are compact JSON: no indentation or line breaks between fields', async () => {

@@ -1,6 +1,6 @@
 # @syntara/react
 
-**53 components** built on [React Aria Components](https://react-spectrum.adobe.com/react-aria/), themed entirely by
+**54 components** built on [React Aria Components](https://react-spectrum.adobe.com/react-aria/), themed entirely by
 `var(--syntara-*)` tokens. One library renders every brand.
 
 ```tsx

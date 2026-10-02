@@ -1,0 +1,174 @@
+{
+  "name": "prompt-composer",
+  "title": "Prompt Composer",
+  "description": "The box where people write to an AI: a growing text area, pill controls for attachments and modes, and a send button, edged with a glow in the brand's colours.",
+  "category": "inputs",
+  "maturity": "alpha",
+  "exports": [
+    "PromptComposer",
+    "ComposerButton",
+    "ComposerSelect"
+  ],
+  "files": [
+    "prompt-composer.tsx",
+    "prompt-composer.module.css"
+  ],
+  "dependencies": [
+    "react-aria-components",
+    "@syntara/icons"
+  ],
+  "registryDependencies": [
+    "menu"
+  ],
+  "usage": "import { ComposerButton, ComposerSelect, PromptComposer } from '@syntara/react';\nimport { IconPlus } from '@syntara/icons';\n\nexport function Chat() {\n  return (\n    <PromptComposer\n      onSubmit={(text) => console.log(text)}\n      startActions={\n        <>\n          <ComposerButton aria-label=\"Attach a file\" icon={<IconPlus />} />\n          <ComposerSelect\n            label=\"Reasoning\"\n            options={[\n              { id: 'quick', label: 'Quick answer' },\n              { id: 'deep', label: 'DeepThink' },\n            ]}\n          />\n        </>\n      }\n    />\n  );\n}",
+  "examples": [
+    {
+      "name": "prompt-composer-demo",
+      "title": "Prompt Composer",
+      "description": "The spectrum glow on glass. Type and press Enter: send turns into stop and the glow breathes while the reply is written. Follows the brand's language."
+    },
+    {
+      "name": "prompt-composer-brand-glow",
+      "title": "Brand glow",
+      "description": "glow=\"brand\": the edge and halo in the brand's primary and accent colours, on a solid face."
+    },
+    {
+      "name": "prompt-composer-plain",
+      "title": "No glow",
+      "description": "glow={false} for a quiet composer: the same keyboard behaviour without the light."
+    }
+  ],
+  "props": [
+    {
+      "component": "PromptComposer",
+      "name": "onSubmit",
+      "type": "(value: string) => void",
+      "description": "Called with the trimmed text on Enter or the send button. Shift+Enter adds a line."
+    },
+    {
+      "component": "PromptComposer",
+      "name": "isPending",
+      "type": "boolean",
+      "default": "false",
+      "description": "A reply is being written: the send button becomes stop and the glow breathes."
+    },
+    {
+      "component": "PromptComposer",
+      "name": "onStop",
+      "type": "() => void",
+      "description": "Called by the stop button."
+    },
+    {
+      "component": "PromptComposer",
+      "name": "startActions",
+      "type": "ReactNode",
+      "description": "Toolbar controls at the start: attach, pickers."
+    },
+    {
+      "component": "PromptComposer",
+      "name": "endActions",
+      "type": "ReactNode",
+      "description": "Toolbar controls before the send button."
+    },
+    {
+      "component": "PromptComposer",
+      "name": "glow",
+      "type": "boolean | 'brand' | 'spectrum'",
+      "default": "'brand'",
+      "description": "The two-colour edge and halo. brand: primary and accent. spectrum: warning to info, warm to cool, the same in every brand's palette. false turns it off."
+    },
+    {
+      "component": "PromptComposer",
+      "name": "surface",
+      "type": "'solid' | 'glass'",
+      "default": "'solid'",
+      "description": "glass is a frosted face for a composer floating over content; text keeps 4.5:1 over any backdrop."
+    },
+    {
+      "component": "PromptComposer",
+      "name": "label",
+      "type": "string",
+      "default": "'Message'",
+      "description": "Accessible name of the text box."
+    },
+    {
+      "component": "ComposerButton",
+      "name": "icon",
+      "type": "ReactNode",
+      "description": "Leading icon. With no children the pill becomes a circle and needs aria-label."
+    },
+    {
+      "component": "ComposerSelect",
+      "name": "label",
+      "type": "string",
+      "required": true,
+      "description": "What is being chosen. Read together with the choice, e.g. \"Reasoning: DeepThink\"."
+    },
+    {
+      "component": "ComposerSelect",
+      "name": "options",
+      "type": "ComposerOption[]",
+      "required": true,
+      "description": "{ id, label, icon?, description? } for each choice."
+    }
+  ],
+  "accessibility": {
+    "keyboard": [
+      {
+        "keys": "Enter",
+        "action": "Sends. Does nothing while an input method is still composing a word."
+      },
+      {
+        "keys": "Shift + Enter",
+        "action": "Adds a new line."
+      },
+      {
+        "keys": "Tab",
+        "action": "Moves from the text box through the toolbar controls to send."
+      }
+    ],
+    "notes": [
+      "The send button is disabled while the box is empty, and becomes a Stop button while a reply is pending.",
+      "Focus in the text box draws the 2px focus ring around the whole composer; the brighter glow is decoration.",
+      "The glow colours swap sides and the send arrow mirrors on right-to-left pages.",
+      "On narrow composers pills with an icon show only the icon; the label stays as visually hidden text, so the name is unchanged."
+    ]
+  },
+  "guidelines": {
+    "do": [
+      "Keep the toolbar to a few controls; put the rest in the attach menu."
+    ],
+    "dont": [
+      "Don't use the glow on more than one element in a view."
+    ]
+  },
+  "tokens": [
+    "color.action.primary.bg",
+    "color.action.primary.fg",
+    "color.action.primary.hover",
+    "color.accent.bg",
+    "color.surface.raised",
+    "color.surface.selected",
+    "color.border.default",
+    "color.border.strong",
+    "color.text.default",
+    "color.text.subtle",
+    "color.text.disabled",
+    "color.focus.ring",
+    "radius.container",
+    "radius.button",
+    "control.height",
+    "control.padding.inline",
+    "shadow.raised",
+    "hairline",
+    "font.size.md",
+    "font.size.lg",
+    "font.weight.medium",
+    "motion.spring",
+    "motion.duration.spring",
+    "color.feedback.warning.solid",
+    "color.feedback.info.solid",
+    "glass.opacity",
+    "glass.blur"
+  ]
+}
