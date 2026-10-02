@@ -4,9 +4,9 @@ A multi-brand design system that humans and AI agents build with.
 
 53 React Aria components, its own icon set, a server-driven UI schema and a docs site with live previews, all themed by an engine that turns six brand inputs into a light and dark theme passing WCAG 2.2 AA.
 
-![One page switching between four brands and then to dark, with nothing differing in code](https://github.com/anujpatel06/strata/releases/download/readme-media/readme.gif)
+![One page switching between four brands and then to dark, with nothing differing in code](https://github.com/anujpatel06/syntara/releases/download/readme-media/readme.gif)
 
-<sub>29 seconds, unedited: Vela, Harbor, Qamar (Arabic — the layout mirrors), Haat (Devanagari), then dark. Same components, same code. Re-record with `pnpm gif`; the file is hosted on the <a href="https://github.com/anujpatel06/strata/releases/tag/readme-media">readme-media release</a> rather than committed, so it costs nothing to clone.</sub>
+<sub>29 seconds, unedited: Vela, Harbor, Qamar (Arabic — the layout mirrors), Haat (Devanagari), then dark. Same components, same code. Re-record with `pnpm gif`; the file is hosted on the <a href="https://github.com/anujpatel06/syntara/releases/tag/readme-media">readme-media release</a> rather than committed, so it costs nothing to clone.</sub>
 
 | Vela · neobank | Harbor · insurer | Qamar · grocery, Arabic RTL |
 |---|---|---|

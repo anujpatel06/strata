@@ -16,11 +16,11 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/anujpatel06/strata.git",
+    "url": "git+https://github.com/anujpatel06/syntara.git",
     "directory": "packages/theme-engine"
   },
-  "homepage": "https://github.com/anujpatel06/strata/tree/main/packages/theme-engine#readme",
-  "bugs": "https://github.com/anujpatel06/strata/issues",
+  "homepage": "https://github.com/anujpatel06/syntara/tree/main/packages/theme-engine#readme",
+  "bugs": "https://github.com/anujpatel06/syntara/issues",
   "exports": {
     ".": "./src/index.ts"
   },

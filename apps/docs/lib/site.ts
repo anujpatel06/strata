@@ -7,7 +7,7 @@ export const SITE_NAME = 'Syntara';
 export const SITE_DESCRIPTION =
   'A multi-brand design system that humans and AI agents build with. One React library, any brand, WCAG 2.2 AA by construction.';
 
-export const GITHUB_URL = 'https://github.com/anujpatel06/strata';
+export const GITHUB_URL = 'https://github.com/anujpatel06/syntara';
 
 /** GitHub link to a file in the repo, e.g. githubBlob('docs/adr/002-headless-primitives-react-aria.md'). */
 export const githubBlob = (repoPath: string): string => `${GITHUB_URL}/blob/main/${repoPath.replace(/^\/+/, '')}`;

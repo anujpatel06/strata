@@ -58,7 +58,7 @@ The toggle then sets the attribute and writes `localStorage` inside `try`/`catch
 
 Dark isn’t an inverted light theme. The engine maps each ramp to roles separately for dark — canvas at the dark end, text near the light end — and runs every contrast check again, so both schemes pass WCAG 2.2 AA on their own.
 
-One rule in dark mode isn’t from WCAG. A near-black brand colour passes contrast with a white label but nearly disappears on a near-black canvas, so the engine lifts primary fills until they reach 2.2:1 against the canvas. It is logged as a `visibility` adjustment and never reported as a WCAG result ([ADR-006](https://github.com/anujpatel06/strata/blob/main/docs/adr/006-oklch-ramps-contrast-solver.md)). This site’s own near-black brand (`tenants/house/brand.json`) triggers it:
+One rule in dark mode isn’t from WCAG. A near-black brand colour passes contrast with a white label but nearly disappears on a near-black canvas, so the engine lifts primary fills until they reach 2.2:1 against the canvas. It is logged as a `visibility` adjustment and never reported as a WCAG result ([ADR-006](https://github.com/anujpatel06/syntara/blob/main/docs/adr/006-oklch-ramps-contrast-solver.md)). This site’s own near-black brand (`tenants/house/brand.json`) triggers it:
 
 <HouseAdjustments />
 
