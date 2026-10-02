@@ -33,6 +33,10 @@ Numbers only with the command that produced them. Design trade-offs get an ADR i
 - **The site has a favicon** (`apps/docs/app/icon.svg`) — there was none, so tabs showed the browser's globe. Same
   mark as the header, with its own colours per scheme because a favicon has no `currentColor`.
 - **Haat's Hindi copy is marked reviewed** (`tenants/haat/content.json`), so the draft note no longer appears.
+- **"Get started" in the header waits for 960px.** Merging #38 showed the cost: that fix left the header row
+  fitting at 768 with 33px to spare, and a seventh nav item is wider than that, so every page from 768 to 959
+  went 26px over — 72 of 228 route/width pairs. The item is held back to the same breakpoint the search expands
+  at; below it the hero's own button is the entry point.
 - Three invented token names fixed: `--syntara-radius-sm` is not a token the engine emits, so `.trustRow`,
   `.toolChip` and the component-name labels had square corners rather than small ones.
 
@@ -45,7 +49,8 @@ Numbers only with the command that produced them. Design trade-offs get an ADR i
 - **The agent cards are tinted — Anuj**, from three options.
 - **Eight category tiles — Anuj**, from three options.
 
-**Results** — `/verify`, all nine steps, on build `0UityzepSFWvAPEapJwWI`:
+**Results** — `/verify`, all nine steps, on build `0UityzepSFWvAPEapJwWI`; steps 7–9 re-run after merging
+#38 on build `TBToOPzTGGY2xKuyP0f2m`, which is where the header overflow above was caught and fixed:
 
 | Step | Command | Result |
 |---|---|---|
@@ -60,7 +65,7 @@ Numbers only with the command that produced them. Design trade-offs get an ADR i
 | 8 | `node scripts/check-ssr-tabs.mjs` | 327 tab lists, **0** missing panels |
 | 9 | `check-hydration` | 228 loads, **0** failures |
 | 9 | `check-theme-links` | 5 links, **0** failures |
-| 9 | `check-narrow-overflow` | 114 routes at 320px, **0** scrolling sideways |
+| 9 | `check-narrow-overflow` | **0** scrolling sideways — 684 route/width pairs at 320, 768, 860, 900, 959 and 960 |
 | 9 | `check-csp` | 114 routes, **0** failures |
 | 9 | `axe-sweep` | 114 routes × 2 schemes, **0** violation nodes |
 | 9 | `check-overlay-exit` | 108 tooltips + 4 menus/popovers, **0** failures |

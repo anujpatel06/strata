@@ -12,7 +12,7 @@ export function MainNav() {
     <nav aria-label="Main" className={styles.mainNav}>
       <ul className={styles.mainNavList}>
         {MAIN_NAV.map((item) => (
-          <li key={item.href}>
+          <li key={item.href} className={item.wide ? styles.mainNavWide : undefined}>
             <Link
               href={item.href}
               className={styles.mainNavLink}
