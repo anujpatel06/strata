@@ -2,7 +2,7 @@
 
 A multi-brand design system that humans and AI agents build with.
 
-53 React Aria components, its own icon set, a server-driven UI schema and a docs site with live previews, all themed by an engine that turns six brand inputs into a light and dark theme passing WCAG 2.2 AA.
+54 React Aria components, its own icon set, a server-driven UI schema and a docs site with live previews, all themed by an engine that turns six brand inputs into a light and dark theme passing WCAG 2.2 AA.
 
 ![One page switching between four brands and then to dark, with nothing differing in code](https://github.com/anujpatel06/strata/releases/download/readme-media/readme.gif)
 
@@ -16,7 +16,7 @@ Same components, same code. A tenant differs by tokens + copy only. Screenshots:
 
 ## What works today
 
-- **53 components** (`@syntara/react`) on React Aria: fields, pickers, overlays, feedback, navigation and a DataTable. Every one works in light and dark, both densities, and RTL, and each has a `meta.json` that drives its docs page.
+- **54 components** (`@syntara/react`) on React Aria: fields, pickers, overlays, feedback, navigation and a DataTable. Every one works in light and dark, both densities, and RTL, and each has a `meta.json` that drives its docs page.
 - **Docs site** (`apps/docs`, Next.js): component pages with live previews per tenant, scheme, direction and density; Blocks; Themes; Colors; ⌘K search. The site is themed by Syntara itself.
 - **Distribution** (ADR-011): install `@syntara/react` and `@syntara/tokens` from npm — all eight packages are published at [0.1.0](https://www.npmjs.com/org/syntara) — or copy a component's source files into your project.
 - **7 blocks**: dashboard, request flow, settings, sign-in, activity table, benefits overview and portfolio. Each runs in every tenant.
@@ -43,7 +43,7 @@ Every number comes from a script. Run the command to reproduce it.
 | Solver adjustments per brand | median 4, max 7 | `pnpm test:themes` |
 | Components / blocks | 53 / 7 | `pnpm check:meta`; blocks listed in `apps/docs/blocks/blocks.json` |
 | Component maturity | 18 alpha · 35 beta · 0 stable | `pnpm check:meta` |
-| Tests | 474 components · 310 engine · 959 icons · 193 MCP server · 150 schema · 77 auditor · 8 codemods | `pnpm test` |
+| Tests | 478 components · 310 engine · 959 icons · 193 MCP server · 150 schema · 77 auditor · 8 codemods | `pnpm test` |
 | Docs routes swept with axe (light + dark) | 113 × 2, 0 violations, 0 page errors | `node scripts/axe-sweep.mjs` (with the built docs site running) |
 | Tenants rendering from one codebase | 6: Latin, Arabic (right to left) and Hindi | `pnpm tokens` |
 | Contrast re-checked on exported native tokens | 236 / 236 per tenant | `pnpm tokens` |

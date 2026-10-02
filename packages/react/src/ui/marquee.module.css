@@ -1,0 +1,161 @@
+.root {
+  box-sizing: border-box;
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: var(--syntara-space-2);
+  min-inline-size: 0;
+}
+
+/* Soft edges: items fade in and out instead of being cut by the strip's border. Symmetric, so RTL needs nothing. */
+.viewport {
+  flex: 1;
+  min-inline-size: 0;
+  overflow: hidden;
+  mask-image: linear-gradient(to right, transparent, currentColor var(--syntara-space-12), currentColor calc(100% - var(--syntara-space-12)), transparent);
+}
+
+.track {
+  display: flex;
+  inline-size: max-content;
+}
+
+.half,
+.group {
+  display: flex;
+  flex-shrink: 0;
+}
+
+.group {
+  gap: var(--syntara-space-10);
+  /* The gap after the last item matches the gap between items, so the seam of the loop is invisible. */
+  padding-inline-end: var(--syntara-space-10);
+  align-items: center;
+}
+
+.item {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  color: var(--syntara-color-text-subtle);
+}
+
+.toggle {
+  box-sizing: border-box;
+  flex-shrink: 0;
+  display: inline-grid;
+  place-items: center;
+  inline-size: var(--syntara-control-height);
+  block-size: var(--syntara-control-height);
+  padding: 0;
+  border: 1px solid transparent;
+  border-radius: var(--syntara-radius-button);
+  background: transparent;
+  color: var(--syntara-color-text-subtle);
+  font-size: var(--syntara-font-size-md);
+  cursor: default;
+  transition:
+    background-color var(--syntara-motion-duration-fast) var(--syntara-motion-easing),
+    color var(--syntara-motion-duration-fast) var(--syntara-motion-easing),
+    outline-offset var(--syntara-motion-duration-fast) var(--syntara-motion-easing);
+}
+
+.toggle[data-hovered],
+.toggle[data-selected] {
+  background: color-mix(in oklab, var(--syntara-color-text-default) 6%, transparent);
+  color: var(--syntara-color-text-default);
+}
+
+.toggle[data-focus-visible] {
+  outline: 2px solid var(--syntara-color-focus-ring);
+  outline-offset: 2px;
+}
+
+.toggle svg {
+  inline-size: 1em;
+  block-size: 1em;
+}
+
+@supports (corner-shape: squircle) {
+  .toggle {
+    corner-shape: squircle;
+  }
+}
+
+/* Reduced motion (and before the first measurement): nothing moves, nothing repeats, the items wrap. */
+.root:not([data-ready]) .half[aria-hidden],
+.root:not([data-ready]) .group[aria-hidden],
+.root:not([data-ready]) .toggle {
+  display: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .half[aria-hidden],
+  .group[aria-hidden],
+  .toggle {
+    display: none;
+  }
+
+  .viewport {
+    mask-image: none;
+  }
+
+  .track,
+  .half,
+  .group {
+    inline-size: auto;
+    flex-wrap: wrap;
+    justify-content: center;
+    row-gap: var(--syntara-space-4);
+  }
+
+  .group {
+    padding-inline-end: 0;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .root[data-ready] .track {
+    animation: marquee var(--marquee-duration) linear infinite;
+  }
+
+  .root[data-ready]:dir(rtl) .track {
+    animation-name: marquee-rtl;
+  }
+
+  .root[data-reverse] .track {
+    animation-direction: reverse;
+  }
+
+  /* Paused by the button, by the pointer, or because something inside has keyboard focus (so a link never runs away). */
+  .root[data-paused] .track,
+  .root[data-pause-on-hover]:hover .track,
+  .viewport:focus-within .track {
+    animation-play-state: paused;
+  }
+
+  .toggle[data-pressed] {
+    scale: 0.9;
+  }
+
+  .toggle {
+    transition:
+      background-color var(--syntara-motion-duration-fast) var(--syntara-motion-easing),
+      color var(--syntara-motion-duration-fast) var(--syntara-motion-easing),
+      outline-offset var(--syntara-motion-duration-fast) var(--syntara-motion-easing),
+      scale var(--syntara-motion-duration-spring) var(--syntara-motion-spring);
+  }
+}
+
+/* The items travel towards the start of the line: leftwards in LTR, rightwards in RTL. */
+@keyframes marquee {
+  to {
+    translate: -50% 0;
+  }
+}
+
+@keyframes marquee-rtl {
+  to {
+    translate: 50% 0;
+  }
+}
