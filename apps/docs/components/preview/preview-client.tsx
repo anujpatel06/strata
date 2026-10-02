@@ -28,6 +28,9 @@ export interface PreviewTenant {
   id: string;
   name: string;
   density: 'comfortable' | 'compact';
+  /** The tenant's own locale and direction (content.json): Qamar is ar-AE and right-to-left, Haat hi-IN. */
+  locale: string;
+  dir: 'ltr' | 'rtl';
 }
 
 type Scheme = 'light' | 'dark';
@@ -103,12 +106,19 @@ export function PreviewClient({ name, label, align, tenants, code }: PreviewClie
   const [tenantId, setTenantId] = useState(tenants[0]?.id ?? 'house');
   /** undefined = follow the site's scheme. */
   const [scheme, setScheme] = useState<Scheme | undefined>();
-  const [dir, setDir] = useState<Dir>('ltr');
+  /** undefined = follow the tenant's direction. The toggle overrides it until the tenant changes. */
+  const [dir, setDir] = useState<Dir | undefined>();
   const [density, setDensity] = useState<Density | undefined>();
 
   const tenant = tenants.find((t) => t.id === tenantId) ?? tenants[0];
   const effectiveScheme = scheme ?? siteScheme;
   const effectiveDensity = density ?? tenant?.density ?? 'comfortable';
+  const tenantDir = tenant?.dir ?? 'ltr';
+  const effectiveDir = dir ?? tenantDir;
+  // The tenant's own locale while its direction is shown, so Qamar previews in Arabic (dates, numbers, calendar,
+  // React Aria's keyboard direction) and Haat in Hindi. Flipped against the tenant, a stand-in locale for the
+  // other direction, so any tenant can still be checked both ways.
+  const locale = effectiveDir === tenantDir ? (tenant?.locale ?? 'en-US') : effectiveDir === 'rtl' ? 'ar-AE' : 'en-US';
 
   // One frame, one bar: Preview / Code on the start side, the stage controls on the end side (only while the
   // preview shows; they do nothing to the code). Tenants are colour dots named by tooltip, with the current
@@ -133,7 +143,10 @@ export function PreviewClient({ name, label, align, tenants, code }: PreviewClie
                   selectedKeys={[tenantId]}
                   onSelectionChange={(keys) => {
                     const next = firstKey(keys);
-                    if (next) setTenantId(next);
+                    if (next) {
+                      setTenantId(next);
+                      setDir(undefined); // a new tenant starts in its own direction
+                    }
                   }}
                   className={styles.dots}
                 >
@@ -170,7 +183,7 @@ export function PreviewClient({ name, label, align, tenants, code }: PreviewClie
                 aria-label="Direction"
                 size="sm"
                 disallowEmptySelection
-                selectedKeys={[dir]}
+                selectedKeys={[effectiveDir]}
                 onSelectionChange={(keys) => setDir(firstKey(keys) as Dir)}
                 className={styles.group}
               >
@@ -204,7 +217,7 @@ export function PreviewClient({ name, label, align, tenants, code }: PreviewClie
             theme={tenant?.id}
             data-syntara-scheme={scheme ?? 'site'}
             density={density}
-            locale={dir === 'rtl' ? 'ar-AE' : 'en-US'}
+            locale={locale}
             className={styles.stage}
             data-align={align}
             role="region"

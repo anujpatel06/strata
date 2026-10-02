@@ -6,8 +6,8 @@ import { PreviewClient, type PreviewTenant } from './preview-client';
 
 function previewTenants(): PreviewTenant[] {
   return [
-    ...getTenants().map((t) => ({ id: t.id, name: t.name, density: t.brand.density })),
-    { id: HOUSE_ID, name: 'House', density: getHouseBrand().density },
+    ...getTenants().map((t) => ({ id: t.id, name: t.name, density: t.brand.density, locale: t.locale, dir: t.dir })),
+    { id: HOUSE_ID, name: 'House', density: getHouseBrand().density, locale: 'en-US', dir: 'ltr' as const },
   ];
 }
 
