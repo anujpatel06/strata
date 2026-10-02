@@ -31,6 +31,7 @@ export * from './ui/pagination';
 export * from './ui/person-chip';
 export * from './ui/popover';
 export * from './ui/progress';
+export * from './ui/prompt-composer';
 export * from './ui/radio-group';
 export * from './ui/search-field';
 export * from './ui/select';
