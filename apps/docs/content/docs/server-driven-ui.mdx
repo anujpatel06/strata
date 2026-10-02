@@ -32,15 +32,15 @@ import { SyntaraScreen } from '@syntara/sdui/react';
 
 ## The rules
 
-Each rule is written out in full in the [package README](https://github.com/anujpatel06/strata/blob/main/packages/sdui/README.md#the-rules).
+Each rule is written out in full in the [package README](https://github.com/anujpatel06/syntara/blob/main/packages/sdui/README.md#the-rules).
 
-- **Data, not code.** A node is a type, props, text, slots and an action. Functions, styles, class names and markup never cross the wire. A Button gets an `action` instead of `onPress`, and strings are always drawn as text. [Props come from meta](https://github.com/anujpatel06/strata/blob/main/packages/sdui/README.md#props-come-from-meta).
-- **Two kinds of action.** `navigate` to an `https://` URL or an app path, or an `event` with a name and a flat payload for the host to handle. Anything else, including `javascript:`, is rejected. [Actions](https://github.com/anujpatel06/strata/blob/main/packages/sdui/README.md#actions).
-- **No brand in a screen.** A document has no `theme`, `tenant`, `brand`, `scheme` or `density`. The client that draws it decides those, so one document works in every tenant. [No brand in a screen](https://github.com/anujpatel06/strata/blob/main/packages/sdui/README.md#no-brand-in-a-screen).
-- **Accessibility is in the schema.** A Button needs text or an `ariaLabel`. A Link needs text. A ProgressBar or Meter needs a label. Badge, Tag and Alert need words, so status is never colour alone. A document that breaks one of these is invalid. [Accessibility is part of the contract](https://github.com/anujpatel06/strata/blob/main/packages/sdui/README.md#accessibility-is-part-of-the-contract).
-- **Versions.** `schemaVersion` is semver, and a client supports one major. Minor versions only add. Removing or renaming anything is a major. [Versions](https://github.com/anujpatel06/strata/blob/main/packages/sdui/README.md#versions).
-- **Unknowns.** A client ignores unknown props and fields, drops unknown values so the default applies, and draws a node’s `fallback` for an unknown type. It never draws raw JSON. [Unknowns](https://github.com/anujpatel06/strata/blob/main/packages/sdui/README.md#unknowns-what-a-client-does).
-- **Deprecations.** A prop or value that was deprecated before this major of the schema never enters it. One deprecated inside a major stays until the next major and is reported when used. That’s why Button’s `variant: "danger"` isn’t in the schema. [How a deprecation reaches the schema](https://github.com/anujpatel06/strata/blob/main/packages/sdui/README.md#how-a-deprecation-reaches-the-schema-governancemd-5), and [Governance](/docs/governance).
+- **Data, not code.** A node is a type, props, text, slots and an action. Functions, styles, class names and markup never cross the wire. A Button gets an `action` instead of `onPress`, and strings are always drawn as text. [Props come from meta](https://github.com/anujpatel06/syntara/blob/main/packages/sdui/README.md#props-come-from-meta).
+- **Two kinds of action.** `navigate` to an `https://` URL or an app path, or an `event` with a name and a flat payload for the host to handle. Anything else, including `javascript:`, is rejected. [Actions](https://github.com/anujpatel06/syntara/blob/main/packages/sdui/README.md#actions).
+- **No brand in a screen.** A document has no `theme`, `tenant`, `brand`, `scheme` or `density`. The client that draws it decides those, so one document works in every tenant. [No brand in a screen](https://github.com/anujpatel06/syntara/blob/main/packages/sdui/README.md#no-brand-in-a-screen).
+- **Accessibility is in the schema.** A Button needs text or an `ariaLabel`. A Link needs text. A ProgressBar or Meter needs a label. Badge, Tag and Alert need words, so status is never colour alone. A document that breaks one of these is invalid. [Accessibility is part of the contract](https://github.com/anujpatel06/syntara/blob/main/packages/sdui/README.md#accessibility-is-part-of-the-contract).
+- **Versions.** `schemaVersion` is semver, and a client supports one major. Minor versions only add. Removing or renaming anything is a major. [Versions](https://github.com/anujpatel06/syntara/blob/main/packages/sdui/README.md#versions).
+- **Unknowns.** A client ignores unknown props and fields, drops unknown values so the default applies, and draws a node’s `fallback` for an unknown type. It never draws raw JSON. [Unknowns](https://github.com/anujpatel06/syntara/blob/main/packages/sdui/README.md#unknowns-what-a-client-does).
+- **Deprecations.** A prop or value that was deprecated before this major of the schema never enters it. One deprecated inside a major stays until the next major and is reported when used. That’s why Button’s `variant: "danger"` isn’t in the schema. [How a deprecation reaches the schema](https://github.com/anujpatel06/syntara/blob/main/packages/sdui/README.md#how-a-deprecation-reaches-the-schema-governancemd-5), and [Governance](/docs/governance).
 
 No node takes these props:
 
@@ -68,7 +68,7 @@ What that does and doesn’t prove:
 - The Kotlin files have **not** been compiled. No Kotlin compiler was installed, so tests check their structure instead.
 - No native components exist. These files give an app team Syntara’s tokens, not its buttons.
 
-The full notes, including units, touch targets and what CSS has that native doesn’t, are in [`README-native.md`](https://github.com/anujpatel06/strata/blob/main/packages/tokens/README-native.md).
+The full notes, including units, touch targets and what CSS has that native doesn’t, are in [`README-native.md`](https://github.com/anujpatel06/syntara/blob/main/packages/tokens/README-native.md).
 
 ## What this is not
 

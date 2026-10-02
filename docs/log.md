@@ -6,6 +6,28 @@ Numbers only with the command that produced them. Design trade-offs get an ADR i
 
 ---
 
+## 2026-10-02 (repo rename) — the GitHub repository is called syntara
+
+**Changed**
+- **The repository is renamed `anujpatel06/strata` → `anujpatel06/syntara`** with `gh repo rename`.
+  `curl -s -o /dev/null -w '%{http_code} -> %{redirect_url}' https://github.com/anujpatel06/strata` →
+  `301 -> https://github.com/anujpatel06/syntara`, so old links and clones keep working.
+- 46 links in 19 files (README, nine docs pages, `apps/docs/lib/site.ts`, eight `package.json`s) now use the new
+  address. Historical records — this log and ADR-029 — keep the old one, because they describe what was true then.
+- A patch changeset carries the new `repository` field to npm on the next release; nothing is published now.
+
+**Decided**
+- **Rename the repository — Anuj.** ADR-029 left this call to him. Claude laid out the one risk (Cloudflare Pages
+  is connected to the repo in its dashboard and may not follow a rename) before he said yes.
+
+**Next**
+- **Confirm Cloudflare still deploys.** This PR's preview build is the test. If no preview appears, reconnect the
+  repo under the Pages project's settings in the Cloudflare dashboard.
+- **21st.dev listing:** form filled (demo URL, name, description, seven tags), not yet published. Add
+  "Code: https://github.com/anujpatel06/syntara" to the description, then publish on Anuj's word.
+
+---
+
 ## 2026-10-02 (homepage) — the hero becomes the demo, and the page gets a way in
 
 **Changed**

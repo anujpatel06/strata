@@ -105,7 +105,7 @@ The numbers below are from before `find_icon`, `imports` and `typeNotes` were ad
   </tbody>
 </Table>
 
-One model (`claude-sonnet-5`), one agent, 50 runs a side. A gap of a few points is inside what repeats of the same prompt disagree on. The server didn’t help with type errors and did worse on narrow screens. The first attempt at this eval was thrown out because of a fault in the harness. The full results, the method and both sets of runs are in [`evals/`](https://github.com/anujpatel06/strata/tree/main/evals).
+One model (`claude-sonnet-5`), one agent, 50 runs a side. A gap of a few points is inside what repeats of the same prompt disagree on. The server didn’t help with type errors and did worse on narrow screens. The first attempt at this eval was thrown out because of a fault in the harness. The full results, the method and both sets of runs are in [`evals/`](https://github.com/anujpatel06/syntara/tree/main/evals).
 
 Reproduce with `node evals/setup.mjs --clean`, then `run`, `score` and `report`. A new run gives different numbers, because models don’t answer the same way twice.
 

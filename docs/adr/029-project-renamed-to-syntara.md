@@ -57,3 +57,5 @@
 - Anyone re-scoring `iter-1` or `iter-2` has to point `SOURCE_ROOT` at a pre-rename checkout, because the auditor no
   longer knows `--strata-*`.
 - The repository directory and the GitHub remote still read `strata`. Docs links keep working either way.
+- **Update 2026-10-02:** Anuj renamed the GitHub repository to `anujpatel06/syntara`. GitHub redirects the old
+  address; live links were moved to the new one, and this record keeps the old one as written.

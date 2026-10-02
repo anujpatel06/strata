@@ -6,11 +6,11 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/anujpatel06/strata.git",
+    "url": "git+https://github.com/anujpatel06/syntara.git",
     "directory": "packages/mcp"
   },
-  "homepage": "https://github.com/anujpatel06/strata/tree/main/packages/mcp#readme",
-  "bugs": "https://github.com/anujpatel06/strata/issues",
+  "homepage": "https://github.com/anujpatel06/syntara/tree/main/packages/mcp#readme",
+  "bugs": "https://github.com/anujpatel06/syntara/issues",
   "exports": {
     ".": "./src/index.ts"
   },

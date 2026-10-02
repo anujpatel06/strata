@@ -54,7 +54,7 @@ The finish pass: motion, depth, our own icons and charts, and an editorial voice
 Phase 2.
 
 - Components built on React Aria Components, styled with CSS Modules and `--syntara-*` tokens only. Each one has a maturity label.
-- One `meta.json` per component — props, examples, accessibility, guidelines, tokens — driving these docs ([ADR-007](https://github.com/anujpatel06/strata/blob/main/docs/adr/007-meta-json-single-source.md)).
+- One `meta.json` per component — props, examples, accessibility, guidelines, tokens — driving these docs ([ADR-007](https://github.com/anujpatel06/syntara/blob/main/docs/adr/007-meta-json-single-source.md)).
 - Distribution through npm: `@syntara/react` builds to ESM with one module per component, `'use client'` kept, one `styles.css` and type declarations (<AdrLink n="011" />).
 - Overlays copy their opener’s theme attributes, so portaled dialogs and popovers keep the tenant, scheme and density; `ThemeScope` takes a `locale` that sets React Aria’s locale, `lang` and `dir` (<AdrLink n="012" />).
 - The house brand the docs use lives in `tenants/house/brand.json`.
