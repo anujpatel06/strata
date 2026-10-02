@@ -1,0 +1,305 @@
+/* A response as it is written: the text, then a quiet status line while it is still moving or if it ended early.
+   No surface of its own: it sits in whatever message, card or panel the app puts it in. */
+.root {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: var(--syntara-space-2);
+  min-inline-size: 0;
+}
+
+.body {
+  color: var(--syntara-color-text-default);
+  font-size: var(--syntara-font-size-md);
+  letter-spacing: var(--syntara-font-tracking-md);
+  line-height: var(--syntara-line-height-normal);
+  overflow-wrap: anywhere;
+}
+
+/* Plain text keeps the model's line breaks. */
+.body[data-plain] {
+  white-space: pre-wrap;
+}
+
+/* Status: a mark and words, never colour alone. */
+.status {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--syntara-space-2);
+  color: var(--syntara-color-text-subtle);
+  font-size: var(--syntara-font-size-sm);
+  letter-spacing: var(--syntara-font-tracking-sm);
+  line-height: var(--syntara-line-height-normal);
+}
+
+/* One line box tall, so the mark centres on the first line of text. */
+.mark {
+  display: inline-grid;
+  place-items: center;
+  flex: none;
+  block-size: calc(1em * var(--syntara-line-height-normal));
+  font-size: 1.25em;
+}
+
+.mark svg {
+  inline-size: 1em;
+  block-size: 1em;
+}
+
+.detail {
+  display: block;
+}
+
+/* Writing: a small brand dot that breathes. Opacity stays with reduced motion on; the scale goes. */
+.dot {
+  inline-size: calc(var(--syntara-space-1) * 1.5);
+  block-size: calc(var(--syntara-space-1) * 1.5);
+  border-radius: 50%;
+  background: currentColor;
+  animation: breathe calc(var(--syntara-motion-duration-slow) * 4) var(--syntara-motion-easing) infinite;
+}
+
+@keyframes breathe {
+  50% {
+    opacity: 0.35;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .dot {
+    animation-name: breathe-scale;
+  }
+
+  @keyframes breathe-scale {
+    50% {
+      opacity: 0.35;
+      scale: 0.7;
+    }
+  }
+}
+
+.root[data-status='streaming'] .mark {
+  color: var(--syntara-color-text-brand);
+}
+
+/* Failed: the filled alert shape in the danger tone, its glyph knocked out in the tone's background. */
+.root[data-status='error'] .mark {
+  color: var(--syntara-color-feedback-danger-fg);
+  --syntara-icon-on: var(--syntara-color-feedback-danger-bg);
+}
+
+.root[data-status='error'] .status > :last-child {
+  color: var(--syntara-color-text-default);
+}
+
+.root[data-status='error'] .detail {
+  color: var(--syntara-color-text-subtle);
+}
+
+/* ——— Visible layer: ResponseText, the writing shimmer, ResponseSources ——— */
+
+.text {
+  white-space: pre-wrap;
+}
+
+/* New words arrive in the brand's text colour and settle into the body colour: "ink drying". Both colours are
+   text roles that pass 4.5:1, so every frame of the settle is readable, and it stays on with reduced motion.
+   The fade-in from transparent is not readable mid-way (axe caught a half-faded word, 2026-10-03), so it only
+   runs for people who have not asked for less motion. */
+.word {
+  animation: word-settle calc(var(--syntara-motion-duration-slow) * 3) var(--syntara-motion-easing-out) both;
+}
+
+@keyframes word-settle {
+  from,
+  25% {
+    color: var(--syntara-color-text-brand);
+  }
+  to {
+    color: var(--syntara-color-text-default);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .word {
+    animation-name: word-in;
+  }
+
+  @keyframes word-in {
+    from {
+      opacity: 0;
+      color: var(--syntara-color-text-brand);
+    }
+    25% {
+      opacity: 1;
+      color: var(--syntara-color-text-brand);
+    }
+    to {
+      opacity: 1;
+      color: var(--syntara-color-text-default);
+    }
+  }
+}
+
+/* The caret: a short brand bar with a soft glow at the end of the text, while streaming. */
+.root[data-status='streaming'] .text::after {
+  content: '';
+  display: inline-block;
+  inline-size: 2px;
+  block-size: 1.1em;
+  margin-inline-start: 2px;
+  vertical-align: text-bottom;
+  border-radius: 1px;
+  background: var(--syntara-color-text-brand);
+  box-shadow: 0 0 var(--syntara-space-2) var(--syntara-color-text-brand);
+}
+
+/* Writing: a light sweeps across the label. Both ends of the sweep are text roles that pass 4.5:1, so every
+   frame does. It animates background-position, an exception in the spirit of Toast's block-size: one short
+   label, nothing reflows. */
+@media (prefers-reduced-motion: no-preference) {
+  .root[data-status='streaming'] .text::after {
+    animation: caret calc(var(--syntara-motion-duration-slow) * 3) steps(2, jump-none) infinite;
+  }
+
+  .root[data-status='streaming'] .label {
+    background: linear-gradient(
+        90deg,
+        var(--syntara-color-text-subtle) 35%,
+        var(--syntara-color-text-default) 50%,
+        var(--syntara-color-text-subtle) 65%
+      )
+      0 0 / 300% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation: shimmer calc(var(--syntara-motion-duration-slow) * 6) linear infinite;
+  }
+
+  :dir(rtl) .root[data-status='streaming'] .label {
+    animation-direction: reverse;
+  }
+}
+
+@keyframes caret {
+  50% {
+    opacity: 0;
+  }
+}
+
+@keyframes shimmer {
+  from {
+    background-position: 100% 0;
+  }
+  to {
+    background-position: 0 0;
+  }
+}
+
+@media (forced-colors: active) {
+  .root[data-status='streaming'] .label {
+    background: none;
+    color: CanvasText;
+  }
+}
+
+.sources {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--syntara-space-2);
+  margin: 0;
+  margin-block-start: var(--syntara-space-3);
+  padding: 0;
+  list-style: none;
+}
+
+/* Chips pop in one after another only without reduced motion (see .word: a half-faded chip is not readable). */
+.sourceItem {
+  display: flex;
+}
+
+/* A chip: hairline edge, the citation number in a small accent key, the title in body text. */
+.source {
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--syntara-space-2);
+  min-block-size: var(--syntara-space-8);
+  padding-block: var(--syntara-space-1);
+  padding-inline: var(--syntara-space-1) var(--syntara-space-3);
+  border: 1px solid transparent;
+  border-radius: var(--syntara-radius-badge);
+  background: color-mix(in oklab, var(--syntara-color-text-default) 4%, transparent);
+  box-shadow: 0 0 0 var(--syntara-hairline) var(--syntara-color-border-default);
+  color: var(--syntara-color-text-default);
+  font-size: var(--syntara-font-size-sm);
+  letter-spacing: var(--syntara-font-tracking-sm);
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    background-color var(--syntara-motion-duration-fast) var(--syntara-motion-easing),
+    box-shadow var(--syntara-motion-duration-fast) var(--syntara-motion-easing),
+    outline-offset var(--syntara-motion-duration-fast) var(--syntara-motion-easing);
+}
+
+.source[data-hovered] {
+  background: color-mix(in oklab, var(--syntara-color-text-default) 8%, transparent);
+  box-shadow: 0 0 0 var(--syntara-hairline) var(--syntara-color-border-strong);
+}
+
+.source[data-focus-visible] {
+  outline: 2px solid var(--syntara-color-focus-ring);
+  outline-offset: 2px;
+}
+
+.sourceIndex {
+  display: inline-grid;
+  place-items: center;
+  min-inline-size: var(--syntara-space-5);
+  block-size: var(--syntara-space-5);
+  padding-inline: var(--syntara-space-1);
+  border-radius: var(--syntara-radius-badge);
+  background: var(--syntara-color-accent-subtle);
+  color: var(--syntara-color-accent-text);
+  font-size: var(--syntara-font-size-xs);
+  font-weight: var(--syntara-font-weight-semibold);
+  font-variant-numeric: tabular-nums;
+}
+
+.sourceLabel {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-inline-size: calc(var(--syntara-space-16) * 4);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  @keyframes source-in {
+    from {
+      opacity: 0;
+      scale: 0.8;
+    }
+  }
+
+  .sourceItem {
+    animation: source-in var(--syntara-motion-duration-spring) var(--syntara-motion-spring) both;
+    animation-delay: calc(var(--syntara-motion-duration-fast) * var(--i, 0));
+  }
+
+  .source {
+    transition:
+      background-color var(--syntara-motion-duration-fast) var(--syntara-motion-easing),
+      box-shadow var(--syntara-motion-duration-fast) var(--syntara-motion-easing),
+      outline-offset var(--syntara-motion-duration-fast) var(--syntara-motion-easing),
+      translate var(--syntara-motion-duration-spring) var(--syntara-motion-spring),
+      scale var(--syntara-motion-duration-spring) var(--syntara-motion-spring);
+  }
+
+  .source[data-hovered] {
+    translate: 0 -1px;
+  }
+
+  .source[data-pressed] {
+    scale: 0.96;
+  }
+}

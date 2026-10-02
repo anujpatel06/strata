@@ -1,0 +1,66 @@
+{
+  "name": "streaming-response",
+  "title": "Streaming Response",
+  "description": "A model's response as it is written, that screen readers can follow: each finished sentence is spoken once, then how it ended.",
+  "category": "feedback",
+  "maturity": "alpha",
+  "exports": ["StreamingResponse", "ResponseText", "ResponseSources", "ResponseSource"],
+  "files": ["streaming-response.tsx", "streaming-response.module.css"],
+  "dependencies": ["react-aria-components", "@syntara/icons"],
+  "registryDependencies": [],
+  "usage": "import { StreamingResponse } from '@syntara/react';\n\nexport function Reply({ status, text }) {\n  return <StreamingResponse status={status} text={text} />;\n}",
+  "examples": [
+    { "name": "streaming-response-demo", "title": "Streaming response", "description": "A full reply: the writing shimmer, words that settle from the brand colour into the text colour, a glowing caret, and source chips once it finishes. Follows the brand's language." },
+    { "name": "streaming-response-plain", "title": "Plain text", "description": "Ask, watch it write, and stop it part way, with no visual layer." },
+    { "name": "streaming-response-states", "title": "States", "description": "Writing, stopped, failed and complete. The status line is words and a mark, never colour alone, and disappears once complete." },
+    { "name": "streaming-response-status-only", "title": "Speak only the start and end", "description": "announce=\"status\" for long answers people would rather read at their own pace." }
+  ],
+  "props": [
+    { "component": "StreamingResponse", "name": "status", "type": "'streaming' | 'complete' | 'stopped' | 'error'", "required": true, "description": "Where the response is. The app owns it; the component never guesses from the text." },
+    { "component": "StreamingResponse", "name": "text", "type": "string", "required": true, "description": "The response so far, as plain text. It is what screen readers hear, so leave out markdown symbols and code." },
+    { "component": "StreamingResponse", "name": "children", "type": "ReactNode", "description": "What sighted users see, such as rendered markdown. Defaults to text, with its line breaks kept." },
+    { "component": "StreamingResponse", "name": "label", "type": "string", "default": "'Response'", "description": "Accessible name of the article, so it can be found by article navigation." },
+    { "component": "StreamingResponse", "name": "announce", "type": "'sentences' | 'status'", "default": "'sentences'", "description": "sentences speaks each finished sentence as it arrives; status speaks only the start and the end." },
+    { "component": "StreamingResponse", "name": "announceInterval", "type": "number", "default": "1000", "description": "Shortest gap between two spoken updates while streaming, in ms. Sentences that finish inside it are spoken together." },
+    { "component": "StreamingResponse", "name": "errorMessage", "type": "string", "description": "Shown and spoken after the error label when status is error." },
+    { "component": "ResponseText", "name": "text", "type": "string", "required": true, "description": "The response so far. New words fade in from the brand text colour; a caret glows at the end while the parent streams." },
+    { "component": "ResponseSources", "name": "label", "type": "string", "default": "'Sources'", "description": "Accessible name of the list of sources." },
+    { "component": "ResponseSource", "name": "index", "type": "number", "description": "The citation number used in the text." },
+    { "component": "ResponseSource", "name": "href", "type": "string", "description": "Where the source lives. Any React Aria Link prop works." },
+    { "component": "StreamingResponse", "name": "startLabel / writingLabel / completeLabel / stoppedLabel / errorLabel", "type": "string", "default": "'Writing response' / 'Writing…' / 'Response complete' / 'Stopped' / \"Couldn't finish\"", "description": "Every spoken and shown word, for translation." }
+  ],
+  "accessibility": {
+    "keyboard": [],
+    "notes": [
+      "The visible text is not a live region, so it is never re-read or chopped token by token. A separate polite live region, mounted with the component, speaks updates.",
+      "Sentences are split with Intl.Segmenter in the locale React Aria reports, so the Hindi danda and the Arabic question mark end sentences. Browsers without it announce at the end only.",
+      "A failed response's unfinished last sentence is not read out.",
+      "The status line pairs a mark with words; the writing dot's scale animation is off with reduced motion, its fade stays.",
+      "Not yet checked with a real screen reader. jsdom proves what is put in the live region, not what VoiceOver or NVDA say."
+    ]
+  },
+  "guidelines": {
+    "do": [
+      "Pass plain text in text and the rendered version as children.",
+      "Set status to stopped or error when the stream ends early, so people hear that it did."
+    ],
+    "dont": [
+      "Don't wrap it in another aria-live region; it already speaks.",
+      "Don't use it for text that isn't arriving progressively. Use Alert or Toast for a finished message."
+    ]
+  },
+  "tokens": [
+    "color.text.default",
+    "color.text.subtle",
+    "color.text.brand",
+    "color.feedback.danger.fg",
+    "color.feedback.danger.bg",
+    "font.size.md",
+    "font.size.sm",
+    "line-height.normal",
+    "space.1",
+    "space.2",
+    "motion.duration.slow",
+    "motion.easing"
+  ]
+}

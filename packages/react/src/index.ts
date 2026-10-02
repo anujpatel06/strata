@@ -43,6 +43,7 @@ export * from './ui/sparkline';
 export * from './ui/spinner';
 export * from './ui/stat-tile';
 export * from './ui/steps';
+export * from './ui/streaming-response';
 export * from './ui/switch';
 export * from './ui/tabs';
 export * from './ui/tag';
