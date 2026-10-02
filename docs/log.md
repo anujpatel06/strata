@@ -23,8 +23,12 @@ Numbers only with the command that produced them. Design trade-offs get an ADR i
 **Next**
 - **Confirm Cloudflare still deploys.** This PR's preview build is the test. If no preview appears, reconnect the
   repo under the Pages project's settings in the Cloudflare dashboard.
-- **21st.dev listing:** form filled (demo URL, name, description, seven tags), not yet published. Add
-  "Code: https://github.com/anujpatel06/syntara" to the description, then publish on Anuj's word.
+- **21st.dev listing: submitted, status "In review"** (Creator Studio → Templates, read after a reload). Demo URL
+  `https://syntara.pages.dev`, seven tags (Documentation, Next.js, React, React Aria, Accessibility, Developer Tool,
+  Portfolio), free, and the description ends "Code: https://github.com/anujpatel06/syntara" because the form has no
+  repo field — it asks only for a demo URL and films the cover video itself, so the monorepo question never arose.
+  Visibility reads **Private** while in review; choosing Published and pressing Save reverted it to Draft, so it was
+  resubmitted. Check after approval that it shows as public; if not, set Published then.
 
 ---
 
