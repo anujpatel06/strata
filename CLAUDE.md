@@ -1,6 +1,6 @@
 # CLAUDE.md — Syntara
 
-Syntara is a multi-brand design system. It has 53 React Aria components, its own icon set (`@syntara/icons`) and a Next.js docs site, all themed by an engine that turns six brand inputs into a light and dark theme passing WCAG 2.2 AA. It is maintained to a standard where **craft, accessibility and honest claims matter more than speed**.
+Syntara is a multi-brand design system. It has 54 React Aria components, its own icon set (`@syntara/icons`) and a Next.js docs site, all themed by an engine that turns six brand inputs into a light and dark theme passing WCAG 2.2 AA. It is maintained to a standard where **craft, accessibility and honest claims matter more than speed**.
 
 - Spec: `BRIEF.md`. Read the relevant section before planning any phase.
 - Component rules: `packages/react/CONVENTIONS.md`. Read it before touching `packages/react` or `apps/docs/examples`.
@@ -12,7 +12,7 @@ Anuj owns design decisions. You pair on engineering and push back when he's wron
 ## Status
 
 - **Done:** Phase 0–5, and Phase 5a built (waiting for Anuj's review).
-  - The theme engine and contrast solver, 53 components, 7 blocks, `@syntara/icons`, the docs site (Home, Docs, Components, Blocks, Themes, Colors, Icons, ⌘K) and the npm build. No shadcn anywhere users look (ADR-011 revision).
+  - The theme engine and contrast solver, 54 components, 7 blocks, `@syntara/icons`, the docs site (Home, Docs, Components, Blocks, Themes, Colors, Icons, ⌘K) and the npm build. No shadcn anywhere users look (ADR-011 revision).
   - Governance (Phase 4): `GOVERNANCE.md`, RFCs in `docs/rfcs/`, deprecation records in `meta.json`, `packages/codemods`. First deprecation: `Button variant="danger"` → `tone="danger"` (RFC-001, ADR-021).
   - Agents (Phase 5): `packages/audit` (`pnpm drift`), `packages/mcp`, `AGENTS.md`, `evals/` (results in `evals/results.md`; iteration 1 is invalid and kept on record).
   - Mobile reach (Phase 5a): `packages/sdui`, native token files from `pnpm tokens`, tenant Haat (hi-IN). No native components.

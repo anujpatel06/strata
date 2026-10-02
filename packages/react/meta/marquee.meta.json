@@ -1,0 +1,124 @@
+{
+  "name": "marquee",
+  "title": "Marquee",
+  "description": "A strip of logos, quotes or cards that scrolls by itself in a seamless loop, with a pause button.",
+  "category": "display",
+  "maturity": "alpha",
+  "exports": [
+    "Marquee"
+  ],
+  "files": [
+    "marquee.tsx",
+    "marquee.module.css"
+  ],
+  "dependencies": [
+    "react-aria-components",
+    "@syntara/icons"
+  ],
+  "registryDependencies": [],
+  "usage": "import { Marquee } from '@syntara/react';\n\nexport function Customers() {\n  return (\n    <Marquee label=\"Customers\">\n      <span>Northwind</span>\n      <span>Fernhill</span>\n      <span>Brightline</span>\n    </Marquee>\n  );\n}",
+  "examples": [
+    {
+      "name": "marquee-demo",
+      "title": "Marquee",
+      "description": "A logo strip. Hover, focus inside it, or press the pause button to stop it."
+    },
+    {
+      "name": "marquee-testimonials",
+      "title": "Two rows",
+      "description": "Quote cards in two rows travelling in opposite directions."
+    },
+    {
+      "name": "marquee-badges",
+      "title": "Fast, without hover pause",
+      "description": "A quick strip of badges. pauseOnHover is off, so the pause button and keyboard focus are the ways to stop it."
+    }
+  ],
+  "props": [
+    {
+      "component": "Marquee",
+      "name": "label",
+      "type": "string",
+      "required": true,
+      "description": "Names the strip for screen readers, e.g. \"Customers\"."
+    },
+    {
+      "component": "Marquee",
+      "name": "children",
+      "type": "ReactNode",
+      "required": true,
+      "description": "The items. Each child becomes one list item."
+    },
+    {
+      "component": "Marquee",
+      "name": "speed",
+      "type": "'slow' | 'md' | 'fast'",
+      "default": "'md'",
+      "description": "How fast the items travel. The pace is the same however long the strip is."
+    },
+    {
+      "component": "Marquee",
+      "name": "reverse",
+      "type": "boolean",
+      "default": "false",
+      "description": "Travel towards the end of the line instead of the start."
+    },
+    {
+      "component": "Marquee",
+      "name": "pauseOnHover",
+      "type": "boolean",
+      "default": "true",
+      "description": "Pause while the pointer is over the strip."
+    },
+    {
+      "component": "Marquee",
+      "name": "pauseLabel",
+      "type": "string",
+      "default": "'Pause'",
+      "description": "Accessible name of the pause toggle."
+    }
+  ],
+  "accessibility": {
+    "keyboard": [
+      {
+        "keys": "Tab",
+        "action": "Moves into the items (which pauses the strip) and then to the pause button."
+      },
+      {
+        "keys": "Space / Enter",
+        "action": "On the pause button, pauses or resumes."
+      }
+    ],
+    "notes": [
+      "Meets WCAG 2.2.2 (Pause, Stop, Hide): a visible pause toggle, plus a pause on hover and while anything inside has keyboard focus.",
+      "Under prefers-reduced-motion nothing moves: the items wrap onto rows and the pause button is removed.",
+      "Screen readers get one copy of the items as a list inside a labelled region. The copies that make the loop seamless are aria-hidden and inert, so they can't be tabbed to.",
+      "Travels towards the start of the line, so it runs rightwards on right-to-left pages."
+    ]
+  },
+  "guidelines": {
+    "do": [
+      "Use it for content people can skip: logos, quotes, highlights."
+    ],
+    "dont": [
+      "Don't put anything a person must read or act on in a marquee.",
+      "Don't use more than two on one screen."
+    ]
+  },
+  "tokens": [
+    "color.text.subtle",
+    "color.text.default",
+    "color.focus.ring",
+    "control.height",
+    "radius.button",
+    "font.size.md",
+    "space.2",
+    "space.4",
+    "space.10",
+    "space.12",
+    "motion.duration.fast",
+    "motion.duration.spring",
+    "motion.easing",
+    "motion.spring"
+  ]
+}

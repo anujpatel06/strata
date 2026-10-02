@@ -41,7 +41,7 @@ describe('list_components', () => {
   it('lists every component with name, title, maturity and purpose', async () => {
     const r = await h.call('list_components');
     expect(r.isError).toBe(false);
-    expect(r.json.count).toBe(53);
+    expect(r.json.count).toBe(54);
     const button = r.json.components.find((c: { name: string }) => c.name === 'button');
     expect(button).toMatchObject({ name: 'button', title: 'Button', maturity: 'beta', deprecations: 1 });
     expect(button.purpose).toMatch(/^Triggers an action/);

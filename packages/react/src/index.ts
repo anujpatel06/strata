@@ -25,6 +25,7 @@ export * from './ui/file-upload';
 export * from './ui/icon-tile';
 export * from './ui/kbd';
 export * from './ui/link';
+export * from './ui/marquee';
 export * from './ui/menu';
 export * from './ui/meter';
 export * from './ui/pagination';
