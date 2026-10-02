@@ -829,7 +829,8 @@
 .faqAnswer {
   margin: 0;
   color: var(--syntara-color-text-subtle);
-  line-height: var(--syntara-line-height-relaxed);
+  /* The emitted scale is tight/snug/normal; normal is its loosest step. */
+  line-height: var(--syntara-line-height-normal);
 }
 
 /* ---- The accent word in a section heading ---- */
@@ -896,7 +897,8 @@
   margin: 0;
   padding-block: var(--syntara-space-1);
   padding-inline: var(--syntara-space-3);
-  border-radius: var(--syntara-radius-full);
+  /* A fully rounded status pill, so the pill role. */
+  border-radius: var(--syntara-radius-pill);
   background-color: var(--syntara-color-feedback-success-bg);
   color: var(--syntara-color-feedback-success-fg);
   font-size: var(--syntara-font-size-sm);
@@ -908,7 +910,8 @@
   gap: var(--syntara-space-1);
   padding: var(--syntara-space-3);
   border: var(--syntara-hairline) solid var(--syntara-color-border-subtle);
-  border-radius: var(--syntara-radius-md);
+  /* A card, so the container role. The engine emits roles, not t-shirt sizes: the brand's shape sets the value. */
+  border-radius: var(--syntara-radius-container);
   background-color: var(--syntara-color-surface-sunken);
 }
 
@@ -952,7 +955,8 @@
   gap: var(--syntara-space-2);
   padding: var(--syntara-space-3);
   border: var(--syntara-hairline) solid var(--syntara-color-border-subtle);
-  border-radius: var(--syntara-radius-md);
+  /* A boxed step, so the container role. */
+  border-radius: var(--syntara-radius-container);
   background-color: var(--syntara-color-surface-sunken);
 }
 .pipelineStep + .pipelineStep::before {
@@ -1072,13 +1076,10 @@
   display: grid;
   gap: var(--syntara-space-1);
   padding: var(--syntara-space-2) var(--syntara-space-3);
-  /* `radius-field`, because these are rectangles of text: 8 / 12 / 18 by the brand's shape, and never the
-     pill that `radius-button` becomes on a round brand. It read `--syntara-radius-sm`, which is not a token
-     the engine emits — the whole scale is button / field / container / badge / pill — so the rows had no
-     radius at all rather than a small one. */
+  /* A padded row the size of an input, so the field role. */
   border-radius: var(--syntara-radius-field);
-  /* The card's own face colour, one step stronger than the card's tint, so the rows separate as colour rather
-     than as a grey wash. Derived from the tenant's role, never a raw value. */
+  /* The card's own face colour, one step stronger than the card's tint, so the rows separate as colour
+     rather than as a grey wash. Derived from the tenant's role, never a raw value. */
   background-color: color-mix(in oklab, var(--_face, currentColor) 16%, transparent);
 }
 .trustLevel {
@@ -1105,8 +1106,7 @@
   padding-block: 2px;
   padding-inline: var(--syntara-space-2);
   border: var(--syntara-hairline) solid var(--syntara-color-border-subtle);
-  /* Same missing token as .trustRow had. `radius-badge` here: these are small chips, so the pill a round
-     brand gives them is right. */
+  /* A small inline chip, so the badge role. */
   border-radius: var(--syntara-radius-badge);
   color: var(--syntara-color-text-subtle);
   font-family: var(--syntara-font-mono);

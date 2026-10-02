@@ -48,7 +48,7 @@ export interface TenantTokens {
 const here = dirname(fileURLToPath(import.meta.url));
 /** packages/audit/src → the repo root. SYNTARA_TENANTS_DIR overrides the tenants folder. */
 export const REPO_ROOT = resolve(here, '../../..');
-const tenantsDir = (): string => process.env.SYNTARA_TENANTS_DIR ?? join(REPO_ROOT, 'tenants');
+export const tenantsDir = (): string => process.env.SYNTARA_TENANTS_DIR ?? join(REPO_ROOT, 'tenants');
 
 const themes = new Map<string, Theme>();
 const tables = new Map<string, TenantTokens>();

@@ -22,8 +22,7 @@
   align-items: center;
   padding-block: 2px;
   padding-inline: var(--syntara-space-2);
-  /* `--syntara-radius-sm` is not a token the engine emits (button / field / container / badge / pill), so this
-     label had square corners rather than small ones. A badge is what it is. */
+  /* A small inline label, so the badge role. */
   border-radius: var(--syntara-radius-badge);
   background-color: var(--syntara-color-action-primary-bg);
   color: var(--syntara-color-action-primary-fg);

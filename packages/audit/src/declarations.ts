@@ -6,6 +6,7 @@ import valueParser from 'postcss-value-parser';
 import type { FunctionNode, Node as ValueNode } from 'postcss-value-parser';
 import { ALLOWED_COLOR_KEYWORDS, COLOR_FUNCTIONS, NAMED_COLORS, isHexColor, parseColor } from './color';
 import { findToken, type Scheme, type TokenCategory } from './tokens';
+import { knownTokenNames, nearestNames } from './known-tokens';
 import type { Fix, RuleId } from './types';
 
 export interface Declaration {
@@ -41,6 +42,11 @@ export interface Sink {
   pass(rule: RuleId): void;
   /** A finding. It also counts as one opportunity for its rule. */
   report(rule: RuleId, start: number, end: number, message: string, fix: Fix): void;
+  /**
+   * True when this source declares the custom property itself. A file is free to invent a `--syntara-*` name for
+   * its own use (card.module.css does, with --syntara-card-inset), so unknown-token must not flag those.
+   */
+  declaresLocally(name: string): boolean;
 }
 
 /* ------------------------------------------------------------------ *
@@ -533,6 +539,74 @@ function checkPhysical(decl: Declaration, sink: Sink, nodes: ValueNode[]): void 
 }
 
 /* ------------------------------------------------------------------ *
+ * unknown-token
+ * ------------------------------------------------------------------ */
+
+/**
+ * Every `var(--syntara-…)` in the value, including the ones nested in a fallback or inside calc().
+ * Returns the var() node and the name node, so a fix can replace the name alone.
+ */
+function varUses(nodes: ValueNode[], out: Array<{ fn: FunctionNode; nameNode: ValueNode; name: string }> = []): Array<{ fn: FunctionNode; nameNode: ValueNode; name: string }> {
+  for (const node of nodes) {
+    if (node.type !== 'function') continue;
+    const fn = node as FunctionNode;
+    if (fn.value.toLowerCase() === 'var') {
+      const first = fn.nodes.find((n) => n.type === 'word' || n.type === 'function');
+      if (first && first.type === 'word' && first.value.startsWith('--')) {
+        out.push({ fn, nameNode: first, name: first.value });
+      }
+      // A fallback can hold more var()s: var(--a, var(--b)).
+      varUses(fallbackOf(fn), out);
+      continue;
+    }
+    varUses(fn.nodes, out);
+  }
+  return out;
+}
+
+/**
+ * Flags a `--syntara-*` name the theme engine never emits. Such a name is not a CSS error: the value parses, the
+ * declaration is then invalid at computed-value time, and it silently does nothing — while still beating any
+ * lower-specificity rule that would have worked. Names outside the `--syntara-` namespace belong to the page, not
+ * to the design system, so they are not this rule's business.
+ */
+function checkKnownTokens(decl: Declaration, sink: Sink, nodes: ValueNode[]): void {
+  const uses = varUses(nodes).filter((u) => u.name.startsWith('--syntara-'));
+  if (uses.length === 0) return;
+  const known = knownTokenNames(sink.tenant);
+  // No tenant could be read, so there is nothing to check against. Saying nothing beats flagging everything.
+  if (known.size === 0) return;
+
+  for (const use of uses) {
+    if (known.has(use.name) || sink.declaresLocally(use.name)) {
+      sink.pass('unknown-token');
+      continue;
+    }
+    const span = spanOf(decl, use.nameNode);
+    const suggestions = nearestNames(use.name, known);
+    const hasFallback = fallbackOf(use.fn).length > 0;
+    const effect = hasFallback
+      ? 'Only the fallback is doing the work, so the value no longer follows the tenant.'
+      : `This declaration is invalid at computed-value time: ${decl.prop} is thrown away and nothing reports it.`;
+    sink.report(
+      'unknown-token',
+      span.start,
+      span.end,
+      `${use.name} is not a token. The theme engine does not emit it. ${effect}`,
+      {
+        // Never safe: which role is right depends on what the element is, and that is a judgement the auditor
+        // must not make. The nearest names are offered so the choice is quick, not so it is automatic.
+        description:
+          suggestions.length > 0
+            ? `Use the role that matches what this is, and say why in a comment. Nearest names: ${list(suggestions)}.`
+            : 'Use a role the engine emits, and say why in a comment. No emitted name resembles this one; `pnpm tokens` writes the full list to packages/tokens/dist/<tenant>/tokens.css.',
+        safe: false,
+      },
+    );
+  }
+}
+
+/* ------------------------------------------------------------------ *
  * Entry
  * ------------------------------------------------------------------ */
 
@@ -551,6 +625,8 @@ export function checkDeclaration(decl: Declaration, sink: Sink): void {
 
   checkPhysical(decl, sink, nodes);
   checkColors(decl, sink, nodes);
+  // Runs for every property, including custom ones: --docs-card-radius: var(--syntara-radius-md) is the same bug.
+  checkKnownTokens(decl, sink, nodes);
 
   // The logical name is used for the category, so margin-left is still checked for its length.
   const category = categoryOf(prop);

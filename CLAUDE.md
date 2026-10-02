@@ -59,7 +59,7 @@ Use `/verify` before saying work is done, and `/screenshots` after any UI change
 | `packages/theme-engine` | OKLCH ramps, 48 semantic roles, contrast solver, exporters (CSS, DTCG 2025.10, Figma, shadcn). Zero runtime deps. |
 | `packages/react` | Components: `src/ui/<name>.tsx` + `.module.css` (flat; sibling imports only), `meta/<name>.meta.json`, `test/`. `src/index.ts` is generated (`pnpm --filter @syntara/react gen:index`). |
 | `packages/tokens` | Builds token files for every `tenants/*/brand.json`. |
-| `packages/audit` | Drift auditor: ten rules, a fix on every finding, `--fix` for the safe ones. `pnpm drift <path>`. |
+| `packages/audit` | Drift auditor: eleven rules, a fix on every finding, `--fix` for the safe ones. `pnpm drift <path>`. |
 | `packages/mcp` | Read-only MCP server over stdio. Reads `meta.json`, tenants, blocks and examples at request time. |
 | `packages/sdui` | Server-driven UI: schemas generated from `meta.json` (`pnpm --filter @syntara/sdui generate`), validator, web renderer. The schema has its own version. |
 | `evals/` | Agent eval: prompts, harness, runs and results. `run.mjs` calls a paid model once per run. |
