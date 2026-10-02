@@ -10,6 +10,7 @@ export function InstallCommand({
   label = 'Copy command',
   block = false,
   note,
+  html,
 }: {
   command: string;
   label?: string;
@@ -20,6 +21,13 @@ export function InstallCommand({
    * fails is worse than no command, because the reader finds out in their terminal.
    */
   note?: ReactNode;
+  /**
+   * Shiki's HTML for the same command, highlighted at build time by the caller (a server component — the
+   * highlighter never ships to the browser). Given it, the command is coloured with the same palette as every
+   * other code block on the site instead of being one flat grey line. `command` is still what the copy button
+   * puts on the clipboard, so the two cannot drift.
+   */
+  html?: string;
 }) {
   const box = (
     <div className={styles.command} data-block={block || undefined}>
@@ -27,14 +35,21 @@ export function InstallCommand({
         <span className={styles.prompt} aria-hidden>
           $
         </span>
-        {/* Breaks only between words, never inside a package name. */}
-        <span className={styles.words}>
-          {command.split(' ').map((word, i) => (
-            <span key={i} className={styles.word}>
-              {word}
-            </span>
-          ))}
-        </span>
+        {html ? (
+          /* Shiki's own markup. It wraps between words like the plain version below, rather than scrolling:
+             a scroll box would need to be focusable, and a tab stop in the middle of a hero is a cost with no
+             benefit on one line of text. */
+          <span className={styles.highlighted} dangerouslySetInnerHTML={{ __html: html }} />
+        ) : (
+          /* Breaks only between words, never inside a package name. */
+          <span className={styles.words}>
+            {command.split(' ').map((word, i) => (
+              <span key={i} className={styles.word}>
+                {word}
+              </span>
+            ))}
+          </span>
+        )}
       </code>
       <CopyButton getText={() => command} label={label} className={styles.copy} />
     </div>

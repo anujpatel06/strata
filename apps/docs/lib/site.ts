@@ -17,10 +17,23 @@ export const githubTree = (repoPath: string): string => `${GITHUB_URL}/tree/main
 export interface NavLink {
   href: string;
   label: string;
+  /**
+   * Shown only once the header row has room for it (min-width: 960px, the same breakpoint the search uses).
+   * The row fits at 768 with 33px to spare (#38) and this label needs more than that, so without the hold-back
+   * every page from 768 to 959 scrolls sideways by 26px.
+   */
+  wide?: true;
 }
 
-/** Header navigation. `/docs/components` is matched before `/docs` for the active state. */
+/**
+ * Header navigation. Longest prefix wins for the active state, so `/docs/components` and `/docs/installation`
+ * are matched before `/docs`.
+ *
+ * "Get started" is first and points at Installation. The header used to offer six ways to browse and none to
+ * begin, which left the homepage's two small buttons as the only route in.
+ */
 export const MAIN_NAV: readonly NavLink[] = [
+  { href: '/docs/installation', label: 'Get started', wide: true },
   { href: '/docs', label: 'Docs' },
   { href: '/docs/components', label: 'Components' },
   { href: '/blocks', label: 'Blocks' },

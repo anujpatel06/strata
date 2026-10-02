@@ -49,6 +49,13 @@
 /* ---- Hero ---- */
 
 .hero {
+  /*
+    Air between the buttons and the band's bottom edge. It was 32px, which read as the band stopping right behind
+    the buttons rather than framing them; this is three times that. Written as a multiple of a scale step because
+    96 is not one itself — the 4pt scale goes 64, 80 — and declared once here so the 768px rule below cannot drift
+    away from it. That rule is why editing the base padding alone changed nothing on a desktop.
+  */
+  --hero-band-foot: calc(var(--syntara-space-8) * 3);
   position: relative;
   isolation: isolate;
   display: flex;
@@ -57,9 +64,36 @@
   align-items: start;
   text-align: start;
   gap: var(--syntara-space-4);
+  min-inline-size: 0;
   /* The demo below is the page's argument; the hero is its caption. Everything here is sized to get out of the
-     way of it, so a third of the grid is in view before anyone scrolls. */
-  padding-block: 0 var(--syntara-space-8);
+     way of it. The bottom value is the distance from the buttons to the band's edge — see the 768px rule below,
+     which sets the same 96px for every width that is not a phone. */
+  padding-block: 0 var(--hero-band-foot);
+}
+
+/*
+ * The band. The hero used to share the page canvas with everything under it and ended wherever its glow
+ * happened to fade, so the brand chips below read as a strip belonging to the hero rather than as the controls
+ * of the section they open. This gives the hero an actual edge: its own surface, running the full width of the
+ * window, closed by the same hairline the header uses.
+ *
+ * It escapes the shell's container with `inset-inline: calc(50% - 50vw)`. `vw` counts a classic scrollbar, so
+ * page-shell.module.css clips the horizontal overflow on <main> — `clip`, not `hidden`, because `hidden` would
+ * make <main> a scroll container and break the sticky site header above it.
+ *
+ * Upward it cancels the container's `padding-block` (space-16) and stops at the top of <main>, which is the
+ * underside of the header. The header is sticky and glass, so the band reads through it as a masthead; the
+ * header's own bottom hairline sits on top and closes that edge.
+ */
+.hero::before {
+  content: '';
+  position: absolute;
+  z-index: -2;
+  inset-block: calc(var(--syntara-space-16) * -1) 0;
+  inset-inline: calc(50% - 50vw);
+  background: var(--syntara-color-surface-default);
+  border-block-end: var(--docs-hairline);
+  pointer-events: none;
 }
 
 /* The hero's atmosphere is HeroGlow (home-stage.module.css): the selected tenant's colours, blurred. */
@@ -97,9 +131,79 @@
 }
 @media (min-width: 768px) {
   .hero {
-    /* Was space-16 below: 64px of air between the hero and the demo it introduces. */
-    padding-block: var(--syntara-space-4) var(--syntara-space-8);
+    padding-block: var(--syntara-space-4) var(--hero-band-foot);
   }
+}
+
+/*
+ * The argument on one side, the thing it argues about on the other. Two columns only once there is room for a
+ * card beside a display headline — under that the demo goes below the copy, which is the order it is read in
+ * anyway. `start` on the copy rather than `center`: the headline sets the baseline, and a short lead should not
+ * float in the middle of a tall card.
+ */
+@media (min-width: 900px) {
+  .hero {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    align-items: center;
+    column-gap: var(--syntara-space-10);
+  }
+  .heroCopy {
+    align-self: center;
+  }
+}
+
+.heroCopy {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  gap: var(--syntara-space-4);
+  min-inline-size: 0;
+}
+
+.heroDemo {
+  display: flex;
+  justify-content: center;
+  inline-size: 100%;
+  min-inline-size: 0;
+}
+
+/*
+ * The figures under the actions: what the page can prove in four short facts, separated by dots. A list, not a
+ * sentence, because each one is a count and a reader scans them rather than reading them.
+ */
+.heroFacts {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--syntara-space-2) var(--syntara-space-4);
+  margin: var(--syntara-space-2) 0 0;
+  padding: 0;
+  list-style: none;
+  color: var(--syntara-color-text-subtle);
+  font-size: var(--syntara-font-size-sm);
+}
+.heroFacts li {
+  display: flex;
+  align-items: center;
+  gap: var(--syntara-space-2);
+}
+/* The dot between facts. A separator, so it is drawn rather than typed and never reaches a screen reader. */
+.heroFacts li + li::before {
+  content: '';
+  inline-size: 3px;
+  block-size: 3px;
+  border-radius: var(--syntara-radius-pill);
+  background-color: currentColor;
+  opacity: 0.5;
+}
+.heroFacts strong {
+  color: var(--syntara-color-text-default);
+  font-weight: var(--syntara-font-weight-medium);
+  font-variant-numeric: tabular-nums;
+}
+.heroFactPlain {
+  color: var(--syntara-color-text-subtle);
 }
 
 .pill {
@@ -209,17 +313,13 @@
   }
 }
 
-.heroNote {
-  color: var(--syntara-color-text-subtle);
-  font-size: var(--syntara-font-size-sm);
-  text-wrap: pretty;
-}
-
 .heroActions {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   gap: var(--syntara-space-3);
+  max-inline-size: 100%;
+  min-inline-size: 0;
 }
 
 /* ---- Section scaffolding ---- */
@@ -718,51 +818,6 @@
   line-height: var(--syntara-line-height-normal);
 }
 
-/* ---- 53 components on React Aria ---- */
-
-.componentGrid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(calc(var(--syntara-space-16) * 2.4), 1fr));
-  gap: var(--syntara-space-2);
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-/*
- * A chip per component. Targets stay >= 24px per WCAG 2.2 AA (2.5.8): the block padding plus the line box clears
- * it at every density, so this does not need a min-block-size to prop it up.
- */
-.componentTile {
-  display: flex;
-  flex-direction: column;
-  gap: var(--syntara-space-1);
-  padding: var(--syntara-space-3);
-  border: var(--syntara-hairline) solid var(--syntara-color-border-subtle);
-  border-radius: var(--docs-card-radius);
-  background-color: var(--syntara-color-surface-default);
-  color: var(--syntara-color-text-default);
-  font-size: var(--syntara-font-size-sm);
-  text-decoration: none;
-  transition:
-    border-color var(--syntara-motion-duration-fast) var(--syntara-motion-easing),
-    background-color var(--syntara-motion-duration-fast) var(--syntara-motion-easing);
-}
-.componentTile:hover {
-  border-color: var(--syntara-color-border-strong);
-  background-color: var(--syntara-color-surface-raised);
-}
-.componentTile:focus-visible {
-  /* The engine emits --syntara-color-focus-ring and no width/offset token, so the 2px pair is
-     the system's own figure, matching every component in packages/react. */
-  outline: 2px solid var(--syntara-color-focus-ring);
-  outline-offset: 2px;
-}
-
-.componentName {
-  font-weight: var(--syntara-font-weight-medium);
-}
-
 /* ---- Questions, straight answers ---- */
 
 /* Doubled: .faq sits on Syntara's Accordion, so a single class would weigh the same as the component's own rule
@@ -805,69 +860,6 @@
   transition: color calc(var(--syntara-motion-duration-slow) * 2) var(--syntara-motion-easing);
 }
 
-/* ---- Component category filter ---- */
-
-.filterRow {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--syntara-space-2);
-  margin-block-end: var(--syntara-space-4);
-}
-
-/* Same 24px target floor as .componentChip and .textLink (WCAG 2.2 AA 2.5.8). */
-.filterChip {
-  display: inline-flex;
-  align-items: center;
-  min-block-size: 24px;
-  gap: var(--syntara-space-2);
-  padding-block: var(--syntara-space-2);
-  padding-inline: var(--syntara-space-3);
-  border: var(--syntara-hairline) solid var(--syntara-color-border-subtle);
-  /* A fully rounded chip, so the pill role — fully rounded in every shape. */
-  border-radius: var(--syntara-radius-pill);
-  background-color: transparent;
-  color: var(--syntara-color-text-subtle);
-  font: inherit;
-  font-size: var(--syntara-font-size-sm);
-  cursor: pointer;
-  transition:
-    border-color var(--syntara-motion-duration-fast) var(--syntara-motion-easing),
-    background-color var(--syntara-motion-duration-fast) var(--syntara-motion-easing),
-    color var(--syntara-motion-duration-fast) var(--syntara-motion-easing);
-}
-.filterChip:hover {
-  border-color: var(--syntara-color-border-strong);
-  color: var(--syntara-color-text-default);
-}
-.filterChip:focus-visible {
-  /* The engine emits --syntara-color-focus-ring and no width/offset token, so the 2px pair is
-     the system's own figure, matching every component in packages/react. */
-  outline: 2px solid var(--syntara-color-focus-ring);
-  outline-offset: 2px;
-}
-/* Selected state carries a background and a border as well as colour — never colour alone (WCAG 1.4.1). */
-.filterChip[data-active='true'] {
-  border-color: var(--syntara-color-action-primary-bg);
-  background-color: var(--syntara-color-action-primary-bg);
-  color: var(--syntara-color-action-primary-fg);
-}
-
-/*
- * No opacity here. Dimming `text-subtle` to 0.7 put the count at 3.25:1 on the light canvas, under the 4.5:1
- * this system refuses to round up to. It inherits the chip's own colour, which passes, and tabular figures keep
- * the chips from jittering as counts change.
- */
-.filterCount {
-  color: currentColor;
-  font-variant-numeric: tabular-nums;
-}
-
-.filterCountNote {
-  margin-block: var(--syntara-space-3) 0;
-  color: var(--syntara-color-text-subtle);
-  font-size: var(--syntara-font-size-sm);
-}
-
 /* The 01…07 before each question, as the mockup numbers them. Doubled: it sits inside the Accordion's own
    trigger markup, so a single class would only tie with the component's rule (check-override-weight.mjs). */
 .faqNumber.faqNumber {
@@ -875,33 +867,6 @@
   color: var(--syntara-color-text-subtle);
   font-size: var(--syntara-font-size-sm);
   font-variant-numeric: tabular-nums;
-}
-
-/* ---- Component tiles ---- */
-
-.componentRow {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--syntara-space-2);
-}
-
-.componentCategory {
-  color: var(--syntara-color-text-subtle);
-  font-size: var(--syntara-font-size-xs);
-}
-
-.filterLead {
-  color: var(--syntara-color-text-subtle);
-  font-size: var(--syntara-font-size-sm);
-}
-.filterLead strong {
-  color: var(--syntara-color-text-default);
-  font-weight: var(--syntara-font-weight-medium);
-}
-
-.filterChips {
-  display: contents;
 }
 
 /* The blocks-and-icons line under the grid. */
@@ -1039,41 +1004,67 @@
 }
 
 /*
- * Two of the three cards carry a brand or accent face, as the mockup does. The text pair comes from the
- * engine's solved roles rather than being picked by eye, so it holds for every tenant.
+ * Two of the three cards carry the brand's colour; the third stays plain.
+ *
+ * As a tint over the surface, not as the fill itself. `action.primary.bg` and `accent.bg` are sized for a
+ * button or a badge — a small area of saturated colour with the engine's matched label on it. Painted across a
+ * whole card they became two flat slabs louder than anything else on the page, the code block inside one of
+ * them read as an unrelated black panel floating on blue, and the rows inside the other turned to mud because
+ * they were mixed from the card's own text colour against a saturated ground.
+ *
+ * At a tenth strength the card is still visibly that brand's colour and still changes with the tenant, but the
+ * text can go back to the ordinary pair the engine already checks against `surface.default` — which is what the
+ * tint is mixed into, so it barely moves. The border carries the colour at full strength instead, where a small
+ * area is exactly what that role is for.
  */
 .agentCardBrand {
-  border-color: transparent;
-  background-color: var(--syntara-color-action-primary-bg);
-  color: var(--syntara-color-action-primary-fg);
+  --_face: var(--syntara-color-action-primary-bg);
 }
 .agentCardAccent {
-  border-color: transparent;
-  /* accent.bg / accent.fg — the solved pair. `action-accent-*` does not exist; using it meant this card
-     silently fell back to a plain surface and was not accent-coloured at all. */
-  background-color: var(--syntara-color-accent-bg);
-  color: var(--syntara-color-accent-fg);
+  /* accent.bg, not `action-accent-bg` — that role does not exist, and naming it once meant this card silently
+     fell back to a plain surface and was not accent-coloured at all. */
+  --_face: var(--syntara-color-accent-bg);
+}
+.agentCardBrand,
+.agentCardAccent {
+  border-color: color-mix(in oklab, var(--_face) 40%, transparent);
+  background-color: color-mix(in oklab, var(--_face) 10%, var(--syntara-color-surface-default));
 }
 
 .agentTitle {
   margin: 0;
-  color: inherit;
+  color: var(--syntara-color-text-default);
   font-size: var(--syntara-font-size-md);
   font-weight: var(--syntara-font-weight-medium);
 }
 
+/*
+ * The code sample is capped rather than printed in full. It is an excerpt either way — the point is the shape of
+ * a meta.json, not its contents — and uncapped it made its card half as tall again as the other two, which is
+ * what left the row looking like three unrelated blocks. Capped, the three cards are close enough that equal
+ * heights cost almost nothing. It scrolls, so nothing is hidden.
+ */
+.agentCard pre {
+  max-block-size: calc(var(--syntara-space-16) * 4);
+  overflow-y: auto;
+  scrollbar-width: thin;
+}
+
+/*
+ * One rule for all three cards now. The note used to be `inherit` at 0.86 opacity on the two coloured cards and
+ * `text.subtle` on the plain one — two ways of saying "quieter", one of which was a faded brand label whose
+ * ratio nobody had checked. Over a tint of `surface.default` the solved subtle/default pair applies again.
+ */
 .agentNote {
   margin: 0;
-  color: inherit;
+  /* Sits at the foot of its card. The cards are equal height again, so whatever slack a short card has now
+     collects above this line instead of after it, which reads as the card's own breathing room rather than as
+     a block of colour with nothing in it. */
+  margin-block-start: auto;
+  color: var(--syntara-color-text-subtle);
   font-size: var(--syntara-font-size-sm);
   line-height: var(--syntara-line-height-normal);
-  opacity: 0.86;
   text-wrap: pretty;
-}
-/* On the plain card the note is subtle text rather than a faded inherit. */
-.agentCard:not(.agentCardBrand):not(.agentCardAccent) .agentNote {
-  color: var(--syntara-color-text-subtle);
-  opacity: 1;
 }
 
 .trust {
@@ -1087,9 +1078,9 @@
   padding: var(--syntara-space-2) var(--syntara-space-3);
   /* A padded row the size of an input, so the field role. */
   border-radius: var(--syntara-radius-field);
-  /* Derived from the card's own text colour, not a raw value: these cards sit on brand and accent faces that
-     differ per tenant, so a fixed black would be wrong on half of them. */
-  background-color: color-mix(in oklab, currentColor 12%, transparent);
+  /* The card's own face colour, one step stronger than the card's tint, so the rows separate as colour
+     rather than as a grey wash. Derived from the tenant's role, never a raw value. */
+  background-color: color-mix(in oklab, var(--_face, currentColor) 16%, transparent);
 }
 .trustLevel {
   font-family: var(--syntara-font-mono);
@@ -1178,4 +1169,60 @@
 }
 .roadmapStatus[data-shipped='true'] {
   color: var(--syntara-color-feedback-success-fg);
+}
+
+/*
+ * The component categories. Eight tiles that say the shape of the library — the count first, because that is
+ * the fact the homepage is making, and the name under it. Replaces a 53-card grid that was a worse copy of
+ * /docs/components (which renders a real thumbnail per component); see ComponentsSection.
+ *
+ * Two columns, then four — never auto-fit. There are exactly eight categories, and 8 divides by 2 and by 4, so
+ * both rows are always full. auto-fit was the first attempt and it fitted seven across at 1440 and dropped
+ * "Data" onto a row of its own, which is the ragged last row this layout exists to avoid.
+ */
+.categoryGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--docs-card-gap);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+@media (min-width: 700px) {
+  .categoryGrid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+.categoryTile {
+  display: flex;
+  flex-direction: column;
+  gap: var(--syntara-space-1);
+  min-inline-size: 0;
+  padding: var(--syntara-space-5);
+  border: var(--syntara-hairline) solid var(--syntara-color-border-subtle);
+  border-radius: var(--docs-card-radius);
+  background-color: var(--syntara-color-surface-default);
+  color: inherit;
+  text-decoration: none;
+  transition:
+    background-color var(--syntara-motion-duration-fast) var(--syntara-motion-easing),
+    border-color var(--syntara-motion-duration-fast) var(--syntara-motion-easing);
+}
+.categoryTile:hover {
+  border-color: var(--syntara-color-border-default);
+  background-color: var(--docs-hover);
+}
+
+.categoryCount {
+  font-family: var(--syntara-font-heading);
+  font-size: var(--syntara-font-size-2xl);
+  font-weight: var(--syntara-font-weight-medium);
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.03em;
+}
+.categoryLabel {
+  color: var(--syntara-color-text-subtle);
+  font-size: var(--syntara-font-size-sm);
 }

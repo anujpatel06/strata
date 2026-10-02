@@ -192,6 +192,22 @@
  * 960 is the first round width that clears 906. Re-run `SYNTARA_WIDTHS=320,768,860,900 check-narrow-overflow`
  * before adding anything to the nav or the actions: 33px is one nav link of headroom.
  */
+/*
+ * Nav items that only appear once the row is wide enough for them. "Get started" is one: the header fits at
+ * 768px with 33px to spare after #38 made the search icon-only there, and this label is wider than that, so
+ * showing it at 768 put every page 26px over the viewport. 960 is where the search expands too.
+ *
+ * Below 960 the entry point is still the hero's own "Get started" button, and /docs is one item along.
+ */
+.mainNavWide {
+  display: none;
+}
+@media (min-width: 960px) {
+  .mainNavWide {
+    display: revert;
+  }
+}
+
 @media (min-width: 960px) {
   .search.search {
     justify-content: flex-start;

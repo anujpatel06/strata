@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+  <!--
+    The Syntara mark for the browser tab: the same three offset layers as LogoMark in
+    components/site/logo.tsx — one system, stacked brands.
+
+    Next serves app/icon.svg as the site's icon; there was none before, so tabs showed the browser's
+    generic globe.
+
+    LogoMark paints with `currentColor`, which a favicon has no context for, so the colour is written
+    here as the house theme's own text.default for each scheme — #1f1f21 light, #eeeef1 dark, read from
+    packages/tokens/dist/house/tokens.css rather than picked by eye. The media query is what keeps the
+    mark visible on both a light and a dark tab strip; a single colour disappears into one of them.
+  -->
+  <style>
+    .mark { fill: #1f1f21; }
+    @media (prefers-color-scheme: dark) {
+      .mark { fill: #eeeef1; }
+    }
+  </style>
+  <rect class="mark" x="2" y="2.5" width="14" height="5" rx="1.5" opacity="0.32" />
+  <rect class="mark" x="5" y="9.5" width="14" height="5" rx="1.5" opacity="0.64" />
+  <rect class="mark" x="8" y="16.5" width="14" height="5" rx="1.5" />
+</svg>

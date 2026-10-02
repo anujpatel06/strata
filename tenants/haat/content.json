@@ -3,10 +3,9 @@
   "dir": "ltr",
   "currency": "INR",
   "copyReview": {
-    "status": "draft",
+    "status": "reviewed",
     "language": "hi",
-    "note": "Hindi copy: draft, not yet reviewed by a Hindi reader.",
-    "noteLocal": "हिंदी कॉपी: ड्राफ़्ट, अभी किसी हिंदी पाठक ने नहीं जाँची।"
+    "note": "Hindi copy reviewed by Anuj, 2026-10-02."
   },
   "product": {
     "name": "हाट",

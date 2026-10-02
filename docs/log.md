@@ -6,6 +6,97 @@ Numbers only with the command that produced them. Design trade-offs get an ADR i
 
 ---
 
+## 2026-10-02 (homepage) — the hero becomes the demo, and the page gets a way in
+
+**Changed**
+- **The hero is two columns**, built from Anuj's mockup: version pill and "What's new", the display headline, a
+  one-line lead, "Get started" beside the real install command, four read-from-the-repo figures, and on the right a
+  fan of three live tenant cards with the brand chips and a caption under them
+  (`components/home/hero-stack.tsx`, new).
+- **The brand pick moved to the hero and lives on the stage.** `HomeStage` owns it; the hero's chips set it; the
+  glow, the headline's accent word, the hero buttons, the card fan and the showcase grid all read it. The showcase
+  keeps the two controls the hero does not have — the hex field and light/dark — and lost its duplicate chip row.
+- **The showcase is a titled section** ("Pick a brand. *The screen follows.*") on a full-bleed banner band with its
+  own surface and a hairline, and the hero's glow is clipped to that band — it used to spill ~170px past the hero,
+  behind the section's heading and chips, which is what made the two read as one block.
+- **The hero's buttons and the two agent cards follow the selected brand.** The site runs on the house theme, whose
+  primary is `#18181B`; on a dark canvas the solver lifts it to `#4a4a4e`, so "Get started" was grey whatever was
+  picked, and the agents section's brand and accent cards were the *same* grey twice, because house has no accent.
+- **The agent cards are tinted, not filled.** `action.primary.bg` and `accent.bg` are button-sized roles; across a
+  whole card they were two flat slabs. They now sit at a tenth strength over `surface.default` with the colour at
+  full strength in the hairline, the text back to the engine's own pair, and the code sample capped so all three
+  cards are one height.
+- **The 53-component grid is eight category tiles**, each linking to that group on `/docs/components` — which lists
+  the same components with a rendered thumbnail of each. `component-filter.tsx` and 12 dead CSS rules are gone.
+- **A way in from anywhere:** "Get started" is first in the header nav and points at Installation, not at the
+  Introduction; the hero carries the real `pnpm add` command, highlighted at build time by the site's own Shiki.
+- **The site has a favicon** (`apps/docs/app/icon.svg`) — there was none, so tabs showed the browser's globe. Same
+  mark as the header, with its own colours per scheme because a favicon has no `currentColor`.
+- **Haat's Hindi copy is marked reviewed** (`tenants/haat/content.json`), so the draft note no longer appears.
+- **"Get started" in the header waits for 960px.** Merging #38 showed the cost: that fix left the header row
+  fitting at 768 with 33px to spare, and a seventh nav item is wider than that, so every page from 768 to 959
+  went 26px over — 72 of 228 route/width pairs. The item is held back to the same breakpoint the search expands
+  at; below it the hero's own button is the entry point.
+- ~~Three invented token names fixed~~ — landed independently as #37, which also added the `pnpm drift` rule
+  that catches the next one. This branch had found and fixed the same three (`.trustRow`, `.toolChip`, the
+  component-name labels); the merge kept #37's wording.
+
+**Decided**
+- **The hero replaces the showcase's toolbar, not the showcase — Anuj**, after Claude flagged that building the
+  mockup literally would delete "Your colour", the solver line, the names overlay and the full grid.
+- **Brand cards: ADR-040's version stands — Anuj.** This branch had solved the same two requests differently (both
+  figures kept, stats floor lowered to 128px, footer forced to two columns, card widened). That work was dropped on
+  merge rather than superseding an accepted ADR.
+- **The agent cards are tinted — Anuj**, from three options.
+- **Eight category tiles — Anuj**, from three options.
+
+**Results** — `/verify`, all nine steps, on build `0UityzepSFWvAPEapJwWI`; steps 7–9 re-run after merging
+#38 on build `TBToOPzTGGY2xKuyP0f2m`, which is where the header overflow above was caught and fixed:
+
+| Step | Command | Result |
+|---|---|---|
+| 1 | `pnpm --filter @syntara/react gen:index` | `src/index.ts → 53 modules` |
+| 2 | `pnpm typecheck` | exit 0, all 9 packages |
+| 3 | `pnpm test` | **2,167 passed, 1 skipped, 0 failed**; `check-test-counts` README row matches at 2,168 |
+| 4 | `pnpm test:themes` | 118,000 / 118,000 checks, 0 failed; adjustments/brand median **4**, max 7 (unmoved) |
+| 5 | `pnpm check:meta` | exit 0, 53/53 components |
+| 6 | `pnpm registry` | 73 items ok |
+| 6a | `node scripts/check-override-weight.mjs` | **0** selectors weighing the same as the component they restyle |
+| 7 | `pnpm --filter @syntara/docs build` | exit 0, **82 pages**, `/icon.svg` among them |
+| 8 | `node scripts/check-ssr-tabs.mjs` | 327 tab lists, **0** missing panels |
+| 9 | `check-hydration` | 228 loads, **0** failures |
+| 9 | `check-theme-links` | 5 links, **0** failures |
+| 9 | `check-narrow-overflow` | **0** scrolling sideways — 684 route/width pairs at 320, 768, 860, 900, 959 and 960 |
+| 9 | `check-csp` | 114 routes, **0** failures |
+| 9 | `axe-sweep` | 114 routes × 2 schemes, **0** violation nodes |
+| 9 | `check-overlay-exit` | 108 tooltips + 4 menus/popovers, **0** failures |
+
+- Step 9 was served on port 3177, not 3000: another session's `serve out` from the `duotone-pr` worktree has held
+  3000 all day. Every script was given `SYNTARA_BASE_URL` and each one reported build `0UityzepSFWvAPEapJwWI`, so
+  they measured this build and not that one.
+- **Proof it shipped:** `apps/docs/out/index.html` contains "The same card, in" (the hero stack's caption) and
+  `apps/docs/out/icon.svg` exists.
+- **Hero contrast, re-measured** after the headline moved onto the band rather than the canvas: 14 of 14
+  tenant × scheme pairs at or above 4.5, worst **4.87:1** (Your colour, light), at 1440, 1280, 768 and 390 wide.
+  The script that produced it is not in the repo — see Next.
+
+**Next**
+- The hero's card fan is drawn at `--stack-zoom: 0.5`, which renders the card's body text at about 6.5px. It reads
+  as a texture rather than as a card. 0.7 is the suggestion; it is one number in `hero-stack.module.css`.
+- The showcase heading still says "Pick a brand. The screen follows." while the brand is now picked in the hero.
+- The "One command" label Anuj asked for was dropped when the hero was rebuilt from the mockup, which has no label.
+  Its CSS has been removed; restoring it is a label above the command only, not above the actions row.
+- ~~Six more invented `--syntara-*` names remain.~~ Done on main by #37, auditor rule included.
+- ~~The homepage scrolls sideways at 768px, in the brand rail's figures.~~ Fixed on main by #38 while this
+  branch was open, and the diagnosis here was wrong: the rail's off-screen cards were already held by
+  `contain: paint`, and the culprit was the site header's search growing to a 192px field at the same
+  breakpoint the nav appears.
+- `.tenantGrid` in `sections.module.css` is dead: no component uses that class.
+- ADR-032 (whether a Hindi reader agrees that रय reads as initials) and `CLAUDE.md`'s "Waiting on Anuj" line still
+  say Haat's copy is unreviewed.
+
+---
+
 ## 2026-10-02 (invented tokens) — seven names that were never tokens, and the rule that catches the next one
 
 **Changed**

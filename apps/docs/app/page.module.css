@@ -1,5 +1,13 @@
 .showcase {
   min-inline-size: 0;
+  /*
+    Air above the showcase's heading. The toolbar used to butt up under the hero's last line and read as part of
+    it. This was 40px; doubling it lands on 80px, which is exactly the gap `.section` puts above every other
+    section on this page (sections.module.css: space-16 x 1.25), so the showcase is now spaced like its
+    neighbours rather than being a tighter special case. This is the gap below the hero's band edge — the hero's
+    own 96px foot sits inside the band, above that edge.
+  */
+  padding-block-start: calc(var(--syntara-space-10) * 2);
 }
 
 /* The live showcase rises in as the hero's last lines land (they start at 6 steps of duration-fast × 2/3;

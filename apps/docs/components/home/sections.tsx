@@ -23,10 +23,13 @@ import { CodeBlock } from '@/components/mdx/code-block';
 import { ButtonLink } from '@/components/page/button-link';
 import { InstallCommand } from './install-command';
 import { DraftCopyNote } from '@/components/page/draft-copy-note';
+import { highlight } from '@/lib/highlight';
 import { getComponentGroups, getMeta } from '@/lib/meta';
+import { slugify } from '@/lib/slug';
 import { GITHUB_URL } from '@/lib/site';
 import {
   getFuzzSummary,
+  getHomeTenants,
   getReleaseInfo,
   getSolverQuote,
   getTenantOverviews,
@@ -39,9 +42,9 @@ import {
   getTokensFacts,
   type TenantOverview,
 } from './home-data';
-import { HeroAccent, HeroGlow } from './home-stage';
+import { BrandFace, HeroAccent, HeroButtons, HeroGlow, TenantScope } from './home-stage';
+import { HeroStack } from './hero-stack';
 import { BrandRail } from './brand-rail';
-import { ComponentFilter } from './component-filter';
 import { TenantCard } from './tenant-card';
 import styles from './sections.module.css';
 
@@ -78,49 +81,118 @@ function SectionHeader({ id, title, children }: { id: string; title: ReactNode; 
 
 /* ------------------------------------------------------------------ */
 
-export function Hero() {
+const HERO_INSTALL = 'pnpm add @syntara/react @syntara/tokens';
+
+export async function Hero() {
   const { version, components } = getReleaseInfo();
+  const tenants = getTenantOverviews();
+  const brands = getHomeTenants();
+  const fuzz = getFuzzSummary();
+  /* id → primary hex for the chips' dots, read from each brand.json rather than written down here. */
+  const swatches = Object.fromEntries(brands.map((b) => [b.id, b.brand.primary]));
+  /*
+   * Highlighted at build time with the site's one highlighter, so the command wears the same palette as every
+   * other code block here — `pnpm` orange, the packages blue — rather than being a flat grey line.
+   *
+   * Shiki marks its <pre> focusable because a code block normally scrolls. This one wraps instead, so the
+   * tabindex is removed: it would be a tab stop in the middle of the hero that leads nowhere.
+   */
+  const installHtml = (await highlight(HERO_INSTALL, 'bash')).replace(/<pre([^>]*)\stabindex="0"/, '<pre$1');
   return (
     <section className={styles.hero} aria-labelledby="home-title">
       <HeroGlow />
-      <Link href="/docs/changelog" className={styles.pill}>
-        {version && <span className={styles.pillVersion}>{version}</span>}
-        {version && <span aria-hidden className={styles.pillDivider} />}
-        <span>{components} components</span>
-        <IconArrowRight aria-hidden className={styles.arrow} />
-      </Link>
-      <h1 id="home-title" className={styles.heroTitle}>
-        One design system. <HeroAccent className={styles.heroBreak}>Every brand.</HeroAccent>
-      </h1>
-      {/* One sentence, and the specific one: the second half ("one React library renders every brand") is what
-          the demo underneath shows rather than tells, and the agents claim has its own section further down. */}
-      <p className={styles.heroLead}>
-        Six brand inputs become a light and dark theme that passes WCAG 2.2 AA. 53 React components, built by a
-        design engineer, ready for agents.
-      </p>
-      <div className={styles.heroActions}>
-        <ButtonLink href="/docs" variant="primary" size="lg">
-          Get started
-        </ButtonLink>
-        <ButtonLink href="/docs/components" variant="outline" size="lg">
-          Browse components
-        </ButtonLink>
-        {/* The mockup runs the npm line in beside the buttons rather than under them. */}
-        <p className={styles.heroNote}>
-          The packages are on npm.{' '}
-          <TextLink href="/docs/installation">Install them, or copy a component’s source</TextLink>.
-        </p>
-      </div>
       {/*
-        The install command used to sit here with the full "run this" treatment — bordered, monospace, a copy
-        button — for a package that did not exist. The packages are real now (0.1.0), but the block is not coming
-        back: the demo below is the page's argument, and the command belongs on /docs/installation, which is where
-        someone installing looks. One line is enough to say it exists. No version number here either — the pill
-        above now shows the published version of @syntara/react, so a second number here would just repeat it.
-        The site used to show a build phase (v0.5) beside packages published at 0.1.0; there is one version
-        scheme now, npm's, and the phases are called phases.
+        Two columns on a wide screen: the argument on one side, the thing it is arguing about on the other. The
+        hero used to be a single left-aligned column with the demo a scroll below it, so the page asserted
+        "every brand" above the fold and demonstrated it under.
       */}
+      <div className={styles.heroCopy}>
+        {/* The pill says the version and points at what changed. It used to repeat the component count, which
+            the figures under the actions now carry. */}
+        <Link href="/docs/changelog" className={styles.pill}>
+          {version && <span className={styles.pillVersion}>v{version}</span>}
+          {version && <span aria-hidden className={styles.pillDivider} />}
+          <span>What’s new</span>
+          <IconArrowRight aria-hidden className={styles.arrow} />
+        </Link>
+        <h1 id="home-title" className={styles.heroTitle}>
+          One design system. <HeroAccent className={styles.heroBreak}>Every brand.</HeroAccent>
+        </h1>
+        {/* One sentence. What used to follow it — the component count, who built it, the agents claim — is in
+            the figures below and in its own section further down; a lead paragraph that lists everything is a
+            lead paragraph nobody finishes. */}
+        <p className={styles.heroLead}>
+          Six brand inputs become a light and dark theme that passes WCAG 2.2 AA.
+        </p>
+        <div className={styles.heroActions}>
+          {/* Follows the brand picked beside it, like the glow and the italic word above.
+
+              "Get started" goes to Installation, not to /docs. /docs is the Introduction — what multi-brand is,
+              the principles, what is in the box. Good, but it is not getting started, and a button with that
+              word on it landing on an essay is how someone leaves. */}
+          <HeroButtons primary={{ href: '/docs/installation', label: 'Get started' }} />
+          {/*
+            The real command, with a copy button.
+
+            It was removed once, on purpose: it had the full "run this" treatment for a package that did not
+            exist yet, and a copy button on a command that fails is worse than no command. The packages are real
+            now, and the line that replaced it — 14px grey prose — was the only thing on the page telling a
+            developer this is installable.
+          */}
+          <InstallCommand command={HERO_INSTALL} html={installHtml} label="Copy the install command" />
+        </div>
+        {/* Every figure is read from the repo at build time: the components from their meta files, the brands
+            from tenants/, the checks from the fuzz report. None of them is typed in. */}
+        <ul className={styles.heroFacts}>
+          <li>
+            <strong>{components}</strong> components
+          </li>
+          <li>
+            <strong>{brands.length}</strong> brands
+          </li>
+          {fuzz && (
+            <li>
+              <strong>{fuzz.checksPerTheme}</strong> contrast checks each
+            </li>
+          )}
+          <li className={styles.heroFactPlain}>Built on React Aria</li>
+        </ul>
+      </div>
+
+      <div className={styles.heroDemo}>
+        <HeroStack tenants={tenants} swatches={swatches} />
+      </div>
     </section>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+
+/**
+ * The live showcase's own header. The demo used to open straight onto its toolbar under the hero, with only a
+ * visually-hidden h2 naming it — so the brand chips read as a strip belonging to the hero rather than as the
+ * controls of a section. It is a titled section like every other one on this page now; the heading is the only
+ * thing between the hero and the grid, and the lead says what the controls do before anyone touches them.
+ *
+ * The heading names the action and its consequence rather than restating the product. An earlier draft read
+ * "Same components. Any brand." — one block under the hero's "One design system. Every brand.", which put two
+ * near-identical lines in a row and said nothing about what the chips below do.
+ *
+ * The header lives here, with the rest of the homepage copy, rather than in page.tsx: the showcase itself is a
+ * client component, and the copy has no reason to cross that boundary.
+ */
+export function ShowcaseHeader() {
+  return (
+    <SectionHeader
+      id="showcase-title"
+      title={
+        <>
+          Pick a brand. <HeroAccent className={styles.titleAccent}>The screen follows.</HeroAccent>
+        </>
+      }
+    >
+      Or type a hex. Nothing below is rebuilt — the same React renders every brand.
+    </SectionHeader>
   );
 }
 
@@ -168,9 +240,12 @@ export function BrandsSection() {
         {tenants.map((t) => (
           <figure key={t.id} className={styles.tenantFigure}>
             <div className={styles.tenantFrame}>
-              <ThemeScope theme={t.id} data-syntara-scheme="site" locale={t.locale} className={styles.tenantScope}>
+              {/* Each card keeps its own brand — that is what this section is for — but its light/dark follows the
+                  showcase toolbar above (see TenantScope). It used to follow the site's scheme only, so pressing
+                  Light up there left this whole rail dark. */}
+              <TenantScope theme={t.id} locale={t.locale} className={styles.tenantScope}>
                 <TenantCard tenant={t} level={3} />
-              </ThemeScope>
+              </TenantScope>
             </div>
             <figcaption className={styles.tenantCaption}>
               <span className={styles.tenantName}>{t.name}</span>
@@ -365,15 +440,18 @@ export function AgentsSection() {
       </SectionHeader>
 
       <div className={styles.agentGrid}>
-        <article className={`${styles.agentCard} ${styles.agentCardBrand}`}>
+        {/* These two wear the brand and accent fills, so they follow the toolbar's pick like the hero does. On
+            the house theme they were the same grey twice: the house primary is #18181B and house has no accent,
+            so the engine derived the accent from the primary and both cards landed on the same colour. */}
+        <BrandFace className={`${styles.agentCard} ${styles.agentCardBrand}`}>
           <h3 className={styles.agentTitle}>Described once</h3>
           {excerpt && <CodeBlock code={excerpt} lang="json" title="button.meta.json" collapseAfter={0} />}
           <p className={styles.agentNote}>
             Props, examples, keyboard behaviour, do and don’t. The docs pages and the agents read the same file.
           </p>
-        </article>
+        </BrandFace>
 
-        <article className={`${styles.agentCard} ${styles.agentCardAccent}`}>
+        <BrandFace className={`${styles.agentCard} ${styles.agentCardAccent}`}>
           <h3 className={styles.agentTitle}>Three trust levels</h3>
           <dl className={styles.trust}>
             {TRUST.map((t) => (
@@ -387,7 +465,7 @@ export function AgentsSection() {
             What an agent may do on its own, with review, or only as a proposal. Written down in GOVERNANCE §6;
             enforcing it is not built yet.
           </p>
-        </article>
+        </BrandFace>
 
         <article className={styles.agentCard}>
           <h3 className={styles.agentTitle}>An MCP server</h3>
@@ -525,12 +603,26 @@ export function ComponentsSection() {
           </>
         }
       >
-        Focus, typeahead and ARIA patterns come from a library that already solved them. The badges tell the
-        truth: {[badgeLine, ...zero].join(', ')}.
+        Focus, typeahead and ARIA patterns come from a library that already solved them. Each one says how far
+        along it is, and the counts are read from those files rather than claimed: {[badgeLine, ...zero].join(', ')}.
       </SectionHeader>
-      <ComponentFilter
-        items={groups.flatMap((g) => g.items.map((c) => ({ name: c.name, title: c.title, category: g.category, categoryLabel: g.label, maturity: c.maturity })))}
-      />
+      {/*
+        Eight category tiles rather than 53 named cards. The homepage used to print every component as its own
+        chip, which made a wall of identical grey boxes that said each component's category underneath a row of
+        chips already grouping by category — and /docs/components does the same listing properly, with a rendered
+        thumbnail of each component. This is the part the homepage can actually make: the shape of the library.
+        Each tile is the way in to that category on the reference page.
+      */}
+      <ul className={styles.categoryGrid}>
+        {groups.map((g) => (
+          <li key={g.category}>
+            <Link href={`/docs/components#${slugify(g.label)}`} className={styles.categoryTile}>
+              <span className={styles.categoryCount}>{g.items.length}</span>
+              <span className={styles.categoryLabel}>{g.label}</span>
+            </Link>
+          </li>
+        ))}
+      </ul>
       <p className={styles.alsoLine}>
         <strong>{also.blocks.length}</strong> blocks: {also.blocks.slice(0, -1).join(', ')} and{' '}
         {also.blocks.at(-1)} · <strong>{also.icons}</strong> icons, each with a duotone twin.
@@ -697,7 +789,8 @@ export function ClosingCta() {
         <p className={styles.ctaLead}>Copy a button today, and tell me when it’s wrong.</p>
       </div>
       <div className={styles.heroActions}>
-        <ButtonLink href="/docs" variant="inverse" size="lg">
+        {/* Same destination as the hero's: "Get started" means Installation, not the Introduction. */}
+        <ButtonLink href="/docs/installation" variant="inverse" size="lg">
           Get started
         </ButtonLink>
         <ButtonLink href="/themes" variant="outline" size="lg">

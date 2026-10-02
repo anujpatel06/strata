@@ -53,14 +53,21 @@
   --_accent-low: color-mix(in oklab, var(--home-glow-accent) 16%, transparent);
   position: absolute;
   z-index: -1;
-  inset-block-start: calc(var(--syntara-space-16) * -3);
-  inset-inline: 0;
-  block-size: calc(var(--syntara-space-16) * 12);
-  overflow: hidden;
+  /*
+    The glow is exactly the banner band (see sections.module.css `.hero::before`): same full-bleed box, same top,
+    and it stops dead on the band's bottom edge. It used to be a fixed 768px tall starting 192px above the hero,
+    which put its last ~170px below the hero — the colour washed down behind the showcase's heading and brand
+    chips, and that spill was the main reason the two blocks read as one. `overflow: clip` cuts the fields at the
+    band's edges; the bottom cut lands under the band's hairline, so it is an edge rather than a seam.
+  */
+  inset-block: calc(var(--syntara-space-16) * -1) 0;
+  inset-inline: calc(50% - 50vw);
+  overflow: clip;
   pointer-events: none;
-  /* Every edge of the layer fades out, so there's never a line where it ends (or where a drifting field leaves). */
-  -webkit-mask-image: radial-gradient(closest-side, black 55%, transparent);
-  mask-image: radial-gradient(closest-side, black 55%, transparent);
+  /* The sides and top still fade, so a drifting field never leaves a line there. The bottom does not: that edge
+     is the band's, and it is meant to be visible. */
+  -webkit-mask-image: linear-gradient(to bottom, transparent, black calc(var(--syntara-space-16) * 0.75));
+  mask-image: linear-gradient(to bottom, transparent, black calc(var(--syntara-space-16) * 0.75));
   transition:
     --home-glow-primary calc(var(--syntara-motion-duration-slow) * 2) var(--syntara-motion-easing),
     --home-glow-accent calc(var(--syntara-motion-duration-slow) * 2) var(--syntara-motion-easing);
@@ -86,7 +93,7 @@
 /* Light from above: a wide field centred behind the site header and the version pill. Its lower edge reaches
    the headline only as the faint tail of the fall-off. */
 .glowPrimary {
-  inset-block-start: calc(var(--syntara-space-16) * 0.5);
+  inset-block-start: calc(var(--syntara-space-16) * -1.5);
   inset-inline-start: 50%;
   inline-size: min(100%, calc(var(--syntara-space-16) * 18));
   block-size: calc(var(--syntara-space-16) * 6.5);
@@ -100,14 +107,14 @@
 /* Two flanking fields beside the headline (never centred on it): the accent toward the inline end, a second
    primary field toward the start, so the colour frames the words instead of sitting under them. */
 .glowAccent {
-  inset-block-start: calc(var(--syntara-space-16) * 3.5);
+  inset-block-start: calc(var(--syntara-space-16) * 1.5);
   inset-inline-end: 0;
   inline-size: min(36%, calc(var(--syntara-space-16) * 8));
   block-size: calc(var(--syntara-space-16) * 6);
   background: radial-gradient(closest-side, var(--home-glow-accent), var(--_accent-mid) 45%, var(--_accent-low) 72%, transparent);
 }
 .glowFlank {
-  inset-block-start: calc(var(--syntara-space-16) * 4);
+  inset-block-start: calc(var(--syntara-space-16) * 2);
   inset-inline-start: 0;
   inline-size: min(36%, calc(var(--syntara-space-16) * 8));
   block-size: calc(var(--syntara-space-16) * 6);
